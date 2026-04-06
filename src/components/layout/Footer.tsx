@@ -10,17 +10,17 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-navy-dark text-slate-400 mt-auto">
+    <footer className="bg-zinc-900 text-zinc-400">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
           {/* Brand */}
           <div>
             <p className="text-white font-bold text-lg mb-2">
-              MilPay<span className="text-gold">Tools</span>
+              MilPay<span className="text-red-500">Tools</span>
             </p>
             <p className="text-sm leading-relaxed">
-              Decision tools for service members and veterans. Accurate math, clear answers, actionable
-              guidance.
+              Decision tools for service members and veterans. Accurate math, clear answers,
+              actionable next steps.
             </p>
           </div>
 
@@ -90,11 +90,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs">
+        <div className="border-t border-zinc-800 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs">
           <p>&copy; {year} MilPayTools. Not affiliated with the DoD, VA, or any government agency.</p>
-          <p className="text-slate-500">
-            Rates based on official DoD/VA tables. Verify with your Finance Office.
-          </p>
+          <p className="text-zinc-500">Rates based on official DoD/VA tables. Verify with your Finance Office.</p>
         </div>
       </div>
     </footer>

@@ -19,20 +19,23 @@ function ResultRow({ label, monthly, annual, value, highlight }: ResultRowProps)
     <div
       className={[
         'flex items-baseline justify-between gap-4 py-2',
-        highlight ? 'border-t-2 border-navy mt-1 pt-3' : 'border-t border-slate-100',
+        highlight
+          ? 'border-t-2 border-red-700 mt-1 pt-3'
+          : 'border-t border-zinc-100',
       ].join(' ')}
     >
       <span
-        className={['text-sm', highlight ? 'font-semibold text-navy text-base' : 'text-slate-600'].join(
-          ' '
-        )}
+        className={[
+          'text-sm',
+          highlight ? 'font-semibold text-red-700 text-base' : 'text-zinc-600',
+        ].join(' ')}
       >
         {label}
       </span>
       <span
         className={[
           'font-mono tabular-nums text-right',
-          highlight ? 'font-bold text-navy text-lg' : 'text-slate-800',
+          highlight ? 'font-bold text-red-700 text-lg' : 'text-zinc-800',
         ].join(' ')}
       >
         {formatted}
@@ -50,10 +53,10 @@ interface ResultCardProps {
 
 export function ResultCard({ title, rows, dataYear, className }: ResultCardProps) {
   return (
-    <Card variant="gold-accent" className={className}>
-      <h3 className="font-semibold text-navy text-lg mb-1">{title}</h3>
-      {dataYear && <p className="text-xs text-slate-400 mb-3">Based on {dataYear} rates</p>}
-      <div className="divide-y divide-slate-100">
+    <Card variant="result" className={className}>
+      <h3 className="font-semibold text-zinc-900 text-lg mb-1">{title}</h3>
+      {dataYear && <p className="text-xs text-zinc-400 mb-3">Based on {dataYear} rates</p>}
+      <div className="divide-y divide-zinc-100">
         {rows.map((row, i) => (
           <ResultRow key={i} {...row} />
         ))}

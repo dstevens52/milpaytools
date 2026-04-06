@@ -8,16 +8,16 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-navy shadow-md">
+    <header className="sticky top-0 z-50 bg-white border-b border-zinc-200 shadow-sm">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group" aria-label="MilPayTools home">
-            <div className="flex items-center justify-center w-8 h-8 rounded bg-gold group-hover:bg-gold-dark transition-colors">
-              <span className="text-navy font-black text-sm leading-none">$</span>
+            <div className="flex items-center justify-center w-8 h-8 rounded bg-red-700 group-hover:bg-red-800 transition-colors">
+              <span className="text-white font-black text-sm leading-none select-none">$</span>
             </div>
-            <span className="text-white font-bold text-lg tracking-tight">
-              MilPay<span className="text-gold">Tools</span>
+            <span className="text-zinc-900 font-bold text-lg tracking-tight">
+              MilPay<span className="text-red-700">Tools</span>
             </span>
           </Link>
 
@@ -26,7 +26,7 @@ export function Header() {
             <Nav />
             <Link
               href="/calculators/total-compensation"
-              className="rounded-md bg-gold px-4 py-1.5 text-sm font-semibold text-navy hover:bg-gold-dark transition-colors"
+              className="rounded-md bg-red-700 px-4 py-1.5 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
             >
               Get Started
             </Link>
@@ -34,7 +34,7 @@ export function Header() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-md text-slate-200 hover:text-white hover:bg-white/10"
+            className="md:hidden p-2 rounded-md text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 transition-colors"
             onClick={() => setMobileOpen((o) => !o)}
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
@@ -55,13 +55,13 @@ export function Header() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div id="mobile-menu" className="md:hidden bg-white border-t border-navy/20 shadow-lg">
+        <div id="mobile-menu" className="md:hidden bg-white border-t border-zinc-100 shadow-lg">
           <Nav mobile onClose={() => setMobileOpen(false)} />
-          <div className="p-4 border-t border-slate-100">
+          <div className="p-4 border-t border-zinc-100">
             <Link
               href="/calculators/total-compensation"
               onClick={() => setMobileOpen(false)}
-              className="block w-full text-center rounded-md bg-gold px-4 py-2.5 text-base font-semibold text-navy hover:bg-gold-dark transition-colors"
+              className="block w-full text-center rounded-md bg-red-700 px-4 py-2.5 text-base font-semibold text-white hover:bg-red-800 transition-colors"
             >
               Get Started
             </Link>

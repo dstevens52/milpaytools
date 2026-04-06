@@ -26,15 +26,15 @@ export function Nav({ mobile = false, onClose }: NavProps) {
               href="/"
               onClick={onClose}
               className={[
-                'block px-4 py-3 text-base font-medium border-b border-slate-100',
-                pathname === '/' ? 'text-gold' : 'text-slate-700 hover:text-navy',
+                'block px-4 py-3 text-base font-medium border-b border-zinc-100',
+                pathname === '/' ? 'text-red-700' : 'text-zinc-700 hover:text-zinc-900',
               ].join(' ')}
             >
               Home
             </Link>
           </li>
           <li className="px-4 pt-4 pb-1">
-            <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+            <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
               Calculators
             </p>
           </li>
@@ -44,8 +44,8 @@ export function Nav({ mobile = false, onClose }: NavProps) {
                 href={href}
                 onClick={onClose}
                 className={[
-                  'block px-4 py-3 text-base border-b border-slate-100',
-                  pathname === href ? 'text-gold font-semibold' : 'text-slate-700 hover:text-navy',
+                  'block px-4 py-3 text-base border-b border-zinc-100',
+                  pathname === href ? 'text-red-700 font-semibold' : 'text-zinc-700 hover:text-zinc-900',
                 ].join(' ')}
               >
                 {label}
@@ -67,8 +67,8 @@ export function Nav({ mobile = false, onClose }: NavProps) {
               className={[
                 'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
                 pathname === href
-                  ? 'text-gold'
-                  : 'text-slate-200 hover:text-white hover:bg-white/10',
+                  ? 'text-red-700 bg-red-50'
+                  : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
               ].join(' ')}
             >
               {label}

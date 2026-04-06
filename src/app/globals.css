@@ -1,51 +1,45 @@
 @import "tailwindcss";
 
-/* ─── Design tokens ─────────────────────────────────────────────────────────
-   Defined in @theme so Tailwind v4 can generate utility classes like
-   bg-navy, text-gold, border-gold-dark, etc.
+/* ─── Design tokens ──────────────────────────────────────────────────────────
+   Primary:    red-700  (#B91C1C) — actions, active states, key highlights
+   Hover:      red-800  (#991B1B)
+   Background: zinc-50  (#FAFAFA) — page bg
+   Card:       white    (#FFFFFF)
+   Text:       zinc-900 (#18181B) primary, zinc-600 (#52525B) secondary
+   Borders:    zinc-200 (#E4E4E7)
+   Success:    green-700 (#15803D)
+   Info:       blue-700  (#1D4ED8)
+   Result bg:  red-50   (#FEF2F2)
    ────────────────────────────────────────────────────────────────────────── */
 
 @theme {
-  /* Brand colors */
-  --color-navy:      #1a3a5c;
-  --color-navy-dark: #0f2338;
-  --color-navy-light:#2d5986;
-
-  --color-gold:      #c8941a;
-  --color-gold-dark: #a87a12;
-  --color-gold-light:#f0c840;
-
-  /* Typography */
+  /* Custom tokens (standard Tailwind colors handle most of the palette) */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
 }
 
-/* ─── Base resets ────────────────────────────────────────────────────────── */
-
-:root {
-  --background: #ffffff;
-  --foreground: #1e293b;
-}
+/* ─── Base ───────────────────────────────────────────────────────────────── */
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: #fafafa;
+  color: #18181b;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ─── Focus styles ───────────────────────────────────────────────────────── */
+/* ─── Focus ──────────────────────────────────────────────────────────────── */
 
 :focus-visible {
-  outline: 2px solid theme('colors.navy');
+  outline: 2px solid #b91c1c;
   outline-offset: 2px;
 }
 
-/* ─── Utility: tabular numbers for money values ─────────────────────────── */
+/* ─── Tabular numbers for financial figures ──────────────────────────────── */
+
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }

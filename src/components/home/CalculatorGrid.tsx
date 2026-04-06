@@ -6,53 +6,47 @@ interface CalculatorCardProps {
   description: string;
   tags: string[];
   icon: string;
-  highlight?: boolean;
+  featured?: boolean;
 }
 
-function CalculatorCard({ href, title, description, tags, icon, highlight }: CalculatorCardProps) {
+function CalculatorCard({ href, title, description, tags, icon, featured }: CalculatorCardProps) {
   return (
     <Link
       href={href}
       className={[
-        'group flex flex-col rounded-xl p-6 border transition-all duration-200',
-        'hover:shadow-lg hover:-translate-y-0.5',
-        highlight
-          ? 'border-gold/40 bg-gradient-to-br from-navy to-navy-dark text-white'
-          : 'border-slate-200 bg-white text-slate-900 hover:border-navy/30',
+        'group flex flex-col rounded-lg border p-6 bg-white transition-all duration-150',
+        'hover:shadow-md hover:border-zinc-300',
+        featured ? 'border-red-200 ring-1 ring-red-100' : 'border-zinc-200',
       ].join(' ')}
     >
-      <div className="text-3xl mb-4">{icon}</div>
-      <h3
-        className={[
-          'font-bold text-lg mb-2',
-          highlight ? 'text-white' : 'text-navy group-hover:text-navy',
-        ].join(' ')}
-      >
+      <div className="flex items-start justify-between mb-4">
+        <span className="text-2xl">{icon}</span>
+        {featured && (
+          <span className="text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-full px-2 py-0.5">
+            Most popular
+          </span>
+        )}
+      </div>
+
+      <h3 className="font-bold text-zinc-900 text-base mb-2 group-hover:text-red-700 transition-colors">
         {title}
       </h3>
-      <p className={['text-sm leading-relaxed flex-1 mb-4', highlight ? 'text-slate-300' : 'text-slate-600'].join(' ')}>
-        {description}
-      </p>
-      <div className="flex flex-wrap gap-1.5">
+
+      <p className="text-sm text-zinc-600 leading-relaxed flex-1 mb-4">{description}</p>
+
+      <div className="flex flex-wrap gap-1.5 mb-4">
         {tags.map((tag) => (
           <span
             key={tag}
-            className={[
-              'text-xs px-2 py-0.5 rounded-full font-medium',
-              highlight ? 'bg-white/15 text-slate-200' : 'bg-slate-100 text-slate-600',
-            ].join(' ')}
+            className="text-xs px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-600 border border-zinc-200"
           >
             {tag}
           </span>
         ))}
       </div>
-      <div
-        className={[
-          'mt-4 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all',
-          highlight ? 'text-gold' : 'text-navy',
-        ].join(' ')}
-      >
-        Open Calculator <span>→</span>
+
+      <div className="flex items-center gap-1 text-sm font-semibold text-red-700 group-hover:gap-2 transition-all">
+        Open calculator <span aria-hidden>→</span>
       </div>
     </Link>
   );
@@ -63,16 +57,16 @@ const CALCULATORS: CalculatorCardProps[] = [
     href: '/calculators/total-compensation',
     title: 'Total Compensation Calculator',
     description:
-      'See the full economic value of your service: base pay, BAH, BAS, TSP match, tax advantages, and what it all means as a civilian-equivalent salary.',
+      'See the full economic value of your service: base pay, BAH, BAS, TSP agency match, and tax advantages — expressed as a civilian-equivalent salary.',
     tags: ['Base Pay', 'BAH', 'BAS', 'TSP', 'BRS'],
     icon: '💰',
-    highlight: true,
+    featured: true,
   },
   {
     href: '/calculators/bah',
     title: 'BAH Calculator',
     description:
-      'Look up your exact Basic Allowance for Housing rate by ZIP code, rank, and dependency status. Understand how much housing you can afford on BAH alone.',
+      'Look up your exact Basic Allowance for Housing rate by ZIP code and rank. Understand how much of the local rental market your BAH covers.',
     tags: ['BAH', 'Housing', 'ZIP Code'],
     icon: '🏠',
   },
@@ -80,7 +74,7 @@ const CALCULATORS: CalculatorCardProps[] = [
     href: '/calculators/va-disability',
     title: 'VA Disability Rating Calculator',
     description:
-      'Calculate your combined disability rating using the official whole-person method. See your monthly tax-free compensation and CRDP/CRSC eligibility.',
+      'Calculate your combined disability rating using the official whole-person method. Get monthly tax-free compensation and check CRDP eligibility.',
     tags: ['VA Rating', 'Tax-Free', 'CRDP', 'CRSC'],
     icon: '🎖️',
   },
@@ -88,18 +82,18 @@ const CALCULATORS: CalculatorCardProps[] = [
 
 export function CalculatorGrid() {
   return (
-    <section className="py-16 px-4 bg-slate-50">
+    <section className="py-16 px-4 bg-zinc-50 border-b border-zinc-200">
       <div className="mx-auto max-w-6xl">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold text-navy mb-3">
-            Financial Calculators for the Military Community
+        <div className="mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 mb-2">
+            Financial calculators
           </h2>
-          <p className="text-slate-600 max-w-2xl mx-auto">
-            Every calculator follows the same formula: accurate math → plain-English interpretation →
-            specific action steps.
+          <p className="text-zinc-600 max-w-2xl">
+            Each calculator ends with a plain-English interpretation and specific next steps —
+            not just a number.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {CALCULATORS.map((calc) => (
             <CalculatorCard key={calc.href} {...calc} />
           ))}

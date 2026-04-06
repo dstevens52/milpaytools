@@ -1,7 +1,7 @@
 import type { HTMLAttributes } from 'react';
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
-  variant?: 'default' | 'bordered' | 'navy' | 'gold-accent';
+  variant?: 'default' | 'bordered' | 'result';
 }
 
 export function Card({
@@ -10,12 +10,11 @@ export function Card({
   children,
   ...props
 }: CardProps) {
-  const base = 'rounded-xl p-6';
+  const base = 'rounded-lg p-6';
   const variants = {
-    default: 'bg-white shadow-sm border border-slate-100',
-    bordered: 'bg-white border border-slate-200',
-    navy: 'bg-navy text-white',
-    'gold-accent': 'bg-white border-l-4 border-l-gold shadow-sm',
+    default: 'bg-white shadow-sm border border-zinc-200',
+    bordered: 'bg-white border border-zinc-200',
+    result: 'bg-red-50 border border-red-200',
   };
 
   return (
@@ -35,7 +34,7 @@ export function CardHeader({ className = '', children, ...props }: HTMLAttribute
 
 export function CardTitle({ className = '', children, ...props }: HTMLAttributes<HTMLHeadingElement>) {
   return (
-    <h3 className={['text-lg font-semibold text-slate-900', className].join(' ')} {...props}>
+    <h3 className={['text-lg font-semibold text-zinc-900', className].join(' ')} {...props}>
       {children}
     </h3>
   );
