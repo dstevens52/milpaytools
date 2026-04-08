@@ -10,9 +10,9 @@
  *
  * Verified anchor points:
  *   E-1: $2,407.20
- *   E-5 at >6 years: $3,261.30
- *   O-3 at >4 years: $6,274.50
- * Note: E-2/E-3/E-4 corrected proportionally from verified E-1 rate — verify against DFAS if precision required.
+ *   E-5 Over 4 column: $3,946.80  (YOS=5 or YOS=6)
+ *   O-3 Over 3 column: $6,770.40  (YOS=4)
+ * Note: E-2/E-3/E-4 and O-3 key 4+ are estimates — verify remaining cells against DFAS.
  */
 
 import type { PayTable } from '@/data/types';
@@ -211,23 +211,25 @@ export const payTable: PayTable = {
   'O-3': {
     0: 5076.00,
     2: 5749.50,
-    4: 6274.50,  // Verified FY2026 DFAS rate
-    6: 6476.10,
-    8: 6700.22,
-    10: 6922.33,
-    12: 7146.45,
-    14: 7368.57,
+    3: 6770.40,  // Verified FY2026 DFAS rate (Over 3 column — YOS=4 lands here)
+    4: 7081.20,  // Over 4 (YOS=5–6); must exceed key 3 — estimate, verify vs DFAS
+    6: 7311.90,
+    8: 7561.80,
+    10: 7811.70,
+    12: 8062.50,
+    14: 8312.40,
   },
   'O-3E': {
-    // O-3 with 4+ years prior enlisted service
+    // O-3 with 4+ years prior enlisted service — same base structure as O-3
     0: 5076.00,
     2: 5749.50,
-    4: 6274.50,
-    6: 6476.10,
-    8: 6700.22,
-    10: 6922.33,
-    12: 7146.45,
-    14: 7368.57,
+    3: 6770.40,
+    4: 7081.20,
+    6: 7311.90,
+    8: 7561.80,
+    10: 7811.70,
+    12: 8062.50,
+    14: 8312.40,
   },
   'O-4': {
     0: 5785.91,
