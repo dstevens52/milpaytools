@@ -68,7 +68,7 @@ function buildActionSteps(
   } else if (input.retirementSystem === 'brs' && input.tspContributionPct >= 5) {
     steps.push({
       label: "You're capturing the full BRS match",
-      description: `At ${input.tspContributionPct}% contribution, you're receiving the full DoD match. Consider increasing contributions to the IRS limit ($23,500 in 2026) to maximize tax-advantaged growth.`,
+      description: `At ${input.tspContributionPct}% contribution, you're receiving the full DoD match. Consider increasing contributions toward the IRS limit ($24,500 in 2026) to maximize tax-advantaged growth.`,
       priority: 'medium',
     });
   }
@@ -355,6 +355,10 @@ export function TotalCompensationCalculator() {
               : ''}
             . When evaluating a civilian job offer, compare against this number — not just your base pay.
           </p>
+          <p className="text-xs text-blue-600 mt-3 pt-3 border-t border-blue-200">
+            This estimate uses a simplified federal income tax model. It does not include state taxes
+            or FICA savings, which would make the actual civilian equivalent higher.
+          </p>
         </div>
 
         {/* Tax-free breakdown */}
@@ -425,6 +429,11 @@ export function TotalCompensationCalculator() {
                 more contributed annually — all matched by DoD.
               </div>
             )}
+            <p className="text-xs text-zinc-400 mt-3">
+              The 1% automatic DoD contribution begins after 60 days of service. Matching
+              contributions (up to 4%) begin at the start of the member&apos;s 25th month of
+              service.
+            </p>
           </Card>
         )}
 

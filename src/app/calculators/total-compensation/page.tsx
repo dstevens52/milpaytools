@@ -86,12 +86,14 @@ export default function TotalCompensationPage() {
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               BAH (Basic Allowance for Housing) is set by pay grade and local median rental costs for
               the Military Housing Area (MHA) surrounding your duty station. Rates update every January
-              1st. With dependents, rates are typically $200–600/month higher than without dependents.
+              1st. With dependents, rates are often higher, but the difference varies by location and
+              pay grade.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              BAH is designed to cover the median rental cost for your grade — it does not increase if
-              you choose more expensive housing, and you keep any amount under your BAH if you find
-              cheaper housing. This creates a strong financial incentive to live efficiently.
+              BAH is designed to cover approximately 95% of local median housing costs for your grade
+              — it does not increase if you choose more expensive housing, and you keep any amount
+              under your BAH if you find cheaper housing. This creates a strong financial incentive to
+              live efficiently.
             </p>
           </div>
 
@@ -101,14 +103,19 @@ export default function TotalCompensationPage() {
             </h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               <strong>Legacy (High-3):</strong> Receive 2.5% × years of service × average of highest
-              36 months of basic pay — but only if you serve a full 20 years. Leaving at 19 years and
-              11 months pays zero.
+              36 months of basic pay. For a standard active-duty retirement, you must complete 20
+              years of qualifying service.
             </p>
-            <p className="text-zinc-600 text-sm leading-relaxed">
+            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               <strong>BRS (Blended Retirement):</strong> A reduced 2.0% pension multiplier plus DoD
               contributions to your TSP: 1% automatic, plus matching up to 4% of basic pay. You build
               retirement savings even if you serve fewer than 20 years. Most service members who
               joined after January 1, 2018 are under BRS automatically.
+            </p>
+            <p className="text-zinc-600 text-sm leading-relaxed">
+              <strong>BRS contribution timing:</strong> The 1% automatic DoD contribution begins after
+              60 days of service. Matching contributions (up to 4%) begin at the start of the
+              member&apos;s 25th month of service.
             </p>
           </div>
 
@@ -118,7 +125,7 @@ export default function TotalCompensationPage() {
             </h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               BAS (Basic Allowance for Subsistence) is a monthly allowance designed to offset food
-              costs. In 2026: enlisted members receive $460.25/month; officers receive $316.98/month.
+              costs. In 2026: enlisted members receive $476.95/month; officers receive $328.48/month.
               BAS is paid regardless of duty station — it does not vary by location.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
@@ -132,7 +139,7 @@ export default function TotalCompensationPage() {
           <h3 className="text-base font-semibold text-zinc-900 mb-2">What this calculator does not include</h3>
           <ul className="text-sm text-zinc-600 space-y-1.5 list-disc list-inside">
             <li>Special pay: flight pay, hazardous duty pay, combat zone tax exclusion, sea pay, etc.</li>
-            <li>SGLI life insurance (up to $500K coverage at $31/month)</li>
+            <li>SGLI life insurance (up to $500K coverage at $26/month as of July 2025)</li>
             <li>Commissary and exchange savings (estimated $2,000–4,000/year for a family)</li>
             <li>TRICARE health insurance value (estimated $12,000–20,000/year civilian equivalent)</li>
             <li>VA loan eligibility and education benefits (GI Bill)</li>
@@ -141,6 +148,10 @@ export default function TotalCompensationPage() {
           <p className="text-xs text-zinc-500 mt-3">
             The actual economic value of military service is significantly higher than even this
             calculator shows — these items alone can add $20,000–40,000 in annual equivalent value.
+          </p>
+          <p className="text-xs text-zinc-400 mt-2">
+            <strong>E-1 note:</strong> E-1 members with less than 4 months of active duty receive
+            $2,225.70/month. This calculator shows the standard E-1 rate of $2,407.20.
           </p>
         </div>
 

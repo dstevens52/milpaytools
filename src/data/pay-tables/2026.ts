@@ -38,13 +38,14 @@ export const payTable: PayTable = {
     4: 3807.60,
   },
   'E-5': {
-    0: 2727.86,
-    4: 2916.62,
-    6: 3261.30,  // Verified FY2026 DFAS rate
-    8: 3342.88,
-    10: 3514.77,
-    12: 3620.34,
-    14: 3799.70,
+    // No "Over 2" or "Over 3" column for E-5 in DFAS — YOS 0–4 use the base rate.
+    0: 2737.40,
+    4: 3946.80,  // Verified FY2026 DFAS rate; YOS > 4 (5–6 yr selects this column)
+    6: 4119.40,
+    8: 4188.60,
+    10: 4308.50,
+    12: 4442.70,
+    14: 4511.60,
   },
   'E-6': {
     0: 2975.74,

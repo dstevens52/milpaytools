@@ -12,13 +12,13 @@ export const DATA_YEAR = '2026';
 // Monthly rates — tax-free
 // Source: https://militarypay.defense.gov/Pay/Allowances/bas/
 export const BAS_RATES = {
-  enlisted: 460.25,
-  officer:  316.98,
+  enlisted: 476.95,  // Verified FY2026 DFAS rate
+  officer:  328.48,  // Verified FY2026 DFAS rate
 } as const;
 
 // ─── TSP Contribution Limits ──────────────────────────────────────────────
 // IRS 415(c) elective deferral limit
-export const TSP_ELECTIVE_DEFERRAL_LIMIT = 23_500;  // TODO: verify FY2026 IRS limit
+export const TSP_ELECTIVE_DEFERRAL_LIMIT = 24_500;  // IRS 2026 elective deferral limit
 // Catch-up contribution limit (age 50+)
 export const TSP_CATCHUP_LIMIT = 7_500;
 // BRS: DoD matches up to 4% of basic pay (after 2-year vesting cliff for 1–2%)
@@ -28,7 +28,7 @@ export const BRS_MATCHING_MAX_PCT = 0.04;           // DoD matches up to 4%
 // ─── SGLI ─────────────────────────────────────────────────────────────────
 // Coverage in $50k increments from $0 to $500k
 export const SGLI_MAX_COVERAGE = 500_000;
-export const SGLI_PREMIUM_PER_1000 = 0.06; // $0.06 per $1,000 of coverage per month
+export const SGLI_PREMIUM_PER_1000 = 0.05; // $0.05 per $1,000 of coverage per month (updated July 2025)
 export const SGLI_TSGLI_PREMIUM = 1.00;    // $1.00/month flat for TSGLI
 
 // ─── Retirement Systems ───────────────────────────────────────────────────

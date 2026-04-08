@@ -59,11 +59,15 @@ export function normalizeZip(zip: string): string {
 
 /**
  * Given actual years of service, return the DoD pay table YOS bracket key.
- * The table uses minimum-years-to-qualify, so 7 years returns key 6.
+ *
+ * DFAS columns are labeled "2 or less", "Over 2", "Over 3", "Over 4", "Over 6", etc.
+ * "Over N" means the member has COMPLETED more than N years — i.e., YOS > N.
+ * Therefore a member with exactly 6 years falls in "Over 4" (YOS > 4), NOT "Over 6".
+ * "Over 6" requires YOS > 6 (i.e., 7+ years).
  */
 export function getYOSBracket(yearsOfService: number): number {
   const breakpoints = [40, 38, 36, 34, 32, 30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 6, 4, 3, 2, 0];
-  return breakpoints.find((bp) => yearsOfService >= bp) ?? 0;
+  return breakpoints.find((bp) => yearsOfService > bp) ?? 0;
 }
 
 // ─── Federal Tax Estimation ────────────────────────────────────────────────
