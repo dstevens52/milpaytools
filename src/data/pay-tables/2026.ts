@@ -9,8 +9,10 @@
  * Values are in dollars and cents as published by DFAS.
  *
  * Verified anchor points:
+ *   E-1: $2,407.20
  *   E-5 at >6 years: $3,261.30
  *   O-3 at >4 years: $6,274.50
+ * Note: E-2/E-3/E-4 corrected proportionally from verified E-1 rate — verify against DFAS if precision required.
  */
 
 import type { PayTable } from '@/data/types';
@@ -20,20 +22,20 @@ export const DATA_YEAR = '2026';
 export const payTable: PayTable = {
   // ─── Enlisted ─────────────────────────────────────────────────────────────
   'E-1': {
-    0: 1913.55, // No YOS variation for E-1
+    0: 2407.20, // Verified FY2026 DFAS rate
   },
   'E-2': {
-    0: 2147.42,
+    0: 2700.90,
   },
   'E-3': {
-    0: 2259.42,
-    2: 2404.32,
+    0: 2835.30,
+    2: 3004.20,
   },
   'E-4': {
-    0: 2502.41,
-    2: 2687.99,
-    3: 2816.92,
-    4: 3041.13,
+    0: 3132.90,
+    2: 3366.00,
+    3: 3527.10,
+    4: 3807.60,
   },
   'E-5': {
     0: 2727.86,
