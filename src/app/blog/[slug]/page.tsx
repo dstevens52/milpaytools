@@ -4,6 +4,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import { getPost, getAllSlugs, formatDate } from '@/lib/blog';
 import { CalculatorCallout } from '@/components/blog/CalculatorCallout';
 import { KeyFact } from '@/components/blog/KeyFact';
+import { QuickAnswer, QAItem } from '@/components/blog/QuickAnswer';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 
@@ -11,6 +12,8 @@ import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 const mdxComponents = {
   CalculatorCallout,
   KeyFact,
+  QuickAnswer,
+  QAItem,
   Disclaimer,
 };
 
