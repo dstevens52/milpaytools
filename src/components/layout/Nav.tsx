@@ -7,6 +7,7 @@ const calculatorLinks = [
   { href: '/calculators/total-compensation', label: 'Total Compensation' },
   { href: '/calculators/bah', label: 'BAH Calculator' },
   { href: '/calculators/va-disability', label: 'VA Disability' },
+  { href: '/calculators/tsp', label: 'TSP Projector' },
 ];
 
 interface NavProps {
