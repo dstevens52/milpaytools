@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* ─── Design tokens ──────────────────────────────────────────────────────────
    Primary:    red-700  (#B91C1C) — actions, active states, key highlights
