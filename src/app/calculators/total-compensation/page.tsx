@@ -37,7 +37,7 @@ export default function TotalCompensationPage() {
           <div className="mt-5 flex flex-wrap gap-3">
             {[
               { icon: '📊', text: 'Official 2026 DoD pay tables' },
-              { icon: '🏠', text: '50+ installation ZIP codes' },
+              { icon: '🏠', text: '40,959 ZIP codes' },
               { icon: '💼', text: 'BRS & Legacy retirement' },
               { icon: '🧾', text: 'Tax advantage calculation' },
             ].map(({ icon, text }) => (
