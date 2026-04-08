@@ -14,6 +14,8 @@ const CATEGORY_COLORS: Record<string, string> = {
   'Veterans Benefits':  'bg-blue-100 text-blue-700',
   'Housing & BAH':      'bg-green-100 text-green-700',
   'TSP & Retirement':   'bg-purple-100 text-purple-700',
+  'Retirement & TSP':   'bg-purple-100 text-purple-700',
+  'Career Transition':  'bg-amber-100 text-amber-700',
   'General':            'bg-zinc-100 text-zinc-600',
 };
 

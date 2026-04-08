@@ -20,6 +20,16 @@
 
 - [2026 BAH Rates Complete Guide](https://milpaytools.com/blog/bah-rates-2026-complete-guide): Comprehensive guide to 2026 BAH rates including rates for 10 major installations, highest/lowest areas, rate protection rules, and PCS comparison guidance.
 
+- [BRS vs High-3: Which Military Retirement System Is Better?](https://milpaytools.com/blog/brs-vs-high-3-retirement): Side-by-side comparison of BRS and legacy High-3 retirement, with pension math for E-7 at 20 years, TSP matching value, continuation pay, and break-even analysis.
+
+- [The Roth TSP Advantage Nobody Explains to Junior Enlisted](https://milpaytools.com/blog/roth-tsp-advantage-junior-enlisted): Why the Roth TSP is the optimal choice for junior enlisted, including combat zone triple tax advantage and long-term compounding math.
+
+- [What Civilian Salary Do I Need After the Military?](https://milpaytools.com/blog/what-civilian-salary-do-i-need): Step-by-step comparison of military total compensation to civilian salary equivalents by rank, including healthcare replacement and tax-free allowance grossup.
+
+- [File for VA Disability Before You Separate](https://milpaytools.com/blog/file-va-disability-before-separation): How the BDD program works, why filing on active duty produces better outcomes, and the lifetime value of VA disability compensation.
+
+- [Military Tax Advantages Most Service Members Miss](https://milpaytools.com/blog/military-tax-advantages): BAH/BAS exclusions, combat zone tax exclusion, Roth TSP deployment triple advantage, state domicile strategy, and EITC eligibility for junior enlisted.
+
 ## Data Sources
 
 - 2026 Military Pay Tables: Defense Finance and Accounting Service (DFAS)
