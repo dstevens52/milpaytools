@@ -10,9 +10,10 @@ export const DATA_YEAR = '2026';
 
 // ─── Basic Allowance for Subsistence (BAS) ────────────────────────────────
 // Monthly rates — tax-free
+// Source: https://militarypay.defense.gov/Pay/Allowances/bas/
 export const BAS_RATES = {
-  enlisted: 475.78,  // TODO: verify FY2026 rate
-  officer:  328.77,  // TODO: verify FY2026 rate
+  enlisted: 460.25,
+  officer:  316.98,
 } as const;
 
 // ─── TSP Contribution Limits ──────────────────────────────────────────────

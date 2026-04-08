@@ -12,7 +12,10 @@ export type OfficerGrade =
   | 'O-1' | 'O-2' | 'O-3' | 'O-4' | 'O-5' | 'O-6'
   | 'O-7' | 'O-8' | 'O-9' | 'O-10';
 
-export type PayGrade = EnlistedGrade | WarrantGrade | OfficerGrade;
+// Prior-enlisted officers: separate pay rates, same BAH rates as their O grade
+export type PriorEnlistedOfficerGrade = 'O-1E' | 'O-2E' | 'O-3E';
+
+export type PayGrade = EnlistedGrade | WarrantGrade | OfficerGrade | PriorEnlistedOfficerGrade;
 
 export const ENLISTED_GRADES: EnlistedGrade[] = [
   'E-1', 'E-2', 'E-3', 'E-4', 'E-5', 'E-6', 'E-7', 'E-8', 'E-9',
@@ -21,10 +24,12 @@ export const WARRANT_GRADES: WarrantGrade[] = ['W-1', 'W-2', 'W-3', 'W-4', 'W-5'
 export const OFFICER_GRADES: OfficerGrade[] = [
   'O-1', 'O-2', 'O-3', 'O-4', 'O-5', 'O-6', 'O-7', 'O-8', 'O-9', 'O-10',
 ];
+export const PRIOR_ENLISTED_OFFICER_GRADES: PriorEnlistedOfficerGrade[] = ['O-1E', 'O-2E', 'O-3E'];
 export const ALL_PAY_GRADES: PayGrade[] = [
   ...ENLISTED_GRADES,
   ...WARRANT_GRADES,
   ...OFFICER_GRADES,
+  ...PRIOR_ENLISTED_OFFICER_GRADES,
 ];
 
 // DoD pay table YOS breakpoints (years of service)
@@ -50,8 +55,11 @@ export const RANK_DISPLAY: Record<PayGrade, string> = {
   'W-4': 'W-4 (CW4)',
   'W-5': 'W-5 (CW5)',
   'O-1': 'O-1 (2LT/ENS/2ndLt)',
+  'O-1E': 'O-1E (2LT — prior enlisted)',
   'O-2': 'O-2 (1LT/LTJG/1stLt)',
+  'O-2E': 'O-2E (1LT — prior enlisted)',
   'O-3': 'O-3 (CPT/LT/Capt)',
+  'O-3E': 'O-3E (CPT — prior enlisted)',
   'O-4': 'O-4 (MAJ/LCDR/Maj)',
   'O-5': 'O-5 (LTC/CDR/LtCol)',
   'O-6': 'O-6 (COL/CAPT/Col)',

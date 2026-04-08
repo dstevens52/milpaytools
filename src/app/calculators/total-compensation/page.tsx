@@ -1,0 +1,151 @@
+import type { Metadata } from 'next';
+import { TotalCompensationCalculator } from '@/components/calculators/total-compensation/TotalCompensationCalculator';
+import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+
+export const metadata: Metadata = {
+  title: 'Total Military Compensation Calculator | MilPayTools',
+  description:
+    'Calculate your true total military compensation: base pay, BAH, BAS, TSP match, and tax advantage. See the civilian salary equivalent using official 2026 DoD rates.',
+  alternates: {
+    canonical: '/calculators/total-compensation',
+  },
+};
+
+export default function TotalCompensationPage() {
+  return (
+    <>
+      {/* ── Page intro ───────────────────────────────────────────────── */}
+      <div className="bg-zinc-50 border-b border-zinc-200">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex items-start gap-4">
+            <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
+              <span className="text-white font-black text-lg leading-none select-none">$</span>
+            </div>
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
+                Total Military Compensation Calculator
+              </h1>
+              <p className="text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
+                Base pay is only part of the picture. This calculator adds your BAH (Basic Allowance
+                for Housing), BAS (Basic Allowance for Subsistence), TSP retirement match, and
+                quantifies the tax advantage of your tax-free allowances — then converts it all into
+                a civilian salary equivalent so you can make accurate comparisons.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-3">
+            {[
+              { icon: '📊', text: 'Official 2026 DoD pay tables' },
+              { icon: '🏠', text: '50+ installation ZIP codes' },
+              { icon: '💼', text: 'BRS & Legacy retirement' },
+              { icon: '🧾', text: 'Tax advantage calculation' },
+            ].map(({ icon, text }) => (
+              <span
+                key={text}
+                className="inline-flex items-center gap-1.5 text-sm text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1"
+              >
+                <span>{icon}</span>
+                {text}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Calculator ───────────────────────────────────────────────── */}
+      <TotalCompensationCalculator />
+
+      {/* ── Explainer ────────────────────────────────────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-8">
+        <hr className="border-zinc-200" />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <h2 className="text-xl font-semibold text-zinc-900 mb-3">
+              Why base pay understates your compensation
+            </h2>
+            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
+              Military pay stubs list Basic Pay prominently because that&apos;s what&apos;s taxable —
+              but the two largest allowances, BAH and BAS, are completely excluded from federal income
+              tax (and most state income taxes). A civilian earning the same total dollar amount would
+              pay hundreds or thousands more in taxes each year.
+            </p>
+            <p className="text-zinc-600 text-sm leading-relaxed">
+              The civilian equivalent salary in this calculator accounts for that difference. It
+              answers the question: &ldquo;What gross salary would a civilian need to earn to take home
+              the same economic value you receive?&rdquo; This is the right number to compare against
+              job offers.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-semibold text-zinc-900 mb-3">
+              How BAH is calculated
+            </h2>
+            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
+              BAH (Basic Allowance for Housing) is set by pay grade and local median rental costs for
+              the Military Housing Area (MHA) surrounding your duty station. Rates update every January
+              1st. With dependents, rates are typically $200–600/month higher than without dependents.
+            </p>
+            <p className="text-zinc-600 text-sm leading-relaxed">
+              BAH is designed to cover the median rental cost for your grade — it does not increase if
+              you choose more expensive housing, and you keep any amount under your BAH if you find
+              cheaper housing. This creates a strong financial incentive to live efficiently.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-semibold text-zinc-900 mb-3">
+              BRS vs. Legacy retirement
+            </h2>
+            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
+              <strong>Legacy (High-3):</strong> Receive 2.5% × years of service × average of highest
+              36 months of basic pay — but only if you serve a full 20 years. Leaving at 19 years and
+              11 months pays zero.
+            </p>
+            <p className="text-zinc-600 text-sm leading-relaxed">
+              <strong>BRS (Blended Retirement):</strong> A reduced 2.0% pension multiplier plus DoD
+              contributions to your TSP: 1% automatic, plus matching up to 4% of basic pay. You build
+              retirement savings even if you serve fewer than 20 years. Most service members who
+              joined after January 1, 2018 are under BRS automatically.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-semibold text-zinc-900 mb-3">
+              Understanding BAS
+            </h2>
+            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
+              BAS (Basic Allowance for Subsistence) is a monthly allowance designed to offset food
+              costs. In 2026: enlisted members receive $460.25/month; officers receive $316.98/month.
+              BAS is paid regardless of duty station — it does not vary by location.
+            </p>
+            <p className="text-zinc-600 text-sm leading-relaxed">
+              Like BAH, BAS is fully excluded from federal income tax, adding measurable economic value
+              beyond the dollar amount shown on your pay stub.
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
+          <h3 className="text-base font-semibold text-zinc-900 mb-2">What this calculator does not include</h3>
+          <ul className="text-sm text-zinc-600 space-y-1.5 list-disc list-inside">
+            <li>Special pay: flight pay, hazardous duty pay, combat zone tax exclusion, sea pay, etc.</li>
+            <li>SGLI life insurance (up to $500K coverage at $31/month)</li>
+            <li>Commissary and exchange savings (estimated $2,000–4,000/year for a family)</li>
+            <li>TRICARE health insurance value (estimated $12,000–20,000/year civilian equivalent)</li>
+            <li>VA loan eligibility and education benefits (GI Bill)</li>
+            <li>The value of the military pension itself (not just the TSP match)</li>
+          </ul>
+          <p className="text-xs text-zinc-500 mt-3">
+            The actual economic value of military service is significantly higher than even this
+            calculator shows — these items alone can add $20,000–40,000 in annual equivalent value.
+          </p>
+        </div>
+
+        <Disclaimer dataYear="2026" />
+      </div>
+    </>
+  );
+}
