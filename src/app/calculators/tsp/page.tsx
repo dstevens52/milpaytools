@@ -89,6 +89,9 @@ export default function TSPPage() {
             <p className="text-zinc-600 text-sm leading-relaxed mt-2">
               BRS matching is monthly — if you max out your contributions early in the year (hitting the IRS limit), you stop receiving matching for the rest of the year. Spread contributions evenly across the year.
             </p>
+            <p className="text-zinc-600 text-sm leading-relaxed mt-2">
+              <strong>When matching begins:</strong> The automatic 1% DoD contribution starts after 60 days of service. The matching contributions (up to 4%) do not begin until the start of your third year of service — month 25. If you entered service on or after January 1, 2018, full matching kicks in after 24 months. A brand-new E-1 receives only the 1% automatic contribution until that milestone.
+            </p>
           </div>
 
           <div>
