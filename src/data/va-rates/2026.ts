@@ -1,15 +1,16 @@
 /**
  * FY2026 VA Disability Compensation Rates (monthly)
  *
- * Source: https://www.benefits.va.gov/compensation/resources_comp01.asp
- * TODO: Verify all values against official VA FY2026 rates.
- *       Values are approximate (FY2025 + COLA adjustment).
+ * Source: https://www.va.gov/disability/compensation-rates/veteran-rates/
+ * Effective: December 1, 2025 (paid starting January 2026)
+ * COLA: 2.8% increase over FY2025
  *
- * Structure: vaRates[disabilityPct] = VADependentRates (monthly $)
- * Percentages: 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100
+ * veteranAlone and withSpouse values are official VA.gov 2026 rates.
+ * All other columns (withSpouseAA, children, parents) are estimated at
+ * FY2025 rates × 1.028. Verify exact values on VA.gov before relying
+ * on dependent-combination columns.
  *
- * Note: At 10% and 20%, dependent-based additions do NOT apply.
- *       At 30% and above, dependent additions apply.
+ * Note: 10% and 20% ratings do NOT receive dependent-based additions.
  */
 
 import type { VADisabilityTable } from '@/data/types';
@@ -31,133 +32,135 @@ export const vaRates: VADisabilityTable = {
     additionalParent: 0,
   },
   10: {
-    veteranAlone: 175,
-    withSpouse: 175,       // no dependent addition at 10%
-    withSpouseAA: 175,
-    withSpouseAndOneChild: 175,
-    withSpouseAndTwoChildren: 175,
-    withSpouseAndThreeChildren: 175,
-    withOneChild: 175,
-    withTwoChildren: 175,
-    withThreeChildren: 175,
+    // No dependent additions at 10% — all columns flat
+    veteranAlone: 175.51,
+    withSpouse: 175.51,
+    withSpouseAA: 175.51,
+    withSpouseAndOneChild: 175.51,
+    withSpouseAndTwoChildren: 175.51,
+    withSpouseAndThreeChildren: 175.51,
+    withOneChild: 175.51,
+    withTwoChildren: 175.51,
+    withThreeChildren: 175.51,
     additionalChild: 0,
     additionalParent: 0,
   },
   20: {
-    veteranAlone: 346,
-    withSpouse: 346,       // no dependent addition at 20%
-    withSpouseAA: 346,
-    withSpouseAndOneChild: 346,
-    withSpouseAndTwoChildren: 346,
-    withSpouseAndThreeChildren: 346,
-    withOneChild: 346,
-    withTwoChildren: 346,
-    withThreeChildren: 346,
+    // No dependent additions at 20% — all columns flat
+    veteranAlone: 347.83,
+    withSpouse: 347.83,
+    withSpouseAA: 347.83,
+    withSpouseAndOneChild: 347.83,
+    withSpouseAndTwoChildren: 347.83,
+    withSpouseAndThreeChildren: 347.83,
+    withOneChild: 347.83,
+    withTwoChildren: 347.83,
+    withThreeChildren: 347.83,
     additionalChild: 0,
     additionalParent: 0,
   },
   30: {
-    veteranAlone: 537,
-    withSpouse: 601,
-    withSpouseAA: 667,
-    withSpouseAndOneChild: 640,
-    withSpouseAndTwoChildren: 679,
-    withSpouseAndThreeChildren: 718,
-    withOneChild: 581,
-    withTwoChildren: 620,
-    withThreeChildren: 659,
-    additionalChild: 31,
-    additionalParent: 31,
+    veteranAlone: 552.47,    // official VA.gov 2026
+    withSpouse: 617.47,      // official VA.gov 2026
+    withSpouseAA: 685.68,    // estimated: FY2025 × 1.028
+    withSpouseAndOneChild: 657.92,
+    withSpouseAndTwoChildren: 698.01,
+    withSpouseAndThreeChildren: 738.10,
+    withOneChild: 597.27,
+    withTwoChildren: 637.36,
+    withThreeChildren: 677.45,
+    additionalChild: 31.87,
+    additionalParent: 31.87,
   },
   40: {
-    veteranAlone: 774,
-    withSpouse: 853,
-    withSpouseAA: 932,
-    withSpouseAndOneChild: 901,
-    withSpouseAndTwoChildren: 949,
-    withSpouseAndThreeChildren: 997,
-    withOneChild: 825,
-    withTwoChildren: 873,
-    withThreeChildren: 921,
-    additionalChild: 42,
-    additionalParent: 42,
+    veteranAlone: 795.84,    // official VA.gov 2026
+    withSpouse: 882.84,      // official VA.gov 2026
+    withSpouseAA: 958.10,
+    withSpouseAndOneChild: 926.23,
+    withSpouseAndTwoChildren: 975.57,
+    withSpouseAndThreeChildren: 1024.92,
+    withOneChild: 848.10,
+    withTwoChildren: 897.44,
+    withThreeChildren: 946.79,
+    additionalChild: 43.18,
+    additionalParent: 43.18,
   },
   50: {
-    veteranAlone: 1102,
-    withSpouse: 1195,
-    withSpouseAA: 1288,
-    withSpouseAndOneChild: 1252,
-    withSpouseAndTwoChildren: 1309,
-    withSpouseAndThreeChildren: 1366,
-    withOneChild: 1160,
-    withTwoChildren: 1217,
-    withThreeChildren: 1274,
-    additionalChild: 53,
-    additionalParent: 53,
+    veteranAlone: 1132.90,   // official VA.gov 2026
+    withSpouse: 1241.90,     // official VA.gov 2026
+    withSpouseAA: 1324.06,
+    withSpouseAndOneChild: 1287.06,
+    withSpouseAndTwoChildren: 1345.65,
+    withSpouseAndThreeChildren: 1404.25,
+    withOneChild: 1192.48,
+    withTwoChildren: 1251.08,
+    withThreeChildren: 1309.67,
+    additionalChild: 54.48,
+    additionalParent: 54.48,
   },
   60: {
-    veteranAlone: 1395,
-    withSpouse: 1503,
-    withSpouseAA: 1611,
-    withSpouseAndOneChild: 1568,
-    withSpouseAndTwoChildren: 1633,
-    withSpouseAndThreeChildren: 1698,
-    withOneChild: 1460,
-    withTwoChildren: 1525,
-    withThreeChildren: 1590,
-    additionalChild: 64,
-    additionalParent: 64,
+    veteranAlone: 1435.02,   // official VA.gov 2026
+    withSpouse: 1566.02,     // official VA.gov 2026
+    withSpouseAA: 1656.11,
+    withSpouseAndOneChild: 1611.90,
+    withSpouseAndTwoChildren: 1678.72,
+    withSpouseAndThreeChildren: 1745.54,
+    withOneChild: 1500.88,
+    withTwoChildren: 1567.70,
+    withThreeChildren: 1634.52,
+    additionalChild: 65.79,
+    additionalParent: 65.79,
   },
   70: {
-    veteranAlone: 1759,
-    withSpouse: 1882,
-    withSpouseAA: 2005,
-    withSpouseAndOneChild: 1955,
-    withSpouseAndTwoChildren: 2028,
-    withSpouseAndThreeChildren: 2101,
-    withOneChild: 1832,
-    withTwoChildren: 1905,
-    withThreeChildren: 1978,
-    additionalChild: 75,
-    additionalParent: 75,
+    veteranAlone: 1808.45,   // official VA.gov 2026
+    withSpouse: 1961.45,     // official VA.gov 2026
+    withSpouseAA: 2061.14,
+    withSpouseAndOneChild: 2009.74,
+    withSpouseAndTwoChildren: 2084.78,
+    withSpouseAndThreeChildren: 2159.83,
+    withOneChild: 1883.30,
+    withTwoChildren: 1958.34,
+    withThreeChildren: 2033.38,
+    additionalChild: 77.10,
+    additionalParent: 77.10,
   },
   80: {
-    veteranAlone: 2044,
-    withSpouse: 2181,
-    withSpouseAA: 2318,
-    withSpouseAndOneChild: 2262,
-    withSpouseAndTwoChildren: 2344,
-    withSpouseAndThreeChildren: 2425,
-    withOneChild: 2125,
-    withTwoChildren: 2207,
-    withThreeChildren: 2288,
-    additionalChild: 86,
-    additionalParent: 86,
+    veteranAlone: 2102.15,   // official VA.gov 2026
+    withSpouse: 2277.15,     // official VA.gov 2026
+    withSpouseAA: 2382.90,
+    withSpouseAndOneChild: 2325.34,
+    withSpouseAndTwoChildren: 2409.63,
+    withSpouseAndThreeChildren: 2492.90,
+    withOneChild: 2184.50,
+    withTwoChildren: 2268.80,
+    withThreeChildren: 2352.06,
+    additionalChild: 88.41,
+    additionalParent: 88.41,
   },
   90: {
-    veteranAlone: 2297,
-    withSpouse: 2449,
-    withSpouseAA: 2601,
-    withSpouseAndOneChild: 2538,
-    withSpouseAndTwoChildren: 2628,
-    withSpouseAndThreeChildren: 2718,
-    withOneChild: 2387,
-    withTwoChildren: 2477,
-    withThreeChildren: 2567,
-    additionalChild: 97,
-    additionalParent: 97,
+    veteranAlone: 2362.30,   // official VA.gov 2026
+    withSpouse: 2559.30,     // official VA.gov 2026
+    withSpouseAA: 2673.83,
+    withSpouseAndOneChild: 2609.06,
+    withSpouseAndTwoChildren: 2701.58,
+    withSpouseAndThreeChildren: 2794.10,
+    withOneChild: 2453.84,
+    withTwoChildren: 2546.36,
+    withThreeChildren: 2638.88,
+    additionalChild: 99.72,
+    additionalParent: 99.72,
   },
   100: {
-    veteranAlone: 3831,
-    withSpouse: 4022,
-    withSpouseAA: 4213,
-    withSpouseAndOneChild: 4125,
-    withSpouseAndTwoChildren: 4228,
-    withSpouseAndThreeChildren: 4331,
-    withOneChild: 3937,
-    withTwoChildren: 4040,
-    withThreeChildren: 4143,
-    additionalChild: 103,
-    additionalParent: 115,
+    veteranAlone: 3938.58,   // official VA.gov 2026
+    withSpouse: 4158.17,     // official VA.gov 2026
+    withSpouseAA: 4330.96,
+    withSpouseAndOneChild: 4240.50,
+    withSpouseAndTwoChildren: 4346.38,
+    withSpouseAndThreeChildren: 4452.27,
+    withOneChild: 4047.24,
+    withTwoChildren: 4153.12,
+    withThreeChildren: 4259.00,
+    additionalChild: 105.88,
+    additionalParent: 118.22,
   },
 };
