@@ -8,11 +8,14 @@
  * YOS key = minimum years of service to qualify for that column.
  * Values are in dollars and cents as published by DFAS.
  *
- * Verified anchor points:
+ * Verified anchor points (user-confirmed):
  *   E-1: $2,407.20
- *   E-5 Over 4 column: $3,946.80  (YOS=5 or YOS=6)
- *   O-3 Over 3 column: $6,770.40  (YOS=4)
- * Note: E-2/E-3/E-4 and O-3 key 4+ are estimates — verify remaining cells against DFAS.
+ *   E-5 Over 4: $3,946.80   (YOS=5–6)
+ *   E-6 Over 8: $4,612.80   (YOS=9–10)
+ *   O-3 Over 3: $6,770.40   (YOS=4)
+ *
+ * Enlisted E-1–E-9 rebuilt from official FY2025 DFAS rates × 1.038 (3.8% raise).
+ * O-3/O-3E key 4+ are estimates. Warrant officer and O-4+ not yet reverified.
  */
 
 import type { PayTable } from '@/data/types';
@@ -21,87 +24,102 @@ export const DATA_YEAR = '2026';
 
 export const payTable: PayTable = {
   // ─── Enlisted ─────────────────────────────────────────────────────────────
+  // Keys correspond to DFAS "Over N" column thresholds. YOS key selection:
+  //   user selects N years → getYOSBracket(N) → highest key K where N > K
+  //   e.g. N=6 → K=4 (Over 4 column); N=4 → K=3 (Over 3 column)
+  // Cap comment = same rate repeats for all higher YOS columns in DFAS.
+
   'E-1': {
+    // E-1 with <4 months of active duty: $2,225.70 (footnote, not a table key)
     0: 2407.20, // Verified FY2026 DFAS rate
   },
   'E-2': {
-    0: 2700.90,
+    0: 2697.97, // Flat rate — no YOS progression
   },
   'E-3': {
-    0: 2835.30,
-    2: 3004.20,
+    0: 2836.85,
+    2: 3014.97,
+    3: 3198.08, // Cap
   },
   'E-4': {
-    0: 3132.90,
-    2: 3366.00,
-    3: 3527.10,
-    4: 3807.60,
+    0: 3142.34,
+    2: 3303.02,
+    3: 3482.39,
+    4: 3658.64,
+    6: 3815.27, // Cap
   },
   'E-5': {
-    // No "Over 2" or "Over 3" column for E-5 in DFAS — YOS 0–4 use the base rate.
-    0: 2737.40,
-    4: 3946.80,  // Verified FY2026 DFAS rate; YOS > 4 (5–6 yr selects this column)
-    6: 4119.40,
-    8: 4188.60,
-    10: 4308.50,
-    12: 4442.70,
-    14: 4511.60,
+    0: 3342.88,
+    2: 3598.23,
+    3: 3775.72,
+    4: 3946.80, // Verified FY2026 DFAS rate
+    6: 4109.86,
+    8: 4299.81,
+    10: 4395.41,
+    12: 4421.57, // Cap
   },
   'E-6': {
-    0: 2975.74,
-    2: 3273.12,
-    4: 3445.33,
-    6: 3620.34,
-    8: 3799.70,
-    10: 3975.64,
-    12: 4155.95,
-    14: 4331.87,
-    16: 4507.79,
-    18: 4667.26,
+    0: 3401.11,
+    2: 3743.03,
+    3: 3908.07,
+    4: 4068.75,
+    6: 4235.66,
+    8: 4612.80, // Verified FY2026 DFAS rate (E-6 Over 8 column)
+    10: 4759.44,
+    12: 5043.43,
+    14: 5130.32,
+    16: 5193.53,
+    18: 5267.64, // Cap
   },
   'E-7': {
-    0: 3442.21,
-    2: 3736.80,
-    4: 3912.74,
-    6: 4089.99,
-    8: 4264.93,
-    10: 4539.28,
-    12: 4794.87,
-    14: 4989.56,
-    16: 5163.64,
-    18: 5338.64,
-    20: 5512.71,
-    22: 5688.34,
-    24: 5863.35,
-    26: 6038.35,
+    0: 3932.05,
+    2: 4291.40,
+    3: 4456.13,
+    4: 4673.18,
+    6: 4843.83,
+    8: 5135.61,
+    10: 5300.34,
+    12: 5591.81,
+    14: 5835.01,
+    16: 6000.99,
+    18: 6177.24,
+    20: 6245.75,
+    22: 6475.25,
+    24: 6598.25,
+    26: 7067.53, // Cap
   },
   'E-8': {
-    0: 4943.48,
-    6: 5117.55,
-    8: 5289.44,
-    10: 5462.54,
-    12: 5638.52,
-    14: 5812.32,
-    16: 5987.90,
-    18: 6162.91,
-    20: 6337.92,
-    22: 6511.06,
-    24: 6686.07,
-    26: 6860.45,
+    // N/A for <8 years of service in DFAS table
+    8:  5656.58,
+    10: 5906.95,
+    12: 6061.71,
+    14: 6247.31,
+    16: 6448.16,
+    18: 6811.25,
+    20: 6995.29,
+    22: 7308.25,
+    24: 7481.70,
+    26: 7908.94,
+    28: 8067.44, // Cap
   },
   'E-9': {
-    0: 6057.84,
-    8: 6227.69,
-    10: 6402.69,
-    12: 6581.44,
-    14: 6756.76,
-    16: 6934.49,
-    18: 7110.21,
-    20: 7285.51,
-    22: 7463.32,
-    24: 7641.13,
-    26: 7818.32,
-    30: 8581.56, // Special senior NCO rate (SGM of the Army / MCPON / SMMC)
+    // N/A for <10 years of service in DFAS table
+    10: 6910.28,
+    12: 7066.60,
+    14: 7263.72,
+    16: 7496.02,
+    18: 7730.82,
+    20: 8105.12,
+    22: 8423.06,
+    24: 8756.57,
+    26: 9267.89,
+    28: 9267.89, // Same rate as Over 26 in DFAS
+    30: 9730.32,
+    32: 9730.32, // Same as Over 30
+    34: 10217.35,
+    36: 10217.35, // Same as Over 34
+    38: 10729.29,
+    40: 10729.29, // Same as Over 38 — cap
   },
 
   // ─── Warrant Officers ─────────────────────────────────────────────────────
