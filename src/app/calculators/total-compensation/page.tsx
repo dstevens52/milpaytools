@@ -110,7 +110,9 @@ export default function TotalCompensationPage() {
               <strong>BRS (Blended Retirement):</strong> A reduced 2.0% pension multiplier plus DoD
               contributions to your TSP: 1% automatic, plus matching up to 4% of basic pay. You build
               retirement savings even if you serve fewer than 20 years. Most service members who
-              joined after January 1, 2018 are under BRS automatically.
+              with a DIEMS (Date of Initial Entry to Military Service) on or after January 1, 2018 are
+              automatically covered by BRS. Some members who entered service earlier elected BRS
+              during the opt-in window.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               <strong>BRS contribution timing:</strong> The 1% automatic DoD contribution begins after
@@ -147,7 +149,7 @@ export default function TotalCompensationPage() {
           </ul>
           <p className="text-xs text-zinc-500 mt-3">
             The actual economic value of military service is significantly higher than even this
-            calculator shows — these items alone can add $20,000–40,000 in annual equivalent value.
+            calculator shows — these items can materially increase the real value of military compensation, depending on your family size, duty station, health care usage, and career path
           </p>
           <p className="text-xs text-zinc-400 mt-2">
             <strong>E-1 note:</strong> E-1 members with less than 4 months of active duty receive
