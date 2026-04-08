@@ -27,8 +27,8 @@ export default function BAHPage() {
               </h1>
               <p className="text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
                 Look up your Basic Allowance for Housing rate by ZIP code, pay grade, and dependency
-                status. Uses official 2026 DTMO data covering all 40,959 ZIP codes across 338
-                Military Housing Areas. Includes a PCS comparison tool to see how your BAH changes
+                status. Uses official 2026 DTMO data covering all 40,959 ZIP codes across all U.S.
+                military housing areas. Includes a PCS comparison tool to see how your BAH changes
                 between duty stations.
               </p>
             </div>
@@ -37,7 +37,7 @@ export default function BAHPage() {
           <div className="mt-5 flex flex-wrap gap-3">
             {[
               { text: '40,959 ZIP codes' },
-              { text: '338 Military Housing Areas' },
+              { text: '299 military housing areas' },
               { text: 'Official 2026 DTMO data' },
               { text: 'PCS comparison mode' },
             ].map(({ text }) => (
@@ -64,8 +64,8 @@ export default function BAHPage() {
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">What is BAH?</h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               Basic Allowance for Housing (BAH) is a monthly allowance paid to service members who
-              live off-post or off-base in the United States. It is not taxable income — no federal
-              income tax, and most states exempt it as well.
+              live off-post or off-base in the United States. It is not taxable income — excluded
+              from federal income tax, FICA, and most state income taxes.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               BAH is determined by three factors: your pay grade, your duty station&apos;s Military
@@ -121,9 +121,9 @@ export default function BAHPage() {
           <div>
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">BAH and your taxes</h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              BAH is excluded from gross income for federal income tax purposes under 26 U.S.C.
-              § 134. It does not appear on your W-2 as taxable wages. Most states also exempt BAH
-              from state income tax, though a few states partially tax military allowances —
+              BAH is excluded from gross income for federal income tax, FICA (Social Security and
+              Medicare), and most state income taxes under 26 U.S.C. § 134. It does not appear on
+              your W-2 as taxable wages. A few states partially tax military allowances —
               consult your state&apos;s tax guidance if you are unsure.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
@@ -154,14 +154,31 @@ export default function BAHPage() {
           </h3>
           <ul className="text-sm text-zinc-600 space-y-1.5 list-disc list-inside">
             <li>Living in government-provided housing (barracks, quarters) — BAH is not paid</li>
-            <li>Deployed to an overseas location — BAH continues at your home station rate</li>
-            <li>U.S. territories (Puerto Rico, Guam, USVI) — these locations receive OHA (Overseas Housing Allowance), not BAH</li>
+            <li>Stationed overseas — service members assigned to overseas duty stations receive OHA (Overseas Housing Allowance) instead of BAH. Unaccompanied overseas tours with dependents remaining in the U.S. may involve both OHA and BAH, but the rules are complex; contact your finance office for your specific entitlement</li>
+            <li>U.S. territories (Puerto Rico, Guam, USVI) — these locations are treated as overseas for housing allowance purposes and receive OHA, not BAH</li>
             <li>Single E-1 through E-3 members in many locations are required to live in barracks</li>
             <li>Members under the Basic Allowance for Housing Reserve Component (BAH-RC) have different rules</li>
           </ul>
         </div>
 
-        <Disclaimer dataYear="2026" />
+        <div className="rounded-lg bg-slate-50 border border-slate-200 p-4 text-xs text-slate-500 leading-relaxed">
+          <p className="font-semibold text-slate-600 mb-1">Disclaimer</p>
+          <p>
+            MilPayTools calculators use official DoD rate tables (2026) for educational purposes
+            only. Results are estimates and may not reflect your exact situation. Always verify your
+            BAH entitlement with your unit&apos;s Finance Office or your MyPay account. The
+            authoritative source for BAH rates is the{' '}
+            <a
+              href="https://www.travel.dod.mil/Allowances/Basic-Allowance-for-Housing/BAH-Rate-Lookup/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-700 underline hover:text-blue-800"
+            >
+              DTMO BAH Rate Lookup
+            </a>
+            . This tool is not affiliated with the Department of Defense or any government agency.
+          </p>
+        </div>
       </div>
     </>
   );

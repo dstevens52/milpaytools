@@ -275,12 +275,15 @@ export function BAHCalculator() {
       <Card>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {/* Grade */}
-          <Select
-            label="Pay Grade"
-            groups={GRADE_GROUPS}
-            value={grade}
-            onChange={(e) => setGrade(e.target.value as PayGrade)}
-          />
+          <div>
+            <Select
+              label="Pay Grade"
+              groups={GRADE_GROUPS}
+              value={grade}
+              onChange={(e) => setGrade(e.target.value as PayGrade)}
+            />
+            <p className="text-xs text-zinc-400 mt-1">O-7 through O-10 receive the same BAH rate per DoD policy.</p>
+          </div>
 
           {/* Dependency status */}
           <div className="flex flex-col gap-1">
