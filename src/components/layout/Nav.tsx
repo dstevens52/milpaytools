@@ -9,6 +9,7 @@ const calculatorLinks = [
   { href: '/calculators/va-disability', label: 'VA Disability' },
   { href: '/calculators/tsp', label: 'TSP Projector' },
   { href: '/calculators/retirement', label: 'Retirement' },
+  { href: '/calculators/pcs', label: 'PCS Estimator' },
 ];
 
 const topLinks = [

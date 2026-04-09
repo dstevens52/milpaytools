@@ -140,10 +140,18 @@ export default function BAHPage() {
               MHA. Use the Compare mode above to see the difference between your current and gaining
               stations before you move — this is essential input for your housing budget.
             </p>
-            <p className="text-zinc-600 text-sm leading-relaxed">
+            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               During a PCS move, you may be entitled to BAH at your old station, your new station,
               or both for a limited period, depending on your situation. Consult your S1/J1 or PSD
               for your specific transition entitlements.
+            </p>
+            <p className="text-zinc-600 text-sm leading-relaxed">
+              To estimate your full PCS entitlements — DLA, MALT mileage, per diem, TLE, and
+              PPM/DITY profit potential — see the{' '}
+              <a href="/calculators/pcs" className="text-blue-700 hover:underline font-medium">
+                PCS Cost Estimator
+              </a>
+              .
             </p>
           </div>
         </div>

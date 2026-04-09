@@ -87,6 +87,20 @@ const CALCULATORS: CalculatorDetail[] = [
     ],
     group: 'active-duty',
   },
+  {
+    href: '/calculators/pcs',
+    icon: '📦',
+    name: 'PCS Cost Estimator',
+    description:
+      'Estimate total PCS entitlements — DLA, MALT mileage, per diem, TLE, and PPM/DITY profit potential. Compare government move vs. self-move to see which puts more money in your pocket.',
+    features: [
+      'DLA by rank and dependency status',
+      'MALT mileage + travel days',
+      'PPM profit after expenses and tax',
+      'Government vs. PPM comparison',
+    ],
+    group: 'active-duty',
+  },
 ];
 
 export default function CalculatorsPage() {

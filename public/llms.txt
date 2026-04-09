@@ -16,6 +16,8 @@
 
 - [Military Retirement Calculator](https://milpaytools.com/calculators/retirement): Estimates military pension under High-3 (Legacy) and BRS (Blended Retirement System) using 2026 DFAS pay tables. Shows pension multiplier math, High-3 average calculation, lifetime pension value with 2.5% COLA, TSP balance projection with BRS matching, CRDP eligibility (50%+ VA rating + 20 years), civilian salary equivalent, and stay-vs-go lifetime value analysis.
 
+- [PCS Cost Estimator](https://milpaytools.com/calculators/pcs): Estimates total PCS move entitlements using 2026 DTMO rates. Calculates DLA (by rank and dependency status), MALT mileage ($0.205/mile × POVs), per diem (JTR travel day formula with first/last day 75% rule), TLE (up to 14 days), and PPM/DITY profit (government cost estimate minus expenses, after-tax at ~22%). Compares government move vs. PPM/DITY move totals side by side. Covers all ranks E-1 through O-10.
+
 ## Blog
 
 - [How Much Does an E-5 Really Make in 2026?](https://milpaytools.com/blog/how-much-does-an-e5-really-make-2026): Complete E-5 compensation breakdown including base pay ($3,946.80/month), BAH by location, BAS, tax advantages, and civilian salary equivalent.

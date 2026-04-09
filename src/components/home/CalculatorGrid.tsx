@@ -77,6 +77,13 @@ const CALCULATORS: CalculatorCardProps[] = [
       'Pension under High-3 or BRS, lifetime value with COLA, TSP projection, and CRDP eligibility — all in one.',
     icon: '🎖️',
   },
+  {
+    href: '/calculators/pcs',
+    title: 'PCS Cost Estimator',
+    description:
+      'DLA, MALT mileage, per diem, TLE, and PPM/DITY profit — all from one tool. Compare government move vs. self-move.',
+    icon: '📦',
+  },
 ];
 
 export function CalculatorGrid() {
@@ -91,7 +98,7 @@ export function CalculatorGrid() {
             Every tool uses verified DoD, DFAS, DTMO, and VA data — not estimates.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {CALCULATORS.map((calc) => (
             <CalculatorCard key={calc.href} {...calc} />
           ))}
