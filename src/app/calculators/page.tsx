@@ -13,7 +13,7 @@ interface CalculatorDetail {
   name: string;
   description: string;
   features: string[];
-  group: 'active-duty' | 'guard-reserve' | 'veteran';
+  group: 'active-duty' | 'guard-reserve' | 'veteran' | 'education';
 }
 
 const CALCULATORS: CalculatorDetail[] = [
@@ -115,12 +115,27 @@ const CALCULATORS: CalculatorDetail[] = [
     ],
     group: 'guard-reserve',
   },
+  {
+    href: '/calculators/education',
+    icon: '🎓',
+    name: 'Education Benefits Comparison Calculator',
+    description:
+      'Compare Post-9/11 GI Bill, VR&E (Chapter 31), Tuition Assistance, and Montgomery GI Bill side by side. See total program value by school ZIP code, tuition, and eligibility tier.',
+    features: [
+      'GI Bill MHA by school ZIP code',
+      'VR&E no-cap tuition comparison',
+      'TA vs. GI Bill sequencing strategy',
+      'Total program value over 2 or 4 years',
+    ],
+    group: 'education',
+  },
 ];
 
 export default function CalculatorsPage() {
   const activeDuty = CALCULATORS.filter((c) => c.group === 'active-duty');
   const guardReserve = CALCULATORS.filter((c) => c.group === 'guard-reserve');
   const veteran = CALCULATORS.filter((c) => c.group === 'veteran');
+  const education = CALCULATORS.filter((c) => c.group === 'education');
 
   return (
     <div className="min-h-screen bg-zinc-50">
@@ -175,6 +190,18 @@ export default function CalculatorsPage() {
           </h2>
           <div className="space-y-4">
             {veteran.map((calc) => (
+              <CalculatorHubCard key={calc.href} {...calc} />
+            ))}
+          </div>
+        </section>
+
+        {/* Education & Transition tools */}
+        <section>
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400 mb-5">
+            Education &amp; Transition
+          </h2>
+          <div className="space-y-4">
+            {education.map((calc) => (
               <CalculatorHubCard key={calc.href} {...calc} />
             ))}
           </div>

@@ -91,6 +91,13 @@ const CALCULATORS: CalculatorCardProps[] = [
       'Drill pay, Annual Training, Tricare Reserve Select savings, and BRS matching — total annual value with per-weekend breakdown.',
     icon: '⭐',
   },
+  {
+    href: '/calculators/education',
+    title: 'Education Benefits Comparison',
+    description:
+      'GI Bill vs. VR&E vs. Tuition Assistance vs. Montgomery GI Bill — total program value by school ZIP code and eligibility tier.',
+    icon: '🎓',
+  },
 ];
 
 export function CalculatorGrid() {

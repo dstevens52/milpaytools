@@ -6,6 +6,8 @@
 
 - [All Calculators](https://milpaytools.com/calculators): Hub page listing all free military financial calculators with descriptions and features.
 
+- [Education Benefits Comparison Calculator](https://milpaytools.com/calculators/education): Compares Post-9/11 GI Bill (Ch. 33), VR&E (Ch. 31), Tuition Assistance, and Montgomery GI Bill side by side. Shows total program value by school ZIP code (GI Bill MHA = E-5 with-dependents BAH), eligibility tier (40%–100%), school type (public/private/online), and program length. Surfaces sequencing strategy (TA while serving, GI Bill after separation) and VR&E no-cap tuition advantage for veterans with 10%+ disability rating.
+
 - [Total Military Compensation Calculator](https://milpaytools.com/calculators/total-compensation): Calculates total military compensation including base pay, BAH, BAS, tax advantages, BRS matching, and civilian salary equivalent. Uses 2026 DoD pay tables and DTMO BAH data for all 40,959 U.S. ZIP codes.
 
 - [BAH Calculator](https://milpaytools.com/calculators/bah): Looks up 2026 Basic Allowance for Housing rates by ZIP code, pay grade, and dependency status. Covers all 40,959 ZIP codes across 299 military housing areas. Includes PCS duty station comparison mode.

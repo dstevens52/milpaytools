@@ -11,6 +11,7 @@ const calculatorLinks = [
   { href: '/calculators/retirement', label: 'Retirement' },
   { href: '/calculators/pcs', label: 'PCS Estimator' },
   { href: '/calculators/guard-reserve', label: 'Guard/Reserve' },
+  { href: '/calculators/education', label: 'Education' },
 ];
 
 const topLinks = [
