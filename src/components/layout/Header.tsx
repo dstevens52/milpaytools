@@ -25,10 +25,10 @@ export function Header() {
           <div className="hidden md:flex items-center gap-6">
             <Nav />
             <Link
-              href="/calculators/total-compensation"
+              href="/calculators"
               className="rounded-md bg-red-700 px-4 py-1.5 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
             >
-              Get Started
+              All Tools
             </Link>
           </div>
 
@@ -59,11 +59,11 @@ export function Header() {
           <Nav mobile onClose={() => setMobileOpen(false)} />
           <div className="p-4 border-t border-zinc-100">
             <Link
-              href="/calculators/total-compensation"
+              href="/calculators"
               onClick={() => setMobileOpen(false)}
               className="block w-full text-center rounded-md bg-red-700 px-4 py-2.5 text-base font-semibold text-white hover:bg-red-800 transition-colors"
             >
-              Get Started
+              All Tools
             </Link>
           </div>
         </div>

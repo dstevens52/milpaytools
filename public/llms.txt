@@ -4,6 +4,8 @@
 
 ## Calculators
 
+- [All Calculators](https://milpaytools.com/calculators): Hub page listing all free military financial calculators with descriptions and features.
+
 - [Total Military Compensation Calculator](https://milpaytools.com/calculators/total-compensation): Calculates total military compensation including base pay, BAH, BAS, tax advantages, BRS matching, and civilian salary equivalent. Uses 2026 DoD pay tables and DTMO BAH data for all 40,959 U.S. ZIP codes.
 
 - [BAH Calculator](https://milpaytools.com/calculators/bah): Looks up 2026 Basic Allowance for Housing rates by ZIP code, pay grade, and dependency status. Covers all 40,959 ZIP codes across 299 military housing areas. Includes PCS duty station comparison mode.

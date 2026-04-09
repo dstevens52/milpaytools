@@ -104,10 +104,10 @@ export function HeroSection() {
 
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
-                href="/calculators/total-compensation"
+                href="/calculators"
                 className="inline-flex items-center justify-center rounded-md bg-red-700 px-6 py-3 text-base font-semibold text-white hover:bg-red-800 transition-colors shadow-sm"
               >
-                Calculate my compensation
+                Explore All Tools
               </Link>
               <Link
                 href="/calculators/va-disability"

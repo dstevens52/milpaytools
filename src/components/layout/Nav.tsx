@@ -11,6 +11,7 @@ const calculatorLinks = [
 ];
 
 const topLinks = [
+  { href: '/calculators', label: 'All Calculators' },
   { href: '/blog', label: 'Blog' },
 ];
 

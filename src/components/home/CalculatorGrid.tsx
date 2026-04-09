@@ -4,12 +4,11 @@ interface CalculatorCardProps {
   href: string;
   title: string;
   description: string;
-  tags: string[];
   icon: string;
   featured?: boolean;
 }
 
-function CalculatorCard({ href, title, description, tags, icon, featured }: CalculatorCardProps) {
+function CalculatorCard({ href, title, description, icon, featured }: CalculatorCardProps) {
   return (
     <Link
       href={href}
@@ -23,7 +22,7 @@ function CalculatorCard({ href, title, description, tags, icon, featured }: Calc
         <span className="text-2xl">{icon}</span>
         {featured && (
           <span className="text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-full px-2 py-0.5">
-            Most popular
+            Most Popular
           </span>
         )}
       </div>
@@ -34,19 +33,8 @@ function CalculatorCard({ href, title, description, tags, icon, featured }: Calc
 
       <p className="text-sm text-zinc-600 leading-relaxed flex-1 mb-4">{description}</p>
 
-      <div className="flex flex-wrap gap-1.5 mb-4">
-        {tags.map((tag) => (
-          <span
-            key={tag}
-            className="text-xs px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-600 border border-zinc-200"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-
       <div className="flex items-center gap-1 text-sm font-semibold text-red-700 group-hover:gap-2 transition-all">
-        Open calculator <span aria-hidden>→</span>
+        Try it <span aria-hidden>→</span>
       </div>
     </Link>
   );
@@ -55,10 +43,9 @@ function CalculatorCard({ href, title, description, tags, icon, featured }: Calc
 const CALCULATORS: CalculatorCardProps[] = [
   {
     href: '/calculators/total-compensation',
-    title: 'Total Compensation Calculator',
+    title: 'Total Military Compensation',
     description:
-      'See the full economic value of your service: base pay, BAH, BAS, TSP agency match, and tax advantages — expressed as a civilian-equivalent salary.',
-    tags: ['Base Pay', 'BAH', 'BAS', 'TSP', 'BRS'],
+      'Base pay, BAH, BAS, tax advantages, and civilian salary equivalent — all in one view.',
     icon: '💰',
     featured: true,
   },
@@ -66,17 +53,22 @@ const CALCULATORS: CalculatorCardProps[] = [
     href: '/calculators/bah',
     title: 'BAH Calculator',
     description:
-      'Look up your exact Basic Allowance for Housing rate by ZIP code and rank. Understand how much of the local rental market your BAH covers.',
-    tags: ['BAH', 'Housing', 'ZIP Code'],
+      '2026 housing allowance for any ZIP code. Compare two duty stations side by side for PCS planning.',
     icon: '🏠',
   },
   {
     href: '/calculators/va-disability',
-    title: 'VA Disability Rating Calculator',
+    title: 'VA Disability Rating',
     description:
-      'Calculate your combined disability rating using the official whole-person method. Get monthly tax-free compensation and check CRDP eligibility.',
-    tags: ['VA Rating', 'Tax-Free', 'CRDP', 'CRSC'],
+      'Combined rating calculator with step-by-step math, bilateral factor, and monthly compensation estimate.',
     icon: '🎖️',
+  },
+  {
+    href: '/calculators/tsp',
+    title: 'TSP Growth Projector',
+    description:
+      'Model your retirement savings with BRS matching, fund allocation, and Roth vs Traditional comparison.',
+    icon: '📈',
   },
 ];
 
@@ -86,14 +78,13 @@ export function CalculatorGrid() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-10">
           <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 mb-2">
-            Financial calculators
+            Free calculators. Official 2026 data.
           </h2>
           <p className="text-zinc-600 max-w-2xl">
-            Each calculator ends with a plain-English interpretation and specific next steps —
-            not just a number.
+            Every tool uses verified DoD, DFAS, DTMO, and VA data — not estimates.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {CALCULATORS.map((calc) => (
             <CalculatorCard key={calc.href} {...calc} />
           ))}
