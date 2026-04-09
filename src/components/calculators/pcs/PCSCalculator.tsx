@@ -476,7 +476,7 @@ export function PCSCalculator() {
             <EntitlementRow
               label="Per Diem — Member"
               value={fmtDecimals(output.perDiemMember)}
-              sub={`${output.travelDays} day${output.travelDays !== 1 ? 's' : ''} · first/last day at 75%`}
+              sub={`${output.travelDays} day${output.travelDays !== 1 ? 's' : ''} · first/last day at 75% · standard CONUS rate`}
             />
             {hasDependents && numDependents > 0 && (
               <EntitlementRow
@@ -497,6 +497,9 @@ export function PCSCalculator() {
               value={fmt(output.govMoveTotal)}
               highlight
             />
+            <p className="text-xs text-zinc-400 mt-3 leading-relaxed">
+              Per diem shown at standard CONUS rates. Actual PCS per diem depends on your orders and may vary — verify with your Finance Office.
+            </p>
           </div>
 
           {/* PPM section */}
@@ -506,7 +509,7 @@ export function PCSCalculator() {
                 PPM / DITY Reimbursement
               </h3>
               <p className="text-xs text-zinc-500 mb-4">
-                Approximate — actual rate calculated by your TMO based on origin/destination
+                PPM reimbursement rates vary by distance and are calculated by your Transportation Office (TMO). The estimate shown uses an approximate rate per hundredweight and may differ from your actual entitlement.
               </p>
 
               <EntitlementRow

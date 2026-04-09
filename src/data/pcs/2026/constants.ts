@@ -4,12 +4,15 @@
  * Sources:
  *   - MALT rate: DTMO MAP 72-25(I), effective January 1, 2026
  *   - Per diem (CONUS): GSA standard CONUS rates, FY2026
- *   - DLA: DTMO MAP 72-25(I), effective January 1, 2026
- *     NOTE: DLA rates below are estimates based on 2025 published rates with 2026 COLA
- *     applied. Verify against https://www.travel.dod.mil before publishing.
+ *     NOTE: Per diem shown at standard CONUS rates ($179/day). Actual PCS per diem may
+ *     differ from TDY rates and depends on your specific orders. Verify with Finance Office.
+ *   - DLA: DTMO MAP 72-25(I), effective January 1, 2026 (primary DLA rates)
+ *     Source: https://www.travel.dod.mil — verify annually as rates update each January.
  *   - Weight allowances: JTR Chapter 5, Table 5-37 (2026)
- *   - PPM/CWT rate: approximate 2026 PPTAS schedule — actual rates vary by origin/
- *     destination and are calculated by your installation's Transportation Office (TMO).
+ *   - PPM/CWT rate: approximate 2026 PPTAS schedule
+ *     IMPORTANT: PPM reimbursement rates vary by distance and are calculated by your
+ *     Transportation Office (TMO). The estimate shown uses an approximate rate per
+ *     hundredweight and may differ from your actual entitlement.
  *
  * Update annually: new rates typically published November–December for next calendar year.
  */
@@ -30,59 +33,60 @@ export const PCS_RATES_2026 = {
   milesFirstDay: 400,
   milesPerAdditionalDay: 350,
 
-  // DLA (Dislocation Allowance) — 2026 rates (verify at travel.dod.mil)
+  // DLA (Dislocation Allowance) — primary rates per DTMO MAP 72-25(I), effective January 1, 2026
+  // Source: https://www.travel.dod.mil
   dla: {
     withDependents: {
-      'E-1': 2564.51,
-      'E-2': 2564.51,
-      'E-3': 2564.51,
-      'E-4': 2564.51,
-      'E-5': 2858.78,
-      'E-6': 2858.78,
-      'E-7': 3157.44,
-      'E-8': 3157.44,
-      'E-9': 3157.44,
-      'O-1': 3034.76,
-      'O-2': 3034.76,
-      'O-3': 3471.15,
-      'O-4': 3471.15,
-      'O-5': 3846.47,
-      'O-6': 3846.47,
-      'O-7': 3846.47,
-      'O-8': 3846.47,
-      'O-9': 3846.47,
-      'O-10': 3846.47,
-      'W-1': 3034.76,
-      'W-2': 3034.76,
-      'W-3': 3157.44,
-      'W-4': 3471.15,
-      'W-5': 3471.15,
+      'E-1': 3548.02,
+      'E-2': 3548.02,
+      'E-3': 3548.02,
+      'E-4': 3548.02,
+      'E-5': 3548.02,
+      'E-6': 3548.02,
+      'E-7': 3551.31,
+      'E-8': 3824.94,
+      'E-9': 4149.51,
+      'W-1': 3151.31,
+      'W-2': 3643.75,
+      'W-3': 3960.78,
+      'W-4': 4323.11,
+      'W-5': 4715.58,
+      'O-1': 3085.23,
+      'O-2': 3451.28,
+      'O-3': 4041.88,
+      'O-4': 4885.43,
+      'O-5': 5542.06,
+      'O-6': 5749.63,
+      'O-7': 6385.58,
+      'O-8': 6385.58,
+      'O-9': 6385.58,
+      'O-10': 6385.58,
     } as Record<string, number>,
     withoutDependents: {
-      'E-1': 1002.71,
-      'E-2': 1002.71,
-      'E-3': 1002.71,
-      'E-4': 1002.71,
-      'E-5': 1156.21,
-      'E-6': 1156.21,
-      'E-7': 1283.64,
-      'E-8': 1283.64,
-      'E-9': 1283.64,
-      'O-1': 1205.56,
-      'O-2': 1205.56,
-      'O-3': 1369.53,
-      'O-4': 1369.53,
-      'O-5': 1498.47,
-      'O-6': 1498.47,
-      'O-7': 1498.47,
-      'O-8': 1498.47,
-      'O-9': 1498.47,
-      'O-10': 1498.47,
-      'W-1': 1205.56,
-      'W-2': 1205.56,
-      'W-3': 1283.64,
-      'W-4': 1369.53,
-      'W-5': 1369.53,
+      'E-1': 1870.58,
+      'E-2': 2025.26,
+      'E-3': 2355.48,
+      'E-4': 2389.42,
+      'E-5': 2389.42,
+      'E-6': 2389.42,
+      'E-7': 2468.19,
+      'E-8': 2888.97,
+      'E-9': 3147.54,
+      'W-1': 2394.55,
+      'W-2': 2860.70,
+      'W-3': 3221.08,
+      'W-4': 3832.45,
+      'W-5': 4315.51,
+      'O-1': 2273.82,
+      'O-2': 2700.31,
+      'O-3': 3404.11,
+      'O-4': 4247.61,
+      'O-5': 4583.51,
+      'O-6': 4758.96,
+      'O-7': 5187.33,
+      'O-8': 5187.33,
+      'O-9': 5187.33,
+      'O-10': 5187.33,
     } as Record<string, number>,
   },
 
