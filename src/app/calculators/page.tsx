@@ -13,7 +13,7 @@ interface CalculatorDetail {
   name: string;
   description: string;
   features: string[];
-  group: 'active-duty' | 'guard-reserve' | 'veteran' | 'education';
+  group: 'active-duty' | 'guard-reserve' | 'veteran' | 'education' | 'allowances';
 }
 
 const CALCULATORS: CalculatorDetail[] = [
@@ -129,11 +129,26 @@ const CALCULATORS: CalculatorDetail[] = [
     ],
     group: 'education',
   },
+  {
+    href: '/calculators/cola',
+    icon: '📊',
+    name: 'CONUS COLA Calculator',
+    description:
+      'Check if your duty station qualifies for Continental U.S. Cost of Living Allowance and see approximate monthly rates by pay grade. Covers approximately 18 qualifying high-cost locations.',
+    features: [
+      'ZIP code eligibility lookup',
+      'Approximate rates by grade group',
+      'High/moderate-high/moderate cost tiers',
+      'DTMO official rate verification link',
+    ],
+    group: 'allowances',
+  },
 ];
 
 export default function CalculatorsPage() {
   const activeDuty = CALCULATORS.filter((c) => c.group === 'active-duty');
   const guardReserve = CALCULATORS.filter((c) => c.group === 'guard-reserve');
+  const allowances = CALCULATORS.filter((c) => c.group === 'allowances');
   const veteran = CALCULATORS.filter((c) => c.group === 'veteran');
   const education = CALCULATORS.filter((c) => c.group === 'education');
 
@@ -178,6 +193,18 @@ export default function CalculatorsPage() {
           </h2>
           <div className="space-y-4">
             {guardReserve.map((calc) => (
+              <CalculatorHubCard key={calc.href} {...calc} />
+            ))}
+          </div>
+        </section>
+
+        {/* Allowances & Entitlements tools */}
+        <section>
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400 mb-5">
+            Allowances &amp; Entitlements
+          </h2>
+          <div className="space-y-4">
+            {allowances.map((calc) => (
               <CalculatorHubCard key={calc.href} {...calc} />
             ))}
           </div>

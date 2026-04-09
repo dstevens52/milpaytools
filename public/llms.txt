@@ -8,6 +8,8 @@
 
 - [Education Benefits Comparison Calculator](https://milpaytools.com/calculators/education): Compares Post-9/11 GI Bill (Ch. 33), VR&E (Ch. 31), Tuition Assistance, and Montgomery GI Bill side by side. Shows total program value by school ZIP code (GI Bill MHA = E-5 with-dependents BAH), eligibility tier (40%–100%), school type (public/private/online), and program length. Surfaces sequencing strategy (TA while serving, GI Bill after separation) and VR&E no-cap tuition advantage for veterans with 10%+ disability rating.
 
+- [CONUS COLA Calculator](https://milpaytools.com/calculators/cola): Checks whether a duty station ZIP code qualifies for Continental U.S. Cost of Living Allowance (CONUS COLA) and shows approximate monthly rates by pay grade and dependency status. Covers approximately 18 qualifying high-cost CONUS locations across California (Bay Area, Monterey, LA, San Diego, Orange County), Massachusetts (Boston, Cape Cod), New York (NYC, Long Island, Westchester), Connecticut (Fairfield County, New Haven, Groton), New Jersey (northern NJ), and the National Capital Region. Rates are approximate — links to DTMO for official grade-specific amounts. CONUS COLA is taxable, unlike BAH/BAS.
+
 - [Total Military Compensation Calculator](https://milpaytools.com/calculators/total-compensation): Calculates total military compensation including base pay, BAH, BAS, tax advantages, BRS matching, and civilian salary equivalent. Uses 2026 DoD pay tables and DTMO BAH data for all 40,959 U.S. ZIP codes.
 
 - [BAH Calculator](https://milpaytools.com/calculators/bah): Looks up 2026 Basic Allowance for Housing rates by ZIP code, pay grade, and dependency status. Covers all 40,959 ZIP codes across 299 military housing areas. Includes PCS duty station comparison mode.

@@ -146,6 +146,13 @@ export default function TotalCompensationPage() {
             <li>TRICARE health insurance value (estimated $12,000–20,000/year civilian equivalent)</li>
             <li>VA loan eligibility and education benefits (GI Bill)</li>
             <li>The value of the military pension itself (not just the TSP match)</li>
+            <li>
+              CONUS COLA — if your duty station is in a high-cost area (parts of CA, NY, MA, CT, NJ, or the NCR),
+              you may receive additional taxable allowance.{' '}
+              <a href="/calculators/cola" className="underline text-blue-700 hover:text-blue-800">
+                Check CONUS COLA eligibility →
+              </a>
+            </li>
           </ul>
           <p className="text-xs text-zinc-500 mt-3">
             The actual economic value of military service is significantly higher than even this

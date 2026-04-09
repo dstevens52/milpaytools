@@ -98,6 +98,13 @@ const CALCULATORS: CalculatorCardProps[] = [
       'GI Bill vs. VR&E vs. Tuition Assistance vs. Montgomery GI Bill — total program value by school ZIP code and eligibility tier.',
     icon: '🎓',
   },
+  {
+    href: '/calculators/cola',
+    title: 'CONUS COLA Calculator',
+    description:
+      'Check if your duty station qualifies for Continental U.S. Cost of Living Allowance and see approximate monthly rates by pay grade.',
+    icon: '📊',
+  },
 ];
 
 export function CalculatorGrid() {

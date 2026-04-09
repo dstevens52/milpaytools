@@ -4,14 +4,15 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const calculatorLinks = [
-  { href: '/calculators/total-compensation', label: 'Total Compensation' },
-  { href: '/calculators/bah', label: 'BAH Calculator' },
+  { href: '/calculators/total-compensation', label: 'Total Comp' },
+  { href: '/calculators/bah', label: 'BAH' },
   { href: '/calculators/va-disability', label: 'VA Disability' },
-  { href: '/calculators/tsp', label: 'TSP Projector' },
+  { href: '/calculators/tsp', label: 'TSP' },
   { href: '/calculators/retirement', label: 'Retirement' },
-  { href: '/calculators/pcs', label: 'PCS Estimator' },
+  { href: '/calculators/pcs', label: 'PCS' },
   { href: '/calculators/guard-reserve', label: 'Guard/Reserve' },
   { href: '/calculators/education', label: 'Education' },
+  { href: '/calculators/cola', label: 'CONUS COLA' },
 ];
 
 const topLinks = [
