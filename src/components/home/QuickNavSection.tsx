@@ -23,7 +23,7 @@ export function QuickNavSection() {
   return (
     <section className="py-10 px-4 bg-white border-b border-zinc-100">
       <div className="mx-auto max-w-6xl">
-        <p className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-5">
+        <p className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-3">
           What do you need help with?
         </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

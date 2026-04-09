@@ -19,12 +19,12 @@ const TRUST_SIGNALS = [
 
 export function TrustSection() {
   return (
-    <section className="py-16 px-4 bg-white border-b border-zinc-200">
+    <section className="py-10 px-4 bg-white border-b border-zinc-200">
       <div className="mx-auto max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Bio */}
           <div>
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-3 mb-4">
               <span className="block w-6 h-0.5 bg-red-700" />
               <h2 className="text-2xl font-bold text-zinc-900">Why trust MilPayTools?</h2>
             </div>

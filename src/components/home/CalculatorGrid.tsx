@@ -74,9 +74,9 @@ const CALCULATORS: CalculatorCardProps[] = [
 
 export function CalculatorGrid() {
   return (
-    <section className="py-16 px-4 bg-zinc-50 border-b border-zinc-200">
+    <section className="py-10 px-4 bg-zinc-50 border-b border-zinc-200">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-10">
+        <div className="mb-6">
           <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 mb-2">
             Free calculators. Official 2026 data.
           </h2>

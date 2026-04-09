@@ -5,9 +5,9 @@ export function LatestPostsSection() {
   const posts = getAllPostMeta().slice(0, 3);
 
   return (
-    <section className="py-16 px-4 bg-zinc-50 border-b border-zinc-200">
+    <section className="py-10 px-4 bg-zinc-50 border-b border-zinc-200">
       <div className="mx-auto max-w-6xl">
-        <div className="flex items-center justify-between mb-10">
+        <div className="flex items-center justify-between mb-6">
           <div>
             <div className="flex items-center gap-3 mb-2">
               <span className="block w-6 h-0.5 bg-red-700" />

@@ -22,7 +22,7 @@ export default function HomePage() {
       <LatestPostsSection />
 
       {/* VARefinance cross-link */}
-      <section className="py-8 px-4 bg-white border-b border-zinc-100">
+      <section className="py-5 px-4 bg-white border-b border-zinc-100">
         <div className="mx-auto max-w-6xl">
           <p className="text-sm text-zinc-500 text-center">
             Buying a home with a VA loan?{' '}
