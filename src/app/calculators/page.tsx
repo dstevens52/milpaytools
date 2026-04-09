@@ -73,6 +73,20 @@ const CALCULATORS: CalculatorDetail[] = [
     ],
     group: 'active-duty',
   },
+  {
+    href: '/calculators/retirement',
+    icon: '🎖️',
+    name: 'Military Retirement Calculator',
+    description:
+      'Estimate your pension under High-3 or BRS using 2026 pay tables. See lifetime pension value, TSP projection, CRDP eligibility, and the civilian salary you\'d need to replace it.',
+    features: [
+      'High-3 and BRS pension math',
+      'Live TSP growth projection',
+      'Lifetime value with COLA',
+      'CRDP eligibility check',
+    ],
+    group: 'active-duty',
+  },
 ];
 
 export default function CalculatorsPage() {

@@ -98,6 +98,55 @@ export interface TSPOutput {
   yearsToGrow: number;
 }
 
+// ─── Retirement ───────────────────────────────────────────────────────────
+
+export type RetirementSystem = 'high3' | 'brs';
+export type VADisabilityRatingOption = 0 | 10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 100;
+
+export interface RetirementInput {
+  retirementSystem: RetirementSystem;
+  currentGrade: string;
+  currentYOS: number;
+  retirementYOS: number;
+  retirementGrade: string;
+  // BRS-only TSP fields
+  tspContributionPct: number; // 0–100
+  tspCurrentBalance: number;
+  tspAnnualReturnPct: number; // e.g. 7
+  // Optional
+  vaRating: VADisabilityRatingOption;
+}
+
+export interface RetirementOutput {
+  // High-3 average base pay
+  high3Average: number;
+  high3Breakdown: [number, number, number]; // [YOS, YOS-1, YOS-2] base pay values
+  // Pension
+  pensionMultiplierPct: number; // e.g. 50 for High-3 at 20 yrs
+  monthlyPension: number;
+  annualPension: number;
+  // Lifetime value
+  estimatedRetirementAge: number;
+  yearsOfCollection: number;
+  lifetimeValue: number;
+  // TSP (BRS only — zero for High-3)
+  tspProjectedBalance: number;
+  tspMonthlyIncome: number;
+  totalBRSMonthlyIncome: number; // pension + TSP monthly
+  // VA disability (if selected)
+  monthlyVA: number;
+  totalMonthlyIncome: number; // pension + VA (or pension + TSP + VA for BRS)
+  crdpEligible: boolean;
+  // Civilian equivalent
+  civilianEquivalent: number;
+  // Stay vs. Go insight
+  yearsFromVesting: number;
+  lifetimeValueOfStaying: number; // if < 20 yrs
+  marginalYearValue: number; // monthly value per additional year
+  // High-3 comparison values (for BRS side-by-side)
+  high3MonthlyPension: number;
+}
+
 // ─── Shared ────────────────────────────────────────────────────────────────
 
 export interface ActionStep {

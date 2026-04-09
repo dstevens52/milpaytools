@@ -8,6 +8,7 @@ const calculatorLinks = [
   { href: '/calculators/bah', label: 'BAH Calculator' },
   { href: '/calculators/va-disability', label: 'VA Disability' },
   { href: '/calculators/tsp', label: 'TSP Projector' },
+  { href: '/calculators/retirement', label: 'Retirement' },
 ];
 
 const topLinks = [

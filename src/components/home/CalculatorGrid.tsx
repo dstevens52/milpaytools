@@ -70,6 +70,13 @@ const CALCULATORS: CalculatorCardProps[] = [
       'Model your retirement savings with BRS matching, fund allocation, and Roth vs Traditional comparison.',
     icon: '📈',
   },
+  {
+    href: '/calculators/retirement',
+    title: 'Military Retirement Calculator',
+    description:
+      'Pension under High-3 or BRS, lifetime value with COLA, TSP projection, and CRDP eligibility — all in one.',
+    icon: '🎖️',
+  },
 ];
 
 export function CalculatorGrid() {
