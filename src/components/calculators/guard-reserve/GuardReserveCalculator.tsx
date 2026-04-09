@@ -63,8 +63,8 @@ function buildActionSteps(output: GuardReserveOutput, input: GuardReserveInput):
 
   if (!input.brsEnrolled) {
     steps.push({
-      label: 'Maximize TSP during active duty days',
-      description: `Even without BRS matching during drills, you can contribute to TSP during AT and additional duty days. Every dollar invested tax-advantaged during active duty periods grows without drag.`,
+      label: 'Maximize TSP contributions',
+      description: `You can contribute to TSP on any military pay. Under BRS, the government also adds a 1% automatic contribution plus matching up to 5% on all military pay — drill, AT, and additional duty.`,
       href: '/calculators/tsp',
       priority: 'medium',
     });
@@ -278,7 +278,7 @@ export function GuardReserveCalculator() {
                     onChange={(e) => setWeekendsPerYear(Math.max(0, Math.min(52, parseInt(e.target.value) || 0)))}
                     className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
                   />
-                  <p className="text-xs text-zinc-400 mt-1">Most units: 12/year (one per month)</p>
+                  <p className="text-xs text-zinc-400 mt-1">Standard assumption: 12/year — varies by unit</p>
                 </div>
 
                 <div>
@@ -307,7 +307,7 @@ export function GuardReserveCalculator() {
                     onChange={(e) => setAtDays(Math.max(0, Math.min(365, parseInt(e.target.value) || 0)))}
                     className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
                   />
-                  <p className="text-xs text-zinc-400 mt-1">Standard: 15 days/year</p>
+                  <p className="text-xs text-zinc-400 mt-1">Standard assumption: 15 days/year — varies by unit</p>
                 </div>
 
                 <div>
@@ -398,7 +398,7 @@ export function GuardReserveCalculator() {
                       <span className="text-sm font-mono tabular-nums w-10 text-right">{tspContribPct}%</span>
                     </div>
                     <p className="text-xs text-zinc-400 mt-1">
-                      BRS matching applies only during AT and additional duty days — not during drill weekends (IDT).
+                      BRS matching applies to all military pay — drill, AT, and additional duty.
                     </p>
                   </div>
                 )}
@@ -415,7 +415,25 @@ export function GuardReserveCalculator() {
           <div className="rounded-lg bg-red-700 p-5 text-white">
             <p className="text-sm font-medium text-red-200 mb-1">Total annual Guard/Reserve value</p>
             <p className="text-4xl font-black tabular-nums">{fmt(output.totalValue)}</p>
-            <div className="mt-2 flex flex-wrap gap-4 text-xs text-red-200">
+            <div className="mt-3 space-y-1 text-sm">
+              <div className="flex justify-between text-red-100">
+                <span>Military pay (drill + AT + duty)</span>
+                <span className="font-semibold tabular-nums">{fmt(output.totalMilitaryPay)}</span>
+              </div>
+              {output.trsSavings > 0 && (
+                <div className="flex justify-between text-red-200">
+                  <span>Healthcare savings (TRS vs. civilian)</span>
+                  <span className="tabular-nums">{fmt(output.trsSavings)}</span>
+                </div>
+              )}
+              {output.brs.totalGovContrib > 0 && (
+                <div className="flex justify-between text-red-200">
+                  <span>Gov TSP match (BRS)</span>
+                  <span className="tabular-nums">{fmt(output.brs.totalGovContrib)}</span>
+                </div>
+              )}
+            </div>
+            <div className="mt-2 pt-2 border-t border-red-600 flex flex-wrap gap-4 text-xs text-red-200">
               <span>{fmt(output.perWeekendValue)} per drill weekend</span>
               {output.totalHours > 0 && (
                 <span>{fmtD(output.effectiveHourlyRate)}/hr effective rate</span>
@@ -531,17 +549,13 @@ export function GuardReserveCalculator() {
             <div className="rounded-lg border border-blue-200 bg-blue-50 p-5">
               <h3 className="font-semibold text-zinc-900 mb-1">BRS / TSP Government Match</h3>
               <p className="text-xs text-zinc-500 mb-3">
-                Matching applies only during active duty periods (AT + additional duty days), not drill weekends (IDT).
+                BRS matching applies to all military pay — drill weekends, Annual Training, and additional duty.
               </p>
-              {output.brs.activeDutyDays > 0 ? (
+              {output.brs.totalMilitaryPay > 0 ? (
                 <>
                   <Row
-                    label={`Active duty days (${atDays} AT + ${additionalDays} additional)`}
-                    value={`${output.brs.activeDutyDays} days`}
-                  />
-                  <Row
-                    label="Active duty base pay earned"
-                    value={fmtD(output.brs.activeDutyBasePay)}
+                    label="Total military pay (drill + AT + additional)"
+                    value={fmtD(output.brs.totalMilitaryPay)}
                   />
                   <Row
                     label={`Your TSP contribution (${tspContribPct}%)`}
@@ -553,7 +567,7 @@ export function GuardReserveCalculator() {
                   />
                   {output.brs.govMatchContrib > 0 && (
                     <Row
-                      label="Government match"
+                      label="Government matching contribution"
                       value={fmtD(output.brs.govMatchContrib)}
                     />
                   )}
@@ -565,7 +579,7 @@ export function GuardReserveCalculator() {
                 </>
               ) : (
                 <p className="text-sm text-zinc-500">
-                  No active duty days entered. BRS matching requires AT or additional duty days.
+                  No military pay entered. Add drill weekends or duty days to see BRS matching.
                 </p>
               )}
             </div>

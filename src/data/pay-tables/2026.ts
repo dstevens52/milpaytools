@@ -10,7 +10,7 @@
  *
  * Verified anchor points (user-confirmed):
  *   E-1: $2,407.20
- *   E-5 Over 4: $3,946.80   (YOS=5–6)
+ *   E-5 Over 4: $3,946.80   (YOS=4–5)
  *   E-6 Over 8: $4,612.80   (YOS=9–10)
  *   O-3 Over 3: $6,770.40   (YOS=4)
  *
@@ -25,8 +25,8 @@ export const DATA_YEAR = '2026';
 export const payTable: PayTable = {
   // ─── Enlisted ─────────────────────────────────────────────────────────────
   // Keys correspond to DFAS "Over N" column thresholds. YOS key selection:
-  //   user selects N years → getYOSBracket(N) → highest key K where N > K
-  //   e.g. N=6 → K=4 (Over 4 column); N=4 → K=3 (Over 3 column)
+  //   user selects N years → getYOSBracket(N) → highest key K where N >= K
+  //   e.g. N=6 → K=6 (Over 6 column); N=5 → K=4 (Over 4 column)
   // Cap comment = same rate repeats for all higher YOS columns in DFAS.
 
   'E-1': {

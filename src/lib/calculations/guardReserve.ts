@@ -21,11 +21,10 @@ export interface GuardReserveInput {
 }
 
 export interface BRSMatchResult {
-  activeDutyDays: number;
-  activeDutyBasePay: number; // total $ earned during active duty periods
-  memberContrib: number; // annual $ member contributes (active duty portions only)
-  govAutoContrib: number; // 1% automatic
-  govMatchContrib: number; // matching contributions
+  totalMilitaryPay: number; // drill + AT + additional — full base for BRS calculation
+  memberContrib: number;    // annual $ member contributes
+  govAutoContrib: number;   // 1% automatic (applies to all military pay)
+  govMatchContrib: number;  // matching contributions (applies to all military pay)
   totalGovContrib: number;
 }
 
@@ -115,24 +114,24 @@ export function calculateTRSSavings(plan: TRSPlan): {
 }
 
 /**
- * BRS government TSP match — only applied during active duty periods (AT + additional).
- * Matching structure:
- *   - 1% automatic (always, on day 1 of BRS eligibility)
+ * BRS government TSP match — applies to ALL military pay for Reserve Component members,
+ * including IDT drill pay, Annual Training pay, and additional duty pay.
+ *
+ * Matching structure (same as active component):
+ *   - 1% automatic (always, regardless of member contribution)
  *   - Dollar-for-dollar on first 3% of member contribution
  *   - 50 cents per dollar on next 2% (member contribution 4–5%)
  *   - Maximum government contribution: 5% of base pay
- * Note: Vesting of matching requires 2 years of service.
+ * Note: Vesting of matching contributions requires 2 years of service.
  */
 export function calculateBRSMatch(
-  monthlyBasePay: number,
-  activeDutyDays: number,
+  totalAnnualMilitaryPay: number,
   tspContribPct: number,
   brsEnrolled: boolean
 ): BRSMatchResult {
-  if (!brsEnrolled || activeDutyDays <= 0) {
+  if (!brsEnrolled || totalAnnualMilitaryPay <= 0) {
     return {
-      activeDutyDays,
-      activeDutyBasePay: 0,
+      totalMilitaryPay: totalAnnualMilitaryPay,
       memberContrib: 0,
       govAutoContrib: 0,
       govMatchContrib: 0,
@@ -140,26 +139,23 @@ export function calculateBRSMatch(
     };
   }
 
-  const dailyRate = monthlyBasePay / 30;
-  const activeDutyBasePay = activeDutyDays * dailyRate;
   const memberPct = Math.min(tspContribPct, 100) / 100;
-  const memberContrib = activeDutyBasePay * memberPct;
+  const memberContrib = totalAnnualMilitaryPay * memberPct;
 
-  // Government auto: 1% of active duty base pay
-  const govAutoContrib = activeDutyBasePay * 0.01;
+  // Government auto: 1% of all military pay
+  const govAutoContrib = totalAnnualMilitaryPay * 0.01;
 
   // Government match on member contributions
   let govMatchContrib = 0;
   // First 3%: dollar for dollar
-  govMatchContrib += Math.min(memberPct, 0.03) * activeDutyBasePay;
+  govMatchContrib += Math.min(memberPct, 0.03) * totalAnnualMilitaryPay;
   // Next 2% (4–5%): 50 cents per dollar
   if (memberPct > 0.03) {
-    govMatchContrib += (Math.min(memberPct, 0.05) - 0.03) * 0.5 * activeDutyBasePay;
+    govMatchContrib += (Math.min(memberPct, 0.05) - 0.03) * 0.5 * totalAnnualMilitaryPay;
   }
 
   return {
-    activeDutyDays,
-    activeDutyBasePay,
+    totalMilitaryPay: totalAnnualMilitaryPay,
     memberContrib,
     govAutoContrib,
     govMatchContrib,
@@ -185,8 +181,7 @@ export function calculateGuardReserve(input: GuardReserveInput): GuardReserveOut
 
   const trs = calculateTRSSavings(input.trsPlan);
 
-  const activeDutyDays = input.atDays + input.additionalDays;
-  const brs = calculateBRSMatch(monthlyBasePay, activeDutyDays, input.tspContribPct, input.brsEnrolled);
+  const brs = calculateBRSMatch(totalMilitaryPay, input.tspContribPct, input.brsEnrolled);
 
   const totalValue = totalMilitaryPay + trs.savings + brs.totalGovContrib;
 
