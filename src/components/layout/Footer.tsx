@@ -100,7 +100,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="text-sm hover:text-white transition-colors"
                 >
-                  VARefinance.com — Also by Dan Stevens
+                  VARefinance.com
                 </a>
               </li>
               <li>
