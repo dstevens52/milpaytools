@@ -23,13 +23,15 @@ import { lookupBasePay } from '@/lib/calculations/total-compensation';
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 /** Average life expectancy used for lifetime pension calculations */
-const LIFE_EXPECTANCY = 78;
+export const LIFE_EXPECTANCY = 78;
 
 /** Historical average annual COLA for military retired pay */
-const ANNUAL_COLA = 0.025;
+export const ANNUAL_COLA_PCT = 2.5; // display value: 2.5%
+const ANNUAL_COLA = ANNUAL_COLA_PCT / 100;
 
 /** Safe withdrawal rate for TSP income estimate */
-const TSP_SWR = 0.04;
+export const TSP_SWR_PCT = 4; // display value: 4%
+const TSP_SWR = TSP_SWR_PCT / 100;
 
 /**
  * Average enlisted entry age (~18-20) and officer entry age (~22-24).
@@ -151,8 +153,10 @@ export function calculateTSPGrowth(
   let balance = currentBalance;
 
   for (let m = 1; m <= totalMonths; m++) {
-    // Before matching starts, only auto 1% + member contribution
-    const govContrib = m > matchingStartMonth ? govMonthly : autoMonthly;
+    // Before matching starts, only auto 1% + member contribution.
+    // matchingStartMonth is months-into-projection when matching activates;
+    // use >= so matching begins ON that month, not the month after.
+    const govContrib = m >= matchingStartMonth ? govMonthly : autoMonthly;
     const monthContrib = memberMonthly + govContrib;
     balance = balance * (1 + monthlyRate) + monthContrib;
   }

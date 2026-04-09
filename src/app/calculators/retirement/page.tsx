@@ -156,7 +156,21 @@ export default function RetirementCalculatorPage() {
             </ul>
           </div>
 
-          <Disclaimer />
+          <div className="rounded-lg bg-slate-50 border border-slate-200 p-4 text-xs text-slate-500 leading-relaxed">
+            <p className="font-semibold text-slate-600 mb-1">Disclaimer</p>
+            <p>
+              This calculator provides estimates for educational purposes only. Actual retirement pay depends on
+              your individual service record, promotion history, and pay table changes over the course of your
+              career. The High-3 average used here is estimated from 2026 pay table values at your selected
+              retirement rank — it does not account for actual pay history, mid-career promotions, or future
+              pay table adjustments. TSP projections assume a constant contribution rate and a fixed annual
+              return; actual returns will vary. VA disability compensation amounts are from official 2026 VA
+              rate tables (veteran alone, no dependents). CRDP eligibility requires 20+ years of qualifying
+              service and a VA disability rating of 50% or higher — eligibility determinations are made by
+              DFAS, not this calculator. This is not financial, tax, or legal advice. Verify all estimates
+              with DFAS, your installation finance office, or an accredited military financial counselor.
+            </p>
+          </div>
         </div>
       </div>
     </div>

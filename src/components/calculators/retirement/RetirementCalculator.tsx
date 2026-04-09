@@ -25,6 +25,9 @@ import type { RetirementInput, VADisabilityRatingOption, ActionStep } from '@/ty
 import {
   calculateRetirement,
   buildPensionChartData,
+  LIFE_EXPECTANCY,
+  ANNUAL_COLA_PCT,
+  TSP_SWR_PCT,
 } from '@/lib/calculations/retirement';
 import { DATA_YEAR } from '@/data/pay-tables/2026';
 
@@ -434,7 +437,15 @@ export function RetirementCalculator() {
           rows={[
             { label: `High-3 Avg Base Pay (${retirementGrade})`, value: `${fmt(output.high3Average)}/mo` },
             { label: `Multiplier (${retirementSystem === 'brs' ? '2.0' : '2.5'}% × ${retirementYOS} yrs)`, value: `${output.pensionMultiplierPct.toFixed(1)}%` },
+            {
+              label: `Formula: ${retirementSystem === 'brs' ? '2.0' : '2.5'}% × ${retirementYOS} × ${fmt(output.high3Average)}`,
+              value: `= ${fmt(output.monthlyPension)}/mo`,
+            },
             { label: 'Monthly Pension', monthly: output.monthlyPension, highlight: true },
+            ...(retirementSystem === 'brs' ? [{
+              label: `High-3 equivalent would be ${fmt(output.high3MonthlyPension)}/mo`,
+              value: 'BRS = 80% of High-3',
+            }] : []),
           ]}
         />
 
@@ -442,9 +453,11 @@ export function RetirementCalculator() {
         <ResultCard
           title="Lifetime Pension Value"
           rows={[
-            { label: 'Estimated retirement age', value: `~${output.estimatedRetirementAge}` },
+            { label: 'Estimated retirement age', value: `~${output.estimatedRetirementAge} (based on ~${output.estimatedRetirementAge - retirementYOS} yr entry age)` },
+            { label: 'Life expectancy assumption', value: `${LIFE_EXPECTANCY} years` },
             { label: 'Years collecting pension', value: `~${output.yearsOfCollection} years` },
-            { label: 'Lifetime value (w/ 2.5% COLA)', value: fmtM(output.lifetimeValue), highlight: true },
+            { label: `COLA assumption`, value: `${ANNUAL_COLA_PCT}%/yr (historical avg)` },
+            { label: 'Lifetime value (nominal, no discounting)', value: fmtM(output.lifetimeValue), highlight: true },
           ]}
         />
 
@@ -453,8 +466,10 @@ export function RetirementCalculator() {
           <ResultCard
             title="TSP Projection (BRS)"
             rows={[
+              { label: `Assumed annual return`, value: `${tspAnnualReturnPct}% (adjustable above)` },
+              { label: `Matching delay`, value: input.currentYOS >= 2 ? 'Matching active (2+ yrs service)' : `Matching starts month 25 of service` },
               { label: 'Projected balance at retirement', value: fmtM(output.tspProjectedBalance) },
-              { label: 'Monthly TSP income (4% rule)', monthly: output.tspMonthlyIncome },
+              { label: `Monthly TSP income (${TSP_SWR_PCT}% withdrawal rule ÷ 12)`, monthly: output.tspMonthlyIncome },
               { label: 'Total BRS monthly income', monthly: output.totalBRSMonthlyIncome, highlight: true },
             ]}
           />
@@ -477,8 +492,9 @@ export function RetirementCalculator() {
           title="Civilian Salary Equivalent"
           rows={[
             { label: 'Pension (annual)', value: fmt(output.annualPension) },
-            { label: 'VA disability (annual)', value: fmt(output.monthlyVA * 12) },
-            { label: 'Civilian gross equivalent', value: `~${fmtM(output.civilianEquivalent)}/yr`, highlight: true },
+            ...(output.monthlyVA > 0 ? [{ label: 'VA disability (annual, 100% tax-free)', value: fmt(output.monthlyVA * 12) }] : []),
+            { label: 'Tax assumption', value: '~22% effective federal rate' },
+            { label: 'Civilian gross equivalent (estimate)', value: `~${fmtM(output.civilianEquivalent)}/yr`, highlight: true },
           ]}
         />
 
@@ -487,10 +503,11 @@ export function RetirementCalculator() {
           title="High-3 Calculation Detail"
           dataYear={DATA_YEAR}
           rows={[
-            { label: `Base pay at ${retirementYOS} yrs`, value: fmt(output.high3Breakdown[0]) },
-            { label: `Base pay at ${retirementYOS - 1} yrs`, value: fmt(output.high3Breakdown[1]) },
-            { label: `Base pay at ${retirementYOS - 2} yrs`, value: fmt(output.high3Breakdown[2]) },
+            { label: `Base pay at ${retirementYOS} yrs (${retirementGrade})`, value: fmt(output.high3Breakdown[0]) },
+            { label: `Base pay at ${retirementYOS - 1} yrs (${retirementGrade})`, value: fmt(output.high3Breakdown[1]) },
+            { label: `Base pay at ${retirementYOS - 2} yrs (${retirementGrade})`, value: fmt(output.high3Breakdown[2]) },
             { label: 'High-3 average', value: fmt(output.high3Average), highlight: true },
+            { label: 'Note', value: 'Estimated from 2026 pay table at your retirement rank. Actual High-3 may vary.' },
           ]}
         />
       </div>
