@@ -31,7 +31,15 @@ export interface DisabilityEntry {
   pairKey: string | null; // 'arm' | 'leg' | 'eye' — null for non-bilateral
 }
 
+/** @deprecated Use DependentConfig instead */
 export type DependentStatus = 'alone' | 'with-spouse';
+
+export interface DependentConfig {
+  hasSpouse: boolean;
+  childrenUnder18: number;   // 0–10
+  schoolChildren: number;    // ages 18-23 attending an approved school program, 0–5
+  dependentParents: number;  // 0–2
+}
 
 export interface CalculationStep {
   type: 'init' | 'apply' | 'bilateral-header' | 'bilateral-apply' | 'bilateral-factor' | 'sort' | 'result' | 'round';
@@ -58,10 +66,17 @@ export interface CombinedRatingResult {
   bilateralPairs: BilateralPairResult[];
 }
 
+export interface CompensationBreakdownLine {
+  label: string;
+  amount: number;
+}
+
 export interface CompensationResult {
   monthly: number;
   annual: number;
   dataYear: string;
+  breakdown: CompensationBreakdownLine[];
+  hasDependents: boolean;
 }
 
 // ─── Core Math ─────────────────────────────────────────────────────────────
@@ -257,18 +272,73 @@ export function calculateCombinedRating(disabilities: DisabilityEntry[]): Combin
 
 export function getCompensation(
   roundedRating: number,
-  dependentStatus: DependentStatus
+  deps: DependentConfig
 ): CompensationResult {
   const entry = vaRates[roundedRating];
-  if (!entry) return { monthly: 0, annual: 0, dataYear: DATA_YEAR };
+  const empty: CompensationResult = {
+    monthly: 0, annual: 0, dataYear: DATA_YEAR, breakdown: [], hasDependents: false,
+  };
+  if (!entry) return empty;
 
-  const monthly =
-    dependentStatus === 'with-spouse' ? entry.withSpouse : entry.veteranAlone;
+  const breakdown: CompensationBreakdownLine[] = [];
+  const dependentsApply = roundedRating >= 30;
+
+  // Base rate
+  const baseRate = (deps.hasSpouse && dependentsApply) ? entry.withSpouse : entry.veteranAlone;
+  const baseLabel = deps.hasSpouse && dependentsApply ? 'Veteran + spouse' : 'Veteran alone';
+  breakdown.push({ label: baseLabel, amount: baseRate });
+
+  let monthly = baseRate;
+
+  if (dependentsApply) {
+    // Children under 18
+    const under18Count = Math.max(0, Math.floor(deps.childrenUnder18));
+    if (under18Count > 0) {
+      const amt = under18Count * entry.additionalChild;
+      breakdown.push({
+        label: `${under18Count} child${under18Count > 1 ? 'ren' : ''} under 18`,
+        amount: amt,
+      });
+      monthly += amt;
+    }
+
+    // School children 18-23
+    const schoolCount = Math.max(0, Math.min(5, Math.floor(deps.schoolChildren)));
+    if (schoolCount > 0) {
+      const amt = schoolCount * entry.additionalSchoolChild;
+      breakdown.push({
+        label: `${schoolCount} school child${schoolCount > 1 ? 'ren' : ''} (18–23)`,
+        amount: amt,
+      });
+      monthly += amt;
+    }
+
+    // Dependent parents (max 2)
+    const parentCount = Math.max(0, Math.min(2, Math.floor(deps.dependentParents)));
+    if (parentCount > 0) {
+      const amt = parentCount * entry.additionalParent;
+      breakdown.push({
+        label: `${parentCount} dependent parent${parentCount > 1 ? 's' : ''}`,
+        amount: amt,
+      });
+      monthly += amt;
+    }
+  }
+
+  const hasDependents =
+    deps.hasSpouse ||
+    deps.childrenUnder18 > 0 ||
+    deps.schoolChildren > 0 ||
+    deps.dependentParents > 0;
+
+  monthly = parseFloat(monthly.toFixed(2));
 
   return {
     monthly,
     annual: parseFloat((monthly * 12).toFixed(2)),
     dataYear: DATA_YEAR,
+    breakdown,
+    hasDependents,
   };
 }
 

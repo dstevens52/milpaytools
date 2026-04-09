@@ -9,7 +9,7 @@ import {
   getCompensation,
   whatIfAddRating,
   type DisabilityEntry,
-  type DependentStatus,
+  type DependentConfig,
   type CalculationStep,
 } from '@/lib/calculations/va-disability';
 
@@ -34,6 +34,13 @@ const BODY_LOCATIONS: Array<{
 
 const WHAT_IF_RATINGS = [10, 20, 30, 40, 50];
 
+const DEFAULT_DEPS: DependentConfig = {
+  hasSpouse: false,
+  childrenUnder18: 0,
+  schoolChildren: 0,
+  dependentParents: 0,
+};
+
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
 function fmt(n: number): string {
@@ -49,6 +56,12 @@ function stepBg(type: CalculationStep['type']): string {
   if (type === 'init') return 'bg-zinc-50 border-zinc-200 text-zinc-600';
   if (type === 'sort') return 'bg-zinc-50 border-zinc-200 text-zinc-600 italic';
   return 'bg-white border-zinc-200 text-zinc-700';
+}
+
+function clampInt(val: string, min: number, max: number): number {
+  const n = parseInt(val, 10);
+  if (isNaN(n)) return min;
+  return Math.max(min, Math.min(max, n));
 }
 
 // ─── Sub-components ────────────────────────────────────────────────────────
@@ -72,12 +85,57 @@ function StepBreakdown({ steps, collapsed }: { steps: CalculationStep[]; collaps
   );
 }
 
+// Counter input — +/- buttons with a text display
+function CounterInput({
+  label,
+  value,
+  min,
+  max,
+  onChange,
+  hint,
+}: {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  onChange: (n: number) => void;
+  hint?: string;
+}) {
+  return (
+    <div>
+      <p className="text-sm font-medium text-zinc-700 mb-1">{label}</p>
+      {hint && <p className="text-xs text-zinc-400 mb-2">{hint}</p>}
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => onChange(Math.max(min, value - 1))}
+          disabled={value <= min}
+          className="w-8 h-8 rounded border border-zinc-300 bg-white text-zinc-600 font-bold text-lg leading-none hover:bg-zinc-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          aria-label={`Decrease ${label}`}
+        >
+          −
+        </button>
+        <span className="w-6 text-center font-semibold text-zinc-900 tabular-nums">{value}</span>
+        <button
+          type="button"
+          onClick={() => onChange(Math.min(max, value + 1))}
+          disabled={value >= max}
+          className="w-8 h-8 rounded border border-zinc-300 bg-white text-zinc-600 font-bold text-lg leading-none hover:bg-zinc-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          aria-label={`Increase ${label}`}
+        >
+          +
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Component ────────────────────────────────────────────────────────
 
 export function VADisabilityCalculator() {
   const uid = useId();
   const [disabilities, setDisabilities] = useState<DisabilityEntry[]>([]);
-  const [dependentStatus, setDependentStatus] = useState<DependentStatus>('alone');
+  const [deps, setDeps] = useState<DependentConfig>(DEFAULT_DEPS);
   const [showSteps, setShowSteps] = useState(true);
 
   // New disability form state
@@ -88,8 +146,8 @@ export function VADisabilityCalculator() {
   // ── Derived calculation ────────────────────────────────────────────────
   const result = useMemo(() => calculateCombinedRating(disabilities), [disabilities]);
   const compensation = useMemo(
-    () => getCompensation(result.rounded, dependentStatus),
-    [result.rounded, dependentStatus]
+    () => getCompensation(result.rounded, deps),
+    [result.rounded, deps]
   );
 
   // What-if scenarios
@@ -97,11 +155,11 @@ export function VADisabilityCalculator() {
     if (disabilities.length === 0) return [];
     return WHAT_IF_RATINGS.map((r) => {
       const { newRounded } = whatIfAddRating(disabilities, r);
-      const newComp = getCompensation(newRounded, dependentStatus);
+      const newComp = getCompensation(newRounded, deps);
       const diff = newComp.monthly - compensation.monthly;
       return { rating: r, newRounded, newMonthly: newComp.monthly, diff };
     }).filter((w) => w.newRounded !== result.rounded);
-  }, [disabilities, result.rounded, dependentStatus, compensation.monthly]);
+  }, [disabilities, result.rounded, deps, compensation.monthly]);
 
   // ── Add disability ────────────────────────────────────────────────────
   function addDisability() {
@@ -125,6 +183,10 @@ export function VADisabilityCalculator() {
     setDisabilities((prev) => prev.filter((d) => d.id !== id));
   }
 
+  function updateDeps(patch: Partial<DependentConfig>) {
+    setDeps((prev) => ({ ...prev, ...patch }));
+  }
+
   // ── TDIU threshold note ───────────────────────────────────────────────
   const hasHighSingle = disabilities.some((d) => d.rating >= 60);
   const hasMediumSingle = disabilities.some((d) => d.rating >= 40);
@@ -134,6 +196,10 @@ export function VADisabilityCalculator() {
       : result.rounded === 60 && hasHighSingle
       ? 'At 60% with a single 60%+ disability, you may qualify for TDIU if unable to work.'
       : null;
+
+  const dependentsApply = result.rounded >= 30;
+  const anyDependents =
+    deps.hasSpouse || deps.childrenUnder18 > 0 || deps.schoolChildren > 0 || deps.dependentParents > 0;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
@@ -240,33 +306,83 @@ export function VADisabilityCalculator() {
           </button>
         </div>
 
-        {/* Dependent status */}
+        {/* ── Dependent inputs ────────────────────────────────────────── */}
         <div className="mt-4 pt-4 border-t border-zinc-100">
-          <label className="text-sm font-medium text-zinc-700 block mb-2">
-            Dependent Status <span className="font-normal text-zinc-500">(affects compensation at 30%+)</span>
-          </label>
-          <div className="flex rounded-md border border-zinc-300 overflow-hidden w-fit">
-            {(['alone', 'with-spouse'] as DependentStatus[]).map((s) => (
-              <button
-                key={s}
-                type="button"
-                onClick={() => setDependentStatus(s)}
-                className={[
-                  'px-4 py-2 text-sm font-medium transition-colors',
-                  s !== 'alone' ? 'border-l border-zinc-300' : '',
-                  dependentStatus === s
-                    ? 'bg-red-700 text-white'
-                    : 'bg-white text-zinc-600 hover:bg-zinc-50',
-                ].join(' ')}
-              >
-                {s === 'alone' ? 'Veteran Alone' : 'With Spouse'}
-              </button>
-            ))}
+          <div className="flex items-start justify-between gap-2 mb-1">
+            <p className="text-sm font-medium text-zinc-700">
+              Dependents{' '}
+              <span className="font-normal text-zinc-500">(affects compensation at 30%+)</span>
+            </p>
           </div>
-          <p className="text-xs text-zinc-400 mt-1.5">
-            Additional dependent combinations (children, parents, spouse A&amp;A) available on{' '}
-            <a href="https://www.va.gov/disability/compensation-rates/veteran-rates/" target="_blank" rel="noopener noreferrer" className="underline">VA.gov</a>.
-          </p>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-4 mt-3">
+            {/* Spouse */}
+            <div>
+              <p className="text-sm font-medium text-zinc-700 mb-2">Spouse</p>
+              <div className="flex rounded-md border border-zinc-300 overflow-hidden w-fit">
+                {[false, true].map((val) => (
+                  <button
+                    key={String(val)}
+                    type="button"
+                    onClick={() => updateDeps({ hasSpouse: val })}
+                    className={[
+                      'px-4 py-2 text-sm font-medium transition-colors',
+                      val ? 'border-l border-zinc-300' : '',
+                      deps.hasSpouse === val
+                        ? 'bg-red-700 text-white'
+                        : 'bg-white text-zinc-600 hover:bg-zinc-50',
+                    ].join(' ')}
+                  >
+                    {val ? 'Yes' : 'No'}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Children under 18 */}
+            <CounterInput
+              label="Children under 18"
+              value={deps.childrenUnder18}
+              min={0}
+              max={10}
+              onChange={(n) => updateDeps({ childrenUnder18: n })}
+            />
+
+            {/* School children 18-23 */}
+            <CounterInput
+              label="Children 18–23 in school"
+              value={deps.schoolChildren}
+              min={0}
+              max={5}
+              onChange={(n) => updateDeps({ schoolChildren: n })}
+              hint="Attending an approved school program"
+            />
+
+            {/* Dependent parents */}
+            <CounterInput
+              label="Dependent parents"
+              value={deps.dependentParents}
+              min={0}
+              max={2}
+              onChange={(n) => updateDeps({ dependentParents: n })}
+            />
+          </div>
+
+          {/* School child explanatory note */}
+          {(deps.schoolChildren > 0 || anyDependents) && (
+            <div className="mt-3 rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-800 leading-relaxed">
+              Veterans rated 30% or higher receive additional compensation for dependents. Children
+              ages 18–23 attending an approved school program qualify for the higher "school child"
+              rate — currently {deps.schoolChildren > 0 ? 'selected above' : 'a separate line item from the under-18 child rate'}.
+            </div>
+          )}
+
+          {!dependentsApply && anyDependents && (
+            <p className="text-xs text-amber-700 mt-2">
+              Dependent additions apply only at 30% or higher. Your current rating does not yet
+              qualify — add ratings to reach 30%.
+            </p>
+          )}
         </div>
       </Card>
 
@@ -328,9 +444,31 @@ export function VADisabilityCalculator() {
                       {fmt(compensation.annual)}/year · 100% tax-free
                     </p>
                     <p className="text-xs text-zinc-400 mt-1">
-                      {dependentStatus === 'with-spouse' ? 'With spouse' : 'Veteran alone'} ·{' '}
                       {compensation.dataYear} VA rates
                     </p>
+
+                    {/* Dependent breakdown */}
+                    {compensation.breakdown.length > 1 && dependentsApply && (
+                      <div className="mt-3 space-y-1">
+                        {compensation.breakdown.map((line, i) => (
+                          <div
+                            key={i}
+                            className="flex items-center justify-between text-xs tabular-nums"
+                          >
+                            <span className={i === 0 ? 'text-zinc-600' : 'text-zinc-500'}>
+                              {line.label}
+                            </span>
+                            <span className={i === 0 ? 'text-zinc-700 font-medium' : 'text-green-700 font-medium'}>
+                              {i === 0 ? fmt(line.amount) : `+${fmt(line.amount)}`}
+                            </span>
+                          </div>
+                        ))}
+                        <div className="flex items-center justify-between text-xs font-semibold tabular-nums border-t border-zinc-200 pt-1 mt-1">
+                          <span className="text-zinc-700">Total</span>
+                          <span className="text-zinc-900">{fmt(compensation.monthly)}/mo</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -411,13 +549,15 @@ export function VADisabilityCalculator() {
                 </div>
               </div>
 
-              {result.rounded >= 30 && dependentStatus === 'alone' && (
+              {result.rounded >= 30 && !anyDependents && (
                 <div className="flex gap-3 rounded-lg border border-zinc-200 bg-white p-4">
                   <div className="flex-1">
                     <p className="font-semibold text-zinc-900 text-sm">You qualify for dependent compensation</p>
                     <p className="text-sm text-zinc-600 mt-0.5">
                       At {result.rounded}%, adding a qualifying dependent increases your monthly
-                      rate. Toggle "With Spouse" above, or visit VA.gov for children and parent additions.
+                      rate. Use the dependent inputs above to see your full compensation.
+                      Children ages 18–23 attending an approved school program qualify for the
+                      higher "school child" rate.
                     </p>
                   </div>
                 </div>

@@ -44,8 +44,9 @@ export interface VADependentRates {
   withOneChild: number;
   withTwoChildren: number;
   withThreeChildren: number;
-  additionalChild: number; // per additional child beyond 3
-  additionalParent: number; // per dependent parent (up to 2)
+  additionalChild: number;       // per additional child under 18
+  additionalSchoolChild: number; // per child 18-23 attending an approved school program
+  additionalParent: number;      // per dependent parent (up to 2)
 }
 
 /**

@@ -6,9 +6,13 @@
  * COLA: 2.8% increase over FY2025
  *
  * veteranAlone and withSpouse values are official VA.gov 2026 rates.
- * All other columns (withSpouseAA, children, parents) are estimated at
- * FY2025 rates × 1.028. Verify exact values on VA.gov before relying
- * on dependent-combination columns.
+ * All other columns (withSpouseAA, children, parents, additionalSchoolChild)
+ * are estimated at FY2025 rates × 1.028. Verify exact values on VA.gov
+ * before relying on dependent-combination columns.
+ *
+ * additionalSchoolChild: per-child monthly addition for children ages 18-23
+ * enrolled in an approved school program (38 CFR § 3.667). Always higher
+ * than the under-18 additionalChild rate.
  *
  * Note: 10% and 20% ratings do NOT receive dependent-based additions.
  */
@@ -29,6 +33,7 @@ export const vaRates: VADisabilityTable = {
     withTwoChildren: 0,
     withThreeChildren: 0,
     additionalChild: 0,
+    additionalSchoolChild: 0,
     additionalParent: 0,
   },
   10: {
@@ -43,6 +48,7 @@ export const vaRates: VADisabilityTable = {
     withTwoChildren: 175.51,
     withThreeChildren: 175.51,
     additionalChild: 0,
+    additionalSchoolChild: 0,
     additionalParent: 0,
   },
   20: {
@@ -57,6 +63,7 @@ export const vaRates: VADisabilityTable = {
     withTwoChildren: 347.83,
     withThreeChildren: 347.83,
     additionalChild: 0,
+    additionalSchoolChild: 0,
     additionalParent: 0,
   },
   30: {
@@ -70,6 +77,7 @@ export const vaRates: VADisabilityTable = {
     withTwoChildren: 637.36,
     withThreeChildren: 677.45,
     additionalChild: 31.87,
+    additionalSchoolChild: 102.73,   // estimated: FY2025 $99.93 × 1.028
     additionalParent: 31.87,
   },
   40: {
@@ -83,6 +91,7 @@ export const vaRates: VADisabilityTable = {
     withTwoChildren: 897.44,
     withThreeChildren: 946.79,
     additionalChild: 43.18,
+    additionalSchoolChild: 135.32,   // estimated: FY2025 $131.63 × 1.028
     additionalParent: 43.18,
   },
   50: {
@@ -96,6 +105,7 @@ export const vaRates: VADisabilityTable = {
     withTwoChildren: 1251.08,
     withThreeChildren: 1309.67,
     additionalChild: 54.48,
+    additionalSchoolChild: 168.94,   // estimated: FY2025 $164.34 × 1.028
     additionalParent: 54.48,
   },
   60: {
@@ -109,6 +119,7 @@ export const vaRates: VADisabilityTable = {
     withTwoChildren: 1567.70,
     withThreeChildren: 1634.52,
     additionalChild: 65.79,
+    additionalSchoolChild: 202.52,   // estimated: FY2025 $197.00 × 1.028
     additionalParent: 65.79,
   },
   70: {
@@ -122,6 +133,7 @@ export const vaRates: VADisabilityTable = {
     withTwoChildren: 1958.34,
     withThreeChildren: 2033.38,
     additionalChild: 77.10,
+    additionalSchoolChild: 236.14,   // estimated: FY2025 $229.71 × 1.028
     additionalParent: 77.10,
   },
   80: {
@@ -135,6 +147,7 @@ export const vaRates: VADisabilityTable = {
     withTwoChildren: 2268.80,
     withThreeChildren: 2352.06,
     additionalChild: 88.41,
+    additionalSchoolChild: 269.76,   // estimated: FY2025 $262.41 × 1.028
     additionalParent: 88.41,
   },
   90: {
@@ -148,6 +161,7 @@ export const vaRates: VADisabilityTable = {
     withTwoChildren: 2546.36,
     withThreeChildren: 2638.88,
     additionalChild: 99.72,
+    additionalSchoolChild: 303.31,   // estimated: FY2025 $295.05 × 1.028
     additionalParent: 99.72,
   },
   100: {
@@ -161,6 +175,7 @@ export const vaRates: VADisabilityTable = {
     withTwoChildren: 4153.12,
     withThreeChildren: 4259.00,
     additionalChild: 105.88,
+    additionalSchoolChild: 339.37,   // estimated: FY2025 $330.13 × 1.028
     additionalParent: 118.22,
   },
 };
