@@ -13,7 +13,7 @@ interface CalculatorDetail {
   name: string;
   description: string;
   features: string[];
-  group: 'active-duty' | 'veteran';
+  group: 'active-duty' | 'guard-reserve' | 'veteran';
 }
 
 const CALCULATORS: CalculatorDetail[] = [
@@ -101,10 +101,25 @@ const CALCULATORS: CalculatorDetail[] = [
     ],
     group: 'active-duty',
   },
+  {
+    href: '/calculators/guard-reserve',
+    icon: '⭐',
+    name: 'Guard & Reserve Pay Calculator',
+    description:
+      'Estimate total annual Guard/Reserve compensation — drill pay (MUTA-4/6/8), Annual Training income, Tricare Reserve Select healthcare savings, and BRS government TSP matching.',
+    features: [
+      'MUTA-4, MUTA-6, MUTA-8 schedules',
+      'AT and additional duty pay',
+      'TRS vs. civilian insurance comparison',
+      'BRS matching during active duty periods',
+    ],
+    group: 'guard-reserve',
+  },
 ];
 
 export default function CalculatorsPage() {
   const activeDuty = CALCULATORS.filter((c) => c.group === 'active-duty');
+  const guardReserve = CALCULATORS.filter((c) => c.group === 'guard-reserve');
   const veteran = CALCULATORS.filter((c) => c.group === 'veteran');
 
   return (
@@ -136,6 +151,18 @@ export default function CalculatorsPage() {
           </h2>
           <div className="space-y-4">
             {activeDuty.map((calc) => (
+              <CalculatorHubCard key={calc.href} {...calc} />
+            ))}
+          </div>
+        </section>
+
+        {/* Guard & Reserve tools */}
+        <section>
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400 mb-5">
+            Guard &amp; Reserve
+          </h2>
+          <div className="space-y-4">
+            {guardReserve.map((calc) => (
               <CalculatorHubCard key={calc.href} {...calc} />
             ))}
           </div>

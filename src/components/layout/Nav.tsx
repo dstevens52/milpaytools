@@ -10,6 +10,7 @@ const calculatorLinks = [
   { href: '/calculators/tsp', label: 'TSP Projector' },
   { href: '/calculators/retirement', label: 'Retirement' },
   { href: '/calculators/pcs', label: 'PCS Estimator' },
+  { href: '/calculators/guard-reserve', label: 'Guard/Reserve' },
 ];
 
 const topLinks = [

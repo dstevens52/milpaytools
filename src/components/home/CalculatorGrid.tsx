@@ -84,6 +84,13 @@ const CALCULATORS: CalculatorCardProps[] = [
       'DLA, MALT mileage, per diem, TLE, and PPM/DITY profit — all from one tool. Compare government move vs. self-move.',
     icon: '📦',
   },
+  {
+    href: '/calculators/guard-reserve',
+    title: 'Guard & Reserve Pay',
+    description:
+      'Drill pay, Annual Training, Tricare Reserve Select savings, and BRS matching — total annual value with per-weekend breakdown.',
+    icon: '⭐',
+  },
 ];
 
 export function CalculatorGrid() {

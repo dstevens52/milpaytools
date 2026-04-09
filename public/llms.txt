@@ -16,6 +16,8 @@
 
 - [Military Retirement Calculator](https://milpaytools.com/calculators/retirement): Estimates military pension under High-3 (Legacy) and BRS (Blended Retirement System) using 2026 DFAS pay tables. Shows pension multiplier math, High-3 average calculation, lifetime pension value with 2.5% COLA, TSP balance projection with BRS matching, CRDP eligibility (50%+ VA rating + 20 years), civilian salary equivalent, and stay-vs-go lifetime value analysis.
 
+- [Guard & Reserve Pay Calculator](https://milpaytools.com/calculators/guard-reserve): Estimates total annual Guard/Reserve compensation using 2026 DFAS pay tables. Calculates drill pay by MUTA (4/6/8 periods per weekend), Annual Training pay, additional duty pay (RMPs, AFTPs, ADOS), Tricare Reserve Select healthcare savings vs. civilian insurance (KFF 2025 comparison), and BRS government TSP matching during active duty periods only. Shows per-weekend value and effective hourly rate across all hours of service.
+
 - [PCS Cost Estimator](https://milpaytools.com/calculators/pcs): Estimates total PCS move entitlements using 2026 DTMO rates. Calculates DLA (by rank and dependency status), MALT mileage ($0.205/mile × POVs), per diem (JTR travel day formula with first/last day 75% rule), TLE (up to 14 days), and PPM/DITY profit (government cost estimate minus expenses, after-tax at ~22%). Compares government move vs. PPM/DITY move totals side by side. Covers all ranks E-1 through O-10.
 
 ## Blog
