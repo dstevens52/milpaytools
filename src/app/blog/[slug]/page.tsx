@@ -18,13 +18,14 @@ const mdxComponents = {
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
-  'Compensation & Pay': 'bg-red-100 text-red-700',
-  'Veterans Benefits':  'bg-blue-100 text-blue-700',
-  'Housing & BAH':      'bg-green-100 text-green-700',
-  'TSP & Retirement':   'bg-purple-100 text-purple-700',
-  'Retirement & TSP':   'bg-purple-100 text-purple-700',
-  'Career Transition':  'bg-amber-100 text-amber-700',
-  'General':            'bg-zinc-100 text-zinc-600',
+  'Compensation & Pay':  'bg-red-100 text-red-700',
+  'Veterans Benefits':   'bg-blue-100 text-blue-700',
+  'Housing & BAH':       'bg-green-100 text-green-700',
+  'TSP & Retirement':    'bg-purple-100 text-purple-700',
+  'Retirement & TSP':    'bg-purple-100 text-purple-700',
+  'Career Transition':   'bg-amber-100 text-amber-700',
+  'Education Benefits':  'bg-teal-100 text-teal-700',
+  'General':             'bg-zinc-100 text-zinc-600',
 };
 
 const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
@@ -32,6 +33,7 @@ const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
   bah:                  { label: 'BAH Calculator',                href: '/calculators/bah' },
   'va-disability':      { label: 'VA Disability Calculator',       href: '/calculators/va-disability' },
   tsp:                  { label: 'TSP Growth Projector',           href: '/calculators/tsp' },
+  retirement:           { label: 'Retirement Calculator',          href: '/calculators/retirement' },
 };
 
 export async function generateStaticParams() {

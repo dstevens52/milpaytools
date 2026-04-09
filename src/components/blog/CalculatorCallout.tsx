@@ -1,5 +1,5 @@
 interface CalculatorCalloutProps {
-  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp';
+  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement';
   text?: string;
 }
 
@@ -23,6 +23,11 @@ const CALCULATOR_CONFIG = {
     href: '/calculators/tsp',
     label: 'TSP Growth Projector',
     defaultText: 'Project your TSP balance at retirement with BRS matching, fund allocation, and a Roth vs. Traditional comparison.',
+  },
+  retirement: {
+    href: '/calculators/retirement',
+    label: 'Military Retirement Calculator',
+    defaultText: 'Estimate your pension under High-3 or BRS using 2026 pay tables — with lifetime value, TSP projection, and CRDP eligibility.',
   },
 };
 

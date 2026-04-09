@@ -34,6 +34,16 @@
 
 - [Military Tax Advantages Most Service Members Miss](https://milpaytools.com/blog/military-tax-advantages): BAH/BAS exclusions, combat zone tax exclusion, Roth TSP deployment triple advantage, state domicile strategy, and EITC eligibility for junior enlisted.
 
+- [Post-9/11 GI Bill Explained: What It's Actually Worth in 2026](https://milpaytools.com/blog/post-911-gi-bill-explained-2026): Complete breakdown of GI Bill Chapter 33 — tuition coverage (100% in-state public, $30,908.34/year private cap), monthly housing allowance by ZIP code, books stipend, eligibility tiers by service length, Forever GI Bill expiration rules, and transfer-to-dependents requirements.
+
+- [GI Bill vs Tuition Assistance: Which to Use First](https://milpaytools.com/blog/gi-bill-vs-tuition-assistance): Strategic guide to sequencing TA and GI Bill — why using GI Bill on active duty wastes the $83,000+ housing allowance, TA limits ($250/credit, $4,500/year), and how to preserve GI Bill months for post-separation use.
+
+- [GI Bill Housing Allowance: Why Your School's ZIP Code Matters More Than Tuition](https://milpaytools.com/blog/gi-bill-housing-allowance-zip-code): GI Bill MHA equals E-5 with-dependents BAH at the school's ZIP code — ranging from $1,100/month in rural areas to $5,000+/month in high-cost cities. Covers hybrid enrollment rules, August 1 update cycle, and part-time proration.
+
+- [VR&E (Chapter 31) vs GI Bill: The Benefit Most Veterans Don't Know About](https://milpaytools.com/blog/vre-chapter-31-vs-gi-bill): Veteran Readiness and Employment covers unlimited tuition, full books/equipment, and matching housing allowance — without depleting GI Bill months. Eligibility requires 10%+ VA rating and employment barrier. Includes 48-month combined ceiling and application process.
+
+- [Should I Stay to 20 Years? The Financial Math Behind the Biggest Military Career Decision](https://milpaytools.com/blog/should-i-stay-to-20-years-military): Full financial analysis of the stay-vs-separate decision — E-7 pension math ($3,059/month High-3, $2,447/month BRS), $2M+ lifetime pension value, zero partial vesting under High-3, healthcare replacement costs ($15,000–$25,000/year), and marginal value of years beyond 20.
+
 ## Data Sources
 
 - 2026 Military Pay Tables: Defense Finance and Accounting Service (DFAS)
