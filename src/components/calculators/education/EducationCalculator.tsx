@@ -77,10 +77,12 @@ function BenefitCard({
   benefit,
   isBest,
   mhaMonthsPerYear,
+  isOnline,
 }: {
   benefit: BenefitResult;
   isBest: boolean;
   mhaMonthsPerYear: number;
+  isOnline: boolean;
 }) {
   const isMGIB = benefit.id === 'mgib';
   const isTA = benefit.id === 'ta';
@@ -152,10 +154,19 @@ function BenefitCard({
 
         {/* Housing */}
         {!isMGIB && !isTA && (
-          <div className="flex items-baseline justify-between gap-2">
-            <span className="text-xs text-zinc-500">
-              {benefit.monthlyMHA === 0 ? 'Monthly housing' : 'Monthly housing (MHA)'}
-            </span>
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <span className="text-xs text-zinc-500">
+                {benefit.monthlyMHA === 0
+                  ? 'Monthly housing'
+                  : isOnline && (benefit.id === 'gi-bill' || benefit.id === 'vre')
+                  ? 'Monthly housing (online rate)'
+                  : 'Monthly housing (MHA)'}
+              </span>
+              {isOnline && benefit.monthlyMHA > 0 && (benefit.id === 'gi-bill' || benefit.id === 'vre') && (
+                <p className="text-xs text-zinc-400">2026–2027 AY · flat rate</p>
+              )}
+            </div>
             <span className="text-sm font-semibold tabular-nums text-zinc-800">
               {benefit.monthlyMHA === 0
                 ? <span className="text-zinc-400 font-normal text-xs">BAH on active duty</span>
@@ -439,9 +450,18 @@ export function EducationCalculator() {
               benefit={b}
               isBest={b.id === result.bestBenefitId}
               mhaMonthsPerYear={mhaMonthsPerYear}
+              isOnline={schoolType === 'online'}
             />
           ))}
         </div>
+      </div>
+
+      {/* ── 48-month combined cap note ──────────────────────────────────── */}
+      <div className="rounded-lg border border-amber-100 bg-amber-50 px-4 py-3 text-xs text-amber-800 leading-relaxed">
+        <span className="font-semibold">48-month combined cap:</span> VA limits combined education
+        benefits to 48 months total across all programs. For example, using 36 months of GI Bill
+        leaves up to 12 months of VR&amp;E available (subject to counselor approval). Plan accordingly
+        if you intend to use more than one benefit.
       </div>
 
       {/* ── Insights ───────────────────────────────────────────────────── */}
