@@ -211,9 +211,9 @@ export function RetirementCalculator() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-5">
       {/* ── Inputs ── */}
-      <Card variant="bordered" className="p-6 space-y-6">
+      <Card variant="bordered" className="p-5 space-y-5">
         <h2 className="font-semibold text-zinc-900 text-lg">Your Service Information</h2>
 
         {/* Retirement system */}
@@ -319,7 +319,7 @@ export function RetirementCalculator() {
 
         {/* TSP section — BRS only */}
         {retirementSystem === 'brs' && (
-          <div className="pt-2 border-t border-zinc-100 space-y-4">
+          <div className="pt-2 border-t border-zinc-100 space-y-3">
             <h3 className="font-semibold text-zinc-800 text-base">TSP Contributions</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {/* Contribution % */}
@@ -377,7 +377,7 @@ export function RetirementCalculator() {
         )}
 
         {/* Optional section */}
-        <div className="pt-2 border-t border-zinc-100 space-y-4">
+        <div className="pt-2 border-t border-zinc-100 space-y-3">
           <h3 className="font-semibold text-zinc-800 text-base">Optional: VA Disability</h3>
           <div className="max-w-xs">
             <label className="block text-sm font-medium text-zinc-700 mb-1">
@@ -426,7 +426,7 @@ export function RetirementCalculator() {
       </div>
 
       {/* ── Result cards grid ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Pension detail */}
         <ResultCard
           title="Pension Breakdown"
@@ -589,12 +589,12 @@ export function RetirementCalculator() {
 
       {/* ── Pension Chart ── */}
       <div>
-        <h3 className="font-semibold text-zinc-900 text-base mb-4">
+        <h3 className="font-semibold text-zinc-900 text-base mb-3">
           Projected Monthly Income Over Time
           <span className="ml-2 text-xs font-normal text-zinc-400">(with 2.5% annual COLA)</span>
         </h3>
-        <div className="rounded-lg border border-zinc-200 bg-white p-4">
-          <ResponsiveContainer width="100%" height={280}>
+        <div className="rounded-lg border border-zinc-200 bg-white p-3">
+          <ResponsiveContainer width="100%" height={240}>
             <AreaChart
               data={retirementSystem === 'brs' ? chartData : chartData}
               margin={{ top: 10, right: 20, left: 10, bottom: 5 }}

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function RetirementCalculatorPage() {
   return (
-    <div className="min-h-screen bg-zinc-50">
+    <div className="bg-zinc-50">
       {/* Page header */}
       <div className="bg-white border-b border-zinc-200">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10">
@@ -48,16 +48,16 @@ export default function RetirementCalculatorPage() {
       </div>
 
       {/* Calculator */}
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-6">
         <RetirementCalculator />
       </div>
 
       {/* Explainer */}
       <div className="bg-white border-t border-zinc-200">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
           <h2 className="text-2xl font-bold text-zinc-900">Understanding Military Retirement</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* High-3 */}
             <div>
               <h3 className="font-semibold text-zinc-900 mb-2">High-3 (Legacy) System</h3>
