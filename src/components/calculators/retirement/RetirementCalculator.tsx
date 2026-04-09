@@ -488,15 +488,20 @@ export function RetirementCalculator() {
         )}
 
         {/* Civilian equivalent */}
-        <ResultCard
-          title="Civilian Salary Equivalent"
-          rows={[
-            { label: 'Pension (annual)', value: fmt(output.annualPension) },
-            ...(output.monthlyVA > 0 ? [{ label: 'VA disability (annual, 100% tax-free)', value: fmt(output.monthlyVA * 12) }] : []),
-            { label: 'Tax assumption', value: '~22% effective federal rate' },
-            { label: 'Civilian gross equivalent (estimate)', value: `~${fmtM(output.civilianEquivalent)}/yr`, highlight: true },
-          ]}
-        />
+        <div className="flex flex-col gap-2">
+          <ResultCard
+            title="Civilian Salary Equivalent"
+            rows={[
+              { label: 'Pension (annual)', value: fmt(output.annualPension) },
+              ...(output.monthlyVA > 0 ? [{ label: 'VA disability (annual, 100% tax-free)', value: fmt(output.monthlyVA * 12) }] : []),
+              { label: 'Tax assumption', value: '~22% effective federal rate' },
+              { label: 'Civilian gross equivalent (estimate)', value: `~${fmtM(output.civilianEquivalent)}/yr`, highlight: true },
+            ]}
+          />
+          <p className="text-xs text-zinc-500 leading-relaxed px-1">
+            Based on a simplified ~22% effective federal tax rate estimate. Actual equivalent depends on your filing status, deductions, and state taxes.
+          </p>
+        </div>
 
         {/* High-3 breakdown (3-year avg detail) */}
         <ResultCard
