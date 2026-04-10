@@ -524,10 +524,18 @@ export function CompareCalculator() {
                   title: 'BAH Calculator',
                   desc: 'Look up BAH for any ZIP code and compare two duty stations.',
                 },
-              ].map(({ href, icon, title, desc }) => (
+                {
+                  href: 'https://www.varefinance.com',
+                  icon: '🏡',
+                  title: 'VA Home Loan — VARefinance.com',
+                  desc: '$0 down, no PMI. See how your BAH supports a mortgage payment at your new duty station.',
+                  external: true,
+                },
+              ].map(({ href, icon, title, desc, external }) => (
                 <a
                   key={href}
                   href={href}
+                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                   className="flex gap-3 rounded-md bg-white border border-zinc-200 p-4 hover:border-zinc-300 hover:shadow-sm transition-all group"
                 >
                   <span className="text-xl flex-none">{icon}</span>

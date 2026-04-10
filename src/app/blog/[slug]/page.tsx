@@ -29,11 +29,14 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
-  'total-compensation': { label: 'Total Compensation Calculator', href: '/calculators/total-compensation' },
-  bah:                  { label: 'BAH Calculator',                href: '/calculators/bah' },
-  'va-disability':      { label: 'VA Disability Calculator',       href: '/calculators/va-disability' },
-  tsp:                  { label: 'TSP Growth Projector',           href: '/calculators/tsp' },
-  retirement:           { label: 'Retirement Calculator',          href: '/calculators/retirement' },
+  'total-compensation': { label: 'Total Compensation Calculator',    href: '/calculators/total-compensation' },
+  bah:                  { label: 'BAH Calculator',                   href: '/calculators/bah' },
+  'va-disability':      { label: 'VA Disability Calculator',          href: '/calculators/va-disability' },
+  tsp:                  { label: 'TSP Growth Projector',              href: '/calculators/tsp' },
+  retirement:           { label: 'Retirement Calculator',             href: '/calculators/retirement' },
+  pcs:                  { label: 'PCS Cost Estimator',                href: '/calculators/pcs' },
+  cola:                 { label: 'CONUS COLA Calculator',             href: '/calculators/cola' },
+  compare:              { label: 'Duty Station Comparison',           href: '/calculators/compare' },
 };
 
 export async function generateStaticParams() {

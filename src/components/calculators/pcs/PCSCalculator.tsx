@@ -95,6 +95,13 @@ function buildActionSteps(input: PCSInput, output: PCSOutput): ActionStep[] {
   });
 
   steps.push({
+    label: 'Buying at your new duty station instead of renting?',
+    description: `VA loans require $0 down payment and no PMI — your BAH can cover the mortgage while you build equity instead of paying rent. See how VA loans work at VARefinance.com.`,
+    href: 'https://www.varefinance.com',
+    priority: 'medium',
+  });
+
+  steps.push({
     label: 'Recalculate total compensation at new duty station',
     description: `A new duty station changes your BAH, potentially your base pay (promotion timing), and your overall compensation picture. Run the full comparison before accepting off-post housing.`,
     href: '/calculators/total-compensation',

@@ -70,9 +70,9 @@ function buildActionSteps(
 
   // VA loan nudge — always relevant for housing
   steps.push({
-    label: 'Use your BAH as a mortgage budget',
-    description: `At ${fmt(monthlyRate)}/month, many markets offer VA loan options with no down payment — your BAH can often cover or exceed a mortgage payment entirely.`,
-    href: undefined,
+    label: 'Your BAH can qualify you for a VA home loan',
+    description: `At ${fmt(monthlyRate)}/month, your BAH often covers or exceeds a mortgage payment in many markets. VA loans require $0 down payment and no PMI — see how much house your BAH supports at VARefinance.com.`,
+    href: 'https://www.varefinance.com',
     priority: 'high',
   });
 

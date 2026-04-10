@@ -1,5 +1,5 @@
 interface CalculatorCalloutProps {
-  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement';
+  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare';
   text?: string;
 }
 
@@ -28,6 +28,21 @@ const CALCULATOR_CONFIG = {
     href: '/calculators/retirement',
     label: 'Military Retirement Calculator',
     defaultText: 'Estimate your pension under High-3 or BRS using 2026 pay tables — with lifetime value, TSP projection, and CRDP eligibility.',
+  },
+  pcs: {
+    href: '/calculators/pcs',
+    label: 'PCS Cost Estimator',
+    defaultText: 'Estimate your total PCS entitlements — DLA, mileage (MALT), per diem, TLE, and PPM/DITY profit potential. Uses 2026 DTMO rates.',
+  },
+  cola: {
+    href: '/calculators/cola',
+    label: 'CONUS COLA Calculator',
+    defaultText: 'Check whether your duty station qualifies for CONUS COLA and see approximate monthly rates by pay grade and dependency status.',
+  },
+  compare: {
+    href: '/calculators/compare',
+    label: 'Duty Station Comparison Calculator',
+    defaultText: 'Compare BAH, CONUS COLA eligibility, state income tax, and estimated take-home pay between two duty stations side by side.',
   },
 };
 
