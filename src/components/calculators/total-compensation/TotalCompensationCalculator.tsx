@@ -439,6 +439,26 @@ export function TotalCompensationCalculator() {
 
         {/* Act steps */}
         <ActSteps steps={actionSteps} title="Your Next Steps" />
+
+        {/* VARefinance callout */}
+        <a
+          href="https://www.varefinance.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-start gap-4 rounded-lg border border-zinc-200 bg-white p-5 hover:border-zinc-300 hover:shadow-sm transition-all group"
+        >
+          <div className="flex-none w-10 h-10 rounded-lg bg-red-50 border border-red-100 flex items-center justify-center text-xl">
+            🏡
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-zinc-900 group-hover:text-red-700 transition-colors">
+              Using BAH to build equity? VA loans require $0 down payment
+            </p>
+            <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">
+              No PMI, no down payment required. See how military homebuyers use their BAH as a mortgage budget at VARefinance.com →
+            </p>
+          </div>
+        </a>
       </div>
     </div>
   );
