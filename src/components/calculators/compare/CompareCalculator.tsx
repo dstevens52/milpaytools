@@ -421,7 +421,7 @@ export function CompareCalculator() {
             {/* Row: State Tax */}
             <CompareRow
               label="Est. state income tax"
-              sublabel="On base pay + COLA only"
+              sublabel="On base pay + COLA only · many states exempt military pay"
               valA={result.locA.stateInfo?.noTax
                 ? 'No state tax'
                 : result.locA.stateInfo
@@ -481,13 +481,22 @@ export function CompareCalculator() {
 
           {/* State tax notice */}
           <div className="rounded-lg bg-amber-50 border border-amber-200 p-4 text-sm text-amber-800 leading-relaxed">
-            <span className="font-semibold">State tax note: </span>
-            State tax estimates use approximate effective rates and do not account for military
-            pay exemptions, deductions, or filing status. Many states offer partial or full exemptions
-            for active duty military pay. Federal estimates use standard deduction (single filer) and
-            2026 brackets. <span className="font-semibold">This is not tax advice</span> — consult a
-            tax professional or your installation&apos;s Legal Assistance office for your specific
-            situation.
+            <p className="font-semibold mb-1">State tax estimates are approximate</p>
+            <p className="mb-2">
+              Many states offer partial or full exemptions for active-duty military pay. For
+              example, some states exempt pay earned while stationed outside the state, while
+              others exempt all active duty pay regardless of duty station. The rates shown here
+              are simplified effective rates that do not account for these exemptions, deductions,
+              or your filing status.
+            </p>
+            <p>
+              Check with your state tax authority or a tax professional for your specific
+              situation. Your installation&apos;s{' '}
+              <span className="font-semibold">Legal Assistance office</span> provides free tax
+              guidance and can clarify which exemptions apply to your duty station. Federal
+              estimates use 2026 brackets with the standard deduction for a single filer.{' '}
+              <span className="font-semibold">This is not tax advice.</span>
+            </p>
           </div>
 
           {/* Act steps */}

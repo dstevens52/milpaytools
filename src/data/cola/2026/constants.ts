@@ -6,6 +6,27 @@
 // CONUS COLA (Continental U.S. Cost of Living Allowance) supplements pay for members
 // stationed in high-cost CONUS areas where the cost of living substantially exceeds
 // the national average. Unlike BAH, CONUS COLA is taxable income.
+//
+// ── 2026 ELIGIBILITY CHANGES ─────────────────────────────────────────────────
+// Per DoD/DTMO announcements effective FY2026:
+//
+// AREAS THAT LOST ELIGIBILITY IN 2026 (no longer qualify):
+//   - Greater Boston, MA (removed from data below)
+//   - Cape Cod / South Massachusetts, MA (removed from data below)
+//   - San Luis Obispo, CA (was not in this dataset)
+//   - San Bernardino, CA (was not in this dataset)
+//   - Humboldt County, CA (was not in this dataset)
+//   - Riverside, CA (was not in this dataset)
+//   - Bridgeport, CA (was not in this dataset)
+//   - 2 additional areas per DTMO — verify at DTMO for complete list
+//
+// AREAS THAT GAINED ELIGIBILITY IN 2026:
+//   - Seattle / Puget Sound, WA (new — 5% rate)
+//
+// RATE CHANGES IN 2026:
+//   - New York City: rate reduced from 8% to 4% (tier downgraded from high → moderate-high)
+//
+// DTMO updates eligibility annually. Always verify your specific station at DTMO.
 
 export const DATA_YEAR = '2026';
 
@@ -59,8 +80,9 @@ export const COLA_RATE_ESTIMATES: Record<ColaTier, Record<GradeGroup, [number, n
   },
 };
 
-// CONUS COLA qualifying areas by ZIP prefix
-// Covers approximately 18 qualifying locations as defined by DTMO
+// CONUS COLA qualifying areas by ZIP prefix — 2026 eligibility
+// NOTE: Boston/MA areas and several CA areas lost eligibility effective FY2026.
+// Seattle/WA gained eligibility. NYC rate reduced from 8% to 4%.
 export const COLA_AREAS: ColaArea[] = [
   // California — San Francisco Bay Area / Silicon Valley
   {
@@ -116,41 +138,32 @@ export const COLA_AREAS: ColaArea[] = [
     zipPrefixes: ['930'],
     notes: 'Includes Oxnard, Camarillo, and surrounding area near Naval Base Ventura County.',
   },
-  // California — Santa Barbara
+  // California — Santa Barbara / Vandenberg
   {
     id: 'ca-santa-barbara',
-    name: 'Santa Barbara Area',
+    name: 'Santa Barbara / Vandenberg',
     state: 'CA',
     tier: 'moderate',
     zipPrefixes: ['931', '932'],
     notes: 'Includes Santa Barbara and Lompoc (Vandenberg Space Force Base area).',
   },
-  // Massachusetts — Greater Boston
+  // Washington — Seattle / Puget Sound (NEW in 2026)
   {
-    id: 'ma-boston',
-    name: 'Greater Boston',
-    state: 'MA',
-    tier: 'moderate-high',
-    zipPrefixes: ['017', '018', '019', '020', '021', '022', '023', '024'],
-    notes: 'Includes Boston, Cambridge, Newton, Quincy, and surrounding metro.',
-  },
-  // Massachusetts — Cape Cod & South Shore
-  {
-    id: 'ma-cape-cod',
-    name: 'Cape Cod & South Coast',
-    state: 'MA',
+    id: 'wa-seattle',
+    name: 'Seattle / Puget Sound',
+    state: 'WA',
     tier: 'moderate',
-    zipPrefixes: ['025', '026', '027'],
-    notes: 'Includes Plymouth, Falmouth, Barnstable, and southeastern Massachusetts.',
+    zipPrefixes: ['980', '981', '982'],
+    notes: 'NEW in 2026 — Seattle and surrounding Puget Sound metro area. Approximate 5% COLA rate per DTMO. Verify your specific station at DTMO.',
   },
-  // New York — New York City (Manhattan/Bronx/Brooklyn/Queens/Staten Island)
+  // New York — New York City (rate reduced from 8% to 4% in 2026)
   {
     id: 'ny-nyc',
     name: 'New York City',
     state: 'NY',
-    tier: 'high',
+    tier: 'moderate-high', // Downgraded from 'high' — NYC rate reduced 8% → 4% in FY2026
     zipPrefixes: ['100', '101', '102', '103', '104'],
-    notes: 'Includes all five boroughs. Home to multiple USMC and Navy facilities.',
+    notes: 'Includes all five boroughs. Rate reduced from 8% to 4% effective FY2026. Verify at DTMO.',
   },
   // New York — Long Island
   {
@@ -177,7 +190,7 @@ export const COLA_AREAS: ColaArea[] = [
     state: 'CT',
     tier: 'moderate-high',
     zipPrefixes: ['066', '067', '068', '069'],
-    notes: 'Includes Stamford, Greenwich, and Norwalk — some of the highest-cost areas in New England.',
+    notes: 'Includes Stamford, Greenwich, and Norwalk.',
   },
   // Connecticut — New Haven area
   {
@@ -186,7 +199,7 @@ export const COLA_AREAS: ColaArea[] = [
     state: 'CT',
     tier: 'moderate',
     zipPrefixes: ['064', '065'],
-    notes: 'Includes New Haven, Milford, and surrounding area (Naval Submarine Base New London is in adjacent Groton).',
+    notes: 'Includes New Haven, Milford, and surrounding area.',
   },
   // Connecticut — New London / Groton (Submarine Base)
   {
@@ -213,7 +226,7 @@ export const COLA_AREAS: ColaArea[] = [
     state: 'DC/VA/MD',
     tier: 'moderate',
     zipPrefixes: ['200', '201', '202', '203', '204', '205', '220', '221', '222', '223'],
-    notes: 'Includes Washington D.C., Northern Virginia (Arlington, Alexandria, Fairfax), and surrounding NCR. Verify at DTMO — NCR eligibility varies by ZIP and has changed in recent years.',
+    notes: 'Includes Washington D.C. and Northern Virginia. Verify at DTMO — NCR eligibility varies by ZIP and changes annually.',
   },
   // Rhode Island — Newport area
   {
@@ -222,7 +235,7 @@ export const COLA_AREAS: ColaArea[] = [
     state: 'RI',
     tier: 'moderate',
     zipPrefixes: ['028', '029'],
-    notes: 'Includes Newport (Naval Station Newport) and Providence metro.',
+    notes: 'Includes Newport (Naval Station Newport) and surrounding area.',
   },
 ];
 

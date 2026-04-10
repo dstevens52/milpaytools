@@ -124,6 +124,17 @@ export function ColaCalculator() {
 
       {/* Results panel */}
       <div className="p-6">
+        {/* 2026 eligibility change notice — always visible */}
+        <div className="mb-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 leading-relaxed">
+          <span className="font-semibold">2026 update: </span>
+          CONUS COLA eligibility changed significantly for FY2026. Several areas lost eligibility,
+          including Greater Boston and multiple California locations. Seattle/Puget Sound gained
+          eligibility. NYC rates were reduced from 8% to 4%.{' '}
+          <span className="font-semibold">
+            Always verify your specific ZIP code rate at DTMO before relying on this tool.
+          </span>
+        </div>
+
         {!isValidZip && (
           <div className="text-sm text-zinc-500 text-center py-6">
             Enter a 5-digit duty station ZIP code to check CONUS COLA eligibility.
@@ -142,6 +153,11 @@ export function ColaCalculator() {
                   Most duty stations do not qualify for CONUS COLA — it applies only to a small number
                   of high-cost locations. CONUS COLA is paid in addition to BAH, which all members
                   receive based on their duty station.
+                </p>
+                <p className="text-sm text-zinc-600 leading-relaxed mb-3">
+                  CONUS COLA eligibility changes annually. Several areas that previously qualified
+                  (including Greater Boston, MA) lost eligibility in 2026. If your previous station
+                  received CONUS COLA, verify whether your current station still qualifies.
                 </p>
                 <p className="text-sm text-zinc-500">
                   If you believe your duty station qualifies, verify at{' '}
