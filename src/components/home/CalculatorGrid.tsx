@@ -105,6 +105,13 @@ const CALCULATORS: CalculatorCardProps[] = [
       'Check if your duty station qualifies for Continental U.S. Cost of Living Allowance and see approximate monthly rates by pay grade.',
     icon: '📊',
   },
+  {
+    href: '/calculators/compare',
+    title: 'Duty Station Comparison',
+    description:
+      'Compare BAH, CONUS COLA, state tax, and take-home pay between two duty stations side by side. The "Should I take these orders?" tool.',
+    icon: '⚖️',
+  },
 ];
 
 export function CalculatorGrid() {

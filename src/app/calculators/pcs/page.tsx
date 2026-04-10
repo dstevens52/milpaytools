@@ -153,6 +153,17 @@ export default function PCSPage() {
           </div>
         </div>
 
+        {/* Cross-link */}
+        <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 text-sm text-zinc-600">
+          <span className="font-semibold text-zinc-800">Comparing duty stations?</span>{' '}
+          The{' '}
+          <a href="/calculators/compare" className="text-blue-700 hover:underline font-medium">
+            Duty Station Comparison Calculator
+          </a>{' '}
+          shows BAH difference, state income tax impact, CONUS COLA eligibility, and estimated
+          take-home pay at each location — before you finalize which orders to accept.
+        </div>
+
         {/* Disclaimer */}
         <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-5 text-xs text-zinc-500 leading-relaxed">
           <p className="font-semibold text-zinc-600 mb-2">Disclaimer</p>

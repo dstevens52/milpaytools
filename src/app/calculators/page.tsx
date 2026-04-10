@@ -143,6 +143,20 @@ const CALCULATORS: CalculatorDetail[] = [
     ],
     group: 'allowances',
   },
+  {
+    href: '/calculators/compare',
+    icon: '⚖️',
+    name: 'Duty Station Comparison Calculator',
+    description:
+      'Compare total compensation between two CONUS duty stations side by side. Shows BAH difference, CONUS COLA eligibility, estimated state income tax, and real take-home pay at each location — the financial answer to "Should I take these orders?"',
+    features: [
+      'Side-by-side BAH comparison by ZIP code',
+      'State income tax impact (9 no-tax states)',
+      'CONUS COLA eligibility for both stations',
+      'Estimated monthly and annual take-home difference',
+    ],
+    group: 'allowances',
+  },
 ];
 
 export default function CalculatorsPage() {

@@ -145,11 +145,19 @@ export default function BAHPage() {
               or both for a limited period, depending on your situation. Consult your S1/J1 or PSD
               for your specific transition entitlements.
             </p>
-            <p className="text-zinc-600 text-sm leading-relaxed">
+            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               To estimate your full PCS entitlements — DLA, MALT mileage, per diem, TLE, and
               PPM/DITY profit potential — see the{' '}
               <a href="/calculators/pcs" className="text-blue-700 hover:underline font-medium">
                 PCS Cost Estimator
+              </a>
+              .
+            </p>
+            <p className="text-zinc-600 text-sm leading-relaxed">
+              To compare total compensation — BAH, state income tax, CONUS COLA, and estimated
+              take-home pay — between two specific duty stations, use the{' '}
+              <a href="/calculators/compare" className="text-blue-700 hover:underline font-medium">
+                Duty Station Comparison Calculator
               </a>
               .
             </p>
