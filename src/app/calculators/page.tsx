@@ -13,7 +13,7 @@ interface CalculatorDetail {
   name: string;
   description: string;
   features: string[];
-  group: 'active-duty' | 'guard-reserve' | 'veteran' | 'education' | 'allowances';
+  group: 'active-duty' | 'guard-reserve' | 'veteran' | 'education' | 'allowances' | 'reference';
 }
 
 const CALCULATORS: CalculatorDetail[] = [
@@ -158,6 +158,20 @@ const CALCULATORS: CalculatorDetail[] = [
     group: 'active-duty',
   },
   {
+    href: '/calculators/pay-charts',
+    icon: '📋',
+    name: '2026 Military Pay Charts',
+    description:
+      'Browse the complete 2026 DFAS pay tables for all ranks and years of service. Use the quick lookup to find your pay rate instantly, or scroll through enlisted, warrant officer, and officer tables.',
+    features: [
+      'All ranks E-1 through O-10',
+      'Warrant officers W-1 through W-5',
+      '3.8% raise applied (Jan 1, 2026)',
+      'Monthly and annual toggle',
+    ],
+    group: 'reference',
+  },
+  {
     href: '/calculators/compare',
     icon: '⚖️',
     name: 'Duty Station Comparison Calculator',
@@ -179,6 +193,7 @@ export default function CalculatorsPage() {
   const allowances = CALCULATORS.filter((c) => c.group === 'allowances');
   const veteran = CALCULATORS.filter((c) => c.group === 'veteran');
   const education = CALCULATORS.filter((c) => c.group === 'education');
+  const reference = CALCULATORS.filter((c) => c.group === 'reference');
 
   return (
     <div className="min-h-screen bg-zinc-50">
@@ -257,6 +272,18 @@ export default function CalculatorsPage() {
           </h2>
           <div className="space-y-4">
             {education.map((calc) => (
+              <CalculatorHubCard key={calc.href} {...calc} />
+            ))}
+          </div>
+        </section>
+
+        {/* Reference tables */}
+        <section>
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400 mb-5">
+            Reference Tables
+          </h2>
+          <div className="space-y-4">
+            {reference.map((calc) => (
               <CalculatorHubCard key={calc.href} {...calc} />
             ))}
           </div>

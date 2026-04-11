@@ -38,6 +38,7 @@ const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
   cola:                 { label: 'CONUS COLA Calculator',             href: '/calculators/cola' },
   compare:              { label: 'Duty Station Comparison',           href: '/calculators/compare' },
   deployment:           { label: 'Deployment Pay Calculator',          href: '/calculators/deployment' },
+  'pay-charts':         { label: '2026 Military Pay Charts',           href: '/calculators/pay-charts' },
 };
 
 export async function generateStaticParams() {

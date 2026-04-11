@@ -28,6 +28,8 @@
 
 - [Deployment Pay Calculator](https://milpaytools.com/calculators/deployment): Models deployment compensation in three phases — before, during, and tour total. Inputs: pay grade, years of service, dependency status, home station ZIP, deployment months, combat zone designation, HFP/IDP eligibility, Hardship Duty Pay tier ($0/$50/$100/$150), FSA eligibility, TSP contribution %, and SDP deposit amount. Outputs: Combat Zone Tax Exclusion savings (enlisted/WO: all pay excluded → $0 federal tax; officers: capped at ~$10,520/month), HFP/IDP ($225/month), HDP (capped at $100 if also receiving HFP), FSA ($300/month), SDP interest (deposit × 10% × months/12), TSP contribution total (capped at $72,000 combat zone limit vs. $24,500 normal), and total tour financial benefit. Uses 2026 DoD rates (37 U.S.C. § 310/305/427), 26 U.S.C. § 112 CZTE, 10 U.S.C. § 1035 SDP, and IRC § 415(c) TSP limit.
 
+- [2026 Military Pay Charts](https://milpaytools.com/calculators/pay-charts): Complete 2026 DFAS basic pay tables for all ranks and years of service. Includes quick lookup (select grade + YOS, see rate instantly), monthly/annual toggle, and three tables: Enlisted (E-1–E-9), Warrant Officers (W-1–W-5), and Officers (O-1–O-10, including O-1E/O-2E/O-3E prior-enlisted rates). 3.8% pay raise effective January 1, 2026. Source: DFAS Military Pay Charts.
+
 ## Blog
 
 - [How Much Does an E-5 Really Make in 2026?](https://milpaytools.com/blog/how-much-does-an-e5-really-make-2026): Complete E-5 compensation breakdown including base pay ($3,946.80/month), BAH by location, BAS, tax advantages, and civilian salary equivalent.

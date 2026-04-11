@@ -138,6 +138,12 @@ export default function TotalCompensationPage() {
         </div>
 
         <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
+          <p className="text-sm text-zinc-600 mb-3">
+            Want to see where your basic pay falls across all ranks?{' '}
+            <a href="/calculators/pay-charts" className="underline text-blue-700 hover:text-blue-800">
+              View the full 2026 military pay charts →
+            </a>
+          </p>
           <h3 className="text-base font-semibold text-zinc-900 mb-2">What this calculator does not include</h3>
           <ul className="text-sm text-zinc-600 space-y-1.5 list-disc list-inside">
             <li>Special pay: flight pay, hazardous duty pay, combat zone tax exclusion, sea pay, etc.</li>

@@ -15,6 +15,7 @@ const DROPDOWN_GROUPS = [
   {
     label: 'Pay & Allowances',
     links: [
+      { href: '/calculators/pay-charts', label: '2026 Pay Charts' },
       { href: '/calculators/deployment', label: 'Deployment Pay' },
       { href: '/calculators/compare', label: 'Duty Station Comparison' },
       { href: '/calculators/cola', label: 'CONUS COLA' },

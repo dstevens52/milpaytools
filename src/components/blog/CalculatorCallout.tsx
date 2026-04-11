@@ -1,5 +1,5 @@
 interface CalculatorCalloutProps {
-  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment';
+  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts';
   text?: string;
 }
 
@@ -48,6 +48,11 @@ const CALCULATOR_CONFIG = {
     href: '/calculators/deployment',
     label: 'Deployment Pay Calculator',
     defaultText: 'See your deployment pay increase — HFP/IDP, CZTE tax savings, Hardship Duty Pay, FSA, and SDP interest. Before vs. during vs. tour total.',
+  },
+  'pay-charts': {
+    href: '/calculators/pay-charts',
+    label: '2026 Military Pay Charts',
+    defaultText: 'Browse the complete 2026 DFAS pay tables for all ranks — E-1 through O-10 and warrant officers — with quick lookup by grade and years of service.',
   },
 };
 
