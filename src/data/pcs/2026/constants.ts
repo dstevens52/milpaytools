@@ -123,7 +123,9 @@ export const PCS_RATES_2026 = {
   ppmPerCWT: 210.0, // ~$210 per hundredweight (100 lbs)
 
   // TLE (Temporary Lodging Expense) — maximum combined days at old + new station
-  tleMaxDays: 14,
+  // JTR: 21 days for CONUS-to-CONUS PCS; 7 days to OCONUS PDS; 21 days from OCONUS to CONUS.
+  // Calculator uses CONUS-to-CONUS max (21 days) as the ceiling. Verify with Finance for OCONUS moves.
+  tleMaxDays: 21,
 
   // PPM advance: service member may request up to 60% of reimbursement upfront
   ppmAdvancePercent: 0.60,

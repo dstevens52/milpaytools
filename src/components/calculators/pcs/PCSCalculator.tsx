@@ -206,7 +206,7 @@ export function PCSCalculator() {
   const actionSteps = useMemo(() => buildActionSteps(input, output), [input, output]);
 
   const isPPM = moveType !== 'gov';
-  const tleDays = Math.min(tleOldDays + tleNewDays, 14);
+  const tleDays = Math.min(tleOldDays + tleNewDays, 21);
   const weightExceedsAllowance = hhgWeight > weightAllowance;
 
   const ppmProfitColor =
@@ -401,9 +401,9 @@ export function PCSCalculator() {
                       id="tleOld"
                       type="number"
                       min={0}
-                      max={10}
+                      max={14}
                       value={tleOldDays}
-                      onChange={(e) => setTleOldDays(Math.max(0, Math.min(10, parseInt(e.target.value) || 0)))}
+                      onChange={(e) => setTleOldDays(Math.max(0, Math.min(14, parseInt(e.target.value) || 0)))}
                       className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
                     />
                   </div>
@@ -413,9 +413,9 @@ export function PCSCalculator() {
                       id="tleNew"
                       type="number"
                       min={0}
-                      max={10}
+                      max={14}
                       value={tleNewDays}
-                      onChange={(e) => setTleNewDays(Math.max(0, Math.min(10, parseInt(e.target.value) || 0)))}
+                      onChange={(e) => setTleNewDays(Math.max(0, Math.min(14, parseInt(e.target.value) || 0)))}
                       className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
                     />
                   </div>
@@ -423,7 +423,7 @@ export function PCSCalculator() {
                 {tleDays > 0 && (
                   <p className="text-xs text-zinc-500">
                     {tleDays} combined TLE days
-                    {tleDays === 14 && ' (14-day maximum)'}
+                    {tleDays === 21 && ' (21-day max — CONUS-to-CONUS; verify with Finance for OCONUS moves)'}
                     {' '}— keep all lodging receipts
                   </p>
                 )}
