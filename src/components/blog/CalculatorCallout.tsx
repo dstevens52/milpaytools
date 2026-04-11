@@ -1,5 +1,5 @@
 interface CalculatorCalloutProps {
-  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts';
+  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve';
   text?: string;
 }
 
@@ -53,6 +53,11 @@ const CALCULATOR_CONFIG = {
     href: '/calculators/pay-charts',
     label: '2026 Military Pay Charts',
     defaultText: 'Browse the complete 2026 DFAS pay tables for all ranks — E-1 through O-10 and warrant officers — with quick lookup by grade and years of service.',
+  },
+  'guard-reserve': {
+    href: '/calculators/guard-reserve',
+    label: 'Guard & Reserve Pay Calculator',
+    defaultText: 'Calculate total annual Guard/Reserve compensation — drill pay, Annual Training, TRICARE Reserve Select savings, and BRS TSP matching.',
   },
 };
 
