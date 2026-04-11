@@ -106,6 +106,13 @@ const CALCULATORS: CalculatorCardProps[] = [
     icon: '📊',
   },
   {
+    href: '/calculators/deployment',
+    title: 'Deployment Pay Calculator',
+    description:
+      'HFP/IDP, CZTE tax savings, Hardship Duty Pay, FSA, and SDP interest — before vs. during vs. full tour total.',
+    icon: '🎖️',
+  },
+  {
     href: '/calculators/compare',
     title: 'Duty Station Comparison',
     description:

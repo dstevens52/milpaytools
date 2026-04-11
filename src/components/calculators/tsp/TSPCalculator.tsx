@@ -637,6 +637,17 @@ export function TSPCalculator() {
           )}
         </>
       )}
+
+      {/* Deployment cross-link */}
+      <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 text-sm text-zinc-600">
+        <span className="font-semibold text-zinc-800">Deploying to a combat zone?</span>{' '}
+        The{' '}
+        <a href="/calculators/deployment" className="text-blue-700 hover:underline font-medium">
+          Deployment Pay Calculator
+        </a>{' '}
+        models the full picture — CZTE tax savings, the jump from $24,500 to $72,000 in TSP
+        contribution room, SDP interest, and total tour financial benefit.
+      </div>
     </div>
   );
 }

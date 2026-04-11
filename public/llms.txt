@@ -26,6 +26,8 @@
 
 - [PCS Cost Estimator](https://milpaytools.com/calculators/pcs): Estimates total PCS move entitlements using 2026 DTMO rates. Calculates DLA (by rank and dependency status), MALT mileage ($0.205/mile × POVs), per diem (JTR travel day formula with first/last day 75% rule), TLE (up to 14 days), and PPM/DITY profit (government cost estimate minus expenses, after-tax at ~22%). Compares government move vs. PPM/DITY move totals side by side. Covers all ranks E-1 through O-10.
 
+- [Deployment Pay Calculator](https://milpaytools.com/calculators/deployment): Models deployment compensation in three phases — before, during, and tour total. Inputs: pay grade, years of service, dependency status, home station ZIP, deployment months, combat zone designation, HFP/IDP eligibility, Hardship Duty Pay tier ($0/$50/$100/$150), FSA eligibility, TSP contribution %, and SDP deposit amount. Outputs: Combat Zone Tax Exclusion savings (enlisted/WO: all pay excluded → $0 federal tax; officers: capped at ~$10,520/month), HFP/IDP ($225/month), HDP (capped at $100 if also receiving HFP), FSA ($300/month), SDP interest (deposit × 10% × months/12), TSP contribution total (capped at $72,000 combat zone limit vs. $24,500 normal), and total tour financial benefit. Uses 2026 DoD rates (37 U.S.C. § 310/305/427), 26 U.S.C. § 112 CZTE, 10 U.S.C. § 1035 SDP, and IRC § 415(c) TSP limit.
+
 ## Blog
 
 - [How Much Does an E-5 Really Make in 2026?](https://milpaytools.com/blog/how-much-does-an-e5-really-make-2026): Complete E-5 compensation breakdown including base pay ($3,946.80/month), BAH by location, BAS, tax advantages, and civilian salary equivalent.
@@ -64,7 +66,7 @@
 
 - [Best and Worst BAH Duty Stations in 2026](https://milpaytools.com/blog/best-worst-bah-duty-stations-2026): Ranked analysis of BAH value by duty station — highest raw rates (San Francisco $5,127, NYC $5,070, Honolulu $3,663), lowest raw rates (Fort Leonard Wood $1,326, Fort Sill $1,479), and best-value markets by BAH surplus over actual housing costs (Fort Leonard Wood ~$476/month surplus, Fort Sill ~$529/month). Covers BAH rate protection rules and how to compare two duty stations for take-home pay.
 
-- [Deployment Financial Planning: How to Bank $40,000+ on a Combat Tour](https://milpaytools.com/blog/deployment-financial-planning): Systematic plan for maximizing the combat zone financial window — CZTE mechanics (enlisted: all pay excluded; officers: capped at E-9 max), Roth TSP triple tax advantage during CZTE months (tax-free contribution + tax-free growth + tax-free withdrawal), elevated TSP limit ($69,000 total additions vs. normal $23,000), Savings Deposit Program (10% guaranteed return on $10,000), Imminent Danger Pay ($225/month), and a full E-6 9-month tour model ($35,000–$45,000 realistic savings outcome).
+- [Deployment Financial Planning: How to Bank $40,000+ on a Combat Tour](https://milpaytools.com/blog/deployment-financial-planning): Systematic plan for maximizing the combat zone financial window — CZTE mechanics (enlisted: all pay excluded; officers: capped at E-9 max), Roth TSP triple tax advantage during CZTE months (tax-free contribution + tax-free growth + tax-free withdrawal), elevated TSP limit ($72,000 total additions vs. normal $24,500 elective deferral limit), Savings Deposit Program (10% guaranteed return on $10,000), Imminent Danger Pay ($225/month), and a full E-6 9-month tour model ($35,000–$50,000 realistic savings outcome).
 
 ## Data Sources
 

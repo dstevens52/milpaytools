@@ -37,6 +37,7 @@ const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
   pcs:                  { label: 'PCS Cost Estimator',                href: '/calculators/pcs' },
   cola:                 { label: 'CONUS COLA Calculator',             href: '/calculators/cola' },
   compare:              { label: 'Duty Station Comparison',           href: '/calculators/compare' },
+  deployment:           { label: 'Deployment Pay Calculator',          href: '/calculators/deployment' },
 };
 
 export async function generateStaticParams() {

@@ -144,6 +144,20 @@ const CALCULATORS: CalculatorDetail[] = [
     group: 'allowances',
   },
   {
+    href: '/calculators/deployment',
+    icon: '🎖️',
+    name: 'Deployment Pay Calculator',
+    description:
+      'Calculate your pay increase during deployment — HFP/IDP, Hardship Duty Pay, FSA, Combat Zone Tax Exclusion savings, and Savings Deposit Program interest. Before vs. during vs. tour total.',
+    features: [
+      'CZTE tax savings (enlisted & officer)',
+      'SDP 10% guaranteed return',
+      'HFP/IDP + HDP + FSA modeling',
+      'TSP combat zone contribution limit',
+    ],
+    group: 'active-duty',
+  },
+  {
     href: '/calculators/compare',
     icon: '⚖️',
     name: 'Duty Station Comparison Calculator',

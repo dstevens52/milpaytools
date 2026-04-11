@@ -1,5 +1,5 @@
 interface CalculatorCalloutProps {
-  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare';
+  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment';
   text?: string;
 }
 
@@ -43,6 +43,11 @@ const CALCULATOR_CONFIG = {
     href: '/calculators/compare',
     label: 'Duty Station Comparison Calculator',
     defaultText: 'Compare BAH, CONUS COLA eligibility, state income tax, and estimated take-home pay between two duty stations side by side.',
+  },
+  deployment: {
+    href: '/calculators/deployment',
+    label: 'Deployment Pay Calculator',
+    defaultText: 'See your deployment pay increase — HFP/IDP, CZTE tax savings, Hardship Duty Pay, FSA, and SDP interest. Before vs. during vs. tour total.',
   },
 };
 
