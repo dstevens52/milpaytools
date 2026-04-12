@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { getAllPostMeta } from '@/lib/blog';
+import { getAllGuideMeta } from '@/lib/guides';
 
 const BASE_URL = 'https://milpaytools.com';
 
@@ -85,6 +86,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
+    {
+      url: `${BASE_URL}/guides`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
   ];
 
   const blogPages: MetadataRoute.Sitemap = getAllPostMeta().map((post) => ({
@@ -94,5 +101,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...blogPages];
+  const guidePages: MetadataRoute.Sitemap = getAllGuideMeta().map((guide) => ({
+    url: `${BASE_URL}/guides/${guide.slug}`,
+    lastModified: new Date(guide.date),
+    changeFrequency: 'monthly',
+    priority: 0.85,
+  }));
+
+  return [...staticPages, ...blogPages, ...guidePages];
 }

@@ -187,6 +187,17 @@ export default function PCSPage() {
             decisions about your move.
           </p>
         </div>
+
+        {/* Guide links */}
+        <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 mt-6">
+          <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-2">
+            Learn More
+          </p>
+          <div className="flex flex-wrap gap-2">
+                <a href="/guides/pcs" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">PCS & Duty Station Financial Guide →</a>
+          </div>
+        </div>
+
       </div>
     </>
   );

@@ -3,6 +3,7 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { QuickNavSection } from '@/components/home/QuickNavSection';
 import { CalculatorGrid } from '@/components/home/CalculatorGrid';
 import { TrustSection } from '@/components/home/TrustSection';
+import { GuidesSection } from '@/components/home/GuidesSection';
 import { LatestPostsSection } from '@/components/home/LatestPostsSection';
 import Link from 'next/link';
 
@@ -19,6 +20,7 @@ export default function HomePage() {
       <QuickNavSection />
       <CalculatorGrid />
       <TrustSection />
+      <GuidesSection />
       <LatestPostsSection />
 
       {/* VARefinance cross-link */}

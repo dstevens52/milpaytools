@@ -14,6 +14,14 @@ const TOP_POSTS = [
   { href: '/blog/brs-vs-high-3-retirement', label: 'BRS vs High-3 Retirement' },
 ];
 
+const GUIDES = [
+  { href: '/guides/military-pay', label: 'Military Pay Guide' },
+  { href: '/guides/va-disability', label: 'VA Disability Guide' },
+  { href: '/guides/retirement-tsp', label: 'Retirement & TSP Guide' },
+  { href: '/guides/pcs', label: 'PCS & Duty Station Guide' },
+  { href: '/guides/education-benefits', label: 'Education Benefits Guide' },
+];
+
 const DATA_SOURCES = [
   { href: 'https://www.dfas.mil/militarymembers/payentitlements/', label: '2026 Military Pay Tables (DFAS)' },
   { href: 'https://www.travel.dod.mil/Allowances/Basic-Allowance-for-Housing/', label: 'BAH Rates (DTMO)' },
@@ -25,7 +33,7 @@ export function Footer() {
   return (
     <footer className="bg-zinc-900 text-zinc-400">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-8">
           {/* Calculators */}
           <div>
             <p className="text-white text-sm font-semibold uppercase tracking-wider mb-3">
@@ -33,6 +41,22 @@ export function Footer() {
             </p>
             <ul className="space-y-2">
               {CALCULATORS.map(({ href, label }) => (
+                <li key={href}>
+                  <Link href={href} className="text-sm hover:text-white transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Guides */}
+          <div>
+            <p className="text-white text-sm font-semibold uppercase tracking-wider mb-3">
+              Guides
+            </p>
+            <ul className="space-y-2">
+              {GUIDES.map(({ href, label }) => (
                 <li key={href}>
                   <Link href={href} className="text-sm hover:text-white transition-colors">
                     {label}

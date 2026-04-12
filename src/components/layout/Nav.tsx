@@ -214,8 +214,22 @@ export function Nav({ mobile = false, onClose }: NavProps) {
             </li>
           ))}
 
-          {/* Blog */}
+          {/* Guides */}
           <li className="border-t border-zinc-100 mt-1">
+            <Link
+              href="/guides"
+              onClick={onClose}
+              className={[
+                'block px-4 py-3 text-base font-medium border-b border-zinc-100',
+                pathname.startsWith('/guides') ? 'text-red-700' : 'text-zinc-800 hover:text-zinc-900',
+              ].join(' ')}
+            >
+              Guides
+            </Link>
+          </li>
+
+          {/* Blog */}
+          <li>
             <Link
               href="/blog"
               onClick={onClose}
@@ -258,8 +272,23 @@ export function Nav({ mobile = false, onClose }: NavProps) {
           <CalculatorsDropdown pathname={pathname} />
         </li>
 
-        {/* Blog — separated by a hairline */}
+        {/* Guides — separated by a hairline */}
         <li className="ml-1 pl-1 border-l border-zinc-200">
+          <Link
+            href="/guides"
+            className={[
+              'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+              pathname.startsWith('/guides')
+                ? 'text-red-700 bg-red-50'
+                : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
+            ].join(' ')}
+          >
+            Guides
+          </Link>
+        </li>
+
+        {/* Blog */}
+        <li>
           <Link
             href="/blog"
             className={[

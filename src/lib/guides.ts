@@ -1,5 +1,5 @@
 /**
- * Blog utilities — reads MDX posts from src/content/blog/.
+ * Guide utilities — reads MDX guides from src/content/guides/.
  * All functions are server-side only (use Node fs APIs).
  */
 
@@ -7,29 +7,28 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-const BLOG_DIR = path.join(process.cwd(), 'src', 'content', 'blog');
+const GUIDES_DIR = path.join(process.cwd(), 'src', 'content', 'guides');
 
-export interface PostMeta {
+export interface GuideMeta {
   slug: string;
   title: string;
-  date: string;           // ISO date string e.g. "2026-04-08"
+  date: string;           // ISO date string e.g. "2026-04-12"
   description: string;
   category: string;
   calculators: string[];  // e.g. ["bah", "total-compensation"]
   readTime: number;       // minutes
   author: string;
-  guide?: string;         // parent hub guide slug e.g. "military-pay"
 }
 
-export interface Post extends PostMeta {
+export interface Guide extends GuideMeta {
   content: string; // raw MDX content (without frontmatter)
 }
 
-export function getAllPostMeta(): PostMeta[] {
-  const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith('.mdx'));
-  const posts = files.map((file) => {
+export function getAllGuideMeta(): GuideMeta[] {
+  const files = fs.readdirSync(GUIDES_DIR).filter((f) => f.endsWith('.mdx'));
+  const guides = files.map((file) => {
     const slug = file.replace(/\.mdx$/, '');
-    const raw = fs.readFileSync(path.join(BLOG_DIR, file), 'utf8');
+    const raw = fs.readFileSync(path.join(GUIDES_DIR, file), 'utf8');
     const { data } = matter(raw);
     return {
       slug,
@@ -38,18 +37,16 @@ export function getAllPostMeta(): PostMeta[] {
       description: data.description ?? '',
       category: data.category ?? 'General',
       calculators: data.calculators ?? [],
-      readTime: data.readTime ?? 5,
+      readTime: data.readTime ?? 15,
       author: data.author ?? 'Dan Stevens',
-      guide: data.guide,
-    } as PostMeta;
+    } as GuideMeta;
   });
 
-  // Sort newest first
-  return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return guides;
 }
 
-export function getPost(slug: string): Post | null {
-  const filePath = path.join(BLOG_DIR, `${slug}.mdx`);
+export function getGuide(slug: string): Guide | null {
+  const filePath = path.join(GUIDES_DIR, `${slug}.mdx`);
   if (!fs.existsSync(filePath)) return null;
 
   const raw = fs.readFileSync(filePath, 'utf8');
@@ -62,16 +59,15 @@ export function getPost(slug: string): Post | null {
     description: data.description ?? '',
     category: data.category ?? 'General',
     calculators: data.calculators ?? [],
-    readTime: data.readTime ?? 5,
+    readTime: data.readTime ?? 15,
     author: data.author ?? 'Dan Stevens',
-    guide: data.guide,
     content,
   };
 }
 
-export function getAllSlugs(): string[] {
+export function getAllGuideSlugs(): string[] {
   return fs
-    .readdirSync(BLOG_DIR)
+    .readdirSync(GUIDES_DIR)
     .filter((f) => f.endsWith('.mdx'))
     .map((f) => f.replace(/\.mdx$/, ''));
 }

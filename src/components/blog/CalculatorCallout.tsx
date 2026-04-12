@@ -1,5 +1,5 @@
 interface CalculatorCalloutProps {
-  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve';
+  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education';
   text?: string;
 }
 
@@ -58,6 +58,11 @@ const CALCULATOR_CONFIG = {
     href: '/calculators/guard-reserve',
     label: 'Guard & Reserve Pay Calculator',
     defaultText: 'Calculate total annual Guard/Reserve compensation — drill pay, Annual Training, TRICARE Reserve Select savings, and BRS TSP matching.',
+  },
+  education: {
+    href: '/calculators/education',
+    label: 'Education Benefits Calculator',
+    defaultText: 'Compare Post-9/11 GI Bill, VR&E Chapter 31, and Tuition Assistance — see total benefit value, monthly housing allowance by school ZIP code, and the optimal sequencing strategy.',
   },
 };
 
