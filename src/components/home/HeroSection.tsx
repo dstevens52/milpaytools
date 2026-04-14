@@ -19,7 +19,7 @@ function SampleResultPreview() {
       {/* Rows */}
       <div className="px-5 py-1 divide-y divide-zinc-100">
         {[
-          { label: 'Base Pay', value: '$4,299.81', sub: '/mo' },
+          { label: 'Base Pay', value: '$4,299.90', sub: '/mo' },
           { label: 'BAH (w/ dependents)', value: '$3,312', sub: '/mo' },
           { label: 'BAS', value: '$476.95', sub: '/mo' },
           { label: 'TSP Match (BRS)', value: '$172', sub: '/mo' },
