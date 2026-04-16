@@ -12,6 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.milpaytools.com'),
   title: {
     default: 'MilPayTools — Military Pay & Benefits Calculators',
     template: '%s | MilPayTools',

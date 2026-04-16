@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description:
     'Check whether your duty station qualifies for CONUS Cost of Living Allowance and see approximate monthly rates by grade. Uses DTMO area data for 2026.',
   alternates: {
-    canonical: 'https://milpaytools.com/calculators/cola',
+    canonical: '/calculators/cola',
   },
 };
 

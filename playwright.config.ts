@@ -42,7 +42,7 @@ export default defineConfig({
 
   use: {
     // Target: live site by default, override with BASE_URL env var
-    baseURL: process.env.BASE_URL ?? 'https://milpaytools.com',
+    baseURL: process.env.BASE_URL ?? 'https://www.milpaytools.com',
 
     // Record trace on first retry so failures are debuggable
     trace: 'on-first-retry',

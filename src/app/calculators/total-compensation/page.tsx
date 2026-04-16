@@ -3,7 +3,7 @@ import { TotalCompensationCalculator } from '@/components/calculators/total-comp
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 
 export const metadata: Metadata = {
-  title: 'Total Military Compensation Calculator | MilPayTools',
+  title: 'Total Military Compensation Calculator 2026: Base Pay, BAH, BAS & Tax Advantages | MilPayTools',
   description:
     'Calculate your true total military compensation: base pay, BAH, BAS, TSP match, and tax advantage. See the civilian salary equivalent using official 2026 DoD rates.',
   alternates: {

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     'Calculate your deployment pay increase: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings, and Savings Deposit Program interest. All ranks, 2026 rates.',
   alternates: {
-    canonical: 'https://milpaytools.com/calculators/deployment',
+    canonical: '/calculators/deployment',
   },
 };
 

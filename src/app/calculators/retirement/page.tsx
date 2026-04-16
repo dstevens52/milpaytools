@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description:
     'Estimate your military pension under High-3 or BRS. See monthly pension, lifetime value, TSP projection, and VA disability combined income using 2026 pay tables.',
   alternates: {
-    canonical: 'https://milpaytools.com/calculators/retirement',
+    canonical: '/calculators/retirement',
   },
 };
 

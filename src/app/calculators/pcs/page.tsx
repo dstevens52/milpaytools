@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY profit potential. Uses 2026 DTMO rates for all ranks.',
   alternates: {
-    canonical: 'https://milpaytools.com/calculators/pcs',
+    canonical: '/calculators/pcs',
   },
 };
 

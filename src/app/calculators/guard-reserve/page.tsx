@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     'Estimate total Guard and Reserve annual compensation: drill pay (MUTA), Annual Training pay, Tricare Reserve Select savings, and BRS matching. Uses 2026 DFAS pay tables.',
   alternates: {
-    canonical: 'https://milpaytools.com/calculators/guard-reserve',
+    canonical: '/calculators/guard-reserve',
   },
 };
 

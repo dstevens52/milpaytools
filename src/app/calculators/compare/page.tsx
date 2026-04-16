@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description:
     'Compare total compensation, BAH, and take-home pay between two CONUS duty stations side by side. See the real financial difference between PCS orders using 2026 official data.',
   alternates: {
-    canonical: 'https://milpaytools.com/calculators/compare',
+    canonical: '/calculators/compare',
   },
 };
 

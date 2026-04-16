@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { getAllPostMeta } from '@/lib/blog';
 import { getAllGuideMeta } from '@/lib/guides';
 
-const BASE_URL = 'https://milpaytools.com';
+const BASE_URL = 'https://www.milpaytools.com';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
