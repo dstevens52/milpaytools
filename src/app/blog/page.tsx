@@ -17,6 +17,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   'Retirement & TSP':    'bg-purple-100 text-purple-700',
   'Career Transition':   'bg-amber-100 text-amber-700',
   'Education Benefits':  'bg-teal-100 text-teal-700',
+  'PCS & Lifestyle':     'bg-indigo-100 text-indigo-700',
   'General':             'bg-zinc-100 text-zinc-600',
 };
 
