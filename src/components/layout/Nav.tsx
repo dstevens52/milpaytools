@@ -168,7 +168,7 @@ export function Nav({ mobile = false, onClose }: NavProps) {
     return (
       <nav aria-label="Mobile navigation">
         <ul className="flex flex-col">
-          {/* Flagship links */}
+          {/* Flagship calculator links */}
           {FLAGSHIP_LINKS.map(({ href, label }) => (
             <li key={href}>
               <Link
@@ -184,14 +184,40 @@ export function Nav({ mobile = false, onClose }: NavProps) {
             </li>
           ))}
 
-          {/* "More Calculators" section divider */}
+          {/* Blog and Guides — top-level, before the calculator list */}
+          <li>
+            <Link
+              href="/blog"
+              onClick={onClose}
+              className={[
+                'block px-4 py-3 text-base font-medium border-b border-zinc-100',
+                pathname.startsWith('/blog') ? 'text-red-700' : 'text-zinc-800 hover:text-zinc-900',
+              ].join(' ')}
+            >
+              Blog
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/guides"
+              onClick={onClose}
+              className={[
+                'block px-4 py-3 text-base font-medium border-b border-zinc-100',
+                pathname.startsWith('/guides') ? 'text-red-700' : 'text-zinc-800 hover:text-zinc-900',
+              ].join(' ')}
+            >
+              Guides
+            </Link>
+          </li>
+
+          {/* More Calculators section */}
           <li className="px-4 pt-4 pb-1">
             <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">
               More Calculators
             </p>
           </li>
 
-          {/* Grouped categories */}
+          {/* Grouped calculator categories */}
           {DROPDOWN_GROUPS.map((group) => (
             <li key={group.label}>
               <p className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-zinc-400">
@@ -217,34 +243,6 @@ export function Nav({ mobile = false, onClose }: NavProps) {
               </ul>
             </li>
           ))}
-
-          {/* Guides */}
-          <li className="border-t border-zinc-100 mt-1">
-            <Link
-              href="/guides"
-              onClick={onClose}
-              className={[
-                'block px-4 py-3 text-base font-medium border-b border-zinc-100',
-                pathname.startsWith('/guides') ? 'text-red-700' : 'text-zinc-800 hover:text-zinc-900',
-              ].join(' ')}
-            >
-              Guides
-            </Link>
-          </li>
-
-          {/* Blog */}
-          <li>
-            <Link
-              href="/blog"
-              onClick={onClose}
-              className={[
-                'block px-4 py-3 text-base font-medium border-b border-zinc-100',
-                pathname.startsWith('/blog') ? 'text-red-700' : 'text-zinc-800 hover:text-zinc-900',
-              ].join(' ')}
-            >
-              Blog
-            </Link>
-          </li>
         </ul>
       </nav>
     );
