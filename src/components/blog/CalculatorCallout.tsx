@@ -1,5 +1,5 @@
 interface CalculatorCalloutProps {
-  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education';
+  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah';
   text?: string;
 }
 
@@ -63,6 +63,11 @@ const CALCULATOR_CONFIG = {
     href: '/calculators/education',
     label: 'Education Benefits Calculator',
     defaultText: 'Compare Post-9/11 GI Bill, VR&E Chapter 31, and Tuition Assistance — see total benefit value, monthly housing allowance by school ZIP code, and the optimal sequencing strategy.',
+  },
+  'dual-military-bah': {
+    href: '/calculators/dual-military-bah',
+    label: 'Dual Military BAH Calculator',
+    defaultText: 'Calculate total household BAH for co-located and separated dual military couples — and find the dependent-claiming configuration that produces the highest total.',
   },
 };
 
