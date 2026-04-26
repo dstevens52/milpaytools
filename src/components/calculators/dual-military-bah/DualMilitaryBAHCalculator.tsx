@@ -389,11 +389,13 @@ export function DualMilitaryBAHCalculator() {
             </p>
           </div>
 
-          {/* Who claims — only shown when hasDependents */}
+          {/* Who claims / who lives with — only shown when hasDependents */}
           {hasDependents && (
             <div>
               <label className="block text-sm font-medium text-zinc-700 mb-1.5">
-                Who claims the dependents?
+                {sameStation
+                  ? 'Who claims the dependents?'
+                  : 'Which member do the dependents live with?'}
               </label>
               <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[42px] max-w-xs">
                 <button
@@ -422,7 +424,9 @@ export function DualMilitaryBAHCalculator() {
                 </button>
               </div>
               <p className="text-xs text-zinc-400 mt-1">
-                Only one member can claim dependents. The other receives the without-dependents rate.
+                {sameStation
+                  ? 'Only one member can claim dependents. The other receives the without-dependents rate.'
+                  : 'When stationed separately, dependents are assigned to the member they physically reside with — this is not a choice. Contact your finance office to confirm.'}
               </p>
             </div>
           )}
@@ -489,7 +493,7 @@ export function DualMilitaryBAHCalculator() {
                       )}
                     </div>
                   )}
-                  {/* No badge for different stations — a note appears in the comparison table */}
+                  {/* No badge for different stations — note appears below the who-lives-with toggle */}
                 </>
               )}
             </div>
@@ -523,23 +527,12 @@ export function DualMilitaryBAHCalculator() {
             </Card>
           </div>
 
-          {/* ── Dependent-claiming comparison table ──────────────────── */}
-          {results.hasDependents && results.scenarioA && results.scenarioB && (
+          {/* ── Dependent-claiming comparison table — same station only ── */}
+          {sameStation && results.hasDependents && results.scenarioA && results.scenarioB && (
             <Card>
-              <h3 className="font-semibold text-zinc-900 text-base mb-1">
-                {sameStation
-                  ? 'Which configuration results in the highest total household BAH?'
-                  : 'Both configurations shown'}
+              <h3 className="font-semibold text-zinc-900 text-base mb-3">
+                Which configuration results in the highest total household BAH?
               </h3>
-
-              {/* Different-stations policy notice */}
-              {!sameStation && (
-                <div className="mb-3 rounded-md bg-blue-50 border border-blue-200 px-3 py-2 text-xs text-blue-800 leading-relaxed">
-                  When stationed separately, dependents are assigned to the member the dependents
-                  physically reside with — this is not a financial optimization choice. Contact your
-                  finance office to confirm your dependent BAH assignment.
-                </div>
-              )}
 
               <div className="border border-zinc-200 rounded-lg overflow-hidden">
                 <table className="w-full text-sm">
