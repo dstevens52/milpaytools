@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
 import { getGuide, getAllGuideSlugs, formatDate } from '@/lib/guides';
 import { CalculatorCallout } from '@/components/blog/CalculatorCallout';
 import { KeyFact } from '@/components/blog/KeyFact';
@@ -31,6 +32,7 @@ const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
   'pay-charts':         { label: '2026 Military Pay Charts',          href: '/calculators/pay-charts' },
   'guard-reserve':      { label: 'Guard & Reserve Pay Calculator',    href: '/calculators/guard-reserve' },
   education:            { label: 'Education Benefits Calculator',     href: '/calculators/education' },
+  'dual-military-bah':  { label: 'Dual Military BAH Calculator',      href: '/calculators/dual-military-bah' },
 };
 
 export async function generateStaticParams() {
@@ -138,7 +140,11 @@ export default async function GuidePostPage({
         prose-td:text-zinc-700
         prose-hr:border-zinc-200
         prose-blockquote:border-red-300 prose-blockquote:text-zinc-600">
-        <MDXRemote source={guide.content} components={mdxComponents} />
+        <MDXRemote
+          source={guide.content}
+          components={mdxComponents}
+          options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+        />
       </article>
 
       {/* Author bio */}
