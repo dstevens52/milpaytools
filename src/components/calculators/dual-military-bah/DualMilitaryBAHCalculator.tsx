@@ -56,7 +56,9 @@ function isZipReady(zip: string): boolean {
   );
 }
 
-interface DualResults {
+// ── Result types ──────────────────────────────────────────────────────────────
+
+interface DualResultsNoDeps {
   hasDependents: false;
   m1: number;
   m2: number;
@@ -66,6 +68,9 @@ interface DualResults {
   dataYear: string;
   scenarioA: null;
   scenarioB: null;
+  // 'member1'|'member2' = same-station with different grades, one is clearly higher
+  // 'tied'             = same-station, same grade (totals are equal)
+  // null               = different stations (policy-based assignment, not a financial choice)
   optimal: null;
   optimalGain: null;
 }
@@ -80,11 +85,13 @@ interface DualResultsWithDeps {
   dataYear: string;
   scenarioA: { m1: number; m2: number; total: number };
   scenarioB: { m1: number; m2: number; total: number };
-  optimal: 'member1' | 'member2';
+  optimal: 'member1' | 'member2' | 'tied' | null;
   optimalGain: number;
 }
 
-type Results = DualResults | DualResultsWithDeps;
+type Results = DualResultsNoDeps | DualResultsWithDeps;
+
+// ── Component ─────────────────────────────────────────────────────────────────
 
 export function DualMilitaryBAHCalculator() {
   const [grade1, setGrade1] = useState<PayGrade>('O-3');
@@ -101,6 +108,8 @@ export function DualMilitaryBAHCalculator() {
     if (!isZipReady(zip1) || !isZipReady(zip2Effective)) return null;
 
     if (!hasDependents) {
+      // No dependents — both members always receive the without-dependents rate.
+      // No claiming decision exists, no comparison needed.
       const r1 = lookupBAH({ zipCode: zip1, payGrade: grade1, hasDependents: false });
       const r2 = lookupBAH({ zipCode: zip2Effective, payGrade: grade2, hasDependents: false });
       if (!r1 || !r2) return null;
@@ -119,10 +128,11 @@ export function DualMilitaryBAHCalculator() {
       };
     }
 
-    // Scenario A: member 1 claims dependents
+    // With dependents — compute both scenarios.
+    // Scenario A: member 1 claims (with-deps rate); member 2 does not (without-deps rate).
     const r1A = lookupBAH({ zipCode: zip1, payGrade: grade1, hasDependents: true });
     const r2A = lookupBAH({ zipCode: zip2Effective, payGrade: grade2, hasDependents: false });
-    // Scenario B: member 2 claims dependents
+    // Scenario B: member 2 claims (with-deps rate); member 1 does not (without-deps rate).
     const r1B = lookupBAH({ zipCode: zip1, payGrade: grade1, hasDependents: false });
     const r2B = lookupBAH({ zipCode: zip2Effective, payGrade: grade2, hasDependents: true });
 
@@ -130,8 +140,24 @@ export function DualMilitaryBAHCalculator() {
 
     const totalA = r1A.monthlyRate + r2A.monthlyRate;
     const totalB = r1B.monthlyRate + r2B.monthlyRate;
-    const optimal: 'member1' | 'member2' = totalA >= totalB ? 'member1' : 'member2';
-    const optimalGain = Math.abs(totalA - totalB);
+
+    // Optimal configuration is only a financial recommendation for co-located couples.
+    // When stationed separately, dependents must be assigned to the member they reside with —
+    // this is a policy determination, not a financial optimization choice.
+    let optimal: DualResultsWithDeps['optimal'];
+    let optimalGain: number;
+
+    if (!sameStation) {
+      optimal = null;
+      optimalGain = 0;
+    } else if (totalA === totalB) {
+      // Same grade at the same station — with-dependents premium is identical, totals tie.
+      optimal = 'tied';
+      optimalGain = 0;
+    } else {
+      optimal = totalA > totalB ? 'member1' : 'member2';
+      optimalGain = Math.abs(totalA - totalB);
+    }
 
     const current =
       whoClaimsDeps === 'member1'
@@ -151,22 +177,34 @@ export function DualMilitaryBAHCalculator() {
       optimal,
       optimalGain,
     };
-  }, [grade1, grade2, zip1, zip2Effective, hasDependents, whoClaimsDeps]);
+  }, [grade1, grade2, zip1, zip2Effective, hasDependents, whoClaimsDeps, sameStation]);
 
   const actionSteps = useMemo((): ActionStep[] => {
     if (!results) return [];
     const steps: ActionStep[] = [];
 
-    if (
-      results.hasDependents &&
-      results.optimal !== whoClaimsDeps &&
-      results.optimalGain > 0
-    ) {
-      steps.push({
-        label: 'Switch who claims dependents to maximize household BAH',
-        description: `Having ${results.optimal === 'member1' ? 'Member 1' : 'Member 2'} claim the dependents adds ${fmt(results.optimalGain)}/month (${fmt(results.optimalGain * 12)}/year) to your household income. The higher-ranking member claiming dependents nearly always produces the higher total.`,
-        priority: 'high',
-      });
+    if (results.hasDependents) {
+      if (
+        results.optimal !== null &&
+        results.optimal !== 'tied' &&
+        results.optimal !== whoClaimsDeps &&
+        results.optimalGain > 0
+      ) {
+        // Same-station couple with a sub-optimal claiming choice
+        steps.push({
+          label: 'Consider switching who claims dependents for a higher total household BAH',
+          description: `Having ${results.optimal === 'member1' ? 'Member 1' : 'Member 2'} claim the dependents results in ${fmt(results.optimalGain)}/month more (${fmt(results.optimalGain * 12)}/year). The rate gap between the with-dependents and without-dependents rates is larger at higher pay grades, so assigning dependents to the higher-ranking member produces the higher total.`,
+          priority: 'high',
+        });
+      } else if (results.optimal === null) {
+        // Different stations — flag that this is a policy question, not a financial one
+        steps.push({
+          label: 'Confirm your dependent BAH assignment with your finance office',
+          description:
+            "When stationed separately, dependents are assigned to the member they physically reside with for BAH purposes. This is a policy determination, not a financial optimization choice. Contact your unit's finance office or S1/J1 to verify your current dependent assignment.",
+          priority: 'high',
+        });
+      }
     }
 
     steps.push({
@@ -194,13 +232,15 @@ export function DualMilitaryBAHCalculator() {
     return steps;
   }, [results, whoClaimsDeps]);
 
-  // ── Empty state prompt ────────────────────────────────────────────────────
+  // ── Empty state ───────────────────────────────────────────────────────────
   function emptyStateMessage() {
     if (zip1.length === 0) return 'Enter a duty station ZIP code to see results';
-    if (zip1.length < 5) return `${5 - zip1.length} more digit${5 - zip1.length !== 1 ? 's' : ''}…`;
+    if (zip1.length < 5)
+      return `${5 - zip1.length} more digit${5 - zip1.length !== 1 ? 's' : ''}…`;
     if (!sameStation) {
       if (zip2.length === 0) return 'Enter Member 2 duty station ZIP to see results';
-      if (zip2.length < 5) return `${5 - zip2.length} more digit${5 - zip2.length !== 1 ? 's' : ''}…`;
+      if (zip2.length < 5)
+        return `${5 - zip2.length} more digit${5 - zip2.length !== 1 ? 's' : ''}…`;
     }
     return 'Enter valid ZIP codes to see results';
   }
@@ -214,7 +254,6 @@ export function DualMilitaryBAHCalculator() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* ── Inputs ────────────────────────────────────────────────────── */}
       <Card>
-        {/* Members side by side */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">
@@ -252,7 +291,9 @@ export function DualMilitaryBAHCalculator() {
                 onClick={() => setSameStation(true)}
                 className={[
                   'flex-1 text-sm font-medium transition-colors',
-                  sameStation ? 'bg-red-700 text-white' : 'bg-white text-zinc-600 hover:bg-zinc-50',
+                  sameStation
+                    ? 'bg-red-700 text-white'
+                    : 'bg-white text-zinc-600 hover:bg-zinc-50',
                 ].join(' ')}
               >
                 Same Station
@@ -348,7 +389,7 @@ export function DualMilitaryBAHCalculator() {
             </p>
           </div>
 
-          {/* Who claims (only shown when hasDependents) */}
+          {/* Who claims — only shown when hasDependents */}
           {hasDependents && (
             <div>
               <label className="block text-sm font-medium text-zinc-700 mb-1.5">
@@ -397,7 +438,7 @@ export function DualMilitaryBAHCalculator() {
         </Card>
       ) : (
         <>
-          {/* Household total */}
+          {/* ── Household total ──────────────────────────────────────── */}
           <Card variant="result">
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
               <div>
@@ -412,35 +453,49 @@ export function DualMilitaryBAHCalculator() {
                   {fmt(results.total * 12)}/year combined
                 </p>
                 <p className="text-xs text-zinc-400 mt-1">
-                  Based on {results.dataYear} DTMO rates · Both amounts are tax-free
+                  Rates from official {results.dataYear} DTMO tables · Both amounts are tax-free
                 </p>
               </div>
-              {results.hasDependents && results.optimal && (
-                <div
-                  className={[
-                    'flex-none text-sm rounded-lg px-4 py-3 border leading-snug',
-                    results.optimal === whoClaimsDeps
-                      ? 'bg-green-50 border-green-200 text-green-800'
-                      : 'bg-amber-50 border-amber-200 text-amber-800',
-                  ].join(' ')}
-                >
-                  {results.optimal === whoClaimsDeps ? (
-                    <span className="font-semibold">✓ Optimal configuration</span>
-                  ) : (
-                    <>
-                      <span className="font-semibold">⚠ Not optimal</span>
+
+              {/* Status badge — only for co-located couples with dependents */}
+              {results.hasDependents && (
+                <>
+                  {results.optimal === 'tied' && (
+                    <div className="flex-none text-sm rounded-lg px-4 py-3 border bg-zinc-50 border-zinc-200 text-zinc-700 leading-snug">
+                      <span className="font-semibold">Same rank</span>
                       <br />
-                      <span className="text-xs">
-                        Switch to save {fmt(results.optimalGain)}/mo
-                      </span>
-                    </>
+                      <span className="text-xs">Total is identical either way</span>
+                    </div>
                   )}
-                </div>
+                  {(results.optimal === 'member1' || results.optimal === 'member2') && (
+                    <div
+                      className={[
+                        'flex-none text-sm rounded-lg px-4 py-3 border leading-snug',
+                        results.optimal === whoClaimsDeps
+                          ? 'bg-green-50 border-green-200 text-green-800'
+                          : 'bg-amber-50 border-amber-200 text-amber-800',
+                      ].join(' ')}
+                    >
+                      {results.optimal === whoClaimsDeps ? (
+                        <span className="font-semibold">✓ Highest total configuration</span>
+                      ) : (
+                        <>
+                          <span className="font-semibold">⚠ Not the highest total</span>
+                          <br />
+                          <span className="text-xs">
+                            Switch to gain {fmt(results.optimalGain)}/mo
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  )}
+                  {/* No badge for different stations — a note appears in the comparison table */}
+                </>
               )}
             </div>
           </Card>
 
-          {/* Per-member breakdown */}
+          {/* ── Per-member breakdown ─────────────────────────────────── */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Card>
               <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1">
@@ -468,12 +523,24 @@ export function DualMilitaryBAHCalculator() {
             </Card>
           </div>
 
-          {/* Dependent-claiming comparison table */}
+          {/* ── Dependent-claiming comparison table ──────────────────── */}
           {results.hasDependents && results.scenarioA && results.scenarioB && (
             <Card>
-              <h3 className="font-semibold text-zinc-900 text-base mb-3">
-                Which configuration pays more?
+              <h3 className="font-semibold text-zinc-900 text-base mb-1">
+                {sameStation
+                  ? 'Which configuration results in the highest total household BAH?'
+                  : 'Both configurations shown'}
               </h3>
+
+              {/* Different-stations policy notice */}
+              {!sameStation && (
+                <div className="mb-3 rounded-md bg-blue-50 border border-blue-200 px-3 py-2 text-xs text-blue-800 leading-relaxed">
+                  When stationed separately, dependents are assigned to the member the dependents
+                  physically reside with — this is not a financial optimization choice. Contact your
+                  finance office to confirm your dependent BAH assignment.
+                </div>
+              )}
+
               <div className="border border-zinc-200 rounded-lg overflow-hidden">
                 <table className="w-full text-sm">
                   <thead>
@@ -481,12 +548,8 @@ export function DualMilitaryBAHCalculator() {
                       <th className="text-left px-3 py-2 font-medium text-zinc-600">
                         Who claims dependents
                       </th>
-                      <th className="text-right px-3 py-2 font-medium text-zinc-600">
-                        Member 1
-                      </th>
-                      <th className="text-right px-3 py-2 font-medium text-zinc-600">
-                        Member 2
-                      </th>
+                      <th className="text-right px-3 py-2 font-medium text-zinc-600">Member 1</th>
+                      <th className="text-right px-3 py-2 font-medium text-zinc-600">Member 2</th>
                       <th className="text-right px-3 py-2 font-medium text-zinc-600">Total</th>
                     </tr>
                   </thead>
@@ -505,7 +568,12 @@ export function DualMilitaryBAHCalculator() {
                         },
                       ] as const
                     ).map(({ claimant, label, scenario }) => {
-                      const isOptimal = results.optimal === claimant;
+                      // "optimal" badges are only shown for same-station couples with different grades
+                      const isOptimal =
+                        sameStation &&
+                        results.optimal !== 'tied' &&
+                        results.optimal !== null &&
+                        results.optimal === claimant;
                       const isCurrent = whoClaimsDeps === claimant;
                       return (
                         <tr
@@ -519,16 +587,18 @@ export function DualMilitaryBAHCalculator() {
                             {label}
                             {isOptimal && (
                               <span className="ml-2 text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded font-medium">
-                                optimal
+                                highest total
                               </span>
                             )}
-                            {isCurrent && !isOptimal && (
-                              <span className="ml-2 text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-medium">
-                                current
-                              </span>
-                            )}
-                            {isOptimal && isCurrent && (
-                              <span className="ml-1 text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded font-medium">
+                            {isCurrent && (
+                              <span
+                                className={[
+                                  'ml-2 text-xs px-1.5 py-0.5 rounded font-medium',
+                                  isOptimal
+                                    ? 'bg-green-100 text-green-700'
+                                    : 'bg-red-100 text-red-700',
+                                ].join(' ')}
+                              >
                                 current
                               </span>
                             )}
@@ -553,23 +623,39 @@ export function DualMilitaryBAHCalculator() {
                   </tbody>
                 </table>
               </div>
-              {results.optimalGain > 0 ? (
-                <p className="text-xs text-zinc-500 mt-2">
-                  The higher-ranking member claiming dependents pays {fmt(results.optimalGain)}/month
-                  more to your household ({fmt(results.optimalGain * 12)}/year). This is because
-                  the with-dependents premium scales with pay grade — the difference is larger at
-                  higher grades.
+
+              {/* Table footer note */}
+              <div className="mt-2 space-y-1.5">
+                {sameStation && results.optimal === 'tied' && (
+                  <p className="text-xs text-zinc-500">
+                    Same rank means the total household BAH is identical regardless of who claims
+                    dependents — the with-dependents premium is the same for both members.
+                  </p>
+                )}
+                {sameStation &&
+                  results.optimal !== null &&
+                  results.optimal !== 'tied' &&
+                  results.optimalGain > 0 && (
+                    <p className="text-xs text-zinc-500">
+                      The configuration that results in the highest total household BAH based on
+                      current rates: the rate gap between the with-dependents and without-dependents
+                      rates is larger at higher pay grades, so assigning dependents to the
+                      higher-ranking member produces the higher total.{' '}
+                      <span className="font-medium">
+                        Difference: {fmt(results.optimalGain)}/mo ({fmt(results.optimalGain * 12)}
+                        /yr).
+                      </span>
+                    </p>
+                  )}
+                <p className="text-xs text-zinc-400">
+                  The government does not pay two with-dependents BAH rates for the same household
+                  — only one member receives the with-dependents rate.
                 </p>
-              ) : (
-                <p className="text-xs text-zinc-500 mt-2">
-                  Both configurations produce the same household total because both members are the
-                  same pay grade — the with-dependents premium is identical regardless of who claims.
-                </p>
-              )}
+              </div>
             </Card>
           )}
 
-          {/* Step-by-step math */}
+          {/* ── Step-by-step math ────────────────────────────────────── */}
           <Card>
             <h3 className="font-semibold text-zinc-900 text-base mb-4">
               Step-by-step: how the total is calculated
@@ -577,9 +663,7 @@ export function DualMilitaryBAHCalculator() {
             <div className="space-y-0 text-sm">
               <div className="flex items-start justify-between py-2.5 border-b border-zinc-100">
                 <div>
-                  <span className="font-medium text-zinc-800">
-                    Member 1 ({grade1})
-                  </span>
+                  <span className="font-medium text-zinc-800">Member 1 ({grade1})</span>
                   <span className="text-zinc-500 ml-2 capitalize">
                     — {m1DepLabel} rate
                     {!sameStation && ` at ${results.loc1}`}
@@ -591,9 +675,7 @@ export function DualMilitaryBAHCalculator() {
               </div>
               <div className="flex items-start justify-between py-2.5 border-b border-zinc-100">
                 <div>
-                  <span className="font-medium text-zinc-800">
-                    Member 2 ({grade2})
-                  </span>
+                  <span className="font-medium text-zinc-800">Member 2 ({grade2})</span>
                   <span className="text-zinc-500 ml-2 capitalize">
                     — {m2DepLabel} rate
                     {!sameStation && ` at ${results.loc2}`}
@@ -616,23 +698,30 @@ export function DualMilitaryBAHCalculator() {
                 </span>
               </div>
             </div>
-            <div className="mt-3 pt-3 border-t border-zinc-100">
+            <div className="mt-3 pt-3 border-t border-zinc-100 space-y-1">
               <p className="text-xs text-zinc-400 leading-relaxed">
-                Each member receives their BAH independently on their own LES — the amounts are
-                never split, combined, or averaged by the military. Both amounts are excluded from
-                federal income tax under 26 U.S.C. § 134.
+                Rates from official {results.dataYear} DTMO tables. Each member receives their BAH
+                independently on their own LES — the amounts are never split, combined, or averaged.
+                Both are excluded from federal income tax under 26 U.S.C. § 134.
               </p>
+              {results.hasDependents && (
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  The government does not pay two with-dependents BAH rates for the same household
+                  — only one member receives the with-dependents rate, regardless of how many
+                  dependents there are.
+                </p>
+              )}
             </div>
           </Card>
 
-          {/* Action steps */}
+          {/* ── Action steps ─────────────────────────────────────────── */}
           {actionSteps.length > 0 && (
             <Card>
               <ActSteps steps={actionSteps} title="What to do with this information" />
             </Card>
           )}
 
-          {/* VARefinance callout */}
+          {/* ── VARefinance callout ──────────────────────────────────── */}
           <a
             href="https://www.varefinance.com"
             target="_blank"
