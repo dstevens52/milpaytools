@@ -40,6 +40,10 @@ const DROPDOWN_GROUPS = [
     label: 'PCS & Transition',
     links: [{ href: '/calculators/pcs', label: 'PCS Cost Estimator' }],
   },
+  {
+    label: 'Dual Military',
+    links: [{ href: '/calculators/dual-military-bah', label: 'Dual Military BAH' }],
+  },
 ];
 
 // All dropdown links flattened — used to check if any is active

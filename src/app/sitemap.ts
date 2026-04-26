@@ -75,6 +75,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${BASE_URL}/calculators/dual-military-bah`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 1.0,
+    },
+    {
       url: `${BASE_URL}/calculators/compare`,
       lastModified: now,
       changeFrequency: 'monthly',

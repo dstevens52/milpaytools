@@ -172,6 +172,20 @@ const CALCULATORS: CalculatorDetail[] = [
     group: 'reference',
   },
   {
+    href: '/calculators/dual-military-bah',
+    icon: '👫',
+    name: 'Dual Military BAH Calculator',
+    description:
+      'Calculate total household BAH for dual active-duty couples. Find the optimal dependent-claiming configuration, compare same-station and different-station scenarios, and see the exact dollar difference between options.',
+    features: [
+      'Optimal dependent-claiming finder',
+      'Same-station and different-station modes',
+      'Step-by-step math breakdown',
+      'All 40,959 ZIP codes · 2026 DTMO data',
+    ],
+    group: 'allowances',
+  },
+  {
     href: '/calculators/compare',
     icon: '⚖️',
     name: 'Duty Station Comparison Calculator',
