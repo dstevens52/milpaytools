@@ -1,4 +1,11 @@
 const BASE_URL = 'https://www.milpaytools.com';
+const DEFAULT_IMAGE = `${BASE_URL}/og-image.png`;
+
+// Appends Central Time offset if the date string is bare (YYYY-MM-DD).
+function toISODateTime(dateStr: string): string {
+  if (dateStr.includes('T')) return dateStr;
+  return `${dateStr}T00:00:00-05:00`;
+}
 
 const PUBLISHER = {
   '@type': 'Organization' as const,
@@ -9,6 +16,7 @@ const PUBLISHER = {
 const AUTHOR = {
   '@type': 'Person' as const,
   name: 'Dan Stevens',
+  url: BASE_URL,
 };
 
 export function articleSchema({
@@ -22,15 +30,17 @@ export function articleSchema({
   datePublished: string;
   url: string;
 }) {
+  const isoDate = toISODateTime(datePublished);
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: title,
     description,
+    image: DEFAULT_IMAGE,
     author: AUTHOR,
     publisher: PUBLISHER,
-    datePublished,
-    dateModified: datePublished,
+    datePublished: isoDate,
+    dateModified: isoDate,
     url: `${BASE_URL}${url}`,
   };
 }
