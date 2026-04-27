@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { getAllPostMeta } from '@/lib/blog';
 import { getAllGuideMeta } from '@/lib/guides';
+import { DUTY_STATIONS } from '@/data/duty-stations/stations';
 
 const BASE_URL = 'https://www.milpaytools.com';
 
@@ -114,5 +115,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
-  return [...staticPages, ...blogPages, ...guidePages];
+  const stationPages: MetadataRoute.Sitemap = [
+    {
+      url: `${BASE_URL}/bah`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    ...DUTY_STATIONS.map((s) => ({
+      url: `${BASE_URL}/bah/${s.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    })),
+  ];
+
+  return [...staticPages, ...blogPages, ...guidePages, ...stationPages];
 }

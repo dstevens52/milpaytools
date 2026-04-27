@@ -3,6 +3,7 @@ import Link from 'next/link';
 const CALCULATORS = [
   { href: '/calculators/total-compensation', label: 'Total Compensation' },
   { href: '/calculators/bah', label: 'BAH Calculator' },
+  { href: '/bah', label: 'BAH by Station' },
   { href: '/calculators/va-disability', label: 'VA Disability Rating' },
   { href: '/calculators/tsp', label: 'TSP Growth Projector' },
 ];

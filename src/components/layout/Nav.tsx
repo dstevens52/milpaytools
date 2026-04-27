@@ -17,6 +17,7 @@ const DROPDOWN_GROUPS = [
     links: [
       { href: '/calculators/pay-charts', label: '2026 Pay Charts' },
       { href: '/calculators/deployment', label: 'Deployment Pay' },
+      { href: '/bah', label: 'BAH by Station' },
       { href: '/calculators/compare', label: 'Duty Station Comparison' },
       { href: '/calculators/cola', label: 'CONUS COLA' },
       { href: '/calculators/guard-reserve', label: 'Guard/Reserve Pay' },
@@ -79,7 +80,9 @@ function CalculatorsDropdown({ pathname }: { pathname: string }) {
     return () => document.removeEventListener('keydown', handler);
   }, [open, close]);
 
-  const isActive = ALL_DROPDOWN_LINKS.some((l) => pathname === l.href);
+  const isActive = ALL_DROPDOWN_LINKS.some(
+    (l) => pathname === l.href || (l.href === '/bah' && pathname.startsWith('/bah'))
+  );
 
   return (
     <div
@@ -136,7 +139,7 @@ function CalculatorsDropdown({ pathname }: { pathname: string }) {
                     onClick={close}
                     className={[
                       'block px-3 py-1.5 text-sm transition-colors',
-                      pathname === href
+                      pathname === href || (href === '/bah' && pathname.startsWith('/bah'))
                         ? 'text-red-700 font-semibold bg-red-50'
                         : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50',
                     ].join(' ')}
@@ -231,7 +234,7 @@ export function Nav({ mobile = false, onClose }: NavProps) {
                       onClick={onClose}
                       className={[
                         'block px-6 py-2.5 text-sm border-b border-zinc-100',
-                        pathname === href
+                        pathname === href || (href === '/bah' && pathname.startsWith('/bah'))
                           ? 'text-red-700 font-semibold'
                           : 'text-zinc-700 hover:text-zinc-900',
                       ].join(' ')}
