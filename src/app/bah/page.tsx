@@ -68,7 +68,7 @@ export default function BahStationsIndexPage() {
             <div>
               <h3 className="font-semibold text-zinc-800 mb-2">Annual Updates</h3>
               <p>
-                BAH rates are updated each January 1st based on the previous year's rental survey data. Rates can increase, decrease, or stay flat. Members whose rates decrease are protected by rate protection rules — they cannot fall below the prior year's rate while in continuous service in the same MHA.
+                BAH rates are updated each January 1st based on the previous year&apos;s rental survey data. Rates can increase, decrease, or stay flat. Members whose rates decrease are protected by rate protection rules — they cannot fall below the prior year&apos;s rate while in continuous service in the same MHA.
               </p>
             </div>
             <div>

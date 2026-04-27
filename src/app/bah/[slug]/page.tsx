@@ -14,9 +14,11 @@ import {
   PRIOR_ENLISTED_OFFICER_GRADES,
 } from '@/types/military';
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   return DUTY_STATIONS.map((s) => ({ slug: s.slug }));
 }
+
+export const dynamicParams = false;
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const station = STATION_BY_SLUG[params.slug];
@@ -31,13 +33,6 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 }
 
 const NATIONAL_AVG_E5_W = 1987;
-
-const GRADE_ORDER = [
-  ...ENLISTED_GRADES,
-  ...WARRANT_GRADES,
-  ...PRIOR_ENLISTED_OFFICER_GRADES,
-  'O-1', 'O-2', 'O-3', 'O-4', 'O-5', 'O-6', 'O-7',
-] as const;
 
 function fmt(n: number) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
@@ -158,7 +153,7 @@ export default function StationPage({ params }: { params: { slug: string } }) {
                 utility/recurring maintenance allowance (MIHA). BAH rates do not apply.
               </p>
               <p className="text-sm text-amber-700 mt-2 leading-relaxed">
-                Contact your gaining unit's housing office for current OHA ceilings and the DTMO OHA calculator at{' '}
+                Contact your gaining unit&apos;s housing office for current OHA ceilings and the DTMO OHA calculator at{' '}
                 <a href="https://www.travel.dod.mil/Allowances/Overseas-Housing-Allowance/" target="_blank" rel="noopener noreferrer" className="underline">travel.dod.mil</a>.
               </p>
               <p className="text-sm text-amber-700 mt-3 leading-relaxed italic">{station.rentalNote}</p>
