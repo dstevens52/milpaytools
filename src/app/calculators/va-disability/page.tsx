@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { VADisabilityCalculator } from '@/components/calculators/va-disability/VADisabilityCalculator';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: 'VA Disability Rating Calculator 2026 | Combined Rating | MilPayTools',
@@ -13,6 +15,7 @@ export const metadata: Metadata = {
 export default function VADisabilityPage() {
   return (
     <>
+      <JsonLdScript schema={webApplicationSchema({ name: 'VA Disability Rating Calculator 2026', description: 'Calculate your combined VA disability rating using the official "whole person" formula (38 CFR § 4.25). Includes bilateral factor, step-by-step math, and 2026 compensation rates.', url: '/calculators/va-disability' })} />
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

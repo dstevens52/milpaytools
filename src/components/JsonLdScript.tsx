@@ -1,0 +1,10 @@
+export function JsonLdScript({ schema }: { schema: Record<string, unknown> }) {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(schema).replace(/</g, '\\u003c'),
+      }}
+    />
+  );
+}

@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { GuardReserveCalculator } from '@/components/calculators/guard-reserve/GuardReserveCalculator';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: 'Guard & Reserve Pay Calculator 2026 | Drill Pay + AT + TRS | MilPayTools',
@@ -13,6 +15,7 @@ export const metadata: Metadata = {
 export default function GuardReservePage() {
   return (
     <>
+      <JsonLdScript schema={webApplicationSchema({ name: 'Guard & Reserve Pay Calculator 2026', description: 'Estimate total Guard and Reserve annual compensation: drill pay (MUTA), Annual Training pay, Tricare Reserve Select savings, and BRS matching. Uses 2026 DFAS pay tables.', url: '/calculators/guard-reserve' })} />
       {/* ── Page intro ──────────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

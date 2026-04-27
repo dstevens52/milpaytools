@@ -9,6 +9,8 @@ import { KeyFact } from '@/components/blog/KeyFact';
 import { QuickAnswer, QAItem } from '@/components/blog/QuickAnswer';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { articleSchema, faqPageSchema } from '@/lib/schema';
 
 // MDX components available in all guides
 const mdxComponents = {
@@ -17,6 +19,45 @@ const mdxComponents = {
   QuickAnswer,
   QAItem,
   Disclaimer,
+};
+
+const GUIDE_FAQS: Record<string, { question: string; answer: string }[]> = {
+  'va-disability': [
+    {
+      question: 'How are VA disability ratings calculated when you have multiple conditions?',
+      answer: "The VA uses the 'whole person' method (38 CFR § 4.25): each rating applies to your remaining functional capacity, not the original 100%. So 50% + 30% = 65% combined, which rounds to 70%. The VA rounds once, at the very end, never between steps.",
+    },
+    {
+      question: 'What is a 0% VA disability rating?',
+      answer: 'A 0% rating means the VA acknowledges the condition is service-connected but finds it not severe enough to warrant compensation. It still establishes the service connection, which is the foundation for future claims if the condition worsens.',
+    },
+    {
+      question: 'What is the bilateral factor in VA disability?',
+      answer: 'If you have compensable ratings (above 0%) on both sides of a paired body part — both knees, both hips, both shoulders — the VA applies a 10% boost to the combined value of those bilateral ratings before incorporating them into the main calculation.',
+    },
+    {
+      question: 'Who qualifies for Concurrent Retirement and Disability Pay (CRDP)?',
+      answer: 'CRDP allows veterans to receive both full military retirement pay and VA disability compensation without offset. Veterans generally qualify with a VA disability rating of 50% or higher combined with receipt of military retirement pay.',
+    },
+  ],
+  'education-benefits': [
+    {
+      question: 'How is the GI Bill monthly housing allowance (MHA) calculated?',
+      answer: "MHA is paid at the BAH rate for an E-5 with dependents at the ZIP code of your school's primary campus. This varies significantly by location — Bay Area schools can provide over $3,000/month while rural Midwest schools may provide around $1,200/month. Students enrolled exclusively online receive 50% of the national average BAH regardless of physical location.",
+    },
+    {
+      question: 'Should I use Tuition Assistance while on active duty or save my GI Bill?',
+      answer: 'Use Tuition Assistance (TA) while on active duty and save your Post-9/11 GI Bill for after separation. TA covers up to $4,500/year in tuition with no impact on your 36-month GI Bill entitlement.',
+    },
+    {
+      question: 'Can I transfer my Post-9/11 GI Bill to my spouse or children?',
+      answer: 'Yes. With at least 6 years of service and a commitment to serve 4 more years, you can transfer all or part of your Post-9/11 GI Bill entitlement to a spouse or dependent children. This is one of the most valuable long-term military benefits available.',
+    },
+    {
+      question: 'What is VR&E Chapter 31 and when is it better than the GI Bill?',
+      answer: 'VR&E (Chapter 31) has no tuition cap, covers books and supplies, includes a subsistence allowance, and adds job placement services. For veterans with service-connected disabilities, it can be more valuable than the Post-9/11 GI Bill because it covers the full cost of attendance at any approved school without a tuition cap.',
+    },
+  ],
 };
 
 const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
@@ -74,8 +115,12 @@ export default async function GuidePostPage({
   const relatedCalcs = guide.calculators
     .map((c) => CALCULATOR_LINKS[c])
     .filter(Boolean);
+  const guideFaqs = GUIDE_FAQS[slug];
 
   return (
+    <>
+      <JsonLdScript schema={articleSchema({ title: guide.title, description: guide.description, datePublished: guide.date, url: `/guides/${slug}` })} />
+      {guideFaqs && <JsonLdScript schema={faqPageSchema(guideFaqs)} />}
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="mb-6">
@@ -165,5 +210,6 @@ export default async function GuidePostPage({
         <Disclaimer dataYear="2026" />
       </div>
     </div>
+    </>
   );
 }

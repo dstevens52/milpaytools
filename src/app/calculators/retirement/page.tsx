@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { RetirementCalculator } from '@/components/calculators/retirement/RetirementCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: 'Military Retirement Calculator 2026 | MilPayTools',
@@ -13,6 +15,8 @@ export const metadata: Metadata = {
 
 export default function RetirementCalculatorPage() {
   return (
+    <>
+      <JsonLdScript schema={webApplicationSchema({ name: 'Military Retirement Calculator 2026', description: 'Estimate your military pension under High-3 or BRS. See monthly pension, lifetime value, TSP projection, and VA disability combined income using 2026 pay tables.', url: '/calculators/retirement' })} />
     <div className="bg-zinc-50">
       {/* Page header */}
       <div className="bg-white border-b border-zinc-200">
@@ -185,5 +189,6 @@ export default function RetirementCalculatorPage() {
         </div>
 
     </div>
+    </>
   );
 }

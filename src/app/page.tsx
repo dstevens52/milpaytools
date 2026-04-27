@@ -6,6 +6,8 @@ import { TrustSection } from '@/components/home/TrustSection';
 import { GuidesSection } from '@/components/home/GuidesSection';
 import { LatestPostsSection } from '@/components/home/LatestPostsSection';
 import Link from 'next/link';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { organizationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: 'MilPayTools — Military Pay & Benefits Calculators',
@@ -16,6 +18,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
+      <JsonLdScript schema={organizationSchema()} />
       <HeroSection />
       <QuickNavSection />
       <CalculatorGrid />

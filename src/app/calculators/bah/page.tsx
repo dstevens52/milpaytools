@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { BAHCalculator } from '@/components/calculators/bah/BAHCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: 'BAH Calculator 2026 | Military Housing Allowance | MilPayTools',
@@ -14,6 +16,7 @@ export const metadata: Metadata = {
 export default function BAHPage() {
   return (
     <>
+      <JsonLdScript schema={webApplicationSchema({ name: 'BAH Calculator 2026', description: 'Look up your 2026 BAH rate by ZIP code, pay grade, and dependency status. Covers all 40,959 ZIP codes using official DTMO data. Compare rates across duty stations.', url: '/calculators/bah' })} />
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

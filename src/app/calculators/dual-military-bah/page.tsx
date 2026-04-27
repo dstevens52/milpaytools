@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { DualMilitaryBAHCalculator } from '@/components/calculators/dual-military-bah/DualMilitaryBAHCalculator';
 import { GuidePromo } from '@/components/calculators/shared/GuidePromo';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH | MilPayTools',
@@ -14,6 +16,7 @@ export const metadata: Metadata = {
 export default function DualMilitaryBAHPage() {
   return (
     <>
+      <JsonLdScript schema={webApplicationSchema({ name: 'Dual Military BAH Calculator 2026', description: 'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.', url: '/calculators/dual-military-bah' })} />
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PayChartsClient } from '@/components/calculators/pay-charts/PayChartsClient';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: '2026 Military Pay Charts | MilPayTools',
@@ -15,6 +17,7 @@ export const metadata: Metadata = {
 export default function PayChartsPage() {
   return (
     <>
+      <JsonLdScript schema={webApplicationSchema({ name: '2026 Military Pay Charts', description: 'Official 2026 military pay tables for all ranks E-1 through O-10 and warrant officers. 3.8% pay raise effective January 1, 2026. Monthly basic pay by grade and years of service.', url: '/calculators/pay-charts' })} />
       {/* ── Hero ──────────────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

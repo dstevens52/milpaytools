@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { ColaCalculator } from '@/components/calculators/cola/ColaCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: 'CONUS COLA Calculator — 2026 | MilPayTools',
@@ -14,6 +16,7 @@ export const metadata: Metadata = {
 export default function ColaPage() {
   return (
     <>
+      <JsonLdScript schema={webApplicationSchema({ name: 'CONUS COLA Calculator 2026', description: 'Check whether your duty station qualifies for CONUS Cost of Living Allowance and see approximate monthly rates by grade. Uses DTMO area data for 2026.', url: '/calculators/cola' })} />
       <div className="bg-white border-b border-zinc-200">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10">
           <div className="inline-flex items-center gap-2 mb-4">

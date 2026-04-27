@@ -8,6 +8,8 @@ import { KeyFact } from '@/components/blog/KeyFact';
 import { QuickAnswer, QAItem } from '@/components/blog/QuickAnswer';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { articleSchema, faqPageSchema } from '@/lib/schema';
 
 // MDX components available in all posts
 const mdxComponents = {
@@ -35,6 +37,45 @@ const CATEGORY_COLORS: Record<string, string> = {
   'Career Transition':   'bg-amber-100 text-amber-700',
   'Education Benefits':  'bg-teal-100 text-teal-700',
   'General':             'bg-zinc-100 text-zinc-600',
+};
+
+const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
+  'va-disability-math-explained': [
+    {
+      question: "Why doesn't the VA add disability percentages together?",
+      answer: "The VA uses the 'whole person' method (38 CFR § 4.25). Each rating applies to your remaining functional capacity, not the original 100%. So 50% + 30% = 65% combined, which rounds to 70% — not 80%.",
+    },
+    {
+      question: 'What is the bilateral factor in VA disability ratings?',
+      answer: 'The bilateral factor (38 CFR § 4.26) adds a 10% bonus to the combined value of disabilities affecting both sides of a paired body part — both knees, both arms, both legs, etc. — before mixing those into the main calculation. Even a 10% rating on the second side triggers this factor.',
+    },
+    {
+      question: 'How does VA disability rounding work?',
+      answer: 'The final combined value rounds to the nearest 10%: values ending in 1–4 round down, values ending in 5–9 round up. This happens once, at the very end — never between calculation steps.',
+    },
+    {
+      question: 'Why does the gap between 90% and 100% VA disability matter so much?',
+      answer: 'In 2026, the jump from 90% ($2,362.30/month) to 100% ($3,938.58/month) is $1,576.28/month — the largest single step in the pay table. That is $18,915/year in tax-free compensation, making the difference between a 94.9% and 95% exact combined value worth thousands annually.',
+    },
+  ],
+  'dual-military-bah-guide': [
+    {
+      question: 'Can both members of a dual military couple receive the with-dependents BAH rate?',
+      answer: 'No. When both spouses are active-duty and co-located, only one member can receive the with-dependents BAH rate. The other always receives the without-dependents rate, regardless of rank or seniority.',
+    },
+    {
+      question: 'Should the higher-ranking spouse always claim dependents for dual military BAH?',
+      answer: "Not necessarily. The optimal configuration depends on which member has the larger gap between their with-dependents and without-dependents BAH rate at your specific duty station. In markets like San Diego, the E-5's gap can exceed the O-3's — making it more advantageous for the junior member to claim.",
+    },
+    {
+      question: 'What happens to dual military BAH when spouses are stationed at different locations?',
+      answer: 'When stationed separately, dependent assignment follows where the dependents physically reside — this is a policy determination, not a financial choice. The member whose children live with them receives the with-dependents rate for their duty station.',
+    },
+    {
+      question: 'Do dual military couples without children get different BAH rates?',
+      answer: 'No. A spouse technically counts as a dependent for BAH purposes, but dual military couples without children both receive the without-dependents rate. Marriage alone does not trigger with-dependents BAH when both spouses are active duty.',
+    },
+  ],
 };
 
 const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
@@ -93,8 +134,12 @@ export default async function BlogPostPage({
     .map((c) => CALCULATOR_LINKS[c])
     .filter(Boolean);
   const parentGuideTitle = post.guide ? GUIDE_TITLES[post.guide] : null;
+  const postFaqs = POST_FAQS[slug];
 
   return (
+    <>
+      <JsonLdScript schema={articleSchema({ title: post.title, description: post.description, datePublished: post.date, url: `/blog/${slug}` })} />
+      {postFaqs && <JsonLdScript schema={faqPageSchema(postFaqs)} />}
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Parent guide breadcrumb */}
       {parentGuideTitle && post.guide && (
@@ -176,5 +221,6 @@ export default async function BlogPostPage({
         <Disclaimer dataYear="2026" />
       </div>
     </div>
+    </>
   );
 }

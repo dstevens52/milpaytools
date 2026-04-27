@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { TSPCalculator } from '@/components/calculators/tsp/TSPCalculator';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator | MilPayTools',
@@ -13,6 +15,7 @@ export const metadata: Metadata = {
 export default function TSPPage() {
   return (
     <>
+      <JsonLdScript schema={webApplicationSchema({ name: 'TSP Growth Projector 2026', description: 'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 contribution limits.', url: '/calculators/tsp' })} />
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

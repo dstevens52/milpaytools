@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { PCSCalculator } from '@/components/calculators/pcs/PCSCalculator';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: 'PCS Cost Estimator 2026 | Military Move Calculator | MilPayTools',
@@ -13,6 +15,7 @@ export const metadata: Metadata = {
 export default function PCSPage() {
   return (
     <>
+      <JsonLdScript schema={webApplicationSchema({ name: 'PCS Cost Estimator 2026', description: 'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY profit potential. Uses 2026 DTMO rates for all ranks.', url: '/calculators/pcs' })} />
       {/* ── Page intro ─────────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

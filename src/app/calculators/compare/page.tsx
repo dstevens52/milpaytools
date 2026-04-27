@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { CompareCalculator } from '@/components/calculators/compare/CompareCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: 'Duty Station Comparison Calculator — 2026 | MilPayTools',
@@ -14,6 +16,7 @@ export const metadata: Metadata = {
 export default function ComparePage() {
   return (
     <>
+      <JsonLdScript schema={webApplicationSchema({ name: 'Duty Station Comparison Calculator 2026', description: 'Compare total compensation, BAH, and take-home pay between two CONUS duty stations side by side. See the real financial difference between PCS orders using 2026 official data.', url: '/calculators/compare' })} />
       <div className="bg-white border-b border-zinc-200">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10">
           <div className="inline-flex items-center gap-2 mb-4">

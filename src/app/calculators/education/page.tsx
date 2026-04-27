@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { EducationCalculator } from '@/components/calculators/education/EducationCalculator';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: 'Military Education Benefits Comparison Calculator — 2026 | MilPayTools',
@@ -10,6 +12,8 @@ export const metadata: Metadata = {
 
 export default function EducationCalculatorPage() {
   return (
+    <>
+      <JsonLdScript schema={webApplicationSchema({ name: 'Military Education Benefits Comparison Calculator 2026', description: 'Compare Post-9/11 GI Bill, VR&E (Chapter 31), Tuition Assistance, and Montgomery GI Bill side by side. See total program value by ZIP code, school type, and eligibility.', url: '/calculators/education' })} />
     <div className="min-h-screen bg-zinc-50">
       {/* Page header */}
       <div className="bg-white border-b border-zinc-200">
@@ -133,5 +137,6 @@ export default function EducationCalculatorPage() {
         </div>
 
     </div>
+    </>
   );
 }
