@@ -20,8 +20,13 @@ export async function generateStaticParams() {
 
 export const dynamicParams = false;
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const station = STATION_BY_SLUG[params.slug];
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const station = STATION_BY_SLUG[slug];
   if (!station) return {};
   const title = `${station.name} BAH Rates 2026 | ${station.city}, ${station.state}`;
   const description = `2026 Basic Allowance for Housing rates for ${station.name} in ${station.city}, ${station.stateName}. Monthly BAH for every pay grade — with and without dependents — plus local housing market insights.`;
@@ -38,8 +43,13 @@ function fmt(n: number) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
 }
 
-export default function StationPage({ params }: { params: { slug: string } }) {
-  const station = STATION_BY_SLUG[params.slug];
+export default async function StationPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const station = STATION_BY_SLUG[slug];
   if (!station) notFound();
 
   const mhaCode = station.oconus ? null : getMHACode(station.zip);
