@@ -55,40 +55,48 @@ export default function DualMilitaryBAHPage() {
         </div>
       </div>
 
-      {/* ── Quick rules box ──────────────────────────────────────────── */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        <div className="rounded-lg bg-red-50 border border-red-200 p-5">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-5 h-5 rounded-full bg-red-700 flex items-center justify-center flex-none">
-              <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M12 6v6" />
-              </svg>
-            </div>
-            <p className="text-sm font-bold text-red-900 uppercase tracking-wide">
-              Dual Military BAH Rules
-            </p>
-          </div>
-          <ul className="space-y-2">
-            {[
-              'Only one member can claim dependents for BAH — the claiming member gets the with-dependents rate; the other always gets the without-dependents rate.',
-              'If neither member has dependents, both receive the without-dependents rate regardless of marital status.',
-              'The higher-ranking member claiming dependents almost always produces the higher household total — the with-dependents premium scales with pay grade.',
-              'If stationed at different locations, each member\'s BAH is based on their own duty station ZIP code, not their spouse\'s.',
-              'Each member receives their BAH independently on their own LES — the amounts are never split or shared between the two.',
-            ].map((rule, i) => (
-              <li key={i} className="flex items-start gap-2.5 text-sm text-red-900">
-                <span className="mt-0.5 w-4 h-4 rounded-full bg-red-200 flex items-center justify-center flex-none text-xs font-bold text-red-700">
-                  {i + 1}
-                </span>
-                {rule}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <DualMilitaryBAHCalculator />
+
+      {/* ── Collapsible rules ────────────────────────────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-4">
+        <details className="group">
+          <summary className="flex cursor-pointer list-none items-center justify-between rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors [&::-webkit-details-marker]:hidden">
+            <span className="flex items-center gap-2">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-100 flex-none">
+                <svg className="w-3 h-3 text-red-700" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M12 6v6" />
+                </svg>
+              </span>
+              Dual Military BAH Rules
+            </span>
+            <svg
+              className="h-4 w-4 text-zinc-400 transition-transform duration-200 group-open:rotate-180"
+              fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div className="mt-2 rounded-lg bg-red-50 border border-red-200 p-5">
+            <ul className="space-y-2">
+              {[
+                'Only one member can claim dependents for BAH — the claiming member gets the with-dependents rate; the other always gets the without-dependents rate.',
+                'If neither member has dependents, both receive the without-dependents rate regardless of marital status.',
+                'The higher-ranking member claiming dependents almost always produces the higher household total — the with-dependents premium scales with pay grade.',
+                "If stationed at different locations, each member's BAH is based on their own duty station ZIP code, not their spouse's.",
+                'Each member receives their BAH independently on their own LES — the amounts are never split or shared between the two.',
+              ].map((rule, i) => (
+                <li key={i} className="flex items-start gap-2.5 text-sm text-red-900">
+                  <span className="mt-0.5 w-4 h-4 rounded-full bg-red-200 flex items-center justify-center flex-none text-xs font-bold text-red-700">
+                    {i + 1}
+                  </span>
+                  {rule}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </details>
+      </div>
 
       {/* ── Explainer ────────────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-8">
