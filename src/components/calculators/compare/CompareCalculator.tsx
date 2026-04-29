@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { compareLocations } from '@/lib/calculations/compare';
 import type { CompareResult, LocationData } from '@/lib/calculations/compare';
 import type { PayGrade } from '@/types/military';
+import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
+import { ShareButton } from '@/components/calculators/shared/ShareButton';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -188,6 +190,35 @@ export function CompareCalculator() {
   const [labelA, setLabelA] = useState('');
   const [labelB, setLabelB] = useState('');
 
+  // Pre-populate from URL params on mount
+  // ?zip1=28310&zip2=98433&rank=E5&dependents=yes&yos=6
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const z1 = parseZip(params.get('zip1'));
+    const z2 = parseZip(params.get('zip2'));
+    const gr = parseGrade(params.get('rank'));
+    const dep = parseBool(params.get('dependents'));
+    const yosRaw = params.get('yos');
+    if (z1) setZipA(z1);
+    if (z2) setZipB(z2);
+    if (gr) setPayGrade(gr);
+    if (dep !== null) setHasDependents(dep);
+    if (yosRaw) {
+      const n = parseInt(yosRaw, 10);
+      if (!isNaN(n) && n >= 0 && n <= 40) setYos(n);
+    }
+  }, []);
+
+  function getShareUrl() {
+    const p = new URLSearchParams();
+    p.set('zip1', zipA.replace(/\D/g, '').slice(0, 5) || zipA);
+    p.set('zip2', zipB.replace(/\D/g, '').slice(0, 5) || zipB);
+    p.set('rank', gradeToParam(payGrade));
+    p.set('dependents', hasDependents ? 'yes' : 'no');
+    p.set('yos', String(yos));
+    return `${window.location.origin}/calculators/compare?${p.toString()}`;
+  }
+
   const zipAClean = zipA.replace(/\D/g, '').slice(0, 5);
   const zipBClean = zipB.replace(/\D/g, '').slice(0, 5);
   const bothReady = zipAClean.length === 5 && zipBClean.length === 5;
@@ -353,6 +384,10 @@ export function CompareCalculator() {
         <>
           {/* Summary */}
           <SummaryCard result={result} nameA={nameA} nameB={nameB} />
+
+          <div className="flex justify-end">
+            <ShareButton getUrl={getShareUrl} />
+          </div>
 
           {/* Detailed comparison */}
           <div className="bg-white rounded-lg border border-zinc-200 shadow-sm p-6">

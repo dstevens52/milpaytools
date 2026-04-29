@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
 import { isZipInDataset, getLocationName } from '@/lib/calculations/bah';
 import { formatCurrency } from '@/lib/utils';
@@ -19,6 +19,8 @@ import {
 } from '@/types/military';
 import type { TotalCompensationInput, ActionStep } from '@/types/calculator';
 import type { PayGrade } from '@/types/military';
+import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
+import { ShareButton } from '@/components/calculators/shared/ShareButton';
 
 // ─── Grade options grouped for the dropdown ────────────────────────────────
 
@@ -131,6 +133,31 @@ export function TotalCompensationCalculator() {
   const [hasDependents, setHasDependents] = useState(false);
   const [retirementSystem, setRetirementSystem] = useState<'legacy' | 'brs'>('brs');
   const [tspPct, setTspPct] = useState(5);
+
+  // Pre-populate from URL params on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const gr = parseGrade(params.get('rank'));
+    const yosRaw = params.get('yos');
+    const gz = parseZip(params.get('zip'));
+    const dep = parseBool(params.get('dependents'));
+    if (gr) setGrade(gr);
+    if (yosRaw) {
+      const n = parseInt(yosRaw, 10);
+      if (!isNaN(n) && n >= 0 && n <= 40) setYos(n);
+    }
+    if (gz) { setZipInput(gz); setZipCode(gz); }
+    if (dep !== null) setHasDependents(dep);
+  }, []);
+
+  function getShareUrl() {
+    const p = new URLSearchParams();
+    p.set('rank', gradeToParam(grade));
+    p.set('yos', String(yos));
+    if (zipCode) p.set('zip', zipCode);
+    p.set('dependents', hasDependents ? 'yes' : 'no');
+    return `${window.location.origin}/calculators/total-compensation?${p.toString()}`;
+  }
 
   const input: TotalCompensationInput = {
     payGrade: grade,
@@ -299,6 +326,10 @@ export function TotalCompensationCalculator() {
           <p className="text-red-200 text-sm mt-1">
             {formatCurrency(result.totalAnnual)}/year &nbsp;·&nbsp; Based on {DATA_YEAR} rates
           </p>
+        </div>
+
+        <div className="flex justify-end -mt-2">
+          <ShareButton getUrl={getShareUrl} />
         </div>
 
         {/* Breakdown */}

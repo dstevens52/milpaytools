@@ -1,14 +1,16 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
+import { ShareButton } from '@/components/calculators/shared/ShareButton';
 import { lookupBAH, getMHARates, getMHACode, isTerritory, isZipInDataset } from '@/lib/calculations/bah';
 import { ENLISTED_GRADES, WARRANT_GRADES, OFFICER_GRADES, PRIOR_ENLISTED_OFFICER_GRADES, RANK_DISPLAY } from '@/types/military';
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
+import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 
 // ─── Grade select options ──────────────────────────────────────────────────
 
@@ -269,6 +271,25 @@ export function BAHCalculator() {
   // Compare difference
   const diff = resultA && resultB ? resultA.monthlyRate - resultB.monthlyRate : null;
 
+  // Pre-populate from URL params on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const gz = parseZip(params.get('zip'));
+    const gr = parseGrade(params.get('rank'));
+    const dep = parseBool(params.get('dependents'));
+    if (gz) setZip(gz);
+    if (gr) setGrade(gr);
+    if (dep !== null) setHasDependents(dep);
+  }, []);
+
+  function getShareUrl() {
+    const p = new URLSearchParams();
+    if (zip) p.set('zip', zip);
+    p.set('rank', gradeToParam(grade));
+    p.set('dependents', hasDependents ? 'yes' : 'no');
+    return `${window.location.origin}/calculators/bah?${p.toString()}`;
+  }
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* ── Inputs ────────────────────────────────────────────────────── */}
@@ -396,6 +417,12 @@ export function BAHCalculator() {
           <Card variant="result">
             <LocationResult zip={zip} grade={grade} hasDependents={hasDependents} />
           </Card>
+
+          {result && (
+            <div className="flex justify-end -mt-2">
+              <ShareButton getUrl={getShareUrl} />
+            </div>
+          )}
 
           {/* Rate table */}
           {mhaCode && (

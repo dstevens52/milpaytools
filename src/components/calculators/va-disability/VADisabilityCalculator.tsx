@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useId } from 'react';
+import { useState, useMemo, useId, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
 import { Input } from '@/components/ui/Input';
@@ -12,6 +12,7 @@ import {
   type DependentConfig,
   type CalculationStep,
 } from '@/lib/calculations/va-disability';
+import { ShareButton } from '@/components/calculators/shared/ShareButton';
 
 // ─── Constants ─────────────────────────────────────────────────────────────
 
@@ -142,6 +143,36 @@ export function VADisabilityCalculator() {
   const [newRating, setNewRating] = useState<number>(10);
   const [newLocation, setNewLocation] = useState<string>('other');
   const [newLabel, setNewLabel] = useState('');
+
+  // Pre-populate from URL params on mount (?ratings=50,30,20)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const ratingsParam = params.get('ratings');
+    if (!ratingsParam) return;
+    const parsed = ratingsParam
+      .split(',')
+      .map((s) => parseInt(s.trim(), 10))
+      .filter((n) => VA_RATINGS.includes(n));
+    if (parsed.length > 0) {
+      setDisabilities(
+        parsed.map((rating, i) => ({
+          id: `url-init-${i}`,
+          rating,
+          label: '',
+          side: 'none' as const,
+          pairKey: null,
+        }))
+      );
+    }
+  }, []);
+
+  function getShareUrl() {
+    const p = new URLSearchParams();
+    if (disabilities.length > 0) {
+      p.set('ratings', disabilities.map((d) => d.rating).join(','));
+    }
+    return `${window.location.origin}/calculators/va-disability?${p.toString()}`;
+  }
 
   // ── Derived calculation ────────────────────────────────────────────────
   const result = useMemo(() => calculateCombinedRating(disabilities), [disabilities]);
@@ -481,6 +512,10 @@ export function VADisabilityCalculator() {
               </div>
             </div>
           </Card>
+
+          <div className="flex justify-end -mt-2">
+            <ShareButton getUrl={getShareUrl} />
+          </div>
 
           {/* Step-by-step breakdown */}
           <Card>

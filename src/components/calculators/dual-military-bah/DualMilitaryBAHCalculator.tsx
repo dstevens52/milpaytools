@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
+import { ShareButton } from '@/components/calculators/shared/ShareButton';
 import { lookupBAH, isTerritory, isZipInDataset } from '@/lib/calculations/bah';
+import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import {
   ENLISTED_GRADES,
   WARRANT_GRADES,
@@ -101,6 +103,48 @@ export function DualMilitaryBAHCalculator() {
   const [zip2, setZip2] = useState('');
   const [hasDependents, setHasDependents] = useState(true);
   const [whoClaimsDeps, setWhoClaimsDeps] = useState<'member1' | 'member2'>('member1');
+
+  // Pre-populate from URL params on mount
+  // Same station: ?rank1=e7&rank2=e5&zip=92134&dependents=yes&claims=1
+  // Diff station: ?rank1=e7&rank2=e5&zip1=92134&zip2=28310&dependents=yes&claims=2
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const gr1 = parseGrade(params.get('rank1'));
+    const gr2 = parseGrade(params.get('rank2'));
+    const zipSame = parseZip(params.get('zip'));
+    const zipOne = parseZip(params.get('zip1'));
+    const zipTwo = parseZip(params.get('zip2'));
+    const dep = parseBool(params.get('dependents'));
+    const claimsRaw = params.get('claims');
+
+    if (gr1) setGrade1(gr1);
+    if (gr2) setGrade2(gr2);
+    if (zipSame) {
+      setZip1(zipSame);
+      setSameStation(true);
+    } else {
+      if (zipOne) setZip1(zipOne);
+      if (zipTwo) { setZip2(zipTwo); setSameStation(false); }
+    }
+    if (dep !== null) setHasDependents(dep);
+    if (claimsRaw === '1') setWhoClaimsDeps('member1');
+    else if (claimsRaw === '2') setWhoClaimsDeps('member2');
+  }, []);
+
+  function getShareUrl() {
+    const p = new URLSearchParams();
+    p.set('rank1', gradeToParam(grade1));
+    p.set('rank2', gradeToParam(grade2));
+    if (sameStation) {
+      if (zip1) p.set('zip', zip1);
+    } else {
+      if (zip1) p.set('zip1', zip1);
+      if (zip2) p.set('zip2', zip2);
+    }
+    p.set('dependents', hasDependents ? 'yes' : 'no');
+    if (hasDependents) p.set('claims', whoClaimsDeps === 'member1' ? '1' : '2');
+    return `${window.location.origin}/calculators/dual-military-bah?${p.toString()}`;
+  }
 
   const zip2Effective = sameStation ? zip1 : zip2;
 
@@ -498,6 +542,10 @@ export function DualMilitaryBAHCalculator() {
               )}
             </div>
           </Card>
+
+          <div className="flex justify-end -mt-2">
+            <ShareButton getUrl={getShareUrl} />
+          </div>
 
           {/* ── Per-member breakdown ─────────────────────────────────── */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
