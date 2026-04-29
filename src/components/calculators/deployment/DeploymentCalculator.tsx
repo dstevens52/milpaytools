@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { calculateDeployment } from '@/lib/calculations/deployment';
 import { DEPLOYMENT_RATES_2026 } from '@/data/deployment/2026/constants';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
+import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
+import { ShareButton } from '@/components/calculators/shared/ShareButton';
 
 // ─── Pay grade options ────────────────────────────────────────────────────────
 
@@ -227,6 +229,39 @@ export function DeploymentCalculator() {
   const [tspPct, setTspPct] = useState(10);
   const [usingSDP, setUsingSDP] = useState(true);
   const [sdpDeposit, setSdpDeposit] = useState(10000);
+
+  // ── URL params ────────────────────────────────────────────────────────
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const pg = parseGrade(params.get('rank'));
+    const yosParam = params.get('yos');
+    const gz = parseZip(params.get('zip'));
+    const deps = parseBool(params.get('dependents'));
+    const months = params.get('months');
+
+    if (pg) setPayGrade(pg);
+    if (yosParam !== null) {
+      const n = parseInt(yosParam);
+      if (!isNaN(n) && n >= 0 && n <= 40) setYos(n);
+    }
+    if (gz) setZip(gz);
+    if (deps !== null) setHasDependents(deps);
+    if (months !== null) {
+      const n = parseInt(months);
+      if (!isNaN(n) && n >= 1 && n <= 18) setDeployMonths(n);
+    }
+  }, []);
+
+  function getShareUrl(): string {
+    const params = new URLSearchParams();
+    params.set('rank', gradeToParam(payGrade));
+    params.set('yos', String(yos));
+    params.set('zip', zip.replace(/\D/g, '').slice(0, 5) || zip);
+    params.set('dependents', hasDependents ? 'yes' : 'no');
+    params.set('months', String(deployMonths));
+    return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+  }
 
   const zipDigits = zip.replace(/\D/g, '').slice(0, 5);
   const isValidZip = zipDigits.length === 5;
@@ -635,6 +670,9 @@ export function DeploymentCalculator() {
                 </div>
               </div>
             </PhaseCard>
+          </div>
+          <div className="flex justify-end">
+            <ShareButton getUrl={getShareUrl} />
           </div>
 
           {/* ── CZTE notice for officers ──────────────────────────────── */}

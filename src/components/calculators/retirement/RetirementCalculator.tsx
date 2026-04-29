@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import {
   AreaChart,
   Area,
@@ -30,6 +30,8 @@ import {
   TSP_SWR_PCT,
 } from '@/lib/calculations/retirement';
 import { DATA_YEAR } from '@/data/pay-tables/2026';
+import { parseGrade, gradeToParam } from '@/lib/urlParams';
+import { ShareButton } from '@/components/calculators/shared/ShareButton';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -213,6 +215,42 @@ export function RetirementCalculator() {
   );
 
   const actionSteps = useMemo(() => buildActionSteps(input, output), [input, output]);
+
+  // ── URL params ────────────────────────────────────────────────────────
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const pg = parseGrade(params.get('rank'));
+    const yosParam = params.get('yos');
+    const sys = params.get('system');
+    const vaParam = params.get('varating');
+
+    if (pg) { setCurrentGrade(pg); setRetirementGrade(pg); }
+    if (yosParam !== null) {
+      const n = parseInt(yosParam);
+      if (!isNaN(n) && n >= 0 && n <= 40) {
+        setCurrentYOS(Math.min(n, 20));
+        if (n >= 20) setRetirementYOS(n);
+      }
+    }
+    if (sys === 'high3') setRetirementSystem('high3');
+    else if (sys === 'brs') setRetirementSystem('brs');
+    if (vaParam !== null) {
+      const n = parseInt(vaParam);
+      if (!isNaN(n) && [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].includes(n)) {
+        setVaRating(n as typeof vaRating);
+      }
+    }
+  }, []);
+
+  function getShareUrl(): string {
+    const params = new URLSearchParams();
+    params.set('rank', gradeToParam(retirementGrade));
+    params.set('yos', String(retirementYOS));
+    params.set('system', retirementSystem);
+    params.set('varating', String(vaRating));
+    return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+  }
 
   // Clamp retirement YOS when current YOS changes
   function handleCurrentYOSChange(val: number) {
@@ -433,6 +471,9 @@ export function RetirementCalculator() {
             </div>
           )}
         </div>
+      </div>
+      <div className="flex justify-end">
+        <ShareButton getUrl={getShareUrl} />
       </div>
 
       {/* ── Result cards grid ── */}

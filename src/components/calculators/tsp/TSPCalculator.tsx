@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Legend,
@@ -20,6 +20,8 @@ import {
 import { ENLISTED_GRADES, WARRANT_GRADES, OFFICER_GRADES, PRIOR_ENLISTED_OFFICER_GRADES, RANK_DISPLAY } from '@/types/military';
 import { ALLOCATION_PRESETS, TSP_CONSTANTS_2026, type FundKey } from '@/data/tsp/2026/constants';
 import type { PayGrade } from '@/types/military';
+import { parseGrade, gradeToParam, parseBool } from '@/lib/urlParams';
+import { ShareButton } from '@/components/calculators/shared/ShareButton';
 
 // ─── Grade dropdown groups ────────────────────────────────────────────────
 
@@ -173,6 +175,52 @@ export function TSPCalculator() {
       'Investment Growth': Math.round(s.investmentGrowthTotal),
     }));
   }, [projection]);
+
+  // ── URL params ────────────────────────────────────────────────────────
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const bal = params.get('balance');
+    const contrib = params.get('contribution');
+    const years = params.get('years');
+    const match = parseBool(params.get('match'));
+    const roth = params.get('roth');
+    const pg = parseGrade(params.get('rank'));
+    const yosParam = params.get('yos');
+
+    if (bal !== null) {
+      const n = parseFloat(bal);
+      if (!isNaN(n) && n >= 0) setStartingBalance(String(Math.round(n)));
+    }
+    if (contrib !== null) {
+      const n = parseFloat(contrib);
+      if (!isNaN(n) && n >= 0) { setContribMode('dollar'); setContribValue(String(Math.round(n))); }
+    }
+    if (years !== null) {
+      const n = parseInt(years);
+      if (!isNaN(n) && n >= 1 && n <= 60) setTargetAge(String(26 + n));
+    }
+    if (match !== null) setRetirementSystem(match ? 'brs' : 'legacy');
+    if (roth === 'yes') setContribType('roth');
+    else if (roth === 'no') setContribType('traditional');
+    if (pg) setGrade(pg);
+    if (yosParam !== null) {
+      const n = parseInt(yosParam);
+      if (!isNaN(n) && n >= 0 && n <= 40) setYos(String(n));
+    }
+  }, []);
+
+  function getShareUrl(): string {
+    const params = new URLSearchParams();
+    params.set('balance', startingBalance || '0');
+    params.set('contribution', String(Math.round(monthlyContrib)));
+    params.set('years', String(yearsToProject));
+    params.set('match', retirementSystem === 'brs' ? 'yes' : 'no');
+    if (contribType !== 'both') params.set('roth', contribType === 'roth' ? 'yes' : 'no');
+    params.set('rank', gradeToParam(grade));
+    params.set('yos', yos);
+    return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+  }
 
   // ── Handlers ─────────────────────────────────────────────────────────
 
@@ -484,6 +532,9 @@ export function TSPCalculator() {
               </p>
             )}
           </Card>
+          <div className="-mt-2 flex justify-end">
+            <ShareButton getUrl={getShareUrl} />
+          </div>
 
           {/* Growth chart */}
           <Card>
