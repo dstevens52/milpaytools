@@ -55,8 +55,27 @@ const ALL_DROPDOWN_LINKS = DROPDOWN_GROUPS.flatMap((g) => g.links);
 function CalculatorsDropdown({ pathname }: { pathname: string }) {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const close = useCallback(() => setOpen(false), []);
+  const cancelClose = useCallback(() => {
+    if (closeTimer.current !== null) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  }, []);
+
+  const scheduleClose = useCallback(() => {
+    cancelClose();
+    closeTimer.current = setTimeout(() => setOpen(false), 175);
+  }, [cancelClose]);
+
+  const close = useCallback(() => {
+    cancelClose();
+    setOpen(false);
+  }, [cancelClose]);
+
+  // Clean up the timer if the component unmounts while open
+  useEffect(() => () => cancelClose(), [cancelClose]);
 
   // Close on outside click
   useEffect(() => {
@@ -88,8 +107,8 @@ function CalculatorsDropdown({ pathname }: { pathname: string }) {
     <div
       ref={containerRef}
       className="relative"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+      onMouseEnter={() => { cancelClose(); setOpen(true); }}
+      onMouseLeave={scheduleClose}
     >
       <button
         onClick={() => setOpen((o) => !o)}
