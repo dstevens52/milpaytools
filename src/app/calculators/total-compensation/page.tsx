@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { TotalCompensationCalculator } from '@/components/calculators/total-compensation/TotalCompensationCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -58,6 +59,31 @@ export default function TotalCompensationPage() {
 
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <TotalCompensationCalculator />
+
+      {/* ── Example Calculation ──────────────────────────────────────── */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <ExampleBox>
+          <h2 className="text-xl font-bold text-zinc-900 mb-2">
+            What Does an E-5 with 8 Years Really Make?
+          </h2>
+          <p className="text-sm text-zinc-600 leading-relaxed mb-0">
+            Scenario: E-5 (Sergeant / Petty Officer 2nd Class), 8 years of service, stationed at Fort Liberty, NC (ZIP 28310), married with dependents, enrolled in BRS and contributing 5% to TSP.
+          </p>
+          <ExampleTable>
+            <ExampleRow label="Monthly Base Pay (E-5, 8 yrs — 2026 table)" value="$4,300/mo" />
+            <ExampleRow label="BAH — Fort Liberty, NC (with dependents)" value="$1,806/mo" />
+            <ExampleRow label="BAS — Enlisted" value="$477/mo" />
+            <ExampleRow label="Monthly Gross" value="$6,583/mo" highlight />
+            <ExampleRow label="Annual (Base + BAH + BAS)" value="$78,996/yr" />
+            <ExampleRow label="BRS Gov Match (auto 1% + 4% match at 5% contribution)" value="+$2,580/yr" />
+            <ExampleRow label="Tax advantage — BAH &amp; BAS excluded from income (12% marginal)" value="+$3,287/yr" />
+            <ExampleRow label="Civilian Salary Equivalent" value="$84,863/yr" highlight />
+          </ExampleTable>
+          <p className="text-sm leading-relaxed text-zinc-700">
+            <strong>What this means:</strong> This E-5 sees $4,300 on their pay stub, but their true economic compensation is $84,863 — 64% higher. The gap comes from BAH and BAS being completely excluded from federal income tax. A civilian would need to earn roughly $84,863 before taxes to take home the same financial value, and that still doesn&apos;t count TRICARE, commissary access, or the pension.
+          </p>
+        </ExampleBox>
+      </section>
 
       {/* ── Explainer ────────────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-8">

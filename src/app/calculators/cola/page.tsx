@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { ColaCalculator } from '@/components/calculators/cola/ColaCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -37,6 +38,26 @@ export default function ColaPage() {
 
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10 space-y-10">
         <ColaCalculator />
+
+        {/* Example Calculation */}
+        <ExampleBox>
+          <h2 className="text-xl font-bold text-zinc-900 mb-2">
+            How Much CONUS COLA Does an E-5 at Monterey, CA Receive?
+          </h2>
+          <p className="text-sm text-zinc-600 leading-relaxed mb-0">
+            Scenario: E-5 stationed at the Naval Postgraduate School or Defense Language Institute, Monterey, CA (ZIP 93940). Monterey is one of the highest-tier CONUS COLA locations — one of the most expensive duty stations in the continental U.S.
+          </p>
+          <ExampleTable>
+            <ExampleRow label="E-5 CONUS COLA — Monterey, CA — with dependents" value="$430/mo" highlight />
+            <ExampleRow label="E-5 CONUS COLA — Monterey, CA — without dependents" value="$310/mo" />
+            <ExampleRow label="Annual COLA (with dependents)" value="$5,160/yr" highlight />
+            <ExampleRow label="Annual COLA (without dependents)" value="$3,720/yr" />
+            <ExampleRow label="Tax treatment" value="Taxable income" />
+          </ExampleTable>
+          <p className="text-sm leading-relaxed text-zinc-700">
+            <strong>What this means:</strong> An E-5 with dependents at the Naval Postgraduate School receives $5,160/year in additional pay specifically because Monterey&apos;s cost of living far exceeds the national average — even accounting for BAH. Unlike BAH, CONUS COLA is taxable income, so the net value after federal taxes at the 12% marginal bracket is approximately $4,541/year. It is still a meaningful supplement for one of the most expensive duty stations in the country.
+          </p>
+        </ExampleBox>
 
         {/* Explainer */}
         <div className="space-y-8 text-sm leading-relaxed">

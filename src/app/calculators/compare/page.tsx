@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CompareCalculator } from '@/components/calculators/compare/CompareCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -37,6 +38,29 @@ export default function ComparePage() {
 
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10 space-y-10">
         <CompareCalculator />
+
+        {/* Example Calculation */}
+        <ExampleBox>
+          <h2 className="text-xl font-bold text-zinc-900 mb-2">
+            Fort Liberty, NC vs. Fort Cavazos, TX: What&apos;s the Real Financial Difference?
+          </h2>
+          <p className="text-sm text-zinc-600 leading-relaxed mb-0">
+            Scenario: E-5, 8 years of service, married with dependents — comparing total monthly compensation at Fort Liberty, NC (ZIP 28310) vs. Fort Cavazos (formerly Fort Hood), TX (ZIP 76544). Same rank, same years, two very different BAH rates. 2026 data.
+          </p>
+          <ExampleTable>
+            <ExampleRow label="Base Pay (E-5, 8 yrs) — identical at both stations" value="$4,300/mo" />
+            <ExampleRow label="BAS — identical at both stations" value="$477/mo" />
+            <ExampleRow label="BAH — Fort Liberty, NC (with dependents)" value="$1,806/mo" />
+            <ExampleRow label="BAH — Fort Cavazos, TX (with dependents)" value="$1,422/mo" />
+            <ExampleRow label="BAH difference (Fort Liberty advantage)" value="+$384/mo" highlight />
+            <ExampleRow label="Monthly gross — Fort Liberty" value="$6,583/mo" highlight />
+            <ExampleRow label="Monthly gross — Fort Cavazos" value="$6,199/mo" highlight />
+            <ExampleRow label="Annual advantage — Fort Liberty" value="+$4,608/yr" highlight />
+          </ExampleTable>
+          <p className="text-sm leading-relaxed text-zinc-700">
+            <strong>What this means:</strong> The E-5 at Fort Liberty earns $4,608 more per year than their counterpart at Fort Cavazos — entirely due to the higher local housing market driving a higher BAH rate. Neither location qualifies for CONUS COLA. That $384/month difference is tax-free BAH that can be directed toward savings, a home down payment, or debt reduction. When evaluating PCS orders, this difference in annual compensation should factor alongside cost of living differences in the local economy.
+          </p>
+        </ExampleBox>
 
         {/* Explainer */}
         <div className="space-y-8 text-sm leading-relaxed">

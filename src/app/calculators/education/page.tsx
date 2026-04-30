@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { EducationCalculator } from '@/components/calculators/education/EducationCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
@@ -36,6 +37,31 @@ export default function EducationCalculatorPage() {
       </div>
 
       <EducationCalculator />
+
+      {/* Example Calculation */}
+      <section className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8">
+        <ExampleBox>
+          <h2 className="text-xl font-bold text-zinc-900 mb-2">
+            How Much Is the Post-9/11 GI Bill Worth at a San Diego University?
+          </h2>
+          <p className="text-sm text-zinc-600 leading-relaxed mb-0">
+            Scenario: E-5 with 36+ months of qualifying active duty service (100% eligibility), attending UC San Diego or a comparable institution in San Diego, CA (ZIP 92093), full-time. California in-state tuition approximately $15,000/yr. Compared to Montgomery GI Bill (Chapter 30).
+          </p>
+          <ExampleTable>
+            <ExampleRow label="Tuition &amp; fees covered (100% Post-9/11, in-state public)" value="~$15,000/yr" />
+            <ExampleRow label="Monthly Housing Allowance — San Diego (CA-038, E-5 w/dep rate)" value="$3,975/mo" />
+            <ExampleRow label="MHA × 9 academic months" value="$35,775/yr" />
+            <ExampleRow label="Books &amp; supplies stipend" value="up to $1,000/yr" />
+            <ExampleRow label="Post-9/11 GI Bill total annual value" value="~$51,775/yr" highlight />
+            <ExampleRow label="Montgomery GI Bill (Ch. 30) — full-time monthly" value="$2,185/mo" />
+            <ExampleRow label="MGIB annual value (9 months)" value="$19,665/yr" />
+            <ExampleRow label="Post-9/11 advantage over MGIB" value="+$32,110/yr" highlight />
+          </ExampleTable>
+          <p className="text-sm leading-relaxed text-zinc-700">
+            <strong>What this means:</strong> In a high-cost city like San Diego, the Post-9/11 GI Bill is overwhelmingly the better choice — worth $32,110 more per year than the Montgomery GI Bill, primarily because the Monthly Housing Allowance ($3,975/month) is benchmarked to the local BAH rate. A student in San Diego on the Post-9/11 GI Bill can realistically cover both tuition and rent with their benefit alone.
+          </p>
+        </ExampleBox>
+      </section>
 
       {/* Explainer content */}
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-16 space-y-10">

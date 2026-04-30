@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { GuardReserveCalculator } from '@/components/calculators/guard-reserve/GuardReserveCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
@@ -57,6 +58,31 @@ export default function GuardReservePage() {
       <div className="bg-zinc-50">
         <GuardReserveCalculator />
       </div>
+
+      {/* ── Example Calculation ──────────────────────────────────────── */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <ExampleBox>
+          <h2 className="text-xl font-bold text-zinc-900 mb-2">
+            What Does a Drilling E-5 Reservist Actually Earn Each Year?
+          </h2>
+          <p className="text-sm text-zinc-600 leading-relaxed mb-0">
+            Scenario: E-5, 6 years of service, standard drilling reservist — 12 weekend UTAs (48 drill periods), 14-day Annual Training, with Tricare Reserve Select family coverage. No activations or mobilizations.
+          </p>
+          <ExampleTable>
+            <ExampleRow label="E-5 daily base pay rate (6 yrs — $4,110/mo ÷ 30)" value="$137.00/day" />
+            <ExampleRow label="Weekend drill pay (48 periods × $137)" value="$6,576/yr" />
+            <ExampleRow label="Annual Training pay (14 days × $137)" value="$1,918/yr" />
+            <ExampleRow label="Total drill + AT pay" value="$8,494/yr" highlight />
+            <ExampleRow label="Retirement points earned (48 drills + 14 AT + 15 membership)" value="77 pts/yr" />
+            <ExampleRow label="Tricare Reserve Select — member + family premium" value="$286.66/mo ($3,440/yr)" />
+            <ExampleRow label="Comparable civilian family health plan (est.)" value="~$23,000/yr" />
+            <ExampleRow label="TRS healthcare savings vs. civilian coverage" value="~$19,560/yr" highlight />
+          </ExampleTable>
+          <p className="text-sm leading-relaxed text-zinc-700">
+            <strong>What this means:</strong> The cash drill pay of $8,494/year understates the true value of reserve service. When you add the $19,560 in annual healthcare savings from Tricare Reserve Select alone, this E-5&apos;s total compensation package is worth approximately $28,000/year — for roughly one weekend per month and two weeks of summer training. Retirement points also accumulate toward a reserve pension payable at age 60.
+          </p>
+        </ExampleBox>
+      </section>
 
       {/* ── Explainer ───────────────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">

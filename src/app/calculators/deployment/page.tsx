@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { DeploymentCalculator } from '@/components/calculators/deployment/DeploymentCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
@@ -57,6 +58,33 @@ export default function DeploymentPage() {
       <div className="bg-zinc-50">
         <DeploymentCalculator />
       </div>
+
+      {/* ── Example Calculation ──────────────────────────────────────── */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <ExampleBox>
+          <h2 className="text-xl font-bold text-zinc-900 mb-2">
+            How Much More Does an E-5 Take Home on a 9-Month Combat Zone Deployment?
+          </h2>
+          <p className="text-sm text-zinc-600 leading-relaxed mb-0">
+            Scenario: E-5, 8 years of service, married (family at Fort Liberty, NC), deploying to a designated Combat Zone Tax Exclusion (CZTE) area for 9 months. Receives HFP/IDP and Family Separation Allowance. No Hardship Duty Pay. 2026 rates.
+          </p>
+          <ExampleTable>
+            <ExampleRow label="Monthly base pay (E-5, 8 yrs)" value="$4,300/mo" />
+            <ExampleRow label="BAH continues at home station (Fort Liberty, w/deps)" value="$1,806/mo" />
+            <ExampleRow label="BAS" value="$477/mo" />
+            <ExampleRow label="Hostile Fire / Imminent Danger Pay (HFP/IDP)" value="+$225/mo" />
+            <ExampleRow label="Family Separation Allowance (FSA — married 30+ days away)" value="+$300/mo" />
+            <ExampleRow label="CZTE: all base pay excluded from federal income tax" value="−$0 tax (saves ~$346/mo)" />
+            <ExampleRow label="Monthly take-home — before deployment" value="$6,237/mo" />
+            <ExampleRow label="Monthly take-home — during deployment" value="$7,108/mo" highlight />
+            <ExampleRow label="Monthly increase" value="+$871/mo (+14%)" highlight />
+            <ExampleRow label="9-month tour total benefit (allowances $4,725 + tax savings $3,115)" value="$7,840" highlight />
+          </ExampleTable>
+          <p className="text-sm leading-relaxed text-zinc-700">
+            <strong>What this means:</strong> This E-5 takes home $871 more per month during the deployment — and because family expenses typically drop while a spouse is deployed (one fewer car, shared housing costs), many families can bank $1,000–$2,000+ per month. Over 9 months the CZTE alone saves $3,115 in federal income taxes. Deploying under BRS is also an opportunity to maximize Roth TSP contributions from already tax-free pay, potentially doubling the financial impact.
+          </p>
+        </ExampleBox>
+      </section>
 
       {/* ── Explainer ──────────────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">

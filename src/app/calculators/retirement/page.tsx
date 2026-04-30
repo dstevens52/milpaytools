@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { RetirementCalculator } from '@/components/calculators/retirement/RetirementCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -55,6 +56,31 @@ export default function RetirementCalculatorPage() {
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-6">
         <RetirementCalculator />
       </div>
+
+      {/* Example Calculation */}
+      <section className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8">
+        <ExampleBox>
+          <h2 className="text-xl font-bold text-zinc-900 mb-2">
+            BRS vs. High-3 at 20 Years: What Does an E-7 Actually Take Home?
+          </h2>
+          <p className="text-sm text-zinc-600 leading-relaxed mb-0">
+            Scenario: E-7, retiring at exactly 20 years of service in 2026. High-3 average calculated from the three years immediately preceding retirement. BRS pension assumes 5% TSP contribution throughout service.
+          </p>
+          <ExampleTable>
+            <ExampleRow label="High-3 average base pay (yrs 18, 19, 20 — E-7)" value="$6,141.30/mo" />
+            <ExampleRow label="High-3 pension (2.5% × 20 yrs × $6,141.30)" value="$3,071/mo" highlight />
+            <ExampleRow label="High-3 annual pension" value="$36,852/yr" />
+            <ExampleRow label="BRS pension (2.0% × 20 yrs × $6,141.30)" value="$2,457/mo" highlight />
+            <ExampleRow label="BRS TSP projected balance (5% contrib, 20 yrs, 7% return)" value="~$234,000" />
+            <ExampleRow label="BRS TSP monthly income (4% rule)" value="+$780/mo" />
+            <ExampleRow label="BRS total monthly income (pension + TSP)" value="$3,237/mo" highlight />
+            <ExampleRow label="BRS advantage over High-3" value="+$166/mo + $234K accessible" />
+          </ExampleTable>
+          <p className="text-sm leading-relaxed text-zinc-700">
+            <strong>What this means:</strong> At 20 years, BRS produces a higher total monthly income than High-3 — but only if the member contributed consistently and captured the full government match. The BRS pension alone ($2,457) is lower than High-3 ($3,071), but the TSP adds $780/month plus leaves a $234,000 lump sum that can be passed to heirs. Members who left before 20 years under BRS still keep their TSP contributions; under High-3, they would walk away with nothing from the pension system.
+          </p>
+        </ExampleBox>
+      </section>
 
       {/* Explainer */}
       <div className="bg-white border-t border-zinc-200">

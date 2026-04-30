@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { PCSCalculator } from '@/components/calculators/pcs/PCSCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
@@ -57,6 +58,33 @@ export default function PCSPage() {
       <div className="bg-zinc-50">
         <PCSCalculator />
       </div>
+
+      {/* ── Example Calculation ──────────────────────────────────────── */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <ExampleBox>
+          <h2 className="text-xl font-bold text-zinc-900 mb-2">
+            Government Move vs. PPM: E-6 from Fort Campbell, KY to JBLM, WA
+          </h2>
+          <p className="text-sm text-zinc-600 leading-relaxed mb-0">
+            Scenario: E-6, married with 2 dependents (3 total travelers), PCS from Fort Campbell, KY to Joint Base Lewis-McChord, WA — approximately 2,200 miles. Assumes 1 authorized POV, 7 travel days, and 20 days combined TLE. 2026 DTMO rates.
+          </p>
+          <ExampleTable>
+            <ExampleRow label="DLA — Dislocation Allowance (E-6 with dependents)" value="$3,548" />
+            <ExampleRow label="MALT mileage (2,200 mi × $0.205, 1 POV)" value="$451" />
+            <ExampleRow label="Per diem — member (7 days × $179)" value="$1,253" />
+            <ExampleRow label="Per diem — 2 dependents (7 days × $134.25 each)" value="$1,880" />
+            <ExampleRow label="TLE — Temporary Lodging Expense (20 days × $179)" value="$3,580" />
+            <ExampleRow label="Total government move entitlement" value="~$10,712" highlight />
+            <ExampleRow label="PPM — gross reimbursement (11,000 lbs ÷ 100 × $210/cwt)" value="$23,100" />
+            <ExampleRow label="PPM — estimated move costs (truck rental, fuel, supplies)" value="−$4,500" />
+            <ExampleRow label="PPM — net after 22% federal tax on profit" value="~$14,508" highlight />
+            <ExampleRow label="PPM advantage over government move" value="~$3,800 more" highlight />
+          </ExampleTable>
+          <p className="text-sm leading-relaxed text-zinc-700">
+            <strong>What this means:</strong> By doing a PPM (personally procured move) on this long-distance PCS, this E-6 keeps approximately $3,800 more than accepting the government&apos;s arranged move — while still retaining full DLA, MALT, per diem, and TLE entitlements. The profit comes from packing efficiently under the 11,000-lb weight allowance; actual savings vary based on real moving costs and how much of the weight allowance you use.
+          </p>
+        </ExampleBox>
+      </section>
 
       {/* ── Explainer ──────────────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { VADisabilityCalculator } from '@/components/calculators/va-disability/VADisabilityCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
@@ -57,6 +58,30 @@ export default function VADisabilityPage() {
 
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <VADisabilityCalculator />
+
+      {/* ── Example Calculation ──────────────────────────────────────── */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <ExampleBox>
+          <h2 className="text-xl font-bold text-zinc-900 mb-2">
+            How Does the VA Rate a Veteran with Back and Bilateral Knee Conditions?
+          </h2>
+          <p className="text-sm text-zinc-600 leading-relaxed mb-0">
+            Scenario: Three service-connected conditions — 50% lumbar spine (back), 30% left knee, 20% right knee. The knees trigger the bilateral factor under 38 CFR § 4.26 because both sides of the same joint are rated.
+          </p>
+          <ExampleTable>
+            <ExampleRow label="Left knee (30%) + right knee (20%) combined" value="44.0% before factor" />
+            <ExampleRow label="Bilateral factor added (+10% of combined)" value="+4.4 pts → 48.4%" />
+            <ExampleRow label="50% back applied to remaining 51.6%" value="−25.8 pts" />
+            <ExampleRow label="Combined exact value" value="74.2%" />
+            <ExampleRow label="VA rounded rating (nearest 10%)" value="70%" highlight />
+            <ExampleRow label="2026 monthly compensation — veteran alone" value="$1,808.45/mo" highlight />
+            <ExampleRow label="Annual VA compensation" value="$21,701/yr" highlight />
+          </ExampleTable>
+          <p className="text-sm leading-relaxed text-zinc-700">
+            <strong>What this means:</strong> Without the bilateral factor, these three conditions would combine to exactly 65% (rounds to 70% regardless). But VA rules explicitly require the bilateral adjustment — the factor added 4.4 percentage points to the knee pair before it entered the final calculation. At 70%, this veteran receives $1,808.45/month completely tax-free, and may qualify for additional dependent-based increases if they have a spouse or children.
+          </p>
+        </ExampleBox>
+      </section>
 
       {/* ── Explainer ────────────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-8">
