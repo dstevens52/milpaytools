@@ -3,11 +3,30 @@ import { DUTY_STATIONS } from '@/data/duty-stations/stations';
 import { getMHACode, getMHARates } from '@/lib/calculations/bah';
 import { StationSearch } from '@/components/bah-stations/StationSearch';
 
+const BAH_INDEX_TITLE = '2026 BAH Rates by Military Installation | MilPayTools';
+const BAH_INDEX_DESC =
+  'Find 2026 Basic Allowance for Housing rates for 70+ U.S. military installations. Full pay grade tables with and without dependents for every major Army, Air Force, Navy, and Marine Corps base.';
+const BAH_INDEX_IMAGE = '/api/og?type=station&title=2026+BAH+Rates+by+Military+Installation';
+
 export const metadata: Metadata = {
-  title: '2026 BAH Rates by Military Installation | MilPayTools',
-  description:
-    'Find 2026 Basic Allowance for Housing rates for 70+ U.S. military installations. Full pay grade tables with and without dependents for every major Army, Air Force, Navy, and Marine Corps base.',
+  // absolute bypasses the layout template to prevent "| MilPayTools | MilPayTools"
+  title: { absolute: BAH_INDEX_TITLE },
+  description: BAH_INDEX_DESC,
   alternates: { canonical: '/bah' },
+  openGraph: {
+    title: BAH_INDEX_TITLE,
+    description: BAH_INDEX_DESC,
+    type: 'website',
+    url: '/bah',
+    siteName: 'MilPayTools',
+    images: [{ url: BAH_INDEX_IMAGE, width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: BAH_INDEX_TITLE,
+    description: BAH_INDEX_DESC,
+    images: [BAH_INDEX_IMAGE],
+  },
 };
 
 export default function BahStationsIndexPage() {

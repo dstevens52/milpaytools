@@ -3,11 +3,16 @@ import { NextRequest } from 'next/server';
 
 export const runtime = 'edge';
 
+// Rendered at 2x (2400×1260) so LinkedIn/Twitter downscale to sharp 1200×630.
+// All px values are 2× what they would be for a 1200×630 canvas.
+const W = 2400;
+const H = 1260;
+
 function titleFontSize(title: string): number {
-  if (title.length < 25) return 72;
-  if (title.length < 40) return 64;
-  if (title.length < 55) return 56;
-  return 48;
+  if (title.length < 25) return 144;
+  if (title.length < 40) return 128;
+  if (title.length < 55) return 112;
+  return 96;
 }
 
 function defaultSubtitle(type: string): string {
@@ -43,8 +48,8 @@ export async function GET(request: NextRequest) {
     (
       <div
         style={{
-          width: '1200px',
-          height: '630px',
+          width: `${W}px`,
+          height: `${H}px`,
           background: '#FFFFFF',
           display: 'flex',
           fontFamily: 'system-ui, -apple-system, sans-serif',
@@ -53,8 +58,8 @@ export async function GET(request: NextRequest) {
         {/* Left red accent bar */}
         <div
           style={{
-            width: '8px',
-            height: '630px',
+            width: '16px',
+            height: `${H}px`,
             background: '#B91C1C',
             flexShrink: 0,
           }}
@@ -67,7 +72,7 @@ export async function GET(request: NextRequest) {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            padding: '52px 72px 52px 64px',
+            padding: '104px 144px 104px 128px',
             position: 'relative',
           }}
         >
@@ -75,9 +80,9 @@ export async function GET(request: NextRequest) {
           <div
             style={{
               position: 'absolute',
-              top: '-30px',
-              right: '36px',
-              fontSize: '280px',
+              top: '-60px',
+              right: '72px',
+              fontSize: '560px',
               fontWeight: '900',
               color: '#F4F4F5',
               lineHeight: '1',
@@ -91,12 +96,12 @@ export async function GET(request: NextRequest) {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '14px',
+              gap: '28px',
             }}
           >
             <div
               style={{
-                fontSize: '24px',
+                fontSize: '48px',
                 fontWeight: '800',
                 color: '#B91C1C',
                 letterSpacing: '0.06em',
@@ -107,13 +112,13 @@ export async function GET(request: NextRequest) {
             </div>
             <div
               style={{
-                width: '5px',
-                height: '5px',
+                width: '10px',
+                height: '10px',
                 borderRadius: '50%',
                 background: '#D4D4D8',
               }}
             />
-            <div style={{ fontSize: '22px', color: '#A1A1AA' }}>
+            <div style={{ fontSize: '44px', color: '#A1A1AA' }}>
               milpaytools.com
             </div>
           </div>
@@ -121,15 +126,15 @@ export async function GET(request: NextRequest) {
           {/* Middle: Badge + Title + Subtitle */}
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {badge ? (
-              <div style={{ display: 'flex', marginBottom: '18px' }}>
+              <div style={{ display: 'flex', marginBottom: '36px' }}>
                 <div
                   style={{
-                    fontSize: '18px',
+                    fontSize: '36px',
                     fontWeight: '700',
                     color: '#B91C1C',
                     background: '#FEF2F2',
-                    padding: '6px 18px',
-                    borderRadius: '100px',
+                    padding: '12px 36px',
+                    borderRadius: '200px',
                     letterSpacing: '0.08em',
                     textTransform: 'uppercase',
                   }}
@@ -145,8 +150,8 @@ export async function GET(request: NextRequest) {
                 fontWeight: '800',
                 color: '#18181B',
                 lineHeight: '1.15',
-                maxWidth: '900px',
-                marginBottom: '20px',
+                maxWidth: '1800px',
+                marginBottom: '40px',
               }}
             >
               {title}
@@ -154,10 +159,10 @@ export async function GET(request: NextRequest) {
 
             <div
               style={{
-                fontSize: '28px',
+                fontSize: '56px',
                 color: '#52525B',
                 lineHeight: '1.4',
-                maxWidth: '800px',
+                maxWidth: '1600px',
               }}
             >
               {sub}
@@ -165,23 +170,23 @@ export async function GET(request: NextRequest) {
           </div>
 
           {/* Bottom: Data source indicator */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
             <div
               style={{
-                width: '10px',
-                height: '10px',
+                width: '20px',
+                height: '20px',
                 borderRadius: '50%',
                 background: '#15803D',
               }}
             />
-            <div style={{ fontSize: '20px', color: '#71717A' }}>
+            <div style={{ fontSize: '40px', color: '#71717A' }}>
               Official 2026 DoD & VA Rate Data
             </div>
           </div>
         </div>
       </div>
     ),
-    { width: 1200, height: 630 },
+    { width: W, height: H },
   );
 
   image.headers.set('Content-Type', 'image/png');
