@@ -78,7 +78,7 @@ export default function VADisabilityPage() {
             <ExampleRow label="Annual VA compensation" value="$21,701/yr" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> Without the bilateral factor, these three conditions would combine to exactly 65% (rounds to 70% regardless). But VA rules explicitly require the bilateral adjustment — the factor added 4.4 percentage points to the knee pair before it entered the final calculation. At 70%, this veteran receives $1,808.45/month completely tax-free, and may qualify for additional dependent-based increases if they have a spouse or children.
+            <strong>What this means:</strong> Without the bilateral factor, these three conditions combine to 72% (100 − (0.50 × 0.70 × 0.80) = 72%), which also rounds to 70% — so in this particular case the rounded result is the same either way. But the bilateral factor matters enormously in cases near a rounding threshold: a combined value of 63% without the factor becomes 67% with it, changing the rounded rating from 60% to 70% and adding hundreds of dollars per month. VA rules require the bilateral adjustment whenever both sides of a paired joint carry compensable ratings. At 70%, this veteran receives $1,808.45/month completely tax-free, and may qualify for additional dependent-based increases if they have a spouse or children.
           </p>
         </ExampleBox>
       </section>
