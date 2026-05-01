@@ -66,22 +66,22 @@ export default function PCSPage() {
             Government Move vs. PPM: E-6 from Fort Campbell, KY to JBLM, WA
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-6, married with 2 dependents (3 total travelers), PCS from Fort Campbell, KY to Joint Base Lewis-McChord, WA — approximately 2,200 miles. Assumes 1 authorized POV, 7 travel days, and 20 days combined TLE. 2026 DTMO rates.
+            Scenario: E-6, married with 2 dependents (3 total travelers), PCS from Fort Campbell, KY to Joint Base Lewis-McChord, WA — approximately 2,200 miles. Assumes 1 authorized POV, 6 travel days, and 20 days combined TLE. 2026 DTMO rates.
           </p>
           <ExampleTable>
             <ExampleRow label="DLA — Dislocation Allowance (E-6 with dependents)" value="$3,548" />
             <ExampleRow label="MALT mileage (2,200 mi × $0.205, 1 POV)" value="$451" />
-            <ExampleRow label="Per diem — member (7 days × $179)" value="$1,253" />
-            <ExampleRow label="Per diem — 2 dependents (7 days × $134.25 each)" value="$1,880" />
+            <ExampleRow label="Per diem — member (6 days: 2 × $134.25 + 4 × $179)" value="$985" />
+            <ExampleRow label="Per diem — 2 dependents (75% of member rate each)" value="$1,477" />
             <ExampleRow label="TLE — Temporary Lodging Expense (20 days × $179)" value="$3,580" />
-            <ExampleRow label="Total government move entitlement" value="~$10,712" highlight />
+            <ExampleRow label="Total government move entitlement" value="$10,041" highlight />
             <ExampleRow label="PPM — gross reimbursement (11,000 lbs ÷ 100 × $210/cwt)" value="$23,100" />
-            <ExampleRow label="PPM — estimated move costs (truck rental, fuel, supplies)" value="−$4,500" />
-            <ExampleRow label="PPM — net after 22% federal tax on profit" value="~$14,508" highlight />
-            <ExampleRow label="PPM advantage over government move" value="~$3,800 more" highlight />
+            <ExampleRow label="PPM — estimated move costs (truck rental, fuel, supplies)" value="−$2,000" />
+            <ExampleRow label="PPM — gross profit" value="$21,100" />
+            <ExampleRow label="PPM — after-tax profit (22% tax on profit)" value="$16,458" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> By doing a PPM (personally procured move) on this long-distance PCS, this E-6 keeps approximately $3,800 more than accepting the government&apos;s arranged move — while still retaining full DLA, MALT, per diem, and TLE entitlements. The profit comes from packing efficiently under the 11,000-lb weight allowance; actual savings vary based on real moving costs and how much of the weight allowance you use.
+            <strong>What this means:</strong> DLA, MALT, per diem, and TLE ($10,041) are paid the same way regardless of which move type you choose. The PPM adds $16,458 in after-tax profit on top of those entitlements — bringing total PPM compensation to $26,499 vs. $10,041 for a government move. The profit comes from packing efficiently under the 11,000-lb weight allowance; actual savings depend on real moving costs and how much of the weight allowance you use.
           </p>
         </ExampleBox>
       </section>
