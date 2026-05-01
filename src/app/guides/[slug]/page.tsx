@@ -89,7 +89,7 @@ export async function generateMetadata({
   const guide = getGuide(slug);
   if (!guide) return {};
 
-  const ogImage = `/api/og?type=guide&title=${encodeURIComponent(guide.title)}`;
+  const ogImage = `/api/og?type=guide&title=${encodeURIComponent(guide.title)}&v=2`;
   return {
     title: `${guide.title} | MilPayTools`,
     description: guide.description,
@@ -102,7 +102,7 @@ export async function generateMetadata({
       siteName: 'MilPayTools',
       publishedTime: guide.date,
       authors: [guide.author],
-      images: [{ url: ogImage, width: 1200, height: 630 }],
+      images: [{ url: ogImage, width: 2400, height: 1260 }],
     },
     twitter: {
       card: 'summary_large_image',

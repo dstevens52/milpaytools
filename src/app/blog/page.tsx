@@ -5,7 +5,7 @@ import { getAllPostMeta, formatDate } from '@/lib/blog';
 const BLOG_TITLE = 'Military Finance Blog | MilPayTools';
 const BLOG_DESC =
   'Plain-language guides on military pay, BAH, VA disability, TSP, and benefits — written for active-duty service members and veterans.';
-const BLOG_IMAGE = '/api/og?type=blog&title=Military+Finance+Blog&sub=Plain-language+guides+on+military+pay+%26+benefits';
+const BLOG_IMAGE = '/api/og?type=blog&title=Military+Finance+Blog&sub=Plain-language+guides+on+military+pay+%26+benefits&v=2';
 
 export const metadata: Metadata = {
   title: BLOG_TITLE,
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/blog',
     siteName: 'MilPayTools',
-    images: [{ url: BLOG_IMAGE, width: 1200, height: 630 }],
+    images: [{ url: BLOG_IMAGE, width: 2400, height: 1260 }],
   },
   twitter: {
     card: 'summary_large_image',

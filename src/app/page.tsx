@@ -12,7 +12,7 @@ import { organizationSchema } from '@/lib/schema';
 const HOME_TITLE = 'MilPayTools — Military Pay & Benefits Calculators';
 const HOME_DESC =
   'Free, accurate military pay and benefits calculators. Total compensation, BAH, VA disability ratings, and TSP — with plain-English explanations and actionable next steps.';
-const HOME_OG_IMAGE = '/api/og?type=home&title=MilPayTools';
+const HOME_OG_IMAGE = '/api/og?type=home&title=MilPayTools&v=2';
 
 export const metadata: Metadata = {
   title: HOME_TITLE,
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/',
     siteName: 'MilPayTools',
-    images: [{ url: HOME_OG_IMAGE, width: 1200, height: 630 }],
+    images: [{ url: HOME_OG_IMAGE, width: 2400, height: 1260 }],
   },
   twitter: {
     card: 'summary_large_image',

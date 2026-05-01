@@ -4,7 +4,7 @@ import Link from 'next/link';
 const CALC_HUB_TITLE = 'Military Financial Calculators — 2026 | MilPayTools';
 const CALC_HUB_DESC =
   'Free military pay calculators using official 2026 DoD, VA, and DTMO data. Total compensation, BAH, VA disability rating, and TSP growth — no account required.';
-const CALC_HUB_IMAGE = '/api/og?type=calculator&title=Military+Financial+Calculators+2026';
+const CALC_HUB_IMAGE = '/api/og?type=calculator&title=Military+Financial+Calculators+2026&v=2';
 
 export const metadata: Metadata = {
   title: CALC_HUB_TITLE,
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators',
     siteName: 'MilPayTools',
-    images: [{ url: CALC_HUB_IMAGE, width: 1200, height: 630 }],
+    images: [{ url: CALC_HUB_IMAGE, width: 2400, height: 1260 }],
   },
   twitter: {
     card: 'summary_large_image',

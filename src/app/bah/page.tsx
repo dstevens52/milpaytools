@@ -6,7 +6,7 @@ import { StationSearch } from '@/components/bah-stations/StationSearch';
 const BAH_INDEX_TITLE = '2026 BAH Rates by Military Installation | MilPayTools';
 const BAH_INDEX_DESC =
   'Find 2026 Basic Allowance for Housing rates for 70+ U.S. military installations. Full pay grade tables with and without dependents for every major Army, Air Force, Navy, and Marine Corps base.';
-const BAH_INDEX_IMAGE = '/api/og?type=station&title=2026+BAH+Rates+by+Military+Installation';
+const BAH_INDEX_IMAGE = '/api/og?type=station&title=2026+BAH+Rates+by+Military+Installation&v=2';
 
 export const metadata: Metadata = {
   // absolute bypasses the layout template to prevent "| MilPayTools | MilPayTools"
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/bah',
     siteName: 'MilPayTools',
-    images: [{ url: BAH_INDEX_IMAGE, width: 1200, height: 630 }],
+    images: [{ url: BAH_INDEX_IMAGE, width: 2400, height: 1260 }],
   },
   twitter: {
     card: 'summary_large_image',

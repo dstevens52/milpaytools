@@ -106,7 +106,7 @@ export async function generateMetadata({
   const post = getPost(slug);
   if (!post) return {};
 
-  const ogImage = `/api/og?type=blog&title=${encodeURIComponent(post.title)}`;
+  const ogImage = `/api/og?type=blog&title=${encodeURIComponent(post.title)}&v=2`;
   return {
     title: `${post.title} | MilPayTools`,
     description: post.description,
@@ -119,7 +119,7 @@ export async function generateMetadata({
       siteName: 'MilPayTools',
       publishedTime: post.date,
       authors: [post.author],
-      images: [{ url: ogImage, width: 1200, height: 630 }],
+      images: [{ url: ogImage, width: 2400, height: 1260 }],
     },
     twitter: {
       card: 'summary_large_image',

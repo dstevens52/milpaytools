@@ -5,7 +5,7 @@ import { getAllGuideMeta } from '@/lib/guides';
 const GUIDES_TITLE = 'Military Finance Guides | MilPayTools';
 const GUIDES_DESC =
   'Comprehensive topic guides on military pay, VA disability, retirement & TSP, PCS finances, and education benefits — with calculators and plain-English explanations.';
-const GUIDES_IMAGE = '/api/og?type=guide&title=Military+Finance+Guides';
+const GUIDES_IMAGE = '/api/og?type=guide&title=Military+Finance+Guides&v=2';
 
 export const metadata: Metadata = {
   title: GUIDES_TITLE,
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/guides',
     siteName: 'MilPayTools',
-    images: [{ url: GUIDES_IMAGE, width: 1200, height: 630 }],
+    images: [{ url: GUIDES_IMAGE, width: 2400, height: 1260 }],
   },
   twitter: {
     card: 'summary_large_image',

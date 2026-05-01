@@ -18,14 +18,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/deployment',
     siteName: 'MilPayTools',
-    images: [{ url: '/api/og?type=calculator&title=Deployment+Pay+Calculator+2026', width: 1200, height: 630 }],
+    images: [{ url: '/api/og?type=calculator&title=Deployment+Pay+Calculator+2026&v=2', width: 2400, height: 1260 }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Deployment Pay Calculator 2026 | CZTE, HFP, SDP | MilPayTools',
     description:
       'Calculate your deployment pay increase: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings, and Savings Deposit Program interest. All ranks, 2026 rates.',
-    images: ['/api/og?type=calculator&title=Deployment+Pay+Calculator+2026'],
+    images: ['/api/og?type=calculator&title=Deployment+Pay+Calculator+2026&v=2'],
   },
 };
 
