@@ -12,6 +12,22 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/calculators/dual-military-bah',
   },
+  openGraph: {
+    title: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH | MilPayTools',
+    description:
+      'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.',
+    type: 'website',
+    url: '/calculators/dual-military-bah',
+    siteName: 'MilPayTools',
+    images: [{ url: '/api/og?type=calculator&title=Dual+Military+BAH+Calculator+2026', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH | MilPayTools',
+    description:
+      'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.',
+    images: ['/api/og?type=calculator&title=Dual+Military+BAH+Calculator+2026'],
+  },
 };
 
 export default function DualMilitaryBAHPage() {

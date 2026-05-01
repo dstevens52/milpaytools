@@ -12,6 +12,22 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/calculators/bah',
   },
+  openGraph: {
+    title: 'BAH Calculator 2026 | Military Housing Allowance | MilPayTools',
+    description:
+      'Look up your 2026 BAH rate by ZIP code, pay grade, and dependency status. Covers all 40,959 ZIP codes using official DTMO data. Compare rates across duty stations.',
+    type: 'website',
+    url: '/calculators/bah',
+    siteName: 'MilPayTools',
+    images: [{ url: '/api/og?type=calculator&title=BAH+Calculator+2026', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'BAH Calculator 2026 | Military Housing Allowance | MilPayTools',
+    description:
+      'Look up your 2026 BAH rate by ZIP code, pay grade, and dependency status. Covers all 40,959 ZIP codes using official DTMO data. Compare rates across duty stations.',
+    images: ['/api/og?type=calculator&title=BAH+Calculator+2026'],
+  },
 };
 
 export default function BAHPage() {

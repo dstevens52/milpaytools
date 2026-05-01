@@ -30,10 +30,26 @@ export async function generateMetadata({
   if (!station) return {};
   const title = `${station.name} BAH Rates 2026 | ${station.city}, ${station.state}`;
   const description = `2026 Basic Allowance for Housing rates for ${station.name} in ${station.city}, ${station.stateName}. Monthly BAH for every pay grade — with and without dependents — plus local housing market insights.`;
+  const ogImageTitle = `${station.name} BAH Rates 2026`;
+  const ogImage = `/api/og?type=station&title=${encodeURIComponent(ogImageTitle)}`;
   return {
     title,
     description,
     alternates: { canonical: `/bah/${station.slug}` },
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      url: `/bah/${station.slug}`,
+      siteName: 'MilPayTools',
+      images: [{ url: ogImage, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
+    },
   };
 }
 

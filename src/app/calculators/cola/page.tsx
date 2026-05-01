@@ -12,6 +12,22 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/calculators/cola',
   },
+  openGraph: {
+    title: 'CONUS COLA Calculator — 2026 | MilPayTools',
+    description:
+      'Check whether your duty station qualifies for CONUS Cost of Living Allowance and see approximate monthly rates by grade. Uses DTMO area data for 2026.',
+    type: 'website',
+    url: '/calculators/cola',
+    siteName: 'MilPayTools',
+    images: [{ url: '/api/og?type=calculator&title=CONUS+COLA+Calculator+2026', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'CONUS COLA Calculator — 2026 | MilPayTools',
+    description:
+      'Check whether your duty station qualifies for CONUS Cost of Living Allowance and see approximate monthly rates by grade. Uses DTMO area data for 2026.',
+    images: ['/api/og?type=calculator&title=CONUS+COLA+Calculator+2026'],
+  },
 };
 
 export default function ColaPage() {

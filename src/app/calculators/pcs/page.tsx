@@ -11,6 +11,22 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/calculators/pcs',
   },
+  openGraph: {
+    title: 'PCS Cost Estimator 2026 | Military Move Calculator | MilPayTools',
+    description:
+      'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY profit potential. Uses 2026 DTMO rates for all ranks.',
+    type: 'website',
+    url: '/calculators/pcs',
+    siteName: 'MilPayTools',
+    images: [{ url: '/api/og?type=calculator&title=PCS+Cost+Estimator+2026', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PCS Cost Estimator 2026 | Military Move Calculator | MilPayTools',
+    description:
+      'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY profit potential. Uses 2026 DTMO rates for all ranks.',
+    images: ['/api/og?type=calculator&title=PCS+Cost+Estimator+2026'],
+  },
 };
 
 export default function PCSPage() {

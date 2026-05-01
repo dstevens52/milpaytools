@@ -2,11 +2,29 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllPostMeta, formatDate } from '@/lib/blog';
 
+const BLOG_TITLE = 'Military Finance Blog | MilPayTools';
+const BLOG_DESC =
+  'Plain-language guides on military pay, BAH, VA disability, TSP, and benefits — written for active-duty service members and veterans.';
+const BLOG_IMAGE = '/api/og?type=blog&title=Military+Finance+Blog&sub=Plain-language+guides+on+military+pay+%26+benefits';
+
 export const metadata: Metadata = {
-  title: 'Military Finance Blog | MilPayTools',
-  description:
-    'Plain-language guides on military pay, BAH, VA disability, TSP, and benefits — written for active-duty service members and veterans.',
+  title: BLOG_TITLE,
+  description: BLOG_DESC,
   alternates: { canonical: '/blog' },
+  openGraph: {
+    title: BLOG_TITLE,
+    description: BLOG_DESC,
+    type: 'website',
+    url: '/blog',
+    siteName: 'MilPayTools',
+    images: [{ url: BLOG_IMAGE, width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: BLOG_TITLE,
+    description: BLOG_DESC,
+    images: [BLOG_IMAGE],
+  },
 };
 
 const CATEGORY_COLORS: Record<string, string> = {

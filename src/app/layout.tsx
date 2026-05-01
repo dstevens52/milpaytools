@@ -30,7 +30,11 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: 'MilPayTools',
     type: 'website',
-    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+    images: [{ url: '/api/og?type=home&title=MilPayTools', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/api/og?type=home&title=MilPayTools'],
   },
 };
 

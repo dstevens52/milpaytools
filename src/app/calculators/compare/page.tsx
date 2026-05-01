@@ -12,6 +12,22 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/calculators/compare',
   },
+  openGraph: {
+    title: 'Duty Station Comparison Calculator — 2026 | MilPayTools',
+    description:
+      'Compare total compensation, BAH, and take-home pay between two CONUS duty stations side by side. See the real financial difference between PCS orders using 2026 official data.',
+    type: 'website',
+    url: '/calculators/compare',
+    siteName: 'MilPayTools',
+    images: [{ url: '/api/og?type=calculator&title=Duty+Station+Comparison+Calculator+2026', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Duty Station Comparison Calculator — 2026 | MilPayTools',
+    description:
+      'Compare total compensation, BAH, and take-home pay between two CONUS duty stations side by side. See the real financial difference between PCS orders using 2026 official data.',
+    images: ['/api/og?type=calculator&title=Duty+Station+Comparison+Calculator+2026'],
+  },
 };
 
 export default function ComparePage() {

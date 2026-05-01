@@ -12,6 +12,22 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/calculators/retirement',
   },
+  openGraph: {
+    title: 'Military Retirement Calculator 2026 | MilPayTools',
+    description:
+      'Estimate your military pension under High-3 or BRS. See monthly pension, lifetime value, TSP projection, and VA disability combined income using 2026 pay tables.',
+    type: 'website',
+    url: '/calculators/retirement',
+    siteName: 'MilPayTools',
+    images: [{ url: '/api/og?type=calculator&title=Military+Retirement+Calculator+2026', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Military Retirement Calculator 2026 | MilPayTools',
+    description:
+      'Estimate your military pension under High-3 or BRS. See monthly pension, lifetime value, TSP projection, and VA disability combined income using 2026 pay tables.',
+    images: ['/api/og?type=calculator&title=Military+Retirement+Calculator+2026'],
+  },
 };
 
 export default function RetirementCalculatorPage() {
