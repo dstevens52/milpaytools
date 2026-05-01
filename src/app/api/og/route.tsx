@@ -4,10 +4,10 @@ import { NextRequest } from 'next/server';
 export const runtime = 'edge';
 
 function titleFontSize(title: string): number {
-  if (title.length < 30) return 60;
-  if (title.length < 50) return 52;
-  if (title.length < 70) return 44;
-  return 38;
+  if (title.length < 25) return 72;
+  if (title.length < 40) return 64;
+  if (title.length < 55) return 56;
+  return 48;
 }
 
 function defaultSubtitle(type: string): string {
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
   const badge = badgeLabel(type);
   const fontSize = titleFontSize(title);
 
-  return new ImageResponse(
+  const image = new ImageResponse(
     (
       <div
         style={{
@@ -96,7 +96,7 @@ export async function GET(request: NextRequest) {
           >
             <div
               style={{
-                fontSize: '20px',
+                fontSize: '24px',
                 fontWeight: '800',
                 color: '#B91C1C',
                 letterSpacing: '0.06em',
@@ -113,7 +113,7 @@ export async function GET(request: NextRequest) {
                 background: '#D4D4D8',
               }}
             />
-            <div style={{ fontSize: '17px', color: '#A1A1AA' }}>
+            <div style={{ fontSize: '22px', color: '#A1A1AA' }}>
               milpaytools.com
             </div>
           </div>
@@ -124,11 +124,11 @@ export async function GET(request: NextRequest) {
               <div style={{ display: 'flex', marginBottom: '18px' }}>
                 <div
                   style={{
-                    fontSize: '13px',
+                    fontSize: '18px',
                     fontWeight: '700',
                     color: '#B91C1C',
                     background: '#FEF2F2',
-                    padding: '5px 14px',
+                    padding: '6px 18px',
                     borderRadius: '100px',
                     letterSpacing: '0.08em',
                     textTransform: 'uppercase',
@@ -154,8 +154,8 @@ export async function GET(request: NextRequest) {
 
             <div
               style={{
-                fontSize: '22px',
-                color: '#71717A',
+                fontSize: '28px',
+                color: '#52525B',
                 lineHeight: '1.4',
                 maxWidth: '800px',
               }}
@@ -174,7 +174,7 @@ export async function GET(request: NextRequest) {
                 background: '#15803D',
               }}
             />
-            <div style={{ fontSize: '17px', color: '#71717A' }}>
+            <div style={{ fontSize: '20px', color: '#71717A' }}>
               Official 2026 DoD & VA Rate Data
             </div>
           </div>
@@ -183,4 +183,7 @@ export async function GET(request: NextRequest) {
     ),
     { width: 1200, height: 630 },
   );
+
+  image.headers.set('Content-Type', 'image/png');
+  return image;
 }
