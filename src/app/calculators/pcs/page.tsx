@@ -76,12 +76,12 @@ export default function PCSPage() {
             <ExampleRow label="TLE — Temporary Lodging Expense (20 days × $179)" value="$3,580" />
             <ExampleRow label="Total government move entitlement" value="$10,041" highlight />
             <ExampleRow label="PPM — gross reimbursement (11,000 lbs ÷ 100 × $210/cwt)" value="$23,100" />
-            <ExampleRow label="PPM — estimated move costs (truck rental, fuel, supplies)" value="−$2,000" />
-            <ExampleRow label="PPM — gross profit" value="$21,100" />
-            <ExampleRow label="PPM — after-tax profit (22% tax on profit)" value="$16,458" highlight />
+            <ExampleRow label="PPM — estimated move costs (truck rental, fuel, supplies)" value="−$4,500" />
+            <ExampleRow label="PPM — gross profit" value="$18,600" />
+            <ExampleRow label="PPM — after-tax profit (22% tax on profit)" value="$14,508" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> DLA, MALT, per diem, and TLE ($10,041) are paid the same way regardless of which move type you choose. The PPM adds $16,458 in after-tax profit on top of those entitlements — bringing total PPM compensation to $26,499 vs. $10,041 for a government move. The profit comes from packing efficiently under the 11,000-lb weight allowance; actual savings depend on real moving costs and how much of the weight allowance you use.
+            <strong>What this means:</strong> DLA, MALT, per diem, and TLE ($10,041) are paid the same way regardless of which move type you choose. With a PPM, you keep all of those entitlements AND pocket $14,508 in after-tax profit — bringing total PPM compensation to $24,549 vs. $10,041 for a government move. The E-6 keeps approximately $14,508 more by choosing PPM over a government move. The profit comes from packing efficiently under the 11,000-lb weight allowance; actual savings depend on real moving costs and how much of the weight allowance you use.
           </p>
         </ExampleBox>
       </section>

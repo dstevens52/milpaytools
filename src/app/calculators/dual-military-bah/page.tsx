@@ -119,7 +119,7 @@ export default function DualMilitaryBAHPage() {
             <ExampleRow label="Household gross annual" value="$152,364/yr" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> This dual-military couple earns $152,364/year in gross compensation — more than twice the median U.S. household income — while $28,830 of that ($3,333 BAH + $954 BAS × 12) is completely tax-free. Because only one member can claim the dependent, choosing which spouse claims the child does not change the household total in this example, since both are E-5s with the same BAH rates.
+            <strong>What this means:</strong> This dual-military couple earns $152,364/year in gross compensation — more than twice the median U.S. household income — while $51,444 of that ($3,333 BAH + $954 BAS × 12) is completely tax-free. Because only one member can claim the dependent, choosing which spouse claims the child does not change the household total in this example, since both are E-5s with the same BAH rates.
           </p>
         </ExampleBox>
       </section>
