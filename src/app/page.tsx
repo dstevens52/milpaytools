@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import { HeroSection } from '@/components/home/HeroSection';
-import { QuickNavSection } from '@/components/home/QuickNavSection';
-import { CalculatorGrid } from '@/components/home/CalculatorGrid';
-import { TrustSection } from '@/components/home/TrustSection';
+import { HomeBody } from '@/components/home/HomeBody';
 import { GuidesSection } from '@/components/home/GuidesSection';
 import { LatestPostsSection } from '@/components/home/LatestPostsSection';
 import Link from 'next/link';
@@ -17,6 +15,7 @@ const HOME_OG_IMAGE = '/api/og?type=home&title=MilPayTools&v=2';
 export const metadata: Metadata = {
   title: HOME_TITLE,
   description: HOME_DESC,
+  alternates: { canonical: 'https://www.milpaytools.com/' },
   openGraph: {
     title: HOME_TITLE,
     description: HOME_DESC,
@@ -38,9 +37,7 @@ export default function HomePage() {
     <>
       <JsonLdScript schema={organizationSchema()} />
       <HeroSection />
-      <QuickNavSection />
-      <CalculatorGrid />
-      <TrustSection />
+      <HomeBody />
       <GuidesSection />
       <LatestPostsSection />
 
