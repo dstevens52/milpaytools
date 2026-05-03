@@ -20,7 +20,7 @@ function SampleResultPreview() {
       <div className="px-5 py-1 divide-y divide-zinc-100">
         {[
           { label: 'Base Pay', value: '$4,299.90', sub: '/mo' },
-          { label: 'BAH (w/ dependents)', value: '$3,312', sub: '/mo' },
+          { label: 'BAH (w/ dependents)', value: '$3,975', sub: '/mo' },
           { label: 'BAS', value: '$476.95', sub: '/mo' },
           { label: 'TSP Match (BRS)', value: '$172', sub: '/mo' },
         ].map(({ label, value, sub }) => (
@@ -38,11 +38,11 @@ function SampleResultPreview() {
       <div className="mx-5 my-3 rounded-lg bg-red-50 border border-red-200 px-4 py-3 flex items-center justify-between">
         <div>
           <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Total Monthly</p>
-          <p className="text-2xl font-bold tabular-nums text-red-700">$8,261</p>
+          <p className="text-2xl font-bold tabular-nums text-red-700">$8,924</p>
         </div>
         <div className="text-right">
           <p className="text-xs text-zinc-500">Civilian equivalent</p>
-          <p className="text-sm font-semibold text-zinc-700">≈ $105,100 / yr</p>
+          <p className="text-sm font-semibold text-zinc-700">≈ $113,500 / yr</p>
         </div>
       </div>
 
