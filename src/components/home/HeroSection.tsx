@@ -1,5 +1,45 @@
 import Link from 'next/link';
 
+const CATEGORY_LINKS = [
+  {
+    label: 'Military Pay',
+    href: '/calculators/total-compensation',
+    icon: (
+      <svg className="w-4 h-4 flex-none" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M10 3v14M6.5 7.5C6.5 6.12 8.07 5 10 5s3.5 1.12 3.5 2.5S11.93 10 10 10s-3.5 1.12-3.5 2.5S8.07 15 10 15s3.5-1.12 3.5-2.5" />
+      </svg>
+    ),
+  },
+  {
+    label: 'BAH by ZIP',
+    href: '/calculators/bah',
+    icon: (
+      <svg className="w-4 h-4 flex-none" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 9.5L10 3l7 6.5V17a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5zM8 18v-6h4v6" />
+      </svg>
+    ),
+  },
+  {
+    label: 'VA Disability',
+    href: '/calculators/va-disability',
+    icon: (
+      <svg className="w-4 h-4 flex-none" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M10 2L3 5.5v5.5C3 14.6 6.1 17.9 10 19c3.9-1.1 7-4.4 7-8V5.5L10 2z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'TSP & Retirement',
+    href: '/calculators/tsp',
+    icon: (
+      <svg className="w-4 h-4 flex-none" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2 14l5-5 3 3 5-5 3 3" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h5v5" />
+      </svg>
+    ),
+  },
+];
+
 // A static preview card that shows what the calculator output looks like.
 // This immediately communicates the product's value without a word of explanation.
 function SampleResultPreview() {
@@ -51,8 +91,8 @@ function SampleResultPreview() {
         <div className="rounded-md bg-blue-50 border border-blue-100 px-3 py-2.5 flex gap-2 items-start">
           <span className="text-blue-600 text-base leading-tight">→</span>
           <p className="text-xs text-blue-700 leading-relaxed">
-            {/* BAH $3,975 minus HUD 2026 Fair Market Rent for a 2BR in San Diego County ($2,900) = $1,075 gap. Source: HUD FY2026 FMR, San Diego-Carlsbad, CA MSA. */}
-            <span className="font-semibold">BAH ($3,975) exceeds HUD 2026 Fair Market Rent for a San Diego 2BR ($2,900) by $1,075/mo.</span> That surplus builds equity if you buy instead of rent.
+            In some markets, BAH can exceed typical rent benchmarks — creating room to save,
+            invest, or offset ownership costs.
           </p>
         </div>
       </div>
@@ -68,59 +108,63 @@ export function HeroSection() {
 
           {/* Left — copy */}
           <div>
-            <div className="inline-flex items-center gap-2 mb-5">
-              <span className="block w-6 h-0.5 bg-red-700" />
-              <span className="text-sm font-semibold text-red-700 uppercase tracking-widest">
-                Free · No Account · Official 2026 DoD Data
+            <div className="flex items-start gap-2 mb-5">
+              <span className="block flex-none w-6 h-0.5 bg-red-700 mt-2" />
+              <span className="text-xs font-semibold text-red-700 uppercase tracking-wide leading-snug">
+                Free · No Account · No Personal Info Required · Official 2026 DoD &amp; VA Data
               </span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight text-zinc-900 mb-5">
-              Know the full value
+              Stop guessing what your
               <br />
-              <span className="text-red-700">of your service.</span>
+              <span className="text-red-700">military pay and benefits</span> are worth.
             </h1>
 
-            <p className="text-lg text-zinc-600 leading-relaxed mb-8 max-w-lg">
-              <strong className="text-zinc-900">No sign-up required. No personal info collected to use our tools.</strong>{' '}
-              Free calculators that show what your military compensation is actually worth — and what to do about it.
+            <p className="text-lg text-zinc-600 leading-relaxed mb-6 max-w-lg">
+              <strong className="text-zinc-900">Your service is worth more than base pay.</strong>{' '}
+              Use free calculators to see your full military financial picture before you make
+              your next big decision.
             </p>
 
-            {/* Stat pills */}
-            <div className="flex flex-wrap gap-3 mb-8">
-              {[
-                'E-1 through O-10',
-                'All 6 branches',
-                'BAH by ZIP code',
-                'VA combined ratings',
-              ].map((tag) => (
-                <span
-                  key={tag}
-                  className="text-sm text-zinc-600 bg-zinc-100 border border-zinc-200 rounded-full px-3 py-1"
+            {/* Category buttons */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-8">
+              {CATEGORY_LINKS.map(({ label, href, icon }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="flex items-center gap-2 rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 transition-colors"
                 >
-                  {tag}
-                </span>
+                  <span className="text-red-700">{icon}</span>
+                  {label}
+                </Link>
               ))}
             </div>
 
+            {/* CTA buttons */}
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
+                href="/calculators/total-compensation"
+                className="w-full sm:w-auto inline-flex items-center justify-center rounded-md bg-red-700 px-6 py-3 text-base font-semibold text-white hover:bg-red-800 transition-colors shadow-sm"
+              >
+                Calculate My Total Compensation
+              </Link>
+              <Link
                 href="/calculators"
-                className="inline-flex items-center justify-center rounded-md bg-red-700 px-6 py-3 text-base font-semibold text-white hover:bg-red-800 transition-colors shadow-sm"
+                className="w-full sm:w-auto inline-flex items-center justify-center rounded-md border border-zinc-300 bg-white px-6 py-3 text-base font-medium text-zinc-700 hover:bg-zinc-50 transition-colors"
               >
                 Explore All Tools
               </Link>
-              <Link
-                href="/calculators/va-disability"
-                className="inline-flex items-center justify-center rounded-md border border-zinc-300 bg-white px-6 py-3 text-base font-medium text-zinc-700 hover:bg-zinc-50 transition-colors"
-              >
-                VA disability rating
-              </Link>
             </div>
 
-            <p className="mt-5 text-xs text-zinc-400">
-              All calculations run in your browser using official DoD &amp; VA data.
-            </p>
+            {/* Trust line */}
+            <div className="mt-5 flex items-center gap-1.5 text-xs text-zinc-400">
+              <svg className="w-3.5 h-3.5 flex-none" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                <rect x="4" y="9" width="12" height="9" rx="1.5" />
+                <path strokeLinecap="round" d="M7 9V6.5a3 3 0 0 1 6 0V9" />
+              </svg>
+              <span>No sign-up. No personal info collected. Runs in your browser.</span>
+            </div>
           </div>
 
           {/* Right — sample output */}
