@@ -70,7 +70,7 @@ export function HeroSection() {
             <div className="inline-flex items-center gap-2 mb-5">
               <span className="block w-6 h-0.5 bg-red-700" />
               <span className="text-sm font-semibold text-red-700 uppercase tracking-widest">
-                Free · Official 2026 rates
+                Free · No Account · Official 2026 DoD Data
               </span>
             </div>
 
@@ -81,8 +81,8 @@ export function HeroSection() {
             </h1>
 
             <p className="text-lg text-zinc-600 leading-relaxed mb-8 max-w-lg">
-              Most pay calculators show you a number. MilPayTools shows you what that number
-              means — and exactly what to do about it.
+              <strong className="text-zinc-900">No sign-up required. No personal info collected to use our tools.</strong>{' '}
+              Free calculators that show what your military compensation is actually worth — and what to do about it.
             </p>
 
             {/* Stat pills */}
@@ -118,7 +118,7 @@ export function HeroSection() {
             </div>
 
             <p className="mt-5 text-xs text-zinc-400">
-              No account. No data stored. All calculations run in your browser.
+              All calculations run in your browser using official DoD &amp; VA data.
             </p>
           </div>
 
