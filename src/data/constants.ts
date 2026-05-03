@@ -7,6 +7,7 @@
  */
 
 export const DATA_YEAR = '2026';
+export const DATA_AS_OF = `January 1, ${DATA_YEAR}`;
 
 // ─── Basic Allowance for Subsistence (BAS) ────────────────────────────────
 // Monthly rates — tax-free
