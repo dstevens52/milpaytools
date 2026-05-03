@@ -51,7 +51,8 @@ function SampleResultPreview() {
         <div className="rounded-md bg-blue-50 border border-blue-100 px-3 py-2.5 flex gap-2 items-start">
           <span className="text-blue-600 text-base leading-tight">→</span>
           <p className="text-xs text-blue-700 leading-relaxed">
-            <span className="font-semibold">Your BAH covers rent by $612/mo.</span> That gap could fund a down payment in 18 months.
+            {/* BAH $3,975 minus HUD 2026 Fair Market Rent for a 2BR in San Diego County ($2,900) = $1,075 gap. Source: HUD FY2026 FMR, San Diego-Carlsbad, CA MSA. */}
+            <span className="font-semibold">BAH ($3,975) exceeds HUD 2026 Fair Market Rent for a San Diego 2BR ($2,900) by $1,075/mo.</span> That surplus builds equity if you buy instead of rent.
           </p>
         </div>
       </div>
