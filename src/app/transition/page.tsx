@@ -163,7 +163,7 @@ export default function TransitionPage() {
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         {/* ── Phase 1 ─────────────────────────────────────────────────── */}
         <section className="py-10 sm:py-12 border-b border-zinc-200">
-          <PhaseHeader number={1} timeframe="12–6 months out" title="Know your numbers" />
+          <PhaseHeader number={1} timeframe="6–12 months out" title="Know your numbers" />
           <p className="text-base text-zinc-600 leading-relaxed mb-8 max-w-2xl">
             Before you can plan your transition, you need to understand exactly what you&apos;re
             leaving behind — and what it takes to replace it. This phase is about getting
@@ -204,7 +204,7 @@ export default function TransitionPage() {
 
         {/* ── Phase 2 ─────────────────────────────────────────────────── */}
         <section className="py-10 sm:py-12 border-b border-zinc-200">
-          <PhaseHeader number={2} timeframe="6–3 months out" title="Lock in your benefits" />
+          <PhaseHeader number={2} timeframe="3–6 months out" title="Lock in your benefits" />
           <p className="text-base text-zinc-600 leading-relaxed mb-8 max-w-2xl">
             You&apos;ve done the math. Now it&apos;s time to take action on the benefits that have
             deadlines. Miss these windows and you can&apos;t go back.
