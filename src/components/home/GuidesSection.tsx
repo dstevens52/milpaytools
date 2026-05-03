@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const GUIDES = [
+const GUIDES: { slug: string; href?: string; title: string; description: string; icon: string; category: string }[] = [
   {
     slug: 'military-pay',
     title: 'Military Pay & Compensation Guide',
@@ -36,6 +36,14 @@ const GUIDES = [
     icon: '🎓',
     category: 'Education Benefits',
   },
+  {
+    slug: 'transition',
+    href: '/transition',
+    title: 'Military Transition Financial Guide',
+    description: 'Step-by-step financial roadmap for separating and retiring service members. Timeline-based guide from 12 months out through your first 90 days as a civilian.',
+    icon: '🗺️',
+    category: 'Transition',
+  },
 ];
 
 export function GuidesSection() {
@@ -64,7 +72,7 @@ export function GuidesSection() {
           {GUIDES.map((guide) => (
             <Link
               key={guide.slug}
-              href={`/guides/${guide.slug}`}
+              href={guide.href ?? `/guides/${guide.slug}`}
               className="group flex gap-4 items-start rounded-lg border border-zinc-200 bg-white p-5 hover:shadow-md hover:border-zinc-300 transition-all duration-150"
             >
               <div className="flex-none w-10 h-10 rounded-lg bg-red-50 border border-red-200 flex items-center justify-center text-xl">

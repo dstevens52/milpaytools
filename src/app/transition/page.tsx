@@ -1,0 +1,391 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { articleSchema } from '@/lib/schema';
+import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
+
+const PAGE_TITLE = 'Military Transition Financial Guide';
+const META_TITLE = `${PAGE_TITLE} | MilPayTools`;
+const META_DESC =
+  'Step-by-step financial roadmap for separating and retiring service members. Timeline-based guide from 12 months out through your first 90 days as a civilian.';
+const OG_IMAGE = `/api/og?type=guide&title=${encodeURIComponent(PAGE_TITLE)}&v=2`;
+
+export const metadata: Metadata = {
+  title: META_TITLE,
+  description: META_DESC,
+  alternates: { canonical: 'https://www.milpaytools.com/transition' },
+  openGraph: {
+    title: META_TITLE,
+    description: META_DESC,
+    type: 'article',
+    url: '/transition',
+    siteName: 'MilPayTools',
+    images: [{ url: OG_IMAGE, width: 2400, height: 1260 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: META_TITLE,
+    description: META_DESC,
+    images: [OG_IMAGE],
+  },
+};
+
+const RELATED_GUIDES = [
+  { href: '/guides/military-pay', title: 'Military Pay & Compensation Guide' },
+  { href: '/guides/va-disability', title: 'VA Disability Benefits Guide' },
+  { href: '/guides/retirement-tsp', title: 'Military Retirement & TSP Guide' },
+  { href: '/guides/pcs', title: 'PCS & Duty Station Financial Guide' },
+  { href: '/guides/education-benefits', title: 'Military Education Benefits Guide' },
+];
+
+function PhaseHeader({
+  number,
+  timeframe,
+  title,
+}: {
+  number: number;
+  timeframe: string;
+  title: string;
+}) {
+  return (
+    <div className="mb-6">
+      <div className="flex flex-wrap items-center gap-2.5 mb-3">
+        <span className="w-8 h-8 rounded-full bg-red-700 text-white text-sm font-bold flex items-center justify-center flex-none">
+          {number}
+        </span>
+        <span className="text-sm font-semibold text-red-700 bg-red-50 border border-red-100 rounded-full px-3 py-1">
+          {timeframe}
+        </span>
+      </div>
+      <h2 className="text-2xl font-bold text-zinc-900">{title}</h2>
+    </div>
+  );
+}
+
+function ResourceCard({
+  href,
+  title,
+  description,
+  external = false,
+}: {
+  href: string;
+  title: string;
+  description: string;
+  external?: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+      className="group flex flex-col rounded-lg border border-zinc-200 bg-white p-5 hover:shadow-md hover:border-zinc-300 transition-all duration-150"
+    >
+      <h3 className="font-semibold text-zinc-900 group-hover:text-red-700 transition-colors mb-2 leading-snug">
+        {title}
+      </h3>
+      <p className="text-sm text-zinc-600 leading-relaxed flex-1">{description}</p>
+      <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-red-700">
+        {external ? 'Visit site' : 'Open'} <span aria-hidden>→</span>
+      </span>
+    </Link>
+  );
+}
+
+function ComingSoonCard({ title, description }: { title: string; description: string }) {
+  return (
+    <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-5">
+      <div className="flex items-start justify-between gap-3 mb-2">
+        <h3 className="font-semibold text-zinc-500 leading-snug">{title}</h3>
+        <span className="flex-none text-xs font-medium bg-zinc-200 text-zinc-500 px-2 py-0.5 rounded-full whitespace-nowrap">
+          Coming soon
+        </span>
+      </div>
+      <p className="text-sm text-zinc-400 leading-relaxed">{description}</p>
+    </div>
+  );
+}
+
+export default function TransitionPage() {
+  return (
+    <>
+      <JsonLdScript
+        schema={articleSchema({
+          title: PAGE_TITLE,
+          description: META_DESC,
+          datePublished: '2026-05-03',
+          url: '/transition',
+        })}
+      />
+
+      {/* Hero */}
+      <section className="bg-zinc-50 border-b border-zinc-200">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+          <nav aria-label="Breadcrumb" className="mb-6">
+            <ol className="flex items-center gap-1.5 text-sm text-zinc-500">
+              <li>
+                <Link href="/" className="hover:text-zinc-700 transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden>/</li>
+              <li className="text-zinc-900 font-medium">Transition Guide</li>
+            </ol>
+          </nav>
+
+          <div className="inline-flex items-center gap-2 mb-4">
+            <span className="block w-6 h-0.5 bg-red-700" />
+            <span className="text-sm font-semibold text-red-700 uppercase tracking-widest">
+              Financial Roadmap
+            </span>
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl font-extrabold leading-tight tracking-tight text-zinc-900 mb-4">
+            Your Military Transition —
+            <br className="hidden sm:block" /> A Financial Roadmap
+          </h1>
+
+          <p className="text-lg text-zinc-600 leading-relaxed mb-4 max-w-2xl">
+            A step-by-step financial guide for separating and retiring service members. Work
+            through each phase as your transition date approaches — on your own, at your own
+            pace.
+          </p>
+
+          <DataCurrencyBadge source="Official DoD, DFAS & VA data" />
+
+          <p className="mt-4 text-sm text-zinc-600 bg-white border border-zinc-200 rounded-md px-4 py-2.5 inline-block">
+            Designed to complement the DoD Transition Assistance Program (TAP) financial
+            readiness module.
+          </p>
+        </div>
+      </section>
+
+      {/* Timeline */}
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        {/* ── Phase 1 ─────────────────────────────────────────────────── */}
+        <section className="py-10 sm:py-12 border-b border-zinc-200">
+          <PhaseHeader number={1} timeframe="12–6 months out" title="Know your numbers" />
+          <p className="text-base text-zinc-600 leading-relaxed mb-8 max-w-2xl">
+            Before you can plan your transition, you need to understand exactly what you&apos;re
+            leaving behind — and what it takes to replace it. This phase is about getting
+            honest with the math.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <ResourceCard
+              href="/calculators/total-compensation"
+              title="Total Compensation Calculator"
+              description="Start here. Most service members underestimate their total compensation by $20,000–40,000 because they only think about base pay. See the full picture — BAH, BAS, TSP matching, and tax advantages — before you evaluate any civilian offer."
+            />
+            <ResourceCard
+              href="/blog/what-civilian-salary-do-i-need"
+              title="What Civilian Salary Do I Need?"
+              description="The article that shows why a $60K civilian offer might not replace your E-6 pay. Walks through the side-by-side comparison of taxable vs. tax-free compensation and benefits."
+            />
+            <ResourceCard
+              href="/calculators/va-disability"
+              title="VA Disability Rating Calculator"
+              description="If you have any service-connected conditions, your VA disability rating directly affects your post-separation income. Know your estimated rating now — before you start any civilian salary negotiations."
+            />
+            <ResourceCard
+              href="/blog/file-va-disability-before-separation"
+              title="File for VA Disability Before You Separate"
+              description="The BDD program lets you file while still on active duty. Start this at the 6-month mark — not after you're out. Filing before separation preserves your rating effective date and speeds up your first payment."
+            />
+            <ResourceCard
+              href="/calculators/tsp"
+              title="TSP Growth Projector"
+              description="Review your TSP balance and contribution strategy. Your last months on active duty may be your best opportunity to maximize contributions — especially if you'll be moving to a higher tax bracket as a civilian."
+            />
+            <ComingSoonCard
+              title="Transition Readiness Calculator"
+              description="One tool that brings it all together. Enter your rank, duty station, expected VA rating, target civilian salary, and expenses — get a clear readiness score and action plan."
+            />
+          </div>
+        </section>
+
+        {/* ── Phase 2 ─────────────────────────────────────────────────── */}
+        <section className="py-10 sm:py-12 border-b border-zinc-200">
+          <PhaseHeader number={2} timeframe="6–3 months out" title="Lock in your benefits" />
+          <p className="text-base text-zinc-600 leading-relaxed mb-8 max-w-2xl">
+            You&apos;ve done the math. Now it&apos;s time to take action on the benefits that have
+            deadlines. Miss these windows and you can&apos;t go back.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <ResourceCard
+              href="/blog/sgli-vgli-private-life-insurance"
+              title="SGLI vs. VGLI vs. Private Life Insurance"
+              description="Your SGLI coverage ends 120 days after separation. Buy private term life insurance while you're still healthy and on active duty — it's cheaper and locks in your rate before any post-service health changes."
+            />
+            <ResourceCard
+              href="/blog/tricare-costs-2026-vs-civilian"
+              title="TRICARE Costs in 2026"
+              description="Understand exactly what healthcare will cost as a civilian. This is often the most underestimated transition expense — the gap between TRICARE and a civilian employer plan can exceed $10,000 per year for a family."
+            />
+            <ResourceCard
+              href="/blog/post-911-gi-bill-explained-2026"
+              title="Post-9/11 GI Bill Explained"
+              description="Verify your GI Bill eligibility, transfer status, and remaining months before you separate. If you're planning to use it for school, research MHA rates by ZIP code — the monthly housing allowance varies significantly by location."
+            />
+            <ResourceCard
+              href="/blog/gi-bill-vs-tuition-assistance"
+              title="GI Bill vs. Tuition Assistance"
+              description="If you're still on active duty, use TA first and save your GI Bill months for after separation when the MHA kicks in. Every GI Bill month used while on active duty is a month of MHA you won't receive later."
+            />
+            <ResourceCard
+              href="/blog/pcs-financial-planning-guide"
+              title="PCS Financial Planning"
+              description="If your separation involves a final PCS, know your entitlements. The difference between a well-planned and poorly-planned final move can be $10,000 or more — DLA, MALT, and PPM all matter here."
+            />
+            <ComingSoonCard
+              title="Separation Benefits Timeline"
+              description="See exactly when each benefit stops, converts, or changes after your separation date. SGLI, TRICARE, BAH, BAS — all on one visual timeline."
+            />
+          </div>
+        </section>
+
+        {/* ── Phase 3 ─────────────────────────────────────────────────── */}
+        <section className="py-10 sm:py-12 border-b border-zinc-200">
+          <PhaseHeader number={3} timeframe="90 days out" title="Execute your plan" />
+          <p className="text-base text-zinc-600 leading-relaxed mb-8 max-w-2xl">
+            The final stretch. This is about verification, not new decisions. Confirm
+            everything is in place before you sign out.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <ResourceCard
+              href="/blog/how-to-read-military-les-2026"
+              title="How to Read Your Military LES"
+              description="Pull your final LES and verify everything: correct dependency status, TSP contributions hitting the right amount, state tax withholding for your future state of residence. Errors here are easier to fix while you're still in."
+            />
+            <ResourceCard
+              href="/calculators/retirement"
+              title="Military Retirement Calculator"
+              description="If you're retiring, verify your pension calculation before your separation date. Confirm your High-3 average matches what DFAS will use — even a one-month error in your High-3 period can cost thousands annually."
+            />
+            <ResourceCard
+              href="/blog/roth-tsp-advantage-junior-enlisted"
+              title="Roth TSP Advantage"
+              description="Last chance to make Roth contributions while in a potentially lower tax bracket than your civilian career. Review whether shifting contributions from Traditional to Roth makes sense based on your expected civilian income."
+            />
+            <ComingSoonCard
+              title="TSP Separation Decision Tool"
+              description="Leave your TSP in place, roll to a civilian IRA, or Roth convert? See the tax implications of each option based on your balance and expected civilian income."
+            />
+          </div>
+        </section>
+
+        {/* ── Phase 4 ─────────────────────────────────────────────────── */}
+        <section className="py-10 sm:py-12 border-b border-zinc-200">
+          <PhaseHeader
+            number={4}
+            timeframe="After separation"
+            title="Your first 90 days as a civilian"
+          />
+          <p className="text-base text-zinc-600 leading-relaxed mb-8 max-w-2xl">
+            You&apos;re out. The paycheck looks different, the healthcare works different, and the
+            tax situation changed. Here&apos;s what to check and when.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {(
+              [
+                {
+                  text: 'Check your VA claim status',
+                  detail:
+                    'Log into VA.gov to track your BDD or fully-developed claim. Most claims filed through BDD are decided within 30–45 days of your separation date.',
+                  href: 'https://www.va.gov',
+                  external: true,
+                },
+                {
+                  text: 'Verify your first civilian paycheck',
+                  detail:
+                    'Compare your actual take-home against your pre-transition budget. Did the numbers hold up? If not, identify the gap before it becomes a pattern.',
+                  href: null,
+                  external: false,
+                },
+                {
+                  text: 'Confirm TRICARE transitional coverage',
+                  detail:
+                    "TRICARE Transitional Assistance Management Program (TAMP) provides 180 days of coverage for eligible separatees. Confirm your coverage start date with your installation's TRICARE office before you sign out.",
+                  href: null,
+                  external: false,
+                },
+                {
+                  text: 'File state taxes for your new domicile',
+                  detail:
+                    "Your state tax situation may have changed. Some states don't tax military retirement pay or VA disability income; others do. Verify your new state's treatment before your first tax filing.",
+                  href: null,
+                  external: false,
+                },
+                {
+                  text: 'Revisit your total compensation baseline',
+                  detail:
+                    'Run the Total Compensation Calculator with your new civilian salary to see exactly how your compensation changed. Quantifying the delta helps you make informed decisions about negotiating raises or benefits.',
+                  href: '/calculators/total-compensation',
+                  external: false,
+                },
+              ] as {
+                text: string;
+                detail: string;
+                href: string | null;
+                external: boolean;
+              }[]
+            ).map(({ text, detail, href, external }) => (
+              <div key={text} className="rounded-lg border border-zinc-200 bg-white p-5">
+                <div className="flex gap-3">
+                  <span className="flex-none mt-0.5 w-5 h-5 rounded-full border-2 border-zinc-300 flex items-center justify-center">
+                    <span className="w-2 h-2 rounded-full bg-zinc-300" />
+                  </span>
+                  <div>
+                    <p className="font-semibold text-zinc-900 text-sm mb-1.5">{text}</p>
+                    <p className="text-sm text-zinc-600 leading-relaxed">{detail}</p>
+                    {href && (
+                      <Link
+                        href={href}
+                        target={external ? '_blank' : undefined}
+                        rel={external ? 'noopener noreferrer' : undefined}
+                        className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-red-700 hover:text-red-800 transition-colors"
+                      >
+                        {external ? 'Visit VA.gov' : 'Open calculator'}{' '}
+                        <span aria-hidden>→</span>
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Related guides ───────────────────────────────────────────── */}
+        <section className="py-10 sm:py-12">
+          <h2 className="text-xl font-bold text-zinc-900 mb-1">Related Guides</h2>
+          <p className="text-sm text-zinc-500 mb-6">
+            In-depth coverage of every major topic in military finance.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {RELATED_GUIDES.map(({ href, title }) => (
+              <Link
+                key={href}
+                href={href}
+                className="group flex items-center justify-between gap-3 rounded-lg border border-zinc-200 bg-white px-4 py-3 hover:shadow-sm hover:border-zinc-300 transition-all duration-150"
+              >
+                <span className="text-sm font-medium text-zinc-800 group-hover:text-red-700 transition-colors leading-snug">
+                  {title}
+                </span>
+                <span
+                  className="flex-none text-zinc-400 group-hover:text-red-700 transition-colors"
+                  aria-hidden
+                >
+                  →
+                </span>
+              </Link>
+            ))}
+          </div>
+
+          <p className="mt-8 text-xs text-zinc-400 border-t border-zinc-100 pt-6">
+            This guide is continuously updated. All data reflects official 2026 DoD, DFAS, and
+            VA rates.
+          </p>
+        </section>
+      </div>
+    </>
+  );
+}

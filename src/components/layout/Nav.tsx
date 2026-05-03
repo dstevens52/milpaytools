@@ -231,6 +231,18 @@ export function Nav({ mobile = false, onClose }: NavProps) {
               Guides
             </Link>
           </li>
+          <li>
+            <Link
+              href="/transition"
+              onClick={onClose}
+              className={[
+                'block px-4 py-3 text-base font-medium border-b border-zinc-100',
+                pathname.startsWith('/transition') ? 'text-red-700' : 'text-zinc-800 hover:text-zinc-900',
+              ].join(' ')}
+            >
+              Transition
+            </Link>
+          </li>
 
           {/* More Calculators section */}
           <li className="px-4 pt-4 pb-1">
@@ -308,6 +320,21 @@ export function Nav({ mobile = false, onClose }: NavProps) {
             ].join(' ')}
           >
             Guides
+          </Link>
+        </li>
+
+        {/* Transition */}
+        <li>
+          <Link
+            href="/transition"
+            className={[
+              'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+              pathname.startsWith('/transition')
+                ? 'text-red-700 bg-red-50'
+                : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
+            ].join(' ')}
+          >
+            Transition
           </Link>
         </li>
 
