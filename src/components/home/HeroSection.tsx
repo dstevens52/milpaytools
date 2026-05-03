@@ -5,8 +5,8 @@ const CATEGORY_LINKS = [
     label: 'Military Pay',
     href: '/calculators/total-compensation',
     icon: (
-      <svg className="w-4 h-4 flex-none" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M10 3v14M6.5 7.5C6.5 6.12 8.07 5 10 5s3.5 1.12 3.5 2.5S11.93 10 10 10s-3.5 1.12-3.5 2.5S8.07 15 10 15s3.5-1.12 3.5-2.5" />
+      <svg className="w-4 h-4 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
       </svg>
     ),
   },
@@ -111,14 +111,16 @@ export function HeroSection() {
             <div className="flex items-start gap-2 mb-5">
               <span className="block flex-none w-6 h-0.5 bg-red-700 mt-2" />
               <span className="text-xs font-semibold text-red-700 uppercase tracking-wide leading-snug">
-                Free · No Account · No Personal Info Required · Official 2026 DoD &amp; VA Data
+                Free · No Account · Official 2026 DoD Data
               </span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight text-zinc-900 mb-5">
+            <h1 className="text-4xl sm:text-5xl lg:text-4xl font-extrabold leading-tight tracking-tight text-zinc-900 mb-5">
               Stop guessing what your
-              <br />
-              <span className="text-red-700">military pay and benefits</span> are worth.
+              <br className="hidden lg:block" />
+              <span className="text-red-700"> military pay and benefits</span>
+              <br className="hidden lg:block" />
+              {' '}are worth.
             </h1>
 
             <p className="text-lg text-zinc-600 leading-relaxed mb-6 max-w-lg">
