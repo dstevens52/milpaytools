@@ -91,6 +91,15 @@ function ResourceCard({
   );
 }
 
+function InfoCard({ title, description }: { title: string; description: string }) {
+  return (
+    <div className="rounded-lg border border-zinc-200 bg-white p-5">
+      <h3 className="font-semibold text-zinc-900 mb-2 leading-snug">{title}</h3>
+      <p className="text-sm text-zinc-600 leading-relaxed">{description}</p>
+    </div>
+  );
+}
+
 function ComingSoonCard({ title, description }: { title: string; description: string }) {
   return (
     <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-5">
@@ -104,6 +113,64 @@ function ComingSoonCard({ title, description }: { title: string; description: st
     </div>
   );
 }
+
+const PHASE0_STEPS = [
+  "Schedule TAP initial counseling and pre-separation briefing at your installation's Military & Family Readiness Center.",
+  'Begin your Individual Transition Plan (ITP) — this becomes your living document through separation.',
+  'Pull your VMET (DD Form 2586) to translate military experience into civilian language.',
+  'Decide your post-transition path: employment, education, SkillBridge, entrepreneurship, or retirement.',
+  'If considering SkillBridge, begin researching programs and confirm command approval timeline.',
+];
+
+const AFTER_SEP_ITEMS: {
+  text: string;
+  detail: string;
+  href: string | null;
+  external: boolean;
+}[] = [
+  {
+    text: 'Check your VA claim status',
+    detail:
+      'Log into VA.gov to track your BDD or fully-developed claim. Most claims filed through BDD are decided within 30–45 days of your separation date.',
+    href: 'https://www.va.gov',
+    external: true,
+  },
+  {
+    text: 'Verify your first civilian paycheck',
+    detail:
+      'Compare your actual take-home against your pre-transition budget. Did the numbers hold up? If not, identify the gap before it becomes a pattern.',
+    href: null,
+    external: false,
+  },
+  {
+    text: 'Confirm TRICARE and healthcare coverage',
+    detail:
+      'TRICARE typically ends at 11:59 p.m. on your last active-duty day. Some separating members qualify for 180 days of transitional coverage (TAMP), but eligibility is not automatic. Confirm your TAMP eligibility before you sign out. If you don’t qualify, research alternatives: employer coverage, VA healthcare (if eligible), marketplace plans, or the Continued Health Care Benefit Program (CHCBP).',
+    href: null,
+    external: false,
+  },
+  {
+    text: 'Build a cash-flow plan for the transition gap',
+    detail:
+      'Plan for the gap between your final military pay, first civilian paycheck, VA claim decision, final travel claim reimbursement, and moving expenses. Know exactly how many weeks your savings need to cover.',
+    href: null,
+    external: false,
+  },
+  {
+    text: 'File state taxes for your new domicile',
+    detail:
+      "Your state tax situation may have changed. Some states don't tax military retirement pay or VA disability income; others do. Verify your new state's treatment before your first tax filing.",
+    href: null,
+    external: false,
+  },
+  {
+    text: 'Revisit your total compensation baseline',
+    detail:
+      'Run the Total Compensation Calculator with your new civilian salary to see exactly how your compensation changed. Quantifying the delta helps you make informed decisions about negotiating raises or benefits.',
+    href: '/calculators/total-compensation',
+    external: false,
+  },
+];
 
 export default function TransitionPage() {
   return (
@@ -145,22 +212,51 @@ export default function TransitionPage() {
           </h1>
 
           <p className="text-lg text-zinc-600 leading-relaxed mb-4 max-w-2xl">
-            A step-by-step financial guide for separating and retiring service members. Work
-            through each phase as your transition date approaches — on your own, at your own
-            pace.
+            A step-by-step financial guide for separating and retiring service members. Use
+            this as a financial checklist before your paycheck, healthcare, housing allowance,
+            and benefits change.
           </p>
 
           <DataCurrencyBadge source="Official DoD, DFAS & VA data" />
 
-          <p className="mt-4 text-sm text-zinc-600 bg-white border border-zinc-200 rounded-md px-4 py-2.5 inline-block">
-            Designed to complement the DoD Transition Assistance Program (TAP) financial
-            readiness module.
-          </p>
+          <div className="mt-4 text-sm text-zinc-600 bg-white border border-zinc-200 rounded-md px-4 py-2.5 inline-block">
+            <p>
+              Designed to complement the DoD Transition Assistance Program (TAP) financial
+              readiness module.
+            </p>
+            <p className="mt-1 text-zinc-400">
+              TAP covers what to complete. This page helps you run the numbers.
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Timeline */}
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+
+        {/* ── Phase 0 ─────────────────────────────────────────────────── */}
+        <section className="py-10 sm:py-12 border-b border-zinc-200">
+          <PhaseHeader number={0} timeframe="12+ months out" title="Start the process" />
+          <p className="text-base text-zinc-600 leading-relaxed mb-8 max-w-2xl">
+            TAP requires initial counseling no later than 365 days before separation. Retirees
+            should start up to 24 months out. This phase is about getting into the system and
+            building your baseline.
+          </p>
+          <div className="space-y-3">
+            {PHASE0_STEPS.map((step, i) => (
+              <div
+                key={i}
+                className="flex gap-3 rounded-lg border border-zinc-200 bg-white p-4"
+              >
+                <span className="flex-none mt-0.5 w-5 h-5 rounded-full border-2 border-zinc-300 flex items-center justify-center">
+                  <span className="w-2 h-2 rounded-full bg-zinc-300" />
+                </span>
+                <p className="text-sm text-zinc-700 leading-relaxed">{step}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* ── Phase 1 ─────────────────────────────────────────────────── */}
         <section className="py-10 sm:py-12 border-b border-zinc-200">
           <PhaseHeader number={1} timeframe="6–12 months out" title="Know your numbers" />
@@ -188,7 +284,7 @@ export default function TransitionPage() {
             <ResourceCard
               href="/blog/file-va-disability-before-separation"
               title="File for VA Disability Before You Separate"
-              description="The BDD program lets you file while still on active duty. Start this at the 6-month mark — not after you're out. Filing before separation preserves your rating effective date and speeds up your first payment."
+              description="The BDD (Benefits Delivery at Discharge) window is 180–90 days before your separation date. File within this window to potentially receive your rating within 30 days of separation."
             />
             <ResourceCard
               href="/calculators/tsp"
@@ -213,7 +309,7 @@ export default function TransitionPage() {
             <ResourceCard
               href="/blog/sgli-vgli-private-life-insurance"
               title="SGLI vs. VGLI vs. Private Life Insurance"
-              description="Your SGLI coverage ends 120 days after separation. Buy private term life insurance while you're still healthy and on active duty — it's cheaper and locks in your rate before any post-service health changes."
+              description="Your SGLI coverage ends 120 days after separation. If you need life insurance after separation, compare private term, VGLI, and conversion options before SGLI ends. Health changes after service can affect private coverage pricing or eligibility."
             />
             <ResourceCard
               href="/blog/tricare-costs-2026-vs-civilian"
@@ -234,6 +330,10 @@ export default function TransitionPage() {
               href="/blog/pcs-financial-planning-guide"
               title="PCS Financial Planning"
               description="If your separation involves a final PCS, know your entitlements. The difference between a well-planned and poorly-planned final move can be $10,000 or more — DLA, MALT, and PPM all matter here."
+            />
+            <InfoCard
+              title="Schedule your SHPE/SHA and final dental exam"
+              description="Schedule your Separation History and Physical Examination (SHPE/SHA) and final dental exam — typically between 90 and 180 days before separation. This supports your medical record and VA disability claim."
             />
             <ComingSoonCard
               title="Separation Benefits Timeline"
@@ -263,7 +363,19 @@ export default function TransitionPage() {
             <ResourceCard
               href="/blog/roth-tsp-advantage-junior-enlisted"
               title="Roth TSP Advantage"
-              description="Last chance to make Roth contributions while in a potentially lower tax bracket than your civilian career. Review whether shifting contributions from Traditional to Roth makes sense based on your expected civilian income."
+              description="Review whether Roth or Traditional TSP contributions make sense during your final active-duty months, especially if your civilian tax bracket may change."
+            />
+            <InfoCard
+              title="Request and review your draft DD-214"
+              description="Request and review your draft DD-214 before final out. Verify service dates, characterization, deployment history, awards, MOS/AFSC, and separation codes. Fixing errors is much harder after you've separated."
+            />
+            <InfoCard
+              title="Download records before you lose system access"
+              description="Download and save: service treatment records, LES history and tax documents, VMET / JST / CCAF / training transcripts, orders, evals, awards, deployment records, and clearance documentation."
+            />
+            <InfoCard
+              title="Map your final timeline"
+              description="Map terminal leave, permissive TDY, final out date, and first civilian start date on the same calendar. Schedule your final HHG move early — you typically have one year after separation to use final-move entitlements."
             />
             <ComingSoonCard
               title="TSP Separation Decision Tool"
@@ -284,50 +396,7 @@ export default function TransitionPage() {
             tax situation changed. Here&apos;s what to check and when.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {(
-              [
-                {
-                  text: 'Check your VA claim status',
-                  detail:
-                    'Log into VA.gov to track your BDD or fully-developed claim. Most claims filed through BDD are decided within 30–45 days of your separation date.',
-                  href: 'https://www.va.gov',
-                  external: true,
-                },
-                {
-                  text: 'Verify your first civilian paycheck',
-                  detail:
-                    'Compare your actual take-home against your pre-transition budget. Did the numbers hold up? If not, identify the gap before it becomes a pattern.',
-                  href: null,
-                  external: false,
-                },
-                {
-                  text: 'Confirm TRICARE transitional coverage',
-                  detail:
-                    "TRICARE Transitional Assistance Management Program (TAMP) provides 180 days of coverage for eligible separatees. Confirm your coverage start date with your installation's TRICARE office before you sign out.",
-                  href: null,
-                  external: false,
-                },
-                {
-                  text: 'File state taxes for your new domicile',
-                  detail:
-                    "Your state tax situation may have changed. Some states don't tax military retirement pay or VA disability income; others do. Verify your new state's treatment before your first tax filing.",
-                  href: null,
-                  external: false,
-                },
-                {
-                  text: 'Revisit your total compensation baseline',
-                  detail:
-                    'Run the Total Compensation Calculator with your new civilian salary to see exactly how your compensation changed. Quantifying the delta helps you make informed decisions about negotiating raises or benefits.',
-                  href: '/calculators/total-compensation',
-                  external: false,
-                },
-              ] as {
-                text: string;
-                detail: string;
-                href: string | null;
-                external: boolean;
-              }[]
-            ).map(({ text, detail, href, external }) => (
+            {AFTER_SEP_ITEMS.map(({ text, detail, href, external }) => (
               <div key={text} className="rounded-lg border border-zinc-200 bg-white p-5">
                 <div className="flex gap-3">
                   <span className="flex-none mt-0.5 w-5 h-5 rounded-full border-2 border-zinc-300 flex items-center justify-center">
