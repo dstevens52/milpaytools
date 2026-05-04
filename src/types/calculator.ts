@@ -155,3 +155,58 @@ export interface ActionStep {
   href?: string;
   priority: 'high' | 'medium' | 'low';
 }
+
+// ─── Transition Readiness ──────────────────────────────────────────────────
+
+export interface TransitionReadinessInput {
+  payGrade: PayGrade;
+  yearsOfService: number;
+  zipCode: string;
+  hasDependents: boolean;
+  separationMonths: number;
+  retirementSystem: 'legacy' | 'brs';
+  targetCivilianSalary: number;
+  spouseIncome: number;
+  vaRating: number; // 0–100, or -1 for "haven't filed"
+  expenseMode: 'quick' | 'detailed';
+  totalMonthlyExpenses: number;
+  expenseHousing: number;
+  expenseCar: number;
+  expenseInsurance: number;
+  expenseGroceries: number;
+  expenseDebt: number;
+  expenseChildcare: number;
+  expenseUtilities: number;
+  expenseOther: number;
+  emergencyFund: number;
+  tspBalance: number;
+  otherSavings: number;
+}
+
+export interface TransitionReadinessOutput {
+  militaryMonthlyBasePay: number;
+  militaryMonthlyBAH: number;
+  militaryMonthlyBAS: number;
+  militaryTaxAdvantageMonthly: number;
+  militaryTotalMonthly: number;
+  netCivilianSalaryMonthly: number;
+  vaCompMonthly: number;
+  pensionMonthly: number;
+  netSpouseMonthly: number;
+  projectedCivilianMonthly: number;
+  isRetirementEligible: boolean;
+  separationYOS: number;
+  healthcareCostMonthly: number;
+  hasRetireeTricare: boolean;
+  rawMonthlyExpenses: number;
+  adjustedMonthlyExpenses: number;
+  monthlyGapOrSurplus: number;
+  totalLiquidSavings: number;
+  emergencyFundMonths: number;
+  verdict: 'ready' | 'almost' | 'not-yet';
+  surplusStatus: 'green' | 'yellow' | 'red';
+  emergencyFundStatus: 'green' | 'yellow' | 'red';
+  vaClaimStatus: 'green' | 'yellow' | 'na';
+  timelineStatus: 'green' | 'yellow' | 'red';
+  actionSteps: ActionStep[];
+}

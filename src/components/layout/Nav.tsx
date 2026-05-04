@@ -39,7 +39,10 @@ const DROPDOWN_GROUPS = [
   },
   {
     label: 'PCS & Transition',
-    links: [{ href: '/calculators/pcs', label: 'PCS Cost Estimator' }],
+    links: [
+      { href: '/calculators/pcs', label: 'PCS Cost Estimator' },
+      { href: '/calculators/transition-readiness', label: 'Transition Readiness' },
+    ],
   },
   {
     label: 'Dual Military',

@@ -291,9 +291,10 @@ export default function TransitionPage() {
               title="TSP Growth Projector"
               description="Review your TSP balance and contribution strategy. Your last months on active duty may be your best opportunity to maximize contributions — especially if you'll be moving to a higher tax bracket as a civilian."
             />
-            <ComingSoonCard
+            <ResourceCard
+              href="/calculators/transition-readiness"
               title="Transition Readiness Calculator"
-              description="One tool that brings it all together. Enter your rank, duty station, expected VA rating, target civilian salary, and expenses — get a clear readiness score and action plan."
+              description="One tool that brings it all together. Enter your rank, duty station, expected VA rating, target civilian salary, and expenses — get a clear readiness verdict with action steps."
             />
           </div>
         </section>
