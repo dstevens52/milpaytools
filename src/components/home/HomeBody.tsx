@@ -21,6 +21,9 @@ function ProblemSection() {
               value of your service by thousands of dollars. Don&apos;t make career or financial
               decisions with only part of the math.
             </p>
+            <p className="text-base text-zinc-600 leading-relaxed max-w-xl mt-3">
+              You earned the benefits. We help you see the full picture — so your next decision starts with real numbers.
+            </p>
           </div>
           <div className="rounded-xl bg-red-50 border border-red-200 px-8 py-8">
             <p className="text-red-700 text-lg font-semibold leading-relaxed">
@@ -48,6 +51,7 @@ const DECISION_CARDS = [
     title: 'Compare pay to civilian',
     description: 'See your total military compensation and compare it to civilian salaries.',
     href: '/calculators/total-compensation',
+    cta: 'Compare My Compensation →',
   },
   {
     bgClass: 'bg-green-100',
@@ -60,6 +64,7 @@ const DECISION_CARDS = [
     title: 'PCS or compare duty stations',
     description: 'Check BAH, COLA, PCS costs, and housing differences.',
     href: '/calculators/compare',
+    cta: 'Compare Duty Stations →',
   },
   {
     bgClass: 'bg-blue-100',
@@ -72,6 +77,7 @@ const DECISION_CARDS = [
     title: 'Plan separation or retirement',
     description: 'Estimate income, TSP, pension, healthcare, and VA benefits.',
     href: '/transition',
+    cta: 'Plan My Transition →',
   },
   {
     bgClass: 'bg-purple-100',
@@ -85,6 +91,7 @@ const DECISION_CARDS = [
     title: 'Understand VA or education benefits',
     description: 'Calculate VA ratings, monthly compensation, and education value.',
     href: '/calculators/va-disability',
+    cta: 'Estimate My Benefits →',
   },
 ];
 
@@ -96,7 +103,7 @@ function DecisionSection() {
           What decision are you trying to make?
         </h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {DECISION_CARDS.map(({ bgClass, textClass, icon, title, description, href }) => (
+          {DECISION_CARDS.map(({ bgClass, textClass, icon, title, description, href, cta }) => (
             <div
               key={href}
               className="flex flex-col rounded-xl border border-zinc-200 bg-white p-5 hover:shadow-md hover:border-zinc-300 transition-all duration-150"
@@ -110,7 +117,7 @@ function DecisionSection() {
                 href={href}
                 className="text-xs font-semibold text-red-700 hover:text-red-800 transition-colors"
               >
-                Calculate Now →
+                {cta}
               </Link>
             </div>
           ))}
@@ -209,7 +216,7 @@ const POPULAR_CALCS = [
   {
     href: '/calculators/tsp',
     name: 'TSP Growth',
-    description: 'Project your TSP balance with real returns.',
+    description: 'Project your TSP balance using adjustable return assumptions.',
     icon: (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v18h18M7 16l4-4 4 4 4-4" />
@@ -243,12 +250,12 @@ function PopularCalculatorsSection() {
     <section className="py-10 sm:py-12 px-4 bg-white border-b border-zinc-200">
       <div className="mx-auto max-w-6xl">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-bold text-zinc-900">Popular calculators</h3>
+          <h3 className="text-lg font-bold text-zinc-900">Pick the calculator for your situation</h3>
           <Link
             href="/calculators"
             className="text-sm font-semibold text-red-700 hover:text-red-800 transition-colors"
           >
-            View all calculators →
+            See every calculator →
           </Link>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PayChartsClient } from '@/components/calculators/pay-charts/PayChartsClient';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -69,6 +70,7 @@ export default function PayChartsPage() {
               </span>
             ))}
           </div>
+          <DataCurrencyBadge source="Official DFAS &amp; DTMO rates" />
         </div>
       </div>
 

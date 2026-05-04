@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { TSPCalculator } from '@/components/calculators/tsp/TSPCalculator';
+import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -68,6 +69,7 @@ export default function TSPPage() {
               </span>
             ))}
           </div>
+          <DataCurrencyBadge source="2026 IRS contribution limits &bull; DFAS pay tables" />
         </div>
       </div>
 

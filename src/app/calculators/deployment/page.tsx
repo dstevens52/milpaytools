@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { DeploymentCalculator } from '@/components/calculators/deployment/DeploymentCalculator';
+import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -67,6 +68,7 @@ export default function DeploymentPage() {
               </span>
             ))}
           </div>
+          <DataCurrencyBadge source="Official DFAS &amp; DTMO rates" />
         </div>
       </div>
 

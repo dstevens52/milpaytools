@@ -30,6 +30,176 @@
 
 - [2026 Military Pay Charts](https://www.milpaytools.com/calculators/pay-charts): Complete 2026 DFAS basic pay tables for all ranks and years of service. Includes quick lookup (select grade + YOS, see rate instantly), monthly/annual toggle, and three tables: Enlisted (E-1–E-9), Warrant Officers (W-1–W-5), and Officers (O-1–O-10, including O-1E/O-2E/O-3E prior-enlisted rates). 3.8% pay raise effective January 1, 2026. Source: DFAS Military Pay Charts.
 
+- [Dual Military BAH Calculator](https://www.milpaytools.com/calculators/dual-military-bah): Dedicated tool for dual-military couples stationed together or apart. Calculates both members' BAH rates, determines optimal dependent claim strategy (which spouse should claim children for maximum household BAH), handles same-station co-location rules (senior member gets with-dependents rate, junior gets without-dependents rate), different-station policy (both can receive with-dependents rate), and equal-rank scenarios. Shows total household BAH and identifies optimization opportunities.
+
+## Guides
+
+- [Military Pay & Compensation Guide](https://www.milpaytools.com/guides/military-pay): Complete guide to military pay in 2026 — base pay tables, BAH by ZIP code, BAS, tax advantages, CONUS COLA, and total compensation calculation. Links to every pay-related calculator and article on MilPayTools.
+
+- [VA Disability Benefits Guide](https://www.milpaytools.com/guides/va-disability): Understand how VA disability ratings are calculated, how VA math combines multiple ratings, the bilateral factor, and your 2026 monthly compensation estimate. Covers CRDP, CRSC, and benefits sequencing for retirees.
+
+- [Military Retirement & TSP Guide](https://www.milpaytools.com/guides/retirement-tsp): Complete guide to military retirement systems (High-3 vs BRS), TSP strategies, Roth vs Traditional, and how to calculate your pension and retirement income. Includes stay-vs-go financial analysis for members approaching 20 years.
+
+- [PCS & Duty Station Financial Guide](https://www.milpaytools.com/guides/pcs): Plan your PCS finances from orders to final voucher — DLA rates, MALT mileage, per diem, TLE, PPM profit, BAH changes, and duty station cost comparison tools.
+
+- [Military Education Benefits Guide](https://www.milpaytools.com/guides/education-benefits): Compare Post-9/11 GI Bill, VR&E Chapter 31, Tuition Assistance, and Montgomery GI Bill side by side — total program value and the best sequencing strategy for active-duty and separating members.
+
+## BAH by Duty Station
+
+- [BAH Rates by Military Installation](https://www.milpaytools.com/bah): Index page with search and filter for all duty station BAH pages. Find any installation by name, city, state, or branch.
+
+- [Fort Liberty (formerly Fort Bragg)](https://www.milpaytools.com/bah/fort-liberty): Fayetteville, NC — Army. 2026 BAH rates for the 82nd Airborne Division's home station, the largest U.S. military installation by population.
+
+- [Fort Campbell](https://www.milpaytools.com/bah/fort-campbell): Clarksville, TN — Army. 2026 BAH rates for the home of the 101st Airborne Division (Air Assault), straddling the Kentucky-Tennessee border.
+
+- [Fort Cavazos (formerly Fort Hood)](https://www.milpaytools.com/bah/fort-cavazos): Killeen, TX — Army. 2026 BAH rates for one of the most affordable large military markets in the country, home to III Armored Corps.
+
+- [Joint Base Lewis-McChord (JBLM)](https://www.milpaytools.com/bah/joint-base-lewis-mcchord): Lakewood, WA — Army/Air Force. 2026 BAH rates for the largest military installation on the West Coast; CONUS COLA added for this area in 2026.
+
+- [Fort Carson](https://www.milpaytools.com/bah/fort-carson): Colorado Springs, CO — Army. 2026 BAH rates for the home of the 4th Infantry Division at the base of Pikes Peak.
+
+- [Fort Drum](https://www.milpaytools.com/bah/fort-drum): Watertown, NY — Army. 2026 BAH rates for the home of the 10th Mountain Division in upstate New York.
+
+- [Fort Bliss](https://www.milpaytools.com/bah/fort-bliss): El Paso, TX — Army. 2026 BAH rates for one of the most affordable major housing markets in the country, home to the 1st Armored Division.
+
+- [Fort Stewart](https://www.milpaytools.com/bah/fort-stewart): Hinesville, GA — Army. 2026 BAH rates for the largest Army installation east of the Mississippi River, home to the 3rd Infantry Division.
+
+- [Fort Knox](https://www.milpaytools.com/bah/fort-knox): Radcliff, KY — Army. 2026 BAH rates for the home of Armor School and the U.S. Army Human Resources Command.
+
+- [Fort Riley](https://www.milpaytools.com/bah/fort-riley): Junction City, KS — Army. 2026 BAH rates for the home of the 1st Infantry Division ("Big Red One") in north-central Kansas.
+
+- [Fort Moore (formerly Fort Benning)](https://www.milpaytools.com/bah/fort-moore): Columbus, GA — Army. 2026 BAH rates for the Maneuver Center of Excellence and Ranger Training Brigade.
+
+- [Fort Eisenhower (formerly Fort Gordon)](https://www.milpaytools.com/bah/fort-eisenhower): Augusta, GA — Army. 2026 BAH rates for the U.S. Army Cyber Center of Excellence and Signal Corps.
+
+- [Fort Sill](https://www.milpaytools.com/bah/fort-sill): Lawton, OK — Army. 2026 BAH rates for the home of the Field Artillery School; one of the most affordable military housing markets in the country.
+
+- [Fort Leavenworth](https://www.milpaytools.com/bah/fort-leavenworth): Leavenworth, KS — Army. 2026 BAH rates for the Command and General Staff College; falls within the Kansas City MHA.
+
+- [Fort Huachuca](https://www.milpaytools.com/bah/fort-huachuca): Sierra Vista, AZ — Army. 2026 BAH rates for the U.S. Army Intelligence Center of Excellence in southeastern Arizona.
+
+- [Fort Wainwright](https://www.milpaytools.com/bah/fort-wainwright): Fairbanks, AK — Army. 2026 BAH rates for the coldest major U.S. military installation, home to the 1st Brigade Combat Team (Stryker), 25th Infantry Division.
+
+- [Fort Johnson (formerly Fort Polk)](https://www.milpaytools.com/bah/fort-johnson): Leesville, LA — Army. 2026 BAH rates for the Joint Readiness Training Center (JRTC) installation in western Louisiana.
+
+- [Schofield Barracks](https://www.milpaytools.com/bah/schofield-barracks): Wahiawa, HI — Army. 2026 BAH rates for the home of the 25th Infantry Division on Oahu; among the highest BAH rates in the DoD.
+
+- [Aberdeen Proving Ground](https://www.milpaytools.com/bah/aberdeen-proving-ground): Aberdeen, MD — Army. 2026 BAH rates for the Army's primary research and testing center; falls within the Baltimore MHA.
+
+- [Redstone Arsenal](https://www.milpaytools.com/bah/redstone-arsenal): Huntsville, AL — Army. 2026 BAH rates for the Army Aviation and Missile Command center in Huntsville's technology corridor.
+
+- [Fort Hamilton](https://www.milpaytools.com/bah/fort-hamilton): Brooklyn, NY — Army. 2026 BAH rates for the only active-duty military installation in New York City; NYC MHA rates apply.
+
+- [Fort George G. Meade](https://www.milpaytools.com/bah/fort-meade): Odenton, MD — Army. 2026 BAH rates for the home of NSA and U.S. Cyber Command; falls within the Baltimore MHA.
+
+- [Fort Jackson](https://www.milpaytools.com/bah/fort-jackson): Columbia, SC — Army. 2026 BAH rates for the Army's largest initial entry training center in the affordable Columbia market.
+
+- [Fort Detrick](https://www.milpaytools.com/bah/fort-detrick): Frederick, MD — Army. 2026 BAH rates for the U.S. Army Medical Research and Development Command; falls within the DC-area BAH zone.
+
+- [Fort Irwin (National Training Center)](https://www.milpaytools.com/bah/fort-irwin): Barstow, CA — Army. 2026 BAH rates for the Army's premier large-scale combat training center in the Mojave Desert.
+
+- [United States Military Academy at West Point](https://www.milpaytools.com/bah/west-point): West Point, NY — Army. 2026 BAH rates for the nation's premier military university; falls within the New York City metro MHA.
+
+- [Joint Base San Antonio](https://www.milpaytools.com/bah/joint-base-san-antonio): San Antonio, TX — Air Force/Multi-branch. 2026 BAH rates for the largest joint base in the DoD; one of the most affordable large metros in the country.
+
+- [Travis AFB](https://www.milpaytools.com/bah/travis-afb): Fairfield, CA — Air Force. 2026 BAH rates for the Air Force's largest air mobility wing, positioned between San Francisco and Sacramento.
+
+- [MacDill AFB](https://www.milpaytools.com/bah/macdill-afb): Tampa, FL — Air Force. 2026 BAH rates for the home of CENTCOM and SOCSOUTH in the rapidly growing Tampa Bay market.
+
+- [Eglin AFB](https://www.milpaytools.com/bah/eglin-afb): Fort Walton Beach, FL — Air Force. 2026 BAH rates for the largest Air Force base by area in CONUS, in Florida's panhandle.
+
+- [Joint Base Langley-Eustis](https://www.milpaytools.com/bah/joint-base-langley-eustis): Hampton, VA — Air Force/Army. 2026 BAH rates for the home of Air Combat Command headquarters in the Hampton Roads market.
+
+- [Wright-Patterson AFB](https://www.milpaytools.com/bah/wright-patterson-afb): Dayton, OH — Air Force. 2026 BAH rates for Air Force Materiel Command headquarters in Dayton's highly affordable market.
+
+- [Scott AFB](https://www.milpaytools.com/bah/scott-afb): O'Fallon, IL — Air Force. 2026 BAH rates for U.S. Transportation Command headquarters east of St. Louis in an affordable market.
+
+- [Luke AFB](https://www.milpaytools.com/bah/luke-afb): Glendale, AZ — Air Force. 2026 BAH rates for the world's largest fighter pilot training base in the western Phoenix metro.
+
+- [Davis-Monthan AFB](https://www.milpaytools.com/bah/davis-monthan-afb): Tucson, AZ — Air Force. 2026 BAH rates for the home of the 355th Wing and the famous aircraft "boneyard" (AMARG) in the Tucson market.
+
+- [Vandenberg Space Force Base](https://www.milpaytools.com/bah/vandenberg-sfb): Lompoc, CA — Space Force/Air Force. 2026 BAH rates for the primary West Coast space launch facility; BAH reflects the Santa Barbara MHA.
+
+- [Edwards AFB](https://www.milpaytools.com/bah/edwards-afb): Lancaster, CA — Air Force. 2026 BAH rates for the Air Force Flight Test Center in the Antelope Valley high desert northeast of Los Angeles.
+
+- [Tinker AFB](https://www.milpaytools.com/bah/tinker-afb): Midwest City, OK — Air Force. 2026 BAH rates for the Air Force Sustainment Center in the affordable Oklahoma City metro.
+
+- [Barksdale AFB](https://www.milpaytools.com/bah/barksdale-afb): Bossier City, LA — Air Force. 2026 BAH rates for Global Strike Command's nuclear bomber headquarters in northwest Louisiana's affordable market.
+
+- [Seymour Johnson AFB](https://www.milpaytools.com/bah/seymour-johnson-afb): Goldsboro, NC — Air Force. 2026 BAH rates for the home of the 4th Fighter Wing and F-15E Strike Eagles in eastern North Carolina.
+
+- [Ellsworth AFB](https://www.milpaytools.com/bah/ellsworth-afb): Rapid City, SD — Air Force. 2026 BAH rates for the 28th Bomb Wing (B-1B Lancer) near the Black Hills; no state income tax on military pay.
+
+- [Minot AFB](https://www.milpaytools.com/bah/minot-afb): Minot, ND — Air Force. 2026 BAH rates for the dual-mission B-52H and ICBM base; one of the most affordable military markets in the country.
+
+- [Joint Base Elmendorf-Richardson](https://www.milpaytools.com/bah/joint-base-elmendorf-richardson): Anchorage, AK — Air Force/Army. 2026 BAH rates for the primary military installation in Alaska, home to the 3rd Wing and 11th Airborne Division.
+
+- [Joint Base Andrews](https://www.milpaytools.com/bah/joint-base-andrews): Camp Springs, MD — Air Force/Army. 2026 BAH rates for the home of Air Force One in the high-cost DC metro MHA.
+
+- [Kirtland AFB](https://www.milpaytools.com/bah/kirtland-afb): Albuquerque, NM — Air Force. 2026 BAH rates for the Air Force Nuclear Weapons Center and Sandia National Laboratories in an affordable market.
+
+- [Whiteman AFB](https://www.milpaytools.com/bah/whiteman-afb): Warrensburg, MO — Air Force. 2026 BAH rates for the only B-2 Spirit stealth bomber base; one of the most affordable markets among Air Force installations.
+
+- [Offutt AFB](https://www.milpaytools.com/bah/offutt-afb): Bellevue, NE — Air Force. 2026 BAH rates for U.S. Strategic Command (STRATCOM) headquarters in the stable Omaha market.
+
+- [Patrick Space Force Base](https://www.milpaytools.com/bah/patrick-sfb): Cocoa Beach, FL — Space Force/Air Force. 2026 BAH rates for Space Launch Delta 45 on Florida's Space Coast near Cape Canaveral.
+
+- [Naval Station Norfolk](https://www.milpaytools.com/bah/naval-station-norfolk): Norfolk, VA — Navy. 2026 BAH rates for the largest naval base in the world; Hampton Roads is a major military housing market with competitive rates.
+
+- [Naval Station San Diego](https://www.milpaytools.com/bah/naval-station-san-diego): San Diego, CA — Navy. 2026 BAH rates for the primary Pacific Fleet surface ship homeport; among the most expensive military markets in CONUS.
+
+- [Marine Corps Base Camp Pendleton](https://www.milpaytools.com/bah/camp-pendleton): Oceanside, CA — Marine Corps. 2026 BAH rates for the largest active-duty Marine Corps base on the West Coast; San Diego MHA rates apply.
+
+- [Marine Corps Base Camp Lejeune](https://www.milpaytools.com/bah/camp-lejeune): Jacksonville, NC — Marine Corps/Navy. 2026 BAH rates for the primary East Coast amphibious assault training base in an affordable military-dominated market.
+
+- [Joint Base Pearl Harbor-Hickam](https://www.milpaytools.com/bah/joint-base-pearl-harbor-hickam): Honolulu, HI — Navy/Air Force. 2026 BAH rates for Pacific Fleet and Pacific Air Forces headquarters; highest BAH rates in the DoD.
+
+- [Naval Air Station Pensacola](https://www.milpaytools.com/bah/naval-air-station-pensacola): Pensacola, FL — Navy. 2026 BAH rates for the "Cradle of Naval Aviation" and Blue Angels home base on the Florida Gulf Coast.
+
+- [Naval Station Mayport](https://www.milpaytools.com/bah/naval-station-mayport): Atlantic Beach, FL — Navy. 2026 BAH rates for the third-largest U.S. Navy fleet concentration area near Jacksonville, Florida.
+
+- [Naval Base Kitsap](https://www.milpaytools.com/bah/naval-base-kitsap): Bremerton, WA — Navy. 2026 BAH rates for one of the largest naval installations in the world, homeporting Ohio-class submarines on Puget Sound.
+
+- [Naval Air Station Whidbey Island](https://www.milpaytools.com/bah/naval-air-station-whidbey-island): Oak Harbor, WA — Navy. 2026 BAH rates for the EA-18G Growler and P-8 Poseidon base; tied to the Seattle MHA with favorable BAH-to-rent ratio on the island.
+
+- [MCAS Miramar](https://www.milpaytools.com/bah/marine-corps-air-station-miramar): San Diego, CA — Marine Corps. 2026 BAH rates for Marine Aircraft Group 11 in the northern San Diego metro (San Diego MHA).
+
+- [MCAS Cherry Point](https://www.milpaytools.com/bah/marine-corps-air-station-cherry-point): Havelock, NC — Marine Corps/Navy. 2026 BAH rates for the largest Marine Corps air station on the East Coast in an affordable coastal North Carolina market.
+
+- [Marine Corps Base Quantico](https://www.milpaytools.com/bah/marine-corps-base-quantico): Quantico, VA — Marine Corps/Navy. 2026 BAH rates for the "Crossroads of the Marine Corps"; falls within the high-cost DC metro MHA.
+
+- [Naval Station Great Lakes](https://www.milpaytools.com/bah/naval-station-great-lakes): North Chicago, IL — Navy. 2026 BAH rates for the Navy's only boot camp and largest training installation on Lake Michigan.
+
+- [Joint Base Little Creek-Fort Story](https://www.milpaytools.com/bah/joint-base-little-creek-fort-story): Virginia Beach, VA — Navy/Army. 2026 BAH rates for the home of Navy Expeditionary Combat Command and SEAL Team Six on the Virginia Beach oceanfront.
+
+- [Naval Submarine Base New London](https://www.milpaytools.com/bah/naval-submarine-base-new-london): Groton, CT — Navy. 2026 BAH rates for the U.S. Navy's primary submarine base and Naval Submarine School on the Thames River.
+
+- [MCAS Beaufort](https://www.milpaytools.com/bah/marine-corps-air-station-beaufort): Beaufort, SC — Marine Corps/Navy. 2026 BAH rates for the F-35B operational base in South Carolina's Lowcountry.
+
+- [Joint Base McGuire-Dix-Lakehurst](https://www.milpaytools.com/bah/joint-base-mcguire-dix-lakehurst): Wrightstown, NJ — Air Force/Army/Navy. 2026 BAH rates for the only U.S. base hosting all three Total Force components; Philadelphia/South Jersey MHA.
+
+- [Naval Air Station Oceana](https://www.milpaytools.com/bah/naval-air-station-oceana): Virginia Beach, VA — Navy. 2026 BAH rates for the East Coast Master Jet Base and primary F/A-18 strike fighter training pipeline.
+
+- [Naval Base Ventura County](https://www.milpaytools.com/bah/naval-base-ventura-county): Port Hueneme, CA — Navy. 2026 BAH rates for NAS Point Mugu and the Pacific Seabees in Southern California's Ventura County.
+
+- [MCAGCC Twentynine Palms](https://www.milpaytools.com/bah/marine-corps-air-ground-combat-center): Twentynine Palms, CA — Marine Corps. 2026 BAH rates for the world's largest Marine Corps base and combined-arms training center in the Mojave Desert.
+
+- [Naval Station Newport](https://www.milpaytools.com/bah/naval-station-newport): Newport, RI — Navy. 2026 BAH rates for the Naval War College and Surface Warfare Officers School on Aquidneck Island in Rhode Island.
+
+- [Joint Base Myer-Henderson Hall](https://www.milpaytools.com/bah/joint-base-myer-henderson-hall): Arlington, VA — Army. 2026 BAH rates for the Pentagon-adjacent installation home of the Old Guard; DC metro MHA with very high rates.
+
+- [Joint Base Charleston](https://www.milpaytools.com/bah/joint-base-charleston): North Charleston, SC — Air Force/Navy. 2026 BAH rates for the 437th Airlift Wing and primary East Coast port of embarkation.
+
+- [Joint Base Cape Cod](https://www.milpaytools.com/bah/joint-base-cape-cod): Bourne, MA — Air Force/Army/Coast Guard. 2026 BAH rates for the multi-service installation on Cape Cod; elevated Massachusetts coastal market rates.
+
+- [Yokota Air Base](https://www.milpaytools.com/bah/yokota-air-base): Fussa, Japan — Air Force. OCONUS installation — members receive Overseas Housing Allowance (OHA), not BAH. Headquarters for U.S. Forces Japan in the western Tokyo metropolitan area.
+
+- [Kadena Air Base](https://www.milpaytools.com/bah/kadena-air-base): Okinawa, Japan — Air Force/Multi-branch. OCONUS installation — members receive OHA, not BAH. Largest U.S. Air Force base in Asia and keystone of Pacific air defense.
+
+- [Camp Humphreys (K-6)](https://www.milpaytools.com/bah/camp-humphreys): Pyeongtaek, South Korea — Army/Air Force. OCONUS installation — members receive OHA, not BAH. Largest U.S. overseas military base in the world and headquarters of U.S. Forces Korea.
+
+- [Ramstein Air Base](https://www.milpaytools.com/bah/ramstein-air-base): Ramstein-Miesenbach, Germany — Air Force/Army. OCONUS installation — members receive OHA, not BAH. Hub of U.S. military operations in Europe and headquarters of USAFE-AFAFRICA.
+
 ## Blog
 
 - [How Much Does an E-5 Really Make in 2026?](https://www.milpaytools.com/blog/how-much-does-an-e5-really-make-2026): Complete E-5 compensation breakdown including base pay ($3,946.80/month), BAH by location, BAS, tax advantages, and civilian salary equivalent.
@@ -80,6 +250,20 @@
 
 - [SGLI vs. VGLI vs. Private Life Insurance: What Every Service Member Needs to Know](https://www.milpaytools.com/blog/sgli-vgli-private-life-insurance): SGLI: $500,000 coverage at $30/month, guaranteed-issue regardless of occupation or health — terminates 120 days after separation. VGLI: guaranteed-issue conversion but premiums escalate every 5 years by age bracket ($43/month at 30–34, $107/month at 40–44, $399/month at 55–59 for $500K coverage). Private 20-year term: $25–35/month for a healthy 30-year-old, fixed rate for the term. Optimal strategy: buy private term 12–24 months before separation while still healthy. Combat zone exception: keep SGLI during deployment — private policies have war exclusion clauses. FSGLI for spouses up to $100,000. VGLI appropriate when health conditions make private underwriting unaffordable.
 
+- [CRDP vs CRSC: Which One Pays More After Taxes?](https://www.milpaytools.com/blog/crdp-vs-crsc-military-retirement): Most eligible military retirees with VA disability ratings don't realize they have a choice between CRDP and CRSC — and picking wrong can cost hundreds per month. Covers CRDP automatic restoration of full pension alongside VA pay (taxable), CRSC tax-free combat-related compensation, eligibility requirements for each, and the grade-by-grade math for determining which pays more after taxes.
+
+- [The $47,000 Gap: Why Two E-5s With the Same Rank Make Wildly Different Money](https://www.milpaytools.com/blog/the-47000-gap-bah-duty-station): Same rank, same years of service, nearly $47K/year difference in total compensation. Explains how duty station geography creates massive pay gaps through BAH variation ($1,260/month at Fort Sill vs. $3,726/month in Honolulu) and what that means for assignment preferences and civilian salary equivalents.
+
+- [What Walking Away at 12 Years Actually Costs: The Retirement Math Nobody Shows You](https://www.milpaytools.com/blog/what-walking-away-at-12-years-costs): An E-7 at 12 years is weighing whether to stay to 20. Quantifies the exact dollar value of the pension, TRICARE retiree healthcare, and TSP matching they'd forfeit — and calculates the civilian salary needed to replace it.
+
+- [The Roth TSP Deployment Strategy That Builds a Tax-Free Fortune](https://www.milpaytools.com/blog/roth-tsp-deployment-strategy): An E-5 who maxes Roth TSP during a 12-month combat deployment builds a tax-free asset worth six figures by retirement. Explains the combat zone triple tax advantage (contributions never taxed at any point), the elevated $72,000 TSP limit, and the full compound growth math through age 60.
+
+- [50% + 30% + 20% = 100%, Right? How VA Math Actually Works (And What It Costs You)](https://www.milpaytools.com/blog/va-math-costs-you-money): Most veterans expect their ratings to add up normally. They don't. Shows the step-by-step combined ratings formula explaining why 50% + 30% + 20% = 70% under VA math — and how targeting the right additional condition can push a combined rating to the next compensation tier.
+
+- [The PCS That Costs $14,000 — And the One That Makes $6,000](https://www.milpaytools.com/blog/pcs-that-costs-14000-vs-makes-6000): Two PCS scenarios for the same E-6 family moving Fort Campbell to JBLM. One loses thousands. The other profits. The $20,000 difference comes down to knowing DLA, TLE, PPM strategy, and lease timing before orders drop.
+
+- [Dual Military BAH: Why the Higher-Ranking Spouse Doesn't Always Get More](https://www.milpaytools.com/blog/dual-military-bah-guide): Most dual military couples assume the higher-ranking member should claim dependents for BAH. The math says otherwise — and it can cost you hundreds per month. Covers co-location rules, dependent assignment when stationed separately, and market-by-market optimization examples.
+
 ## Data Sources
 
 - 2026 Military Pay Tables: Defense Finance and Accounting Service (DFAS)
@@ -89,4 +273,4 @@
 
 ## About
 
-Built by Dan Stevens — grew up on Air Force bases worldwide as the son of a 20-year Air Force veteran, now an NMLS-licensed mortgage industry professional. All calculators are multi-LLM fact-checked against official government sources.
+Built by Dan Stevens — grew up on Air Force bases worldwide as the son of a 20-year Air Force veteran, now an NMLS-licensed mortgage industry professional. 13 calculators, 31 blog posts, 5 comprehensive guides, and 76 duty station BAH pages — all multi-LLM fact-checked against official government sources and verified with a 143-test Playwright suite.

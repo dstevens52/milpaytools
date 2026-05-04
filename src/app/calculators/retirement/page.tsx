@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { RetirementCalculator } from '@/components/calculators/retirement/RetirementCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -65,6 +66,7 @@ export default function RetirementCalculatorPage() {
               </span>
             ))}
           </div>
+          <DataCurrencyBadge source="2026 DFAS pay tables" />
         </div>
       </div>
 

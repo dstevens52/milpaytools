@@ -54,10 +54,10 @@ export function GuidesSection() {
           <div>
             <div className="flex items-center gap-3 mb-2">
               <span className="block w-6 h-0.5 bg-red-700" />
-              <h2 className="text-2xl font-bold text-zinc-900">Comprehensive Guides</h2>
+              <h2 className="text-2xl font-bold text-zinc-900">Need more context? Read the guide for your situation.</h2>
             </div>
             <p className="text-zinc-600">
-              In-depth guides covering every major topic in military finance — with embedded calculators and linked articles.
+              Calculators give you the numbers. Guides explain the rules behind them.
             </p>
           </div>
           <Link

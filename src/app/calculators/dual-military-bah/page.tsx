@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { DualMilitaryBAHCalculator } from '@/components/calculators/dual-military-bah/DualMilitaryBAHCalculator';
 import { GuidePromo } from '@/components/calculators/shared/GuidePromo';
+import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -69,6 +70,7 @@ export default function DualMilitaryBAHPage() {
               </span>
             ))}
           </div>
+          <DataCurrencyBadge source="Official DFAS &amp; DTMO rates" />
         </div>
       </div>
 

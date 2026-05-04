@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { ColaCalculator } from '@/components/calculators/cola/ColaCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -49,6 +50,7 @@ export default function ColaPage() {
             Continental U.S. Cost of Living Allowance supplements pay at high-cost duty stations.
             Enter your ZIP code to check eligibility and see approximate monthly rates.
           </p>
+          <DataCurrencyBadge source="Official DFAS &amp; DTMO rates" />
         </div>
       </div>
 

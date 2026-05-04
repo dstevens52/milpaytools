@@ -45,16 +45,16 @@ export default function HomePage() {
       <section className="py-5 px-4 bg-white border-b border-zinc-100">
         <div className="mx-auto max-w-6xl">
           <p className="text-sm text-zinc-500 text-center">
-            Buying a home with a VA loan?{' '}
+            Using your VA loan benefit?{' '}
             <a
               href="https://varefinance.com"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-700 font-medium hover:underline"
             >
-              Check out VARefinance.com
+              Visit VARefinance.com
             </a>{' '}
-            — our companion site for VA mortgage tools and guides.
+            for VA mortgage education and tools.
           </p>
         </div>
       </section>

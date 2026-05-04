@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { EducationCalculator } from '@/components/calculators/education/EducationCalculator';
+import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -49,6 +50,7 @@ export default function EducationCalculatorPage() {
             Montgomery GI Bill side by side — and find out which benefit is worth the most for your
             specific school, location, and situation.
           </p>
+          <DataCurrencyBadge source="2026 VA MHA rates &bull; DFAS pay tables" />
         </div>
       </div>
 

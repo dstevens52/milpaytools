@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { VADisabilityCalculator } from '@/components/calculators/va-disability/VADisabilityCalculator';
+import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -69,6 +70,7 @@ export default function VADisabilityPage() {
               </span>
             ))}
           </div>
+          <DataCurrencyBadge source="Official VA rates effective December 1, 2025 (2.8% COLA)" />
         </div>
       </div>
 

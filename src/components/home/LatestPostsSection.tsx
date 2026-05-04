@@ -11,10 +11,10 @@ export function LatestPostsSection() {
           <div>
             <div className="flex items-center gap-3 mb-2">
               <span className="block w-6 h-0.5 bg-red-700" />
-              <h2 className="text-2xl font-bold text-zinc-900">Latest from the blog</h2>
+              <h2 className="text-2xl font-bold text-zinc-900">Money rules most service members miss</h2>
             </div>
             <p className="text-zinc-600">
-              Guides, breakdowns, and financial concepts explained for service members.
+              Short breakdowns on pay, BAH, PCS, retirement, and transition decisions.
             </p>
           </div>
           <Link

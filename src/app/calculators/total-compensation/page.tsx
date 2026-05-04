@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { TotalCompensationCalculator } from '@/components/calculators/total-compensation/TotalCompensationCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -70,6 +71,7 @@ export default function TotalCompensationPage() {
               </span>
             ))}
           </div>
+          <DataCurrencyBadge source="Official DFAS &amp; DTMO rates" />
         </div>
       </div>
 
