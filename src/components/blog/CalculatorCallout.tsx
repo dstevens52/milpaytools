@@ -1,5 +1,5 @@
 interface CalculatorCalloutProps {
-  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah';
+  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah' | 'transition-readiness';
   text?: string;
 }
 
@@ -68,6 +68,11 @@ const CALCULATOR_CONFIG = {
     href: '/calculators/dual-military-bah',
     label: 'Dual Military BAH Calculator',
     defaultText: 'Calculate total household BAH for co-located and separated dual military couples — and find the dependent-claiming configuration that produces the highest total.',
+  },
+  'transition-readiness': {
+    href: '/calculators/transition-readiness',
+    label: 'Transition Readiness Calculator',
+    defaultText: 'Find out if you can afford to leave the military. Enter your rank, duty station, VA rating, target salary, and expenses — get a readiness verdict with action steps.',
   },
 };
 
