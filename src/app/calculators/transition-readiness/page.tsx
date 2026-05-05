@@ -168,10 +168,9 @@ export default function TransitionReadinessPage() {
             </h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               The VA&apos;s Benefits Delivery at Discharge (BDD) program lets you file a claim
-              while you&apos;re still on active duty — 90 to 180 days before your separation date.
-              Claims filed through BDD are typically decided within 30–45 days of separation,
-              meaning your first VA compensation payment can arrive in the same month as your
-              last military paycheck.
+              while you&apos;re still on active duty — 180 to 90 days before your separation date.
+              VA&apos;s goal is to deliver a decision within 30 days after separation, but timing
+              depends on claim complexity, exams, records, and workload.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               Even a 20% rating adds $286/month tax-free for life. A 40% rating with dependents

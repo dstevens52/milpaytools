@@ -56,7 +56,7 @@ function buildActionSteps(
     steps.push({
       label: 'File your VA disability claim before you separate',
       description:
-        'The Benefits Delivery at Discharge (BDD) program lets the VA process your claim while you\'re still serving. File 90–180 days before separation. Even a 20% rating adds $286/month — tax-free for life.',
+        'The Benefits Delivery at Discharge (BDD) program lets the VA process your claim while you\'re still serving. File 180–90 days before separation. Even a 20% rating adds $286/month — tax-free for life.',
       priority: 'high',
       href: '/calculators/va-disability',
     });
@@ -75,13 +75,13 @@ function buildActionSteps(
       ) * 1000;
     steps.push({
       label: `Your projected income falls $${gap.toLocaleString()}/month short`,
-      description: `Negotiate a higher salary before separating. To cover expenses with a $500/month cushion, target at least $${targetSalary.toLocaleString()}/year gross salary.`,
+      description: `Your current inputs require roughly $${targetSalary.toLocaleString()}/year gross salary to cover adjusted expenses with a $500/month cushion. Ways to close the gap include: targeting a higher salary, reducing monthly expenses, adding or increasing spouse/partner income, using GI Bill MHA if planning education benefits post-separation, exploring lower-cost healthcare options, or extending your timeline to build more savings.`,
       priority: 'high',
     });
   } else if (computed.monthlyGapOrSurplus < 500) {
     steps.push({
       label: 'Your income surplus is thin — aim for a larger cushion',
-      description: `You have $${Math.round(computed.monthlyGapOrSurplus).toLocaleString()}/month surplus after expenses and healthcare. A $500+/month cushion covers unexpected costs in the first year. Consider negotiating a higher starting salary before you lock in an offer.`,
+      description: `You have $${Math.round(computed.monthlyGapOrSurplus).toLocaleString()}/month surplus after expenses and healthcare. A $500+/month cushion covers unexpected costs in the first year. Options to strengthen it: target a higher salary, reduce monthly expenses, increase spouse/partner income, or explore lower-cost healthcare options.`,
       priority: 'medium',
     });
   }

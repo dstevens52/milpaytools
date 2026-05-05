@@ -130,13 +130,13 @@ export function TransitionReadinessCalculator() {
   const [retirementSystem, setRetirementSystem] = useState<'legacy' | 'brs'>('legacy');
 
   // Section 2: Post-military income
-  const [civilianSalary, setCivilianSalary] = useState(75000);
+  const [civilianSalary, setCivilianSalary] = useState(0);
   const [spouseIncome, setSpouseIncome] = useState(0);
   const [vaRating, setVaRating] = useState(30);
 
   // Section 3: Expenses
   const [expenseMode, setExpenseMode] = useState<'quick' | 'detailed'>('quick');
-  const [totalExpenses, setTotalExpenses] = useState(4200);
+  const [totalExpenses, setTotalExpenses] = useState(0);
   const [expHousing, setExpHousing] = useState(0);
   const [expCar, setExpCar] = useState(0);
   const [expInsurance, setExpInsurance] = useState(0);
@@ -266,6 +266,7 @@ export function TransitionReadinessCalculator() {
   );
   const zipNotFound = zipCode.length === 5 && !isZipInDataset(zipCode);
 
+  const hasEngaged = civilianSalary > 0 && result.rawMonthlyExpenses > 0;
   const vc = VERDICT_CONFIG[result.verdict];
   const efBarPct = Math.min(100, (result.emergencyFundMonths / 12) * 100);
 
@@ -558,6 +559,16 @@ export function TransitionReadinessCalculator() {
       </div>
 
       {/* ── Results ────────────────────────────────────────────────────── */}
+      {!hasEngaged ? (
+        <div className="rounded-xl border-2 border-zinc-200 bg-zinc-50 p-8 text-center">
+          <p className="text-zinc-500 text-base">
+            Enter your details above to see your transition readiness assessment.
+          </p>
+          <p className="text-zinc-400 text-sm mt-1">
+            Both a target salary and monthly expenses are required to calculate your readiness.
+          </p>
+        </div>
+      ) : (
       <div className="space-y-5">
 
         {/* Verdict banner */}
@@ -788,7 +799,7 @@ export function TransitionReadinessCalculator() {
 
           {result.emergencyFundMonths < 6 && (
             <p className="text-xs text-amber-700 mt-3 bg-amber-50 border border-amber-200 rounded px-3 py-2">
-              Financial advisors recommend 6–12 months of expenses before a major career transition.
+              Many transition planners use 6 months of expenses as a conservative target, with 12 months offering more cushion for job search delays, VA claim processing, relocation costs, or healthcare gaps.
               You need {formatCurrency(Math.max(0, 6 * result.adjustedMonthlyExpenses - result.totalLiquidSavings))} more
               to reach the 6-month threshold.
             </p>
@@ -833,6 +844,7 @@ export function TransitionReadinessCalculator() {
         </div>
 
       </div>
+      )}
     </div>
   );
 }
