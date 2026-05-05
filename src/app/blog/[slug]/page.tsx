@@ -90,7 +90,8 @@ const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
   deployment:           { label: 'Deployment Pay Calculator',          href: '/calculators/deployment' },
   'pay-charts':         { label: '2026 Military Pay Charts',           href: '/calculators/pay-charts' },
   'guard-reserve':      { label: 'Guard & Reserve Pay Calculator',     href: '/calculators/guard-reserve' },
-  'dual-military-bah':  { label: 'Dual Military BAH Calculator',        href: '/calculators/dual-military-bah' },
+  'dual-military-bah':      { label: 'Dual Military BAH Calculator',        href: '/calculators/dual-military-bah' },
+  'transition-readiness':   { label: 'Transition Readiness Calculator',     href: '/calculators/transition-readiness' },
 };
 
 export async function generateStaticParams() {
