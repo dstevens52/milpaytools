@@ -12,6 +12,16 @@
 
 # testing
 /coverage
+/playwright-report
+/test-results
+
+# temp / tool artifacts
+/.tmp.driveupload
+.claude/scheduled_tasks.lock
+bahw26.txt
+bahwo26.txt
+mhanames26.txt
+sorted_zipmha26.txt
 
 # next.js
 /.next/
