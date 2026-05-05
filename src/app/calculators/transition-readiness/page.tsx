@@ -117,17 +117,17 @@ export default function TransitionReadinessPage() {
             <ExampleRow label="BAS — Enlisted" value="$477/mo" />
             <ExampleRow label="Total military compensation (pre-tax)" value="$7,330/mo" highlight />
             <ExampleRow label="Post-separation: $75K salary after federal + FICA + state tax" value="$4,084/mo" />
-            <ExampleRow label="VA disability — 40%, with dependents (tax-free)" value="$840/mo" />
+            <ExampleRow label="VA disability — 40%, with dependents (tax-free)" value="$883/mo" />
             <ExampleRow label="Spouse income ($24K) after tax" value="$1,307/mo" />
-            <ExampleRow label="Total projected civilian income" value="$6,231/mo" highlight />
+            <ExampleRow label="Total projected civilian income" value="$6,274/mo" highlight />
             <ExampleRow label="Monthly expenses" value="$4,200/mo" />
             <ExampleRow label="Healthcare replacement (family, market rate)" value="+$1,700/mo" />
             <ExampleRow label="Total adjusted expenses" value="$5,900/mo" highlight />
-            <ExampleRow label="Monthly surplus" value="$331/mo" />
+            <ExampleRow label="Monthly surplus" value="$374/mo" />
             <ExampleRow label="Emergency fund runway ($15K ÷ $5,900/mo)" value="2.5 months" />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>Verdict: Not yet ready.</strong> The monthly surplus is thin ($331) and the
+            <strong>Verdict: Not yet ready.</strong> The monthly surplus is thin ($374) and the
             emergency fund covers only 2.5 months — below the 3-month minimum for even a
             &quot;yellow&quot; status. The healthcare cost alone ($1,700/month for a family) is the
             biggest surprise for most service members who&apos;ve never paid a TRICARE premium.
