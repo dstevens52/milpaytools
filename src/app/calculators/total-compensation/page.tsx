@@ -46,6 +46,9 @@ export default function TotalCompensationPage() {
               <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
                 Total Military Compensation Calculator
               </h1>
+              <p className="text-zinc-800 mt-2 text-lg font-semibold leading-snug">
+                See what your military compensation is really worth.
+              </p>
               <p className="text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
                 Base pay is only part of the picture. This calculator adds your BAH (Basic Allowance
                 for Housing), BAS (Basic Allowance for Subsistence), TSP retirement match, and
@@ -72,6 +75,36 @@ export default function TotalCompensationPage() {
             ))}
           </div>
           <DataCurrencyBadge source="Official DFAS &amp; DTMO rates" />
+        </div>
+      </div>
+
+      {/* ── 3-step plan strip ────────────────────────────────────────── */}
+      <div className="border-b border-zinc-200 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col md:flex-row items-stretch gap-6 md:gap-0">
+            {[
+              { n: 1, title: 'Enter your military profile', body: 'Rank, years of service, duty station ZIP, dependents, and retirement system.' },
+              { n: 2, title: 'See your full compensation', body: 'Base pay, BAH, BAS, tax advantage, and BRS match — all in one view.' },
+              { n: 3, title: 'Compare with confidence', body: 'Use the civilian salary equivalent before evaluating a job offer, PCS, or transition plan.' },
+            ].map(({ n, title, body }, i, arr) => (
+              <>
+                <div key={n} className="flex-1 flex flex-col items-center text-center px-4 md:px-6">
+                  <div className="w-9 h-9 rounded-full bg-red-700 text-white flex items-center justify-center font-bold text-base mb-3 flex-none">
+                    {n}
+                  </div>
+                  <p className="font-bold text-zinc-900 text-sm mb-1">{title}</p>
+                  <p className="text-xs text-zinc-500 leading-relaxed">{body}</p>
+                </div>
+                {i < arr.length - 1 && (
+                  <div key={`sep-${n}`} className="hidden md:flex items-center flex-none text-zinc-300">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
+                    </svg>
+                  </div>
+                )}
+              </>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -114,9 +147,9 @@ export default function TotalCompensationPage() {
             </h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               Military pay stubs list Basic Pay prominently because that&apos;s what&apos;s taxable —
-              but the two largest allowances, BAH and BAS, are completely excluded from federal income
-              tax (and most state income taxes). A civilian earning the same total dollar amount would
-              pay hundreds or thousands more in taxes each year.
+              but the two largest allowances, BAH and BAS, are excluded from federal taxable income
+              and are generally not taxed by states, but state treatment can vary. A civilian earning
+              the same total dollar amount would pay hundreds or thousands more in taxes each year.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               The civilian equivalent salary in this calculator accounts for that difference. It
@@ -137,10 +170,10 @@ export default function TotalCompensationPage() {
               pay grade.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              BAH is designed to cover approximately 95% of local median housing costs for your grade
-              — it does not increase if you choose more expensive housing, and you keep any amount
-              under your BAH if you find cheaper housing. This creates a strong financial incentive to
-              live efficiently.
+              BAH is based on rental and utility cost data for your pay grade, dependency status, and
+              Military Housing Area. It helps offset housing costs, but your actual out-of-pocket cost
+              depends on the housing you choose. You keep any amount under your BAH if you find cheaper
+              housing, and you pay the difference if you spend more.
             </p>
           </div>
 
@@ -208,8 +241,7 @@ export default function TotalCompensationPage() {
             </li>
           </ul>
           <p className="text-xs text-zinc-500 mt-3">
-            The actual economic value of military service is significantly higher than even this
-            calculator shows — these items can materially increase the real value of military compensation, depending on your family size, duty station, health care usage, and career path
+            Your total value may be higher than this calculator shows if you receive special pays, use TRICARE, qualify for CONUS COLA, build pension eligibility, or use education and VA loan benefits.
           </p>
           <p className="text-xs text-zinc-400 mt-2">
             <strong>E-1 note:</strong> E-1 members with less than 4 months of active duty receive

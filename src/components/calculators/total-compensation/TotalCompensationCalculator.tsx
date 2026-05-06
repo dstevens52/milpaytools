@@ -70,7 +70,7 @@ function buildActionSteps(
   } else if (input.retirementSystem === 'brs' && input.tspContributionPct >= 5) {
     steps.push({
       label: "You're capturing the full BRS match",
-      description: `At ${input.tspContributionPct}% contribution, you're receiving the full DoD match. Consider increasing contributions toward the IRS limit ($24,500 in 2026) to maximize tax-advantaged growth.`,
+      description: `At ${input.tspContributionPct}% contribution, you're receiving the full DoD match. Higher contributions can increase tax-advantaged retirement savings, but the right amount depends on your cash flow, debt, emergency fund, and goals.`,
       priority: 'medium',
     });
   }
@@ -80,8 +80,8 @@ function buildActionSteps(
     const surplus = output.monthlyBAH - 2000; // rough comparison
     if (surplus > 300) {
       steps.push({
-        label: 'Your BAH exceeds typical rent — consider building equity',
-        description: `Your BAH is ${formatCurrency(output.monthlyBAH)}/month. If you buy instead of renting, any amount under your BAH builds equity rather than going to a landlord. VA loans require $0 down and no PMI.`,
+        label: 'Using BAH for housing?',
+        description: `Your BAH is ${formatCurrency(output.monthlyBAH)}/month. If you're considering buying near a duty station, learn how BAH, VA loan eligibility, and monthly affordability fit together.`,
         priority: 'medium',
         href: 'https://www.varefinance.com',
       });
@@ -483,10 +483,10 @@ export function TotalCompensationCalculator() {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-zinc-900 group-hover:text-red-700 transition-colors">
-              Using BAH to build equity? VA loans require $0 down payment
+              Using BAH for housing?
             </p>
             <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">
-              No PMI, no down payment required. See how military homebuyers use their BAH as a mortgage budget at VARefinance.com →
+              If you&apos;re considering buying near a duty station, learn how BAH, VA loan eligibility, and monthly affordability fit together. VARefinance.com →
             </p>
           </div>
         </a>
