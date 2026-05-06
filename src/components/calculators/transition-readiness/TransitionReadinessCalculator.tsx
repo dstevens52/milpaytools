@@ -678,10 +678,11 @@ export function TransitionReadinessCalculator() {
         {!hasEngaged ? (
           <div className="rounded-xl border-2 border-zinc-200 bg-zinc-50 p-8 text-center">
             <p className="text-zinc-500 text-base">
-              Enter your details above to see your transition readiness assessment.
-            </p>
-            <p className="text-zinc-400 text-sm mt-1">
-              Both a target salary and monthly expenses are required to calculate your readiness.
+              {civilianSalary > 0 && result.rawMonthlyExpenses === 0
+                ? 'Enter your monthly expenses above to see your readiness assessment.'
+                : result.rawMonthlyExpenses > 0 && civilianSalary === 0
+                ? 'Enter your target civilian salary above to see your readiness assessment.'
+                : 'Enter your target salary and monthly expenses above to see your readiness assessment.'}
             </p>
           </div>
         ) : (
