@@ -38,6 +38,80 @@ const RELATED_GUIDES = [
   { href: '/guides/education-benefits', title: 'Military Education Benefits Guide' },
 ];
 
+// ─── Comparison table data ─────────────────────────────────────────────────
+
+const COMPARISON_ROWS: { active: string; after: string }[] = [
+  {
+    active: 'Base pay (taxable)',
+    after: 'Civilian salary — or GI Bill MHA if using education benefits post-separation',
+  },
+  {
+    active: 'BAH and BAS (tax-free)',
+    after: 'Housing and food allowances end at separation — must be covered by civilian income',
+  },
+  {
+    active: 'TRICARE Prime — $0 premiums for member and family',
+    after: 'Employer plan, VA healthcare (if eligible), marketplace plan, CHCBP, or TAMP (180 days if eligible)',
+  },
+  {
+    active: 'SGLI — $500K coverage for ~$25/month',
+    after: 'VGLI conversion window (120 days after separation), private term policy, or employer group coverage',
+  },
+  {
+    active: 'TSP with automatic payroll contributions',
+    after: 'Leave TSP in place, roll to a civilian IRA, or start employer 401(k) — TSP stays invested either way',
+  },
+  {
+    active: 'Tax-free BAH/BAS, combat zone exclusion, housing allowance exclusion',
+    after: 'Standard civilian tax rules — your effective tax rate often increases at separation',
+  },
+  {
+    active: 'PCS entitlements for duty-station moves',
+    after: 'Final move entitlement — time-limited, typically one year after separation',
+  },
+  {
+    active: 'Commissary and exchange access, recreational facilities',
+    after: 'Limited or no access depending on veteran status and disability rating',
+  },
+];
+
+// ─── Transition path cards ─────────────────────────────────────────────────
+
+const PATH_CARDS: { title: string; description: string; href: string; icon: string }[] = [
+  {
+    title: 'Going to Civilian Employment',
+    description: 'Compare your military compensation to what you\'ll need on the civilian side. Get a readiness verdict with action steps.',
+    href: '/calculators/transition-readiness',
+    icon: '💼',
+  },
+  {
+    title: 'Using GI Bill / Education Benefits',
+    description: 'Compare Post-9/11 GI Bill, VR&E Chapter 31, and Tuition Assistance. Calculate MHA by duty station ZIP.',
+    href: '/calculators/education',
+    icon: '🎓',
+  },
+  {
+    title: 'Pursuing SkillBridge',
+    description: 'Plan your SkillBridge timeline alongside separation benefits and deadlines. Understand how SkillBridge affects pay and benefits.',
+    href: '/guides/education-benefits',
+    icon: '🔗',
+  },
+  {
+    title: 'Retiring from the Military (20+ Years)',
+    description: 'Project your pension, TSP balance, and total retirement income. Compare High-3 vs. BRS side by side.',
+    href: '/calculators/retirement',
+    icon: '🏅',
+  },
+  {
+    title: 'Guard / Reserve Transition',
+    description: 'Calculate drill pay, TRICARE Reserve Select premiums, and the financial picture of part-time military service.',
+    href: '/calculators/guard-reserve',
+    icon: '⚡',
+  },
+];
+
+// ─── Phase data ────────────────────────────────────────────────────────────
+
 function PhaseHeader({
   number,
   timeframe,
@@ -145,7 +219,7 @@ const AFTER_SEP_ITEMS: {
   {
     text: 'Confirm TRICARE and healthcare coverage',
     detail:
-      'TRICARE typically ends at 11:59 p.m. on your last active-duty day. Some separating members qualify for 180 days of transitional coverage (TAMP), but eligibility is not automatic. Confirm your TAMP eligibility before you sign out. If you don’t qualify, research alternatives: employer coverage, VA healthcare (if eligible), marketplace plans, or the Continued Health Care Benefit Program (CHCBP).',
+      "TRICARE typically ends at 11:59 p.m. on your last active-duty day. Some separating members qualify for 180 days of transitional coverage (TAMP), but eligibility is not automatic. Confirm your TAMP eligibility before you sign out. If you don't qualify, research alternatives: employer coverage, VA healthcare (if eligible), marketplace plans, or the Continued Health Care Benefit Program (CHCBP).",
     href: null,
     external: false,
   },
@@ -172,6 +246,8 @@ const AFTER_SEP_ITEMS: {
   },
 ];
 
+// ─── Page ──────────────────────────────────────────────────────────────────
+
 export default function TransitionPage() {
   return (
     <>
@@ -184,7 +260,7 @@ export default function TransitionPage() {
         })}
       />
 
-      {/* Hero */}
+      {/* ── Hero ────────────────────────────────────────────────────── */}
       <section className="bg-zinc-50 border-b border-zinc-200">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
           <nav aria-label="Breadcrumb" className="mb-6">
@@ -219,7 +295,33 @@ export default function TransitionPage() {
 
           <DataCurrencyBadge source="Official DoD, DFAS & VA data" />
 
-          <div className="mt-4 text-sm text-zinc-600 bg-white border border-zinc-200 rounded-md px-4 py-2.5 inline-block">
+          {/* Primary CTAs */}
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link
+              href="/calculators/transition-readiness"
+              className="inline-flex items-center gap-2 rounded-md bg-red-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-800 transition-colors shadow-sm"
+            >
+              Check My Transition Readiness
+              <span aria-hidden>→</span>
+            </Link>
+            <Link
+              href="/transition/worksheet"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-700 hover:border-zinc-400 hover:bg-zinc-50 transition-colors"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M12 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Download TAP Student Worksheet (PDF)
+            </Link>
+          </div>
+
+          <div className="mt-5 text-sm text-zinc-600 bg-white border border-zinc-200 rounded-md px-4 py-2.5 inline-block">
             <p>
               Designed to complement the DoD Transition Assistance Program (TAP) financial
               readiness module.
@@ -231,8 +333,81 @@ export default function TransitionPage() {
         </div>
       </section>
 
-      {/* Timeline */}
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+
+        {/* ── What Changes After Separation ────────────────────────────── */}
+        <section className="py-10 sm:py-12 border-b border-zinc-200">
+          <h2 className="text-2xl font-bold text-zinc-900 mb-2">What Changes After Separation</h2>
+          <p className="text-base text-zinc-600 leading-relaxed mb-7 max-w-2xl">
+            Most service members underestimate how much of their compensation is invisible — BAH, BAS,
+            TRICARE, and tax advantages that never show up on their LES. Here&apos;s what changes on day one.
+          </p>
+
+          {/* Mobile: stacked cards */}
+          <div className="sm:hidden space-y-3">
+            {COMPARISON_ROWS.map(({ active, after }, i) => (
+              <div key={i} className="rounded-lg border border-zinc-200 overflow-hidden">
+                <div className="px-4 py-3 bg-zinc-50 border-b border-zinc-200">
+                  <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1">Active Duty</p>
+                  <p className="text-sm text-zinc-800">{active}</p>
+                </div>
+                <div className="px-4 py-3 bg-white">
+                  <p className="text-xs font-semibold text-red-700 uppercase tracking-wide mb-1">After Separation</p>
+                  <p className="text-sm text-zinc-600">{after}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: table */}
+          <div className="hidden sm:block rounded-lg border border-zinc-200 overflow-hidden">
+            {/* Header */}
+            <div className="grid grid-cols-2">
+              <div className="px-5 py-3 bg-zinc-800 text-white text-sm font-semibold">Active Duty</div>
+              <div className="px-5 py-3 bg-zinc-700 text-white text-sm font-semibold border-l border-zinc-600">After Separation</div>
+            </div>
+            {/* Rows */}
+            {COMPARISON_ROWS.map(({ active, after }, i) => (
+              <div
+                key={i}
+                className={`grid grid-cols-2 border-t border-zinc-200 ${i % 2 === 0 ? 'bg-white' : 'bg-zinc-50'}`}
+              >
+                <div className="px-5 py-3.5 text-sm text-zinc-800">{active}</div>
+                <div className="px-5 py-3.5 text-sm text-zinc-600 border-l border-zinc-200">{after}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Choose Your Transition Path ───────────────────────────────── */}
+        <section className="py-10 sm:py-12 border-b border-zinc-200">
+          <h2 className="text-2xl font-bold text-zinc-900 mb-2">Choose Your Transition Path</h2>
+          <p className="text-base text-zinc-600 leading-relaxed mb-7 max-w-2xl">
+            Select the path that best describes your post-military plan. Each links to the calculator or
+            guide most relevant to your situation.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {PATH_CARDS.map(({ title, description, href, icon }) => (
+              <Link
+                key={href}
+                href={href}
+                className="group flex flex-col rounded-lg border border-zinc-200 bg-white p-5 hover:shadow-md hover:border-zinc-300 transition-all duration-150"
+              >
+                <div className="flex items-center gap-2.5 mb-3">
+                  <span className="text-xl" aria-hidden>{icon}</span>
+                  <h3 className="font-semibold text-zinc-900 group-hover:text-red-700 transition-colors leading-snug text-sm">
+                    {title}
+                  </h3>
+                </div>
+                <p className="text-sm text-zinc-600 leading-relaxed flex-1">{description}</p>
+                <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-red-700">
+                  Open <span aria-hidden>→</span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
 
         {/* ── Phase 0 ─────────────────────────────────────────────────── */}
         <section className="py-10 sm:py-12 border-b border-zinc-200">
@@ -424,6 +599,48 @@ export default function TransitionPage() {
           </div>
         </section>
 
+        {/* ── Classroom & Privacy Note ─────────────────────────────────── */}
+        <section className="py-10 sm:py-12 border-b border-zinc-200">
+          <div className="rounded-lg bg-blue-50 border border-blue-200 p-5 flex gap-4">
+            <div className="flex-none mt-0.5">
+              <svg
+                className="w-5 h-5 text-blue-600"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </div>
+            <div>
+              <h2 className="text-sm font-semibold text-blue-900 mb-1.5">Classroom &amp; Privacy Note</h2>
+              <p className="text-sm text-blue-800 leading-relaxed">
+                MilPayTools does not require an account and does not collect personal information to run
+                any calculator. No login, no email, no data stored. Students and service members can use
+                approximate numbers if they prefer not to enter exact income, savings, or VA estimates
+                during a classroom session.
+              </p>
+              <Link
+                href="/transition/worksheet"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2.5 inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 hover:text-blue-900 transition-colors"
+              >
+                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M12 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                </svg>
+                Download printable TAP worksheet (no account required) →
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* ── Related guides ───────────────────────────────────────────── */}
         <section className="py-10 sm:py-12">
           <h2 className="text-xl font-bold text-zinc-900 mb-1">Related Guides</h2>
@@ -455,6 +672,7 @@ export default function TransitionPage() {
             VA rates.
           </p>
         </section>
+
       </div>
     </>
   );
