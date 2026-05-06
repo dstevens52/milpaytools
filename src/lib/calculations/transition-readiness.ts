@@ -13,11 +13,35 @@ import { estimateTaxAdvantage } from '@/lib/utils';
 import { ENLISTED_GRADES } from '@/types/military';
 import { vaRates } from '@/data/va-rates/2026';
 
-// Healthcare replacement cost benchmarks (KFF 2025 Employer Health Benefits Survey, Silver-tier marketplace)
-const HEALTHCARE_MONTHLY = {
-  individual: 525,  // midpoint of $450–600/month
-  family: 1700,     // midpoint of $1,400–2,000/month
+// Healthcare replacement cost benchmarks (KFF 2025 Employer Health Benefits Survey)
+const HEALTHCARE_MONTHLY_MARKETPLACE = {
+  individual: 525,  // midpoint of $450–600/month, Silver-tier marketplace
+  family: 1700,     // midpoint of $1,400–2,000/month, Silver-tier marketplace
 } as const;
+
+const HEALTHCARE_MONTHLY_EMPLOYER = {
+  individual: 250,  // KFF 2025 average employee share, single coverage
+  family: 600,      // KFF 2025 average employee share, family coverage
+} as const;
+
+function resolveHealthcare(
+  assumption: TransitionReadinessInput['healthcareAssumption'],
+  hasDependents: boolean,
+): { cost: number; label: string } {
+  if (assumption === 'employer') {
+    return {
+      cost: hasDependents ? HEALTHCARE_MONTHLY_EMPLOYER.family : HEALTHCARE_MONTHLY_EMPLOYER.individual,
+      label: 'Employer-sponsored plan',
+    };
+  }
+  if (assumption === 'va') {
+    return { cost: 0, label: 'VA healthcare' };
+  }
+  return {
+    cost: hasDependents ? HEALTHCARE_MONTHLY_MARKETPLACE.family : HEALTHCARE_MONTHLY_MARKETPLACE.individual,
+    label: assumption === 'not-sure' ? 'Conservative estimate (marketplace)' : 'Marketplace plan',
+  };
+}
 
 // Combined civilian effective tax rate used throughout
 // 22% federal effective + 7.65% FICA + 5% state default
@@ -169,11 +193,11 @@ export function calculateTransitionReadiness(input: TransitionReadinessInput): T
 
   // 6. Healthcare replacement cost
   const hasRetireeTricare = isRetirementEligible;
-  const healthcareCostMonthly = hasRetireeTricare
-    ? 0
-    : input.hasDependents
-    ? HEALTHCARE_MONTHLY.family
-    : HEALTHCARE_MONTHLY.individual;
+  const hcResult = hasRetireeTricare
+    ? { cost: 0, label: 'TRICARE (retiree)' }
+    : resolveHealthcare(input.healthcareAssumption, input.hasDependents);
+  const healthcareCostMonthly = hcResult.cost;
+  const healthcareAssumptionLabel = hcResult.label;
 
   // 7. Monthly expenses
   const rawMonthlyExpenses =
@@ -253,6 +277,7 @@ export function calculateTransitionReadiness(input: TransitionReadinessInput): T
     isRetirementEligible,
     separationYOS,
     healthcareCostMonthly,
+    healthcareAssumptionLabel,
     hasRetireeTricare,
     rawMonthlyExpenses,
     adjustedMonthlyExpenses,

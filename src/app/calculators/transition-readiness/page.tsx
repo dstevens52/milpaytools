@@ -45,7 +45,7 @@ export default function TransitionReadinessPage() {
       />
 
       {/* ── Page intro ─────────────────────────────────────────────── */}
-      <div className="bg-zinc-50 border-b border-zinc-200">
+      <div className="tr-page-intro bg-zinc-50 border-b border-zinc-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-start gap-4">
             <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
@@ -100,7 +100,7 @@ export default function TransitionReadinessPage() {
       <TransitionReadinessCalculator />
 
       {/* ── Example Calculation ────────────────────────────────────── */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section className="tr-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
             Example: Tech Sergeant (E-6), 10 Years, Separating in 14 Months
@@ -139,7 +139,7 @@ export default function TransitionReadinessPage() {
       </section>
 
       {/* ── Explainer ──────────────────────────────────────────────── */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-8">
+      <div className="tr-explainer max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-8">
         <hr className="border-zinc-200" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

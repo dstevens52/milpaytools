@@ -168,6 +168,7 @@ export interface TransitionReadinessInput {
   targetCivilianSalary: number;
   spouseIncome: number;
   vaRating: number; // 0–100, or -1 for "haven't filed"
+  healthcareAssumption: 'marketplace' | 'employer' | 'va' | 'not-sure';
   expenseMode: 'quick' | 'detailed';
   totalMonthlyExpenses: number;
   expenseHousing: number;
@@ -197,6 +198,7 @@ export interface TransitionReadinessOutput {
   isRetirementEligible: boolean;
   separationYOS: number;
   healthcareCostMonthly: number;
+  healthcareAssumptionLabel: string;
   hasRetireeTricare: boolean;
   rawMonthlyExpenses: number;
   adjustedMonthlyExpenses: number;

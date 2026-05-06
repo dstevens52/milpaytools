@@ -48,8 +48,18 @@ test.describe('Transition Readiness Calculator', () => {
     await expect(page.getByText(/action steps|what to do/i).first()).toBeVisible();
   });
 
-  test('share URL button is present', async ({ page }) => {
+  test('share button appears after engaging with calculator (salary + expenses required)', async ({ page }) => {
+    // Share button is only shown once hasEngaged = true (salary > 0 && expenses > 0)
+    await page.getByLabel(/target civilian salary/i).fill('75000');
+    await page.getByLabel(/total monthly expenses/i).fill('4000');
     await expect(page.getByRole('button', { name: /share|copy link/i }).first()).toBeVisible();
+  });
+
+  // fixme: passes after deployment — tests new Save as PDF button added in batch 2
+  test.fixme('save as pdf button appears after engaging with calculator', async ({ page }) => {
+    await page.getByLabel(/target civilian salary/i).fill('75000');
+    await page.getByLabel(/total monthly expenses/i).fill('4000');
+    await expect(page.getByRole('button', { name: /save as pdf/i }).first()).toBeVisible();
   });
 
   test('retirement-eligible scenario (20+ YOS) shows pension', async ({ page }) => {
@@ -86,20 +96,19 @@ test.describe('Transition Readiness Calculator', () => {
   });
 
   test('short timeline (under 6 months) shows red timeline status', async ({ page }) => {
-    // Set separation to 3 months
-    const monthSelect = page.getByLabel(/separation month/i).first();
-    const yearSelect = page.getByLabel(/separation year/i).first();
+    // Set separation to 3 months using the select IDs (labels are empty strings)
+    const monthSelect = page.locator('#sep-month');
+    const yearSelect = page.locator('#sep-year');
     const now = new Date();
     const targetDate = new Date(now.getFullYear(), now.getMonth() + 3);
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    await monthSelect.selectOption(monthNames[targetDate.getMonth()]);
+    await monthSelect.selectOption(String(targetDate.getMonth()));
     await yearSelect.selectOption(String(targetDate.getFullYear()));
     await expect(page.getByText(/timeline|separation/i).first()).toBeVisible();
   });
 
   test('URL params pre-populate calculator inputs', async ({ page }) => {
-    // Navigate with rank param
-    await page.goto('/calculators/transition-readiness?rank=O-3&yos=8');
+    // rank param format is lowercase no-hyphen (e.g. o3, not O-3)
+    await page.goto('/calculators/transition-readiness?rank=o3&yos=8');
     await expect(page.getByLabel(/rank.*pay grade/i)).toHaveValue('O-3');
   });
 

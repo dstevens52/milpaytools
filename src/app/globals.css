@@ -44,3 +44,34 @@ body {
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
+
+/* ─── Focus mode — hides page chrome, leaving only the calculator ──────── */
+
+[data-focus-mode] header,
+[data-focus-mode] footer,
+[data-focus-mode] .tr-page-intro,
+[data-focus-mode] .tr-example,
+[data-focus-mode] .tr-explainer {
+  display: none !important;
+}
+
+/* ─── Print — hide nav/chrome, show only calculator results ─────────────── */
+
+@media print {
+  header,
+  footer,
+  .tr-page-intro,
+  .tr-example,
+  .tr-explainer {
+    display: none !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    background: white;
+  }
+}
