@@ -174,7 +174,7 @@ export default function TransitionReadinessPage() {
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               Even a 20% rating adds $286/month tax-free for life. A 40% rating with dependents
-              adds roughly $840/month. This income is excluded from federal income tax and doesn&apos;t
+              adds roughly $883/month. This income is excluded from federal income tax and doesn&apos;t
               count against your civilian salary in most contexts. It can meaningfully close the
               income gap from day one.
             </p>
