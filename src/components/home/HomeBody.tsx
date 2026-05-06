@@ -27,8 +27,7 @@ function ProblemSection() {
           </div>
           <div className="rounded-xl bg-red-50 border border-red-200 px-8 py-8">
             <p className="text-red-700 text-lg font-semibold leading-relaxed">
-              &ldquo;Many service members underestimate their total compensation by
-              $20,000&ndash;$40,000 per year.&rdquo;
+              &ldquo;Many service members underestimate the true value of their pay and benefits by tens of thousands per year — because they only compare civilian salary to base pay.&rdquo;
             </p>
           </div>
         </div>

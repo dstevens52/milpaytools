@@ -205,7 +205,7 @@ const AFTER_SEP_ITEMS: {
   {
     text: 'Check your VA claim status',
     detail:
-      'Log into VA.gov to track your BDD or fully-developed claim. Most claims filed through BDD are decided within 30–45 days of your separation date.',
+      "VA's goal is to issue BDD decisions within 30 days after separation, but timing depends on records, exams, claim complexity, and VA workload. Log into VA.gov to track your claim status.",
     href: 'https://www.va.gov',
     external: true,
   },
@@ -231,7 +231,7 @@ const AFTER_SEP_ITEMS: {
     external: false,
   },
   {
-    text: 'File state taxes for your new domicile',
+    text: 'Review your state residency and domicile situation before your first post-service tax filing.',
     detail:
       "Your state tax situation may have changed. Some states don't tax military retirement pay or VA disability income; others do. Verify your new state's treatment before your first tax filing.",
     href: null,
@@ -413,9 +413,9 @@ export default function TransitionPage() {
         <section className="py-10 sm:py-12 border-b border-zinc-200">
           <PhaseHeader number={0} timeframe="12+ months out" title="Start the process" />
           <p className="text-base text-zinc-600 leading-relaxed mb-8 max-w-2xl">
-            TAP requires initial counseling no later than 365 days before separation. Retirees
-            should start up to 24 months out. This phase is about getting into the system and
-            building your baseline.
+            Transitioning service members must begin TAP no later than 365 days before
+            transition. Retirees are encouraged to begin 18–24 months out where available.
+            This phase is about getting into the system and building your baseline.
           </p>
           <div className="space-y-3">
             {PHASE0_STEPS.map((step, i) => (
@@ -444,7 +444,7 @@ export default function TransitionPage() {
             <ResourceCard
               href="/calculators/total-compensation"
               title="Total Compensation Calculator"
-              description="Start here. Most service members underestimate their total compensation by $20,000–40,000 because they only think about base pay. See the full picture — BAH, BAS, TSP matching, and tax advantages — before you evaluate any civilian offer."
+              description="Start here. Many service members underestimate the true value of their pay and benefits by tens of thousands per year because they only compare civilian salary to base pay. See the full picture — BAH, BAS, TSP matching, and tax advantages — before you evaluate any civilian offer."
             />
             <ResourceCard
               href="/blog/what-civilian-salary-do-i-need"
@@ -459,7 +459,7 @@ export default function TransitionPage() {
             <ResourceCard
               href="/blog/file-va-disability-before-separation"
               title="File for VA Disability Before You Separate"
-              description="The BDD (Benefits Delivery at Discharge) window is 180–90 days before your separation date. File within this window to potentially receive your rating within 30 days of separation."
+              description="The BDD (Benefits Delivery at Discharge) window is 180–90 days before your separation date. File within this window so VA can review records and schedule exams before separation. VA's goal is to deliver a decision within 30 days after separation, but timing varies by claim complexity and exam completion."
             />
             <ResourceCard
               href="/calculators/tsp"
@@ -500,7 +500,7 @@ export default function TransitionPage() {
             <ResourceCard
               href="/blog/gi-bill-vs-tuition-assistance"
               title="GI Bill vs. Tuition Assistance"
-              description="If you're still on active duty, use TA first and save your GI Bill months for after separation when the MHA kicks in. Every GI Bill month used while on active duty is a month of MHA you won't receive later."
+              description="If Tuition Assistance is available and fits your degree plan, compare using TA while on active duty versus saving GI Bill months for after separation, when MHA may apply. GI Bill months used on active duty generally do not produce MHA."
             />
             <ResourceCard
               href="/blog/pcs-financial-planning-guide"
@@ -509,11 +509,7 @@ export default function TransitionPage() {
             />
             <InfoCard
               title="Schedule your SHPE/SHA and final dental exam"
-              description="Schedule your Separation History and Physical Examination (SHPE/SHA) and final dental exam — typically between 90 and 180 days before separation. This supports your medical record and VA disability claim."
-            />
-            <ComingSoonCard
-              title="Separation Benefits Timeline"
-              description="See exactly when each benefit stops, converts, or changes after your separation date. SGLI, TRICARE, BAH, BAS — all on one visual timeline."
+              description="Schedule your Separation History and Physical Examination (SHPE/SHA) and final dental exam — typically between 90 and 180 days before separation. This supports your medical record and VA disability claim. If filing a BDD claim, complete the Separation Health Assessment - Part A Self-Assessment and be available for VA exams."
             />
           </div>
         </section>
@@ -551,11 +547,7 @@ export default function TransitionPage() {
             />
             <InfoCard
               title="Map your final timeline"
-              description="Map terminal leave, permissive TDY, final out date, and first civilian start date on the same calendar. Schedule your final HHG move early — you typically have one year after separation to use final-move entitlements."
-            />
-            <ComingSoonCard
-              title="TSP Separation Decision Tool"
-              description="Leave your TSP in place, roll to a civilian IRA, or Roth convert? See the tax implications of each option based on your balance and expected civilian income."
+              description="Map terminal leave, permissive TDY, final out date, and first civilian start date on the same calendar. Check your separation or retirement orders for your final move deadline and request extensions early if needed. Many members have a limited post-separation window to use final-move entitlements."
             />
           </div>
         </section>
@@ -638,6 +630,22 @@ export default function TransitionPage() {
                 Download printable TAP worksheet (no account required) →
               </Link>
             </div>
+          </div>
+        </section>
+
+        {/* ── Coming Next ──────────────────────────────────────────────── */}
+        <section className="py-10 sm:py-12 border-b border-zinc-200">
+          <h2 className="text-xl font-bold text-zinc-900 mb-1">Coming Next</h2>
+          <p className="text-sm text-zinc-500 mb-6">More transition tools are in development.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <ComingSoonCard
+              title="Separation Benefits Timeline"
+              description="See exactly when each benefit stops, converts, or changes after your separation date. SGLI, TRICARE, BAH, BAS — all on one visual timeline."
+            />
+            <ComingSoonCard
+              title="TSP Separation Decision Tool"
+              description="Leave your TSP in place, roll to a civilian IRA, or Roth convert? See the tax implications of each option based on your balance and expected civilian income."
+            />
           </div>
         </section>
 
