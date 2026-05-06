@@ -106,8 +106,8 @@ export default function TransitionReadinessPage() {
             Example: Tech Sergeant (E-6), 10 Years, Separating in 14 Months
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-6, 10 years of service, Joint Base San Antonio (ZIP 78234), married with
-            2 kids, 14 months until separation, Legacy retirement system, targeting $75,000/year
+            Scenario: E-6, 10 years of service, Joint Base San Antonio (ZIP 78234), married,
+            14 months until separation, Legacy retirement system, targeting $75,000/year
             in IT, 40% VA rating (expected), spouse earns $24,000/year part-time,
             $15,000 emergency fund, $45,000 TSP, $4,200/month in household expenses.
           </p>

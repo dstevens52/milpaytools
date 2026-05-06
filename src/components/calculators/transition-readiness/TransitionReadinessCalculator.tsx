@@ -640,7 +640,10 @@ export function TransitionReadinessCalculator() {
 
           {/* ── Section 4: Financial Reserves ─────────────────────────── */}
           <Card variant="default">
-            <h2 className="text-base font-semibold text-zinc-900 mb-4">4. Financial Reserves</h2>
+            <div className="flex items-start justify-between gap-4 mb-4">
+              <h2 className="text-base font-semibold text-zinc-900">4. Financial Reserves</h2>
+              <p className="text-xs text-zinc-400 text-right leading-relaxed">Estimates are fine — use rounded numbers if you&apos;re using this in a classroom or group setting.</p>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               <Input
                 label="Emergency Fund Balance"
@@ -867,8 +870,7 @@ export function TransitionReadinessCalculator() {
               ) : (
                 <>
                   <p className="text-sm text-red-700 leading-relaxed">
-                    Your TRICARE coverage costs{' '}
-                    <span className="font-bold">$0 today</span>. Replacing it as a civilian costs approximately{' '}
+                    Active-duty families generally pay no TRICARE enrollment premium, and active-duty members have no out-of-pocket cost for covered care. Family out-of-pocket costs vary by plan and care setting. Replacing it as a civilian costs approximately{' '}
                     <span className="font-bold">{formatCurrency(result.healthcareCostMonthly)}/month</span> based on your selection
                     {result.healthcareCostMonthly > 0 && <> — <span className="font-bold">{formatCurrency(result.healthcareCostMonthly * 12)}/year</span></>}.
                   </p>
@@ -984,6 +986,17 @@ export function TransitionReadinessCalculator() {
             {result.actionSteps.length > 0 && (
               <ActSteps steps={result.actionSteps} title="What to do next" />
             )}
+
+            {/* Transition roadmap CTA */}
+            <div className="rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 print:hidden">
+              <p className="text-sm text-zinc-700">
+                <span className="font-semibold">Need the full timeline?</span>{' '}
+                <a href="/transition" className="text-red-700 hover:text-red-800 font-medium underline underline-offset-2 transition-colors">
+                  Use the Transition Financial Roadmap
+                </a>{' '}
+                to see what to do at each phase before and after separation.
+              </p>
+            </div>
 
             {/* Cross-links — hidden in print */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 print:hidden">
