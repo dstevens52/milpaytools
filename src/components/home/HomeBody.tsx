@@ -22,7 +22,7 @@ function ProblemSection() {
               decisions with only part of the math.
             </p>
             <p className="text-base text-zinc-600 leading-relaxed max-w-xl mt-3">
-              You earned the benefits. We help you see the full picture — so your next decision starts with real numbers.
+              You earned the benefits. Now see the full picture — so your next decision starts with real numbers.
             </p>
           </div>
           <div className="rounded-xl bg-red-50 border border-red-200 px-8 py-8">
@@ -140,7 +140,7 @@ const HOW_STEPS = [
   {
     title: 'Make your next move',
     description:
-      'Use real numbers to compare options, plan ahead, and keep more of what you\'ve earned.',
+      'Use real numbers to compare options and plan ahead.',
   },
 ];
 

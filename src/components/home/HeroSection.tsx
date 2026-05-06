@@ -91,8 +91,7 @@ function SampleResultPreview() {
         <div className="rounded-md bg-blue-50 border border-blue-100 px-3 py-2.5 flex gap-2 items-start">
           <span className="text-blue-600 text-base leading-tight">→</span>
           <p className="text-xs text-blue-700 leading-relaxed">
-            In some markets, BAH can exceed typical rent benchmarks — creating room to save,
-            invest, or offset ownership costs.
+            In some markets, BAH can exceed typical rent benchmarks — which can meaningfully change your housing math.
           </p>
         </div>
       </div>
@@ -173,7 +172,7 @@ export function HeroSection() {
           <div className="lg:pl-4">
             <SampleResultPreview />
             <p className="mt-3 text-xs text-center text-zinc-400">
-              Sample output — your numbers update live as you enter inputs
+              What an E-5 in San Diego sees — your numbers update live as you enter inputs
             </p>
           </div>
 
