@@ -6,7 +6,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: 'VA Disability Rating Calculator 2026 | Combined Rating | MilPayTools',
+  title: { absolute: 'VA Disability Rating Calculator 2026 | Combined Rating | MilPayTools' },
   description:
     'Calculate your combined VA disability rating using the official "whole person" formula (38 CFR § 4.25). Includes bilateral factor, step-by-step math, and 2026 compensation rates.',
   alternates: {

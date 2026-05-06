@@ -14,7 +14,7 @@ const CANONICAL = '/calculators/transition-readiness';
 const OG_IMAGE = `/api/og?type=calculator&title=Transition+Readiness+Calculator+2026&v=2`;
 
 export const metadata: Metadata = {
-  title: TITLE,
+  title: { absolute: TITLE },
   description: DESC,
   alternates: { canonical: CANONICAL },
   openGraph: {

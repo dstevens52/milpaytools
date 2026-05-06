@@ -11,7 +11,7 @@ const META_DESC =
 const OG_IMAGE = `/api/og?type=guide&title=${encodeURIComponent(PAGE_TITLE)}&v=2`;
 
 export const metadata: Metadata = {
-  title: META_TITLE,
+  title: { absolute: META_TITLE },
   description: META_DESC,
   alternates: { canonical: 'https://www.milpaytools.com/transition' },
   openGraph: {

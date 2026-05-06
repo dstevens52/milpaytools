@@ -78,8 +78,11 @@ export function organizationSchema() {
     url: BASE_URL,
     description: 'Free military financial calculators using official 2026 DoD data',
     sameAs: [
-      'https://www.instagram.com/milpaytools',
+      'https://www.instagram.com/milpaytools/',
       'https://www.tiktok.com/@milpaytools',
+      'https://x.com/milpaytools',
+      'https://www.youtube.com/@milpaytools',
+      'https://www.facebook.com/milpaytools',
     ],
   };
 }

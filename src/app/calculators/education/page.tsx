@@ -6,7 +6,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: 'Military Education Benefits Comparison Calculator — 2026 | MilPayTools',
+  title: { absolute: 'Military Education Benefits Comparison Calculator — 2026 | MilPayTools' },
   description:
     'Compare Post-9/11 GI Bill, VR&E (Chapter 31), Tuition Assistance, and Montgomery GI Bill side by side. See total program value by ZIP code, school type, and eligibility.',
   alternates: { canonical: '/calculators/education' },

@@ -8,7 +8,7 @@ const BLOG_DESC =
 const BLOG_IMAGE = '/api/og?type=blog&title=Military+Finance+Blog&sub=Plain-language+guides+on+military+pay+%26+benefits&v=2';
 
 export const metadata: Metadata = {
-  title: BLOG_TITLE,
+  title: { absolute: BLOG_TITLE },
   description: BLOG_DESC,
   alternates: { canonical: '/blog' },
   openGraph: {

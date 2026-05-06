@@ -7,7 +7,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: 'BAH Calculator 2026 | Military Housing Allowance | MilPayTools',
+  title: { absolute: 'BAH Calculator 2026 | Military Housing Allowance | MilPayTools' },
   description:
     'Look up your 2026 BAH rate by ZIP code, pay grade, and dependency status. Covers all 40,959 ZIP codes using official DTMO data. Compare rates across duty stations.',
   alternates: {

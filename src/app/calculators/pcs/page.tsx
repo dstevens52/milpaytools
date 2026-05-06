@@ -6,7 +6,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: 'PCS Cost Estimator 2026 | Military Move Calculator | MilPayTools',
+  title: { absolute: 'PCS Cost Estimator 2026 | Military Move Calculator | MilPayTools' },
   description:
     'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY profit potential. Uses 2026 DTMO rates for all ranks.',
   alternates: {

@@ -7,7 +7,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: 'CONUS COLA Calculator — 2026 | MilPayTools',
+  title: { absolute: 'CONUS COLA Calculator — 2026 | MilPayTools' },
   description:
     'Check whether your duty station qualifies for CONUS Cost of Living Allowance and see approximate monthly rates by grade. Uses DTMO area data for 2026.',
   alternates: {

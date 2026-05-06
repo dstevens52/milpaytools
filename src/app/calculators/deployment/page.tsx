@@ -6,7 +6,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: 'Deployment Pay Calculator 2026 | CZTE, HFP, SDP | MilPayTools',
+  title: { absolute: 'Deployment Pay Calculator 2026 | CZTE, HFP, SDP | MilPayTools' },
   description:
     'Calculate your deployment pay increase: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings, and Savings Deposit Program interest. All ranks, 2026 rates.',
   alternates: {

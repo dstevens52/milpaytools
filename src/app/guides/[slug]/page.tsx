@@ -91,7 +91,7 @@ export async function generateMetadata({
 
   const ogImage = `/api/og?type=guide&title=${encodeURIComponent(guide.title)}&v=2`;
   return {
-    title: `${guide.title} | MilPayTools`,
+    title: { absolute: `${guide.title} | MilPayTools` },
     description: guide.description,
     alternates: { canonical: `/guides/${slug}` },
     openGraph: {

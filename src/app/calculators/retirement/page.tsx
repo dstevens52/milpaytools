@@ -7,7 +7,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: 'Military Retirement Calculator 2026 | MilPayTools',
+  title: { absolute: 'Military Retirement Calculator 2026 | MilPayTools' },
   description:
     'Estimate your military pension under High-3 or BRS. See monthly pension, lifetime value, TSP projection, and VA disability combined income using 2026 pay tables.',
   alternates: {

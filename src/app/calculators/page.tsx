@@ -7,7 +7,7 @@ const CALC_HUB_DESC =
 const CALC_HUB_IMAGE = '/api/og?type=calculator&title=Military+Financial+Calculators+2026&v=2';
 
 export const metadata: Metadata = {
-  title: CALC_HUB_TITLE,
+  title: { absolute: CALC_HUB_TITLE },
   description: CALC_HUB_DESC,
   openGraph: {
     title: CALC_HUB_TITLE,

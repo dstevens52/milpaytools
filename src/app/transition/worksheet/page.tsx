@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { PrintButton } from './PrintButton';
 
 export const metadata: Metadata = {
-  title: 'TAP Student Worksheet | MilPayTools',
+  title: { absolute: 'TAP Student Worksheet | MilPayTools' },
   description: 'Printable military transition planning worksheet for TAP classes. Fill in your numbers, deadlines, and action items.',
   robots: { index: false }, // worksheet is a utility page, not an SEO target
 };

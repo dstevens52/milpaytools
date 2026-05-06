@@ -8,7 +8,7 @@ const GUIDES_DESC =
 const GUIDES_IMAGE = '/api/og?type=guide&title=Military+Finance+Guides&v=2';
 
 export const metadata: Metadata = {
-  title: GUIDES_TITLE,
+  title: { absolute: GUIDES_TITLE },
   description: GUIDES_DESC,
   alternates: { canonical: '/guides' },
   openGraph: {

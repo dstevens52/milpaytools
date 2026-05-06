@@ -7,7 +7,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH | MilPayTools',
+  title: { absolute: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH | MilPayTools' },
   description:
     'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.',
   alternates: {

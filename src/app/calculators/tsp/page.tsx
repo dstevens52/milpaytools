@@ -6,7 +6,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator | MilPayTools',
+  title: { absolute: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator | MilPayTools' },
   description:
     'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 contribution limits.',
   alternates: {

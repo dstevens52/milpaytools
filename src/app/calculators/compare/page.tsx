@@ -7,7 +7,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: 'Duty Station Comparison Calculator — 2026 | MilPayTools',
+  title: { absolute: 'Duty Station Comparison Calculator — 2026 | MilPayTools' },
   description:
     'Compare total compensation, BAH, and take-home pay between two CONUS duty stations side by side. See the real financial difference between PCS orders using 2026 official data.',
   alternates: {
