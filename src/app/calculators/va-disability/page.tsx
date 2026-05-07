@@ -34,9 +34,10 @@ export default function VADisabilityPage() {
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'VA Disability Rating Calculator 2026', description: 'Calculate your combined VA disability rating using the official "whole person" formula (38 CFR § 4.25). Includes bilateral factor, step-by-step math, and 2026 compensation rates.', url: '/calculators/va-disability' })} />
+
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-start gap-4">
             <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
               <span className="text-white font-black text-lg leading-none select-none">★</span>
@@ -45,45 +46,33 @@ export default function VADisabilityPage() {
               <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
                 VA Disability Combined Rating Calculator
               </h1>
-              <p className="text-red-700 font-semibold mt-2 text-base leading-snug">
+              <p className="text-red-700 font-semibold mt-1.5 text-base leading-snug">
                 Stop guessing your VA combined rating.
               </p>
-              <p className="text-zinc-600 mt-1.5 text-base leading-relaxed max-w-2xl">
-                VA disability ratings are not simply added together. This calculator uses the
-                official &ldquo;whole person&rdquo; formula (38 CFR § 4.25), applies the bilateral
-                factor automatically, and shows you every step of the math — so you understand
-                exactly how your combined rating was calculated.
-              </p>
-              <p className="text-zinc-600 mt-2 text-sm leading-relaxed max-w-2xl">
-                A small difference near a rounding threshold can move you from 60% to 70%, or from
-                90% to 100%. This calculator shows the math before you file, appeal, or plan around
-                your expected rating.
+              <p className="text-zinc-600 mt-1 text-sm leading-relaxed max-w-2xl">
+                Enter each service-connected condition to see the official VA whole-person formula
+                applied step by step, with the bilateral factor calculated automatically.
               </p>
             </div>
-          </div>
-
-          <div className="mt-5 flex flex-wrap gap-3">
-            {[
-              'Official VA whole-person formula',
-              'Bilateral factor (38 CFR § 4.26)',
-              'Step-by-step math',
-              '2026 compensation rates',
-              'Scenario builder',
-            ].map((text) => (
-              <span
-                key={text}
-                className="inline-flex items-center text-sm text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1"
-              >
-                {text}
-              </span>
-            ))}
           </div>
           <DataCurrencyBadge source="Official VA rates effective December 1, 2025 (2.8% COLA)" />
         </div>
       </div>
 
+      {/* ── Calculator ───────────────────────────────────────────────── */}
+      <VADisabilityCalculator />
+
+      {/* ── Success outcome ──────────────────────────────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 pb-2">
+        <div className="rounded-lg bg-green-50 border border-green-200 px-5 py-4 text-sm text-green-800 leading-relaxed">
+          After using this calculator, you should understand your estimated combined rating, whether
+          the bilateral factor affects your math, and which assumptions to verify with an accredited
+          VSO before relying on the result.
+        </div>
+      </div>
+
       {/* ── 3-step plan strip ────────────────────────────────────────── */}
-      <div className="bg-white border-b border-zinc-200">
+      <div className="bg-white border-t border-b border-zinc-200 mt-6">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
@@ -117,16 +106,29 @@ export default function VADisabilityPage() {
         </div>
       </div>
 
-      {/* ── Calculator ───────────────────────────────────────────────── */}
-      <VADisabilityCalculator />
-
-      {/* ── Success outcome ──────────────────────────────────────────── */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 pb-2">
-        <div className="rounded-lg bg-green-50 border border-green-200 px-5 py-4 text-sm text-green-800 leading-relaxed">
-          After using this calculator, you should understand your estimated combined rating, whether
-          the bilateral factor affects your math, and which assumptions to verify with an accredited
-          VSO before relying on the result.
+      {/* ── Feature chips + stakes ───────────────────────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="flex flex-wrap gap-3 mb-4">
+          {[
+            'Official VA whole-person formula',
+            'Bilateral factor (38 CFR § 4.26)',
+            'Step-by-step math',
+            '2026 compensation rates',
+            'Scenario builder',
+          ].map((text) => (
+            <span
+              key={text}
+              className="inline-flex items-center text-sm text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1"
+            >
+              {text}
+            </span>
+          ))}
         </div>
+        <p className="text-zinc-600 text-sm leading-relaxed max-w-2xl">
+          A small difference near a rounding threshold can move you from 60% to 70%, or from
+          90% to 100%. This calculator shows the math before you file, appeal, or plan around
+          your expected rating.
+        </p>
       </div>
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
