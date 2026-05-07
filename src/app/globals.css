@@ -75,3 +75,37 @@ body {
     background: white;
   }
 }
+
+/* ─── Worksheet interactive inputs — print rendering ────────────────────────
+   On screen: styled form inputs with focus rings.
+   On print:  just the entered value with a subtle underline — no input chrome.
+   ────────────────────────────────────────────────────────────────────────── */
+
+@media print {
+  .worksheet-input {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent !important;
+    border-color: transparent !important;
+    border-bottom-color: #888 !important;
+    border-bottom-width: 1px !important;
+    box-shadow: none !important;
+    outline: none !important;
+    color: #111 !important;
+    font-size: 10pt !important;
+    padding: 0 0 1px 0 !important;
+    height: auto !important;
+  }
+
+  .worksheet-input::placeholder {
+    color: transparent !important;
+  }
+
+  .worksheet-input-result {
+    background: transparent !important;
+    border-bottom-color: #333 !important;
+    border-bottom-width: 2px !important;
+    font-weight: 600;
+    padding-left: 0 !important;
+  }
+}
