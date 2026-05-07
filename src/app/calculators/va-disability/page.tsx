@@ -45,11 +45,19 @@ export default function VADisabilityPage() {
               <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
                 VA Disability Combined Rating Calculator
               </h1>
-              <p className="text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
+              <p className="text-red-700 font-semibold mt-2 text-base leading-snug">
+                Stop guessing your VA combined rating.
+              </p>
+              <p className="text-zinc-600 mt-1.5 text-base leading-relaxed max-w-2xl">
                 VA disability ratings are not simply added together. This calculator uses the
                 official &ldquo;whole person&rdquo; formula (38 CFR § 4.25), applies the bilateral
                 factor automatically, and shows you every step of the math — so you understand
                 exactly how your combined rating was calculated.
+              </p>
+              <p className="text-zinc-600 mt-2 text-sm leading-relaxed max-w-2xl">
+                A small difference near a rounding threshold can move you from 60% to 70%, or from
+                90% to 100%. This calculator shows the math before you file, appeal, or plan around
+                your expected rating.
               </p>
             </div>
           </div>
@@ -74,8 +82,52 @@ export default function VADisabilityPage() {
         </div>
       </div>
 
+      {/* ── 3-step plan strip ────────────────────────────────────────── */}
+      <div className="bg-white border-b border-zinc-200">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[
+              {
+                step: '1',
+                title: 'Enter each condition',
+                desc: 'Add the rating percentage and body location for each service-connected disability.',
+              },
+              {
+                step: '2',
+                title: 'See the VA math',
+                desc: 'The calculator applies the whole-person formula and bilateral factor step by step.',
+              },
+              {
+                step: '3',
+                title: 'Estimate your compensation',
+                desc: 'Add dependents to see your estimated 2026 monthly VA compensation.',
+              },
+            ].map(({ step, title, desc }) => (
+              <div key={step} className="flex gap-3 items-start">
+                <div className="flex-none w-8 h-8 rounded-full bg-red-700 text-white font-black text-sm flex items-center justify-center">
+                  {step}
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-zinc-900">{title}</p>
+                  <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <VADisabilityCalculator />
+
+      {/* ── Success outcome ──────────────────────────────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 pb-2">
+        <div className="rounded-lg bg-green-50 border border-green-200 px-5 py-4 text-sm text-green-800 leading-relaxed">
+          After using this calculator, you should understand your estimated combined rating, whether
+          the bilateral factor affects your math, and which assumptions to verify with an accredited
+          VSO before relying on the result.
+        </div>
+      </div>
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -140,8 +192,9 @@ export default function VADisabilityPage() {
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               The bilateral factor only applies when <strong>both</strong> sides have a compensable
-              (greater than 0%) rating. A 0% rating on one side does not trigger it. Make sure you
-              have filed separate claims for both sides of any bilateral condition.
+              (greater than 0%) rating. A 0% rating on one side does not trigger it. If both sides
+              are affected, review whether each side is separately documented and claimed. An
+              accredited VSO can help confirm how to file bilateral conditions.
             </p>
           </div>
 
@@ -149,10 +202,10 @@ export default function VADisabilityPage() {
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">Key rating thresholds</h2>
             <div className="space-y-2">
               {[
-                { pct: '0%', text: 'Service-connected, no compensation — but counts toward combined rating and establishes healthcare eligibility for that condition' },
+                { pct: '0%', text: 'Service-connected with no monthly compensation. Establishes the condition for VA purposes but does not increase the combined percentage unless later increased.' },
                 { pct: '10–20%', text: 'Flat compensation rate — no dependent additions at these levels' },
                 { pct: '30%+', text: 'Dependent compensation kicks in (spouse, children, parents)' },
-                { pct: '50%+', text: 'Enhanced VA healthcare, dental care, and additional benefits' },
+                { pct: '50%+', text: 'Higher VA healthcare priority and no copays for many types of care; additional benefits may apply depending on your situation.' },
                 { pct: '70%+', text: 'May qualify for TDIU (see below) if unable to work' },
                 { pct: '100%', text: 'Maximum schedular rating — highest compensation tier, P&T status if permanent' },
               ].map(({ pct, text }) => (
@@ -161,6 +214,9 @@ export default function VADisabilityPage() {
                   <p className="text-sm text-zinc-600">{text}</p>
                 </div>
               ))}
+              <p className="text-xs text-zinc-400 mt-1 pl-0">
+                Note: Comprehensive VA dental care has separate eligibility rules and is not automatic at 50%.
+              </p>
             </div>
           </div>
 
@@ -208,6 +264,10 @@ export default function VADisabilityPage() {
             <p className="text-zinc-600 text-sm leading-relaxed">
               TDIU requires a separate VA Form 21-8940 (Veteran&apos;s Application for Increased
               Compensation Based on Unemployability). Work with an accredited VSO to file.
+            </p>
+            <p className="text-zinc-600 text-sm leading-relaxed mt-2">
+              Marginal employment and protected work environments can be nuanced — review TDIU
+              questions with an accredited VSO or attorney.
             </p>
           </div>
 

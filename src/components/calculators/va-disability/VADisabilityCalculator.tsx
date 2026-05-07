@@ -477,6 +477,10 @@ export function VADisabilityCalculator() {
                     <p className="text-xs text-zinc-400 mt-1">
                       {compensation.dataYear} VA rates
                     </p>
+                    <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
+                      Monthly compensation depends on VA&apos;s final decision, effective date,
+                      dependency verification, and any applicable offsets.
+                    </p>
 
                     {/* Dependent breakdown */}
                     {compensation.breakdown.length > 1 && dependentsApply && (
@@ -603,8 +607,9 @@ export function VADisabilityCalculator() {
                   <div className="flex-1">
                     <p className="font-semibold text-zinc-900 text-sm">Additional benefits at 50%+</p>
                     <p className="text-sm text-zinc-600 mt-0.5">
-                      At 50% or higher, you may qualify for enhanced healthcare, dental and vision
-                      care, and commissary/exchange access. Check your VA eligibility letter or eBenefits.
+                      At 50% or higher, you receive higher VA healthcare priority and no copays
+                      for many types of care. Additional benefits may apply depending on your
+                      situation — check your VA eligibility letter or eBenefits for specifics.
                     </p>
                   </div>
                 </div>
