@@ -9,6 +9,8 @@ export interface TotalCompensationInput {
   zipCode: string;
   retirementSystem: 'legacy' | 'brs';
   tspContributionPct: number; // 0–100
+  govHousing: boolean; // living in barracks/on-post (no cash BAH)
+  mealCard: boolean;   // dining facility meal card (no cash BAS)
 }
 
 export interface TotalCompensationOutput {
@@ -21,8 +23,11 @@ export interface TotalCompensationOutput {
   tspAgencyContribution: number; // annual, BRS only
   sgli: number; // annual premium
   taxAdvantageValue: number; // annual estimated tax savings on BAH/BAS
-  totalMonthly: number;
+  totalMonthly: number;  // full economic value (cash + in-kind)
   totalAnnual: number;
+  cashMonthly: number;   // what actually hits the bank account
+  cashAnnual: number;
+  inKindMonthly: number; // estimated value of in-kind housing/meals
   // For "equivalent civilian salary" comparison
   civilianEquivalent: number;
 }

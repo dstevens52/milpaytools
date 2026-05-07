@@ -84,12 +84,19 @@ export function calculateTotalCompensation(input: TotalCompensationInput): Total
   // Tax advantage (estimated annual value of tax-free BAH + BAS)
   const taxAdvantageValue = estimateTaxAdvantage(annualBasePay, annualBAH, annualBAS);
 
-  // Total monthly / annual (excludes TSP agency match and tax advantage since those aren't cash-in-hand)
+  const govHousing = input.govHousing ?? false;
+  const mealCard = input.mealCard ?? false;
+
+  // Cash = what actually hits the bank; in-kind = estimated value of benefits received as services
+  const cashMonthly = monthlyBasePay + (govHousing ? 0 : monthlyBAH) + (mealCard ? 0 : monthlyBAS);
+  const inKindMonthly = (govHousing ? monthlyBAH : 0) + (mealCard ? monthlyBAS : 0);
+
+  // Total monthly value = cash + in-kind (full economic picture)
   const totalMonthly = monthlyBasePay + monthlyBAH + monthlyBAS;
   const totalAnnual = totalMonthly * 12 + tspAgencyContribution;
 
-  // Civilian equivalent: salary a civilian would need to match the same net economic benefit
-  // Accounts for tax-free BAH/BAS and TSP match
+  // Civilian equivalent always includes full BAH + BAS value: a civilian pays for housing and food
+  // out of taxable income regardless of whether the service member receives these as cash or in-kind.
   const civilianEquivalent = annualBasePay + taxAdvantageValue + annualBAH + annualBAS + tspAgencyContribution;
 
   return {
@@ -104,6 +111,9 @@ export function calculateTotalCompensation(input: TotalCompensationInput): Total
     taxAdvantageValue,
     totalMonthly,
     totalAnnual,
+    cashMonthly,
+    cashAnnual: cashMonthly * 12,
+    inKindMonthly,
     civilianEquivalent,
   };
 }

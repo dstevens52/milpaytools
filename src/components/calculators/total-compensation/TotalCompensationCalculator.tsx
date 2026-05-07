@@ -76,7 +76,13 @@ function buildActionSteps(
   }
 
   // BAH / housing step
-  if (output.monthlyBAH > 0) {
+  if (input.govHousing && output.monthlyBAH > 0) {
+    steps.push({
+      label: `Government housing saves you ${formatCurrency(output.monthlyBAH)}/month`,
+      description: `Living in barracks is equivalent to a ${formatCurrency(output.monthlyBAH)}/month housing benefit. When you eventually move off-post or transition to civilian life, plan for this cost hitting your budget.`,
+      priority: 'low',
+    });
+  } else if (output.monthlyBAH > 0) {
     const surplus = output.monthlyBAH - 2000; // rough comparison
     if (surplus > 300) {
       steps.push({
@@ -88,7 +94,7 @@ function buildActionSteps(
     } else {
       steps.push({
         label: 'Understand your housing options',
-        description: `Your BAH of ${formatCurrency(output.monthlyBAH)}/month is designed to cover median local rental costs. If you choose to live on post, you forfeit BAH but your housing is covered. Off-post, any amount below your BAH stays in your pocket.`,
+        description: `Your BAH of ${formatCurrency(output.monthlyBAH)}/month is designed to cover median local rental costs. Off-post, any amount below your BAH stays in your pocket.`,
         priority: 'low',
       });
     }
@@ -133,6 +139,8 @@ export function TotalCompensationCalculator() {
   const [hasDependents, setHasDependents] = useState(false);
   const [retirementSystem, setRetirementSystem] = useState<'legacy' | 'brs'>('brs');
   const [tspPct, setTspPct] = useState(5);
+  const [govHousing, setGovHousing] = useState(false);
+  const [mealCard, setMealCard] = useState(false);
 
   // Pre-populate from URL params on mount
   useEffect(() => {
@@ -166,14 +174,16 @@ export function TotalCompensationCalculator() {
     hasDependents,
     retirementSystem,
     tspContributionPct: tspPct,
+    govHousing,
+    mealCard,
   };
 
   const result = useMemo(() => calculateTotalCompensation(input), [
-    grade, yos, zipCode, hasDependents, retirementSystem, tspPct,
+    grade, yos, zipCode, hasDependents, retirementSystem, tspPct, govHousing, mealCard,
   ]);
 
   const actionSteps = useMemo(() => buildActionSteps(result, input), [
-    result, grade, yos, zipCode, hasDependents, retirementSystem, tspPct,
+    result, grade, yos, zipCode, hasDependents, retirementSystem, tspPct, govHousing, mealCard,
   ]);
 
   const locationName = useMemo(
@@ -255,6 +265,56 @@ export function TotalCompensationCalculator() {
           </div>
 
           <div className="flex flex-col gap-1">
+            <span className="text-sm font-medium text-zinc-700">Do you live in government housing (barracks/on-post)?</span>
+            <div className="flex gap-3 mt-1">
+              {[
+                { label: 'No', value: false },
+                { label: 'Yes', value: true },
+              ].map(({ label, value }) => (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={() => setGovHousing(value)}
+                  className={[
+                    'flex-1 rounded-md border px-3 py-2 text-sm font-medium transition-colors text-center',
+                    govHousing === value
+                      ? 'bg-red-700 border-red-700 text-white'
+                      : 'bg-white border-zinc-300 text-zinc-700 hover:border-zinc-400',
+                  ].join(' ')}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <p className="text-xs text-zinc-500 mt-1">Most single E-1 through E-4 without dependents live in barracks or on-post housing.</p>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <span className="text-sm font-medium text-zinc-700">Do you have a meal card (government dining facility)?</span>
+            <div className="flex gap-3 mt-1">
+              {[
+                { label: 'No', value: false },
+                { label: 'Yes', value: true },
+              ].map(({ label, value }) => (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={() => setMealCard(value)}
+                  className={[
+                    'flex-1 rounded-md border px-3 py-2 text-sm font-medium transition-colors text-center',
+                    mealCard === value
+                      ? 'bg-red-700 border-red-700 text-white'
+                      : 'bg-white border-zinc-300 text-zinc-700 hover:border-zinc-400',
+                  ].join(' ')}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <p className="text-xs text-zinc-500 mt-1">Service members in barracks typically receive a meal card for the dining facility.</p>
+          </div>
+
+          <div className="flex flex-col gap-1">
             <span className="text-sm font-medium text-zinc-700">Retirement System</span>
             <div className="flex gap-3 mt-1">
               {[
@@ -318,14 +378,19 @@ export function TotalCompensationCalculator() {
         {/* Headline total */}
         <div className="bg-red-700 rounded-lg p-6 text-white">
           <p className="text-red-200 text-sm font-medium uppercase tracking-wider mb-1">
-            Total Monthly Compensation
+            {result.inKindMonthly > 0 ? 'Monthly Cash Compensation' : 'Total Monthly Compensation'}
           </p>
           <p className="text-4xl font-bold tabular-nums tracking-tight">
-            {formatCurrency(result.totalMonthly)}
+            {formatCurrency(result.cashMonthly)}
           </p>
           <p className="text-red-200 text-sm mt-1">
-            {formatCurrency(result.totalAnnual)}/year &nbsp;·&nbsp; Based on {DATA_YEAR} rates
+            {formatCurrency(result.cashAnnual)}/year &nbsp;·&nbsp; Based on {DATA_YEAR} rates
           </p>
+          {result.inKindMonthly > 0 && (
+            <p className="text-red-100 text-sm mt-2 pt-2 border-t border-red-600">
+              Total monthly value (including in-kind benefits): {formatCurrency(result.totalMonthly)}/mo &nbsp;·&nbsp; {formatCurrency(result.totalMonthly * 12)}/year
+            </p>
+          )}
         </div>
 
         <div className="flex justify-end -mt-2">
@@ -339,13 +404,20 @@ export function TotalCompensationCalculator() {
             dataYear={DATA_YEAR}
             rows={[
               { label: 'Basic Pay (taxable)', monthly: result.monthlyBasePay },
-              { label: 'BAH — Housing (tax-free)', monthly: result.monthlyBAH > 0 ? result.monthlyBAH : undefined, value: result.monthlyBAH === 0 ? 'Enter ZIP code' : undefined },
-              { label: 'BAS — Subsistence (tax-free)', monthly: result.monthlyBAS },
+              govHousing
+                ? { label: 'Government Housing (in-kind benefit)', value: result.monthlyBAH > 0 ? `${formatCurrency(result.monthlyBAH)}/mo est. value` : 'Enter ZIP code' }
+                : { label: 'BAH — Housing (tax-free)', monthly: result.monthlyBAH > 0 ? result.monthlyBAH : undefined, value: result.monthlyBAH === 0 ? 'Enter ZIP code' : undefined },
+              mealCard
+                ? { label: 'Government Meals (in-kind benefit)', value: `${formatCurrency(result.monthlyBAS)}/mo est. value` }
+                : { label: 'BAS — Subsistence (tax-free)', monthly: result.monthlyBAS },
               {
-                label: 'Total Cash Compensation',
-                monthly: result.totalMonthly,
+                label: result.inKindMonthly > 0 ? 'Total Cash (hits bank)' : 'Total Cash Compensation',
+                monthly: result.cashMonthly,
                 highlight: true,
               },
+              ...(result.inKindMonthly > 0
+                ? [{ label: 'Total Monthly Value (cash + in-kind)', monthly: result.totalMonthly }]
+                : []),
             ]}
           />
 
@@ -353,7 +425,7 @@ export function TotalCompensationCalculator() {
             title="Full Economic Value"
             dataYear={DATA_YEAR}
             rows={[
-              { label: 'Cash compensation (monthly)', monthly: result.totalMonthly },
+              { label: result.inKindMonthly > 0 ? 'Total monthly value (cash + in-kind)' : 'Cash compensation (monthly)', monthly: result.totalMonthly },
               {
                 label: 'Tax advantage on BAH + BAS (est.)',
                 value: `+${formatCurrency(result.taxAdvantageValue)}/yr`,
@@ -378,14 +450,21 @@ export function TotalCompensationCalculator() {
           <p className="text-sm text-blue-700 leading-relaxed">
             A civilian would need to earn approximately{' '}
             <span className="font-bold">{formatCurrency(result.civilianEquivalent)}/year</span> before
-            taxes to match your total economic compensation — because your BAH (
-            {formatCurrency(result.monthlyBAH)}/mo) and BAS ({formatCurrency(result.monthlyBAS)}/mo)
-            are completely federal income tax-free
+            taxes to match your total economic compensation —
+            {result.inKindMonthly > 0
+              ? ` including the estimated value of government ${govHousing ? 'housing' : ''}${govHousing && mealCard ? ' and ' : ''}${mealCard ? 'meals' : ''} you receive as in-kind benefits. A civilian pays for ${govHousing ? 'housing' : ''}${govHousing && mealCard ? ' and ' : ''}${mealCard ? 'food' : ''} out of taxable income, so your in-kind benefits are worth more than their dollar value.`
+              : ` because your BAH (${formatCurrency(result.monthlyBAH)}/mo) and BAS (${formatCurrency(result.monthlyBAS)}/mo) are completely federal income tax-free`
+            }
             {retirementSystem === 'brs'
               ? `, and your employer contributes ${formatCurrency(result.tspAgencyContribution)}/year to your retirement`
               : ''}
             . When evaluating a civilian job offer, compare against this number — not just your base pay.
           </p>
+          {result.inKindMonthly > 0 && (
+            <p className="text-xs text-blue-700 mt-2">
+              Includes the estimated value of government {govHousing ? 'housing' : ''}{govHousing && mealCard ? ' and ' : ''}{mealCard ? 'meals' : ''} you receive as in-kind benefits.
+            </p>
+          )}
           <p className="text-xs text-blue-600 mt-3 pt-3 border-t border-blue-200">
             This estimate uses a simplified federal income tax model. It does not include state taxes
             or FICA savings, which would make the actual civilian equivalent higher.

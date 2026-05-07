@@ -76,7 +76,8 @@ test.describe('Total Compensation Calculator', () => {
 
   test('switching to Legacy hides BRS match', async ({ page }) => {
     await page.getByRole('button', { name: 'Legacy (High-3)' }).click();
-    await expect(page.getByText(/BRS match|TSP agency match/i)).not.toBeVisible();
+    // The TSP/BRS Details card title disappears; "DoD TSP agency match" row disappears
+    await expect(page.getByText('TSP / BRS Details')).not.toBeVisible();
   });
 
   test('O-1E prior enlisted grade is selectable', async ({ page }) => {
