@@ -373,7 +373,7 @@ function FinalCTASection() {
             href="/calculators/total-compensation"
             className="w-full sm:w-auto inline-flex items-center justify-center rounded-md bg-red-700 px-6 py-3 text-base font-semibold text-white hover:bg-red-800 transition-colors shadow-sm"
           >
-            Calculate My Total Compensation
+            See My Full Compensation
           </Link>
           <Link
             href="/calculators"

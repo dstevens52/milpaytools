@@ -124,8 +124,7 @@ export function HeroSection() {
 
             <p className="text-lg text-zinc-600 leading-relaxed mb-6 max-w-lg">
               <strong className="text-zinc-900">Your service is worth more than base pay.</strong>{' '}
-              Use free calculators to see your full military financial picture before you make
-              your next big decision.
+              Use free calculators to see your full military financial picture before your next PCS, transition, VA claim, retirement, or job offer decision.
             </p>
 
             {/* Category buttons */}
@@ -148,7 +147,7 @@ export function HeroSection() {
                 href="/calculators/total-compensation"
                 className="w-full sm:w-auto inline-flex items-center justify-center rounded-md bg-red-700 px-6 py-3 text-base font-semibold text-white hover:bg-red-800 transition-colors shadow-sm"
               >
-                Calculate My Total Compensation
+                See My Full Compensation
               </Link>
               <Link
                 href="/calculators"
