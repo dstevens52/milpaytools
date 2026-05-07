@@ -18,6 +18,8 @@ import type { DutyStation } from '@/data/duty-stations/stations';
 
 export interface BaseSearchInputProps {
   label: string;
+  /** Explicit HTML id for the input (auto-derived from label if omitted). */
+  id?: string;
   /** The resolved 5-digit ZIP code (parent-controlled). '' when unresolved. */
   value: string;
   onZipChange: (zip: string) => void;
@@ -31,6 +33,7 @@ export interface BaseSearchInputProps {
 
 export function BaseSearchInput({
   label,
+  id: idProp,
   value,
   onZipChange,
   placeholder = 'Enter ZIP code or base name (e.g. 78234 or Fort Liberty)',
@@ -38,16 +41,18 @@ export function BaseSearchInput({
   excludeOconus = true,
   className,
 }: BaseSearchInputProps) {
+  const inputId = idProp ?? label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   const [text, setText] = useState(value || '');
   const [open, setOpen] = useState(false);
   const [highlighted, setHighlighted] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  // Track whether the user has interacted so we don't clobber their input
+  // when a parent sets an initial value after mount (e.g. from URL params).
+  const userHasInteracted = useRef(false);
 
-  // When parent sets an initial value after mount (e.g. from URL params),
-  // sync it into display text only if the user hasn't typed anything yet.
   useEffect(() => {
-    if (value && text === '') setText(value);
+    if (value && !userHasInteracted.current) setText(value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
@@ -72,6 +77,7 @@ export function BaseSearchInput({
   }, [value]);
 
   function handleChange(raw: string) {
+    userHasInteracted.current = true;
     if (raw === '') {
       setText('');
       setOpen(false);
@@ -131,10 +137,11 @@ export function BaseSearchInput({
 
   return (
     <div ref={containerRef} className={`relative ${className ?? ''}`}>
-      <label className="block text-sm font-medium text-zinc-700 mb-1">{label}</label>
+      <label htmlFor={inputId} className="block text-sm font-medium text-zinc-700 mb-1">{label}</label>
 
       <input
         ref={inputRef}
+        id={inputId}
         type="text"
         inputMode={isNumericMode ? 'numeric' : 'text'}
         value={text}

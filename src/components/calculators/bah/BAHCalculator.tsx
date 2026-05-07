@@ -373,7 +373,7 @@ export function BAHCalculator() {
         {mode === 'single' ? (
           <div className="mt-4 max-w-sm">
             <BaseSearchInput
-              label="Duty Station"
+              label="Duty Station ZIP Code"
               value={zip}
               onZipChange={setZip}
               hint="Enter the ZIP code or base name for your duty station"

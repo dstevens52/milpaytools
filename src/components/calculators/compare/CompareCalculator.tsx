@@ -6,6 +6,7 @@ import type { CompareResult, LocationData } from '@/lib/calculations/compare';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { ShareButton } from '@/components/calculators/shared/ShareButton';
+import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -211,17 +212,15 @@ export function CompareCalculator() {
 
   function getShareUrl() {
     const p = new URLSearchParams();
-    p.set('zip1', zipA.replace(/\D/g, '').slice(0, 5) || zipA);
-    p.set('zip2', zipB.replace(/\D/g, '').slice(0, 5) || zipB);
+    p.set('zip1', zipA);
+    p.set('zip2', zipB);
     p.set('rank', gradeToParam(payGrade));
     p.set('dependents', hasDependents ? 'yes' : 'no');
     p.set('yos', String(yos));
     return `${window.location.origin}/calculators/compare?${p.toString()}`;
   }
 
-  const zipAClean = zipA.replace(/\D/g, '').slice(0, 5);
-  const zipBClean = zipB.replace(/\D/g, '').slice(0, 5);
-  const bothReady = zipAClean.length === 5 && zipBClean.length === 5;
+  const bothReady = zipA.length === 5 && zipB.length === 5;
 
   const result = useMemo(() => {
     if (!bothReady) return null;
@@ -229,14 +228,14 @@ export function CompareCalculator() {
       payGrade,
       yearsOfService: yos,
       hasDependents,
-      zipA: zipAClean,
-      zipB: zipBClean,
+      zipA,
+      zipB,
     });
-  }, [payGrade, yos, hasDependents, zipAClean, zipBClean, bothReady]);
+  }, [payGrade, yos, hasDependents, zipA, zipB, bothReady]);
 
   // Display names for each location
-  const nameA = labelA.trim() || result?.locA.locationName || `ZIP ${zipAClean}`;
-  const nameB = labelB.trim() || result?.locB.locationName || `ZIP ${zipBClean}`;
+  const nameA = labelA.trim() || result?.locA.locationName || `ZIP ${zipA}`;
+  const nameB = labelB.trim() || result?.locB.locationName || `ZIP ${zipB}`;
 
   const showCOLA = result && (result.locA.isColaArea || result.locB.isColaArea);
 
@@ -309,21 +308,12 @@ export function CompareCalculator() {
           {/* Location A */}
           <div className="rounded-md border border-zinc-200 p-4 space-y-3">
             <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">Location A</p>
-            <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1.5">ZIP code</label>
-              <input
-                type="text"
-                inputMode="numeric"
-                maxLength={5}
-                value={zipA}
-                onChange={(e) => setZipA(e.target.value.replace(/\D/g, '').slice(0, 5))}
-                placeholder="e.g. 28310"
-                className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
-              />
-              {result && (
-                <p className="text-xs text-zinc-400 mt-1">{result.locA.locationName}</p>
-              )}
-            </div>
+            <BaseSearchInput
+              label="ZIP code or base name"
+              value={zipA}
+              onZipChange={setZipA}
+              placeholder="e.g. 28310 or Fort Liberty"
+            />
             <div>
               <label className="block text-sm font-medium text-zinc-700 mb-1.5">
                 Label <span className="font-normal text-zinc-400">(optional)</span>
@@ -341,21 +331,12 @@ export function CompareCalculator() {
           {/* Location B */}
           <div className="rounded-md border border-zinc-200 p-4 space-y-3">
             <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">Location B</p>
-            <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1.5">ZIP code</label>
-              <input
-                type="text"
-                inputMode="numeric"
-                maxLength={5}
-                value={zipB}
-                onChange={(e) => setZipB(e.target.value.replace(/\D/g, '').slice(0, 5))}
-                placeholder="e.g. 98433"
-                className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
-              />
-              {result && (
-                <p className="text-xs text-zinc-400 mt-1">{result.locB.locationName}</p>
-              )}
-            </div>
+            <BaseSearchInput
+              label="ZIP code or base name"
+              value={zipB}
+              onZipChange={setZipB}
+              placeholder="e.g. 98433 or JBLM"
+            />
             <div>
               <label className="block text-sm font-medium text-zinc-700 mb-1.5">
                 Label <span className="font-normal text-zinc-400">(optional)</span>

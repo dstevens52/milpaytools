@@ -2,12 +2,12 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { calculateTransitionReadiness } from '@/lib/calculations/transition-readiness';
-import { isZipInDataset, getLocationName } from '@/lib/calculations/bah';
 import { formatCurrency } from '@/lib/utils';
 import { ResultCard } from '@/components/calculators/shared/ResultCard';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import { Select } from '@/components/ui/Select';
 import { Input } from '@/components/ui/Input';
+import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { Card } from '@/components/ui/Card';
 import { ShareButton } from '@/components/calculators/shared/ShareButton';
 import { DATA_YEAR } from '@/data/pay-tables/2026';
@@ -124,7 +124,6 @@ export function TransitionReadinessCalculator() {
   const [grade, setGrade] = useState<PayGrade>('E-6');
   const [yos, setYos] = useState(10);
   const [zipCode, setZipCode] = useState('');
-  const [zipInput, setZipInput] = useState('');
   const [hasDependents, setHasDependents] = useState(true);
   const [sepMonth, setSepMonth] = useState(init.month);
   const [sepYear, setSepYear] = useState(init.year);
@@ -199,7 +198,7 @@ export function TransitionReadinessCalculator() {
 
     if (gr) setGrade(gr);
     if (yosRaw) { const n = parseInt(yosRaw, 10); if (!isNaN(n) && n >= 0 && n <= 40) setYos(n); }
-    if (gz) { setZipInput(gz); setZipCode(gz); }
+    if (gz) setZipCode(gz);
     if (dep !== null) setHasDependents(dep);
     if (smRaw) { const n = parseInt(smRaw, 10); if (!isNaN(n) && n >= 0 && n <= 11) setSepMonth(n); }
     if (syRaw) { const n = parseInt(syRaw, 10); if (!isNaN(n) && n >= 2024 && n <= 2035) setSepYear(n); }
@@ -252,13 +251,6 @@ export function TransitionReadinessCalculator() {
     return `${window.location.origin}/calculators/transition-readiness?${p.toString()}`;
   }
 
-  function handleZipChange(val: string) {
-    const digits = val.replace(/\D/g, '').slice(0, 5);
-    setZipInput(digits);
-    if (digits.length === 5) setZipCode(digits);
-    else setZipCode('');
-  }
-
   const input: TransitionReadinessInput = {
     payGrade: grade,
     yearsOfService: yos,
@@ -296,12 +288,6 @@ export function TransitionReadinessCalculator() {
       emergencyFund, tspBalance, otherSavings,
     ]
   );
-
-  const locationName = useMemo(
-    () => (zipCode.length === 5 ? getLocationName(zipCode) : null),
-    [zipCode]
-  );
-  const zipNotFound = zipCode.length === 5 && !isZipInDataset(zipCode);
 
   const hasEngaged = civilianSalary > 0 && result.rawMonthlyExpenses > 0;
   const vc = VERDICT_CONFIG[result.verdict];
@@ -369,21 +355,12 @@ export function TransitionReadinessCalculator() {
                 onChange={(e) => setYos(Number(e.target.value))}
               />
 
-              <Input
+              <BaseSearchInput
                 label="Duty Station ZIP Code"
-                type="text"
-                inputMode="numeric"
-                placeholder="e.g. 78234"
-                value={zipInput}
-                maxLength={5}
-                onChange={(e) => handleZipChange(e.target.value)}
-                hint={
-                  locationName
-                    ? `📍 ${locationName}`
-                    : zipNotFound
-                    ? 'ZIP not in dataset — BAH will show as $0'
-                    : 'Enter your ZIP for BAH (optional)'
-                }
+                value={zipCode}
+                onZipChange={setZipCode}
+                placeholder="e.g. 78234 or Fort Sam Houston"
+                hint="Enter your ZIP for BAH (optional)"
               />
 
               <div className="flex flex-col gap-1">
