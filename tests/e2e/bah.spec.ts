@@ -76,15 +76,15 @@ test.describe('BAH Calculator', () => {
 
   test('Compare mode shows two ZIP inputs', async ({ page }) => {
     await page.getByRole('button', { name: 'Compare' }).click();
-    await expect(page.getByLabel('Current / Origin ZIP')).toBeVisible();
-    await expect(page.getByLabel('Gaining / Destination ZIP')).toBeVisible();
+    await expect(page.getByLabel('Current / Origin')).toBeVisible();
+    await expect(page.getByLabel('Gaining / Destination')).toBeVisible();
   });
 
   test('Compare mode shows difference callout', async ({ page }) => {
     await page.getByRole('button', { name: 'Compare' }).click();
-    await page.getByLabel('Current / Origin ZIP').fill('28307');
-    await page.getByLabel('Gaining / Destination ZIP').fill('20001');
-    await expect(page.getByText('Monthly BAH difference')).toBeVisible();
+    await page.getByLabel('Current / Origin').fill('28307');
+    await page.getByLabel('Gaining / Destination').fill('20001');
+    await expect(page.getByText('Monthly BAH difference').first()).toBeVisible();
   });
 
   test('W-4 warrant officer rate is selectable and shows data', async ({ page }) => {

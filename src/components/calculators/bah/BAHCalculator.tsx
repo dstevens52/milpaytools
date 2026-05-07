@@ -2,8 +2,8 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
-import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
+import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import { ShareButton } from '@/components/calculators/shared/ShareButton';
 import { lookupBAH, getMHARates, getMHACode, isTerritory, isZipInDataset } from '@/lib/calculations/bah';
@@ -369,42 +369,27 @@ export function BAHCalculator() {
           </div>
         </div>
 
-        {/* ZIP inputs */}
+        {/* ZIP / base name inputs */}
         {mode === 'single' ? (
-          <div className="mt-4 max-w-xs">
-            <Input
-              label="Duty Station ZIP Code"
-              type="text"
-              inputMode="numeric"
-              maxLength={5}
-              placeholder="e.g. 92134"
+          <div className="mt-4 max-w-sm">
+            <BaseSearchInput
+              label="Duty Station"
               value={zip}
-              onChange={(e) => setZip(e.target.value.replace(/\D/g, '').slice(0, 5))}
-              error={zip.length === 5 ? zipError(zip) : undefined}
-              hint="Enter the ZIP code for your duty station or nearest installation"
+              onZipChange={setZip}
+              hint="Enter the ZIP code or base name for your duty station"
             />
           </div>
         ) : (
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
-              label="Current / Origin ZIP"
-              type="text"
-              inputMode="numeric"
-              maxLength={5}
-              placeholder="e.g. 92134"
+            <BaseSearchInput
+              label="Current / Origin"
               value={zip}
-              onChange={(e) => setZip(e.target.value.replace(/\D/g, '').slice(0, 5))}
-              error={zip.length === 5 ? zipError(zip) : undefined}
+              onZipChange={setZip}
             />
-            <Input
-              label="Gaining / Destination ZIP"
-              type="text"
-              inputMode="numeric"
-              maxLength={5}
-              placeholder="e.g. 20742"
+            <BaseSearchInput
+              label="Gaining / Destination"
               value={zipB}
-              onChange={(e) => setZipB(e.target.value.replace(/\D/g, '').slice(0, 5))}
-              error={zipB.length === 5 ? zipError(zipB) : undefined}
+              onZipChange={setZipB}
             />
           </div>
         )}
