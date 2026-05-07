@@ -111,6 +111,99 @@ export default function TotalCompensationPage() {
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <TotalCompensationCalculator />
 
+      {/* ── Beyond this calculator ───────────────────────────────────── */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="mb-6">
+          <h2 className="text-xl font-bold text-zinc-900 mb-2">
+            Your military value goes beyond this calculator
+          </h2>
+          <p className="text-zinc-600 text-sm leading-relaxed max-w-2xl">
+            Total compensation is just the starting point. These benefits add thousands more in value — and each has its own calculator.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Healthcare */}
+          <a
+            href="/calculators/transition-readiness"
+            className="group block rounded-lg border border-zinc-200 bg-white p-5 shadow-sm hover:border-red-200 hover:shadow-md transition-all"
+          >
+            <p className="font-semibold text-zinc-900 mb-2 group-hover:text-red-700 transition-colors">
+              Healthcare (TRICARE)
+            </p>
+            <p className="text-sm text-zinc-600 leading-relaxed mb-4">
+              Active-duty TRICARE covers you and your family with no enrollment premium. Replacing it as a civilian can cost $600–$1,700/month depending on coverage type.
+            </p>
+            <span className="text-sm font-medium text-red-700">
+              See healthcare costs in the Transition Readiness Calculator →
+            </span>
+          </a>
+
+          {/* Life Insurance */}
+          <a
+            href="/calculators/transition-readiness"
+            className="group block rounded-lg border border-zinc-200 bg-white p-5 shadow-sm hover:border-red-200 hover:shadow-md transition-all"
+          >
+            <p className="font-semibold text-zinc-900 mb-2 group-hover:text-red-700 transition-colors">
+              Life Insurance (SGLI)
+            </p>
+            <p className="text-sm text-zinc-600 leading-relaxed mb-4">
+              SGLI provides $500,000 in coverage for roughly $25/month. Comparable civilian term life insurance for the same coverage can cost $50–$150/month depending on age and health.
+            </p>
+            <span className="text-sm font-medium text-red-700">
+              Factor this into your transition plan →
+            </span>
+          </a>
+
+          {/* Combat Zone Tax */}
+          <a
+            href="/calculators/deployment"
+            className="group block rounded-lg border border-zinc-200 bg-white p-5 shadow-sm hover:border-red-200 hover:shadow-md transition-all"
+          >
+            <p className="font-semibold text-zinc-900 mb-2 group-hover:text-red-700 transition-colors">
+              Combat Zone Tax Savings
+            </p>
+            <p className="text-sm text-zinc-600 leading-relaxed mb-4">
+              Serving in a combat zone? Your entire income — base pay, allowances, and special pays — can be federal and state tax-free. That can add thousands to your annual take-home.
+            </p>
+            <span className="text-sm font-medium text-red-700">
+              Calculate deployment pay →
+            </span>
+          </a>
+
+          {/* Education Benefits */}
+          <a
+            href="/calculators/education"
+            className="group block rounded-lg border border-zinc-200 bg-white p-5 shadow-sm hover:border-red-200 hover:shadow-md transition-all"
+          >
+            <p className="font-semibold text-zinc-900 mb-2 group-hover:text-red-700 transition-colors">
+              Education Benefits
+            </p>
+            <p className="text-sm text-zinc-600 leading-relaxed mb-4">
+              The Post-9/11 GI Bill, VR&amp;E, and Tuition Assistance can cover tens of thousands in education costs. These don&apos;t show up on your LES but they&apos;re part of your total package.
+            </p>
+            <span className="text-sm font-medium text-red-700">
+              Compare education benefits →
+            </span>
+          </a>
+
+          {/* Retirement & TSP */}
+          <a
+            href="/calculators/tsp"
+            className="group block rounded-lg border border-zinc-200 bg-white p-5 shadow-sm hover:border-red-200 hover:shadow-md transition-all"
+          >
+            <p className="font-semibold text-zinc-900 mb-2 group-hover:text-red-700 transition-colors">
+              Retirement &amp; TSP
+            </p>
+            <p className="text-sm text-zinc-600 leading-relaxed mb-4">
+              The BRS match alone adds up to 5% of your base pay in free money. Over a career, TSP contributions with matching can grow to six or seven figures.
+            </p>
+            <span className="text-sm font-medium text-red-700">
+              Project your TSP growth →
+            </span>
+          </a>
+        </div>
+      </section>
+
       {/* ── Example Calculation ──────────────────────────────────────── */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
@@ -250,13 +343,20 @@ export default function TotalCompensationPage() {
         </div>
 
         
-        {/* Guide links */}
+        {/* Related calculators */}
         <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 mt-6">
-          <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-2">
-            Learn More
+          <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-3">
+            Related Calculators
           </p>
           <div className="flex flex-wrap gap-2">
-                <a href="/guides/military-pay" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Military Pay & Compensation Guide →</a>
+            <a href="/calculators/bah" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">BAH Calculator →</a>
+            <a href="/calculators/deployment" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Deployment Pay Calculator →</a>
+            <a href="/calculators/tsp" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">TSP Growth Projector →</a>
+            <a href="/calculators/retirement" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Retirement Calculator →</a>
+            <a href="/calculators/transition-readiness" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Transition Readiness Calculator →</a>
+            <a href="/calculators/compare" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Duty Station Comparison →</a>
+            <a href="/calculators/education" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Education Benefits →</a>
+            <a href="/guides/military-pay" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Military Pay & Compensation Guide →</a>
           </div>
         </div>
 
