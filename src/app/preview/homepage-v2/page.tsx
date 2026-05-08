@@ -1,0 +1,680 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Homepage Preview v2 | MilPayTools',
+  description: 'Experimental MilPayTools homepage preview.',
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
+};
+
+// ── Floating sample calculator card ──────────────────────────────────────────
+
+function SampleCard() {
+  const rows = [
+    { label: 'Base Pay', value: '$3,287.10' },
+    { label: 'BAH', value: '$2,343.00' },
+    { label: 'BAS', value: '$460.55' },
+    { label: 'VA Disability', value: '$1,071.16' },
+    { label: 'TSP Match', value: '$246.53' },
+  ];
+
+  return (
+    <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-white/20 w-full max-w-xs mx-auto">
+      <div className="bg-zinc-50 border-b border-zinc-100 px-5 py-3 flex items-center justify-between">
+        <p className="text-sm font-bold text-zinc-800">Sample Compensation</p>
+        <span className="text-xs bg-blue-100 text-blue-700 font-bold px-2.5 py-0.5 rounded-full">
+          E-5 · CONUS
+        </span>
+      </div>
+
+      <div className="divide-y divide-zinc-100 px-5">
+        {rows.map(({ label, value }) => (
+          <div key={label} className="flex items-center justify-between py-2.5">
+            <span className="text-sm text-zinc-500">{label}</span>
+            <span className="text-sm font-mono tabular-nums font-semibold text-zinc-800">
+              {value}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <div className="mx-4 mt-2 mb-1 rounded-xl bg-red-700 px-4 py-3 flex items-center justify-between">
+        <div>
+          <p className="text-[10px] text-red-200 font-semibold uppercase tracking-widest">
+            Monthly Total
+          </p>
+          <p className="text-2xl font-black tabular-nums text-white leading-none mt-0.5">
+            $7,408.34
+          </p>
+        </div>
+      </div>
+
+      <div className="px-5 py-3.5">
+        <Link
+          href="/calculators/total-compensation"
+          className="text-sm font-bold text-red-700 hover:text-red-800 transition-colors"
+        >
+          View Full Breakdown →
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+// ── Hero section ──────────────────────────────────────────────────────────────
+
+function HeroSection() {
+  return (
+    <section className="bg-white border-b border-zinc-200">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+          {/* Left — copy */}
+          <div>
+            {/* Trust strip eyebrow */}
+            <div className="inline-flex items-center gap-2.5 mb-6 rounded-full bg-zinc-900 px-4 py-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+              <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+                Free · No Account · No Personal Info · Official 2026 DoD & VA Data
+              </span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight text-zinc-900 mb-5">
+              Stop guessing what your{' '}
+              <span className="text-red-700">military pay and benefits</span>{' '}
+              are worth.
+            </h1>
+
+            <p className="text-lg text-zinc-600 leading-relaxed mb-8 max-w-lg">
+              <strong className="text-zinc-900">Your service is worth more than base pay.</strong>{' '}
+              Use free calculators to see your full military financial picture before your next PCS,
+              transition, VA claim, retirement, or job offer decision.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3 mb-6">
+              <Link
+                href="/calculators/total-compensation"
+                className="inline-flex items-center justify-center rounded-lg bg-red-700 px-7 py-3.5 text-base font-bold text-white hover:bg-red-800 transition-colors shadow-sm"
+              >
+                See My Full Compensation
+              </Link>
+              <Link
+                href="/calculators"
+                className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-7 py-3.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors"
+              >
+                Explore All Tools
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-2 text-xs text-zinc-400">
+              <svg
+                className="w-3.5 h-3.5 flex-none"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                aria-hidden="true"
+              >
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              <span>No sign-up. No personal info collected. Runs in your browser.</span>
+            </div>
+          </div>
+
+          {/* Right — navy gradient panel with floating sample card */}
+          <div className="lg:pl-4">
+            <div className="relative overflow-hidden rounded-2xl min-h-[440px] flex items-center justify-center p-8 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900">
+              {/* Dot grid texture */}
+              <div
+                className="absolute inset-0 opacity-[0.07]"
+                aria-hidden="true"
+                style={{
+                  backgroundImage:
+                    'radial-gradient(circle, #94A3B8 1px, transparent 1px)',
+                  backgroundSize: '28px 28px',
+                }}
+              />
+              {/* Ambient glow — top right */}
+              <div
+                className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-blue-500 opacity-[0.10] blur-3xl"
+                aria-hidden="true"
+              />
+              {/* Ambient glow — bottom left */}
+              <div
+                className="absolute -bottom-16 -left-16 w-64 h-64 rounded-full bg-red-600 opacity-[0.08] blur-3xl"
+                aria-hidden="true"
+              />
+              {/* Left accent stripe */}
+              <div
+                className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-red-600 via-red-400 to-transparent opacity-60"
+                aria-hidden="true"
+              />
+
+              {/* Sample card */}
+              <div className="relative z-10 w-full">
+                <SampleCard />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Journey cards section ─────────────────────────────────────────────────────
+
+const JOURNEY_CARDS = [
+  {
+    headerBg: 'bg-blue-950',
+    headerBorder: 'border-blue-800',
+    iconBg: 'bg-blue-800',
+    iconColor: 'text-blue-200',
+    ctaColor: 'text-blue-700 hover:text-blue-900',
+    title: 'Starting Service',
+    description:
+      'Understand your pay, allowances, benefits, and first financial decisions.',
+    checklist: ['Basic Pay & Allowances', 'Benefits Overview', 'New Enlistee Checklist'],
+    cta: 'Start With My Pay →',
+    href: '/guides/military-pay',
+    icon: (
+      <svg
+        className="w-5 h-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        aria-hidden="true"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+        />
+      </svg>
+    ),
+  },
+  {
+    headerBg: 'bg-emerald-950',
+    headerBorder: 'border-emerald-800',
+    iconBg: 'bg-emerald-800',
+    iconColor: 'text-emerald-200',
+    ctaColor: 'text-emerald-700 hover:text-emerald-900',
+    title: 'Navigating Service',
+    description:
+      'Plan for PCS, BAH, duty stations, deployment pay, and the financial tradeoffs that come with your mission.',
+    checklist: ['PCS & BAH Planning', 'Duty Station Comparison', 'Deployment Pay & Benefits'],
+    cta: 'Compare My Options →',
+    href: '/calculators/compare',
+    icon: (
+      <svg
+        className="w-5 h-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"
+        />
+      </svg>
+    ),
+  },
+  {
+    headerBg: 'bg-amber-900',
+    headerBorder: 'border-amber-700',
+    iconBg: 'bg-amber-700',
+    iconColor: 'text-amber-100',
+    ctaColor: 'text-amber-700 hover:text-amber-900',
+    title: 'Transitioning From Service',
+    description:
+      'Prepare for separation or retirement with confidence using VA benefits, healthcare, and civilian salary replacement tools.',
+    checklist: ['VA Disability & Healthcare', 'Retirement Planning', 'Civilian Salary Comparison'],
+    cta: 'Plan My Transition →',
+    href: '/transition',
+    icon: (
+      <svg
+        className="w-5 h-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        aria-hidden="true"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" />
+      </svg>
+    ),
+  },
+] as const;
+
+function JourneySection() {
+  return (
+    <section className="bg-zinc-50 border-b border-zinc-200 py-14 sm:py-16 px-4">
+      <div className="mx-auto max-w-6xl">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 mb-3">
+            Where are you in your military money journey?
+          </h2>
+          <p className="text-base text-zinc-500 max-w-xl mx-auto">
+            Choose the path that matches your next decision.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {JOURNEY_CARDS.map(
+            ({ headerBg, headerBorder, iconBg, iconColor, ctaColor, title, description, checklist, cta, href, icon }) => (
+              <div
+                key={title}
+                className="flex flex-col rounded-2xl bg-white border border-zinc-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
+              >
+                {/* Colored accent header */}
+                <div
+                  className={`${headerBg} border-b ${headerBorder} px-5 py-4 flex items-center gap-3`}
+                >
+                  <div
+                    className={`w-9 h-9 rounded-lg ${iconBg} ${iconColor} flex items-center justify-center flex-none`}
+                  >
+                    {icon}
+                  </div>
+                  <p className="text-white font-bold text-base">{title}</p>
+                </div>
+
+                {/* Card body */}
+                <div className="flex flex-col flex-1 px-5 py-5">
+                  <p className="text-sm text-zinc-600 leading-relaxed mb-4">{description}</p>
+                  <ul className="space-y-2 flex-1 mb-5">
+                    {checklist.map((item) => (
+                      <li key={item} className="flex items-start gap-2">
+                        <svg
+                          className="w-4 h-4 flex-none text-zinc-400 mt-0.5"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          aria-hidden="true"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-sm text-zinc-600">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    href={href}
+                    className={`text-sm font-bold ${ctaColor} transition-colors`}
+                  >
+                    {cta}
+                  </Link>
+                </div>
+              </div>
+            )
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Trust / value band ────────────────────────────────────────────────────────
+
+const TRUST_ITEMS = [
+  {
+    title: 'Official Source Data',
+    description: 'Uses official 2026 DoD, DFAS, DTMO, VA, and TSP source data.',
+    icon: (
+      <svg
+        className="w-6 h-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        aria-hidden="true"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+        />
+      </svg>
+    ),
+  },
+  {
+    title: 'Private by Default',
+    description: 'No account. No personal info collected. Calculations run in your browser.',
+    icon: (
+      <svg
+        className="w-6 h-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        aria-hidden="true"
+      >
+        <rect x="3" y="11" width="18" height="11" rx="2" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Decision-Focused Tools',
+    description:
+      'Built to help you compare, plan, and make confident military money decisions.',
+    icon: (
+      <svg
+        className="w-6 h-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        aria-hidden="true"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v18h18M7 16l4-4 4 4 4-4" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Built for Military Families',
+    description: 'Because every decision affects more than just one paycheck.',
+    icon: (
+      <svg
+        className="w-6 h-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        aria-hidden="true"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
+        />
+      </svg>
+    ),
+  },
+];
+
+function TrustBand() {
+  return (
+    <section className="py-12 sm:py-14 px-4 bg-gradient-to-br from-slate-900 to-blue-950">
+      <div className="mx-auto max-w-6xl">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+          {TRUST_ITEMS.map(({ title, description, icon }) => (
+            <div key={title} className="flex flex-col items-start gap-3">
+              <div className="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center text-blue-300 flex-none">
+                {icon}
+              </div>
+              <div>
+                <p className="font-bold text-white text-sm mb-1">{title}</p>
+                <p className="text-xs text-blue-200 leading-relaxed">{description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Calculator discovery grid ─────────────────────────────────────────────────
+
+const CALCULATORS = [
+  {
+    href: '/calculators/total-compensation',
+    name: 'Total Compensation',
+    description: 'See your full pay and benefits package — not just base pay.',
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+      </svg>
+    ),
+  },
+  {
+    href: '/calculators/bah',
+    name: 'BAH by ZIP',
+    description: 'Find your housing allowance by ZIP code or installation.',
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9zM9 22V12h6v10" />
+      </svg>
+    ),
+  },
+  {
+    href: '/calculators/transition-readiness',
+    name: 'Transition Readiness',
+    description: 'Compare your military compensation to post-service income and expenses.',
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" />
+      </svg>
+    ),
+  },
+  {
+    href: '/calculators/va-disability',
+    name: 'VA Disability',
+    description: 'Estimate your VA disability compensation and combined rating.',
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+    ),
+  },
+  {
+    href: '/calculators/pcs',
+    name: 'PCS Cost Estimator',
+    description: 'Estimate moving costs and reimbursements for your next PCS.',
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3m-4 11h10a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H12a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1zm3-5a2 2 0 1 0 4 0 2 2 0 0 0-4 0zm-7 0a2 2 0 1 0 4 0 2 2 0 0 0-4 0z" />
+      </svg>
+    ),
+  },
+  {
+    href: '/calculators/compare',
+    name: 'Duty Station Comparison',
+    description: 'Compare locations, BAH, costs, and financial tradeoffs.',
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+        <circle cx="12" cy="10" r="3" />
+      </svg>
+    ),
+  },
+  {
+    href: '/calculators/retirement',
+    name: 'Retirement Calculator',
+    description: 'Project military retirement pay and long-term value.',
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
+      </svg>
+    ),
+  },
+  {
+    href: '/calculators/tsp',
+    name: 'TSP Growth',
+    description: 'See how your Thrift Savings Plan could grow over time.',
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v18h18M7 16l4-4 4 4 4-4" />
+      </svg>
+    ),
+  },
+];
+
+function CalculatorGridSection() {
+  return (
+    <section className="bg-white border-b border-zinc-200 py-14 sm:py-16 px-4">
+      <div className="mx-auto max-w-6xl">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 mb-3">
+            Choose the calculator for your next decision.
+          </h2>
+          <p className="text-base text-zinc-500 max-w-xl mx-auto">
+            Powerful, free tools to help you see the full picture.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-10">
+          {CALCULATORS.map(({ href, name, description, icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className="group flex flex-col gap-4 rounded-xl border border-zinc-200 bg-white p-5 hover:border-red-200 hover:shadow-md transition-all duration-150"
+            >
+              <div className="w-10 h-10 rounded-lg bg-zinc-100 flex items-center justify-center text-zinc-600 flex-none group-hover:bg-red-50 group-hover:text-red-700 transition-colors">
+                {icon}
+              </div>
+              <div>
+                <p className="font-bold text-sm text-zinc-900 group-hover:text-red-700 transition-colors leading-snug mb-1">
+                  {name}
+                </p>
+                <p className="text-xs text-zinc-500 leading-relaxed">{description}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        <div className="text-center">
+          <Link
+            href="/calculators"
+            className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-6 py-2.5 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 transition-colors"
+          >
+            View All Calculators →
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Resource preview section ──────────────────────────────────────────────────
+
+const RESOURCES = [
+  {
+    href: '/guides/military-pay',
+    title: 'The 2026 Military Pay Guide',
+    description: "What's changing and how it impacts you.",
+    eyebrow: 'Guide',
+    eyebrowCls: 'text-blue-700 bg-blue-50 border border-blue-100',
+  },
+  {
+    href: '/guides/pcs',
+    title: 'PCS Planning Guide',
+    description: "Don't miss the money details before your next move.",
+    eyebrow: 'Guide',
+    eyebrowCls: 'text-emerald-700 bg-emerald-50 border border-emerald-100',
+  },
+  {
+    href: '/transition',
+    title: 'Transition Financial Guide',
+    description:
+      'Plan income, healthcare, VA benefits, and post-service decisions.',
+    eyebrow: 'Resource',
+    eyebrowCls: 'text-amber-700 bg-amber-50 border border-amber-100',
+  },
+];
+
+function ResourceSection() {
+  return (
+    <section className="bg-zinc-50 border-b border-zinc-200 py-14 sm:py-16 px-4">
+      <div className="mx-auto max-w-6xl">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 leading-tight max-w-xl">
+            Guides, tools, and insights for every stage of your military financial journey.
+          </h2>
+          <Link
+            href="/guides"
+            className="shrink-0 text-sm font-bold text-red-700 hover:text-red-800 transition-colors whitespace-nowrap"
+          >
+            Explore the Resource Library →
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {RESOURCES.map(({ href, title, description, eyebrow, eyebrowCls }) => (
+            <Link
+              key={href}
+              href={href}
+              className="group flex flex-col rounded-xl bg-white border border-zinc-200 p-6 hover:shadow-md hover:border-zinc-300 transition-all"
+            >
+              <span
+                className={`inline-flex self-start text-xs font-semibold px-2.5 py-1 rounded-full mb-3 ${eyebrowCls}`}
+              >
+                {eyebrow}
+              </span>
+              <h3 className="font-bold text-zinc-900 text-base leading-snug mb-2 group-hover:text-red-700 transition-colors">
+                {title}
+              </h3>
+              <p className="text-sm text-zinc-500 leading-relaxed flex-1">{description}</p>
+              <span className="mt-4 text-sm font-bold text-red-700">Read →</span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Final CTA section ─────────────────────────────────────────────────────────
+
+function FinalCTA() {
+  return (
+    <section className="py-14 sm:py-16 px-4 bg-red-50 border-b border-red-100">
+      <div className="mx-auto max-w-2xl text-center">
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 mb-3">
+          Stop guessing. Start knowing.
+        </h2>
+        <p className="text-base text-zinc-600 mb-8 max-w-md mx-auto">
+          Use real numbers to make smarter pay, PCS, and retirement decisions — free, private, and
+          in your browser.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <Link
+            href="/calculators/total-compensation"
+            className="inline-flex items-center justify-center rounded-lg bg-red-700 px-7 py-3.5 text-base font-bold text-white hover:bg-red-800 transition-colors shadow-sm"
+          >
+            See My Full Compensation
+          </Link>
+          <Link
+            href="/calculators"
+            className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-7 py-3.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors"
+          >
+            Explore All Tools
+          </Link>
+        </div>
+        <p className="mt-5 text-xs text-zinc-400">
+          No sign-up. No personal info. Trusted by service members, veterans, and families.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+// ── Page export ───────────────────────────────────────────────────────────────
+
+export default function HomepageV2PreviewPage() {
+  return (
+    <>
+      <HeroSection />
+      <JourneySection />
+      <TrustBand />
+      <CalculatorGridSection />
+      <ResourceSection />
+      <FinalCTA />
+    </>
+  );
+}
