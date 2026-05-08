@@ -133,7 +133,7 @@ function HeroSection() {
           alt=""
           fill
           className="object-cover"
-          style={{ objectPosition: 'right center' }}
+          style={{ objectPosition: '85% center' }}
           sizes="100vw"
           priority
         />
