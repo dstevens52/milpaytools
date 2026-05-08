@@ -122,12 +122,37 @@ function SampleCard() {
 
 function HeroSection() {
   return (
-    <section className="bg-white border-b border-zinc-200">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-14 sm:py-18">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+    <section className="relative overflow-hidden border-b border-zinc-200">
+      {/* Mobile: solid white bg so text is readable without the photo */}
+      <div className="absolute inset-0 bg-white lg:hidden" aria-hidden="true" />
+
+      {/* Desktop: full-bleed background photo — service member positioned at far right edge */}
+      <div className="absolute inset-0 hidden lg:block" aria-hidden="true">
+        <Image
+          src="/images/homepage-hero-overlook.png"
+          alt=""
+          fill
+          className="object-cover"
+          style={{ objectPosition: 'right center' }}
+          sizes="100vw"
+          priority
+        />
+        {/* White-to-transparent gradient: left side opaque for text, right side open for photo */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0.97) 30%, rgba(255,255,255,0.80) 50%, rgba(255,255,255,0.0) 75%)',
+          }}
+        />
+      </div>
+
+      {/* Content grid */}
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-0 items-center lg:min-h-[520px]">
 
           {/* Left — copy */}
-          <div>
+          <div className="py-14 sm:py-20">
             {/* Trust strip eyebrow */}
             <div className="inline-flex items-center gap-2.5 mb-6 rounded-full bg-zinc-900 px-4 py-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
@@ -177,47 +202,18 @@ function HeroSection() {
               </svg>
               <span>No sign-up. No personal info collected. Runs in your browser.</span>
             </div>
-          </div>
 
-          {/* Right — hero image with sample card overlay */}
-          <div className="lg:pl-4">
-            {/* Desktop: tall image with card anchored to bottom-right */}
-            <div className="relative hidden lg:block overflow-hidden rounded-2xl" style={{ height: '540px' }}>
-              <Image
-                src="/images/homepage-hero-overlook.png"
-                alt=""
-                fill
-                className="object-cover object-top"
-                sizes="50vw"
-                priority
-              />
-              {/* Gradient: transparent at top → dark at bottom for card readability */}
-              <div
-                className="absolute inset-0"
-                aria-hidden="true"
-                style={{
-                  background:
-                    'linear-gradient(to bottom, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.08) 35%, rgba(15,23,42,0.72) 65%, rgba(15,23,42,0.90) 100%)',
-                }}
-              />
-              {/* Left accent stripe */}
-              <div
-                className="absolute top-0 left-0 w-[3px] h-full"
-                aria-hidden="true"
-                style={{
-                  background:
-                    'linear-gradient(to bottom, transparent, #DC2626 20%, #EF4444 50%, rgba(239,68,68,0.2) 85%, transparent)',
-                }}
-              />
-              {/* Sample card — anchored bottom-right, upper photo stays visible */}
-              <div className="absolute bottom-6 right-6 z-10 w-72">
+            {/* Mobile: card below copy */}
+            <div className="mt-10 lg:hidden flex justify-center">
+              <div className="w-full max-w-sm">
                 <SampleCard />
               </div>
             </div>
-            {/* Mobile/tablet: card without tall background image */}
-            <div className="lg:hidden flex justify-center py-4">
-              <SampleCard />
-            </div>
+          </div>
+
+          {/* Right — card left-aligned in right column so service member shows on far right */}
+          <div className="hidden lg:flex items-center justify-start pl-12 py-14">
+            <SampleCard />
           </div>
 
         </div>
@@ -238,6 +234,7 @@ const JOURNEY_CARDS = [
     borderLeft: 'border-l-blue-400',
     checkColor: 'text-blue-300',
     ctaColor: 'text-blue-200 hover:text-white',
+    ctaBg: 'bg-blue-700',
     title: 'Starting Service',
     description:
       'Understand your pay, allowances, benefits, and first financial decisions.',
@@ -270,12 +267,13 @@ const JOURNEY_CARDS = [
     borderLeft: 'border-l-emerald-400',
     checkColor: 'text-emerald-300',
     ctaColor: 'text-emerald-200 hover:text-white',
+    ctaBg: 'bg-emerald-700',
     title: 'Navigating Service',
     description:
       'Plan for PCS, BAH, duty stations, deployment pay, and the financial tradeoffs that come with your mission.',
     checklist: ['PCS & BAH Planning', 'Duty Station Comparison', 'Deployment Pay & Benefits'],
     cta: 'Compare My Options →',
-    href: '/calculators/compare',
+    href: '/guides/pcs',
     icon: (
       <svg
         className="w-5 h-5"
@@ -303,6 +301,7 @@ const JOURNEY_CARDS = [
     borderLeft: 'border-l-amber-400',
     checkColor: 'text-amber-300',
     ctaColor: 'text-amber-200 hover:text-white',
+    ctaBg: 'bg-amber-700',
     title: 'Transitioning From Service',
     description:
       'Prepare for separation or retirement with confidence using VA benefits, healthcare, and civilian salary replacement tools.',
@@ -349,7 +348,7 @@ function JourneySection() {
               iconColor,
               borderLeft,
               checkColor,
-              ctaColor,
+              ctaBg,
               title,
               description,
               checklist,
@@ -357,9 +356,10 @@ function JourneySection() {
               href,
               icon,
             }) => (
-              <div
+              <Link
                 key={title}
-                className={`relative flex flex-col rounded-2xl overflow-hidden border-l-[3px] ${borderLeft} shadow-lg hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 min-h-[300px]`}
+                href={href}
+                className={`group relative flex flex-col rounded-2xl overflow-hidden border-l-[3px] ${borderLeft} shadow-lg hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 min-h-[300px]`}
               >
                 {/* Background photo */}
                 <Image
@@ -407,14 +407,13 @@ function JourneySection() {
                     ))}
                   </ul>
                   {/* CTA */}
-                  <Link
-                    href={href}
-                    className={`text-sm font-bold ${ctaColor} transition-colors duration-200`}
+                  <span
+                    className={`w-full flex items-center justify-center gap-1.5 ${ctaBg} text-white text-sm font-bold py-2.5 px-4 rounded-xl`}
                   >
                     {cta}
-                  </Link>
+                  </span>
                 </div>
-              </div>
+              </Link>
             )
           )}
         </div>
@@ -504,25 +503,22 @@ const TRUST_ITEMS = [
 
 function TrustBand() {
   return (
-    <section
-      className="py-10 sm:py-12 px-4 border-t border-b border-white/[0.08]"
-      style={{
-        background: 'linear-gradient(145deg, #0F172A 0%, #172554 50%, #1E3A5F 75%, #0F172A 100%)',
-      }}
-    >
+    <section className="bg-white border-b border-zinc-100 py-8 px-4">
       <div className="mx-auto max-w-6xl">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {TRUST_ITEMS.map(({ title, description, icon }) => (
-            <div key={title} className="flex flex-col items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/[0.15] backdrop-blur-sm flex items-center justify-center text-amber-300 flex-none">
-                {icon}
+        <div className="rounded-2xl border border-zinc-200 bg-zinc-50 px-6 py-6 sm:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-8">
+            {TRUST_ITEMS.map(({ title, description, icon }) => (
+              <div key={title} className="flex flex-col items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-white flex-none">
+                  {icon}
+                </div>
+                <div>
+                  <p className="font-bold text-zinc-900 text-sm mb-1.5">{title}</p>
+                  <p className="text-xs text-zinc-500 leading-relaxed">{description}</p>
+                </div>
               </div>
-              <div>
-                <p className="font-bold text-white text-sm mb-1.5">{title}</p>
-                <p className="text-xs text-blue-200/80 leading-relaxed">{description}</p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -639,22 +635,32 @@ function CalculatorGridSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
           {CALCULATORS.map(({ href, name, description, icon, iconBg }) => (
             <Link
               key={href}
               href={href}
-              className="group flex flex-col gap-4 rounded-2xl border border-zinc-200 border-l-[3px] border-l-red-200 bg-white p-5 hover:border-zinc-300 hover:border-l-red-500 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+              className="group flex items-center gap-3 px-4 py-3 rounded-2xl border border-zinc-200 border-l-[3px] border-l-red-200 bg-white hover:border-zinc-300 hover:border-l-red-500 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
             >
-              <div className={`w-12 h-12 rounded-full ${iconBg} flex items-center justify-center text-white flex-none transition-all duration-300`}>
+              <div className={`w-10 h-10 rounded-full ${iconBg} flex items-center justify-center text-white flex-none shrink-0`}>
                 {icon}
               </div>
-              <div>
-                <p className="font-bold text-sm text-zinc-900 group-hover:text-red-700 transition-colors duration-200 leading-snug mb-1">
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-sm text-zinc-900 group-hover:text-red-700 transition-colors duration-200 leading-snug mb-0.5">
                   {name}
                 </p>
-                <p className="text-xs text-zinc-500 leading-relaxed">{description}</p>
+                <p className="text-xs text-zinc-500 leading-relaxed truncate">{description}</p>
               </div>
+              <svg
+                className="w-4 h-4 text-zinc-300 flex-none shrink-0 group-hover:text-red-400 transition-colors duration-200"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                aria-hidden="true"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
+              </svg>
             </Link>
           ))}
         </div>
@@ -682,14 +688,26 @@ const RESOURCES = [
     eyebrow: 'Guide',
     eyebrowCls: 'text-blue-700 bg-blue-50 border border-blue-100',
     borderLeft: 'border-l-blue-400',
+    imgGradient: 'from-blue-800 to-blue-950',
+    imgIcon: (
+      <svg className="w-8 h-8 text-white/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+      </svg>
+    ),
   },
   {
     href: '/guides/pcs',
     title: 'PCS Planning Guide',
     description: "Don't miss the money details before your next move.",
-    eyebrow: 'Checklist',
+    eyebrow: 'Guide',
     eyebrowCls: 'text-emerald-700 bg-emerald-50 border border-emerald-100',
     borderLeft: 'border-l-emerald-400',
+    imgGradient: 'from-emerald-800 to-emerald-950',
+    imgIcon: (
+      <svg className="w-8 h-8 text-white/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3m-4 11h10a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H12a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1zm3-5a2 2 0 1 0 4 0 2 2 0 0 0-4 0zm-7 0a2 2 0 1 0 4 0 2 2 0 0 0-4 0z" />
+      </svg>
+    ),
   },
   {
     href: '/transition',
@@ -699,6 +717,12 @@ const RESOURCES = [
     eyebrow: 'Guide',
     eyebrowCls: 'text-amber-700 bg-amber-50 border border-amber-100',
     borderLeft: 'border-l-amber-400',
+    imgGradient: 'from-amber-700 to-amber-950',
+    imgIcon: (
+      <svg className="w-8 h-8 text-white/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" />
+      </svg>
+    ),
   },
 ];
 
@@ -722,22 +746,29 @@ function ResourceSection() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {RESOURCES.map(({ href, title, description, eyebrow, eyebrowCls, borderLeft }) => (
+          {RESOURCES.map(({ href, title, description, eyebrow, eyebrowCls, borderLeft, imgGradient, imgIcon }) => (
             <Link
               key={href}
               href={href}
-              className={`group flex flex-col rounded-2xl bg-white border border-zinc-200 border-l-[3px] ${borderLeft} p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300`}
+              className={`group flex rounded-2xl overflow-hidden bg-white border border-zinc-200 border-l-[3px] ${borderLeft} shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300`}
             >
-              <span
-                className={`inline-flex self-start text-xs font-semibold px-2.5 py-1 rounded-full mb-3 uppercase tracking-wider ${eyebrowCls}`}
-              >
-                {eyebrow}
-              </span>
-              <h3 className="font-bold text-zinc-900 text-base leading-snug mb-2 group-hover:text-red-700 transition-colors duration-200">
-                {title}
-              </h3>
-              <p className="text-sm text-zinc-500 leading-relaxed flex-1">{description}</p>
-              <span className="mt-4 text-sm font-bold text-red-700">Read →</span>
+              {/* Gradient image placeholder with hint icon */}
+              <div className={`w-24 sm:w-28 shrink-0 bg-gradient-to-br ${imgGradient} flex items-center justify-center`}>
+                {imgIcon}
+              </div>
+              {/* Text content */}
+              <div className="flex flex-col p-5 flex-1 min-w-0">
+                <span
+                  className={`inline-flex self-start text-xs font-semibold px-2.5 py-1 rounded-full mb-3 uppercase tracking-wider ${eyebrowCls}`}
+                >
+                  {eyebrow}
+                </span>
+                <h3 className="font-bold text-zinc-900 text-base leading-snug mb-2 group-hover:text-red-700 transition-colors duration-200">
+                  {title}
+                </h3>
+                <p className="text-sm text-zinc-500 leading-relaxed flex-1">{description}</p>
+                <span className="mt-4 text-sm font-bold text-red-700">Read →</span>
+              </div>
             </Link>
           ))}
         </div>
