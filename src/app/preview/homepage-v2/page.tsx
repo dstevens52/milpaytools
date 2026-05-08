@@ -181,30 +181,24 @@ function HeroSection() {
 
           {/* Right — hero image with sample card overlay */}
           <div className="lg:pl-4">
-            <div className="relative overflow-hidden rounded-2xl min-h-[460px] flex items-center justify-center p-8">
-              {/* Background photo */}
+            {/* Desktop: tall image with card anchored to bottom-right */}
+            <div className="relative hidden lg:block overflow-hidden rounded-2xl" style={{ height: '540px' }}>
               <Image
                 src="/images/homepage-hero-overlook.png"
                 alt=""
                 fill
-                className="object-cover object-center"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover object-top"
+                sizes="50vw"
                 priority
               />
-              {/* Dark navy overlay — preserves card readability */}
+              {/* Gradient: transparent at top → dark at bottom for card readability */}
               <div
                 className="absolute inset-0"
                 aria-hidden="true"
                 style={{
                   background:
-                    'linear-gradient(145deg, rgba(15,23,42,0.80) 0%, rgba(23,37,84,0.70) 45%, rgba(30,58,95,0.65) 60%, rgba(15,23,42,0.78) 100%)',
+                    'linear-gradient(to bottom, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.08) 35%, rgba(15,23,42,0.72) 65%, rgba(15,23,42,0.90) 100%)',
                 }}
-              />
-              {/* Warm amber glow for atmosphere */}
-              <div
-                className="absolute -top-10 right-10 w-96 h-72 rounded-full opacity-[0.18] blur-3xl"
-                aria-hidden="true"
-                style={{ background: 'radial-gradient(circle, #F59E0B 0%, transparent 70%)' }}
               />
               {/* Left accent stripe */}
               <div
@@ -212,13 +206,17 @@ function HeroSection() {
                 aria-hidden="true"
                 style={{
                   background:
-                    'linear-gradient(to bottom, #DC2626, #EF4444 30%, rgba(239,68,68,0.2) 80%, transparent)',
+                    'linear-gradient(to bottom, transparent, #DC2626 20%, #EF4444 50%, rgba(239,68,68,0.2) 85%, transparent)',
                 }}
               />
-              {/* Sample card — floated above image */}
-              <div className="relative z-10 w-full">
+              {/* Sample card — anchored bottom-right, upper photo stays visible */}
+              <div className="absolute bottom-6 right-6 z-10 w-72">
                 <SampleCard />
               </div>
+            </div>
+            {/* Mobile/tablet: card without tall background image */}
+            <div className="lg:hidden flex justify-center py-4">
+              <SampleCard />
             </div>
           </div>
 
@@ -328,9 +326,9 @@ const JOURNEY_CARDS = [
 
 function JourneySection() {
   return (
-    <section className="bg-zinc-50 border-b border-zinc-200 py-16 sm:py-20 px-4">
+    <section className="bg-zinc-50 border-b border-zinc-200 py-10 sm:py-12 px-4">
       <div className="mx-auto max-w-6xl">
-        <div className="text-center mb-12">
+        <div className="text-center mb-10">
           <div className="flex justify-center mb-4" aria-hidden="true">
             <div className="w-8 h-0.5 bg-red-700 rounded-full" />
           </div>
@@ -507,7 +505,7 @@ const TRUST_ITEMS = [
 function TrustBand() {
   return (
     <section
-      className="py-16 sm:py-20 px-4 border-t border-b border-white/[0.08]"
+      className="py-10 sm:py-12 px-4 border-t border-b border-white/[0.08]"
       style={{
         background: 'linear-gradient(145deg, #0F172A 0%, #172554 50%, #1E3A5F 75%, #0F172A 100%)',
       }}
@@ -538,6 +536,7 @@ const CALCULATORS = [
     href: '/calculators/total-compensation',
     name: 'Total Compensation',
     description: 'See your full pay and benefits package — not just base pay.',
+    iconBg: 'bg-red-700',
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
@@ -548,6 +547,7 @@ const CALCULATORS = [
     href: '/calculators/bah',
     name: 'BAH by ZIP',
     description: 'Find your housing allowance by ZIP code or installation.',
+    iconBg: 'bg-blue-800',
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9zM9 22V12h6v10" />
@@ -558,6 +558,7 @@ const CALCULATORS = [
     href: '/calculators/transition-readiness',
     name: 'Transition Readiness',
     description: 'Compare your military compensation to post-service income and expenses.',
+    iconBg: 'bg-emerald-600',
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" />
@@ -568,6 +569,7 @@ const CALCULATORS = [
     href: '/calculators/va-disability',
     name: 'VA Disability',
     description: 'Estimate your VA disability compensation and combined rating.',
+    iconBg: 'bg-purple-700',
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -578,6 +580,7 @@ const CALCULATORS = [
     href: '/calculators/pcs',
     name: 'PCS Cost Estimator',
     description: 'Estimate moving costs and reimbursements for your next PCS.',
+    iconBg: 'bg-teal-600',
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3m-4 11h10a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H12a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1zm3-5a2 2 0 1 0 4 0 2 2 0 0 0-4 0zm-7 0a2 2 0 1 0 4 0 2 2 0 0 0-4 0z" />
@@ -588,6 +591,7 @@ const CALCULATORS = [
     href: '/calculators/compare',
     name: 'Duty Station Comparison',
     description: 'Compare locations, BAH, costs, and financial tradeoffs.',
+    iconBg: 'bg-orange-500',
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
@@ -599,6 +603,7 @@ const CALCULATORS = [
     href: '/calculators/retirement',
     name: 'Retirement Calculator',
     description: 'Project military retirement pay and long-term value.',
+    iconBg: 'bg-slate-800',
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
@@ -609,6 +614,7 @@ const CALCULATORS = [
     href: '/calculators/tsp',
     name: 'TSP Growth',
     description: 'See how your Thrift Savings Plan could grow over time.',
+    iconBg: 'bg-green-700',
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v18h18M7 16l4-4 4 4 4-4" />
@@ -619,9 +625,9 @@ const CALCULATORS = [
 
 function CalculatorGridSection() {
   return (
-    <section className="bg-white border-b border-zinc-200 py-16 sm:py-20 px-4">
+    <section className="bg-white border-b border-zinc-200 py-10 sm:py-12 px-4">
       <div className="mx-auto max-w-6xl">
-        <div className="text-center mb-12">
+        <div className="text-center mb-10">
           <div className="flex justify-center mb-4" aria-hidden="true">
             <div className="w-8 h-0.5 bg-red-700 rounded-full" />
           </div>
@@ -634,13 +640,13 @@ function CalculatorGridSection() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-10">
-          {CALCULATORS.map(({ href, name, description, icon }) => (
+          {CALCULATORS.map(({ href, name, description, icon, iconBg }) => (
             <Link
               key={href}
               href={href}
               className="group flex flex-col gap-4 rounded-2xl border border-zinc-200 border-l-[3px] border-l-red-200 bg-white p-5 hover:border-zinc-300 hover:border-l-red-500 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
             >
-              <div className="w-10 h-10 rounded-xl bg-zinc-50 border border-zinc-100 flex items-center justify-center text-zinc-500 flex-none group-hover:bg-red-50 group-hover:border-red-100 group-hover:text-red-700 transition-all duration-300">
+              <div className={`w-12 h-12 rounded-full ${iconBg} flex items-center justify-center text-white flex-none transition-all duration-300`}>
                 {icon}
               </div>
               <div>
@@ -681,7 +687,7 @@ const RESOURCES = [
     href: '/guides/pcs',
     title: 'PCS Planning Guide',
     description: "Don't miss the money details before your next move.",
-    eyebrow: 'Guide',
+    eyebrow: 'Checklist',
     eyebrowCls: 'text-emerald-700 bg-emerald-50 border border-emerald-100',
     borderLeft: 'border-l-emerald-400',
   },
@@ -690,7 +696,7 @@ const RESOURCES = [
     title: 'Transition Financial Guide',
     description:
       'Plan income, healthcare, VA benefits, and post-service decisions.',
-    eyebrow: 'Resource',
+    eyebrow: 'Guide',
     eyebrowCls: 'text-amber-700 bg-amber-50 border border-amber-100',
     borderLeft: 'border-l-amber-400',
   },
@@ -698,9 +704,9 @@ const RESOURCES = [
 
 function ResourceSection() {
   return (
-    <section className="bg-zinc-50 border-b border-zinc-200 py-16 sm:py-20 px-4">
+    <section className="bg-zinc-50 border-b border-zinc-200 py-10 sm:py-12 px-4">
       <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-12">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10">
           <div>
             <div className="w-8 h-0.5 bg-red-700 rounded-full mb-4" aria-hidden="true" />
             <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 leading-tight max-w-xl tracking-tight">
@@ -723,7 +729,7 @@ function ResourceSection() {
               className={`group flex flex-col rounded-2xl bg-white border border-zinc-200 border-l-[3px] ${borderLeft} p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300`}
             >
               <span
-                className={`inline-flex self-start text-xs font-semibold px-2.5 py-1 rounded-full mb-3 ${eyebrowCls}`}
+                className={`inline-flex self-start text-xs font-semibold px-2.5 py-1 rounded-full mb-3 uppercase tracking-wider ${eyebrowCls}`}
               >
                 {eyebrow}
               </span>
@@ -740,12 +746,52 @@ function ResourceSection() {
   );
 }
 
+// ── Footer trust band ─────────────────────────────────────────────────────────
+
+function FooterTrustBand() {
+  return (
+    <section className="bg-slate-900 py-12 px-4">
+      <div className="mx-auto max-w-6xl">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12">
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-none shrink-0">
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <p className="text-sm text-white/80 leading-relaxed">
+              Trusted by service members, veterans, and families. Independent. Unbiased. 100% mission-aligned.
+            </p>
+          </div>
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-none shrink-0">
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </div>
+            <p className="text-sm text-white/80 leading-relaxed">
+              Your data stays private. We don&apos;t collect or store personal information.
+            </p>
+          </div>
+          <div className="flex items-start gap-4">
+            <span className="text-2xl leading-none mt-1 shrink-0" aria-hidden="true">🇺🇸</span>
+            <p className="text-sm text-white/80 leading-relaxed">
+              Proudly supporting the military community.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ── Final CTA section ─────────────────────────────────────────────────────────
 
 function FinalCTA() {
   return (
     <section
-      className="py-16 sm:py-20 px-4"
+      className="py-10 sm:py-12 px-4"
       style={{
         background: 'linear-gradient(145deg, #FFF1F2 0%, #FFFFFF 40%, #FFF1F2 100%)',
         borderBottom: '1px solid #FECDD3',
@@ -791,6 +837,7 @@ export default function HomepageV2PreviewPage() {
       <TrustBand />
       <CalculatorGridSection />
       <ResourceSection />
+      <FooterTrustBand />
       <FinalCTA />
     </>
   );
