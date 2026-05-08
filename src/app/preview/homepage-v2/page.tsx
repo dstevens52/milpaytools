@@ -18,15 +18,61 @@ export const metadata: Metadata = {
 
 function SampleCard() {
   const rows = [
-    { label: 'Base Pay', value: '$3,287.10' },
-    { label: 'BAH', value: '$2,343.00' },
-    { label: 'BAS', value: '$460.55' },
-    { label: 'VA Disability', value: '$1,071.16' },
-    { label: 'TSP Match', value: '$246.53' },
+    {
+      label: 'Base Pay',
+      value: '$3,287.10',
+      icon: (
+        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+        </svg>
+      ),
+    },
+    {
+      label: 'BAH',
+      value: '$2,343.00',
+      icon: (
+        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9zM9 22V12h6v10" />
+        </svg>
+      ),
+    },
+    {
+      label: 'BAS',
+      value: '$460.55',
+      icon: (
+        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3 11l19-9-9 19-2-8-8-2z" />
+        </svg>
+      ),
+    },
+    {
+      label: 'VA Disability',
+      value: '$1,071.16',
+      icon: (
+        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+      ),
+    },
+    {
+      label: 'TSP Match',
+      value: '$246.53',
+      icon: (
+        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v18h18M7 16l4-4 4 4 4-4" />
+        </svg>
+      ),
+    },
   ];
 
   return (
-    <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-white/20 w-full max-w-xs mx-auto">
+    <div
+      className="bg-white rounded-2xl overflow-hidden border border-white/20 w-full max-w-xs mx-auto transition-all duration-300 hover:scale-[1.02]"
+      style={{
+        boxShadow:
+          '0 32px 64px -16px rgba(0,0,0,0.45), 0 12px 24px -8px rgba(0,0,0,0.30), 0 2px 8px -2px rgba(0,0,0,0.20)',
+      }}
+    >
       <div className="bg-zinc-50 border-b border-zinc-100 px-5 py-3 flex items-center justify-between">
         <p className="text-sm font-bold text-zinc-800">Sample Compensation</p>
         <span className="text-xs bg-blue-100 text-blue-700 font-bold px-2.5 py-0.5 rounded-full">
@@ -35,9 +81,12 @@ function SampleCard() {
       </div>
 
       <div className="divide-y divide-zinc-100 px-5">
-        {rows.map(({ label, value }) => (
+        {rows.map(({ label, value, icon }) => (
           <div key={label} className="flex items-center justify-between py-2.5">
-            <span className="text-sm text-zinc-500">{label}</span>
+            <span className="flex items-center gap-2 text-sm text-zinc-500">
+              <span className="text-zinc-300">{icon}</span>
+              {label}
+            </span>
             <span className="text-sm font-mono tabular-nums font-semibold text-zinc-800">
               {value}
             </span>
@@ -73,7 +122,7 @@ function SampleCard() {
 function HeroSection() {
   return (
     <section className="bg-white border-b border-zinc-200">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-14 sm:py-18">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* Left — copy */}
@@ -101,13 +150,13 @@ function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-3 mb-6">
               <Link
                 href="/calculators/total-compensation"
-                className="inline-flex items-center justify-center rounded-lg bg-red-700 px-7 py-3.5 text-base font-bold text-white hover:bg-red-800 transition-colors shadow-sm"
+                className="inline-flex items-center justify-center rounded-lg bg-red-700 px-7 py-3.5 text-base font-bold text-white hover:bg-red-800 transition-all duration-300 shadow-md hover:shadow-lg"
               >
                 See My Full Compensation
               </Link>
               <Link
                 href="/calculators"
-                className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-7 py-3.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors"
+                className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-7 py-3.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 hover:shadow-sm transition-all duration-300"
               >
                 Explore All Tools
               </Link>
@@ -129,33 +178,59 @@ function HeroSection() {
             </div>
           </div>
 
-          {/* Right — navy gradient panel with floating sample card */}
+          {/* Right — atmospheric navy panel with floating sample card */}
           <div className="lg:pl-4">
-            <div className="relative overflow-hidden rounded-2xl min-h-[440px] flex items-center justify-center p-8 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900">
-              {/* Dot grid texture */}
+            <div
+              className="relative overflow-hidden rounded-2xl min-h-[460px] flex items-center justify-center p-8"
+              style={{
+                background:
+                  'linear-gradient(145deg, #0F172A 0%, #172554 45%, #1E3A5F 60%, #0F172A 100%)',
+              }}
+            >
+              {/* Dense organic noise texture */}
               <div
-                className="absolute inset-0 opacity-[0.07]"
+                className="absolute inset-0 opacity-[0.055]"
                 aria-hidden="true"
                 style={{
                   backgroundImage:
-                    'radial-gradient(circle, #94A3B8 1px, transparent 1px)',
-                  backgroundSize: '28px 28px',
+                    'radial-gradient(circle, #CBD5E1 1px, transparent 1px)',
+                  backgroundSize: '18px 18px',
                 }}
               />
-              {/* Ambient glow — top right */}
+              {/* Warm amber glow — upper area */}
               <div
-                className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-blue-500 opacity-[0.10] blur-3xl"
+                className="absolute -top-10 right-10 w-96 h-72 rounded-full opacity-[0.13] blur-3xl"
+                aria-hidden="true"
+                style={{ background: 'radial-gradient(circle, #F59E0B 0%, #D97706 40%, transparent 70%)' }}
+              />
+              {/* Warm amber glow — center-right */}
+              <div
+                className="absolute top-1/2 -right-16 w-64 h-64 rounded-full opacity-[0.09] blur-3xl"
+                aria-hidden="true"
+                style={{ background: 'radial-gradient(circle, #B45309 0%, transparent 70%)' }}
+              />
+              {/* Cool blue glow — bottom-left for depth contrast */}
+              <div
+                className="absolute -bottom-20 -left-10 w-72 h-72 rounded-full bg-blue-600 opacity-[0.08] blur-3xl"
                 aria-hidden="true"
               />
-              {/* Ambient glow — bottom left */}
+              {/* Warm bronze radial wash — center warmth */}
               <div
-                className="absolute -bottom-16 -left-16 w-64 h-64 rounded-full bg-red-600 opacity-[0.08] blur-3xl"
+                className="absolute inset-0 opacity-[0.06]"
                 aria-hidden="true"
+                style={{
+                  background:
+                    'radial-gradient(ellipse at 65% 30%, #D97706 0%, transparent 55%)',
+                }}
               />
               {/* Left accent stripe */}
               <div
-                className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-red-600 via-red-400 to-transparent opacity-60"
+                className="absolute top-0 left-0 w-[3px] h-full"
                 aria-hidden="true"
+                style={{
+                  background:
+                    'linear-gradient(to bottom, #DC2626, #EF4444 30%, rgba(239,68,68,0.2) 80%, transparent)',
+                }}
               />
 
               {/* Sample card */}
@@ -175,10 +250,13 @@ function HeroSection() {
 
 const JOURNEY_CARDS = [
   {
-    headerBg: 'bg-blue-950',
+    headerGradient: 'bg-gradient-to-br from-blue-900 to-blue-950',
     headerBorder: 'border-blue-800',
     iconBg: 'bg-blue-800',
     iconColor: 'text-blue-200',
+    cardBg: 'bg-blue-50/[0.4]',
+    borderLeft: 'border-l-blue-400',
+    checkColor: 'text-blue-500',
     ctaColor: 'text-blue-700 hover:text-blue-900',
     title: 'Starting Service',
     description:
@@ -204,10 +282,13 @@ const JOURNEY_CARDS = [
     ),
   },
   {
-    headerBg: 'bg-emerald-950',
+    headerGradient: 'bg-gradient-to-br from-emerald-900 to-emerald-950',
     headerBorder: 'border-emerald-800',
     iconBg: 'bg-emerald-800',
     iconColor: 'text-emerald-200',
+    cardBg: 'bg-emerald-50/[0.4]',
+    borderLeft: 'border-l-emerald-400',
+    checkColor: 'text-emerald-500',
     ctaColor: 'text-emerald-700 hover:text-emerald-900',
     title: 'Navigating Service',
     description:
@@ -234,10 +315,13 @@ const JOURNEY_CARDS = [
     ),
   },
   {
-    headerBg: 'bg-amber-900',
+    headerGradient: 'bg-gradient-to-br from-amber-800 to-amber-900',
     headerBorder: 'border-amber-700',
     iconBg: 'bg-amber-700',
     iconColor: 'text-amber-100',
+    cardBg: 'bg-amber-50/[0.4]',
+    borderLeft: 'border-l-amber-400',
+    checkColor: 'text-amber-600',
     ctaColor: 'text-amber-700 hover:text-amber-900',
     title: 'Transitioning From Service',
     description:
@@ -258,31 +342,49 @@ const JOURNEY_CARDS = [
       </svg>
     ),
   },
-] as const;
+];
 
 function JourneySection() {
   return (
-    <section className="bg-zinc-50 border-b border-zinc-200 py-14 sm:py-16 px-4">
+    <section className="bg-zinc-50 border-b border-zinc-200 py-16 sm:py-20 px-4">
       <div className="mx-auto max-w-6xl">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 mb-3">
+        <div className="text-center mb-12">
+          <div className="flex justify-center mb-4" aria-hidden="true">
+            <div className="w-8 h-0.5 bg-red-700 rounded-full" />
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-black text-zinc-900 mb-3 tracking-tight">
             Where are you in your military money journey?
           </h2>
-          <p className="text-base text-zinc-500 max-w-xl mx-auto">
+          <p className="text-base text-zinc-500 max-w-xl mx-auto leading-relaxed">
             Choose the path that matches your next decision.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {JOURNEY_CARDS.map(
-            ({ headerBg, headerBorder, iconBg, iconColor, ctaColor, title, description, checklist, cta, href, icon }) => (
+            ({
+              headerGradient,
+              headerBorder,
+              iconBg,
+              iconColor,
+              cardBg,
+              borderLeft,
+              checkColor,
+              ctaColor,
+              title,
+              description,
+              checklist,
+              cta,
+              href,
+              icon,
+            }) => (
               <div
                 key={title}
-                className="flex flex-col rounded-2xl bg-white border border-zinc-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
+                className={`flex flex-col rounded-2xl ${cardBg} border border-zinc-200 border-l-[3px] ${borderLeft} overflow-hidden shadow-md hover:-translate-y-1 hover:shadow-xl transition-all duration-300`}
               >
-                {/* Colored accent header */}
+                {/* Gradient accent header */}
                 <div
-                  className={`${headerBg} border-b ${headerBorder} px-5 py-4 flex items-center gap-3`}
+                  className={`${headerGradient} border-b ${headerBorder} px-5 py-4 flex items-center gap-3`}
                 >
                   <div
                     className={`w-9 h-9 rounded-lg ${iconBg} ${iconColor} flex items-center justify-center flex-none`}
@@ -299,7 +401,7 @@ function JourneySection() {
                     {checklist.map((item) => (
                       <li key={item} className="flex items-start gap-2">
                         <svg
-                          className="w-4 h-4 flex-none text-zinc-400 mt-0.5"
+                          className={`w-4 h-4 flex-none ${checkColor} mt-0.5`}
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
@@ -314,7 +416,7 @@ function JourneySection() {
                   </ul>
                   <Link
                     href={href}
-                    className={`text-sm font-bold ${ctaColor} transition-colors`}
+                    className={`text-sm font-bold ${ctaColor} transition-colors duration-200`}
                   >
                     {cta}
                   </Link>
@@ -409,17 +511,22 @@ const TRUST_ITEMS = [
 
 function TrustBand() {
   return (
-    <section className="py-12 sm:py-14 px-4 bg-gradient-to-br from-slate-900 to-blue-950">
+    <section
+      className="py-16 sm:py-20 px-4 border-t border-b border-white/[0.08]"
+      style={{
+        background: 'linear-gradient(145deg, #0F172A 0%, #172554 50%, #1E3A5F 75%, #0F172A 100%)',
+      }}
+    >
       <div className="mx-auto max-w-6xl">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {TRUST_ITEMS.map(({ title, description, icon }) => (
-            <div key={title} className="flex flex-col items-start gap-3">
-              <div className="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center text-blue-300 flex-none">
+            <div key={title} className="flex flex-col items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/[0.15] backdrop-blur-sm flex items-center justify-center text-amber-300 flex-none">
                 {icon}
               </div>
               <div>
-                <p className="font-bold text-white text-sm mb-1">{title}</p>
-                <p className="text-xs text-blue-200 leading-relaxed">{description}</p>
+                <p className="font-bold text-white text-sm mb-1.5">{title}</p>
+                <p className="text-xs text-blue-200/80 leading-relaxed">{description}</p>
               </div>
             </div>
           ))}
@@ -517,13 +624,16 @@ const CALCULATORS = [
 
 function CalculatorGridSection() {
   return (
-    <section className="bg-white border-b border-zinc-200 py-14 sm:py-16 px-4">
+    <section className="bg-white border-b border-zinc-200 py-16 sm:py-20 px-4">
       <div className="mx-auto max-w-6xl">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 mb-3">
+        <div className="text-center mb-12">
+          <div className="flex justify-center mb-4" aria-hidden="true">
+            <div className="w-8 h-0.5 bg-red-700 rounded-full" />
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-black text-zinc-900 mb-3 tracking-tight">
             Choose the calculator for your next decision.
           </h2>
-          <p className="text-base text-zinc-500 max-w-xl mx-auto">
+          <p className="text-base text-zinc-500 max-w-xl mx-auto leading-relaxed">
             Powerful, free tools to help you see the full picture.
           </p>
         </div>
@@ -533,13 +643,13 @@ function CalculatorGridSection() {
             <Link
               key={href}
               href={href}
-              className="group flex flex-col gap-4 rounded-xl border border-zinc-200 bg-white p-5 hover:border-red-200 hover:shadow-md transition-all duration-150"
+              className="group flex flex-col gap-4 rounded-2xl border border-zinc-200 border-l-[3px] border-l-red-200 bg-white p-5 hover:border-zinc-300 hover:border-l-red-500 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
             >
-              <div className="w-10 h-10 rounded-lg bg-zinc-100 flex items-center justify-center text-zinc-600 flex-none group-hover:bg-red-50 group-hover:text-red-700 transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-zinc-50 border border-zinc-100 flex items-center justify-center text-zinc-500 flex-none group-hover:bg-red-50 group-hover:border-red-100 group-hover:text-red-700 transition-all duration-300">
                 {icon}
               </div>
               <div>
-                <p className="font-bold text-sm text-zinc-900 group-hover:text-red-700 transition-colors leading-snug mb-1">
+                <p className="font-bold text-sm text-zinc-900 group-hover:text-red-700 transition-colors duration-200 leading-snug mb-1">
                   {name}
                 </p>
                 <p className="text-xs text-zinc-500 leading-relaxed">{description}</p>
@@ -551,7 +661,7 @@ function CalculatorGridSection() {
         <div className="text-center">
           <Link
             href="/calculators"
-            className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-6 py-2.5 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 transition-colors"
+            className="inline-flex items-center justify-center rounded-xl border border-zinc-300 bg-white px-6 py-2.5 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 hover:shadow-sm transition-all duration-300"
           >
             View All Calculators →
           </Link>
@@ -570,6 +680,7 @@ const RESOURCES = [
     description: "What's changing and how it impacts you.",
     eyebrow: 'Guide',
     eyebrowCls: 'text-blue-700 bg-blue-50 border border-blue-100',
+    borderLeft: 'border-l-blue-400',
   },
   {
     href: '/guides/pcs',
@@ -577,6 +688,7 @@ const RESOURCES = [
     description: "Don't miss the money details before your next move.",
     eyebrow: 'Guide',
     eyebrowCls: 'text-emerald-700 bg-emerald-50 border border-emerald-100',
+    borderLeft: 'border-l-emerald-400',
   },
   {
     href: '/transition',
@@ -585,38 +697,42 @@ const RESOURCES = [
       'Plan income, healthcare, VA benefits, and post-service decisions.',
     eyebrow: 'Resource',
     eyebrowCls: 'text-amber-700 bg-amber-50 border border-amber-100',
+    borderLeft: 'border-l-amber-400',
   },
 ];
 
 function ResourceSection() {
   return (
-    <section className="bg-zinc-50 border-b border-zinc-200 py-14 sm:py-16 px-4">
+    <section className="bg-zinc-50 border-b border-zinc-200 py-16 sm:py-20 px-4">
       <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 leading-tight max-w-xl">
-            Guides, tools, and insights for every stage of your military financial journey.
-          </h2>
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-12">
+          <div>
+            <div className="w-8 h-0.5 bg-red-700 rounded-full mb-4" aria-hidden="true" />
+            <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 leading-tight max-w-xl tracking-tight">
+              Guides, tools, and insights for every stage of your military financial journey.
+            </h2>
+          </div>
           <Link
             href="/guides"
-            className="shrink-0 text-sm font-bold text-red-700 hover:text-red-800 transition-colors whitespace-nowrap"
+            className="shrink-0 text-sm font-bold text-red-700 hover:text-red-800 transition-colors duration-200 whitespace-nowrap"
           >
             Explore the Resource Library →
           </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {RESOURCES.map(({ href, title, description, eyebrow, eyebrowCls }) => (
+          {RESOURCES.map(({ href, title, description, eyebrow, eyebrowCls, borderLeft }) => (
             <Link
               key={href}
               href={href}
-              className="group flex flex-col rounded-xl bg-white border border-zinc-200 p-6 hover:shadow-md hover:border-zinc-300 transition-all"
+              className={`group flex flex-col rounded-2xl bg-white border border-zinc-200 border-l-[3px] ${borderLeft} p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300`}
             >
               <span
                 className={`inline-flex self-start text-xs font-semibold px-2.5 py-1 rounded-full mb-3 ${eyebrowCls}`}
               >
                 {eyebrow}
               </span>
-              <h3 className="font-bold text-zinc-900 text-base leading-snug mb-2 group-hover:text-red-700 transition-colors">
+              <h3 className="font-bold text-zinc-900 text-base leading-snug mb-2 group-hover:text-red-700 transition-colors duration-200">
                 {title}
               </h3>
               <p className="text-sm text-zinc-500 leading-relaxed flex-1">{description}</p>
@@ -633,30 +749,36 @@ function ResourceSection() {
 
 function FinalCTA() {
   return (
-    <section className="py-14 sm:py-16 px-4 bg-red-50 border-b border-red-100">
+    <section
+      className="py-16 sm:py-20 px-4"
+      style={{
+        background: 'linear-gradient(145deg, #FFF1F2 0%, #FFFFFF 40%, #FFF1F2 100%)',
+        borderBottom: '1px solid #FECDD3',
+      }}
+    >
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 mb-3">
+        <h2 className="text-3xl sm:text-4xl font-black text-zinc-900 mb-3 tracking-tight">
           Stop guessing. Start knowing.
         </h2>
-        <p className="text-base text-zinc-600 mb-8 max-w-md mx-auto">
+        <p className="text-base text-zinc-600 mb-10 max-w-md mx-auto leading-relaxed">
           Use real numbers to make smarter pay, PCS, and retirement decisions — free, private, and
           in your browser.
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/calculators/total-compensation"
-            className="inline-flex items-center justify-center rounded-lg bg-red-700 px-7 py-3.5 text-base font-bold text-white hover:bg-red-800 transition-colors shadow-sm"
+            className="inline-flex items-center justify-center rounded-xl bg-red-700 px-8 py-4 text-base font-bold text-white hover:bg-red-800 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
           >
             See My Full Compensation
           </Link>
           <Link
             href="/calculators"
-            className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-7 py-3.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors"
+            className="inline-flex items-center justify-center rounded-xl border border-zinc-300 bg-white px-8 py-4 text-base font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 hover:shadow-md transition-all duration-300"
           >
             Explore All Tools
           </Link>
         </div>
-        <p className="mt-5 text-xs text-zinc-400">
+        <p className="mt-6 text-xs text-zinc-400">
           No sign-up. No personal info. Trusted by service members, veterans, and families.
         </p>
       </div>
