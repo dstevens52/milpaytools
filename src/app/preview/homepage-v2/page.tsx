@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -178,50 +179,32 @@ function HeroSection() {
             </div>
           </div>
 
-          {/* Right — atmospheric navy panel with floating sample card */}
+          {/* Right — hero image with sample card overlay */}
           <div className="lg:pl-4">
-            <div
-              className="relative overflow-hidden rounded-2xl min-h-[460px] flex items-center justify-center p-8"
-              style={{
-                background:
-                  'linear-gradient(145deg, #0F172A 0%, #172554 45%, #1E3A5F 60%, #0F172A 100%)',
-              }}
-            >
-              {/* Dense organic noise texture */}
-              <div
-                className="absolute inset-0 opacity-[0.055]"
-                aria-hidden="true"
-                style={{
-                  backgroundImage:
-                    'radial-gradient(circle, #CBD5E1 1px, transparent 1px)',
-                  backgroundSize: '18px 18px',
-                }}
+            <div className="relative overflow-hidden rounded-2xl min-h-[460px] flex items-center justify-center p-8">
+              {/* Background photo */}
+              <Image
+                src="/images/homepage-hero-overlook.png"
+                alt=""
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
               />
-              {/* Warm amber glow — upper area */}
+              {/* Dark navy overlay — preserves card readability */}
               <div
-                className="absolute -top-10 right-10 w-96 h-72 rounded-full opacity-[0.13] blur-3xl"
-                aria-hidden="true"
-                style={{ background: 'radial-gradient(circle, #F59E0B 0%, #D97706 40%, transparent 70%)' }}
-              />
-              {/* Warm amber glow — center-right */}
-              <div
-                className="absolute top-1/2 -right-16 w-64 h-64 rounded-full opacity-[0.09] blur-3xl"
-                aria-hidden="true"
-                style={{ background: 'radial-gradient(circle, #B45309 0%, transparent 70%)' }}
-              />
-              {/* Cool blue glow — bottom-left for depth contrast */}
-              <div
-                className="absolute -bottom-20 -left-10 w-72 h-72 rounded-full bg-blue-600 opacity-[0.08] blur-3xl"
-                aria-hidden="true"
-              />
-              {/* Warm bronze radial wash — center warmth */}
-              <div
-                className="absolute inset-0 opacity-[0.06]"
+                className="absolute inset-0"
                 aria-hidden="true"
                 style={{
                   background:
-                    'radial-gradient(ellipse at 65% 30%, #D97706 0%, transparent 55%)',
+                    'linear-gradient(145deg, rgba(15,23,42,0.80) 0%, rgba(23,37,84,0.70) 45%, rgba(30,58,95,0.65) 60%, rgba(15,23,42,0.78) 100%)',
                 }}
+              />
+              {/* Warm amber glow for atmosphere */}
+              <div
+                className="absolute -top-10 right-10 w-96 h-72 rounded-full opacity-[0.18] blur-3xl"
+                aria-hidden="true"
+                style={{ background: 'radial-gradient(circle, #F59E0B 0%, transparent 70%)' }}
               />
               {/* Left accent stripe */}
               <div
@@ -232,8 +215,7 @@ function HeroSection() {
                     'linear-gradient(to bottom, #DC2626, #EF4444 30%, rgba(239,68,68,0.2) 80%, transparent)',
                 }}
               />
-
-              {/* Sample card */}
+              {/* Sample card — floated above image */}
               <div className="relative z-10 w-full">
                 <SampleCard />
               </div>
@@ -250,14 +232,14 @@ function HeroSection() {
 
 const JOURNEY_CARDS = [
   {
-    headerGradient: 'bg-gradient-to-br from-blue-900 to-blue-950',
-    headerBorder: 'border-blue-800',
-    iconBg: 'bg-blue-800',
-    iconColor: 'text-blue-200',
-    cardBg: 'bg-blue-50/[0.4]',
+    imgSrc: '/images/journey-starting-service.png',
+    // navy/blue overlay — rgba values for blue-900 and blue-950
+    overlay: 'linear-gradient(135deg, rgba(30,58,138,0.72) 0%, rgba(23,37,84,0.82) 100%)',
+    iconBg: 'bg-blue-700/70',
+    iconColor: 'text-blue-100',
     borderLeft: 'border-l-blue-400',
-    checkColor: 'text-blue-500',
-    ctaColor: 'text-blue-700 hover:text-blue-900',
+    checkColor: 'text-blue-300',
+    ctaColor: 'text-blue-200 hover:text-white',
     title: 'Starting Service',
     description:
       'Understand your pay, allowances, benefits, and first financial decisions.',
@@ -282,14 +264,14 @@ const JOURNEY_CARDS = [
     ),
   },
   {
-    headerGradient: 'bg-gradient-to-br from-emerald-900 to-emerald-950',
-    headerBorder: 'border-emerald-800',
-    iconBg: 'bg-emerald-800',
-    iconColor: 'text-emerald-200',
-    cardBg: 'bg-emerald-50/[0.4]',
+    imgSrc: '/images/journey-navigating-service.png',
+    // olive/green overlay — rgba values for emerald-900 and emerald-950
+    overlay: 'linear-gradient(135deg, rgba(6,78,59,0.72) 0%, rgba(2,44,34,0.82) 100%)',
+    iconBg: 'bg-emerald-700/70',
+    iconColor: 'text-emerald-100',
     borderLeft: 'border-l-emerald-400',
-    checkColor: 'text-emerald-500',
-    ctaColor: 'text-emerald-700 hover:text-emerald-900',
+    checkColor: 'text-emerald-300',
+    ctaColor: 'text-emerald-200 hover:text-white',
     title: 'Navigating Service',
     description:
       'Plan for PCS, BAH, duty stations, deployment pay, and the financial tradeoffs that come with your mission.',
@@ -315,14 +297,14 @@ const JOURNEY_CARDS = [
     ),
   },
   {
-    headerGradient: 'bg-gradient-to-br from-amber-800 to-amber-900',
-    headerBorder: 'border-amber-700',
-    iconBg: 'bg-amber-700',
+    imgSrc: '/images/journey-transitioning-service.png',
+    // amber/gold overlay — rgba values for amber-900 and amber-950
+    overlay: 'linear-gradient(135deg, rgba(120,53,15,0.72) 0%, rgba(69,26,3,0.82) 100%)',
+    iconBg: 'bg-amber-700/70',
     iconColor: 'text-amber-100',
-    cardBg: 'bg-amber-50/[0.4]',
     borderLeft: 'border-l-amber-400',
-    checkColor: 'text-amber-600',
-    ctaColor: 'text-amber-700 hover:text-amber-900',
+    checkColor: 'text-amber-300',
+    ctaColor: 'text-amber-200 hover:text-white',
     title: 'Transitioning From Service',
     description:
       'Prepare for separation or retirement with confidence using VA benefits, healthcare, and civilian salary replacement tools.',
@@ -363,11 +345,10 @@ function JourneySection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {JOURNEY_CARDS.map(
             ({
-              headerGradient,
-              headerBorder,
+              imgSrc,
+              overlay,
               iconBg,
               iconColor,
-              cardBg,
               borderLeft,
               checkColor,
               ctaColor,
@@ -380,28 +361,41 @@ function JourneySection() {
             }) => (
               <div
                 key={title}
-                className={`flex flex-col rounded-2xl ${cardBg} border border-zinc-200 border-l-[3px] ${borderLeft} overflow-hidden shadow-md hover:-translate-y-1 hover:shadow-xl transition-all duration-300`}
+                className={`relative flex flex-col rounded-2xl overflow-hidden border-l-[3px] ${borderLeft} shadow-lg hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 min-h-[300px]`}
               >
-                {/* Gradient accent header */}
+                {/* Background photo */}
+                <Image
+                  src={imgSrc}
+                  alt=""
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                {/* Colored overlay */}
                 <div
-                  className={`${headerGradient} border-b ${headerBorder} px-5 py-4 flex items-center gap-3`}
-                >
-                  <div
-                    className={`w-9 h-9 rounded-lg ${iconBg} ${iconColor} flex items-center justify-center flex-none`}
-                  >
-                    {icon}
+                  className="absolute inset-0"
+                  aria-hidden="true"
+                  style={{ background: overlay }}
+                />
+                {/* Card content — above image and overlay */}
+                <div className="relative z-10 flex flex-col flex-1 px-5 py-5">
+                  {/* Title row */}
+                  <div className="flex items-center gap-3 mb-4 pb-4 border-b border-white/20">
+                    <div
+                      className={`w-9 h-9 rounded-lg ${iconBg} ${iconColor} flex items-center justify-center flex-none backdrop-blur-sm`}
+                    >
+                      {icon}
+                    </div>
+                    <p className="text-white font-bold text-base drop-shadow-sm">{title}</p>
                   </div>
-                  <p className="text-white font-bold text-base">{title}</p>
-                </div>
-
-                {/* Card body */}
-                <div className="flex flex-col flex-1 px-5 py-5">
-                  <p className="text-sm text-zinc-600 leading-relaxed mb-4">{description}</p>
+                  {/* Description */}
+                  <p className="text-sm text-white/85 leading-relaxed mb-4">{description}</p>
+                  {/* Checklist */}
                   <ul className="space-y-2 flex-1 mb-5">
                     {checklist.map((item) => (
                       <li key={item} className="flex items-start gap-2">
                         <svg
-                          className={`w-4 h-4 flex-none ${checkColor} mt-0.5`}
+                          className={`w-4 h-4 flex-none ${checkColor} mt-0.5 drop-shadow-sm`}
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
@@ -410,10 +404,11 @@ function JourneySection() {
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
-                        <span className="text-sm text-zinc-600">{item}</span>
+                        <span className="text-sm text-white/80">{item}</span>
                       </li>
                     ))}
                   </ul>
+                  {/* CTA */}
                   <Link
                     href={href}
                     className={`text-sm font-bold ${ctaColor} transition-colors duration-200`}
