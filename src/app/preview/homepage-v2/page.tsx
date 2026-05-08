@@ -122,11 +122,11 @@ function SampleCard() {
 
 function HeroSection() {
   return (
-    <section className="relative overflow-hidden border-b border-zinc-200">
-      {/* Mobile: solid white bg so text is readable without the photo */}
+    <section className="relative overflow-hidden border-b border-zinc-200 lg:min-h-[600px]">
+      {/* Mobile: solid white bg */}
       <div className="absolute inset-0 bg-white lg:hidden" aria-hidden="true" />
 
-      {/* Desktop: full-bleed background photo — service member positioned at far right edge */}
+      {/* Desktop: full-bleed photo — service member anchored to the right edge */}
       <div className="absolute inset-0 hidden lg:block" aria-hidden="true">
         <Image
           src="/images/homepage-hero-overlook.png"
@@ -137,86 +137,85 @@ function HeroSection() {
           sizes="100vw"
           priority
         />
-        {/* White-to-transparent gradient: left side opaque for text, right side open for photo */}
+        {/* White-to-transparent gradient: opaque white left half fades to clear by 65% */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0.97) 30%, rgba(255,255,255,0.80) 50%, rgba(255,255,255,0.0) 75%)',
+              'linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0.98) 25%, rgba(255,255,255,0.85) 42%, rgba(255,255,255,0.0) 65%)',
           }}
         />
       </div>
 
-      {/* Content grid */}
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-0 items-center lg:min-h-[520px]">
-
-          {/* Left — copy */}
-          <div className="py-14 sm:py-20">
-            {/* Trust strip eyebrow */}
-            <div className="inline-flex items-center gap-2.5 mb-6 rounded-full bg-zinc-900 px-4 py-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
-              <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-                Free · No Account · No Personal Info · Official 2026 DoD & VA Data
-              </span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight text-zinc-900 mb-5">
-              Stop guessing what your{' '}
-              <span className="text-red-700">military pay and benefits</span>{' '}
-              are worth.
-            </h1>
-
-            <p className="text-lg text-zinc-600 leading-relaxed mb-8 max-w-lg">
-              <strong className="text-zinc-900">Your service is worth more than base pay.</strong>{' '}
-              Use free calculators to see your full military financial picture before your next PCS,
-              transition, VA claim, retirement, or job offer decision.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3 mb-6">
-              <Link
-                href="/calculators/total-compensation"
-                className="inline-flex items-center justify-center rounded-lg bg-red-700 px-7 py-3.5 text-base font-bold text-white hover:bg-red-800 transition-all duration-300 shadow-md hover:shadow-lg"
-              >
-                See My Full Compensation
-              </Link>
-              <Link
-                href="/calculators"
-                className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-7 py-3.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 hover:shadow-sm transition-all duration-300"
-              >
-                Explore All Tools
-              </Link>
-            </div>
-
-            <div className="flex items-center gap-2 text-xs text-zinc-400">
-              <svg
-                className="w-3.5 h-3.5 flex-none"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                aria-hidden="true"
-              >
-                <rect x="3" y="11" width="18" height="11" rx="2" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
-              <span>No sign-up. No personal info collected. Runs in your browser.</span>
-            </div>
-
-            {/* Mobile: card below copy */}
-            <div className="mt-10 lg:hidden flex justify-center">
-              <div className="w-full max-w-sm">
-                <SampleCard />
-              </div>
-            </div>
+      {/* Text content — z-10, constrained to left ~45% so card+photo have room on the right */}
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-24">
+        <div className="max-w-[440px]">
+          {/* Trust strip eyebrow */}
+          <div className="inline-flex items-center gap-2.5 mb-6 rounded-full bg-zinc-900 px-4 py-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+            <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+              Free · No Account · No Personal Info · Official 2026 DoD & VA Data
+            </span>
           </div>
 
-          {/* Right — card left-aligned in right column so service member shows on far right */}
-          <div className="hidden lg:flex items-center justify-start pl-12 py-14">
+          <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight text-zinc-900 mb-5">
+            Stop guessing what your{' '}
+            <span className="text-red-700">military pay and benefits</span>{' '}
+            are worth.
+          </h1>
+
+          <p className="text-lg text-zinc-600 leading-relaxed mb-8">
+            <strong className="text-zinc-900">Your service is worth more than base pay.</strong>{' '}
+            Use free calculators to see your full military financial picture before your next PCS,
+            transition, VA claim, retirement, or job offer decision.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-3 mb-6">
+            <Link
+              href="/calculators/total-compensation"
+              className="inline-flex items-center justify-center rounded-lg bg-red-700 px-7 py-3.5 text-base font-bold text-white hover:bg-red-800 transition-all duration-300 shadow-md hover:shadow-lg"
+            >
+              See My Full Compensation
+            </Link>
+            <Link
+              href="/calculators"
+              className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-7 py-3.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 hover:shadow-sm transition-all duration-300"
+            >
+              Explore All Tools
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-2 text-xs text-zinc-400">
+            <svg
+              className="w-3.5 h-3.5 flex-none"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              aria-hidden="true"
+            >
+              <rect x="3" y="11" width="18" height="11" rx="2" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            <span>No sign-up. No personal info collected. Runs in your browser.</span>
+          </div>
+        </div>
+
+        {/* Mobile: card below text in flow */}
+        <div className="mt-10 lg:hidden flex justify-center">
+          <div className="w-full max-w-sm">
             <SampleCard />
           </div>
-
         </div>
+      </div>
+
+      {/* Desktop: card absolutely positioned at 47% from left — center of the hero.
+          Text ends ~44-47%, service member photo is visible right of the card. */}
+      <div
+        className="hidden lg:flex items-center absolute z-20 top-0 bottom-0"
+        style={{ left: '47%' }}
+      >
+        <SampleCard />
       </div>
     </section>
   );
@@ -621,7 +620,7 @@ const CALCULATORS = [
 
 function CalculatorGridSection() {
   return (
-    <section className="bg-white border-b border-zinc-200 py-10 sm:py-12 px-4">
+    <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
       <div className="mx-auto max-w-6xl">
         <div className="text-center mb-10">
           <div className="flex justify-center mb-4" aria-hidden="true">
@@ -642,7 +641,7 @@ function CalculatorGridSection() {
               href={href}
               className="group flex items-center gap-3 px-4 py-3 rounded-2xl border border-zinc-200 border-l-[3px] border-l-red-200 bg-white hover:border-zinc-300 hover:border-l-red-500 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
             >
-              <div className={`w-10 h-10 rounded-full ${iconBg} flex items-center justify-center text-white flex-none shrink-0`}>
+              <div className={`w-12 h-12 rounded-full ${iconBg} flex items-center justify-center text-white flex-none shrink-0`}>
                 {icon}
               </div>
               <div className="flex-1 min-w-0">
