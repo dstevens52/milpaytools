@@ -634,12 +634,69 @@ function CalculatorGridSection() {
           ))}
         </div>
 
-        <div className="text-center">
+      </div>
+    </section>
+  );
+}
+
+// ── Calculators + Blog two-column footer ──────────────────────────────────────
+
+const BLOG_POSTS = [
+  {
+    href: '/blog/pcs-that-costs-14000-vs-makes-6000',
+    title: 'The PCS That Costs $14,000 — And the One That Makes $6,000',
+  },
+  {
+    href: '/blog/va-disability-math-explained',
+    title: 'VA Disability Math: Why 50% + 30% ≠ 80%',
+  },
+  {
+    href: '/blog/what-civilian-salary-do-i-need',
+    title: 'What Civilian Salary Do I Need After the Military?',
+  },
+];
+
+function CalcsAndBlogSection() {
+  return (
+    <section className="bg-zinc-50 border-b border-zinc-200 py-10 sm:py-12 px-4">
+      <div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+        {/* Left — More Calculators */}
+        <div>
+          <div className="w-8 h-0.5 bg-red-700 rounded-full mb-4" aria-hidden="true" />
+          <h2 className="text-xl font-black text-zinc-900 mb-2 tracking-tight">More Calculators</h2>
+          <p className="text-sm text-zinc-500 leading-relaxed mb-6">
+            14 free tools covering pay, benefits, PCS, retirement, VA disability, and transition planning.
+          </p>
           <Link
             href="/calculators"
-            className="inline-flex items-center justify-center rounded-xl border border-zinc-300 bg-white px-6 py-2.5 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 hover:shadow-sm transition-all duration-300"
+            className="inline-flex items-center justify-center rounded-lg bg-red-700 px-6 py-3 text-sm font-bold text-white hover:bg-red-800 transition-all duration-300 shadow-sm hover:shadow-md"
           >
             View All Calculators →
+          </Link>
+        </div>
+
+        {/* Right — From the Blog */}
+        <div>
+          <div className="w-8 h-0.5 bg-red-700 rounded-full mb-4" aria-hidden="true" />
+          <h2 className="text-xl font-black text-zinc-900 mb-4 tracking-tight">From the Blog</h2>
+          <ul className="space-y-3 mb-5">
+            {BLOG_POSTS.map(({ href, title }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  className="group flex items-start gap-2 text-sm text-zinc-700 hover:text-red-700 transition-colors duration-200"
+                >
+                  <span className="text-red-400 font-bold flex-none mt-0.5 group-hover:text-red-600">→</span>
+                  <span className="leading-snug">{title}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/blog"
+            className="text-sm font-bold text-red-700 hover:text-red-800 transition-colors duration-200"
+          >
+            Read All Posts →
           </Link>
         </div>
       </div>
@@ -696,6 +753,7 @@ export default function HomepageV2PreviewPage() {
       <JourneySection />
       <TrustBand />
       <CalculatorGridSection />
+      <CalcsAndBlogSection />
       <FooterTrustBand />
     </>
   );
