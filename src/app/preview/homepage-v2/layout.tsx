@@ -15,7 +15,7 @@ function PreviewHeader() {
           {/* Logo — shield + wordmark */}
           <Link href="/" className="flex items-center gap-2.5 group" aria-label="MilPayTools home">
             <Image
-              src="/images/milpaytools-shield-icon.svg"
+              src="/images/logo-shield.svg"
               alt=""
               width={30}
               height={38}
