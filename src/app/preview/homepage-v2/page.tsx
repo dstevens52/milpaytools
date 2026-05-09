@@ -193,6 +193,58 @@ function HeroSection() {
   );
 }
 
+// ── How it works strip ────────────────────────────────────────────────────────
+
+const HOW_IT_WORKS = [
+  {
+    n: '1',
+    title: 'Choose your situation',
+    description: 'Pick your rank, location, and what you want to know.',
+  },
+  {
+    n: '2',
+    title: 'Run the numbers',
+    description: 'Get instant results using official 2026 DoD and VA data.',
+  },
+  {
+    n: '3',
+    title: 'Make a confident decision',
+    description: 'See what your compensation is worth and what comes next.',
+  },
+];
+
+function HowItWorksStrip() {
+  return (
+    <section className="bg-zinc-50 border-b border-zinc-200 py-8 px-4">
+      <div className="mx-auto max-w-4xl">
+        <div className="flex flex-col md:flex-row items-start md:items-center">
+          {HOW_IT_WORKS.map(({ n, title, description }, i) => (
+            <>
+              {/* Step */}
+              <div key={n} className="flex flex-col items-center text-center flex-1 px-4 py-2 md:py-0">
+                <div className="w-9 h-9 rounded-full bg-slate-900 flex items-center justify-center mb-3 flex-none">
+                  <span className="text-white text-sm font-black">{n}</span>
+                </div>
+                <p className="text-sm font-bold text-zinc-900 mb-1">{title}</p>
+                <p className="text-xs text-zinc-500 leading-relaxed max-w-[160px]">{description}</p>
+              </div>
+
+              {/* Connector — desktop only, between steps */}
+              {i < HOW_IT_WORKS.length - 1 && (
+                <div className="hidden md:flex items-center flex-none" aria-hidden="true">
+                  <svg className="w-6 h-6 text-zinc-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
+                  </svg>
+                </div>
+              )}
+            </>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ── Journey cards section ─────────────────────────────────────────────────────
 
 const JOURNEY_CARDS = [
@@ -750,6 +802,7 @@ export default function HomepageV2PreviewPage() {
   return (
     <>
       <HeroSection />
+      <HowItWorksStrip />
       <JourneySection />
       <TrustBand />
       <CalculatorGridSection />
