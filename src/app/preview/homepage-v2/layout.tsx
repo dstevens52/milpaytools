@@ -1,0 +1,88 @@
+'use client';
+
+import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Nav } from '@/components/layout/Nav';
+
+function PreviewHeader() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-[60] bg-white border-b border-zinc-200 shadow-sm">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          {/* Logo — shield + wordmark */}
+          <Link href="/" className="flex items-center gap-2.5 group" aria-label="MilPayTools home">
+            <Image
+              src="/images/milpaytools-shield-icon.svg"
+              alt=""
+              width={30}
+              height={38}
+              className="flex-none"
+              aria-hidden="true"
+            />
+            <span className="text-zinc-900 font-bold text-lg tracking-tight">
+              MilPay<span className="text-red-700">Tools</span>
+            </span>
+          </Link>
+
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-6">
+            <Nav />
+            <Link
+              href="/calculators"
+              className="rounded-md bg-red-700 px-4 py-1.5 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
+            >
+              All Tools
+            </Link>
+          </div>
+
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden p-2 rounded-md text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 transition-colors"
+            onClick={() => setMobileOpen((o) => !o)}
+            aria-expanded={mobileOpen}
+            aria-controls="preview-mobile-menu"
+            aria-label="Toggle navigation"
+          >
+            {mobileOpen ? (
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div id="preview-mobile-menu" className="md:hidden bg-white border-t border-zinc-100 shadow-lg">
+          <Nav mobile onClose={() => setMobileOpen(false)} />
+          <div className="p-4 border-t border-zinc-100">
+            <Link
+              href="/calculators"
+              onClick={() => setMobileOpen(false)}
+              className="block w-full text-center rounded-md bg-red-700 px-4 py-2.5 text-base font-semibold text-white hover:bg-red-800 transition-colors"
+            >
+              All Tools
+            </Link>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+}
+
+export default function HomepageV2PreviewLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <PreviewHeader />
+      {children}
+    </>
+  );
+}
