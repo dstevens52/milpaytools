@@ -18,95 +18,61 @@ export const metadata: Metadata = {
 // ── Floating sample calculator card ──────────────────────────────────────────
 
 function SampleCard() {
-  const rows = [
-    {
-      label: 'Base Pay',
-      value: '$3,287.10',
-      icon: (
-        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-        </svg>
-      ),
-    },
-    {
-      label: 'BAH',
-      value: '$2,343.00',
-      icon: (
-        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9zM9 22V12h6v10" />
-        </svg>
-      ),
-    },
-    {
-      label: 'BAS',
-      value: '$460.55',
-      icon: (
-        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3 11l19-9-9 19-2-8-8-2z" />
-        </svg>
-      ),
-    },
-    {
-      label: 'VA Disability',
-      value: '$1,071.16',
-      icon: (
-        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        </svg>
-      ),
-    },
-    {
-      label: 'TSP Match',
-      value: '$246.53',
-      icon: (
-        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v18h18M7 16l4-4 4 4 4-4" />
-        </svg>
-      ),
-    },
-  ];
-
   return (
-    <div
-      className="bg-white rounded-2xl overflow-hidden border border-white/20 w-full max-w-xs mx-auto transition-all duration-300 hover:scale-[1.02]"
-      style={{
-        boxShadow:
-          '0 32px 64px -16px rgba(0,0,0,0.45), 0 12px 24px -8px rgba(0,0,0,0.30), 0 2px 8px -2px rgba(0,0,0,0.20)',
-      }}
-    >
-      <div className="bg-zinc-50 border-b border-zinc-100 px-5 py-3 flex items-center justify-between">
-        <p className="text-sm font-bold text-zinc-800">Sample Compensation</p>
-        <span className="text-xs bg-blue-100 text-blue-700 font-bold px-2.5 py-0.5 rounded-full">
-          E-5 · CONUS
+    <div className="bg-white rounded-xl border border-zinc-200 shadow-lg overflow-hidden w-full max-w-xs">
+      {/* Header */}
+      <div className="bg-zinc-50 border-b border-zinc-200 px-5 py-3 flex items-center justify-between">
+        <div>
+          <p className="text-xs text-zinc-500 font-medium">E-5 · 8 years · San Diego, CA</p>
+          <p className="text-sm font-semibold text-zinc-800">Total Compensation Breakdown</p>
+        </div>
+        <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">
+          2026 rates
         </span>
       </div>
 
-      <div className="divide-y divide-zinc-100 px-5">
-        {rows.map(({ label, value, icon }) => (
+      {/* Line items */}
+      <div className="px-5 py-1 divide-y divide-zinc-100">
+        {[
+          { label: 'Base Pay', value: '$4,299.90', sub: '/mo' },
+          { label: 'BAH (w/ dependents)', value: '$3,975', sub: '/mo' },
+          { label: 'BAS', value: '$476.95', sub: '/mo' },
+          { label: 'TSP Match (BRS)', value: '$172', sub: '/mo' },
+        ].map(({ label, value, sub }) => (
           <div key={label} className="flex items-center justify-between py-2.5">
-            <span className="flex items-center gap-2 text-sm text-zinc-500">
-              <span className="text-zinc-300">{icon}</span>
-              {label}
-            </span>
-            <span className="text-sm font-mono tabular-nums font-semibold text-zinc-800">
+            <span className="text-sm text-zinc-600">{label}</span>
+            <span className="text-sm font-mono tabular-nums text-zinc-800">
               {value}
+              <span className="text-zinc-400 font-normal">{sub}</span>
             </span>
           </div>
         ))}
       </div>
 
-      <div className="mx-4 mt-2 mb-1 rounded-xl bg-red-700 px-4 py-3 flex items-center justify-between">
+      {/* Total bar */}
+      <div className="mx-5 my-3 rounded-lg bg-red-50 border border-red-200 px-4 py-3 flex items-center justify-between">
         <div>
-          <p className="text-[10px] text-red-200 font-semibold uppercase tracking-widest">
-            Monthly Total
-          </p>
-          <p className="text-2xl font-black tabular-nums text-white leading-none mt-0.5">
-            $7,408.34
+          <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Total Monthly</p>
+          <p className="text-2xl font-bold tabular-nums text-red-700">$8,924</p>
+        </div>
+        <div className="text-right">
+          <p className="text-xs text-zinc-500">Civilian equivalent</p>
+          <p className="text-sm font-semibold text-zinc-700">≈ $113,500 / yr</p>
+        </div>
+      </div>
+
+      {/* Insight callout */}
+      <div className="px-5 pb-4">
+        <div className="rounded-md bg-blue-50 border border-blue-100 px-3 py-2.5 flex gap-2 items-start">
+          <span className="text-blue-600 text-base leading-tight flex-none">→</span>
+          <p className="text-xs text-blue-700 leading-relaxed">
+            In some markets, BAH can exceed typical rent benchmarks — which can meaningfully change your housing math.
           </p>
         </div>
       </div>
 
-      <div className="px-5 py-3.5">
+      {/* Link */}
+      <div className="px-5 pb-4">
         <Link
           href="/calculators/total-compensation"
           className="text-sm font-bold text-red-700 hover:text-red-800 transition-colors"
@@ -202,9 +168,12 @@ function HeroSection() {
         </div>
 
         {/* Mobile: card below text in flow */}
-        <div className="mt-10 lg:hidden flex justify-center">
-          <div className="w-full max-w-sm">
+        <div className="mt-10 lg:hidden">
+          <div className="w-full max-w-sm mx-auto">
             <SampleCard />
+            <p className="mt-3 text-xs text-center text-zinc-400">
+              What an E-5 in San Diego sees — your numbers update live as you enter inputs
+            </p>
           </div>
         </div>
       </div>
@@ -212,10 +181,13 @@ function HeroSection() {
       {/* Desktop: card absolutely positioned at 47% from left — center of the hero.
           Text ends ~44-47%, service member photo is visible right of the card. */}
       <div
-        className="hidden lg:flex items-center absolute z-20 top-0 bottom-0"
+        className="hidden lg:flex flex-col justify-center absolute z-20 top-0 bottom-0"
         style={{ left: '47%' }}
       >
         <SampleCard />
+        <p className="mt-3 text-xs text-center text-zinc-400">
+          What an E-5 in San Diego sees — your numbers update live as you enter inputs
+        </p>
       </div>
     </section>
   );
