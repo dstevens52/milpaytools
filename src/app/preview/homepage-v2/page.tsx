@@ -208,8 +208,8 @@ const JOURNEY_CARDS = [
     ctaBg: 'bg-blue-700',
     title: 'Starting Service',
     description:
-      'Understand your pay, allowances, benefits, and first financial decisions.',
-    checklist: ['Basic Pay & Allowances', 'Benefits Overview', 'New Enlistee Checklist'],
+      'Understand your pay, allowances, and total compensation — and the first financial decisions that set you up right.',
+    checklist: ['Basic Pay & Allowances', 'Total Compensation Value', 'First Financial Decisions'],
     cta: 'Start With My Pay →',
     href: '/guides/military-pay',
     icon: (
@@ -241,8 +241,8 @@ const JOURNEY_CARDS = [
     ctaBg: 'bg-emerald-700',
     title: 'Navigating Service',
     description:
-      'Plan for PCS, BAH, duty stations, deployment pay, and the financial tradeoffs that come with your mission.',
-    checklist: ['PCS & BAH Planning', 'Duty Station Comparison', 'Deployment Pay & Benefits'],
+      'Plan the financial side of PCS moves, duty station changes, and deployments — before the orders drop.',
+    checklist: ['PCS & BAH Planning', 'Duty Station Cost Comparison', 'Deployment & Combat Pay'],
     cta: 'Compare My Options →',
     href: '/guides/pcs',
     icon: (
@@ -275,7 +275,7 @@ const JOURNEY_CARDS = [
     ctaBg: 'bg-amber-700',
     title: 'Transitioning From Service',
     description:
-      'Prepare for separation or retirement with confidence using VA benefits, healthcare, and civilian salary replacement tools.',
+      'Know your VA disability compensation, healthcare costs, retirement pay, and the civilian salary you actually need — before you sign out.',
     checklist: ['VA Disability & Healthcare', 'Retirement Planning', 'Civilian Salary Comparison'],
     cta: 'Plan My Transition →',
     href: '/transition',
