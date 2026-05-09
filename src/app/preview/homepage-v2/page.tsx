@@ -677,105 +677,6 @@ function CalculatorGridSection() {
   );
 }
 
-// ── Resource preview section ──────────────────────────────────────────────────
-
-const RESOURCES = [
-  {
-    href: '/guides/military-pay',
-    title: 'The 2026 Military Pay Guide',
-    description: "What's changing and how it impacts you.",
-    eyebrow: 'Guide',
-    eyebrowCls: 'text-blue-700 bg-blue-50 border border-blue-100',
-    borderLeft: 'border-l-blue-400',
-    imgGradient: 'from-blue-800 to-blue-950',
-    imgIcon: (
-      <svg className="w-8 h-8 text-white/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-      </svg>
-    ),
-  },
-  {
-    href: '/guides/pcs',
-    title: 'PCS Planning Guide',
-    description: "Don't miss the money details before your next move.",
-    eyebrow: 'Guide',
-    eyebrowCls: 'text-emerald-700 bg-emerald-50 border border-emerald-100',
-    borderLeft: 'border-l-emerald-400',
-    imgGradient: 'from-emerald-800 to-emerald-950',
-    imgIcon: (
-      <svg className="w-8 h-8 text-white/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3m-4 11h10a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H12a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1zm3-5a2 2 0 1 0 4 0 2 2 0 0 0-4 0zm-7 0a2 2 0 1 0 4 0 2 2 0 0 0-4 0z" />
-      </svg>
-    ),
-  },
-  {
-    href: '/transition',
-    title: 'Transition Financial Guide',
-    description:
-      'Plan income, healthcare, VA benefits, and post-service decisions.',
-    eyebrow: 'Guide',
-    eyebrowCls: 'text-amber-700 bg-amber-50 border border-amber-100',
-    borderLeft: 'border-l-amber-400',
-    imgGradient: 'from-amber-700 to-amber-950',
-    imgIcon: (
-      <svg className="w-8 h-8 text-white/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" />
-      </svg>
-    ),
-  },
-];
-
-function ResourceSection() {
-  return (
-    <section className="bg-zinc-50 border-b border-zinc-200 py-10 sm:py-12 px-4">
-      <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10">
-          <div>
-            <div className="w-8 h-0.5 bg-red-700 rounded-full mb-4" aria-hidden="true" />
-            <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 leading-tight max-w-xl tracking-tight">
-              Guides, tools, and insights for every stage of your military financial journey.
-            </h2>
-          </div>
-          <Link
-            href="/guides"
-            className="shrink-0 text-sm font-bold text-red-700 hover:text-red-800 transition-colors duration-200 whitespace-nowrap"
-          >
-            Explore the Resource Library →
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {RESOURCES.map(({ href, title, description, eyebrow, eyebrowCls, borderLeft, imgGradient, imgIcon }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`group flex rounded-2xl overflow-hidden bg-white border border-zinc-200 border-l-[3px] ${borderLeft} shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300`}
-            >
-              {/* Gradient image placeholder with hint icon */}
-              <div className={`w-24 sm:w-28 shrink-0 bg-gradient-to-br ${imgGradient} flex items-center justify-center`}>
-                {imgIcon}
-              </div>
-              {/* Text content */}
-              <div className="flex flex-col p-5 flex-1 min-w-0">
-                <span
-                  className={`inline-flex self-start text-xs font-semibold px-2.5 py-1 rounded-full mb-3 uppercase tracking-wider ${eyebrowCls}`}
-                >
-                  {eyebrow}
-                </span>
-                <h3 className="font-bold text-zinc-900 text-base leading-snug mb-2 group-hover:text-red-700 transition-colors duration-200">
-                  {title}
-                </h3>
-                <p className="text-sm text-zinc-500 leading-relaxed flex-1">{description}</p>
-                <span className="mt-4 text-sm font-bold text-red-700">Read →</span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 // ── Footer trust band ─────────────────────────────────────────────────────────
 
 function FooterTrustBand() {
@@ -816,47 +717,6 @@ function FooterTrustBand() {
   );
 }
 
-// ── Final CTA section ─────────────────────────────────────────────────────────
-
-function FinalCTA() {
-  return (
-    <section
-      className="py-10 sm:py-12 px-4"
-      style={{
-        background: 'linear-gradient(145deg, #FFF1F2 0%, #FFFFFF 40%, #FFF1F2 100%)',
-        borderBottom: '1px solid #FECDD3',
-      }}
-    >
-      <div className="mx-auto max-w-2xl text-center">
-        <h2 className="text-3xl sm:text-4xl font-black text-zinc-900 mb-3 tracking-tight">
-          Stop guessing. Start knowing.
-        </h2>
-        <p className="text-base text-zinc-600 mb-10 max-w-md mx-auto leading-relaxed">
-          Use real numbers to make smarter pay, PCS, and retirement decisions — free, private, and
-          in your browser.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            href="/calculators/total-compensation"
-            className="inline-flex items-center justify-center rounded-xl bg-red-700 px-8 py-4 text-base font-bold text-white hover:bg-red-800 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-          >
-            See My Full Compensation
-          </Link>
-          <Link
-            href="/calculators"
-            className="inline-flex items-center justify-center rounded-xl border border-zinc-300 bg-white px-8 py-4 text-base font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 hover:shadow-md transition-all duration-300"
-          >
-            Explore All Tools
-          </Link>
-        </div>
-        <p className="mt-6 text-xs text-zinc-400">
-          No sign-up. No personal info. Trusted by service members, veterans, and families.
-        </p>
-      </div>
-    </section>
-  );
-}
-
 // ── Page export ───────────────────────────────────────────────────────────────
 
 export default function HomepageV2PreviewPage() {
@@ -866,9 +726,7 @@ export default function HomepageV2PreviewPage() {
       <JourneySection />
       <TrustBand />
       <CalculatorGridSection />
-      <ResourceSection />
       <FooterTrustBand />
-      <FinalCTA />
     </>
   );
 }
