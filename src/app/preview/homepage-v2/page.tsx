@@ -114,7 +114,7 @@ function HeroSection() {
       </div>
 
       {/* Text content — z-10, constrained to left ~45% so card+photo have room on the right */}
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-24">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-14 lg:py-14">
         <div className="max-w-[440px]">
           {/* Trust strip eyebrow */}
           <div className="inline-flex items-center gap-2.5 mb-6 rounded-full bg-zinc-900 px-4 py-1.5">
@@ -474,22 +474,20 @@ const TRUST_ITEMS = [
 
 function TrustBand() {
   return (
-    <section className="bg-white border-b border-zinc-100 py-8 px-4">
+    <section className="bg-slate-900 py-12 px-4">
       <div className="mx-auto max-w-6xl">
-        <div className="rounded-2xl border border-zinc-200 bg-zinc-50 px-6 py-6 sm:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-8">
-            {TRUST_ITEMS.map(({ title, description, icon }) => (
-              <div key={title} className="flex flex-col items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-white flex-none">
-                  {icon}
-                </div>
-                <div>
-                  <p className="font-bold text-zinc-900 text-sm mb-1.5">{title}</p>
-                  <p className="text-xs text-zinc-500 leading-relaxed">{description}</p>
-                </div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          {TRUST_ITEMS.map(({ title, description, icon }) => (
+            <div key={title} className="flex flex-col items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white flex-none">
+                {icon}
               </div>
-            ))}
-          </div>
+              <div>
+                <p className="font-bold text-white text-sm mb-1.5">{title}</p>
+                <p className="text-xs text-white/60 leading-relaxed">{description}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
