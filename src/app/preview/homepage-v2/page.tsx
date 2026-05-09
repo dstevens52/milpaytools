@@ -215,7 +215,7 @@ const HOW_IT_WORKS = [
 
 function HowItWorksStrip() {
   return (
-    <section className="bg-slate-50 border-t border-b border-zinc-200 py-6 md:py-8 px-4">
+    <section className="bg-slate-100 border-b border-slate-300 py-6 md:py-8 px-4">
       <div className="mx-auto max-w-4xl">
         <div className="flex flex-col md:flex-row items-start md:items-center">
           {HOW_IT_WORKS.map(({ n, title, description }, i) => (
