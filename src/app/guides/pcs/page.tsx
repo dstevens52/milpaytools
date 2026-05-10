@@ -38,7 +38,7 @@ const FAQS = [
   {
     question: 'What PCS entitlements am I authorized?',
     answer:
-      'PCS entitlements include: Dislocation Allowance (DLA) — $1,883.10 without dependents, $3,766.20 with dependents in 2026; MALT mileage at $0.21/mile for the official distance; per diem for authorized travel days (1 day per 350 miles); and Temporary Lodging Expense (TLE) for up to 21 days combined at old and new stations at actual cost up to the per diem rate.',
+      'PCS entitlements include: Dislocation Allowance (DLA) — $1,883.10 without dependents, $3,766.20 with dependents in 2026; MALT mileage at $0.205/mile for the official distance; per diem for authorized travel days (1 day per 350 miles); and Temporary Lodging Expense (TLE) for up to 21 days combined at old and new stations at actual cost up to the per diem rate.',
   },
   {
     question: 'Should I use a government move or do a PPM (DITY move)?',
@@ -68,7 +68,7 @@ const FAQS = [
   {
     question: 'How does PCS work for dual military couples?',
     answer:
-      'Joint domicile requests are encouraged but not guaranteed — approval depends on manpower requirements for both career fields. If stationed separately, each service member claims BAH at the without-dependents rate for their own location (unless children are present, in which case the parent the children live with claims with-dependents rate). Geographically separated service members may qualify for a Family Separation Allowance of $250/month.',
+      'Joint domicile requests are encouraged but not guaranteed — approval depends on manpower requirements for both career fields. If stationed separately, each service member claims BAH at the without-dependents rate for their own location (unless children are present, in which case the parent the children live with claims with-dependents rate). Geographically separated service members may qualify for a Family Separation Allowance of $300/month.',
   },
   {
     question: 'How can BAH build wealth through each PCS move?',
@@ -102,7 +102,7 @@ const IMPACT_CARDS = [
       'DLA, MALT mileage, per diem, and TLE offset your costs — but they rarely cover the full expense of a military move.',
     bullets: [
       'DLA: $1,883 (single) / $3,766 (with dependents)',
-      'MALT: $0.21/mile — less than actual driving costs',
+      'MALT: $0.205/mile — less than actual driving costs',
       'PPM profit: $1,000–$8,000 if you move yourself',
     ],
     cta: 'Estimate my move costs →',
@@ -146,9 +146,9 @@ const ACCORDION = [
         </ul>
         <p>
           <strong className="text-zinc-800">MALT (Monetary Allowance in Lieu of Transportation)</strong>{' '}
-          is a flat travel allowance of <strong className="text-zinc-800">$0.21/mile</strong> based
+          is a flat travel allowance of <strong className="text-zinc-800">$0.205/mile</strong> based
           on the official DoD distance, not your actual route. A cross-country move from Virginia to
-          California (~2,700 miles) yields $567 — meaningfully less than actual fuel and vehicle costs.
+          California (~2,700 miles) yields $553.50 — meaningfully less than actual fuel and vehicle costs.
         </p>
         <p>
           <strong className="text-zinc-800">Per diem</strong> covers lodging and meals during travel
@@ -331,7 +331,7 @@ const ACCORDION = [
         <p>
           <strong className="text-zinc-800">Separation allowance:</strong> Service members
           geographically separated from dependents due to military assignment (not voluntarily) may
-          qualify for Family Separation Allowance of $250/month.
+          qualify for Family Separation Allowance of $300/month.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 pt-1">
           <Link href="/calculators/dual-military-bah" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
@@ -575,7 +575,7 @@ export default function PcsGuidePage() {
                     </div>
                     <div className="flex justify-between py-1">
                       <span className="text-sm text-zinc-600">State income tax</span>
-                      <span className="text-sm font-mono text-zinc-800">None</span>
+                      <span className="text-sm font-mono text-zinc-800">4.5%</span>
                     </div>
                     <div className="flex justify-between py-1">
                       <span className="text-sm text-zinc-600">CONUS COLA</span>
