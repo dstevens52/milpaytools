@@ -273,7 +273,7 @@ const JOURNEY_CARDS = [
     title: 'Starting Service',
     description:
       'Understand your pay, allowances, and total compensation — and the first financial decisions that set you up right.',
-    checklist: ['Basic Pay & Allowances', 'Total Compensation Value', 'First Financial Decisions'],
+    checklist: ['Basic Pay & Allowances', 'Total Compensation Value', { label: 'First Financial Decisions', href: '/blog/your-first-military-paycheck-what-to-know' }],
     cta: 'Start With My Pay →',
     href: '/guides/military-pay',
     icon: (
@@ -391,9 +391,8 @@ function JourneySection() {
               href,
               icon,
             }) => (
-              <Link
+              <div
                 key={title}
-                href={href}
                 className={`group relative flex flex-col rounded-2xl overflow-hidden border-l-[3px] ${borderLeft} shadow-lg hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 min-h-[300px]`}
               >
                 {/* Background photo */}
@@ -410,8 +409,10 @@ function JourneySection() {
                   aria-hidden="true"
                   style={{ background: overlay }}
                 />
-                {/* Card content — above image and overlay */}
-                <div className="relative z-10 flex flex-col flex-1 px-5 py-5">
+                {/* Stretched link — makes whole card clickable without nesting anchors */}
+                <Link href={href} className="absolute inset-0 z-10" aria-label={title} tabIndex={-1} />
+                {/* Card content — pointer-events-none lets stretched link handle non-interactive areas */}
+                <div className="relative z-20 flex flex-col flex-1 px-5 py-5 pointer-events-none">
                   {/* Title row */}
                   <div className="flex items-center gap-3 mb-4 pb-4 border-b border-white/20">
                     <div
@@ -425,30 +426,44 @@ function JourneySection() {
                   <p className="text-sm text-white/85 leading-relaxed mb-4">{description}</p>
                   {/* Checklist */}
                   <ul className="space-y-2 flex-1 mb-5">
-                    {checklist.map((item) => (
-                      <li key={item} className="flex items-start gap-2">
-                        <svg
-                          className={`w-4 h-4 flex-none ${checkColor} mt-0.5 drop-shadow-sm`}
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          aria-hidden="true"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span className="text-sm text-white/80">{item}</span>
-                      </li>
-                    ))}
+                    {checklist.map((item) => {
+                      const label = typeof item === 'string' ? item : item.label;
+                      const itemHref = typeof item === 'string' ? undefined : item.href;
+                      return (
+                        <li key={label} className="flex items-start gap-2">
+                          <svg
+                            className={`w-4 h-4 flex-none ${checkColor} mt-0.5 drop-shadow-sm`}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            aria-hidden="true"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                          {itemHref ? (
+                            <Link
+                              href={itemHref}
+                              className="pointer-events-auto text-sm text-white/80 underline decoration-white/30 hover:text-white hover:decoration-white transition-colors"
+                            >
+                              {label}
+                            </Link>
+                          ) : (
+                            <span className="text-sm text-white/80">{label}</span>
+                          )}
+                        </li>
+                      );
+                    })}
                   </ul>
                   {/* CTA */}
-                  <span
-                    className={`w-full flex items-center justify-center gap-1.5 ${ctaBg} text-white text-sm font-bold py-2.5 px-4 rounded-xl`}
+                  <Link
+                    href={href}
+                    className={`pointer-events-auto w-full flex items-center justify-center gap-1.5 ${ctaBg} text-white text-sm font-bold py-2.5 px-4 rounded-xl`}
                   >
                     {cta}
-                  </span>
+                  </Link>
                 </div>
-              </Link>
+              </div>
             )
           )}
         </div>
