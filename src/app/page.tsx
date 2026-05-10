@@ -229,7 +229,7 @@ function HowItWorksStrip() {
   return (
     <section className="bg-slate-100 border-b border-slate-300 py-6 md:py-8 px-4">
       <div className="mx-auto max-w-4xl">
-        <div className="flex flex-col md:flex-row items-start md:items-center">
+        <div className="flex flex-col md:flex-row items-center">
           {HOW_IT_WORKS.map(({ n, title, description }, i) => (
             <>
               {/* Step */}
