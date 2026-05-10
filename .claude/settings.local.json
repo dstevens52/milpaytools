@@ -50,7 +50,27 @@
       "Bash(curl -sI \"https://www.milpaytools.com/api/og?type=station&title=2026+BAH+Rates+by+Military+Installation\")",
       "Bash(python3 *)",
       "Bash(xargs sed *)",
-      "Bash(curl -s https://www.milpaytools.com/__TRACKED_VAR__)"
+      "Bash(curl -s https://www.milpaytools.com/__TRACKED_VAR__)",
+      "Bash(Get-ChildItem -Path . -Depth 1)",
+      "Bash(Select-Object FullName)",
+      "Bash(Get-ChildItem *)",
+      "Bash(powershell *)",
+      "Bash(npx next *)",
+      "Bash(echo \"Server PID: $!\")",
+      "Read(//tmp/**)",
+      "Bash(BASE_URL=http://localhost:3001 npx playwright *)",
+      "Bash(pkill -f \"next start\")",
+      "Bash(echo \"PID: $!\")",
+      "Bash(pkill -f \"next-server\")",
+      "Bash(pkill -f \"node.*next\")",
+      "Bash(fuser -k 3001/tcp)",
+      "Bash(lsof -ti:3001)",
+      "Bash(xargs kill -9)",
+      "Bash(BASE_URL=http://localhost:3002 npx playwright *)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\danie\\\\milpaytools\\\\src\" -Recurse -Directory | ForEach-Object { $_.FullName.Replace\\(\"C:\\\\Users\\\\danie\\\\milpaytools\\\\src\\\\\", \"src/\"\\) })",
+      "Bash(New-Item -ItemType Directory -Force -Path \"C:\\\\Users\\\\danie\\\\milpaytools\\\\src\\\\app\\\\preview\\\\homepage-v2\")",
+      "Bash(Out-Null)",
+      "Bash(Write-Output \"Directory ready\")"
     ]
   }
 }
