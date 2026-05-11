@@ -153,7 +153,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Stats ── */}
-      <section className="bg-white border-b border-zinc-200 py-10 px-4">
+      <section className="bg-white py-10 px-4">
         <div className="mx-auto max-w-3xl">
           <dl className="grid grid-cols-2 sm:grid-cols-4 gap-6">
             {STATS.map(({ value, label }) => (
@@ -166,27 +166,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Feedback ── */}
-      <section className="bg-zinc-50 py-12 sm:py-16 px-4">
-        <div className="mx-auto max-w-3xl">
-          <div className="w-8 h-0.5 bg-red-700 rounded-full mb-5" aria-hidden="true" />
-          <h2 className="text-2xl font-black text-zinc-900 mb-4 tracking-tight">Feedback</h2>
-          <p className="text-base text-zinc-600 leading-relaxed max-w-xl mb-6">
-            MilPayTools is actively developed and regularly updated. If you find an error, have a
-            suggestion, or want to see a new calculator, reach out — feedback is taken seriously
-            and directly shapes what gets built next.
-          </p>
-          <a
-            href="mailto:dan@milpaytools.com"
-            className="inline-flex items-center gap-2 rounded-lg bg-red-700 px-6 py-3 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
-          >
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-            </svg>
-            dan@milpaytools.com
-          </a>
-        </div>
-      </section>
     </>
   );
 }
