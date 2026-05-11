@@ -4,8 +4,8 @@ interface QuickAnswerProps {
 
 export function QuickAnswer({ children }: QuickAnswerProps) {
   return (
-    <div className="my-8 rounded-lg border border-red-200 bg-red-50 not-prose">
-      <div className="flex items-center gap-2 border-b border-red-200 px-5 py-3">
+    <details className="my-8 rounded-lg border border-red-200 bg-red-50 not-prose group md:[&>*:not(summary)]:!block">
+      <summary className="flex items-center gap-2 border-red-200 border-b-0 group-open:border-b md:border-b px-5 py-3 list-none [&::-webkit-details-marker]:hidden cursor-pointer md:cursor-default">
         <svg
           className="h-4 w-4 shrink-0 text-red-700"
           fill="none"
@@ -20,14 +20,24 @@ export function QuickAnswer({ children }: QuickAnswerProps) {
             d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z"
           />
         </svg>
-        <span className="text-xs font-bold uppercase tracking-widest text-red-700">
+        <span className="flex-1 text-xs font-bold uppercase tracking-widest text-red-700">
           Quick Answer
         </span>
-      </div>
+        <svg
+          className="h-4 w-4 shrink-0 text-red-700 transition-transform duration-200 group-open:rotate-180 md:hidden"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </summary>
       <ul className="divide-y divide-red-100 px-5 py-1">
         {children}
       </ul>
-    </div>
+    </details>
   );
 }
 
