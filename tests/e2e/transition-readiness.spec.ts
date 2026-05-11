@@ -50,8 +50,8 @@ test.describe('Transition Readiness Calculator', () => {
 
   test('share button appears after engaging with calculator (salary + expenses required)', async ({ page }) => {
     // Share button is only shown once hasEngaged = true (salary > 0 && expenses > 0)
-    await page.getByLabel(/target civilian salary/i).fill('75000');
-    await page.getByLabel(/total monthly expenses/i).fill('4000');
+    await page.getByLabel(/target civilian salary/i).pressSequentially('75000', { delay: 50 });
+    await page.getByLabel(/total monthly expenses/i).pressSequentially('4000', { delay: 50 });
     await expect(page.getByRole('button', { name: /share|copy link/i }).first()).toBeVisible();
   });
 

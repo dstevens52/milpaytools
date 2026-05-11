@@ -27,7 +27,7 @@ test.describe('CONUS COLA Calculator', () => {
 
   test('non-COLA ZIP shows not-eligible message', async ({ page }) => {
     // Chicago area ZIP — no CONUS COLA
-    await page.locator('#zip').fill('60601');
+    await page.locator('#zip').pressSequentially('60601', { delay: 50 });
     // Component renders "ZIP XXXXX is not a CONUS COLA area"
     await expect(page.getByText(/not a CONUS COLA area|not eligible|no COLA/i).first()).toBeVisible();
   });

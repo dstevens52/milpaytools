@@ -48,12 +48,12 @@ test.describe('Total Compensation Calculator', () => {
   test('entering valid ZIP shows BAH', async ({ page }) => {
     const bah = getBAH('28307', 'E-5', false);
     if (!bah) test.skip();
-    await page.getByLabel('Duty Station ZIP Code').fill('28307');
+    await page.getByLabel('Duty Station ZIP Code').pressSequentially('28307', { delay: 50 });
     await expect(page.getByText(formatCurrency(bah!)).first()).toBeVisible();
   });
 
   test('dependent toggle changes BAH value', async ({ page }) => {
-    await page.getByLabel('Duty Station ZIP Code').fill('28307');
+    await page.getByLabel('Duty Station ZIP Code').pressSequentially('28307', { delay: 50 });
     const bahNoDep = getBAH('28307', 'E-5', false);
     const bahWithDep = getBAH('28307', 'E-5', true);
     if (!bahNoDep || !bahWithDep) test.skip();
