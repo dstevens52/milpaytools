@@ -493,7 +493,6 @@ export default function MilitaryPayGuidePage() {
                     { label: 'Base Pay', value: '$3,015.00' },
                     { label: 'BAH (w/ dependents)', value: '$1,722' },
                     { label: 'BAS', value: '$476.95' },
-                    { label: 'TSP Match (BRS)', value: '$151' },
                   ].map(({ label, value }) => (
                     <div key={label} className="flex items-center justify-between py-2.5">
                       <span className="text-sm text-zinc-600">{label}</span>
@@ -504,11 +503,11 @@ export default function MilitaryPayGuidePage() {
                 <div className="mx-5 my-3 rounded-lg bg-red-50 border border-red-200 px-4 py-3 flex items-center justify-between">
                   <div>
                     <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Total Monthly</p>
-                    <p className="text-2xl font-bold tabular-nums text-red-700">$5,365</p>
+                    <p className="text-2xl font-bold tabular-nums text-red-700">$5,214</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-zinc-500">Civilian equivalent</p>
-                    <p className="text-sm font-semibold text-zinc-700">≈ $67,500 / yr</p>
+                    <p className="text-sm font-semibold text-zinc-700">≈ $65,700 / yr</p>
                   </div>
                 </div>
                 <div className="px-5 pb-4">
