@@ -4,58 +4,57 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-// Flagship links — always visible as direct top-level items
-const FLAGSHIP_LINKS = [
-  { href: '/calculators/total-compensation', label: 'Total Compensation' },
-  { href: '/calculators/bah', label: 'BAH Calculator' },
-];
-
-// Grouped dropdown categories (desktop) / expanded sections (mobile)
-const DROPDOWN_GROUPS = [
+const CALCULATOR_GROUPS = [
   {
-    label: 'Pay & Allowances',
+    label: 'Pay & Compensation',
     links: [
+      { href: '/calculators/total-compensation', label: 'Total Military Compensation' },
       { href: '/calculators/pay-charts', label: '2026 Pay Charts' },
-      { href: '/calculators/deployment', label: 'Deployment Pay' },
-      { href: '/bah', label: 'BAH by Station' },
-      { href: '/calculators/compare', label: 'Duty Station Comparison' },
+      { href: '/calculators/bah', label: 'BAH Calculator' },
       { href: '/calculators/cola', label: 'CONUS COLA' },
       { href: '/calculators/guard-reserve', label: 'Guard/Reserve Pay' },
+      { href: '/calculators/deployment', label: 'Deployment Pay' },
     ],
   },
   {
-    label: 'Retirement & Savings',
+    label: 'Planning & Comparison',
     links: [
-      { href: '/calculators/tsp', label: 'TSP Projector' },
-      { href: '/calculators/retirement', label: 'Retirement Calculator' },
+      { href: '/calculators/compare', label: 'Duty Station Comparison' },
+      { href: '/calculators/pcs', label: 'PCS Cost Estimator' },
+      { href: '/calculators/dual-military-bah', label: 'Dual Military BAH' },
     ],
   },
   {
-    label: 'Veterans',
+    label: 'Benefits & Retirement',
     links: [
       { href: '/calculators/va-disability', label: 'VA Disability Rating' },
+      { href: '/calculators/retirement', label: 'Military Retirement' },
+      { href: '/calculators/tsp', label: 'TSP Growth Projector' },
       { href: '/calculators/education', label: 'Education Benefits' },
-    ],
-  },
-  {
-    label: 'PCS & Transition',
-    links: [
-      { href: '/calculators/pcs', label: 'PCS Cost Estimator' },
       { href: '/calculators/transition-readiness', label: 'Transition Readiness' },
     ],
   },
-  {
-    label: 'Dual Military',
-    links: [{ href: '/calculators/dual-military-bah', label: 'Dual Military BAH' }],
-  },
 ];
 
-// All dropdown links flattened — used to check if any is active
-const ALL_DROPDOWN_LINKS = DROPDOWN_GROUPS.flatMap((g) => g.links);
+const GUIDES_LINKS = [
+  { href: '/guides/military-pay', label: 'Military Pay & Compensation' },
+  { href: '/guides/pcs', label: 'PCS & Duty Station' },
+  { href: '/guides/va-disability', label: 'VA Disability Benefits' },
+  { href: '/guides/retirement-tsp', label: 'Retirement & TSP' },
+  { href: '/guides/education-benefits', label: 'Education Benefits' },
+];
 
-// ─── Desktop dropdown ────────────────────────────────────────────────────────
+const ALL_CALCULATOR_LINKS = CALCULATOR_GROUPS.flatMap((g) => g.links);
 
-function CalculatorsDropdown({ pathname }: { pathname: string }) {
+const CHEVRON = (
+  <svg viewBox="0 0 10 10" fill="none" aria-hidden="true" className="w-3 h-3 transition-transform duration-150">
+    <path d="M1.5 3.5 5 7 8.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+// ─── Shared dropdown hook ─────────────────────────────────────────────────────
+
+function useDropdown() {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -77,34 +76,34 @@ function CalculatorsDropdown({ pathname }: { pathname: string }) {
     setOpen(false);
   }, [cancelClose]);
 
-  // Clean up the timer if the component unmounts while open
   useEffect(() => () => cancelClose(), [cancelClose]);
 
-  // Close on outside click
   useEffect(() => {
     if (!open) return;
-    function handler(e: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        close();
-      }
+    function onMouse(e: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) close();
     }
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
+    document.addEventListener('mousedown', onMouse);
+    return () => document.removeEventListener('mousedown', onMouse);
   }, [open, close]);
 
-  // Close on Escape
   useEffect(() => {
     if (!open) return;
-    function handler(e: KeyboardEvent) {
+    function onKey(e: KeyboardEvent) {
       if (e.key === 'Escape') close();
     }
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   }, [open, close]);
 
-  const isActive = ALL_DROPDOWN_LINKS.some(
-    (l) => pathname === l.href || (l.href === '/bah' && pathname.startsWith('/bah'))
-  );
+  return { open, setOpen, containerRef, cancelClose, scheduleClose, close };
+}
+
+// ─── Calculators dropdown (2-column) ─────────────────────────────────────────
+
+function CalculatorsDropdown({ pathname }: { pathname: string }) {
+  const { open, setOpen, containerRef, cancelClose, scheduleClose, close } = useDropdown();
+  const isActive = ALL_CALCULATOR_LINKS.some((l) => pathname === l.href);
 
   return (
     <div
@@ -119,57 +118,130 @@ function CalculatorsDropdown({ pathname }: { pathname: string }) {
         aria-haspopup="menu"
         className={[
           'flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors select-none',
-          isActive || open
-            ? 'text-red-700 bg-red-50'
-            : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
+          isActive || open ? 'text-red-700 bg-red-50' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
         ].join(' ')}
       >
         Calculators
-        <svg
-          className={['w-3 h-3 transition-transform duration-150', open ? 'rotate-180' : ''].join(' ')}
-          viewBox="0 0 10 10"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path
-            d="M1.5 3.5 5 7 8.5 3.5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <span className={open ? '[&>svg]:rotate-180' : ''}>{CHEVRON}</span>
       </button>
 
       {open && (
         <div
           role="menu"
-          className="absolute top-full left-0 mt-1.5 w-52 bg-white border border-zinc-200 rounded-lg shadow-lg overflow-hidden z-50"
+          className="absolute top-full left-0 mt-1.5 w-[480px] bg-white border border-zinc-200 rounded-lg shadow-lg z-50 overflow-hidden"
+        >
+          <div className="grid grid-cols-2 divide-x divide-zinc-100 py-2">
+            {/* Left: Pay & Compensation */}
+            <div>
+              <p className="px-4 pt-1 pb-1 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                {CALCULATOR_GROUPS[0].label}
+              </p>
+              {CALCULATOR_GROUPS[0].links.map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  role="menuitem"
+                  onClick={close}
+                  className={[
+                    'block px-4 py-1.5 text-sm transition-colors',
+                    pathname === href ? 'text-red-700 font-semibold bg-red-50' : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50',
+                  ].join(' ')}
+                >
+                  {label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Right: Planning & Comparison + Benefits & Retirement */}
+            <div>
+              <p className="px-4 pt-1 pb-1 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                {CALCULATOR_GROUPS[1].label}
+              </p>
+              {CALCULATOR_GROUPS[1].links.map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  role="menuitem"
+                  onClick={close}
+                  className={[
+                    'block px-4 py-1.5 text-sm transition-colors',
+                    pathname === href ? 'text-red-700 font-semibold bg-red-50' : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50',
+                  ].join(' ')}
+                >
+                  {label}
+                </Link>
+              ))}
+              <div className="my-2 mx-4 border-t border-zinc-100" />
+              <p className="px-4 pb-1 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                {CALCULATOR_GROUPS[2].label}
+              </p>
+              {CALCULATOR_GROUPS[2].links.map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  role="menuitem"
+                  onClick={close}
+                  className={[
+                    'block px-4 py-1.5 text-sm transition-colors',
+                    pathname === href ? 'text-red-700 font-semibold bg-red-50' : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50',
+                  ].join(' ')}
+                >
+                  {label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Guides dropdown ──────────────────────────────────────────────────────────
+
+function GuidesDropdown({ pathname }: { pathname: string }) {
+  const { open, setOpen, containerRef, cancelClose, scheduleClose, close } = useDropdown();
+  const isActive = GUIDES_LINKS.some((l) => pathname === l.href);
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative"
+      onMouseEnter={() => { cancelClose(); setOpen(true); }}
+      onMouseLeave={scheduleClose}
+    >
+      <button
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        aria-haspopup="menu"
+        className={[
+          'flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors select-none',
+          isActive || open ? 'text-red-700 bg-red-50' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
+        ].join(' ')}
+      >
+        Guides
+        <span className={open ? '[&>svg]:rotate-180' : ''}>{CHEVRON}</span>
+      </button>
+
+      {open && (
+        <div
+          role="menu"
+          className="absolute top-full left-0 mt-1.5 w-56 bg-white border border-zinc-200 rounded-lg shadow-lg z-50 overflow-hidden"
         >
           <div className="py-1.5">
-            {DROPDOWN_GROUPS.map((group, i) => (
-              <div key={group.label}>
-                {i > 0 && <div className="my-1 mx-3 border-t border-zinc-100" />}
-                <p className="px-3 pt-2 pb-0.5 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-                  {group.label}
-                </p>
-                {group.links.map(({ href, label }) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    role="menuitem"
-                    onClick={close}
-                    className={[
-                      'block px-3 py-1.5 text-sm transition-colors',
-                      pathname === href || (href === '/bah' && pathname.startsWith('/bah'))
-                        ? 'text-red-700 font-semibold bg-red-50'
-                        : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50',
-                    ].join(' ')}
-                  >
-                    {label}
-                  </Link>
-                ))}
-              </div>
+            {GUIDES_LINKS.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                role="menuitem"
+                onClick={close}
+                className={[
+                  'block px-3 py-1.5 text-sm transition-colors',
+                  pathname === href ? 'text-red-700 font-semibold bg-red-50' : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50',
+                ].join(' ')}
+              >
+                {label}
+              </Link>
             ))}
           </div>
         </div>
@@ -187,90 +259,91 @@ interface NavProps {
 
 export function Nav({ mobile = false, onClose }: NavProps) {
   const pathname = usePathname();
+  const [calcOpen, setCalcOpen] = useState(false);
+  const [guidesOpen, setGuidesOpen] = useState(false);
 
   // ── Mobile layout ──────────────────────────────────────────────────────────
   if (mobile) {
+    const standaloneLinks = [
+      { href: '/transition', label: 'Transition', active: pathname.startsWith('/transition') },
+      { href: '/blog', label: 'Blog', active: pathname.startsWith('/blog') },
+      { href: '/about', label: 'About', active: pathname === '/about' },
+    ];
+
     return (
       <nav aria-label="Mobile navigation">
         <ul className="flex flex-col">
-          {/* Flagship calculator links */}
-          {FLAGSHIP_LINKS.map(({ href, label }) => (
-            <li key={href}>
-              <Link
-                href={href}
-                onClick={onClose}
-                className={[
-                  'block px-4 py-3 text-base font-medium border-b border-zinc-100',
-                  pathname === href ? 'text-red-700' : 'text-zinc-800 hover:text-zinc-900',
-                ].join(' ')}
-              >
-                {label}
-              </Link>
-            </li>
-          ))}
 
-          {/* Blog and Guides — top-level, before the calculator list */}
+          {/* Calculators accordion */}
           <li>
-            <Link
-              href="/blog"
-              onClick={onClose}
-              className={[
-                'block px-4 py-3 text-base font-medium border-b border-zinc-100',
-                pathname.startsWith('/blog') ? 'text-red-700' : 'text-zinc-800 hover:text-zinc-900',
-              ].join(' ')}
+            <button
+              onClick={() => setCalcOpen((o) => !o)}
+              className="flex items-center justify-between w-full px-4 py-3 text-base font-semibold border-b border-zinc-100 text-zinc-800"
+              aria-expanded={calcOpen}
             >
-              Blog
-            </Link>
+              Calculators
+              <svg
+                className={['w-4 h-4 text-zinc-400 transition-transform duration-150', calcOpen ? 'rotate-180' : ''].join(' ')}
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+            {calcOpen && (
+              <ul className="bg-zinc-50 border-b border-zinc-100">
+                {CALCULATOR_GROUPS.map((group, i) => (
+                  <li key={group.label}>
+                    {i > 0 && <div className="mx-4 border-t border-zinc-200" />}
+                    <p className="px-4 pt-3 pb-1 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                      {group.label}
+                    </p>
+                    <ul>
+                      {group.links.map(({ href, label }) => (
+                        <li key={href}>
+                          <Link
+                            href={href}
+                            onClick={onClose}
+                            className={[
+                              'block px-6 py-2.5 text-sm border-b border-zinc-100 last:border-0',
+                              pathname === href ? 'text-red-700 font-semibold' : 'text-zinc-700',
+                            ].join(' ')}
+                          >
+                            {label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
+
+          {/* Guides accordion */}
           <li>
-            <Link
-              href="/guides"
-              onClick={onClose}
-              className={[
-                'block px-4 py-3 text-base font-medium border-b border-zinc-100',
-                pathname.startsWith('/guides') ? 'text-red-700' : 'text-zinc-800 hover:text-zinc-900',
-              ].join(' ')}
+            <button
+              onClick={() => setGuidesOpen((o) => !o)}
+              className="flex items-center justify-between w-full px-4 py-3 text-base font-semibold border-b border-zinc-100 text-zinc-800"
+              aria-expanded={guidesOpen}
             >
               Guides
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/transition"
-              onClick={onClose}
-              className={[
-                'block px-4 py-3 text-base font-medium border-b border-zinc-100',
-                pathname.startsWith('/transition') ? 'text-red-700' : 'text-zinc-800 hover:text-zinc-900',
-              ].join(' ')}
-            >
-              Transition
-            </Link>
-          </li>
-
-          {/* More Calculators section */}
-          <li className="px-4 pt-4 pb-1">
-            <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">
-              More Calculators
-            </p>
-          </li>
-
-          {/* Grouped calculator categories */}
-          {DROPDOWN_GROUPS.map((group) => (
-            <li key={group.label}>
-              <p className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                {group.label}
-              </p>
-              <ul>
-                {group.links.map(({ href, label }) => (
+              <svg
+                className={['w-4 h-4 text-zinc-400 transition-transform duration-150', guidesOpen ? 'rotate-180' : ''].join(' ')}
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+            {guidesOpen && (
+              <ul className="bg-zinc-50 border-b border-zinc-100">
+                {GUIDES_LINKS.map(({ href, label }) => (
                   <li key={href}>
                     <Link
                       href={href}
                       onClick={onClose}
                       className={[
-                        'block px-6 py-2.5 text-sm border-b border-zinc-100',
-                        pathname === href || (href === '/bah' && pathname.startsWith('/bah'))
-                          ? 'text-red-700 font-semibold'
-                          : 'text-zinc-700 hover:text-zinc-900',
+                        'block px-6 py-2.5 text-sm border-b border-zinc-100 last:border-0',
+                        pathname === href ? 'text-red-700 font-semibold' : 'text-zinc-700',
                       ].join(' ')}
                     >
                       {label}
@@ -278,6 +351,22 @@ export function Nav({ mobile = false, onClose }: NavProps) {
                   </li>
                 ))}
               </ul>
+            )}
+          </li>
+
+          {/* Standalone links */}
+          {standaloneLinks.map(({ href, label, active }) => (
+            <li key={href}>
+              <Link
+                href={href}
+                onClick={onClose}
+                className={[
+                  'block px-4 py-3 text-base font-medium border-b border-zinc-100',
+                  active ? 'text-red-700' : 'text-zinc-800 hover:text-zinc-900',
+                ].join(' ')}
+              >
+                {label}
+              </Link>
             </li>
           ))}
         </ul>
@@ -289,70 +378,43 @@ export function Nav({ mobile = false, onClose }: NavProps) {
   return (
     <nav aria-label="Main navigation">
       <ul className="flex items-center gap-0.5">
-        {/* Flagship direct links */}
-        {FLAGSHIP_LINKS.map(({ href, label }) => (
-          <li key={href}>
-            <Link
-              href={href}
-              className={[
-                'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-                pathname === href
-                  ? 'text-red-700 bg-red-50'
-                  : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
-              ].join(' ')}
-            >
-              {label}
-            </Link>
-          </li>
-        ))}
-
-        {/* Calculators dropdown */}
         <li>
           <CalculatorsDropdown pathname={pathname} />
         </li>
-
-        {/* Guides — separated by a hairline */}
-        <li className="ml-1 pl-1 border-l border-zinc-200">
-          <Link
-            href="/guides"
-            className={[
-              'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-              pathname.startsWith('/guides')
-                ? 'text-red-700 bg-red-50'
-                : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
-            ].join(' ')}
-          >
-            Guides
-          </Link>
+        <li>
+          <GuidesDropdown pathname={pathname} />
         </li>
-
-        {/* Transition */}
         <li>
           <Link
             href="/transition"
             className={[
               'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-              pathname.startsWith('/transition')
-                ? 'text-red-700 bg-red-50'
-                : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
+              pathname.startsWith('/transition') ? 'text-red-700 bg-red-50' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
             ].join(' ')}
           >
             Transition
           </Link>
         </li>
-
-        {/* Blog */}
         <li>
           <Link
             href="/blog"
             className={[
               'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-              pathname.startsWith('/blog')
-                ? 'text-red-700 bg-red-50'
-                : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
+              pathname.startsWith('/blog') ? 'text-red-700 bg-red-50' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
             ].join(' ')}
           >
             Blog
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/about"
+            className={[
+              'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+              pathname === '/about' ? 'text-red-700 bg-red-50' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
+            ].join(' ')}
+          >
+            About
           </Link>
         </li>
       </ul>
