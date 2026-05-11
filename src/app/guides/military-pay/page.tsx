@@ -483,17 +483,17 @@ export default function MilitaryPayGuidePage() {
               <div className="bg-white rounded-xl border border-zinc-200 shadow-lg overflow-hidden w-full max-w-xs">
                 <div className="bg-zinc-50 border-b border-zinc-200 px-5 py-3 flex items-center justify-between">
                   <div>
-                    <p className="text-xs text-zinc-500 font-medium">E-5 · 8 years · San Diego, CA</p>
+                    <p className="text-xs text-zinc-500 font-medium">E-3 · 2 years · Fort Liberty, NC</p>
                     <p className="text-sm font-semibold text-zinc-800">Total Compensation Breakdown</p>
                   </div>
                   <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">2026 rates</span>
                 </div>
                 <div className="px-5 py-1 divide-y divide-zinc-100">
                   {[
-                    { label: 'Base Pay', value: '$4,299.90' },
-                    { label: 'BAH (w/ dependents)', value: '$3,975' },
+                    { label: 'Base Pay', value: '$3,015.00' },
+                    { label: 'BAH (w/ dependents)', value: '$1,722' },
                     { label: 'BAS', value: '$476.95' },
-                    { label: 'TSP Match (BRS)', value: '$172' },
+                    { label: 'TSP Match (BRS)', value: '$151' },
                   ].map(({ label, value }) => (
                     <div key={label} className="flex items-center justify-between py-2.5">
                       <span className="text-sm text-zinc-600">{label}</span>
@@ -504,11 +504,11 @@ export default function MilitaryPayGuidePage() {
                 <div className="mx-5 my-3 rounded-lg bg-red-50 border border-red-200 px-4 py-3 flex items-center justify-between">
                   <div>
                     <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Total Monthly</p>
-                    <p className="text-2xl font-bold tabular-nums text-red-700">$8,924</p>
+                    <p className="text-2xl font-bold tabular-nums text-red-700">$5,365</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-zinc-500">Civilian equivalent</p>
-                    <p className="text-sm font-semibold text-zinc-700">≈ $113,500 / yr</p>
+                    <p className="text-sm font-semibold text-zinc-700">≈ $67,500 / yr</p>
                   </div>
                 </div>
                 <div className="px-5 pb-4">
@@ -518,7 +518,7 @@ export default function MilitaryPayGuidePage() {
                 </div>
               </div>
               <p className="mt-3 text-xs text-center text-white/40">
-                Your numbers update live as you enter inputs
+                What an E-3 at Fort Liberty sees — your numbers update live as you enter inputs
               </p>
             </div>
           </div>
