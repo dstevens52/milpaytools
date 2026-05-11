@@ -380,7 +380,7 @@ export default function TransitionPage() {
           </div>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-3 mb-5">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-5">
             <Link
               href="/calculators/transition-readiness"
               className="inline-flex items-center justify-center rounded-lg bg-red-700 px-7 py-3.5 text-base font-bold text-white hover:bg-red-800 transition-all duration-300 shadow-md hover:shadow-lg"
@@ -392,6 +392,12 @@ export default function TransitionPage() {
               className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-7 py-3.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 hover:shadow-sm transition-all duration-300"
             >
               See What Changes After Separation ↓
+            </Link>
+            <Link
+              href="/transition/worksheet"
+              className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-7 py-3.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 hover:shadow-sm transition-all duration-300"
+            >
+              Open Printable TAP Student Worksheet →
             </Link>
           </div>
 
@@ -702,6 +708,11 @@ export default function TransitionPage() {
                 <InfoCard
                   title="Map your final timeline"
                   description="Map terminal leave, permissive TDY, final out date, and first civilian start date on the same calendar. Check your separation or retirement orders for your final move deadline and request extensions early if needed. Many members have a limited post-separation window to use final-move entitlements."
+                />
+                <ResourceCard
+                  href="/transition/worksheet"
+                  title="TAP Student Worksheet"
+                  description="Use the printable TAP worksheet to organize your numbers before your final TAP session. Captures pay, expenses, healthcare costs, VA estimates, and benefit deadlines in one place."
                 />
               </div>
             </div>
