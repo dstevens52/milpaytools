@@ -53,8 +53,8 @@ const COMPARISON_ROWS: { active: string; after: string }[] = [
     after: 'Employer plan, VA healthcare (if eligible), marketplace plan, CHCBP, or TAMP (180 days if eligible)',
   },
   {
-    active: 'SGLI — $500K coverage for ~$25/month',
-    after: 'VGLI conversion window (120 days after separation), private term policy, or employer group coverage',
+    active: 'SGLI — $500K coverage for ~$26/month',
+    after: 'SGLI ends 120 days after separation. VGLI can be requested up to 1 year and 120 days after separation, with no health questions required during the first 240 days.',
   },
   {
     active: 'TSP with automatic payroll contributions',
@@ -66,7 +66,7 @@ const COMPARISON_ROWS: { active: string; after: string }[] = [
   },
   {
     active: 'PCS entitlements for duty-station moves',
-    after: 'Final move entitlement — time-limited, typically one year after separation',
+    after: 'Most separating members have 180 days to complete their final move; most retirees have 3 years. Check your orders and branch transportation office for your specific deadline.',
   },
   {
     active: 'Commissary and exchange access, recreational facilities',
@@ -210,7 +210,7 @@ const AFTER_SEP_ITEMS: {
   {
     text: 'Revisit your total compensation baseline',
     detail:
-      'Run the Total Compensation Calculator with your new civilian salary to see exactly how your compensation changed. Quantifying the delta helps you make informed decisions about negotiating raises or benefits.',
+      'Run the Total Compensation Calculator with your new civilian salary to see exactly how your compensation changed. Quantifying the delta helps you evaluate pay, benefits, expenses, and future job offers with clearer numbers.',
     href: '/calculators/total-compensation',
     external: false,
   },
@@ -356,11 +356,15 @@ export default function TransitionPage() {
             look like after you take off the uniform.
           </h1>
 
-          <p className="text-lg text-zinc-600 leading-relaxed mb-7">
+          <p className="text-lg text-zinc-600 leading-relaxed mb-4">
             Separation changes more than your paycheck. BAH, BAS, TRICARE, tax advantages, and TSP
             contributions all shift on day one.{' '}
             <strong className="text-zinc-900">Use free tools to see exactly where you stand</strong>{' '}
             — before you sign out.
+          </p>
+
+          <p className="text-sm font-medium text-zinc-500 mb-7">
+            Leave TAP with your numbers, deadlines, and next steps written down.
           </p>
 
           {/* Urgency stat */}
@@ -600,7 +604,7 @@ export default function TransitionPage() {
                 <ResourceCard
                   href="/calculators/va-disability"
                   title="VA Disability Rating Calculator"
-                  description="If you have any service-connected conditions, your VA disability rating directly affects your post-separation income. Know your estimated rating now — before you start any civilian salary negotiations."
+                  description="If you have any service-connected conditions, your VA disability rating directly affects your post-separation income. Know your estimated rating now — so your post-separation income plan is more complete before evaluating civilian offers."
                 />
                 <ResourceCard
                   href="/blog/file-va-disability-before-separation"
@@ -610,7 +614,7 @@ export default function TransitionPage() {
                 <ResourceCard
                   href="/calculators/tsp"
                   title="TSP Growth Projector"
-                  description="Review your TSP balance and contribution strategy. Your last months on active duty may be your best opportunity to maximize contributions — especially if you'll be moving to a higher tax bracket as a civilian."
+                  description="Review your TSP balance and contribution strategy. Your last months on active duty may be your best opportunity to review contribution levels, Roth vs. Traditional choices, and how your civilian tax bracket could change."
                 />
                 <ResourceCard
                   href="/calculators/transition-readiness"
@@ -627,7 +631,7 @@ export default function TransitionPage() {
             <div className="pb-10 sm:pb-12">
               <p className="text-base text-zinc-600 leading-relaxed mb-8 max-w-2xl">
                 You&apos;ve done the math. Now it&apos;s time to take action on the benefits that have
-                deadlines. Miss these windows and you can&apos;t go back.
+                deadlines. Miss these windows and your options get narrower, more expensive, or harder to fix.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <ResourceCard
@@ -777,7 +781,7 @@ export default function TransitionPage() {
                   <path d="M12 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                   <polyline points="14 2 14 8 20 8" />
                 </svg>
-                Download printable TAP worksheet (no account required) →
+                Open Printable TAP Student Worksheet →
               </Link>
             </div>
           </div>
