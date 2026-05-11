@@ -9,7 +9,7 @@ import { Select } from '@/components/ui/Select';
 import { Input } from '@/components/ui/Input';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { Card } from '@/components/ui/Card';
-import { ShareButton } from '@/components/calculators/shared/ShareButton';
+import { ShareBar } from '@/components/calculators/shared/ShareButton';
 import { DATA_YEAR } from '@/data/pay-tables/2026';
 import {
   ENLISTED_GRADES,
@@ -670,7 +670,6 @@ export function TransitionReadinessCalculator() {
 
             {/* Share + Print buttons — hidden in print */}
             <div className="flex justify-end gap-2 print:hidden">
-              <ShareButton getUrl={getShareUrl} />
               <button
                 type="button"
                 onClick={() => window.print()}
@@ -693,6 +692,7 @@ export function TransitionReadinessCalculator() {
                 Save as PDF
               </button>
             </div>
+            <ShareBar getUrl={getShareUrl} className="print:hidden" />
 
             {/* Print-only header */}
             <div className="hidden print:block pb-4 mb-2 border-b border-zinc-200">

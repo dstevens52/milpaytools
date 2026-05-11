@@ -19,7 +19,7 @@ import {
 import type { TotalCompensationInput, ActionStep } from '@/types/calculator';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
-import { ShareButton } from '@/components/calculators/shared/ShareButton';
+import { ShareBar } from '@/components/calculators/shared/ShareButton';
 
 // ─── Grade options grouped for the dropdown ────────────────────────────────
 
@@ -366,9 +366,7 @@ export function TotalCompensationCalculator() {
           )}
         </div>
 
-        <div className="flex justify-end -mt-2">
-          <ShareButton getUrl={getShareUrl} />
-        </div>
+        <ShareBar getUrl={getShareUrl} />
 
         {/* Breakdown */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
-import { ShareButton } from '@/components/calculators/shared/ShareButton';
+import { ShareBar } from '@/components/calculators/shared/ShareButton';
 import { lookupBAH, getMHARates, getMHACode, isTerritory, isZipInDataset } from '@/lib/calculations/bah';
 import { ENLISTED_GRADES, WARRANT_GRADES, OFFICER_GRADES, PRIOR_ENLISTED_OFFICER_GRADES, RANK_DISPLAY } from '@/types/military';
 import type { PayGrade } from '@/types/military';
@@ -404,9 +404,7 @@ export function BAHCalculator() {
           </Card>
 
           {result && (
-            <div className="flex justify-end -mt-2">
-              <ShareButton getUrl={getShareUrl} />
-            </div>
+            <ShareBar getUrl={getShareUrl} />
           )}
 
           {/* Rate table */}

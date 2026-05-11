@@ -21,7 +21,7 @@ import { ENLISTED_GRADES, WARRANT_GRADES, OFFICER_GRADES, PRIOR_ENLISTED_OFFICER
 import { ALLOCATION_PRESETS, TSP_CONSTANTS_2026, type FundKey } from '@/data/tsp/2026/constants';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool } from '@/lib/urlParams';
-import { ShareButton } from '@/components/calculators/shared/ShareButton';
+import { ShareBar } from '@/components/calculators/shared/ShareButton';
 
 // ─── Grade dropdown groups ────────────────────────────────────────────────
 
@@ -532,9 +532,7 @@ export function TSPCalculator() {
               </p>
             )}
           </Card>
-          <div className="-mt-2 flex justify-end">
-            <ShareButton getUrl={getShareUrl} />
-          </div>
+          <ShareBar getUrl={getShareUrl} />
 
           {/* Growth chart */}
           <Card>

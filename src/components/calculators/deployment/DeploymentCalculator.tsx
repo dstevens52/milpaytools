@@ -7,7 +7,7 @@ import { ActSteps } from '@/components/calculators/shared/ActStep';
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
-import { ShareButton } from '@/components/calculators/shared/ShareButton';
+import { ShareBar } from '@/components/calculators/shared/ShareButton';
 
 // ─── Pay grade options ────────────────────────────────────────────────────────
 
@@ -671,9 +671,7 @@ export function DeploymentCalculator() {
               </div>
             </PhaseCard>
           </div>
-          <div className="flex justify-end">
-            <ShareButton getUrl={getShareUrl} />
-          </div>
+          <ShareBar getUrl={getShareUrl} />
 
           {/* ── CZTE notice for officers ──────────────────────────────── */}
           {result.isOfficer && isCombatZone && (

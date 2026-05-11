@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
-import { ShareButton } from '@/components/calculators/shared/ShareButton';
+import { ShareBar } from '@/components/calculators/shared/ShareButton';
 import { lookupBAH, isTerritory, isZipInDataset } from '@/lib/calculations/bah';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import {
@@ -543,9 +543,7 @@ export function DualMilitaryBAHCalculator() {
             </div>
           </Card>
 
-          <div className="flex justify-end -mt-2">
-            <ShareButton getUrl={getShareUrl} />
-          </div>
+          <ShareBar getUrl={getShareUrl} />
 
           {/* ── Per-member breakdown ─────────────────────────────────── */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

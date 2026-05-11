@@ -12,7 +12,7 @@ import {
   type DependentConfig,
   type CalculationStep,
 } from '@/lib/calculations/va-disability';
-import { ShareButton } from '@/components/calculators/shared/ShareButton';
+import { ShareBar } from '@/components/calculators/shared/ShareButton';
 
 // ─── Constants ─────────────────────────────────────────────────────────────
 
@@ -517,9 +517,7 @@ export function VADisabilityCalculator() {
             </div>
           </Card>
 
-          <div className="flex justify-end -mt-2">
-            <ShareButton getUrl={getShareUrl} />
-          </div>
+          <ShareBar getUrl={getShareUrl} />
 
           {/* Step-by-step breakdown */}
           <Card>

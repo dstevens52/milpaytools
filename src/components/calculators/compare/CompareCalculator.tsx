@@ -5,7 +5,7 @@ import { compareLocations } from '@/lib/calculations/compare';
 import type { CompareResult, LocationData } from '@/lib/calculations/compare';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
-import { ShareButton } from '@/components/calculators/shared/ShareButton';
+import { ShareBar } from '@/components/calculators/shared/ShareButton';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -366,9 +366,7 @@ export function CompareCalculator() {
           {/* Summary */}
           <SummaryCard result={result} nameA={nameA} nameB={nameB} />
 
-          <div className="flex justify-end">
-            <ShareButton getUrl={getShareUrl} />
-          </div>
+          <ShareBar getUrl={getShareUrl} />
 
           {/* Detailed comparison */}
           <div className="bg-white rounded-lg border border-zinc-200 shadow-sm p-6">

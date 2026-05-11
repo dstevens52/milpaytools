@@ -31,7 +31,7 @@ import {
 } from '@/lib/calculations/retirement';
 import { DATA_YEAR } from '@/data/pay-tables/2026';
 import { parseGrade, gradeToParam } from '@/lib/urlParams';
-import { ShareButton } from '@/components/calculators/shared/ShareButton';
+import { ShareBar } from '@/components/calculators/shared/ShareButton';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -472,9 +472,7 @@ export function RetirementCalculator() {
           )}
         </div>
       </div>
-      <div className="flex justify-end">
-        <ShareButton getUrl={getShareUrl} />
-      </div>
+      <ShareBar getUrl={getShareUrl} />
 
       {/* ── Result cards grid ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
