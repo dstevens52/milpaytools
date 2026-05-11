@@ -17,9 +17,9 @@ export function Header() {
               src="/images/logo-shield.svg"
               alt=""
               aria-hidden="true"
-              width={28}
-              height={35}
-              className="w-7 h-auto flex-none"
+              width={40}
+              height={50}
+              className="w-10 h-auto flex-none"
             />
             <span className="text-zinc-900 font-bold text-lg tracking-tight">
               MilPay<span className="text-red-700">Tools</span>
