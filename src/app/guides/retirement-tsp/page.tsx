@@ -48,17 +48,17 @@ const FAQS = [
   {
     question: 'What are the 2026 TSP contribution limits?',
     answer:
-      '2026 limits: annual elective deferral $24,500; catch-up contributions age 50–59 and 64+: additional $8,000 (total $32,500); enhanced catch-up ages 60–63 under SECURE 2.0: additional $11,250 (total $35,750). Combat zone contributions have no annual limit on special pay contributions. TSP expense ratio: 0.055% — far below any comparable civilian 401(k).',
+      '2026 limits: annual elective deferral $24,500; catch-up contributions age 50–59 and 64+: additional $8,000 (total $32,500); enhanced catch-up ages 60–63 under SECURE 2.0: additional $11,250 (total $35,750). Combat-zone tax-exempt pay can allow contributions above the elective deferral limit, but total contributions remain subject to the annual additions limit ($70,000 in 2026). TSP expense ratio: 0.055% — far below any comparable civilian 401(k).',
   },
   {
     question: 'Should I choose Roth or Traditional TSP?',
     answer:
-      'Roth TSP is generally preferred for junior and mid-grade service members in the 12–22% bracket. Contributions from combat zone tax-excluded pay going into Roth TSP are never taxed at any point. Military retirees already have a taxable pension income stream, making tax-free Roth withdrawals more valuable in retirement.',
+      'Roth TSP often deserves a closer look for junior and mid-grade service members, especially during low-tax or combat-zone years. Contributions from combat zone tax-excluded pay going into Roth TSP are never taxed at any point. Military retirees already have a taxable pension income stream, making tax-free Roth withdrawals more valuable in retirement.',
   },
   {
     question: 'How does BRS TSP matching work?',
     answer:
-      'Under BRS: 1% automatic contribution begins after 60 days (vests at 2 years). Dollar-for-dollar match on first 3% of base pay (vests immediately). 50 cents on the dollar for the next 2%. Maximum government contribution: 5% of base pay when you contribute at least 5%. Contributing less than 5% means leaving guaranteed matching money on the table.',
+      'Under BRS: 1% automatic contribution begins after 60 days (vests at 2 years). Dollar-for-dollar match on first 3% of base pay (vests immediately). 50 cents on the dollar for the next 2%. Maximum government contribution: 5% of base pay when you contribute at least 5%. Under BRS, contributing less than 5% of base pay means missing part of the available government match.',
   },
   {
     question: 'Is it worth staying to 20 years for the pension?',
@@ -85,9 +85,9 @@ const INSIGHT_CARDS = [
   {
     accent: 'bg-emerald-600',
     label: 'Decision 2',
-    title: 'TSP matching is free money — but only if you contribute',
+    title: 'BRS matching can add thousands to your retirement savings — if your contributions qualify',
     description:
-      'Under BRS, the government matches up to 5% of your base pay. Contributing less than 5% is leaving guaranteed money on the table. At 0.055% expense ratio, TSP is the cheapest retirement plan in the country.',
+      'Under BRS, the government matches up to 5% of your base pay. Contributing less than 5% of base pay means missing part of the available government match. At 0.055% expense ratio, TSP is the cheapest retirement plan in the country.',
     cta: 'Project my TSP growth →',
     href: '/calculators/tsp',
   },
@@ -122,8 +122,8 @@ const ACCORDION = [
         <p>
           <strong className="text-zinc-800">REDUX (rare):</strong> Some legacy-era service members
           accepted a $30,000 Career Status Bonus at 15 years in exchange for a reduced retirement
-          COLA adjustment. REDUX significantly reduces the real value of the pension over time and is
-          rarely the right choice in hindsight.
+          COLA adjustment. REDUX has significantly reduced the real value of the pension over time
+          for most who chose it.
         </p>
         <p>
           If you&apos;re unsure which system you&apos;re on: your LES will show TSP matching
@@ -188,7 +188,7 @@ const ACCORDION = [
           <li>Annual elective deferral: <strong className="text-zinc-800">$24,500</strong></li>
           <li>Catch-up (age 50–59 and 64+): additional $8,000 → total $32,500</li>
           <li>Enhanced catch-up (ages 60–63, SECURE 2.0): additional $11,250 → total $35,750</li>
-          <li>Combat zone: no annual limit on special pay contributions</li>
+          <li>Combat zone: tax-exempt pay can allow contributions above the elective deferral limit, but total contributions remain subject to the annual additions limit ($70,000 in 2026)</li>
         </ul>
         <p><strong className="text-zinc-800">TSP fund options:</strong></p>
         <ul className="space-y-1 pl-4 list-disc">
@@ -228,7 +228,7 @@ const ACCORDION = [
             <strong className="text-zinc-800">Combat zone Roth opportunity:</strong> Contributions
             from combat zone tax-excluded pay can go into Roth TSP completely tax-free — you&apos;re
             contributing untaxed money that will never be taxed again on withdrawal. This is one of
-            the most favorable tax plays available to service members.
+            the most notable tax opportunities available to service members.
           </li>
           <li>
             <strong className="text-zinc-800">Pension backstop:</strong> Military retirees already
@@ -270,9 +270,10 @@ const ACCORDION = [
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
-          The 20-year mark is the financial cliff in military retirement — retire at 19 years and 11
-          months and you receive exactly $0 in pension. Retire at 20 years and you receive a defined
-          benefit for life.
+          The 20-year mark is the financial cliff in regular active-duty retirement — retire at 19 years
+          and 11 months and you receive exactly $0 in defined-benefit pension. Retire at 20 years and
+          you receive a benefit for life. (Disability retirement, medical retirement, and special programs
+          may have different rules.)
         </p>
         <p><strong className="text-zinc-800">What the pension is actually worth:</strong></p>
         <p>

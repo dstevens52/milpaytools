@@ -38,7 +38,7 @@ const FAQS = [
   {
     question: 'What does the Post-9/11 GI Bill cover?',
     answer:
-      'At 100% eligibility, Post-9/11 GI Bill (Chapter 33) covers: full tuition at public in-state institutions (private/out-of-state capped at ~$30,908/year in 2026–2027); a Monthly Housing Allowance (MHA) based on BAH for an E-5 with dependents at the school\'s ZIP code; and a book and supply stipend up to $1,000/year. Entitlement is 36 months. Online-only students receive 50% of the national average BAH (~$948/month in 2026) regardless of location.',
+      'At 100% eligibility, Post-9/11 GI Bill (Chapter 33) covers: full tuition at public in-state institutions (private/out-of-state capped at ~$30,908/year in 2026–2027); a Monthly Housing Allowance (MHA) based on BAH for an E-5 with dependents at the school\'s ZIP code; and a book and supply stipend up to $1,000/year. Entitlement is 36 months. Online-only MHA is up to $1,261/month for the 2026-2027 academic year, subject to eligibility tier and rate of pursuit.',
   },
   {
     question: 'Why does my school\'s ZIP code matter for GI Bill?',
@@ -48,12 +48,12 @@ const FAQS = [
   {
     question: 'What is VR&E Chapter 31 and who qualifies?',
     answer:
-      'Vocational Rehabilitation and Employment (Chapter 31) has no tuition cap, covers all books and supplies, includes a subsistence allowance, and does not consume GI Bill months. Veterans with a service-connected disability rating (even 0% with an employment handicap) may qualify. Using VR&E first preserves all 36 months of GI Bill for a later program or transfer to dependents.',
+      'Vocational Rehabilitation and Employment (Chapter 31) can cover approved tuition, required books, and supplies under a counselor-approved rehabilitation plan, and does not consume GI Bill months. Eligibility and covered services depend on VA counselor approval. Veterans with a service-connected disability rating (even 0% with an employment handicap) may qualify. Using VR&E first preserves all 36 months of GI Bill for a later program or transfer to dependents.',
   },
   {
     question: 'Should I use Tuition Assistance or the GI Bill first?',
     answer:
-      'Use Tuition Assistance (TA) while on active duty — it covers up to $4,500/year and costs zero GI Bill months. Save all 36 months of GI Bill for after separation, when you\'ll need the housing allowance to replace your military paycheck. On active duty you have BAH covering housing already; the GI Bill MHA adds no marginal value.',
+      'While on active duty, Tuition Assistance is often worth considering first — it covers up to $4,500/year and costs zero GI Bill months. Preserving GI Bill months for after separation can increase their value, since eligible students receive MHA when no longer on active-duty pay.',
   },
   {
     question: 'How does GI Bill transfer to dependents work?',
@@ -63,12 +63,12 @@ const FAQS = [
   {
     question: 'How do online programs affect GI Bill housing allowance?',
     answer:
-      'Students enrolled exclusively in online courses receive 50% of the national average BAH rate (approximately $948/month in 2026 for full-time enrollment), regardless of where they physically live or the school\'s ZIP code. Hybrid programs with any in-person attendance qualify for the full school ZIP code rate.',
+      'Students enrolled exclusively in online courses receive online-only MHA of up to $1,261/month for the 2026-2027 academic year, subject to eligibility tier and rate of pursuit — regardless of where they physically live or the school\'s ZIP code. Hybrid programs with any in-person attendance qualify for the full school ZIP code rate.',
   },
   {
     question: 'What is the Montgomery GI Bill (MGIB)?',
     answer:
-      'MGIB (Chapter 30) pays a flat monthly rate ($2,324/month in 2026 for full-time enrollment) regardless of school or location. Unlike Post-9/11, it doesn\'t cover tuition separately. For nearly all service members at standard four-year programs, Post-9/11 GI Bill is more valuable. MGIB can be advantageous at very low-cost schools where the flat rate exceeds what GI Bill tuition coverage would provide.',
+      'MGIB (Chapter 30) pays a flat monthly rate ($2,518/month for full-time enrollment with 3+ years of service (Oct 2025–Sept 2026)) regardless of school or location. Unlike Post-9/11, it doesn\'t cover tuition separately. For nearly all service members at standard four-year programs, Post-9/11 GI Bill is more valuable. MGIB can be advantageous at very low-cost schools where the flat rate exceeds what GI Bill tuition coverage would provide.',
   },
   {
     question: 'How should I sequence my education benefits?',
@@ -90,9 +90,9 @@ const INSIGHT_CARDS = [
   {
     accent: 'bg-emerald-600',
     label: 'Decision 2',
-    title: 'Use Tuition Assistance first, save GI Bill for later',
+    title: 'While on active duty, Tuition Assistance is often worth considering first — it does not use GI Bill months',
     description:
-      'TA covers $4,500/year while on active duty and costs zero GI Bill months. Save all 36 months of GI Bill for after separation — when you\'ll actually need the housing allowance.',
+      'TA covers $4,500/year while on active duty and costs zero GI Bill months. Preserving GI Bill months for after separation can increase their value, since eligible students receive MHA when no longer on active-duty pay.',
     cta: 'See the sequencing strategy →',
     href: '#learning',
   },
@@ -101,7 +101,7 @@ const INSIGHT_CARDS = [
     label: 'Decision 3',
     title: 'VR&E Chapter 31 may be more valuable than GI Bill',
     description:
-      'If you have a service-connected disability, VR&E has no tuition cap, covers all books and supplies, and doesn\'t consume GI Bill months. Using VR&E first preserves your GI Bill for transfer to dependents or a second program.',
+      'If you have a service-connected disability, VR&E can cover approved tuition and required books under a counselor-approved rehabilitation plan, and doesn\'t consume GI Bill months. Eligibility and covered services depend on VA counselor approval. Using VR&E first may preserve your GI Bill for transfer to dependents or a second program.',
     cta: 'Compare VR&E vs GI Bill →',
     href: '#learning',
   },
@@ -127,7 +127,7 @@ const ACCORDION = [
         <p><strong className="text-zinc-800">At 100% eligibility, the GI Bill covers:</strong></p>
         <ul className="space-y-1 pl-4 list-disc">
           <li><strong className="text-zinc-800">Tuition:</strong> Full tuition at public in-state institutions. Private/out-of-state capped at ~$30,908/year (2026–2027). Yellow Ribbon may cover the gap at participating schools.</li>
-          <li><strong className="text-zinc-800">Monthly Housing Allowance (MHA):</strong> BAH rate for an E-5 with dependents at the school&apos;s primary campus ZIP code. Online-only students receive 50% of national average BAH (~$948/month in 2026).</li>
+          <li><strong className="text-zinc-800">Monthly Housing Allowance (MHA):</strong> BAH rate for an E-5 with dependents at the school&apos;s primary campus ZIP code. Online-only MHA is up to $1,261/month for the 2026-2027 academic year, subject to eligibility tier and rate of pursuit.</li>
           <li><strong className="text-zinc-800">Book stipend:</strong> Up to $1,000/year.</li>
           <li><strong className="text-zinc-800">Entitlement:</strong> 36 months (4 academic years).</li>
         </ul>
@@ -196,8 +196,7 @@ const ACCORDION = [
         </p>
         <p><strong className="text-zinc-800">Key differences from GI Bill:</strong></p>
         <ul className="space-y-2 pl-4 list-disc">
-          <li><strong className="text-zinc-800">No tuition cap:</strong> Covers full tuition at any approved school, including graduate and professional programs.</li>
-          <li><strong className="text-zinc-800">Books and supplies:</strong> Fully covered, no cap.</li>
+          <li><strong className="text-zinc-800">Tuition and supplies:</strong> VR&amp;E can cover approved tuition, required books, and supplies under a counselor-approved rehabilitation plan. Eligibility and covered services depend on VA counselor approval.</li>
           <li><strong className="text-zinc-800">Duration:</strong> Up to 48 months for an undergraduate degree.</li>
           <li><strong className="text-zinc-800">No GI Bill consumption:</strong> VR&amp;E has a separate entitlement — using it does not consume GI Bill months.</li>
           <li><strong className="text-zinc-800">Eligibility:</strong> Service-connected disability with an employment handicap. A 0% rating can qualify. Veterans at 10%+ are presumed to have an employment handicap.</li>
@@ -264,8 +263,8 @@ const ACCORDION = [
         </p>
         <p>
           A transferred GI Bill benefit covering a dependent child&apos;s four-year degree is worth
-          $100,000–$200,000 in avoided tuition and loans. The 4-year service commitment required is
-          essentially paid for by the value of the transfer.
+          $100,000–$200,000 in avoided tuition and loans. The 4-year service commitment required to
+          transfer is often viewed as worthwhile given the potential value of the transferred benefit.
         </p>
       </div>
     ),
@@ -277,13 +276,12 @@ const ACCORDION = [
         <p>
           GI Bill MHA for fully online programs is paid at{' '}
           <strong className="text-zinc-800">50% of the national average BAH rate</strong> —
-          approximately $948/month in 2026 for full-time enrollment — regardless of where you
-          physically live or the school&apos;s ZIP code.
+          up to $1,261/month for the 2026-2027 academic year, subject to eligibility tier and
+          rate of pursuit — regardless of where you physically live or the school&apos;s ZIP code.
         </p>
         <p>
-          This is significantly lower than the BAH-based MHA at most urban schools. If maximizing
-          MHA is a priority, in-person programs at high-BAH locations outperform online programs by
-          a wide margin.
+          In-person programs at high-BAH locations generally produce significantly higher MHA than
+          online-only programs.
         </p>
         <p>
           <strong className="text-zinc-800">Hybrid programs:</strong> If any classroom attendance
@@ -308,7 +306,7 @@ const ACCORDION = [
         </p>
         <p>
           <strong className="text-zinc-800">How it works:</strong> MGIB pays a flat monthly rate —
-          $2,324/month in 2026 for full-time enrollment — regardless of school or location. It
+          $2,518/month for full-time enrollment with 3+ years of service (Oct 2025–Sept 2026) — regardless of school or location. It
           doesn&apos;t cover tuition separately; you receive the flat monthly payment and use it for
           tuition plus living expenses.
         </p>

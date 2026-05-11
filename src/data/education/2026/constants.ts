@@ -52,8 +52,8 @@ export const EDUCATION_RATES = {
   },
 
   mgib: {
-    /** Chapter 30 monthly payment — full-time, 2025-2026 rate */
-    fullTimeMonthly: 2185,
+    /** Chapter 30 monthly payment — full-time, Oct 2025–Sept 2026 (3+ years service) */
+    fullTimeMonthly: 2518,
     /** Total months of entitlement */
     entitlementMonths: 36,
     /** Months paid per academic year (same 2-semester model) */

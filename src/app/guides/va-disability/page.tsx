@@ -53,7 +53,7 @@ const FAQS = [
   {
     question: 'What is Benefits Delivery at Discharge (BDD) and why does it matter?',
     answer:
-      'BDD allows you to file a VA disability claim 90–180 days before separation using VA Form 21-526EZ. Your effective date equals your filing date, protecting back pay regardless of how long the decision takes. BDD claims average 30-day decisions versus 90+ days for standard post-separation claims.',
+      'BDD allows you to file a VA disability claim 180 to 90 days before separation using VA Form 21-526EZ. Your effective date equals your filing date, protecting back pay regardless of how long the decision takes. Filing through BDD may help the VA process your claim sooner.',
   },
   {
     question: 'What is CRDP and who qualifies?',
@@ -87,7 +87,7 @@ const INSIGHT_CARDS = [
     label: 'Thing 2',
     title: 'Filing before separation is worth thousands',
     description:
-      'BDD (Benefits Delivery at Discharge) lets you file 90–180 days before separation. Your effective date equals your filing date, which protects back pay. Waiting until after separation delays everything.',
+      'BDD (Benefits Delivery at Discharge) lets you file 180 to 90 days before separation. Your effective date equals your filing date, which protects back pay. Waiting until after separation delays everything.',
     cta: 'Learn about BDD timing →',
     href: '#learning',
   },
@@ -167,9 +167,9 @@ const ACCORDION = [
         </ul>
         <p>
           Near a rounding boundary, the bilateral factor can push you across a threshold worth
-          hundreds per month. If you have symptoms on both sides of any paired extremity,{' '}
-          <strong className="text-zinc-800">file for both sides</strong>. Even a 10% rating on the
-          second side triggers the factor.
+          hundreds per month. If symptoms affect both sides of a paired extremity, reviewing
+          both sides with a VSO or accredited representative can help ensure your claim reflects
+          the full medical picture.
         </p>
       </div>
     ),
@@ -244,11 +244,10 @@ const ACCORDION = [
           decision takes months.
         </p>
         <p>
-          <strong className="text-zinc-800">2. BDD is faster.</strong> The Benefits Delivery at
+          <strong className="text-zinc-800">2. BDD may speed processing.</strong> The Benefits Delivery at
           Discharge program allows service members to file{' '}
-          <strong className="text-zinc-800">90–180 days before separation</strong> using VA Form
-          21-526EZ. The VA begins processing your claim while you&apos;re still on active duty, producing
-          average 30-day decisions versus 90+ days for standard post-separation claims.
+          <strong className="text-zinc-800">180 to 90 days before separation</strong> using VA Form
+          21-526EZ. Filing while still on active duty may help the VA process your claim sooner.
         </p>
         <p>
           Your military medical records are the foundation of any service-connection claim. They are
@@ -314,14 +313,15 @@ const ACCORDION = [
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
           SGLI (Servicemembers&apos; Group Life Insurance) provides up to $500,000 in coverage at{' '}
-          <strong className="text-zinc-800">$25/month for maximum coverage</strong> while on active
-          duty. It terminates 120 days after separation.
+          <strong className="text-zinc-800">$26/month for most service members with maximum coverage</strong> while on active
+          duty. It continues at no cost for 120 days after separation, then ends unless converted.
         </p>
         <p>
-          <strong className="text-zinc-800">VGLI (Veterans&apos; Group Life Insurance):</strong> Converts
-          automatically from SGLI. Apply within 240 days of separation — no medical exam required
-          within that window. Premiums start low for younger veterans but increase substantially
-          with age. By the mid-40s, VGLI often costs more than comparable private coverage.
+          <strong className="text-zinc-800">VGLI (Veterans&apos; Group Life Insurance):</strong> You can
+          convert SGLI to VGLI by applying within 1 year and 120 days after separation. It is not
+          automatic — you must apply. No medical exam is required if you apply within 240 days.
+          Premiums start low for younger veterans but increase substantially with age. By the
+          mid-40s, VGLI often costs more than comparable private coverage.
         </p>
         <p>
           <strong className="text-zinc-800">Private term life insurance:</strong> For veterans in
@@ -384,7 +384,7 @@ const RELATED = [
     border: 'border-l-emerald-500',
     label: 'BDD GUIDE',
     title: 'File Your VA Disability Claim Before Separation',
-    description: 'Why filing through BDD while still on active duty produces faster decisions and better outcomes — with a step-by-step timeline.',
+    description: 'Why filing through BDD while still on active duty may help the VA process your claim sooner — with a step-by-step timeline.',
   },
   {
     href: '/blog/crdp-vs-crsc-military-retirement',
