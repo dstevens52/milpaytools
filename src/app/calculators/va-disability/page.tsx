@@ -37,7 +37,7 @@ export default function VADisabilityPage() {
 
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-6">
           <div className="flex items-start gap-4">
             <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
               <span className="text-white font-black text-lg leading-none select-none">★</span>
@@ -49,13 +49,13 @@ export default function VADisabilityPage() {
               <p className="text-red-700 font-semibold mt-1.5 text-base leading-snug">
                 Stop guessing your VA combined rating.
               </p>
-              <p className="text-zinc-600 mt-1 text-sm leading-relaxed max-w-2xl">
+              <p className="hidden md:block text-zinc-600 mt-1 text-sm leading-relaxed max-w-2xl">
                 Enter each service-connected condition to see the official VA whole-person formula
                 applied step by step, with the bilateral factor calculated automatically.
               </p>
             </div>
           </div>
-          <DataCurrencyBadge source="Official VA rates effective December 1, 2025 (2.8% COLA)" />
+          <div className="hidden md:block"><DataCurrencyBadge source="Official VA rates effective December 1, 2025 (2.8% COLA)" /></div>
         </div>
       </div>
 

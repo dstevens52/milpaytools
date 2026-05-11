@@ -36,7 +36,7 @@ export default function GuardReservePage() {
       <JsonLdScript schema={webApplicationSchema({ name: 'Guard & Reserve Pay Calculator 2026', description: 'Estimate total Guard and Reserve annual compensation: drill pay (MUTA), Annual Training pay, Tricare Reserve Select savings, and BRS matching. Uses 2026 DFAS pay tables.', url: '/calculators/guard-reserve' })} />
       {/* ── Page intro ──────────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
           <div className="flex items-start gap-4">
             <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
               <span className="text-white font-black text-lg leading-none select-none">⭐</span>
@@ -45,7 +45,7 @@ export default function GuardReservePage() {
               <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
                 Guard &amp; Reserve Pay Calculator — 2026
               </h1>
-              <p className="text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
+              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
                 Estimate your total annual compensation as a Guard or Reserve member — drill pay,
                 Annual Training income, Tricare Reserve Select savings, and BRS government TSP
                 matching. See what your service is actually worth per drill weekend.
@@ -53,7 +53,7 @@ export default function GuardReservePage() {
             </div>
           </div>
 
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-3 hidden md:flex flex-wrap gap-3">
             {[
               { text: 'All ranks E-1 through O-10' },
               { text: 'MUTA-4/6/8 drill schedules' },
@@ -68,7 +68,7 @@ export default function GuardReservePage() {
               </span>
             ))}
           </div>
-          <DataCurrencyBadge source="Official DFAS &amp; DTMO rates" />
+          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS &amp; DTMO rates" /></div>
         </div>
       </div>
 

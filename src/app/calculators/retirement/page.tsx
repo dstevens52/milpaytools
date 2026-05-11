@@ -38,8 +38,8 @@ export default function RetirementCalculatorPage() {
     <div className="bg-zinc-50">
       {/* Page header */}
       <div className="bg-white border-b border-zinc-200">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10">
-          <div className="inline-flex items-center gap-2 mb-4">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+          <div className="hidden md:inline-flex items-center gap-2 mb-4">
             <span className="block w-6 h-0.5 bg-red-700" />
             <span className="text-sm font-semibold text-red-700 uppercase tracking-widest">
               Free · Official 2026 data
@@ -51,12 +51,12 @@ export default function RetirementCalculatorPage() {
               Military Retirement Calculator
             </h1>
           </div>
-          <p className="text-lg text-zinc-600 max-w-2xl mb-5">
+          <p className="hidden md:block text-lg text-zinc-600 max-w-2xl mb-5">
             The &ldquo;Should I stay to 20?&rdquo; calculator. Estimate your pension under High-3 or BRS,
             project your TSP balance, see your lifetime pension value, and combine VA disability
             income — all using official 2026 pay tables.
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="hidden md:flex flex-wrap gap-2">
             {['High-3 & BRS', 'Live TSP projection', 'Lifetime value', 'CRDP eligible check', '2026 pay tables'].map((badge) => (
               <span
                 key={badge}
@@ -66,12 +66,12 @@ export default function RetirementCalculatorPage() {
               </span>
             ))}
           </div>
-          <DataCurrencyBadge source="2026 DFAS pay tables" />
+          <div className="hidden md:block"><DataCurrencyBadge source="2026 DFAS pay tables" /></div>
         </div>
       </div>
 
       {/* Calculator */}
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-6">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-3 md:py-6">
         <RetirementCalculator />
       </div>
 

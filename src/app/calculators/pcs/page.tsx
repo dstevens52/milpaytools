@@ -36,7 +36,7 @@ export default function PCSPage() {
       <JsonLdScript schema={webApplicationSchema({ name: 'PCS Cost Estimator 2026', description: 'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY profit potential. Uses 2026 DTMO rates for all ranks.', url: '/calculators/pcs' })} />
       {/* ── Page intro ─────────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
           <div className="flex items-start gap-4">
             <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
               <span className="text-white font-black text-lg leading-none select-none">📦</span>
@@ -45,7 +45,7 @@ export default function PCSPage() {
               <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
                 PCS Cost Estimator — 2026 Rates
               </h1>
-              <p className="text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
+              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
                 Estimate your total PCS move entitlements — DLA, mileage (MALT), per diem, TLE, and
                 PPM/DITY profit potential — all from one place. Uses 2026 DTMO rates for all ranks.
                 Compare government move vs. PPM to see which puts more money in your pocket.
@@ -53,7 +53,7 @@ export default function PCSPage() {
             </div>
           </div>
 
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-3 hidden md:flex flex-wrap gap-3">
             {[
               { text: 'DLA + MALT + Per Diem' },
               { text: 'PPM profit calculation' },
@@ -68,7 +68,7 @@ export default function PCSPage() {
               </span>
             ))}
           </div>
-          <DataCurrencyBadge source="Official DFAS &amp; DTMO rates" />
+          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS &amp; DTMO rates" /></div>
         </div>
       </div>
 

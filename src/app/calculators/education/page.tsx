@@ -35,8 +35,8 @@ export default function EducationCalculatorPage() {
     <div className="min-h-screen bg-zinc-50">
       {/* Page header */}
       <div className="bg-white border-b border-zinc-200">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-10">
-          <div className="inline-flex items-center gap-2 mb-4">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+          <div className="hidden md:inline-flex items-center gap-2 mb-4">
             <span className="block w-6 h-0.5 bg-red-700" />
             <span className="text-sm font-semibold text-red-700 uppercase tracking-widest">
               Education &amp; Transition
@@ -45,12 +45,12 @@ export default function EducationCalculatorPage() {
           <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 mb-3">
             Education Benefits Comparison
           </h1>
-          <p className="text-lg text-zinc-600 max-w-2xl">
+          <p className="hidden md:block text-lg text-zinc-600 max-w-2xl">
             See the total dollar value of Post-9/11 GI Bill, VR&amp;E, Tuition Assistance, and
             Montgomery GI Bill side by side — and find out which benefit is worth the most for your
             specific school, location, and situation.
           </p>
-          <DataCurrencyBadge source="2026 VA MHA rates &bull; DFAS pay tables" />
+          <div className="hidden md:block"><DataCurrencyBadge source="2026 VA MHA rates &bull; DFAS pay tables" /></div>
         </div>
       </div>
 

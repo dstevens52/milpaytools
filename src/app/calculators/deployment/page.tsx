@@ -36,7 +36,7 @@ export default function DeploymentPage() {
       <JsonLdScript schema={webApplicationSchema({ name: 'Deployment Pay Calculator 2026', description: 'Calculate your deployment pay increase: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings, and Savings Deposit Program interest. All ranks, 2026 rates.', url: '/calculators/deployment' })} />
       {/* ── Page intro ─────────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
           <div className="flex items-start gap-4">
             <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
               <span className="text-white font-black text-lg leading-none select-none">🎖️</span>
@@ -45,7 +45,7 @@ export default function DeploymentPage() {
               <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
                 Deployment Pay Calculator — 2026 Rates
               </h1>
-              <p className="text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
+              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
                 See exactly how much more you take home during a deployment — before vs. during vs.
                 full tour total. Models HFP/IDP, Hardship Duty Pay, Family Separation Allowance,
                 Combat Zone Tax Exclusion, Savings Deposit Program, and TSP contribution capacity.
@@ -53,7 +53,7 @@ export default function DeploymentPage() {
             </div>
           </div>
 
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-3 hidden md:flex flex-wrap gap-3">
             {[
               { text: 'All ranks E-1 through O-10' },
               { text: 'CZTE tax savings (enlisted & officer)' },
@@ -68,7 +68,7 @@ export default function DeploymentPage() {
               </span>
             ))}
           </div>
-          <DataCurrencyBadge source="Official DFAS &amp; DTMO rates" />
+          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS &amp; DTMO rates" /></div>
         </div>
       </div>
 

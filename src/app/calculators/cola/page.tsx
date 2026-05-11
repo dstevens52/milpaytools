@@ -36,8 +36,8 @@ export default function ColaPage() {
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'CONUS COLA Calculator 2026', description: 'Check whether your duty station qualifies for CONUS Cost of Living Allowance and see approximate monthly rates by grade. Uses DTMO area data for 2026.', url: '/calculators/cola' })} />
       <div className="bg-white border-b border-zinc-200">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10">
-          <div className="inline-flex items-center gap-2 mb-4">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+          <div className="hidden md:inline-flex items-center gap-2 mb-4">
             <span className="block w-6 h-0.5 bg-red-700" />
             <span className="text-sm font-semibold text-red-700 uppercase tracking-widest">
               Active Duty Pay
@@ -46,15 +46,15 @@ export default function ColaPage() {
           <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 mb-3">
             CONUS COLA Calculator
           </h1>
-          <p className="text-lg text-zinc-600 max-w-2xl">
+          <p className="hidden md:block text-lg text-zinc-600 max-w-2xl">
             Continental U.S. Cost of Living Allowance supplements pay at high-cost duty stations.
             Enter your ZIP code to check eligibility and see approximate monthly rates.
           </p>
-          <DataCurrencyBadge source="Official DFAS &amp; DTMO rates" />
+          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS &amp; DTMO rates" /></div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-6 md:py-10 space-y-10">
         <ColaCalculator />
 
         {/* Example Calculation */}

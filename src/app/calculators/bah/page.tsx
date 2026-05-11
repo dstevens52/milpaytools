@@ -37,7 +37,7 @@ export default function BAHPage() {
       <JsonLdScript schema={webApplicationSchema({ name: 'BAH Calculator 2026', description: 'Look up your 2026 BAH rate by ZIP code, pay grade, and dependency status. Covers all 40,959 ZIP codes using official DTMO data. Compare rates across duty stations.', url: '/calculators/bah' })} />
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
           <div className="flex items-start gap-4">
             <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
               <span className="text-white font-black text-lg leading-none select-none">⌂</span>
@@ -46,7 +46,7 @@ export default function BAHPage() {
               <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
                 BAH Calculator — 2026 Rates
               </h1>
-              <p className="text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
+              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
                 Look up your Basic Allowance for Housing rate by ZIP code, pay grade, and dependency
                 status. Uses official 2026 DTMO data covering all 40,959 ZIP codes across all U.S.
                 military housing areas. Includes a PCS comparison tool to see how your BAH changes
@@ -55,7 +55,7 @@ export default function BAHPage() {
             </div>
           </div>
 
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-3 hidden md:flex flex-wrap gap-3">
             {[
               { text: '40,959 ZIP codes' },
               { text: '299 military housing areas' },
@@ -70,7 +70,7 @@ export default function BAHPage() {
               </span>
             ))}
           </div>
-          <DataCurrencyBadge source="Official DFAS &amp; DTMO rates" />
+          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS &amp; DTMO rates" /></div>
         </div>
       </div>
 

@@ -37,7 +37,7 @@ export default function PayChartsPage() {
       <JsonLdScript schema={webApplicationSchema({ name: '2026 Military Pay Charts', description: 'Official 2026 military pay tables for all ranks E-1 through O-10 and warrant officers. 3.8% pay raise effective January 1, 2026. Monthly basic pay by grade and years of service.', url: '/calculators/pay-charts' })} />
       {/* ── Hero ──────────────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
           <div className="flex items-start gap-4">
             <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
               <span className="text-white font-black text-lg leading-none select-none">$</span>
@@ -46,7 +46,7 @@ export default function PayChartsPage() {
               <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
                 2026 Military Pay Charts
               </h1>
-              <p className="text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
+              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
                 Official basic pay rates for all ranks and years of service, effective January 1,
                 2026. Use the quick lookup to find your rate instantly, or scroll to browse the full
                 tables.
@@ -54,7 +54,7 @@ export default function PayChartsPage() {
             </div>
           </div>
 
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-3 hidden md:flex flex-wrap gap-3">
             {[
               { icon: '📊', text: 'All ranks E-1 through O-10' },
               { icon: '⭐', text: 'Warrant officers W-1 through W-5' },
@@ -70,7 +70,7 @@ export default function PayChartsPage() {
               </span>
             ))}
           </div>
-          <DataCurrencyBadge source="Official DFAS &amp; DTMO rates" />
+          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS &amp; DTMO rates" /></div>
         </div>
       </div>
 

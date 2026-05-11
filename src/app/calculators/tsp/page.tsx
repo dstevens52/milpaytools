@@ -36,7 +36,7 @@ export default function TSPPage() {
       <JsonLdScript schema={webApplicationSchema({ name: 'TSP Growth Projector 2026', description: 'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 contribution limits.', url: '/calculators/tsp' })} />
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
           <div className="flex items-start gap-4">
             <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
               <span className="text-white font-black text-lg leading-none select-none">↗</span>
@@ -45,7 +45,7 @@ export default function TSPPage() {
               <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
                 TSP Growth Projector
               </h1>
-              <p className="text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
+              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
                 See how your Thrift Savings Plan grows between now and retirement. Inputs your
                 pay grade, BRS matching, and fund allocation — then models compound growth year by year
                 with a contribution increase assumption and a full Roth vs. Traditional comparison.
@@ -53,7 +53,7 @@ export default function TSPPage() {
             </div>
           </div>
 
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-3 hidden md:flex flex-wrap gap-3">
             {[
               'BRS matching calculator',
               'Fund allocation (G/F/C/S/I)',
@@ -69,7 +69,7 @@ export default function TSPPage() {
               </span>
             ))}
           </div>
-          <DataCurrencyBadge source="2026 IRS contribution limits &bull; DFAS pay tables" />
+          <div className="hidden md:block"><DataCurrencyBadge source="2026 IRS contribution limits &bull; DFAS pay tables" /></div>
         </div>
       </div>
 

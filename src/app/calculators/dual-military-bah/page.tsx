@@ -37,7 +37,7 @@ export default function DualMilitaryBAHPage() {
       <JsonLdScript schema={webApplicationSchema({ name: 'Dual Military BAH Calculator 2026', description: 'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.', url: '/calculators/dual-military-bah' })} />
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
           <div className="flex items-start gap-4">
             <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
               <span className="text-white font-black text-lg leading-none select-none">⌂⌂</span>
@@ -46,7 +46,7 @@ export default function DualMilitaryBAHPage() {
               <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
                 Dual Military BAH Calculator — 2026 Rates
               </h1>
-              <p className="text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
+              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
                 Calculate total household BAH for dual active-duty couples. Enter both members&apos;
                 pay grades, your duty station ZIP, and whether you have dependents — the calculator
                 shows the optimal dependent-claiming configuration and the dollar difference between
@@ -55,7 +55,7 @@ export default function DualMilitaryBAHPage() {
             </div>
           </div>
 
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-3 hidden md:flex flex-wrap gap-3">
             {[
               { text: 'Same or different duty stations' },
               { text: 'Dependent-claiming comparison' },
@@ -70,7 +70,7 @@ export default function DualMilitaryBAHPage() {
               </span>
             ))}
           </div>
-          <DataCurrencyBadge source="Official DFAS &amp; DTMO rates" />
+          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS &amp; DTMO rates" /></div>
         </div>
       </div>
 

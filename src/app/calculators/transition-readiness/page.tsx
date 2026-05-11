@@ -46,7 +46,7 @@ export default function TransitionReadinessPage() {
 
       {/* ── Page intro ─────────────────────────────────────────────── */}
       <div className="tr-page-intro bg-zinc-50 border-b border-zinc-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
           <div className="flex items-start gap-4">
             <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
               <svg
@@ -66,7 +66,7 @@ export default function TransitionReadinessPage() {
               <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
                 Transition Readiness Calculator
               </h1>
-              <p className="text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
+              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
                 Separating from the military isn&apos;t just a career change — it&apos;s a complete
                 financial reset. This calculator compares what you earn now against what you&apos;ll
                 need on the civilian side: salary, VA compensation, healthcare costs, and emergency
@@ -76,7 +76,7 @@ export default function TransitionReadinessPage() {
             </div>
           </div>
 
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-3 hidden md:flex flex-wrap gap-3">
             {[
               { icon: '📊', text: 'Full compensation comparison' },
               { icon: '🏥', text: 'Healthcare replacement cost' },
@@ -92,7 +92,7 @@ export default function TransitionReadinessPage() {
               </span>
             ))}
           </div>
-          <DataCurrencyBadge source="Official DFAS, DTMO &amp; VA rates" />
+          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS, DTMO &amp; VA rates" /></div>
         </div>
       </div>
 
