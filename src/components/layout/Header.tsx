@@ -13,9 +13,14 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group" aria-label="MilPayTools home">
-            <div className="flex items-center justify-center w-8 h-8 rounded bg-red-700 group-hover:bg-red-800 transition-colors">
-              <span className="text-white font-black text-sm leading-none select-none">$</span>
-            </div>
+            <img
+              src="/images/logo-shield.svg"
+              alt=""
+              aria-hidden="true"
+              width={28}
+              height={35}
+              className="w-7 h-auto flex-none"
+            />
             <span className="text-zinc-900 font-bold text-lg tracking-tight">
               MilPay<span className="text-red-700">Tools</span>
             </span>

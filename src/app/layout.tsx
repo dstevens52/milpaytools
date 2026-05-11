@@ -36,6 +36,13 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     images: ['/api/og?type=home&title=MilPayTools&v=2'],
   },
+  icons: {
+    icon: [
+      { url: '/images/logo-shield-simple.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico' },
+    ],
+    apple: '/images/logo-shield-simple.svg',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
