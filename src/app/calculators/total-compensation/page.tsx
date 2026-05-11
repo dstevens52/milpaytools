@@ -37,7 +37,7 @@ export default function TotalCompensationPage() {
       <JsonLdScript schema={webApplicationSchema({ name: 'Total Military Compensation Calculator 2026', description: 'Calculate your true total military compensation: base pay, BAH, BAS, TSP match, and tax advantage. See the civilian salary equivalent using official 2026 DoD rates.', url: '/calculators/total-compensation' })} />
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
           <div className="flex items-start gap-4">
             <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
               <span className="text-white font-black text-lg leading-none select-none">$</span>
@@ -58,7 +58,7 @@ export default function TotalCompensationPage() {
             </div>
           </div>
 
-          <div className="mt-5 hidden md:flex flex-wrap gap-3">
+          <div className="mt-3 hidden md:flex flex-wrap gap-3">
             {[
               { icon: '📊', text: 'Official 2026 DoD pay tables' },
               { icon: '🏠', text: '40,959 ZIP codes' },
@@ -80,27 +80,24 @@ export default function TotalCompensationPage() {
 
       {/* ── 3-step plan strip ────────────────────────────────────────── */}
       <div className="hidden md:block border-b border-zinc-200 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row items-stretch gap-6 md:gap-0">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
+          <div className="flex items-center gap-5">
             {[
-              { n: 1, title: 'Enter your military profile', body: 'Rank, years of service, duty station ZIP, dependents, and retirement system.' },
-              { n: 2, title: 'See your full compensation', body: 'Base pay, BAH, BAS, tax advantage, and BRS match — all in one view.' },
-              { n: 3, title: 'Compare with confidence', body: 'Use the civilian salary equivalent before evaluating a job offer, PCS, or transition plan.' },
-            ].map(({ n, title, body }, i, arr) => (
+              { n: 1, title: 'Enter your military profile' },
+              { n: 2, title: 'See your full compensation' },
+              { n: 3, title: 'Compare with confidence' },
+            ].map(({ n, title }, i, arr) => (
               <>
-                <div key={n} className="flex-1 flex flex-col items-center text-center px-4 md:px-6">
-                  <div className="w-9 h-9 rounded-full bg-red-700 text-white flex items-center justify-center font-bold text-base mb-3 flex-none">
+                <div key={n} className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-full bg-red-700 text-white flex items-center justify-center font-bold text-xs flex-none">
                     {n}
                   </div>
-                  <p className="font-bold text-zinc-900 text-sm mb-1">{title}</p>
-                  <p className="text-xs text-zinc-500 leading-relaxed">{body}</p>
+                  <p className="font-semibold text-zinc-700 text-sm whitespace-nowrap">{title}</p>
                 </div>
                 {i < arr.length - 1 && (
-                  <div key={`sep-${n}`} className="hidden md:flex items-center flex-none text-zinc-300">
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
-                    </svg>
-                  </div>
+                  <svg key={`sep-${n}`} className="w-4 h-4 text-zinc-300 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
+                  </svg>
                 )}
               </>
             ))}
