@@ -49,7 +49,7 @@ export default function TotalCompensationPage() {
               <p className="text-zinc-800 mt-2 text-lg font-semibold leading-snug">
                 See what your military compensation is really worth.
               </p>
-              <p className="text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
+              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
                 Base pay is only part of the picture. This calculator adds your BAH (Basic Allowance
                 for Housing), BAS (Basic Allowance for Subsistence), TSP retirement match, and
                 quantifies the tax advantage of your tax-free allowances — then converts it all into
@@ -58,7 +58,7 @@ export default function TotalCompensationPage() {
             </div>
           </div>
 
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-5 hidden md:flex flex-wrap gap-3">
             {[
               { icon: '📊', text: 'Official 2026 DoD pay tables' },
               { icon: '🏠', text: '40,959 ZIP codes' },
@@ -74,12 +74,12 @@ export default function TotalCompensationPage() {
               </span>
             ))}
           </div>
-          <DataCurrencyBadge source="Official DFAS &amp; DTMO rates" />
+          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS &amp; DTMO rates" /></div>
         </div>
       </div>
 
       {/* ── 3-step plan strip ────────────────────────────────────────── */}
-      <div className="border-b border-zinc-200 bg-white">
+      <div className="hidden md:block border-b border-zinc-200 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-stretch gap-6 md:gap-0">
             {[
