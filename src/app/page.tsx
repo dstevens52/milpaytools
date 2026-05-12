@@ -68,7 +68,7 @@ function SampleCard() {
         </div>
         <div className="text-right">
           <p className="text-xs text-zinc-500">Civilian equivalent</p>
-          <p className="text-sm font-semibold text-zinc-700">≈ $113,500 / yr</p>
+          <p className="text-sm font-semibold text-zinc-700">≈ $114,000 / yr</p>
         </div>
       </div>
 
