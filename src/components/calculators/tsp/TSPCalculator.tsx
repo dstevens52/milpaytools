@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { fireCalculatorEvent } from '@/lib/analytics';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Legend,
@@ -151,6 +152,14 @@ export function TSPCalculator() {
       annualPayRaisePct: parseFloat(annualRaise) || 0,
     });
   }, [startingBalance, monthlyContrib, retirementSystem, grade, yos, allocation, yearsToProject, annualRaise, allocationValid]);
+
+  const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => {
+    if (!projection) return;
+    clearTimeout(_gaTimerRef.current);
+    _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('tsp'), 800);
+    return () => clearTimeout(_gaTimerRef.current);
+  }, [projection]);
 
   const rothComparison = useMemo(() => {
     if (!projection) return null;

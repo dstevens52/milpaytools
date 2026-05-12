@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useId, useEffect } from 'react';
+import { useState, useMemo, useId, useEffect, useRef } from 'react';
+import { fireCalculatorEvent } from '@/lib/analytics';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
 import { Input } from '@/components/ui/Input';
@@ -180,6 +181,14 @@ export function VADisabilityCalculator() {
     () => getCompensation(result.rounded, deps),
     [result.rounded, deps]
   );
+
+  const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => {
+    if (disabilities.length === 0) return;
+    clearTimeout(_gaTimerRef.current);
+    _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('va-disability'), 800);
+    return () => clearTimeout(_gaTimerRef.current);
+  }, [disabilities]);
 
   // What-if scenarios
   const whatIfResults = useMemo(() => {

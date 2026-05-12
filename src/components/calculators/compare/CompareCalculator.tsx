@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { compareLocations } from '@/lib/calculations/compare';
+import { fireCalculatorEvent } from '@/lib/analytics';
 import type { CompareResult, LocationData } from '@/lib/calculations/compare';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
@@ -232,6 +233,14 @@ export function CompareCalculator() {
       zipB,
     });
   }, [payGrade, yos, hasDependents, zipA, zipB, bothReady]);
+
+  const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => {
+    if (!result) return;
+    clearTimeout(_gaTimerRef.current);
+    _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('compare'), 800);
+    return () => clearTimeout(_gaTimerRef.current);
+  }, [result]);
 
   // Display names for each location
   const nameA = labelA.trim() || result?.locA.locationName || `ZIP ${zipA}`;

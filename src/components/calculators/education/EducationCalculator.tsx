@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { fireCalculatorEvent } from '@/lib/analytics';
 import { Card } from '@/components/ui/Card';
 import { isValidZip } from '@/lib/utils';
 import {
@@ -260,6 +261,15 @@ export function EducationCalculator() {
   }), [status, serviceTier, vaRating, schoolType, schoolZip, annualTuition, programYears, enrollment]);
 
   const result = useMemo(() => compareAllBenefits(input), [input]);
+
+  const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const _gaMountedRef = useRef(false);
+  useEffect(() => {
+    if (!_gaMountedRef.current) { _gaMountedRef.current = true; return; }
+    clearTimeout(_gaTimerRef.current);
+    _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('education'), 800);
+    return () => clearTimeout(_gaTimerRef.current);
+  }, [result]);
 
   const mhaMonthsPerYear = 9; // display constant (matches EDUCATION_RATES.giBill.mhaMonthsPerYear)
 

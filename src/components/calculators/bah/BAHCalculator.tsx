@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { fireCalculatorEvent } from '@/lib/analytics';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
@@ -255,6 +256,14 @@ export function BAHCalculator() {
     if (zipB.length !== 5 || !/^\d{5}$/.test(zipB)) return null;
     return lookupBAH({ zipCode: zipB, payGrade: grade, hasDependents });
   }, [zipB, grade, hasDependents]);
+
+  const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => {
+    if (!result) return;
+    clearTimeout(_gaTimerRef.current);
+    _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('bah'), 800);
+    return () => clearTimeout(_gaTimerRef.current);
+  }, [result]);
 
   // MHA code for rate table (single mode)
   const mhaCode = useMemo(() => {

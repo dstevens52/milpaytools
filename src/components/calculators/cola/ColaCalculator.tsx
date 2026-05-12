@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { lookupCola } from '@/lib/calculations/cola';
+import { fireCalculatorEvent } from '@/lib/analytics';
 import type { PayGrade } from '@/types/military';
 
 const PAY_GRADES: { group: string; grades: PayGrade[] }[] = [
@@ -41,6 +42,14 @@ export function ColaCalculator() {
     if (!isValidZip) return null;
     return lookupCola({ zipCode: zipDigits, payGrade, hasDependents });
   }, [zipDigits, payGrade, hasDependents, isValidZip]);
+
+  const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => {
+    if (!result) return;
+    clearTimeout(_gaTimerRef.current);
+    _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('cola'), 800);
+    return () => clearTimeout(_gaTimerRef.current);
+  }, [result]);
 
   return (
     <div className="bg-white rounded-lg border border-zinc-200 shadow-sm">

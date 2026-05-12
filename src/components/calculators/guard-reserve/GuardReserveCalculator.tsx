@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { fireCalculatorEvent } from '@/lib/analytics';
 import { Card } from '@/components/ui/Card';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import {
@@ -206,6 +207,15 @@ export function GuardReserveCalculator() {
 
   const output: GuardReserveOutput = useMemo(() => calculateGuardReserve(input), [input]);
   const actionSteps = useMemo(() => buildActionSteps(output, input), [output, input]);
+
+  const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const _gaMountedRef = useRef(false);
+  useEffect(() => {
+    if (!_gaMountedRef.current) { _gaMountedRef.current = true; return; }
+    clearTimeout(_gaTimerRef.current);
+    _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('guard-reserve'), 800);
+    return () => clearTimeout(_gaTimerRef.current);
+  }, [output]);
 
   const chartSegments = [
     { label: 'Drill pay', value: output.annualDrillPay, color: 'bg-red-700' },

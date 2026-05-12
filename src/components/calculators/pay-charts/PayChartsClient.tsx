@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { fireCalculatorEvent } from '@/lib/analytics';
 import { payTable } from '@/data/pay-tables/2026';
 import {
   ENLISTED_GRADES,
@@ -202,6 +203,15 @@ export function PayChartsClient() {
   const activePay = getPayAtBracket(selectedGrade, selectedYOS);
   const monthlyPay = activePay;
   const annualPay = activePay !== null ? activePay * 12 : null;
+
+  const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const _gaMountedRef = useRef(false);
+  useEffect(() => {
+    if (!_gaMountedRef.current) { _gaMountedRef.current = true; return; }
+    clearTimeout(_gaTimerRef.current);
+    _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('pay-charts'), 800);
+    return () => clearTimeout(_gaTimerRef.current);
+  }, [selectedGrade, selectedYOS]);
 
   const gradesByGroup = ALL_LOOKUP_GRADES.reduce<Record<string, GradeOption[]>>((acc, g) => {
     if (!acc[g.group]) acc[g.group] = [];

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { fireCalculatorEvent } from '@/lib/analytics';
 import {
   AreaChart,
   Area,
@@ -200,6 +201,15 @@ export function RetirementCalculator() {
        tspContributionPct, tspCurrentBalance, tspAnnualReturnPct, vaRating]);
 
   const output = useMemo(() => calculateRetirement(input), [input]);
+
+  const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const _gaMountedRef = useRef(false);
+  useEffect(() => {
+    if (!_gaMountedRef.current) { _gaMountedRef.current = true; return; }
+    clearTimeout(_gaTimerRef.current);
+    _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('retirement'), 800);
+    return () => clearTimeout(_gaTimerRef.current);
+  }, [output]);
 
   const chartData = useMemo(
     () => buildPensionChartData(

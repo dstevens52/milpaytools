@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { calculateTransitionReadiness } from '@/lib/calculations/transition-readiness';
+import { fireCalculatorEvent } from '@/lib/analytics';
 import { formatCurrency } from '@/lib/utils';
 import { ResultCard } from '@/components/calculators/shared/ResultCard';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
@@ -290,6 +291,15 @@ export function TransitionReadinessCalculator() {
   );
 
   const hasEngaged = civilianSalary > 0 && result.rawMonthlyExpenses > 0;
+
+  const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => {
+    if (!hasEngaged) return;
+    clearTimeout(_gaTimerRef.current);
+    _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('transition-readiness'), 800);
+    return () => clearTimeout(_gaTimerRef.current);
+  }, [hasEngaged]);
+
   const vc = VERDICT_CONFIG[result.verdict];
   const efBarPct = Math.min(100, (result.emergencyFundMonths / 12) * 100);
   const sepYearOptions = useMemo(() => getSepYearOptions(), []);

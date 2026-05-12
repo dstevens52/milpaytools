@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { fireCalculatorEvent } from '@/lib/analytics';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
@@ -275,6 +276,14 @@ export function DualMilitaryBAHCalculator() {
 
     return steps;
   }, [results, whoClaimsDeps]);
+
+  const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => {
+    if (!results) return;
+    clearTimeout(_gaTimerRef.current);
+    _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('dual-military-bah'), 800);
+    return () => clearTimeout(_gaTimerRef.current);
+  }, [results]);
 
   // ── Empty state ───────────────────────────────────────────────────────────
   function emptyStateMessage() {

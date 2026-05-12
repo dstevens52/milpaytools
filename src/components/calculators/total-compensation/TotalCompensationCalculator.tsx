@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
+import { fireCalculatorEvent } from '@/lib/analytics';
 import { formatCurrency } from '@/lib/utils';
 import { ResultCard } from '@/components/calculators/shared/ResultCard';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
@@ -183,6 +184,15 @@ export function TotalCompensationCalculator() {
   const actionSteps = useMemo(() => buildActionSteps(result, input), [
     result, grade, yos, zipCode, hasDependents, retirementSystem, tspPct, govHousing, mealCard,
   ]);
+
+  const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const _gaMountedRef = useRef(false);
+  useEffect(() => {
+    if (!_gaMountedRef.current) { _gaMountedRef.current = true; return; }
+    clearTimeout(_gaTimerRef.current);
+    _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('total-compensation'), 800);
+    return () => clearTimeout(_gaTimerRef.current);
+  }, [result]);
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">

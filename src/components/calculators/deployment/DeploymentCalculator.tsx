@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { calculateDeployment } from '@/lib/calculations/deployment';
+import { fireCalculatorEvent } from '@/lib/analytics';
 import { DEPLOYMENT_RATES_2026 } from '@/data/deployment/2026/constants';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import type { PayGrade } from '@/types/military';
@@ -288,6 +289,14 @@ export function DeploymentCalculator() {
     if (!result) return [];
     return buildActionSteps(isCombatZone, result.isOfficer, usingSDP, tspPct, result.tour.totalTourBenefit);
   }, [result, isCombatZone, usingSDP, tspPct]);
+
+  const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => {
+    if (!result) return;
+    clearTimeout(_gaTimerRef.current);
+    _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('deployment'), 800);
+    return () => clearTimeout(_gaTimerRef.current);
+  }, [result]);
 
   // Effective HDP (capped if receiving HFP)
   const effectiveHDP = receivingHFP ? Math.min(hdpLevel, DEPLOYMENT_RATES_2026.hdpCapWithHFP) : hdpLevel;
