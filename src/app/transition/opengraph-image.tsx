@@ -7,6 +7,7 @@ export const contentType = OG_CONTENT_TYPE;
 
 export default function Image() {
   return makeOgResponse({
+    variant: 'transition',
     label: 'Transition Guide',
     title: 'Are you financially ready to leave the military?',
     subtitle: 'Transition Readiness Calculator + Financial Guide · Official 2026 DoD & VA Data',

@@ -17,6 +17,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const subtitle = guide?.description ?? 'Comprehensive military finance guide.';
 
   return makeOgResponse({
+    variant: 'guide',
     label: 'Comprehensive Guide',
     title,
     subtitle,

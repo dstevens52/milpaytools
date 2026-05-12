@@ -17,5 +17,5 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const subtitle = post?.description ?? 'Military pay & benefits insights.';
   const label = post?.category ?? 'Article';
 
-  return makeOgResponse({ label, title, subtitle, accent: 'MilPayTools · Free · No Account Required' });
+  return makeOgResponse({ variant: 'blog', label, title, subtitle, accent: 'MilPayTools · Free · No Account Required' });
 }
