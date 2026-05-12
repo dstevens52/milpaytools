@@ -49,7 +49,6 @@ function SampleCard() {
           { label: 'Base Pay', value: '$4,299.90', sub: '/mo' },
           { label: 'BAH (w/ dependents)', value: '$3,975', sub: '/mo' },
           { label: 'BAS', value: '$476.95', sub: '/mo' },
-          { label: 'TSP Match (BRS)', value: '$172', sub: '/mo' },
         ].map(({ label, value, sub }) => (
           <div key={label} className="flex items-center justify-between py-2.5">
             <span className="text-sm text-zinc-600">{label}</span>
@@ -65,7 +64,7 @@ function SampleCard() {
       <div className="mx-5 my-3 rounded-lg bg-red-50 border border-red-200 px-4 py-3 flex items-center justify-between">
         <div>
           <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Total Monthly</p>
-          <p className="text-2xl font-bold tabular-nums text-red-700">$8,924</p>
+          <p className="text-2xl font-bold tabular-nums text-red-700">$8,752</p>
         </div>
         <div className="text-right">
           <p className="text-xs text-zinc-500">Civilian equivalent</p>
