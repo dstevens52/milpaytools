@@ -153,7 +153,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Stats ── */}
-      <section className="bg-white py-10 px-4">
+      <section className="bg-white border-b border-zinc-200 py-10 px-4">
         <div className="mx-auto max-w-3xl">
           <dl className="grid grid-cols-2 sm:grid-cols-4 gap-6">
             {STATS.map(({ value, label }) => (
@@ -163,6 +163,26 @@ export default function AboutPage() {
               </div>
             ))}
           </dl>
+        </div>
+      </section>
+
+      {/* ── Feedback & Contact ── */}
+      <section className="bg-zinc-50 py-12 sm:py-16 px-4">
+        <div className="mx-auto max-w-3xl">
+          <div className="w-8 h-0.5 bg-red-700 rounded-full mb-5" aria-hidden="true" />
+          <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 mb-4 tracking-tight">
+            Feedback &amp; Contact
+          </h2>
+          <p className="text-base text-zinc-600 leading-relaxed mb-5">
+            MilPayTools is actively developed and regularly updated. If you find an error, have a
+            suggestion, or want to see a new calculator, reach out.
+          </p>
+          <a
+            href="mailto:dan@milpaytools.com"
+            className="text-red-700 font-medium hover:text-red-800 transition-colors"
+          >
+            dan@milpaytools.com
+          </a>
         </div>
       </section>
 
