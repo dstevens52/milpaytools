@@ -17,6 +17,13 @@ function fmt(n: number): string {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
 }
 
+function fmtExact(n: number): string {
+  const cents = n % 1;
+  return cents === 0
+    ? n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
+    : n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
 function getHouseholdSize(fs: FamilyStatus): number {
   switch (fs) {
     case 'single': return 1;
@@ -113,9 +120,9 @@ function calculate(
       const dedUsage = Math.round(base.deductible * 0.45);
       const notes: string[] = [];
       if (annualIncome > 0) {
-        notes.push(`${Math.round(rate * 100)}% subsidy applied (income ${Math.round((annualIncome / fpl) * 100)}% FPL)`);
+        notes.push(`Estimated ~${Math.round(rate * 100)}% subsidy applied. Actual subsidy depends on age, location, and benchmark plan — verify at Healthcare.gov.`);
       } else {
-        notes.push('Enter annual household income to calculate subsidy');
+        notes.push('Enter annual household income for an approximate subsidy estimate.');
       }
       return {
         monthlyPremium: subsidizedMonthly,
@@ -226,7 +233,10 @@ function CoverageColumn({
   tier?: PlanTier;
 }) {
   const green = 'text-green-700 font-semibold';
-  const num = (n: number) => (n === 0 ? <span className={green}>{fmt(n)}</span> : <span>{fmt(n)}</span>);
+  const num = (n: number, exact = false) =>
+    n === 0
+      ? <span className={green}>{fmt(n)}</span>
+      : <span>{exact ? fmtExact(n) : fmt(n)}</span>;
 
   return (
     <div
@@ -252,7 +262,7 @@ function CoverageColumn({
       <dl className="space-y-2 text-sm">
         <div className="flex items-center justify-between">
           <dt className="text-zinc-500">Monthly premium</dt>
-          <dd className="font-semibold tabular-nums">{num(premium)}</dd>
+          <dd className="font-semibold tabular-nums">{num(premium, path === 'trs')}</dd>
         </div>
         {path !== 'va' && (
           <>
@@ -488,7 +498,7 @@ export function HealthcareComparisonCalculator() {
                 const pct = Math.round((annualIncome / fpl) * 100);
                 return (
                   <p className="mt-1 text-xs text-zinc-500">
-                    {pct}% of 2026 FPL for household of {size}
+                    {pct}% of 2025 FPL used for 2026 coverage (household of {size}). Verify at Healthcare.gov.
                   </p>
                 );
               })()}
@@ -525,10 +535,10 @@ export function HealthcareComparisonCalculator() {
           />
         </div>
 
-        {/* VA family coverage note */}
+        {/* VA family coverage warning */}
         {path === 'va' && isFamily(familyStatus) && (
-          <div className="rounded-md bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-amber-800">
-            <strong>Note:</strong> VA healthcare covers you only — your spouse and children are not eligible. Budget for separate family coverage (employer, ACA, or TRICARE Reserve Select).
+          <div className="rounded-md bg-amber-50 border-2 border-amber-300 px-4 py-3 text-sm text-amber-900">
+            <span className="font-bold">⚠️ VA healthcare covers the veteran only.</span> Your spouse and children will need separate coverage through an employer plan, ACA marketplace, or other source.
           </div>
         )}
 
@@ -573,7 +583,7 @@ export function HealthcareComparisonCalculator() {
               <p className="text-sm text-zinc-600 mt-1">
                 {path === 'va' && vaRating === '50plus'
                   ? 'VA healthcare at 50%+ has no premium cost for service-connected conditions.'
-                  : `This is what you\'ll spend on healthcare that was free under active-duty TRICARE.`}
+                  : 'This estimate shows the added healthcare cost under your selected coverage assumptions.'}
               </p>
             </div>
 
@@ -584,7 +594,7 @@ export function HealthcareComparisonCalculator() {
               </h3>
               <dl className="space-y-2 text-sm mb-4">
                 <div className="flex justify-between">
-                  <dt className="text-zinc-500">Annual premiums ({fmt(result.monthlyPremium)}/mo × 12)</dt>
+                  <dt className="text-zinc-500">Annual premiums ({fmtExact(result.monthlyPremium)}/mo × 12)</dt>
                   <dd className="font-semibold tabular-nums">{fmt(result.annualPremium)}</dd>
                 </div>
                 {path === 'va' ? (
@@ -632,7 +642,7 @@ export function HealthcareComparisonCalculator() {
                           <dd className="font-semibold text-green-700 tabular-nums">{fmt(0)}</dd>
                         </div>
                         <div className="flex justify-between">
-                          <dt className="text-zinc-500">Months 7–12 premiums ({fmt(result.monthlyPremium)}/mo × 6)</dt>
+                          <dt className="text-zinc-500">Months 7–12 premiums ({fmtExact(result.monthlyPremium)}/mo × 6)</dt>
                           <dd className="font-semibold tabular-nums">{fmt(tampSplit.lastSixMonthsPremiums)}</dd>
                         </div>
                         <div className="flex justify-between">
@@ -655,6 +665,11 @@ export function HealthcareComparisonCalculator() {
             </div>
           </>
         )}
+
+        {/* Methodology note */}
+        <p className="text-xs text-zinc-400 leading-relaxed">
+          Employer plan estimates use national averages from the KFF Employer Health Benefits Survey. ACA estimates use Healthcare.gov benchmark pricing. Actual costs vary by state, employer, plan, and provider network.
+        </p>
 
         {/* Share bar */}
         <ShareBar getUrl={getShareUrl} />

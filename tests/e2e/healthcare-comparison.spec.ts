@@ -52,8 +52,8 @@ test.describe('Healthcare Cost Comparison Calculator', () => {
   test('VA healthcare at 30-40% shows copay info', async ({ page }) => {
     await page.locator('#path-select').selectOption('va');
     await page.locator('#va-rating-select').selectOption('30to40');
-    // The notes section in the calculator column shows the copay schedule
-    await expect(page.getByText('$15 primary / $50 specialist', { exact: false })).toBeVisible();
+    // The notes section in the calculator column shows the copay info
+    await expect(page.getByText('Copays for non-SC care vary by priority group', { exact: false })).toBeVisible();
   });
 
   test('VA shows family coverage warning for family status', async ({ page }) => {
@@ -131,7 +131,7 @@ test.describe('Healthcare Cost Comparison Calculator', () => {
   test('TRS path shows low premiums', async ({ page }) => {
     await page.locator('#path-select').selectOption('trs');
     await page.locator('#family-select').selectOption('single');
-    await expect(page.getByText(/\$52/).first()).toBeVisible();
+    await expect(page.getByText(/\$57\.88/).first()).toBeVisible();
   });
 
   test('share button appears', async ({ page }) => {

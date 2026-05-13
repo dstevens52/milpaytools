@@ -5,7 +5,7 @@
  *   - Employer-sponsored plans: KFF Employer Health Benefits Survey 2025 (national averages)
  *   - ACA Marketplace rates: KFF Health Insurance Marketplace Calculator 2026 estimates
  *   - ACA Federal Poverty Levels: HHS 2026 FPL guidelines
- *   - VA copay schedule: VA.gov copay rates, effective January 1, 2026
+ *   - VA healthcare: VA.gov priority groups and eligibility, 2026
  *   - TRICARE Reserve Select premiums: TRICARE.mil, effective January 1, 2026
  *   - TAMP coverage: DoDI 1341.10, 10 U.S.C. § 1145
  *
@@ -58,37 +58,29 @@ export const HEALTHCARE_2026 = {
   va: {
     '50plus': {
       monthlyCopayEst: 0,
-      primaryCopay: 0,
-      specialistCopay: 0,
-      label: '50%+ disability rating',
-      note: '$0 copays for service-connected conditions. No premiums.',
+      label: '50%+ disability rating (Priority Group 1)',
+      note: '$0 for service-connected care. No premiums. Covers veteran only, not family.',
     },
     '30to40': {
-      monthlyCopayEst: 15,
-      primaryCopay: 15,
-      specialistCopay: 50,
+      monthlyCopayEst: 0,
       label: '30–40% disability rating',
-      note: '$15 primary / $50 specialist for service-connected conditions. No premiums.',
+      note: '$0 for service-connected care. No premiums. Copays for non-SC care vary by priority group. Covers veteran only.',
     },
     '10to20': {
-      monthlyCopayEst: 15,
-      primaryCopay: 15,
-      specialistCopay: 50,
+      monthlyCopayEst: 0,
       label: '10–20% disability rating',
-      note: '$15 primary / $50 specialist for service-connected conditions. No premiums.',
+      note: '$0 for service-connected care. No premiums. Copays for non-SC care vary by priority group. Covers veteran only.',
     },
     '0sc': {
       monthlyCopayEst: 0,
-      primaryCopay: 0,
-      specialistCopay: 0,
       label: '0% service-connected rating',
-      note: 'Coverage limited to service-connected conditions only.',
+      note: 'Coverage generally limited to service-connected conditions. No premiums. Covers veteran only.',
     },
   },
 
   tricareReserveSelect: {
-    single: { premium: 52,  deductible: 150, oopMax: 3000 },
-    family: { premium: 260, deductible: 300, oopMax: 6000 },
+    single: { premium: 57.88,  deductible: 150, oopMax: 3000 },
+    family: { premium: 286.66, deductible: 300, oopMax: 6000 },
   },
 
   tamp: {

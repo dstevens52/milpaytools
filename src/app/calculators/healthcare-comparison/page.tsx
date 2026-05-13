@@ -90,7 +90,7 @@ export default function HealthcareComparisonPage() {
               </h1>
               <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
                 Active-duty TRICARE costs you nothing. Civilian healthcare can cost thousands per year.
-                See exactly what that gap looks like for your family — employer insurance, ACA Marketplace,
+                Estimate what that gap could look like for your family — employer insurance, ACA Marketplace,
                 VA healthcare, and TRICARE Reserve Select compared side by side.
               </p>
             </div>
@@ -132,7 +132,7 @@ export default function HealthcareComparisonPage() {
               When you leave active duty, your TRICARE coverage ends on your separation date (or after 180 days if you qualify for TAMP). You have several paths:
             </p>
             <ul className="list-disc list-inside space-y-1.5">
-              <li><strong>Employer-sponsored insurance</strong> — if your new employer offers health benefits, this is often the lowest-cost option because employers typically pay 70–80% of the premium.</li>
+              <li><strong>Employer-sponsored insurance</strong> — if your new employer offers health benefits, this is often a strong starting point because employers usually pay a large share of the premium, significantly lowering your out-of-pocket cost.</li>
               <li><strong>ACA Marketplace</strong> — individual and family plans available through healthcare.gov. Premiums can be offset by subsidies if your income is below 400% of the Federal Poverty Level.</li>
               <li><strong>VA Healthcare</strong> — free or low-cost care for veterans with service-connected conditions. Does not cover your family.</li>
               <li><strong>TRICARE Reserve Select (TRS)</strong> — available to members of the Selected Reserve. Lower premiums than ACA in most cases, but requires you to join a Reserve or Guard unit.</li>
@@ -157,30 +157,23 @@ export default function HealthcareComparisonPage() {
               VA healthcare covers eligible veterans for conditions that are service-connected (SC) and, at higher eligibility tiers, for general medical care as well. Key points:
             </p>
             <ul className="list-disc list-inside space-y-1.5">
-              <li>Veterans with a 50% or higher disability rating receive priority group 1 status — $0 copays for SC conditions, minimal copays for non-SC care.</li>
-              <li>Veterans at 30–40% pay $15 for primary care and $50 for specialist visits for SC conditions.</li>
-              <li>Veterans at 10–20% have the same copay structure for SC conditions.</li>
-              <li>0% SC veterans receive care limited to their service-connected conditions.</li>
-              <li>VA healthcare covers the veteran only — your spouse and children are not covered and need separate insurance.</li>
+              <li>All veterans with a service-connected (SC) disability rating receive care for SC conditions at $0 copay for service-connected care. No premiums.</li>
+              <li>Veterans with 50%+ disability ratings (Priority Group 1) generally face $0 copays for most care. Veterans at lower ratings may have copays for non-SC care — amounts vary by priority group.</li>
+              <li>0% SC veterans receive care generally limited to their service-connected conditions.</li>
+              <li><strong>VA healthcare covers the veteran only</strong> — your spouse and children are not covered and will need separate insurance.</li>
             </ul>
             <p>
-              VA healthcare is an excellent supplement but rarely a complete replacement for a family&apos;s healthcare needs. Most veterans use VA for SC conditions and employer or ACA coverage for their family and non-SC care.
+              VA healthcare can be a valuable part of your post-service plan, but it covers the veteran only — not spouse or children. Most veterans use VA for SC conditions and employer or ACA coverage for their family and non-SC care. Verify your specific copay schedule at VA.gov based on your priority group.
             </p>
           </Accordion>
 
           <Accordion title="How do ACA Marketplace subsidies work?">
             <p>
-              The Affordable Care Act&apos;s premium tax credits (APTC) can significantly reduce your monthly premium if your household income falls below 400% of the Federal Poverty Level (FPL). In 2026, the FPL is approximately $15,650 for a single person and $21,150 for a two-person household.
+              The Affordable Care Act&apos;s premium tax credits (APTC) can significantly reduce your monthly premium if your household income falls below a certain percentage of the Federal Poverty Level (FPL). Generally, lower income relative to the FPL means a larger subsidy — but the exact amount depends on your age, location, and the benchmark plan in your area.
             </p>
-            <p>
-              Subsidy estimates by income tier:
+            <p className="text-xs text-zinc-500">
+              FPL thresholds are based on 2025 federal poverty guidelines used for the 2026 coverage year. Verify current figures at Healthcare.gov.
             </p>
-            <ul className="list-disc list-inside space-y-1">
-              <li>Under 150% FPL: approximately 90% subsidy</li>
-              <li>150–250% FPL: approximately 75% subsidy</li>
-              <li>250–400% FPL: approximately 40% subsidy</li>
-              <li>Over 400% FPL: little to no subsidy</li>
-            </ul>
             <p>
               Subsidies are calculated at tax time and can be taken in advance to reduce your monthly premium. If your income changes during the year, update your marketplace enrollment to avoid a repayment at filing. Losing employer coverage (like separating from service) is a qualifying life event that opens a special enrollment period.
             </p>
@@ -188,7 +181,7 @@ export default function HealthcareComparisonPage() {
 
           <Accordion title="What is TRICARE Reserve Select?">
             <p>
-              TRICARE Reserve Select (TRS) is a premium-based health plan available to members of the Selected Reserve who are not on active duty orders. In 2026, premiums are $52/month for the member only and $260/month for member plus family.
+              TRICARE Reserve Select (TRS) is a premium-based health plan available to members of the Selected Reserve who are not on active duty orders. In 2026, premiums are $57.88/month for the member only and $286.66/month for member plus family.
             </p>
             <p>
               TRS provides TRICARE Select-level benefits — comparable to a civilian PPO — with access to the TRICARE network of providers. Annual deductibles are low: $150 for individuals and $300 for families.
