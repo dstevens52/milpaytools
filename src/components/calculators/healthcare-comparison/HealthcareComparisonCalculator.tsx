@@ -385,6 +385,13 @@ export function HealthcareComparisonCalculator() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
+      {/* ── Urgency stat ── */}
+      <div className="rounded-lg border-l-4 border-red-600 bg-red-50 px-4 py-3">
+        <p className="text-sm text-red-900 leading-relaxed">
+          <span className="font-bold">The average military family pays $0 for healthcare.</span> After separation, premiums alone can run $7,000–$12,000 per year — before deductibles and copays.
+        </p>
+      </div>
+
       {/* ── Inputs ── */}
       <div className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
         <h2 className="text-base font-semibold text-zinc-900 mb-4">Your situation</h2>
@@ -590,6 +597,13 @@ export function HealthcareComparisonCalculator() {
               </p>
             </div>
 
+            {/* Family callout — only shown for single with no dependents */}
+            {familyStatus === 'single' && (
+              <p className="text-xs text-zinc-500 leading-relaxed">
+                Planning for a family? Switch to a family scenario above — the gap is often 3–4x larger.
+              </p>
+            )}
+
             {/* First-year breakdown */}
             <div className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
               <h3 className="text-base font-semibold text-zinc-900 mb-3">
@@ -672,6 +686,11 @@ export function HealthcareComparisonCalculator() {
         {/* Methodology note */}
         <p className="text-xs text-zinc-400 leading-relaxed">
           Employer plan estimates use national averages from the KFF Employer Health Benefits Survey. ACA estimates use Healthcare.gov benchmark pricing. Actual costs vary by state, employer, plan, and provider network.
+        </p>
+
+        {/* Success outcome */}
+        <p className="text-sm text-zinc-500 leading-relaxed">
+          Use this estimate to build healthcare into your post-separation budget — before you sign out.
         </p>
 
         {/* Share bar */}
