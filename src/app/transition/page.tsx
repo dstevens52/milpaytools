@@ -76,12 +76,14 @@ const COMPARISON_ROWS: { active: string; after: string }[] = [
 
 // ─── Transition path cards ─────────────────────────────────────────────────
 
-const PATH_CARDS: { title: string; description: string; href: string; icon: string }[] = [
+const PATH_CARDS: { title: string; description: string; href: string; icon: string; secondaryHref?: string; secondaryLabel?: string }[] = [
   {
     title: 'Going to Civilian Employment',
     description: 'Compare your military compensation to what you\'ll need on the civilian side. Get a readiness verdict with action steps.',
     href: '/calculators/transition-readiness',
     icon: '💼',
+    secondaryHref: '/calculators/healthcare-comparison',
+    secondaryLabel: 'Compare healthcare costs →',
   },
   {
     title: 'Using GI Bill / Education Benefits',
@@ -530,24 +532,45 @@ export default function TransitionPage() {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {PATH_CARDS.map(({ title, description, href, icon }) => (
-              <Link
-                key={href}
-                href={href}
-                className="group flex flex-col rounded-lg border border-zinc-200 bg-white p-5 hover:shadow-md hover:border-zinc-300 transition-all duration-150"
-              >
-                <div className="flex items-center gap-2.5 mb-3">
-                  <span className="text-xl" aria-hidden>{icon}</span>
-                  <h3 className="font-semibold text-zinc-900 group-hover:text-red-700 transition-colors leading-snug text-sm">
-                    {title}
-                  </h3>
+            {PATH_CARDS.map(({ title, description, href, icon, secondaryHref, secondaryLabel }) =>
+              secondaryHref ? (
+                <div
+                  key={href}
+                  className="flex flex-col rounded-lg border border-zinc-200 bg-white p-5 hover:shadow-md hover:border-zinc-300 transition-all duration-150"
+                >
+                  <div className="flex items-center gap-2.5 mb-3">
+                    <span className="text-xl" aria-hidden>{icon}</span>
+                    <h3 className="font-semibold text-zinc-900 leading-snug text-sm">{title}</h3>
+                  </div>
+                  <p className="text-sm text-zinc-600 leading-relaxed flex-1">{description}</p>
+                  <div className="mt-3 flex flex-col gap-1.5">
+                    <Link href={href} className="inline-flex items-center gap-1 text-xs font-semibold text-red-700 hover:text-red-800 transition-colors">
+                      Open <span aria-hidden>→</span>
+                    </Link>
+                    <Link href={secondaryHref} className="inline-flex items-center gap-1 text-xs font-semibold text-red-700 hover:text-red-800 transition-colors">
+                      {secondaryLabel}
+                    </Link>
+                  </div>
                 </div>
-                <p className="text-sm text-zinc-600 leading-relaxed flex-1">{description}</p>
-                <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-red-700">
-                  Open <span aria-hidden>→</span>
-                </span>
-              </Link>
-            ))}
+              ) : (
+                <Link
+                  key={href}
+                  href={href}
+                  className="group flex flex-col rounded-lg border border-zinc-200 bg-white p-5 hover:shadow-md hover:border-zinc-300 transition-all duration-150"
+                >
+                  <div className="flex items-center gap-2.5 mb-3">
+                    <span className="text-xl" aria-hidden>{icon}</span>
+                    <h3 className="font-semibold text-zinc-900 group-hover:text-red-700 transition-colors leading-snug text-sm">
+                      {title}
+                    </h3>
+                  </div>
+                  <p className="text-sm text-zinc-600 leading-relaxed flex-1">{description}</p>
+                  <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-red-700">
+                    Open <span aria-hidden>→</span>
+                  </span>
+                </Link>
+              )
+            )}
           </div>
         </section>
 
@@ -627,6 +650,11 @@ export default function TransitionPage() {
                   title="Transition Readiness Calculator"
                   description="One tool that brings it all together. Enter your rank, duty station, expected VA rating, target civilian salary, and expenses — get a clear readiness verdict with action steps."
                 />
+                <ResourceCard
+                  href="/calculators/healthcare-comparison"
+                  title="Healthcare Cost Comparison Calculator"
+                  description="Use this calculator to understand what replacing TRICARE will cost. Compare employer plans, ACA marketplace, VA healthcare, and TRICARE Reserve Select side by side — with actual premium and out-of-pocket estimates."
+                />
               </div>
             </div>
           </details>
@@ -649,6 +677,11 @@ export default function TransitionPage() {
                   href="/blog/tricare-costs-2026-vs-civilian"
                   title="TRICARE Costs in 2026"
                   description="Understand exactly what healthcare will cost as a civilian. This is often the most underestimated transition expense — the gap between TRICARE and a civilian employer plan can exceed $10,000 per year for a family."
+                />
+                <ResourceCard
+                  href="/calculators/healthcare-comparison"
+                  title="Healthcare Cost Comparison Calculator"
+                  description="Research your healthcare options — employer plan, ACA marketplace, VA care, or TRICARE Reserve Select. See premium costs, deductibles, and the annual gap vs. TRICARE side by side."
                 />
                 <ResourceCard
                   href="/blog/post-911-gi-bill-explained-2026"
@@ -800,10 +833,11 @@ export default function TransitionPage() {
 
         {/* ── Coming Next ── */}
         <section className="py-10 sm:py-12 border-b border-zinc-200">
-          <h2 className="text-xl font-bold text-zinc-900 mb-1">Coming Next</h2>
-          <p className="text-sm text-zinc-500 mb-6">More transition tools are in development.</p>
+          <h2 className="text-xl font-bold text-zinc-900 mb-1">More Tools</h2>
+          <p className="text-sm text-zinc-500 mb-6">Additional tools to support your transition plan.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <ComingSoonCard
+            <ResourceCard
+              href="/calculators/separation-timeline"
               title="Separation Benefits Timeline"
               description="See exactly when each benefit stops, converts, or changes after your separation date. SGLI, TRICARE, BAH, BAS — all on one visual timeline."
             />

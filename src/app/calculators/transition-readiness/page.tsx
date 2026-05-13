@@ -160,6 +160,12 @@ export default function TransitionReadinessPage() {
               plus deductibles and copays can easily exceed $10,000/year for a family. Plan for it
               before you separate, not after.
             </p>
+            <Link
+              href="/calculators/healthcare-comparison"
+              className="mt-3 inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors"
+            >
+              Compare TRICARE to civilian healthcare options →
+            </Link>
           </div>
 
           <div>
@@ -236,6 +242,13 @@ export default function TransitionReadinessPage() {
               TAMP (Transitional Assistance Management Program) — 180 days of continued TRICARE for eligible separating members;{' '}
               verify eligibility before assuming you need to buy marketplace coverage immediately
             </li>
+            <li>
+              Post-TAMP healthcare costs —{' '}
+              <Link href="/calculators/healthcare-comparison" className="font-medium text-red-700 hover:text-red-800 transition-colors">
+                use the Healthcare Cost Comparison Calculator
+              </Link>{' '}
+              to see costs across employer plans, ACA marketplace, VA care, and TRICARE Reserve Select
+            </li>
           </ul>
         </div>
 
@@ -268,6 +281,12 @@ export default function TransitionReadinessPage() {
               className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md"
             >
               Are You Financially Ready to Leave? (full article) →
+            </Link>
+            <Link
+              href="/calculators/healthcare-comparison"
+              className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md"
+            >
+              Healthcare Cost Comparison Calculator →
             </Link>
           </div>
         </div>

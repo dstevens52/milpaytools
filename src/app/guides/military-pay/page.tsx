@@ -95,10 +95,12 @@ const PAY_LAYERS = [
     label: 'Layer 3',
     title: 'Everything Else',
     description:
-      'BAS (food allowance), TSP matching, tax advantages, and special pays. Combined, these add thousands per year.',
-    bullets: ['BAS: $477.75/mo (enlisted)', 'TSP match: up to 5% base pay (BRS)', 'Tax advantage: $5K–$15K+/yr'],
+      'BAS, TSP matching, tax advantages, TRICARE healthcare coverage, and special pays. Combined, these add tens of thousands per year.',
+    bullets: ['BAS: $477.75/mo (enlisted)', 'TSP match: up to 5% base pay (BRS)', 'Tax advantage: $5K–$15K+/yr', 'TRICARE: $0 premiums (worth $7,200–$20,400/yr)'],
     cta: 'See your full picture →',
     href: '/calculators/total-compensation',
+    secondaryHref: '/calculators/healthcare-comparison',
+    secondaryLabel: 'See what healthcare is worth →',
   },
 ];
 
@@ -425,7 +427,7 @@ export default function MilitaryPayGuidePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {PAY_LAYERS.map(({ accent, label, title, description, bullets, cta, href }) => (
+            {PAY_LAYERS.map(({ accent, label, title, description, bullets, cta, href, secondaryHref, secondaryLabel }) => (
               <div key={title} className="bg-white rounded-xl border border-zinc-200 shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col overflow-hidden">
                 <div className={`${accent} px-5 py-3`}>
                   <span className="text-xs font-semibold text-white/80 uppercase tracking-wide">{label}</span>
@@ -446,6 +448,11 @@ export default function MilitaryPayGuidePage() {
                   <Link href={href} className="text-sm font-bold text-red-700 hover:text-red-800 transition-colors">
                     {cta}
                   </Link>
+                  {secondaryHref && (
+                    <Link href={secondaryHref} className="mt-1.5 text-sm font-bold text-red-700 hover:text-red-800 transition-colors">
+                      {secondaryLabel}
+                    </Link>
+                  )}
                 </div>
               </div>
             ))}

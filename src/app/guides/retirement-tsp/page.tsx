@@ -295,6 +295,9 @@ const ACCORDION = [
           <Link href="/blog/what-walking-away-at-12-years-costs" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
             What leaving at 12 years costs →
           </Link>
+          <Link href="/calculators/healthcare-comparison" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+            See what replacing TRICARE costs on the civilian side →
+          </Link>
         </div>
       </div>
     ),
