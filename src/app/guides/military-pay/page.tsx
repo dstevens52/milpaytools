@@ -507,7 +507,7 @@ export default function MilitaryPayGuidePage() {
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-zinc-500">Civilian equivalent</p>
-                    <p className="text-sm font-semibold text-zinc-700">≈ $67,500 / yr</p>
+                    <p className="text-sm font-semibold text-zinc-700">≈ $74,000 / yr</p>
                   </div>
                 </div>
                 <div className="px-5 pb-4">
