@@ -218,10 +218,11 @@ export default function TotalCompensationPage() {
             <ExampleRow label="Annual (Base + BAH + BAS)" value="$78,996/yr" />
             <ExampleRow label="BRS Gov Match (auto 1% + 4% match at 5% contribution)" value="+$2,580/yr" />
             <ExampleRow label="Tax advantage — BAH &amp; BAS excluded from income (12% marginal)" value="+$3,287/yr" />
-            <ExampleRow label="Civilian Salary Equivalent" value="$84,863/yr" highlight />
+            <ExampleRow label="TRICARE healthcare value (family)" value="+$6,840/yr" />
+            <ExampleRow label="Civilian Salary Equivalent" value="$91,703/yr" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> This E-5 sees $4,300 on their pay stub, but their true economic compensation is $84,863 — 64% higher. The gap comes from BAH and BAS being completely excluded from federal income tax. A civilian would need to earn roughly $84,863 before taxes to take home the same financial value, and that still doesn&apos;t count TRICARE, commissary access, or the pension.
+            <strong>What this means:</strong> This E-5 sees $4,300 on their pay stub, but their true economic compensation is $91,703 — 78% higher than base pay alone. The gap comes from BAH and BAS being completely excluded from federal income tax, plus TRICARE family coverage that would cost a civilian roughly $6,840/year in employer-plan premiums. A civilian would need to earn roughly $91,700 before taxes to match the same financial value, and that still doesn&apos;t count commissary access or the pension.
           </p>
         </ExampleBox>
       </section>
