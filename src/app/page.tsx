@@ -654,13 +654,13 @@ const CALCULATORS = [
     ),
   },
   {
-    href: '/calculators/tsp',
-    name: 'TSP Growth',
-    description: 'See how your Thrift Savings Plan could grow over time.',
-    iconBg: 'bg-green-700',
+    href: '/calculators/healthcare-comparison',
+    name: 'Healthcare Cost Comparison',
+    description: 'Compare TRICARE to civilian healthcare — employer, marketplace, VA, and TRS.',
+    iconBg: 'bg-blue-700',
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v18h18M7 16l4-4 4 4 4-4" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM12 8v8M8 12h8" />
       </svg>
     ),
   },
