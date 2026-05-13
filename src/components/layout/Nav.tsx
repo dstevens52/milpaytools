@@ -33,6 +33,7 @@ const CALCULATOR_GROUPS = [
       { href: '/calculators/education', label: 'Education Benefits' },
       { href: '/calculators/transition-readiness', label: 'Transition Readiness' },
       { href: '/calculators/separation-timeline', label: 'Separation Timeline' },
+      { href: '/calculators/healthcare-comparison', label: 'Healthcare Comparison' },
     ],
   },
 ];

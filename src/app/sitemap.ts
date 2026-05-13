@@ -100,6 +100,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     {
+      url: `${BASE_URL}/calculators/healthcare-comparison`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 1.0,
+    },
+    {
       url: `${BASE_URL}/blog`,
       lastModified: now,
       changeFrequency: 'weekly',

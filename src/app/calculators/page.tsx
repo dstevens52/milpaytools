@@ -162,6 +162,20 @@ const CALCULATORS: CalculatorDetail[] = [
     group: 'education',
   },
   {
+    href: '/calculators/healthcare-comparison',
+    icon: '🏥',
+    name: 'Healthcare Cost Comparison Calculator',
+    description:
+      'Active-duty TRICARE costs you nothing. Civilian healthcare can cost thousands per year. See exactly what that gap looks like — employer insurance, ACA Marketplace, VA healthcare, and TRICARE Reserve Select compared side by side.',
+    features: [
+      'Employer, ACA, VA, and TRS comparison',
+      'ACA subsidy calculation by income & FPL',
+      'TAMP 180-day bridge cost split',
+      'First-year total cost estimate',
+    ],
+    group: 'education',
+  },
+  {
     href: '/calculators/cola',
     icon: '📊',
     name: 'CONUS COLA Calculator',

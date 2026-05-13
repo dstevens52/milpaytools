@@ -7,6 +7,7 @@ const CALCULATORS = [
   { href: '/calculators/va-disability', label: 'VA Disability Rating' },
   { href: '/calculators/tsp', label: 'TSP Growth Projector' },
   { href: '/calculators/separation-timeline', label: 'Separation Benefits Timeline' },
+  { href: '/calculators/healthcare-comparison', label: 'Healthcare Cost Comparison' },
 ];
 
 const TOP_POSTS = [
