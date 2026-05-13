@@ -32,6 +32,7 @@ const CALCULATOR_GROUPS = [
       { href: '/calculators/tsp', label: 'TSP Growth Projector' },
       { href: '/calculators/education', label: 'Education Benefits' },
       { href: '/calculators/transition-readiness', label: 'Transition Readiness' },
+      { href: '/calculators/separation-timeline', label: 'Separation Timeline' },
     ],
   },
 ];

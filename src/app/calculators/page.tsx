@@ -148,6 +148,20 @@ const CALCULATORS: CalculatorDetail[] = [
     group: 'education',
   },
   {
+    href: '/calculators/separation-timeline',
+    icon: '📅',
+    name: 'Separation Benefits Timeline',
+    description:
+      'Enter your separation date and see exactly when each benefit stops, converts, or expires. TRICARE, SGLI, TAMP, BDD filing windows, and final move deadlines — all calculated from your specific date.',
+    features: [
+      'TRICARE & TAMP cutoff dates',
+      'SGLI → VGLI conversion windows',
+      'BDD pre-separation filing window',
+      'Final move deadline (180 days or 3 years)',
+    ],
+    group: 'education',
+  },
+  {
     href: '/calculators/cola',
     icon: '📊',
     name: 'CONUS COLA Calculator',

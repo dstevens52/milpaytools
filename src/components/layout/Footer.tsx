@@ -6,6 +6,7 @@ const CALCULATORS = [
   { href: '/bah', label: 'BAH by Station' },
   { href: '/calculators/va-disability', label: 'VA Disability Rating' },
   { href: '/calculators/tsp', label: 'TSP Growth Projector' },
+  { href: '/calculators/separation-timeline', label: 'Separation Benefits Timeline' },
 ];
 
 const TOP_POSTS = [
