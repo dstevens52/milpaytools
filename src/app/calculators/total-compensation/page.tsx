@@ -121,7 +121,7 @@ export default function TotalCompensationPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Healthcare */}
           <a
-            href="/calculators/transition-readiness"
+            href="/calculators/healthcare-comparison"
             className="group block rounded-lg border border-zinc-200 bg-white p-5 shadow-sm hover:border-red-200 hover:shadow-md transition-all"
           >
             <p className="font-semibold text-zinc-900 mb-2 group-hover:text-red-700 transition-colors">
@@ -131,23 +131,23 @@ export default function TotalCompensationPage() {
               Active-duty TRICARE covers you and your family with no enrollment premium. Replacing it as a civilian can cost $600–$1,700/month depending on coverage type.
             </p>
             <span className="text-sm font-medium text-red-700">
-              See healthcare costs in the Transition Readiness Calculator →
+              Compare healthcare costs after service →
             </span>
           </a>
 
           {/* Life Insurance */}
           <a
-            href="/calculators/transition-readiness"
+            href="/calculators/separation-timeline"
             className="group block rounded-lg border border-zinc-200 bg-white p-5 shadow-sm hover:border-red-200 hover:shadow-md transition-all"
           >
             <p className="font-semibold text-zinc-900 mb-2 group-hover:text-red-700 transition-colors">
               Life Insurance (SGLI)
             </p>
             <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-              SGLI provides $500,000 in coverage for roughly $25/month. Comparable civilian term life insurance for the same coverage can cost $50–$150/month depending on age and health.
+              SGLI provides $500,000 in coverage for roughly $26/month. Comparable civilian term life insurance for the same coverage can cost $50–$150/month depending on age and health.
             </p>
             <span className="text-sm font-medium text-red-700">
-              Factor this into your transition plan →
+              See your separation benefits timeline →
             </span>
           </a>
 
