@@ -451,6 +451,9 @@ export function HealthcareComparisonCalculator() {
                   </button>
                 ))}
               </div>
+              <p className="mt-1.5 text-xs text-zinc-500 leading-relaxed">
+                Bronze = lower monthly cost, higher bills when you use care. Gold = higher monthly cost, lower bills when you use care. Silver is the middle ground and most common choice.
+              </p>
             </div>
           )}
 
