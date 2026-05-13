@@ -561,7 +561,7 @@ export function SeparationTimelineCalculator() {
             Enter your separation date above to see your timeline
           </p>
           <p className="text-sm text-zinc-400 mt-1">
-            All deadlines will be calculated relative to your specific date
+            Get a date-by-date checklist for healthcare, insurance, VA filing, final move, and TAP deadlines.
           </p>
         </div>
       )}

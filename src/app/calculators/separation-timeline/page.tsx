@@ -72,7 +72,7 @@ export default function SeparationTimelinePage() {
               <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
                 TRICARE, SGLI, TAMP, BDD filing windows, final move deadlines — all calculated
                 from your specific separation date. See exactly when each benefit stops, converts,
-                or expires so you never miss a critical deadline.
+                or expires so you can see critical deadlines before they arrive.
               </p>
             </div>
           </div>
@@ -117,8 +117,8 @@ export default function SeparationTimelinePage() {
               Insurance (VGLI) any time within 1 year and 120 days (485 days) of separation.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              The critical window: apply within 240 days and you&apos;re guaranteed coverage with no
-              health exam, regardless of your medical status. After 240 days, you&apos;ll need to
+              The critical window: apply within 240 days and you generally won&apos;t need to prove
+              you&apos;re in good health, regardless of your medical status. After 240 days, you&apos;ll need to
               answer health questions and could be denied. VGLI premiums are based on age and
               coverage amount — set a reminder well before day 240.
             </p>
@@ -148,14 +148,15 @@ export default function SeparationTimelinePage() {
             </h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               The VA&apos;s Benefits Delivery at Discharge (BDD) program lets you file a disability
-              claim 180 to 90 days before separation. Filing through BDD is the fastest path to
-              a decision — VA&apos;s goal is to deliver a rating within 30 days of your separation date.
+              claim 180 to 90 days before separation. BDD is designed to help VA process your claim
+              sooner after separation — VA&apos;s goal is to deliver a rating within 30 days of your separation date.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               To use BDD, you must have a confirmed separation date, be available for VA exams
               before separation, and submit service treatment records. Your Separation Health
               Assessment (SHA) Part A supports BDD claims — schedule both at the same time. Even a
-              20% rating adds $286/month tax-free for life.
+              20% rating adds $356.66/month in 2026 in ongoing monthly tax-free compensation
+              if service-connected and approved.
             </p>
           </div>
 
@@ -166,7 +167,8 @@ export default function SeparationTimelinePage() {
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               Separating service members have 180 days from their separation date to complete their
               final government-paid move. Retirees have up to 3 years. This deadline is strictly
-              enforced — miss it and you lose the entitlement with no exceptions.
+              enforced — miss it and you may lose the entitlement unless an extension or exception
+              is approved. Check your orders and transportation office early.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               Contact your branch&apos;s Personal Property office as early as possible. Peak PCS
@@ -181,12 +183,12 @@ export default function SeparationTimelinePage() {
         <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
           <h3 className="text-base font-semibold text-zinc-900 mb-2">About TAP deadlines</h3>
           <p className="text-sm text-zinc-600 leading-relaxed">
-            The Transition Assistance Program (TAP) must be complete at least 90 days before
-            separation for most service members. If you&apos;re planning retirement, start TAP
-            18–24 months before your retirement date. TAP includes financial planning, employment
-            assistance, VA benefits briefings, and the required capstone event. Completion is
-            tracked through your Service&apos;s personnel system and is a commander&apos;s
-            requirement.
+            Plan to complete required TAP counseling, workshops, and Capstone before final out —
+            many milestones are designed to be completed no later than 90 days before separation.
+            If you&apos;re planning retirement, start TAP 18–24 months before your retirement date.
+            TAP includes financial planning, employment assistance, VA benefits briefings, and the
+            required capstone event. Completion is tracked through your Service&apos;s personnel
+            system and is a commander&apos;s requirement.
           </p>
         </div>
 
