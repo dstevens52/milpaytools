@@ -249,6 +249,12 @@ export default function BAHPage() {
                 <a href="/guides/military-pay" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Military Pay & Compensation Guide →</a>
                 <a href="/guides/pcs" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">PCS & Duty Station Financial Guide →</a>
           </div>
+          <p className="mt-3 text-sm text-zinc-500">
+            Looking for rates by base?{' '}
+            <a href="/bah" className="text-blue-700 hover:underline font-medium">
+              Browse BAH rates for all 76 duty stations →
+            </a>
+          </p>
         </div>
 
       </div>

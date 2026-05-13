@@ -43,6 +43,7 @@ const GUIDES_LINKS = [
   { href: '/guides/va-disability', label: 'VA Disability Benefits' },
   { href: '/guides/retirement-tsp', label: 'Retirement & TSP' },
   { href: '/guides/education-benefits', label: 'Education Benefits' },
+  { href: '/bah', label: 'BAH by Duty Station' },
 ];
 
 const ALL_CALCULATOR_LINKS = CALCULATOR_GROUPS.flatMap((g) => g.links);
