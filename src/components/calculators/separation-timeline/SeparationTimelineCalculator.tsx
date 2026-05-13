@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { ShareBar } from '@/components/calculators/shared/ShareButton';
 import { fireCalculatorEvent } from '@/lib/analytics';
 
@@ -372,6 +373,14 @@ function TimelineCard({ item }: { item: TimelineItem }) {
           </span>
         </div>
         <p className="text-sm text-zinc-600 leading-relaxed">{item.what}</p>
+        {(item.id === 'tricare-ends' || item.id === 'tamp') && (
+          <Link
+            href="/calculators/healthcare-comparison"
+            className="inline-flex items-center gap-1 mt-2 text-xs font-semibold text-red-700 hover:text-red-900 transition-colors"
+          >
+            Estimate post-separation healthcare costs →
+          </Link>
+        )}
       </div>
     </div>
   );

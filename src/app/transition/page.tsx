@@ -123,8 +123,8 @@ const THREE_SHOCKS = [
       'Employer plan → $400–$600/month for family coverage',
       'Marketplace plan → potentially more without subsidy',
     ],
-    cta: 'See TRICARE cost comparison →',
-    href: '/blog/tricare-costs-2026-vs-civilian',
+    cta: 'Compare healthcare costs →',
+    href: '/calculators/healthcare-comparison',
   },
   {
     accent: 'bg-emerald-600',

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { calculateTransitionReadiness } from '@/lib/calculations/transition-readiness';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { formatCurrency } from '@/lib/utils';
@@ -869,6 +870,12 @@ export function TransitionReadinessCalculator() {
                   </p>
                 </>
               )}
+              <Link
+                href="/calculators/healthcare-comparison"
+                className="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-red-700 hover:text-red-900 transition-colors"
+              >
+                Compare healthcare options in detail →
+              </Link>
             </div>
 
             {/* Budget Gap Analysis */}
