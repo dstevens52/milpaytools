@@ -703,8 +703,6 @@ export function TransitionReadinessCalculator() {
                 Save as PDF
               </button>
             </div>
-            <ShareBar getUrl={getShareUrl} className="print:hidden" />
-
             {/* Print-only header */}
             <div className="hidden print:block pb-4 mb-2 border-b border-zinc-200">
               <h1 className="text-2xl font-bold text-zinc-900">
@@ -776,6 +774,8 @@ export function TransitionReadinessCalculator() {
                 })}
               </div>
             </div>
+
+            <ShareBar getUrl={getShareUrl} className="print:hidden" />
 
             {/* Side-by-side comparison */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

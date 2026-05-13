@@ -683,6 +683,8 @@ export function HealthcareComparisonCalculator() {
           </>
         )}
 
+        <ShareBar getUrl={getShareUrl} />
+
         {/* Methodology note */}
         <p className="text-xs text-zinc-400 leading-relaxed">
           Employer plan estimates use national averages from the KFF Employer Health Benefits Survey. ACA estimates use Healthcare.gov benchmark pricing. Actual costs vary by state, employer, plan, and provider network.
@@ -692,9 +694,6 @@ export function HealthcareComparisonCalculator() {
         <p className="text-sm text-zinc-500 leading-relaxed">
           Use this estimate to build healthcare into your post-separation budget — before you sign out.
         </p>
-
-        {/* Share bar */}
-        <ShareBar getUrl={getShareUrl} />
       </div>
     </div>
   );
