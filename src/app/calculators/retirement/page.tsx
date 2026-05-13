@@ -95,7 +95,7 @@ export default function RetirementCalculatorPage() {
             <ExampleRow label="BRS advantage over High-3" value="+$166/mo + $234K accessible" />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> At 20 years, BRS produces a higher total monthly income than High-3 — but only if the member contributed consistently and captured the full government match. The BRS pension alone ($2,457) is lower than High-3 ($3,071), but the TSP adds $780/month plus leaves a $234,000 lump sum that can be passed to heirs. Members who left before 20 years under BRS still keep their TSP contributions; under High-3, they would walk away with nothing from the pension system.
+            <strong>What this means:</strong> At 20 years, BRS produces a higher total monthly income than High-3 — but only if the member contributed consistently and captured the full government match. The BRS pension alone ($2,457) is lower than High-3 ($3,071), but the TSP adds $780/month plus leaves a $234,000 lump sum that can be passed to heirs. Members who left before 20 years under BRS still keep their TSP contributions; under High-3, they would walk away with nothing from the pension system. Retirees also keep TRICARE at a fraction of civilian cost — <a href="/calculators/healthcare-comparison" className="text-red-700 underline hover:text-red-800">see what replacing it would cost on the civilian side</a>.
           </p>
         </ExampleBox>
       </section>
@@ -229,6 +229,8 @@ export default function RetirementCalculatorPage() {
           </p>
           <div className="flex flex-wrap gap-2">
                 <a href="/guides/retirement-tsp" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Military Retirement & TSP Guide →</a>
+                <a href="/calculators/healthcare-comparison" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Healthcare Cost Comparison Calculator →</a>
+                <a href="/calculators/separation-timeline" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Separation Benefits Timeline →</a>
           </div>
         </div>
 

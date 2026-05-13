@@ -147,7 +147,8 @@ export default function GuardReservePage() {
               By comparison, average employer-sponsored family health insurance costs approximately
               $23,000/year in combined employer and employee premiums (KFF 2025 survey). The
               difference — the TRS savings — is a significant but often overlooked component of
-              Guard/Reserve compensation.
+              Guard/Reserve compensation.{' '}
+              <a href="/calculators/healthcare-comparison" className="font-medium text-red-700 hover:text-red-800 transition-colors">Compare TRS to other healthcare options →</a>
             </p>
           </div>
 
@@ -221,6 +222,7 @@ export default function GuardReservePage() {
           </p>
           <div className="flex flex-wrap gap-2">
                 <a href="/guides/military-pay" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Military Pay & Compensation Guide →</a>
+                <a href="/calculators/healthcare-comparison" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Healthcare Cost Comparison Calculator →</a>
           </div>
         </div>
 

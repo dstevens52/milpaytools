@@ -140,6 +140,12 @@ export default function SeparationTimelinePage() {
               marketplace coverage, employer-sponsored insurance, or VA healthcare immediately —
               there is no grace period.
             </p>
+            <Link
+              href="/calculators/healthcare-comparison"
+              className="mt-3 inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors"
+            >
+              Compare your post-separation healthcare options →
+            </Link>
           </div>
 
           <div>
@@ -221,6 +227,12 @@ export default function SeparationTimelinePage() {
               className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md"
             >
               TAP Checklist Worksheet →
+            </Link>
+            <Link
+              href="/calculators/healthcare-comparison"
+              className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md"
+            >
+              Healthcare Cost Comparison Calculator →
             </Link>
           </div>
         </div>

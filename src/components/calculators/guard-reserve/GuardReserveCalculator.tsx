@@ -75,6 +75,7 @@ function buildActionSteps(output: GuardReserveOutput, input: GuardReserveInput):
     steps.push({
       label: 'Look into Tricare Reserve Select',
       description: `TRS costs $${TRICARE_RATES_2026.reserveSelect.memberOnly}/month (member only) or $${TRICARE_RATES_2026.reserveSelect.memberAndFamily}/month (family) — a fraction of civilian health insurance. If you're not enrolled, it may be worth evaluating.`,
+      href: '/calculators/healthcare-comparison',
       priority: 'medium',
     });
   }
