@@ -28,6 +28,7 @@ export interface TotalCompensationOutput {
   cashMonthly: number;   // what actually hits the bank account
   cashAnnual: number;
   inKindMonthly: number; // estimated value of in-kind housing/meals
+  tricareSavings: number; // annual value of TRICARE vs. employer plan
   // For "equivalent civilian salary" comparison
   civilianEquivalent: number;
 }

@@ -12,6 +12,7 @@ import { payTable } from '@/data/pay-tables/2026';
 import { BAS_RATES, BRS_AUTOMATIC_CONTRIBUTION_PCT, BRS_MATCHING_MAX_PCT, SGLI_MAX_COVERAGE, SGLI_PREMIUM_PER_1000, SGLI_TSGLI_PREMIUM } from '@/data/constants';
 import { lookupBAH } from '@/lib/calculations/bah';
 import { getYOSBracket, estimateTaxAdvantage } from '@/lib/utils';
+import { HEALTHCARE_2026 } from '@/data/healthcare/2026/constants';
 import { ENLISTED_GRADES } from '@/types/military';
 
 /**
@@ -95,9 +96,14 @@ export function calculateTotalCompensation(input: TotalCompensationInput): Total
   const totalMonthly = monthlyBasePay + monthlyBAH + monthlyBAS;
   const totalAnnual = totalMonthly * 12 + tspAgencyContribution;
 
+  // TRICARE value: what a civilian would pay in employer premiums for equivalent coverage
+  const tricareSavings = input.hasDependents
+    ? HEALTHCARE_2026.employer.family.silver.premium * 12  // $6,840/yr
+    : HEALTHCARE_2026.employer.single.silver.premium * 12; // $2,040/yr
+
   // Civilian equivalent always includes full BAH + BAS value: a civilian pays for housing and food
   // out of taxable income regardless of whether the service member receives these as cash or in-kind.
-  const civilianEquivalent = annualBasePay + taxAdvantageValue + annualBAH + annualBAS + tspAgencyContribution;
+  const civilianEquivalent = annualBasePay + taxAdvantageValue + annualBAH + annualBAS + tspAgencyContribution + tricareSavings;
 
   return {
     monthlyBasePay,
@@ -109,6 +115,7 @@ export function calculateTotalCompensation(input: TotalCompensationInput): Total
     tspAgencyContribution,
     sgli: sgliAnnual,
     taxAdvantageValue,
+    tricareSavings,
     totalMonthly,
     totalAnnual,
     cashMonthly,

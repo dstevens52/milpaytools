@@ -548,7 +548,7 @@ export function HealthcareComparisonCalculator() {
         {/* VA family coverage warning */}
         {path === 'va' && isFamily(familyStatus) && (
           <div className="rounded-md bg-amber-50 border-2 border-amber-300 px-4 py-3 text-sm text-amber-900">
-            <span className="font-bold">⚠️ VA healthcare covers the veteran only.</span> Your spouse and children will need separate coverage through an employer plan, ACA marketplace, or other source.
+            <span className="font-bold">⚠️ VA healthcare covers you only.</span> Your spouse and children will need separate coverage through an employer plan, ACA marketplace, or other source.
           </div>
         )}
 

@@ -415,12 +415,19 @@ export function TotalCompensationCalculator() {
                 ? [{ label: 'DoD TSP agency match', value: `+${formatCurrency(result.tspAgencyContribution)}/yr` }]
                 : []),
               {
+                label: `TRICARE healthcare value (est.)`,
+                value: `+${formatCurrency(result.tricareSavings)}/yr`,
+              },
+              {
                 label: 'Civilian salary equivalent',
                 value: formatCurrency(result.civilianEquivalent) + '/yr',
                 highlight: true,
               },
             ]}
           />
+          <p className="text-xs text-zinc-400 mt-1 px-1">
+            TRICARE line based on 2026 national average employer Silver plan premiums (KFF survey). Actual costs vary by employer and plan.
+          </p>
         </div>
 
         {/* Civilian comparison callout */}
@@ -437,8 +444,9 @@ export function TotalCompensationCalculator() {
               : ` because your BAH (${formatCurrency(result.monthlyBAH)}/mo) and BAS (${formatCurrency(result.monthlyBAS)}/mo) are completely federal income tax-free`
             }
             {retirementSystem === 'brs'
-              ? `, and your employer contributes ${formatCurrency(result.tspAgencyContribution)}/year to your retirement`
-              : ''}
+              ? `, your employer contributes ${formatCurrency(result.tspAgencyContribution)}/year to your retirement,`
+              : ','}{' '}
+            and TRICARE replaces {formatCurrency(result.tricareSavings)}/year in employer health premiums a civilian would pay
             . When evaluating a civilian job offer, compare against this number — not just your base pay.
           </p>
           {result.inKindMonthly > 0 && (
