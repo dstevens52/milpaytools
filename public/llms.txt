@@ -1,54 +1,31 @@
 # MilPayTools
+> Free military pay and benefits calculators built on official 2026 DoD and VA data. No account required. No personal information collected. Calculations run in the browser.
 
-> MilPayTools (milpaytools.com) provides free military financial calculators and guides for active-duty service members and veterans. All calculator data is sourced from official DoD, DFAS, DTMO, and VA publications.
+## Calculators (16)
+- [Total Military Compensation](/calculators/total-compensation): Full pay breakdown with BAH, BAS, tax advantages, TSP match, and civilian salary equivalent
+- [BAH Calculator](/calculators/bah): 2026 BAH rates for all 40,959 ZIP codes
+- [VA Disability Rating](/calculators/va-disability): Combined rating calculator with bilateral factor and 2026 compensation rates
+- [TSP Growth Projector](/calculators/tsp): Retirement savings projections with fund allocation
+- [Military Retirement](/calculators/retirement): High-3 and BRS pension projections with lifetime value
+- [PCS Cost Estimator](/calculators/pcs): DLA, MALT, per diem, TLE, and PPM profit estimates
+- [Guard/Reserve Pay](/calculators/guard-reserve): Drill pay, annual training, and TRICARE Reserve Select
+- [Education Benefits](/calculators/education): GI Bill vs VR&E vs TA comparison by school
+- [CONUS COLA](/calculators/cola): Cost of living allowance lookup by ZIP
+- [Duty Station Comparison](/calculators/compare): Side-by-side BAH, taxes, COLA, and take-home
+- [Deployment Pay](/calculators/deployment): Combat zone tax exclusion and special pays
+- [2026 Pay Charts](/calculators/pay-charts): Full pay tables for all ranks and years of service
+- [Dual Military BAH](/calculators/dual-military-bah): BAH scenarios for military couples
+- [Transition Readiness](/calculators/transition-readiness): Am I financially ready to leave the military?
+- [Separation Benefits Timeline](/calculators/separation-timeline): When each benefit stops, converts, or expires after separation
+- [Healthcare Cost Comparison](/calculators/healthcare-comparison): TRICARE vs civilian healthcare cost comparison
 
-## Calculators
-
-- [All Calculators](https://www.milpaytools.com/calculators): Hub page listing all free military financial calculators with descriptions and features.
-
-- [Education Benefits Comparison Calculator](https://www.milpaytools.com/calculators/education): Compares Post-9/11 GI Bill (Ch. 33), VR&E (Ch. 31), Tuition Assistance, and Montgomery GI Bill side by side. Shows total program value by school ZIP code (GI Bill MHA = E-5 with-dependents BAH), eligibility tier (40%–100%), school type (public/private/online), and program length. Surfaces sequencing strategy (TA while serving, GI Bill after separation) and VR&E no-cap tuition advantage for veterans with 10%+ disability rating.
-
-- [Duty Station Comparison Calculator](https://www.milpaytools.com/calculators/compare): Compares total compensation between two CONUS duty stations side by side. Inputs: pay grade, years of service, dependency status, and two duty station ZIP codes. Outputs: BAH at each location (2026 DTMO data), CONUS COLA eligibility, estimated state income tax (9 no-tax states: AK/FL/NV/NH/SD/TN/TX/WA/WY; approximate effective rates for others), federal tax estimate (2026 brackets, standard deduction), and monthly/annual take-home difference. Shows verdict ("Location B pays $X more per month") and state tax narrative when one location has no income tax. Pre-loaded with Fort Liberty NC (28310) vs JBLM WA (98433) as default. CONUS only — OCONUS not supported.
-
-- [CONUS COLA Calculator](https://www.milpaytools.com/calculators/cola): Checks whether a duty station ZIP code qualifies for Continental U.S. Cost of Living Allowance (CONUS COLA) and shows approximate monthly rates by pay grade and dependency status. Covers FY2026 qualifying locations: California (Bay Area, Monterey, LA, San Diego, Orange County, Ventura, Santa Barbara), Washington state (Seattle/Puget Sound — NEW in 2026), New York (NYC — rate reduced 8%→4%, Long Island, Westchester), Connecticut (Fairfield County, New Haven, Groton), New Jersey (northern NJ), and the National Capital Region (DC/VA/MD). Note: Greater Boston and Cape Cod lost eligibility in 2026. Rates are approximate — links to DTMO for official grade-specific amounts. CONUS COLA is taxable, unlike BAH/BAS.
-
-- [Total Military Compensation Calculator](https://www.milpaytools.com/calculators/total-compensation): Calculates total military compensation including base pay, BAH, BAS, tax advantages, BRS matching, and civilian salary equivalent. Uses 2026 DoD pay tables and DTMO BAH data for all 40,959 U.S. ZIP codes.
-
-- [BAH Calculator](https://www.milpaytools.com/calculators/bah): Looks up 2026 Basic Allowance for Housing rates by ZIP code, pay grade, and dependency status. Covers all 40,959 ZIP codes across 299 military housing areas. Includes PCS duty station comparison mode.
-
-- [VA Disability Rating Calculator](https://www.milpaytools.com/calculators/va-disability): Calculates combined VA disability rating using the official whole-person formula (38 CFR § 4.25) with automatic bilateral factor (38 CFR § 4.26). Shows step-by-step math breakdown and 2026 compensation estimates.
-
-- [TSP Growth Projector](https://www.milpaytools.com/calculators/tsp): Projects Thrift Savings Plan balance growth with BRS matching, fund allocation across G/F/C/S/I funds, Roth vs Traditional comparison, and retirement income estimates using 2026 contribution limits.
-
-- [Military Retirement Calculator](https://www.milpaytools.com/calculators/retirement): Estimates military pension under High-3 (Legacy) and BRS (Blended Retirement System) using 2026 DFAS pay tables. Shows pension multiplier math, High-3 average calculation, lifetime pension value with 2.5% COLA, TSP balance projection with BRS matching, CRDP eligibility (50%+ VA rating + 20 years), civilian salary equivalent, and stay-vs-go lifetime value analysis.
-
-- [Guard & Reserve Pay Calculator](https://www.milpaytools.com/calculators/guard-reserve): Estimates total annual Guard/Reserve compensation using 2026 DFAS pay tables. Calculates drill pay by MUTA (4/6/8 periods per weekend), Annual Training pay, additional duty pay (RMPs, AFTPs, ADOS), Tricare Reserve Select healthcare savings vs. civilian insurance (KFF 2025 comparison), and BRS government TSP matching during active duty periods only. Shows per-weekend value and effective hourly rate across all hours of service.
-
-- [PCS Cost Estimator](https://www.milpaytools.com/calculators/pcs): Estimates total PCS move entitlements using 2026 DTMO rates. Calculates DLA (by rank and dependency status), MALT mileage ($0.205/mile × POVs), per diem (JTR travel day formula with first/last day 75% rule), TLE (up to 14 days), and PPM/DITY profit (government cost estimate minus expenses, after-tax at ~22%). Compares government move vs. PPM/DITY move totals side by side. Covers all ranks E-1 through O-10.
-
-- [Deployment Pay Calculator](https://www.milpaytools.com/calculators/deployment): Models deployment compensation in three phases — before, during, and tour total. Inputs: pay grade, years of service, dependency status, home station ZIP, deployment months, combat zone designation, HFP/IDP eligibility, Hardship Duty Pay tier ($0/$50/$100/$150), FSA eligibility, TSP contribution %, and SDP deposit amount. Outputs: Combat Zone Tax Exclusion savings (enlisted/WO: all pay excluded → $0 federal tax; officers: capped at ~$10,520/month), HFP/IDP ($225/month), HDP (capped at $100 if also receiving HFP), FSA ($300/month), SDP interest (deposit × 10% × months/12), TSP contribution total (capped at $72,000 combat zone limit vs. $24,500 normal), and total tour financial benefit. Uses 2026 DoD rates (37 U.S.C. § 310/305/427), 26 U.S.C. § 112 CZTE, 10 U.S.C. § 1035 SDP, and IRC § 415(c) TSP limit.
-
-- [2026 Military Pay Charts](https://www.milpaytools.com/calculators/pay-charts): Complete 2026 DFAS basic pay tables for all ranks and years of service. Includes quick lookup (select grade + YOS, see rate instantly), monthly/annual toggle, and three tables: Enlisted (E-1–E-9), Warrant Officers (W-1–W-5), and Officers (O-1–O-10, including O-1E/O-2E/O-3E prior-enlisted rates). 3.8% pay raise effective January 1, 2026. Source: DFAS Military Pay Charts.
-
-- [Dual Military BAH Calculator](https://www.milpaytools.com/calculators/dual-military-bah): Dedicated tool for dual-military couples stationed together or apart. Calculates both members' BAH rates, determines optimal dependent claim strategy (which spouse should claim children for maximum household BAH), handles same-station co-location rules (senior member gets with-dependents rate, junior gets without-dependents rate), different-station policy (both can receive with-dependents rate), and equal-rank scenarios. Shows total household BAH and identifies optimization opportunities.
-
-- [Transition Readiness Calculator](https://www.milpaytools.com/calculators/transition-readiness): Determines financial readiness to separate from the military by comparing current military compensation against projected civilian income. Inputs: pay grade, years of service, duty station ZIP, retirement system (High-3/BRS), months until separation, VA disability rating, target civilian salary, spouse income, monthly expenses, liquid savings, TAMP eligibility (180-day transitional TRICARE), and healthcare assumption (marketplace/employer/VA). Outputs: current military total compensation (base pay + BAH + BAS + tax advantage), projected civilian income after federal + state tax, VA disability compensation (2026 tax-free rates with dependents), healthcare replacement cost (marketplace family: $1,700/month; employer plan: $600/month; VA healthcare free), monthly surplus/deficit, emergency fund runway in months, and a verdict: Ready / Almost / Not yet. Action steps are specific to which gaps exist (income shortfall, healthcare cost, emergency fund runway, VA claim status). Shareable URL with all inputs encoded. Printable/PDF output. Focus mode hides page chrome for TAP classroom use. Links to printable TAP student worksheet.
-
-## Guides
-
-- [Military Transition Financial Roadmap](https://www.milpaytools.com/transition): Comprehensive TAP classroom companion covering the full financial arc of military separation. Includes: "What Changes After Separation" comparison table (8 rows: healthcare, housing, pay structure, taxes, retirement access, life insurance, commissary access, ID card status — active duty vs. after separation); "Choose Your Transition Path" cards for 5 scenarios (civilian employment, GI Bill/education, SkillBridge, military retirement at 20+ years, Guard/Reserve transition); Phase 0–4 action timeline (Pre-TAP through post-separation financial checkpoints); and classroom privacy note. Links to Transition Readiness Calculator and printable TAP Student Worksheet. Designed for use in TAP classrooms and by individual service members planning separation.
-
-- [TAP Student Worksheet](https://www.milpaytools.com/transition/worksheet): Printable fill-in-blank worksheet for TAP classes and individual transition planning. Includes fields for current military compensation (base pay, BAH, BAS, tax advantage, total monthly value), post-military estimate (target salary, net take-home, spouse income, VA disability, healthcare replacement cost, monthly expenses), monthly surplus/shortfall, emergency fund runway, key deadlines (BDD filing window, SHPE/SHA appointment, dental exam, SGLI→VGLI conversion, TRICARE/TAMP end date, final PCS move), and 3 priority action items with notes. Print-optimized layout; robots noindex (utility page).
-
-- [Military Pay & Compensation Guide](https://www.milpaytools.com/guides/military-pay): Complete guide to military pay in 2026 — base pay tables, BAH by ZIP code, BAS, tax advantages, CONUS COLA, and total compensation calculation. Links to every pay-related calculator and article on MilPayTools.
-
-- [VA Disability Benefits Guide](https://www.milpaytools.com/guides/va-disability): Understand how VA disability ratings are calculated, how VA math combines multiple ratings, the bilateral factor, and your 2026 monthly compensation estimate. Covers CRDP, CRSC, and benefits sequencing for retirees.
-
-- [Military Retirement & TSP Guide](https://www.milpaytools.com/guides/retirement-tsp): Complete guide to military retirement systems (High-3 vs BRS), TSP strategies, Roth vs Traditional, and how to calculate your pension and retirement income. Includes stay-vs-go financial analysis for members approaching 20 years.
-
-- [PCS & Duty Station Financial Guide](https://www.milpaytools.com/guides/pcs): Plan your PCS finances from orders to final voucher — DLA rates, MALT mileage, per diem, TLE, PPM profit, BAH changes, and duty station cost comparison tools.
-
-- [Military Education Benefits Guide](https://www.milpaytools.com/guides/education-benefits): Compare Post-9/11 GI Bill, VR&E Chapter 31, Tuition Assistance, and Montgomery GI Bill side by side — total program value and the best sequencing strategy for active-duty and separating members.
+## Guides (6)
+- [Military Pay & Compensation Guide](/guides/military-pay): Understanding base pay, BAH, BAS, tax advantages, and total compensation
+- [PCS & Duty Station Financial Guide](/guides/pcs): DLA, MALT, per diem, TLE, PPM, and duty station cost comparison tools
+- [VA Disability Benefits Guide](/guides/va-disability): Combined rating formula, bilateral factor, 2026 compensation rates, CRDP and CRSC
+- [Military Retirement & TSP Guide](/guides/retirement-tsp): High-3 vs BRS, TSP strategy, Roth vs Traditional, pension and retirement income
+- [Military Education Benefits Guide](/guides/education-benefits): GI Bill, VR&E, TA, and Montgomery GI Bill comparison and sequencing strategy
+- [Military Transition Financial Roadmap](/transition): Full financial arc of military separation — income, healthcare, benefits, and deadlines
 
 ## BAH by Duty Station
 
@@ -272,13 +249,17 @@
 
 - [Dual Military BAH: Why the Higher-Ranking Spouse Doesn't Always Get More](https://www.milpaytools.com/blog/dual-military-bah-guide): Most dual military couples assume the higher-ranking member should claim dependents for BAH. The math says otherwise — and it can cost you hundreds per month. Covers co-location rules, dependent assignment when stationed separately, and market-by-market optimization examples.
 
+- [Your First Military Paycheck: What to Know Before You Spend It](https://www.milpaytools.com/blog/your-first-military-paycheck-what-to-know): What new service members need to understand before their first LES hits — BAH start date, TSP default enrollment, SGLI coverage, and the financial decisions that compound over a career.
+
 ## Data Sources
 
 - 2026 Military Pay Tables: Defense Finance and Accounting Service (DFAS)
 - 2026 BAH Rates: Defense Travel Management Office (DTMO) official ASCII data download
 - VA Disability Compensation Rates: U.S. Department of Veterans Affairs (VA.gov), effective December 1, 2025 (2.8% COLA)
 - TSP Contribution Limits: Internal Revenue Service (IRS) and TSP.gov
+- Healthcare Cost Benchmarks: KFF Employer Health Benefits Survey 2025, Healthcare.gov benchmark pricing
+- TRICARE Premiums: TRICARE.mil, effective January 1, 2026
 
 ## About
 
-Built by Dan Stevens — grew up on Air Force bases worldwide as the son of a 20-year Air Force veteran, now an NMLS-licensed mortgage industry professional. 14 calculators, 32 blog posts, 5 comprehensive guides, 76 duty station BAH pages, a transition financial roadmap, and a printable TAP student worksheet — all multi-LLM fact-checked against official government sources and verified with a Playwright test suite.
+Built by Dan Stevens — grew up on Air Force bases worldwide as the son of a 20-year Air Force veteran, now an NMLS-licensed mortgage industry professional. 16 calculators, 33 blog posts, 6 comprehensive guides, 76 duty station BAH pages, a transition financial roadmap, and a printable TAP student worksheet — all multi-LLM fact-checked against official government sources and verified with a Playwright test suite.
