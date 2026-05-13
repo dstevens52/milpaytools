@@ -1,6 +1,7 @@
 interface CalculatorCalloutProps {
-  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah' | 'transition-readiness';
+  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah' | 'transition-readiness' | 'healthcare-comparison';
   text?: string;
+  ctaText?: string;
 }
 
 const CALCULATOR_CONFIG = {
@@ -74,9 +75,14 @@ const CALCULATOR_CONFIG = {
     label: 'Transition Readiness Calculator',
     defaultText: 'Find out if you can afford to leave the military. Enter your rank, duty station, VA rating, target salary, and expenses — get a readiness verdict with action steps.',
   },
+  'healthcare-comparison': {
+    href: '/calculators/healthcare-comparison',
+    label: 'Healthcare Cost Comparison Calculator',
+    defaultText: 'Compare TRICARE to civilian healthcare options — employer plans, ACA marketplace, VA healthcare, and TRICARE Reserve Select — with estimated annual costs side by side.',
+  },
 };
 
-export function CalculatorCallout({ calculator, text }: CalculatorCalloutProps) {
+export function CalculatorCallout({ calculator, text, ctaText }: CalculatorCalloutProps) {
   const config = CALCULATOR_CONFIG[calculator];
   const description = text ?? config.defaultText;
 
@@ -91,7 +97,7 @@ export function CalculatorCallout({ calculator, text }: CalculatorCalloutProps) 
         href={config.href}
         className="inline-flex items-center gap-1.5 text-sm font-semibold text-white bg-red-700 hover:bg-red-800 transition-colors px-4 py-2 rounded-md"
       >
-        Open Calculator →
+        {ctaText ?? 'Open Calculator →'}
       </a>
     </div>
   );
