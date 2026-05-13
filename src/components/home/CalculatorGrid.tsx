@@ -81,7 +81,7 @@ const CALCULATORS: CalculatorCardProps[] = [
     href: '/calculators/pcs',
     title: 'PCS Cost Estimator',
     description:
-      'DLA, MALT mileage, per diem, TLE, and PPM/DITY profit — all from one tool. Compare government move vs. self-move.',
+      'DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds — all from one tool. Compare government move vs. self-move.',
     icon: '📦',
   },
   {
@@ -130,7 +130,7 @@ export function CalculatorGrid() {
             Free calculators. Official 2026 data.
           </h2>
           <p className="text-zinc-600 max-w-2xl">
-            Every tool uses verified DoD, DFAS, DTMO, and VA data — not estimates.
+            Every tool uses verified DoD, DFAS, DTMO, and VA data — with assumptions shown where projections are needed.
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

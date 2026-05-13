@@ -97,7 +97,7 @@ function buildActionSteps(input: RetirementInput, output: ReturnType<typeof calc
 
   if (input.retirementSystem === 'brs' && input.tspContributionPct < 5) {
     steps.push({
-      label: 'Contribute at least 5% to maximize BRS matching',
+      label: 'Contribute at least 5% to capture the full BRS match',
       description: `At ${input.tspContributionPct}% you're leaving government match money on the table. Raise to 5% to capture the full DoD contribution (1% auto + up to 4% match).`,
       priority: 'high',
     });

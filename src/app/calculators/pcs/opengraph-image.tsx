@@ -7,7 +7,7 @@ export default function Image() {
   return makeOgResponse({
     label: 'Free Calculator',
     title: 'PCS Cost Estimator',
-    subtitle: 'Estimate DLA, MALT mileage, per diem, TLE, and PPM profit for your next PCS move.',
+    subtitle: 'Estimate DLA, MALT mileage, per diem, TLE, and PPM net proceeds for your next PCS move.',
     accent: 'Free · Official 2026 DTMO Rates · All Entitlements',
   });
 }

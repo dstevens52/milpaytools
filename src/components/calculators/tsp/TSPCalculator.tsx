@@ -414,7 +414,7 @@ export function TSPCalculator() {
                 </p>
                 {!atFullMatch && (
                   <p className="text-xs mt-1 font-medium text-amber-700">
-                    You&apos;re leaving {fmt((basePay * 0.05) - brs.total - brs.auto > 0 ? basePay * 0.04 - brs.match : 0, true)}/month of free money on the table.
+                    You&apos;re leaving {fmt((basePay * 0.05) - brs.total - brs.auto > 0 ? basePay * 0.04 - brs.match : 0, true)}/month of government matching on the table.
                   </p>
                 )}
               </div>

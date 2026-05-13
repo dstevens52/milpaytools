@@ -175,8 +175,8 @@ export default function DualMilitaryBAHPage() {
               pay grades. An O-5 receives a larger premium than an E-5 in the same MHA.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              This means the higher-ranking spouse claiming dependents almost always maximizes
-              household BAH. The calculator shows you both scenarios and the exact dollar difference,
+              This means the higher-ranking spouse claiming dependents almost always produces the
+              highest household BAH total. The calculator shows you both scenarios and the exact dollar difference,
               so you can confirm the optimal configuration for your specific grades and location.
             </p>
           </div>

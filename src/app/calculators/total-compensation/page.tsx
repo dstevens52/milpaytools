@@ -192,7 +192,7 @@ export default function TotalCompensationPage() {
               Retirement &amp; TSP
             </p>
             <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-              The BRS match alone adds up to 5% of your base pay in free money. Over a career, TSP contributions with matching can grow to six or seven figures.
+              The BRS match alone adds up to 5% of your base pay in government contributions. Over a career, TSP contributions with matching can grow to six or seven figures.
             </p>
             <span className="text-sm font-medium text-red-700">
               Project your TSP growth →

@@ -184,7 +184,7 @@ export default function ComparePage() {
                 <a href="/calculators/pcs" className="text-blue-700 hover:text-blue-800 underline">
                   PCS Cost Estimator
                 </a>{' '}
-                — Estimate DLA, MALT mileage, per diem, TLE, and PPM profit for your move
+                — Estimate DLA, MALT mileage, per diem, TLE, and PPM net proceeds for your move
               </li>
               <li>
                 <a href="/calculators/total-compensation" className="text-blue-700 hover:text-blue-800 underline">

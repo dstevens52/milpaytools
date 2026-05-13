@@ -171,7 +171,7 @@ function buildActionSteps(
 
   if (isCombatZone && tspPct < 20) {
     steps.push({
-      label: 'Maximize Roth TSP — your pay is already tax-free',
+      label: 'Increase Roth TSP contributions — your pay is already tax-free',
       description: `In a combat zone, Roth TSP contributions come from CZTE-excluded pay, meaning no taxes now, no taxes on growth, no taxes at withdrawal. The ${DEPLOYMENT_RATES_2026.tspCombatZoneLimit.toLocaleString()} annual limit applies during deployment. Consider raising your contribution percentage before you deploy.`,
       priority: 'high',
       href: '/calculators/tsp',
@@ -181,7 +181,7 @@ function buildActionSteps(
   if (isCombatZone && !usingSDP) {
     steps.push({
       label: 'Deposit $10,000 in the Savings Deposit Program',
-      description: `SDP pays a guaranteed 10% annual return on up to $10,000 — one of the best risk-free rates available anywhere. Enroll through your finance office immediately upon arrival in theater. Interest continues for 90 days after you return.`,
+      description: `SDP pays a 10% annual return on up to $10,000 — one of the highest fixed returns available anywhere. Enroll through your finance office immediately upon arrival in theater. Interest continues for 90 days after you return.`,
       priority: 'high',
     });
   }
@@ -693,7 +693,7 @@ export function DeploymentCalculator() {
 
           {/* ── Act steps ─────────────────────────────────────────────── */}
           <div className="bg-white rounded-lg border border-zinc-200 shadow-sm p-5">
-            <ActSteps steps={actionSteps} title="Maximize your deployment window" />
+            <ActSteps steps={actionSteps} title="Make the most of your deployment window" />
           </div>
 
           {/* ── Related tools ─────────────────────────────────────────── */}

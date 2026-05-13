@@ -28,10 +28,11 @@ test.describe('PCS Cost Estimator', () => {
     await expect(page.locator('input[name="moveType"][value="gov"]')).toBeChecked();
   });
 
-  test('switching to Full PPM shows PPM profit row', async ({ page }) => {
+  test('switching to Full PPM shows PPM reimbursement section', async ({ page }) => {
     // Move type uses radio inputs inside label elements, not buttons
     await page.locator('label').filter({ hasText: 'Full PPM / DITY' }).click();
-    await expect(page.getByText(/PPM.*profit|profit.*PPM|after.*tax.*profit/i).first()).toBeVisible();
+    // "Gross reimbursement estimate" is unique to the PPM section — stable across language versions
+    await expect(page.getByText('Gross reimbursement estimate').first()).toBeVisible();
   });
 
   test('with-dependents toggle is active by default', async ({ page }) => {

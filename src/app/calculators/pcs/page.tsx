@@ -8,14 +8,14 @@ import { webApplicationSchema } from '@/lib/schema';
 export const metadata: Metadata = {
   title: { absolute: 'PCS Cost Estimator 2026 | Military Move Calculator | MilPayTools' },
   description:
-    'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY profit potential. Uses 2026 DTMO rates for all ranks.',
+    'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds. Uses 2026 DTMO rates for all ranks.',
   alternates: {
     canonical: '/calculators/pcs',
   },
   openGraph: {
     title: 'PCS Cost Estimator 2026 | Military Move Calculator | MilPayTools',
     description:
-      'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY profit potential. Uses 2026 DTMO rates for all ranks.',
+      'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds. Uses 2026 DTMO rates for all ranks.',
     type: 'website',
     url: '/calculators/pcs',
     siteName: 'MilPayTools',
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'PCS Cost Estimator 2026 | Military Move Calculator | MilPayTools',
     description:
-      'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY profit potential. Uses 2026 DTMO rates for all ranks.',
+      'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds. Uses 2026 DTMO rates for all ranks.',
     images: ['/api/og?type=calculator&title=PCS+Cost+Estimator+2026&v=2'],
   },
 };
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 export default function PCSPage() {
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'PCS Cost Estimator 2026', description: 'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY profit potential. Uses 2026 DTMO rates for all ranks.', url: '/calculators/pcs' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: 'PCS Cost Estimator 2026', description: 'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds. Uses 2026 DTMO rates for all ranks.', url: '/calculators/pcs' })} />
       {/* ── Page intro ─────────────────────────────────────────────────── */}
       <div className="bg-zinc-50 border-b border-zinc-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
@@ -47,8 +47,8 @@ export default function PCSPage() {
               </h1>
               <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
                 Estimate your total PCS move entitlements — DLA, mileage (MALT), per diem, TLE, and
-                PPM/DITY profit potential — all from one place. Uses 2026 DTMO rates for all ranks.
-                Compare government move vs. PPM to see which puts more money in your pocket.
+                PPM/DITY net proceeds — all from one place. Uses 2026 DTMO rates for all ranks.
+                Compare government move vs. PPM to see the financial outcome of each option.
               </p>
             </div>
           </div>
@@ -56,7 +56,7 @@ export default function PCSPage() {
           <div className="mt-3 hidden md:flex flex-wrap gap-3">
             {[
               { text: 'DLA + MALT + Per Diem' },
-              { text: 'PPM profit calculation' },
+              { text: 'PPM savings calculation' },
               { text: 'All ranks E-1 through O-10' },
               { text: '2026 DTMO rates' },
             ].map(({ text }) => (
@@ -95,11 +95,11 @@ export default function PCSPage() {
             <ExampleRow label="Total government move entitlement" value="$10,041" highlight />
             <ExampleRow label="PPM — gross reimbursement (11,000 lbs ÷ 100 × $210/cwt)" value="$23,100" />
             <ExampleRow label="PPM — estimated move costs (truck rental, fuel, supplies)" value="−$4,500" />
-            <ExampleRow label="PPM — gross profit" value="$18,600" />
-            <ExampleRow label="PPM — after-tax profit (22% tax on profit)" value="$14,508" highlight />
+            <ExampleRow label="PPM — gross proceeds" value="$18,600" />
+            <ExampleRow label="PPM — after-tax proceeds (22% tax)" value="$14,508" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> DLA, MALT, per diem, and TLE ($10,041) are paid the same way regardless of which move type you choose. With a PPM, you keep all of those entitlements AND pocket $14,508 in after-tax profit — bringing total PPM compensation to $24,549 vs. $10,041 for a government move. The E-6 keeps approximately $14,508 more by choosing PPM over a government move. The profit comes from packing efficiently under the 11,000-lb weight allowance; actual savings depend on real moving costs and how much of the weight allowance you use.
+            <strong>What this means:</strong> DLA, MALT, per diem, and TLE ($10,041) are paid the same way regardless of which move type you choose. With a PPM, you keep all of those entitlements AND net $14,508 after tax — bringing total PPM compensation to $24,549 vs. $10,041 for a government move. The E-6 keeps approximately $14,508 more by choosing PPM over a government move. The net proceeds come from moving efficiently under the 11,000-lb weight allowance; actual amounts depend on real moving costs and how much of the weight allowance you use.
           </p>
         </ExampleBox>
       </section>
@@ -150,10 +150,10 @@ export default function PCSPage() {
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               A PPM move (formerly DITY — Do It Yourself) lets you move your own household goods
               and get reimbursed at the government&apos;s cost to do the same move commercially.
-              The difference between the reimbursement and your actual costs is your profit.
+              The difference between the reimbursement and your actual costs is your net proceeds.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              PPM profit is taxable income. The calculator estimates after-tax profit at a ~22%
+              PPM net proceeds are taxable income. The calculator estimates the after-tax amount at a ~22%
               federal effective rate — your actual tax will depend on your filing status and total
               income. Keep all receipts for the weight ticket, truck rental, fuel, and supplies.
             </p>

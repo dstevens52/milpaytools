@@ -43,7 +43,7 @@ const FAQS = [
   {
     question: 'Should I use a government move or do a PPM (DITY move)?',
     answer:
-      'A government contracted move is simpler but gives you no financial upside. A Personally Procured Move (PPM) reimburses you 95% of what a contracted move would have cost — creating a profit when you can move for less. Typical PPM profit ranges from $1,000–$8,000 depending on move distance and how efficiently you move. PPM profit is taxable income.',
+      'A government contracted move is simpler but gives you no financial upside. A Personally Procured Move (PPM) reimburses you 95% of what a contracted move would have cost — creating net proceeds when you can move for less. Typical PPM net proceeds range from $1,000–$8,000 depending on move distance and how efficiently you move. PPM net proceeds are taxable income.',
   },
   {
     question: 'How does BAH change at my new station?',
@@ -103,7 +103,7 @@ const IMPACT_CARDS = [
     bullets: [
       'DLA: $1,883 (single) / $3,766 (with dependents)',
       'MALT: $0.205/mile — less than actual driving costs',
-      'PPM profit: $1,000–$8,000 if you move yourself',
+      'PPM net proceeds: $1,000–$8,000 if you move yourself',
     ],
     cta: 'Estimate my move costs →',
     href: '/calculators/pcs',
@@ -179,15 +179,15 @@ const ACCORDION = [
           <strong className="text-zinc-800">PPM (Personally Procured Move):</strong> You manage your
           own move and the government reimburses you{' '}
           <strong className="text-zinc-800">95% of what a contracted move would have cost</strong>{' '}
-          them. When you can move for less than that, the difference is profit.
+          them. When you can move for less than that, the difference is your net proceeds.
         </p>
-        <p>Typical PPM profit ranges from <strong className="text-zinc-800">$1,000–$8,000</strong> depending on distance and how efficiently you move. Self-packing and using a rented truck maximizes it; hiring a full-service mover reduces it.</p>
+        <p>Typical PPM net proceeds range from <strong className="text-zinc-800">$1,000–$8,000</strong> depending on distance and how efficiently you move. Self-packing and using a rented truck increases it; hiring a full-service mover reduces it.</p>
         <p>
-          <strong className="text-zinc-800">Tax note:</strong> PPM profit is taxable income. The
+          <strong className="text-zinc-800">Tax note:</strong> PPM net proceeds are taxable income. The
           government will report it — plan for a tax payment in the year of the move.
         </p>
         <Link href="/calculators/pcs" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
-          Calculate PPM profit for your move →
+          Calculate PPM net proceeds for your move →
         </Link>
       </div>
     ),

@@ -7,7 +7,7 @@ import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 
 const TITLE = 'Know what your military retirement is actually worth — before you decide to stay or go.';
 const DESC =
-  'Your pension, TSP balance, TRICARE, and VA disability all add up to a retirement package most civilians can\'t match. But only if you understand the math and make the right moves with TSP along the way.';
+  'Your pension, TSP balance, TRICARE, and VA disability all add up to a retirement package most civilians can\'t match. But only if you understand the math and make informed TSP decisions along the way.';
 const CANONICAL = '/guides/retirement-tsp';
 const DATE = '2026-04-12';
 const OG_IMAGE = '/api/og?type=guide&title=Military+Retirement+%26+TSP+Guide+2026&v=2';

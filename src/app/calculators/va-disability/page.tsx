@@ -65,7 +65,7 @@ export default function VADisabilityPage() {
       {/* ── Success outcome ──────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 pb-2">
         <div className="rounded-lg bg-green-50 border border-green-200 px-5 py-4 text-sm text-green-800 leading-relaxed">
-          After using this calculator, you should understand your estimated combined rating, whether
+          After using this calculator, you'll have a clear view of your estimated combined rating, whether
           the bilateral factor affects your math, and which assumptions to verify with an accredited
           VSO before relying on the result.
         </div>

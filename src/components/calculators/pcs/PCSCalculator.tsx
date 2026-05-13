@@ -40,12 +40,12 @@ const MOVE_TYPES: { value: PCSMoveType; label: string; description: string }[] =
   {
     value: 'gov',
     label: 'Government Move',
-    description: 'Government contracts a moving company. No PPM profit, but no hassle.',
+    description: 'Government contracts a moving company. No PPM net proceeds, but no hassle.',
   },
   {
     value: 'full-ppm',
     label: 'Full PPM / DITY',
-    description: 'You move everything yourself. Reimbursed at government cost estimate — profit is taxable.',
+    description: 'You move everything yourself. Reimbursed at government cost estimate — net proceeds are taxable.',
   },
   {
     value: 'partial-ppm',
@@ -62,7 +62,7 @@ function buildActionSteps(input: PCSInput, output: PCSOutput): ActionStep[] {
 
   if (isPPM && output.ppmAfterTaxProfit > 2000) {
     steps.push({
-      label: 'PPM profit opportunity',
+      label: 'PPM savings opportunity',
       description: `A ${input.moveType === 'full-ppm' ? 'full' : 'partial'} PPM move could net approximately ${fmt(output.ppmAfterTaxProfit)} after estimated expenses and taxes. Request a 60% advance (${fmt(output.ppmAdvanceAmount)}) to cover upfront costs like truck rental.`,
       priority: 'high',
     });
@@ -74,7 +74,7 @@ function buildActionSteps(input: PCSInput, output: PCSOutput): ActionStep[] {
     });
   } else if (isPPM && output.ppmAfterTaxProfit <= 0) {
     steps.push({
-      label: 'PPM not profitable at these inputs',
+      label: 'PPM produces no savings at these inputs',
       description: `Your estimated expenses exceed the reimbursement at ${input.hhgWeight.toLocaleString()} lbs. Consider reducing expenses or using a government move for this distance.`,
       priority: 'medium',
     });
@@ -545,14 +545,14 @@ export function PCSCalculator() {
                 sub="Truck, fuel, packing supplies"
               />
               <EntitlementRow
-                label="Gross profit (before tax)"
+                label="Gross proceeds (before tax)"
                 value={fmtDecimals(output.ppmGrossProfit)}
               />
               <EntitlementRow
-                label="After-tax profit (≈22% federal)"
+                label="After-tax net proceeds (≈22% federal)"
                 value={fmtDecimals(output.ppmAfterTaxProfit)}
                 highlight={output.ppmAfterTaxProfit > 0}
-                sub="PPM profit above expenses is taxable income"
+                sub="PPM net proceeds above expenses are taxable income"
               />
               {output.ppmAfterTaxProfit > 0 && (
                 <div className="mt-3 rounded-md bg-white bg-opacity-60 border border-zinc-200 px-3 py-2">
@@ -580,7 +580,7 @@ export function PCSCalculator() {
                   <p className={`text-2xl font-black tabular-nums ${output.ppmAfterTaxProfit > 0 ? 'text-green-700' : 'text-zinc-900'}`}>
                     {fmt(output.ppmMoveTotal)}
                   </p>
-                  <p className="text-xs text-zinc-400 mt-1">Includes after-tax profit</p>
+                  <p className="text-xs text-zinc-400 mt-1">Includes after-tax net proceeds</p>
                 </div>
               </div>
               {output.ppmAfterTaxProfit > 0 && (

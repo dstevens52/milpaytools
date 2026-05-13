@@ -382,7 +382,7 @@ const RELATED = [
     border: 'border-l-amber-500',
     label: 'SEQUENCING',
     title: 'GI Bill vs Tuition Assistance: Which to Use First',
-    description: 'Why using TA while on active duty and saving GI Bill for after separation is the strategy that maximizes total benefit value.',
+    description: 'Why using TA while on active duty and saving GI Bill for after separation often produces the highest total benefit value.',
   },
 ];
 

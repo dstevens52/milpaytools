@@ -25,7 +25,7 @@ const GUIDES: { slug: string; href?: string; title: string; description: string;
   {
     slug: 'pcs',
     title: 'PCS & Duty Station Financial Guide',
-    description: 'DLA, MALT, per diem, PPM profit, BAH resets, and how to compare duty stations on total financial picture.',
+    description: 'DLA, MALT, per diem, PPM net proceeds, BAH resets, and how to compare duty stations on total financial picture.',
     icon: '🚛',
     category: 'PCS & Moving',
   },

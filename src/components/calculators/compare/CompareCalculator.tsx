@@ -533,7 +533,7 @@ export function CompareCalculator() {
                   href: '/calculators/pcs',
                   icon: '📦',
                   title: 'PCS Cost Estimator',
-                  desc: 'Estimate DLA, MALT mileage, per diem, and PPM profit for your move.',
+                  desc: 'Estimate DLA, MALT mileage, per diem, and PPM net proceeds for your move.',
                 },
                 {
                   href: '/calculators/total-compensation',

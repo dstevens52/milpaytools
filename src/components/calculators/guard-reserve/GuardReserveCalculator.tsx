@@ -64,7 +64,7 @@ function buildActionSteps(output: GuardReserveOutput, input: GuardReserveInput):
 
   if (!input.brsEnrolled) {
     steps.push({
-      label: 'Maximize TSP contributions',
+      label: 'Increase TSP contributions',
       description: `You can contribute to TSP on any military pay. Under BRS, the government also adds a 1% automatic contribution plus matching up to 5% on all military pay — drill, AT, and additional duty.`,
       href: '/calculators/tsp',
       priority: 'medium',

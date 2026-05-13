@@ -195,7 +195,7 @@ export default function ColaPage() {
                 <a href="/calculators/pcs" className="text-blue-700 hover:text-blue-800 underline">
                   PCS Cost Estimator
                 </a>{' '}
-                — Estimate DLA, MALT mileage, per diem, and PPM profit for your next move
+                — Estimate DLA, MALT mileage, per diem, and PPM net proceeds for your next move
               </li>
             </ul>
           </div>

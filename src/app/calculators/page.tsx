@@ -110,11 +110,11 @@ const CALCULATORS: CalculatorDetail[] = [
     icon: '📦',
     name: 'PCS Cost Estimator',
     description:
-      'Estimate total PCS entitlements — DLA, MALT mileage, per diem, TLE, and PPM/DITY profit potential. Compare government move vs. self-move to see which puts more money in your pocket.',
+      'Estimate total PCS entitlements — DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds. Compare government move vs. PPM to see the financial outcome of each option.',
     features: [
       'DLA by rank and dependency status',
       'MALT mileage + travel days',
-      'PPM profit after expenses and tax',
+      'PPM net proceeds after expenses and tax',
       'Government vs. PPM comparison',
     ],
     group: 'active-duty',
@@ -197,7 +197,7 @@ const CALCULATORS: CalculatorDetail[] = [
       'Calculate your pay increase during deployment — HFP/IDP, Hardship Duty Pay, FSA, Combat Zone Tax Exclusion savings, and Savings Deposit Program interest. Before vs. during vs. tour total.',
     features: [
       'CZTE tax savings (enlisted & officer)',
-      'SDP 10% guaranteed return',
+      'SDP 10% annual return',
       'HFP/IDP + HDP + FSA modeling',
       'TSP combat zone contribution limit',
     ],

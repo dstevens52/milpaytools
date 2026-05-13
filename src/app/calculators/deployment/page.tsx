@@ -57,7 +57,7 @@ export default function DeploymentPage() {
             {[
               { text: 'All ranks E-1 through O-10' },
               { text: 'CZTE tax savings (enlisted & officer)' },
-              { text: 'SDP 10% guaranteed return' },
+              { text: 'SDP 10% annual return' },
               { text: '2026 DoD & IRS rates' },
             ].map(({ text }) => (
               <span
@@ -99,7 +99,7 @@ export default function DeploymentPage() {
             <ExampleRow label="9-month tour total benefit (allowances $4,725 + tax savings $3,115)" value="$7,840" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> This E-5 takes home $871 more per month during the deployment — and because family expenses typically drop while a spouse is deployed (one fewer car, shared housing costs), many families can bank $1,000–$2,000+ per month. Over 9 months the CZTE alone saves $3,115 in federal income taxes. Deploying under BRS is also an opportunity to maximize Roth TSP contributions from already tax-free pay, potentially doubling the financial impact.
+            <strong>What this means:</strong> This E-5 takes home $871 more per month during the deployment — and because family expenses typically drop while a spouse is deployed (one fewer car, shared housing costs), many families can bank $1,000–$2,000+ per month. Over 9 months the CZTE alone saves $3,115 in federal income taxes. Deploying under BRS is also an opportunity to increase Roth TSP contributions from already tax-free pay, potentially doubling the financial impact.
           </p>
         </ExampleBox>
       </section>
@@ -132,7 +132,7 @@ export default function DeploymentPage() {
               Savings Deposit Program (SDP)
             </h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              The SDP is a government-backed savings account offering a guaranteed 10% annual return
+              The SDP is a government-backed savings account offering a 10% annual return
               — available only to service members deployed to designated combat zones for 30 or more
               consecutive days. The maximum deposit is $10,000; interest is compounded quarterly at
               2.5% per quarter.
