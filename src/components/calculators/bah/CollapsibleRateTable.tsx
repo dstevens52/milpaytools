@@ -13,6 +13,8 @@ interface Props {
   locationName: string;
   ratesW: Record<string, number>;
   ratesWO: Record<string, number>;
+  selectedGrade?: string;
+  selectedHasDependents?: boolean;
 }
 
 const fmt = (n: number) => formatCurrency(n);
@@ -21,13 +23,31 @@ const OFFICER_GRADES = ['O-1', 'O-2', 'O-3', 'O-4', 'O-5', 'O-6', 'O-7'] as cons
 
 const PREVIEW_GRADES = ['E-5', 'E-6', 'E-7'] as const;
 
-export function CollapsibleRateTable({ locationName, ratesW, ratesWO }: Props) {
+export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGrade, selectedHasDependents }: Props) {
   const [open, setOpen] = useState(false);
 
   const previewRates = PREVIEW_GRADES.flatMap((g) => {
     const rate = ratesW[g];
     return rate !== undefined ? [{ grade: g as string, rate }] : [];
   });
+
+  function renderRow(grade: string) {
+    const w = ratesW[grade];
+    const wo = ratesWO[grade];
+    if (w === undefined && wo === undefined) return null;
+    const isSelected = selectedGrade === grade;
+    return (
+      <tr key={grade} className={`hover:bg-zinc-50 transition-colors ${isSelected ? 'bg-red-50' : ''}`}>
+        <td className="px-4 py-2.5 text-zinc-700 font-medium">{RANK_DISPLAY[grade as keyof typeof RANK_DISPLAY]}</td>
+        <td className={`px-4 py-2.5 text-right tabular-nums text-zinc-900 font-semibold ${isSelected && selectedHasDependents === true ? 'font-bold' : ''}`}>
+          {w !== undefined ? fmt(w) : '—'}
+        </td>
+        <td className={`px-4 py-2.5 text-right tabular-nums text-zinc-600 ${isSelected && selectedHasDependents === false ? 'font-bold' : ''}`}>
+          {wo !== undefined ? fmt(wo) : '—'}
+        </td>
+      </tr>
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg border border-zinc-200 overflow-hidden">
@@ -45,8 +65,8 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO }: Props) {
           <p className="text-sm text-zinc-600 tabular-nums mb-4">
             {previewRates.map((x, i) => (
               <span key={x.grade}>
-                <span className="font-medium">{x.grade} w/dep:</span>{' '}
-                <span className="font-semibold text-zinc-900">{fmt(x.rate)}/mo</span>
+                <span className={`font-medium ${selectedGrade === x.grade ? 'font-bold text-red-700' : ''}`}>{x.grade} w/dep:</span>{' '}
+                <span className={`font-semibold text-zinc-900 ${selectedGrade === x.grade ? 'font-bold text-red-700' : ''}`}>{fmt(x.rate)}/mo</span>
                 {i < previewRates.length - 1 && <span className="text-zinc-300 mx-2">·</span>}
               </span>
             ))}
@@ -55,10 +75,13 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO }: Props) {
 
         <button
           onClick={() => setOpen((v) => !v)}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-md border border-zinc-300 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 transition-colors"
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-md bg-zinc-800 text-white text-sm font-semibold hover:bg-zinc-700 transition-colors"
           aria-expanded={open}
         >
-          {open ? 'Collapse ▲' : 'View all 2026 BAH rates by pay grade ▼'}
+          {open
+            ? <>Collapse <span className={`inline-block transition-transform duration-200 rotate-180`}>▼</span></>
+            : <>View all 2026 BAH rates by pay grade <span className={`inline-block transition-transform duration-200`}>▼</span></>
+          }
         </button>
       </div>
 
@@ -84,85 +107,25 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO }: Props) {
                     Enlisted
                   </td>
                 </tr>
-                {ENLISTED_GRADES.map((grade) => {
-                  const w = ratesW[grade];
-                  const wo = ratesWO[grade];
-                  if (w === undefined && wo === undefined) return null;
-                  return (
-                    <tr key={grade} className="hover:bg-zinc-50 transition-colors">
-                      <td className="px-4 py-2.5 text-zinc-700 font-medium">{RANK_DISPLAY[grade]}</td>
-                      <td className="px-4 py-2.5 text-right tabular-nums text-zinc-900 font-semibold">
-                        {w !== undefined ? fmt(w) : '—'}
-                      </td>
-                      <td className="px-4 py-2.5 text-right tabular-nums text-zinc-600">
-                        {wo !== undefined ? fmt(wo) : '—'}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {ENLISTED_GRADES.map((grade) => renderRow(grade))}
                 <tr className="bg-zinc-50">
                   <td colSpan={3} className="px-4 py-1.5 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
                     Warrant Officer
                   </td>
                 </tr>
-                {WARRANT_GRADES.map((grade) => {
-                  const w = ratesW[grade];
-                  const wo = ratesWO[grade];
-                  if (w === undefined && wo === undefined) return null;
-                  return (
-                    <tr key={grade} className="hover:bg-zinc-50 transition-colors">
-                      <td className="px-4 py-2.5 text-zinc-700 font-medium">{RANK_DISPLAY[grade]}</td>
-                      <td className="px-4 py-2.5 text-right tabular-nums text-zinc-900 font-semibold">
-                        {w !== undefined ? fmt(w) : '—'}
-                      </td>
-                      <td className="px-4 py-2.5 text-right tabular-nums text-zinc-600">
-                        {wo !== undefined ? fmt(wo) : '—'}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {WARRANT_GRADES.map((grade) => renderRow(grade))}
                 <tr className="bg-zinc-50">
                   <td colSpan={3} className="px-4 py-1.5 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
                     Officer (Prior Enlisted)
                   </td>
                 </tr>
-                {PRIOR_ENLISTED_OFFICER_GRADES.map((grade) => {
-                  const w = ratesW[grade];
-                  const wo = ratesWO[grade];
-                  if (w === undefined && wo === undefined) return null;
-                  return (
-                    <tr key={grade} className="hover:bg-zinc-50 transition-colors">
-                      <td className="px-4 py-2.5 text-zinc-700 font-medium">{RANK_DISPLAY[grade]}</td>
-                      <td className="px-4 py-2.5 text-right tabular-nums text-zinc-900 font-semibold">
-                        {w !== undefined ? fmt(w) : '—'}
-                      </td>
-                      <td className="px-4 py-2.5 text-right tabular-nums text-zinc-600">
-                        {wo !== undefined ? fmt(wo) : '—'}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {PRIOR_ENLISTED_OFFICER_GRADES.map((grade) => renderRow(grade))}
                 <tr className="bg-zinc-50">
                   <td colSpan={3} className="px-4 py-1.5 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
                     Officer
                   </td>
                 </tr>
-                {OFFICER_GRADES.map((grade) => {
-                  const w = ratesW[grade];
-                  const wo = ratesWO[grade];
-                  if (w === undefined && wo === undefined) return null;
-                  return (
-                    <tr key={grade} className="hover:bg-zinc-50 transition-colors">
-                      <td className="px-4 py-2.5 text-zinc-700 font-medium">{RANK_DISPLAY[grade]}</td>
-                      <td className="px-4 py-2.5 text-right tabular-nums text-zinc-900 font-semibold">
-                        {w !== undefined ? fmt(w) : '—'}
-                      </td>
-                      <td className="px-4 py-2.5 text-right tabular-nums text-zinc-600">
-                        {wo !== undefined ? fmt(wo) : '—'}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {OFFICER_GRADES.map((grade) => renderRow(grade))}
               </tbody>
             </table>
           </div>

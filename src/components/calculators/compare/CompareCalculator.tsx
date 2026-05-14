@@ -413,7 +413,7 @@ export function CompareCalculator() {
               <div className={`grid gap-3 ${stationA && stationB ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}`}>
                 {stationA && (
                   <Link
-                    href={`/bah/${stationA.slug}`}
+                    href={`/bah/${stationA.slug}?rank=${payGrade}&dep=${hasDependents ? 'yes' : 'no'}`}
                     className="flex items-center justify-between rounded-md bg-white border border-blue-100 px-4 py-3 text-sm font-medium text-blue-700 hover:border-blue-300 hover:shadow-sm transition-all"
                   >
                     <span>
@@ -425,7 +425,7 @@ export function CompareCalculator() {
                 )}
                 {stationB && (
                   <Link
-                    href={`/bah/${stationB.slug}`}
+                    href={`/bah/${stationB.slug}?rank=${payGrade}&dep=${hasDependents ? 'yes' : 'no'}`}
                     className="flex items-center justify-between rounded-md bg-white border border-blue-100 px-4 py-3 text-sm font-medium text-blue-700 hover:border-blue-300 hover:shadow-sm transition-all"
                   >
                     <span>

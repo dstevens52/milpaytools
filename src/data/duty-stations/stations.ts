@@ -41,6 +41,8 @@ export interface DutyStation {
   rentalNote: string;
   nearby: string[];
   oconus?: true;
+  heroImage?: string;       // path like '/images/bases/fort-liberty.jpg'
+  heroImageCredit?: string; // e.g. 'Photo: U.S. Army / DVIDS'
   bahVsHousing?: BahVsHousing;
   localHousingTips?: LocalHousingTips;
 }
