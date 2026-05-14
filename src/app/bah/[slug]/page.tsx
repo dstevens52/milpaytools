@@ -7,12 +7,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema } from '@/lib/schema';
 import { STATE_TAX_DATA } from '@/data/compare/stateTax';
 import { COLA_AREAS } from '@/data/cola/2026/constants';
-import {
-  RANK_DISPLAY,
-  ENLISTED_GRADES,
-  WARRANT_GRADES,
-  PRIOR_ENLISTED_OFFICER_GRADES,
-} from '@/types/military';
+import { CollapsibleRateTable } from '@/components/calculators/bah/CollapsibleRateTable';
 
 export async function generateStaticParams() {
   return DUTY_STATIONS.map((s) => ({ slug: s.slug }));
@@ -186,140 +181,7 @@ export default async function StationPage({
             </div>
           )}
 
-          {/* BAH Rate Table */}
-          {!station.oconus && ratesW && ratesWO && (
-            <div className="bg-white rounded-lg border border-zinc-200 overflow-hidden">
-              <div className="px-6 py-4 border-b border-zinc-100">
-                <h2 className="text-lg font-semibold text-zinc-900">
-                  2026 BAH Rates — {locationName ?? station.city}
-                </h2>
-                <p className="text-sm text-zinc-500 mt-1">
-                  Monthly rates. Source: DTMO 2026 BAH data. BAH is not taxable income.
-                </p>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="bg-zinc-50 border-b border-zinc-200">
-                      <th className="text-left px-4 py-3 font-semibold text-zinc-700 w-48">Pay Grade</th>
-                      <th className="text-right px-4 py-3 font-semibold text-zinc-700">With Dependents</th>
-                      <th className="text-right px-4 py-3 font-semibold text-zinc-700">Without Dependents</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-zinc-100">
-                    {/* Enlisted header row */}
-                    <tr className="bg-zinc-50">
-                      <td colSpan={3} className="px-4 py-1.5 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
-                        Enlisted
-                      </td>
-                    </tr>
-                    {ENLISTED_GRADES.map((grade) => {
-                      const w = ratesW[grade];
-                      const wo = ratesWO[grade];
-                      if (w === undefined && wo === undefined) return null;
-                      return (
-                        <tr key={grade} className="hover:bg-zinc-50 transition-colors">
-                          <td className="px-4 py-2.5 text-zinc-700 font-medium">{RANK_DISPLAY[grade]}</td>
-                          <td className="px-4 py-2.5 text-right tabular-nums text-zinc-900 font-semibold">
-                            {w !== undefined ? fmt(w) : '—'}
-                          </td>
-                          <td className="px-4 py-2.5 text-right tabular-nums text-zinc-600">
-                            {wo !== undefined ? fmt(wo) : '—'}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                    {/* Warrant Officer header row */}
-                    <tr className="bg-zinc-50">
-                      <td colSpan={3} className="px-4 py-1.5 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
-                        Warrant Officer
-                      </td>
-                    </tr>
-                    {WARRANT_GRADES.map((grade) => {
-                      const w = ratesW[grade];
-                      const wo = ratesWO[grade];
-                      if (w === undefined && wo === undefined) return null;
-                      return (
-                        <tr key={grade} className="hover:bg-zinc-50 transition-colors">
-                          <td className="px-4 py-2.5 text-zinc-700 font-medium">{RANK_DISPLAY[grade]}</td>
-                          <td className="px-4 py-2.5 text-right tabular-nums text-zinc-900 font-semibold">
-                            {w !== undefined ? fmt(w) : '—'}
-                          </td>
-                          <td className="px-4 py-2.5 text-right tabular-nums text-zinc-600">
-                            {wo !== undefined ? fmt(wo) : '—'}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                    {/* Prior-enlisted Officers */}
-                    <tr className="bg-zinc-50">
-                      <td colSpan={3} className="px-4 py-1.5 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
-                        Officer (Prior Enlisted)
-                      </td>
-                    </tr>
-                    {PRIOR_ENLISTED_OFFICER_GRADES.map((grade) => {
-                      const w = ratesW[grade];
-                      const wo = ratesWO[grade];
-                      if (w === undefined && wo === undefined) return null;
-                      return (
-                        <tr key={grade} className="hover:bg-zinc-50 transition-colors">
-                          <td className="px-4 py-2.5 text-zinc-700 font-medium">{RANK_DISPLAY[grade]}</td>
-                          <td className="px-4 py-2.5 text-right tabular-nums text-zinc-900 font-semibold">
-                            {w !== undefined ? fmt(w) : '—'}
-                          </td>
-                          <td className="px-4 py-2.5 text-right tabular-nums text-zinc-600">
-                            {wo !== undefined ? fmt(wo) : '—'}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                    {/* Officers */}
-                    <tr className="bg-zinc-50">
-                      <td colSpan={3} className="px-4 py-1.5 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
-                        Officer
-                      </td>
-                    </tr>
-                    {(['O-1', 'O-2', 'O-3', 'O-4', 'O-5', 'O-6', 'O-7'] as const).map((grade) => {
-                      const w = ratesW[grade];
-                      const wo = ratesWO[grade];
-                      if (w === undefined && wo === undefined) return null;
-                      return (
-                        <tr key={grade} className="hover:bg-zinc-50 transition-colors">
-                          <td className="px-4 py-2.5 text-zinc-700 font-medium">{RANK_DISPLAY[grade]}</td>
-                          <td className="px-4 py-2.5 text-right tabular-nums text-zinc-900 font-semibold">
-                            {w !== undefined ? fmt(w) : '—'}
-                          </td>
-                          <td className="px-4 py-2.5 text-right tabular-nums text-zinc-600">
-                            {wo !== undefined ? fmt(wo) : '—'}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-              <div className="px-4 py-3 border-t border-zinc-100 bg-zinc-50">
-                <p className="text-xs text-zinc-400">
-                  O-8, O-9, and O-10 receive the same BAH as O-7. Rates effective January 1, 2026.
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* No data fallback */}
-          {!station.oconus && (!ratesW || !ratesWO) && (
-            <div className="bg-white rounded-lg border border-zinc-200 p-6">
-              <p className="text-zinc-600 text-sm">
-                BAH rate data for this ZIP code could not be loaded. Use the{' '}
-                <Link href="/calculators/bah" className="text-red-700 hover:text-red-800 underline">
-                  BAH calculator
-                </Link>{' '}
-                and enter the ZIP code manually for exact rates.
-              </p>
-            </div>
-          )}
-
-          {/* BAH vs. Local Housing Costs */}
+          {/* BAH vs. Local Housing Costs — shown early when data exists, acts as the hook */}
           {!station.oconus && station.bahVsHousing && e5WithDep > 0 && (
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
               <h2 className="text-lg font-semibold text-zinc-900 mb-1">BAH vs. Local Housing Costs</h2>
@@ -388,6 +250,52 @@ export default async function StationPage({
             </div>
           )}
 
+          {/* How This Market Compares — moved up, flows after local housing context */}
+          {e5WithDep > 0 && (
+            <div className="bg-white rounded-lg border border-zinc-200 p-6">
+              <h2 className="text-lg font-semibold text-zinc-900 mb-4">How This Market Compares</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
+                <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
+                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">E-5 w/dep BAH here</p>
+                  <p className="text-2xl font-bold text-zinc-900">{fmt(e5WithDep)}<span className="text-sm font-normal text-zinc-500">/mo</span></p>
+                </div>
+                <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
+                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">National avg E-5 w/dep</p>
+                  <p className="text-2xl font-bold text-zinc-500">{fmt(NATIONAL_AVG_E5_W)}<span className="text-sm font-normal text-zinc-500">/mo</span></p>
+                </div>
+                <div className={`rounded-lg border p-4 ${e5Diff >= 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">vs. National avg</p>
+                  <p className={`text-2xl font-bold ${e5Diff >= 0 ? 'text-green-700' : 'text-red-700'}`}>
+                    {e5Diff >= 0 ? '+' : ''}{fmt(e5Diff)}<span className="text-sm font-normal">/mo</span>
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm text-zinc-600 leading-relaxed">{station.rentalNote}</p>
+            </div>
+          )}
+
+          {/* BAH Rate Table — collapsible, moved down so context comes first */}
+          {!station.oconus && ratesW && ratesWO && (
+            <CollapsibleRateTable
+              locationName={locationName ?? station.city}
+              ratesW={ratesW}
+              ratesWO={ratesWO}
+            />
+          )}
+
+          {/* No data fallback */}
+          {!station.oconus && (!ratesW || !ratesWO) && (
+            <div className="bg-white rounded-lg border border-zinc-200 p-6">
+              <p className="text-zinc-600 text-sm">
+                BAH rate data for this ZIP code could not be loaded. Use the{' '}
+                <Link href="/calculators/bah" className="text-red-700 hover:text-red-800 underline">
+                  BAH calculator
+                </Link>{' '}
+                and enter the ZIP code manually for exact rates.
+              </p>
+            </div>
+          )}
+
           {/* Local Housing Tips */}
           {station.localHousingTips && (
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
@@ -425,30 +333,6 @@ export default async function StationPage({
                 <p className="text-sm font-semibold text-amber-800 mb-1">The mistake to avoid</p>
                 <p className="text-sm text-amber-700 leading-relaxed">{station.localHousingTips.mistakeToAvoid}</p>
               </div>
-            </div>
-          )}
-
-          {/* Comparison */}
-          {e5WithDep > 0 && (
-            <div className="bg-white rounded-lg border border-zinc-200 p-6">
-              <h2 className="text-lg font-semibold text-zinc-900 mb-4">How This Market Compares</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
-                <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
-                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">E-5 w/dep BAH here</p>
-                  <p className="text-2xl font-bold text-zinc-900">{fmt(e5WithDep)}<span className="text-sm font-normal text-zinc-500">/mo</span></p>
-                </div>
-                <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
-                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">National avg E-5 w/dep</p>
-                  <p className="text-2xl font-bold text-zinc-500">{fmt(NATIONAL_AVG_E5_W)}<span className="text-sm font-normal text-zinc-500">/mo</span></p>
-                </div>
-                <div className={`rounded-lg border p-4 ${e5Diff >= 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
-                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">vs. National avg</p>
-                  <p className={`text-2xl font-bold ${e5Diff >= 0 ? 'text-green-700' : 'text-red-700'}`}>
-                    {e5Diff >= 0 ? '+' : ''}{fmt(e5Diff)}<span className="text-sm font-normal">/mo</span>
-                  </p>
-                </div>
-              </div>
-              <p className="text-sm text-zinc-600 leading-relaxed">{station.rentalNote}</p>
             </div>
           )}
 
