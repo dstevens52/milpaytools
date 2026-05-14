@@ -1,13 +1,25 @@
 'use client';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { compareLocations } from '@/lib/calculations/compare';
+import { getMHACode } from '@/lib/calculations/bah';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import type { CompareResult, LocationData } from '@/lib/calculations/compare';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { ShareBar } from '@/components/calculators/shared/ShareButton';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
+import { DUTY_STATIONS, type DutyStation } from '@/data/duty-stations/stations';
+
+// Map MHA code → duty station, built once at module load
+const MHA_TO_STATION = new Map<string, DutyStation>();
+for (const s of DUTY_STATIONS) {
+  if (!s.oconus) {
+    const mha = getMHACode(s.zip);
+    if (mha) MHA_TO_STATION.set(mha, s);
+  }
+}
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -234,6 +246,21 @@ export function CompareCalculator() {
     });
   }, [payGrade, yos, hasDependents, zipA, zipB, bothReady]);
 
+  // Match each ZIP to a duty station page via MHA code (handles ZIP variants in same housing area)
+  const stationA = useMemo(() => {
+    if (!bothReady) return null;
+    const mha = getMHACode(zipA);
+    return mha ? (MHA_TO_STATION.get(mha) ?? null) : null;
+  }, [zipA, bothReady]);
+
+  const stationB = useMemo(() => {
+    if (!bothReady) return null;
+    const mha = getMHACode(zipB);
+    const s = mha ? (MHA_TO_STATION.get(mha) ?? null) : null;
+    // Don't show a second link if both ZIPs resolve to the same station
+    return s?.slug !== stationA?.slug ? s : null;
+  }, [zipB, bothReady, stationA]);
+
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {
     if (!result) return;
@@ -376,6 +403,41 @@ export function CompareCalculator() {
           <SummaryCard result={result} nameA={nameA} nameB={nameB} />
 
           <ShareBar getUrl={getShareUrl} />
+
+          {/* Station housing guide links */}
+          {(stationA || stationB) && (
+            <div className="rounded-lg border border-blue-100 bg-blue-50 p-4">
+              <p className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-3">
+                Full Housing Guides
+              </p>
+              <div className={`grid gap-3 ${stationA && stationB ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}`}>
+                {stationA && (
+                  <Link
+                    href={`/bah/${stationA.slug}`}
+                    className="flex items-center justify-between rounded-md bg-white border border-blue-100 px-4 py-3 text-sm font-medium text-blue-700 hover:border-blue-300 hover:shadow-sm transition-all"
+                  >
+                    <span>
+                      See {stationA.name} BAH rates, local housing costs
+                      {stationA.localHousingTips ? ', and neighborhood tips' : ', and market analysis'}
+                    </span>
+                    <span className="ml-3 flex-none">→</span>
+                  </Link>
+                )}
+                {stationB && (
+                  <Link
+                    href={`/bah/${stationB.slug}`}
+                    className="flex items-center justify-between rounded-md bg-white border border-blue-100 px-4 py-3 text-sm font-medium text-blue-700 hover:border-blue-300 hover:shadow-sm transition-all"
+                  >
+                    <span>
+                      See {stationB.name} BAH rates, local housing costs
+                      {stationB.localHousingTips ? ', and neighborhood tips' : ', and market analysis'}
+                    </span>
+                    <span className="ml-3 flex-none">→</span>
+                  </Link>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Detailed comparison */}
           <div className="bg-white rounded-lg border border-zinc-200 shadow-sm p-6">
