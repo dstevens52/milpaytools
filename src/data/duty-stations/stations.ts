@@ -57,7 +57,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'North Carolina',
     branches: ['Army'],
     description:
-      'Home of the 82nd Airborne Division and U.S. Army Special Operations Command, Fort Liberty is the largest military installation by population — over 50,000 active-duty soldiers. If you just got orders here or you\'re comparing duty stations, the good news: Fayetteville is one of the most affordable military housing markets in the country, and your BAH goes further here than at most installations.',
+      'Your BAH goes further at Fort Liberty than at most duty stations. Fayetteville\'s housing market runs well below the national average, which means an E-5 with dependents pockets roughly $500/month over median rent — one of the better BAH-to-cost ratios in the Army. Home of the 82nd Airborne and USASOC, Fort Liberty is the largest installation by population with over 50,000 active-duty soldiers.',
     rentalNote:
       'Fort Liberty BAH runs below the national average, but local housing costs are significantly below average too — meaning your dollar goes further here than the raw BAH number suggests. BAH in the Fayetteville market covers most mid-range rentals, and many families find their allowance stretches to a mortgage on a starter home.',
     nearby: ['camp-lejeune', 'seymour-johnson-afb', 'marine-corps-air-station-cherry-point'],

@@ -19,28 +19,46 @@ const fmt = (n: number) => formatCurrency(n);
 
 const OFFICER_GRADES = ['O-1', 'O-2', 'O-3', 'O-4', 'O-5', 'O-6', 'O-7'] as const;
 
+const PREVIEW_GRADES = ['E-5', 'E-6', 'E-7'] as const;
+
 export function CollapsibleRateTable({ locationName, ratesW, ratesWO }: Props) {
   const [open, setOpen] = useState(false);
+
+  const previewRates = PREVIEW_GRADES.flatMap((g) => {
+    const rate = ratesW[g];
+    return rate !== undefined ? [{ grade: g as string, rate }] : [];
+  });
 
   return (
     <div className="bg-white rounded-lg border border-zinc-200 overflow-hidden">
       {/* Always-visible header */}
-      <div className="px-6 py-4 flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-semibold text-zinc-900">
-            2026 BAH Rates — {locationName}
-          </h2>
-          <p className="text-sm text-zinc-500 mt-0.5">
-            Monthly rates for all pay grades. Source: DTMO 2026 BAH data. BAH is not taxable income.
+      <div className="px-6 py-5">
+        <h2 className="text-lg font-semibold text-zinc-900 mb-1">
+          2026 BAH Rates — {locationName}
+        </h2>
+        <p className="text-sm text-zinc-500 mb-4">
+          Monthly rates for all pay grades. Source: DTMO 2026 BAH data. BAH is not taxable income.
+        </p>
+
+        {/* Rate preview — visible when collapsed */}
+        {!open && previewRates.length > 0 && (
+          <p className="text-sm text-zinc-600 tabular-nums mb-4">
+            {previewRates.map((x, i) => (
+              <span key={x.grade}>
+                <span className="font-medium">{x.grade} w/dep:</span>{' '}
+                <span className="font-semibold text-zinc-900">{fmt(x.rate)}/mo</span>
+                {i < previewRates.length - 1 && <span className="text-zinc-300 mx-2">·</span>}
+              </span>
+            ))}
           </p>
-        </div>
+        )}
+
         <button
           onClick={() => setOpen((v) => !v)}
-          className="ml-4 flex-none inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-zinc-200 text-sm font-medium text-zinc-700 hover:bg-zinc-50 transition-colors"
+          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-md border border-zinc-300 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 transition-colors"
           aria-expanded={open}
         >
-          {open ? 'Collapse' : 'View all rates'}
-          <span className="text-zinc-400 text-xs">{open ? '▲' : '▼'}</span>
+          {open ? 'Collapse ▲' : 'View all 2026 BAH rates by pay grade ▼'}
         </button>
       </div>
 
@@ -148,16 +166,10 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO }: Props) {
               </tbody>
             </table>
           </div>
-          <div className="px-4 py-3 border-t border-zinc-100 bg-zinc-50 flex items-center justify-between">
+          <div className="px-4 py-3 border-t border-zinc-100 bg-zinc-50">
             <p className="text-xs text-zinc-400">
               O-8, O-9, and O-10 receive the same BAH as O-7. Rates effective January 1, 2026.
             </p>
-            <button
-              onClick={() => setOpen(false)}
-              className="text-xs text-zinc-400 hover:text-zinc-600 transition-colors"
-            >
-              Collapse ▲
-            </button>
           </div>
         </div>
       </div>
