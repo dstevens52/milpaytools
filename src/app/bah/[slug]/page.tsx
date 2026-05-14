@@ -319,6 +319,115 @@ export default async function StationPage({
             </div>
           )}
 
+          {/* BAH vs. Local Housing Costs */}
+          {!station.oconus && station.bahVsHousing && e5WithDep > 0 && (
+            <div className="bg-white rounded-lg border border-zinc-200 p-6">
+              <h2 className="text-lg font-semibold text-zinc-900 mb-1">BAH vs. Local Housing Costs</h2>
+              <p className="text-sm text-zinc-500 mb-5">
+                Your BAH isn&apos;t just a rent check — here&apos;s how it stacks up against what housing actually costs in this market.
+              </p>
+
+              {/* Rent row */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
+                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Median rent</p>
+                  <p className="text-2xl font-bold text-zinc-900 tabular-nums">
+                    {fmt(station.bahVsHousing.medianRent)}
+                    <span className="text-sm font-normal text-zinc-500">/mo</span>
+                  </p>
+                  <p className="text-xs text-zinc-400 mt-1">{station.bahVsHousing.medianRentSource}</p>
+                </div>
+                <div className="rounded-lg bg-red-50 border border-red-100 p-4">
+                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">E-5 w/dep BAH</p>
+                  <p className="text-2xl font-bold text-red-700 tabular-nums">
+                    {fmt(e5WithDep)}
+                    <span className="text-sm font-normal text-zinc-500">/mo</span>
+                  </p>
+                  <p className="text-xs text-zinc-400 mt-1">Tax-free</p>
+                </div>
+                <div className="rounded-lg bg-green-50 border border-green-200 p-4">
+                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Monthly surplus vs. median rent</p>
+                  <p className="text-2xl font-bold text-green-700 tabular-nums">
+                    +{fmt(e5WithDep - station.bahVsHousing.medianRent)}
+                    <span className="text-sm font-normal">/mo</span>
+                  </p>
+                  <p className="text-xs text-zinc-400 mt-1">If renting at median</p>
+                </div>
+              </div>
+
+              {/* Buying row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+                <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
+                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Median home price</p>
+                  <p className="text-2xl font-bold text-zinc-900 tabular-nums">
+                    {fmt(station.bahVsHousing.medianHomePrice)}
+                  </p>
+                  <p className="text-xs text-zinc-400 mt-1">{station.bahVsHousing.medianHomePriceSource}</p>
+                </div>
+                <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
+                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Est. monthly mortgage (PITI)</p>
+                  <p className="text-2xl font-bold text-zinc-900 tabular-nums">
+                    {fmt(station.bahVsHousing.mortgageMin)}–{fmt(station.bahVsHousing.mortgageMax)}
+                    <span className="text-sm font-normal text-zinc-500">/mo</span>
+                  </p>
+                  <p className="text-xs text-zinc-400 mt-1">{station.bahVsHousing.mortgageAssumptions}</p>
+                </div>
+              </div>
+
+              <div className="rounded-lg bg-zinc-50 border border-zinc-200 px-4 py-3 mb-4">
+                <p className="text-sm text-zinc-700 leading-relaxed">
+                  At {fmt(e5WithDep)}/month BAH and an estimated {fmt(station.bahVsHousing.mortgageMin)}–{fmt(station.bahVsHousing.mortgageMax)}/month on a median-priced home,
+                  BAH likely covers or nearly covers a typical mortgage in this market.
+                </p>
+              </div>
+
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Housing cost estimates are approximate and based on publicly available market data. Actual costs vary by neighborhood, property type, and individual circumstances.
+                This is not financial advice — use these numbers as a starting point for your own research.
+              </p>
+            </div>
+          )}
+
+          {/* Local Housing Tips */}
+          {station.localHousingTips && (
+            <div className="bg-white rounded-lg border border-zinc-200 p-6">
+              <h2 className="text-lg font-semibold text-zinc-900 mb-5">Local Housing Tips</h2>
+
+              <p className="text-xs text-zinc-500 uppercase tracking-wide font-semibold mb-3">Best neighborhoods for military families</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                {station.localHousingTips.neighborhoods.map((n) => (
+                  <div key={n.name} className="rounded-lg border border-zinc-200 p-4">
+                    <p className="font-semibold text-zinc-900 text-sm mb-1">{n.name}</p>
+                    <p className="text-sm text-zinc-600 mb-2">{n.highlight}</p>
+                    <p className="text-xs text-zinc-500">Commute: {n.commute}</p>
+                    <p className="text-xs text-zinc-400 mt-0.5">Best for: {n.bestFor}</p>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-xs text-zinc-500 uppercase tracking-wide font-semibold mb-3">Local cost of living context</p>
+              <ul className="space-y-2 mb-6">
+                <li className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 flex-none mt-1.5" />
+                  <p className="text-sm text-zinc-600">Overall cost of living is roughly {station.localHousingTips.coliNote}.</p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 flex-none mt-1.5" />
+                  <p className="text-sm text-zinc-600">Groceries run about {station.localHousingTips.groceryNote}.</p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 flex-none mt-1.5" />
+                  <p className="text-sm text-zinc-600">{station.localHousingTips.stateTaxNote}</p>
+                </li>
+              </ul>
+
+              <div className="rounded-lg bg-amber-50 border border-amber-200 p-4">
+                <p className="text-sm font-semibold text-amber-800 mb-1">The mistake to avoid</p>
+                <p className="text-sm text-amber-700 leading-relaxed">{station.localHousingTips.mistakeToAvoid}</p>
+              </div>
+            </div>
+          )}
+
           {/* Comparison */}
           {e5WithDep > 0 && (
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
@@ -351,7 +460,7 @@ export default async function StationPage({
                 <li className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-red-700 flex-none mt-1.5" />
                   <p className="text-sm text-zinc-600">
-                    An E-5 with dependents receives <strong>{fmt(e5WithDep)}/month</strong> BAH — or <strong>{fmt(e5WithDep * 12)}/year</strong> — to cover housing costs in the {locationName ?? station.city} area.
+                    An E-5 with dependents receives <strong>{fmt(e5WithDep)}/month</strong> — that&apos;s <strong>{fmt(e5WithDep * 12)}/year</strong> in tax-free housing money to cover costs in the {locationName ?? station.city} market.
                   </p>
                 </li>
               )}
@@ -390,28 +499,38 @@ export default async function StationPage({
 
           {/* Calculator CTAs */}
           <div className="bg-zinc-900 rounded-lg p-6">
-            <h2 className="text-white font-semibold mb-1">Calculate Your Full Military Pay</h2>
-            <p className="text-zinc-400 text-sm mb-4">
-              BAH is one component. See your total compensation including base pay, BAS, and tax savings.
+            <h2 className="text-white font-semibold mb-1">What to do next</h2>
+            <p className="text-zinc-400 text-sm mb-5">
+              BAH is the starting point. Here are the calculations that matter most for your PCS decision.
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Link
-                href={`/calculators/bah${station.oconus ? '' : `?zip=${station.zip}`}`}
-                className="inline-flex items-center px-4 py-2 rounded-md bg-red-700 text-white text-sm font-semibold hover:bg-red-800 transition-colors"
+                href="/calculators/compare"
+                className="flex items-center justify-between px-4 py-3 rounded-md bg-zinc-800 text-white text-sm font-medium hover:bg-zinc-700 transition-colors"
               >
-                BAH Calculator →
+                <span>Compare {station.name} to another duty station</span>
+                <span className="ml-3 text-zinc-400 flex-none">→</span>
               </Link>
               <Link
                 href="/calculators/total-compensation"
-                className="inline-flex items-center px-4 py-2 rounded-md bg-zinc-700 text-white text-sm font-semibold hover:bg-zinc-600 transition-colors"
+                className="flex items-center justify-between px-4 py-3 rounded-md bg-zinc-800 text-white text-sm font-medium hover:bg-zinc-700 transition-colors"
               >
-                Total Compensation
+                <span>See your total military compensation at {station.name}</span>
+                <span className="ml-3 text-zinc-400 flex-none">→</span>
               </Link>
               <Link
                 href="/calculators/pcs"
-                className="inline-flex items-center px-4 py-2 rounded-md bg-zinc-700 text-white text-sm font-semibold hover:bg-zinc-600 transition-colors"
+                className="flex items-center justify-between px-4 py-3 rounded-md bg-zinc-800 text-white text-sm font-medium hover:bg-zinc-700 transition-colors"
               >
-                PCS Cost Calculator
+                <span>Estimate your PCS move costs</span>
+                <span className="ml-3 text-zinc-400 flex-none">→</span>
+              </Link>
+              <Link
+                href="/blog/how-bah-builds-wealth"
+                className="flex items-center justify-between px-4 py-3 rounded-md bg-red-700 text-white text-sm font-medium hover:bg-red-800 transition-colors"
+              >
+                <span>How BAH can build long-term wealth</span>
+                <span className="ml-3 flex-none">→</span>
               </Link>
             </div>
           </div>

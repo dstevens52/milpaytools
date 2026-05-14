@@ -3,6 +3,31 @@
 
 import type { Branch } from '@/types/military';
 
+export interface NeighborhoodTip {
+  name: string;
+  highlight: string;
+  commute: string;
+  bestFor: string;
+}
+
+export interface BahVsHousing {
+  medianRent: number;
+  medianRentSource: string;
+  medianHomePrice: number;
+  medianHomePriceSource: string;
+  mortgageMin: number;
+  mortgageMax: number;
+  mortgageAssumptions: string;
+}
+
+export interface LocalHousingTips {
+  coliNote: string;
+  groceryNote: string;
+  stateTaxNote: string;
+  neighborhoods: NeighborhoodTip[];
+  mistakeToAvoid: string;
+}
+
 export interface DutyStation {
   name: string;
   slug: string;
@@ -16,6 +41,8 @@ export interface DutyStation {
   rentalNote: string;
   nearby: string[];
   oconus?: true;
+  bahVsHousing?: BahVsHousing;
+  localHousingTips?: LocalHousingTips;
 }
 
 export const DUTY_STATIONS: DutyStation[] = [
@@ -30,10 +57,52 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'North Carolina',
     branches: ['Army'],
     description:
-      'Home of the 82nd Airborne Division and the Army Special Operations Command, Fort Liberty is the largest U.S. military installation by population with over 50,000 active-duty soldiers.',
+      'Home of the 82nd Airborne Division and U.S. Army Special Operations Command, Fort Liberty is the largest military installation by population — over 50,000 active-duty soldiers. If you just got orders here or you\'re comparing duty stations, the good news: Fayetteville is one of the most affordable military housing markets in the country, and your BAH goes further here than at most installations.',
     rentalNote:
-      'BAH in the Fayetteville market covers most mid-range rentals, though the large military population has pushed rents upward in recent years. Many families choose to buy, where BAH often exceeds the cost of a mortgage on a starter home.',
+      'Fort Liberty BAH runs below the national average, but local housing costs are significantly below average too — meaning your dollar goes further here than the raw BAH number suggests. BAH in the Fayetteville market covers most mid-range rentals, and many families find their allowance stretches to a mortgage on a starter home.',
     nearby: ['camp-lejeune', 'seymour-johnson-afb', 'marine-corps-air-station-cherry-point'],
+    bahVsHousing: {
+      medianRent: 1300,
+      medianRentSource: 'Zillow / RentCafe 2025–2026',
+      medianHomePrice: 240000,
+      medianHomePriceSource: 'Redfin Feb 2026',
+      mortgageMin: 1550,
+      mortgageMax: 1650,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.0% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: '6–10% below the national average',
+      groceryNote: '5–8% below national average',
+      stateTaxNote: 'NC taxes military base pay at a flat rate. BAH and BAS are tax-free at both federal and NC state level.',
+      neighborhoods: [
+        {
+          name: 'Hope Mills',
+          highlight: 'Best school ratings in the area (7–8/10)',
+          commute: '15–20 min to main gate',
+          bestFor: 'Families who prioritize schools',
+        },
+        {
+          name: "Gray's Creek",
+          highlight: 'Rural feel, good schools, more space',
+          commute: 'Slightly longer commute',
+          bestFor: 'NCOs and officers wanting room to breathe',
+        },
+        {
+          name: 'Spring Lake',
+          highlight: 'Most affordable, mixed school ratings',
+          commute: '8–15 min to main gate',
+          bestFor: 'Single soldiers or couples without kids',
+        },
+        {
+          name: 'Downtown Fayetteville',
+          highlight: 'Improving area — breweries, restaurants, walkable',
+          commute: 'Varies by unit',
+          bestFor: 'Those who want an urban lifestyle',
+        },
+      ],
+      mistakeToAvoid:
+        "Many families PCSing to Fort Liberty rent above their BAH because they search in the wrong neighborhoods or don't realize how far their housing allowance stretches here. An E-5 with dependents receives $1,806/month — that covers a 3-bedroom rental in most Fayetteville neighborhoods with hundreds left over each month.",
+    },
   },
   {
     name: 'Fort Campbell',
