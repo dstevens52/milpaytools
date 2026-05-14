@@ -21,6 +21,7 @@ import type { TotalCompensationInput, ActionStep } from '@/types/calculator';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { ShareBar } from '@/components/calculators/shared/ShareButton';
+import { InfoTip } from '@/components/calculators/shared/InfoTip';
 
 // ─── Grade options grouped for the dropdown ────────────────────────────────
 
@@ -331,7 +332,7 @@ export function TotalCompensationCalculator() {
               <label className="text-sm font-medium text-zinc-700">
                 TSP Contribution: <span className="text-red-700 font-semibold">{tspPct}%</span>
                 {tspPct < 5 && (
-                  <span className="ml-2 text-xs text-amber-600 font-normal">
+                  <span className="ml-2 text-xs text-zinc-500 font-normal">
                     — increase to 5% for full match
                   </span>
                 )}
@@ -347,7 +348,10 @@ export function TotalCompensationCalculator() {
               />
               <div className="flex justify-between text-xs text-zinc-400">
                 <span>0%</span>
-                <span className="text-red-600 font-medium">5% = full match</span>
+                <InfoTip
+                  label="5% = full match"
+                  tooltip="Under BRS, DoD provides a 1% automatic contribution plus matching: dollar-for-dollar on the first 3% you contribute, then 50¢ per dollar on the next 2%. At 5%, you capture the full match."
+                />
                 <span>92%</span>
               </div>
             </div>
@@ -471,21 +475,21 @@ export function TotalCompensationCalculator() {
                 {formatCurrency(result.monthlyBAH)}
               </p>
               <p className="text-xs text-zinc-500 mt-1">BAH (monthly)</p>
-              <p className="text-xs text-green-700 font-medium">100% tax-free</p>
+              <InfoTip label="Tax-free" tooltip="BAH is excluded from federal income tax and FICA under 26 U.S.C. §134. Most states also exempt military allowances — check your state." className="mt-1 justify-center" />
             </div>
             <div>
               <p className="text-2xl font-bold tabular-nums text-zinc-900">
                 {formatCurrency(result.monthlyBAS)}
               </p>
               <p className="text-xs text-zinc-500 mt-1">BAS (monthly)</p>
-              <p className="text-xs text-green-700 font-medium">100% tax-free</p>
+              <InfoTip label="Tax-free" tooltip="BAS is excluded from federal income tax and FICA under 26 U.S.C. §134. Most states also exempt military allowances — check your state." className="mt-1 justify-center" />
             </div>
             <div>
               <p className="text-2xl font-bold tabular-nums text-zinc-900">
                 {formatCurrency(result.taxAdvantageValue)}
               </p>
               <p className="text-xs text-zinc-500 mt-1">Tax savings (annual)</p>
-              <p className="text-xs text-green-700 font-medium">vs. civilian equivalent</p>
+              <p className="text-xs text-zinc-500 mt-1">vs. civilian equivalent</p>
             </div>
           </div>
         </Card>

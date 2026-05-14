@@ -60,7 +60,7 @@ export function ShareBar({ getUrl, className }: ShareButtonProps) {
     try {
       await navigator.clipboard.writeText(getUrl());
       setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
+      setTimeout(() => setCopied(false), 1500);
     } catch {
       // Clipboard API unavailable — silently ignore
     }

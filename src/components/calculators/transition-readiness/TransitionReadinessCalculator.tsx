@@ -425,10 +425,10 @@ export function TransitionReadinessCalculator() {
                     ? 'Separation date is today or in the past'
                     : `${separationMonths} month${separationMonths === 1 ? '' : 's'} until separation`}
                   {separationMonths < 6 && separationMonths > 0 && (
-                    <span className="ml-1 text-red-600 font-medium">— very short timeline</span>
+                    <span className="ml-1 text-zinc-500 font-medium">— very short timeline</span>
                   )}
                   {separationMonths >= 6 && separationMonths < 12 && (
-                    <span className="ml-1 text-amber-600 font-medium">— start now</span>
+                    <span className="ml-1 text-zinc-500 font-medium">— start now</span>
                   )}
                 </p>
               </div>

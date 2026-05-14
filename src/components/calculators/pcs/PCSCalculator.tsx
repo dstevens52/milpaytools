@@ -549,10 +549,10 @@ export function PCSCalculator() {
                 value={fmtDecimals(output.ppmGrossProfit)}
               />
               <EntitlementRow
-                label="After-tax net proceeds (≈22% federal)"
+                label="After-tax net proceeds"
                 value={fmtDecimals(output.ppmAfterTaxProfit)}
                 highlight={output.ppmAfterTaxProfit > 0}
-                sub="PPM net proceeds above expenses are taxable income"
+                sub="PPM proceeds above expenses are taxable income. 22% federal is an estimate — actual rate depends on your total income and filing status."
               />
               {output.ppmAfterTaxProfit > 0 && (
                 <div className="mt-3 rounded-md bg-white bg-opacity-60 border border-zinc-200 px-3 py-2">

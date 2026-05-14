@@ -14,6 +14,7 @@ import {
   type CalculationStep,
 } from '@/lib/calculations/va-disability';
 import { ShareBar } from '@/components/calculators/shared/ShareButton';
+import { InfoTip } from '@/components/calculators/shared/InfoTip';
 
 // ─── Constants ─────────────────────────────────────────────────────────────
 
@@ -418,7 +419,7 @@ export function VADisabilityCalculator() {
           )}
 
           {!dependentsApply && anyDependents && (
-            <p className="text-xs text-amber-700 mt-2">
+            <p className="text-xs text-zinc-500 mt-2">
               Dependent additions apply only at 30% or higher. Your current rating does not yet
               qualify — add ratings to reach 30%.
             </p>
@@ -451,13 +452,11 @@ export function VADisabilityCalculator() {
                   Exact: {result.exact.toFixed(1)}% → rounds to {result.rounded}%
                 </p>
                 {result.bilateralApplied && (
-                  <p className="text-xs text-blue-700 mt-1 font-medium">
-                    Bilateral factor applied (+
-                    {result.bilateralPairs
-                      .reduce((acc, p) => acc + p.factorAddition, 0)
-                      .toFixed(1)}
-                    %)
-                  </p>
+                  <InfoTip
+                    label={`Bilateral factor applied (+${result.bilateralPairs.reduce((acc, p) => acc + p.factorAddition, 0).toFixed(1)}%)`}
+                    tooltip="Under 38 CFR §4.26, disabilities affecting both sides of a paired body part (both knees, both arms, etc.) receive a 10% bonus on their combined value before merging with other ratings."
+                    className="mt-1"
+                  />
                 )}
               </div>
 

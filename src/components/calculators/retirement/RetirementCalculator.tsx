@@ -385,7 +385,7 @@ export function RetirementCalculator() {
                 <label className="block text-sm font-medium text-zinc-700 mb-1">
                   Monthly TSP Contribution: <span className="text-red-700 font-bold">{tspContributionPct}%</span>
                   {tspContributionPct < 5 && (
-                    <span className="ml-2 text-amber-600 text-xs font-medium">↑ Raise to 5% for full match</span>
+                    <span className="ml-2 text-zinc-500 text-xs font-medium">↑ Raise to 5% for full match</span>
                   )}
                 </label>
                 <input

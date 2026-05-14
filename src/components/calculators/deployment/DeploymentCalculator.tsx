@@ -9,6 +9,7 @@ import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { ShareBar } from '@/components/calculators/shared/ShareButton';
+import { InfoTip } from '@/components/calculators/shared/InfoTip';
 
 // ─── Pay grade options ────────────────────────────────────────────────────────
 
@@ -440,7 +441,11 @@ export function DeploymentCalculator() {
                   <option value={150}>$150/month</option>
                 </select>
                 {receivingHFP && hdpLevel > 100 && (
-                  <p className="text-xs text-amber-600 mt-1">Capped at $100 with HFP/IDP</p>
+                  <InfoTip
+                    label="Capped at $100 with HFP/IDP"
+                    tooltip="When receiving Hostile Fire Pay or Imminent Danger Pay, Hardship Duty Pay is capped at $100/month per DoD Financial Management Regulation Volume 7A, Chapter 17."
+                    className="mt-1"
+                  />
                 )}
               </div>
 
