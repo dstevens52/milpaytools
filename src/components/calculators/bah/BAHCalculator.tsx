@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
@@ -12,6 +13,17 @@ import { ENLISTED_GRADES, WARRANT_GRADES, OFFICER_GRADES, PRIOR_ENLISTED_OFFICER
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
+import { DUTY_STATIONS } from '@/data/duty-stations/stations';
+
+// Module-level MHA → duty station map (built once at load)
+const MHA_TO_STATION = new Map(
+  DUTY_STATIONS
+    .filter((s) => !s.oconus)
+    .flatMap((s) => {
+      const mha = getMHACode(s.zip);
+      return mha ? [[mha, s] as [string, typeof DUTY_STATIONS[0]]] : [];
+    })
+);
 
 // ─── Grade select options ──────────────────────────────────────────────────
 
@@ -271,6 +283,22 @@ export function BAHCalculator() {
     return getMHACode(zip);
   }, [zip]);
 
+  const mhaCodeB = useMemo(() => {
+    if (zipB.length !== 5) return null;
+    return getMHACode(zipB);
+  }, [zipB]);
+
+  // Matched duty station pages (for guide links)
+  const stationSingle = useMemo(
+    () => (mhaCode ? MHA_TO_STATION.get(mhaCode) ?? null : null),
+    [mhaCode]
+  );
+  const stationB = useMemo(() => {
+    if (!mhaCodeB) return null;
+    const s = MHA_TO_STATION.get(mhaCodeB) ?? null;
+    return s && stationSingle && s.slug === stationSingle.slug ? null : s;
+  }, [mhaCodeB, stationSingle]);
+
   // Action steps
   const actionSteps = useMemo(() => {
     if (!result) return [];
@@ -412,6 +440,19 @@ export function BAHCalculator() {
             <LocationResult zip={zip} grade={grade} hasDependents={hasDependents} />
           </Card>
 
+          {/* Station guide link */}
+          {result && stationSingle && (
+            <Link
+              href={`/bah/${stationSingle.slug}?rank=${grade}&dep=${hasDependents ? 'yes' : 'no'}`}
+              className="flex items-center justify-between gap-3 rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800 hover:border-blue-200 hover:bg-blue-100 transition-colors"
+            >
+              <span>
+                <strong>{stationSingle.name}</strong> housing guide — local rents, neighborhoods &amp; BAH analysis
+              </span>
+              <span className="flex-none text-blue-400">→</span>
+            </Link>
+          )}
+
           {result && (
             <ShareBar getUrl={getShareUrl} />
           )}
@@ -498,6 +539,34 @@ export function BAHCalculator() {
                 </p>
               )}
             </Card>
+          )}
+
+          {/* Station guide links — compare mode */}
+          {(stationSingle || stationB) && (
+            <div className="space-y-2">
+              {stationSingle && (
+                <Link
+                  href={`/bah/${stationSingle.slug}?rank=${grade}&dep=${hasDependents ? 'yes' : 'no'}`}
+                  className="flex items-center justify-between gap-3 rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800 hover:border-blue-200 hover:bg-blue-100 transition-colors"
+                >
+                  <span>
+                    <strong>{stationSingle.name}</strong> housing guide — local rents, neighborhoods &amp; BAH analysis
+                  </span>
+                  <span className="flex-none text-blue-400">→</span>
+                </Link>
+              )}
+              {stationB && (
+                <Link
+                  href={`/bah/${stationB.slug}?rank=${grade}&dep=${hasDependents ? 'yes' : 'no'}`}
+                  className="flex items-center justify-between gap-3 rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800 hover:border-blue-200 hover:bg-blue-100 transition-colors"
+                >
+                  <span>
+                    <strong>{stationB.name}</strong> housing guide — local rents, neighborhoods &amp; BAH analysis
+                  </span>
+                  <span className="flex-none text-blue-400">→</span>
+                </Link>
+              )}
+            </div>
           )}
         </>
       )}
