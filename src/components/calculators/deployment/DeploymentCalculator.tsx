@@ -218,7 +218,7 @@ export function DeploymentCalculator() {
   const [payGrade, setPayGrade] = useState<PayGrade>('E-6');
   const [yos, setYos] = useState(10);
   const [hasDependents, setHasDependents] = useState(true);
-  const [zip, setZip] = useState('28310'); // Fort Liberty, NC
+  const [zip, setZip] = useState('28310'); // Fort Bragg, NC
 
   // ── Inputs: Section 2 — Deployment Details ──
   const [deployMonths, setDeployMonths] = useState(9);

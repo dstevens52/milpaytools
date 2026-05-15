@@ -60,23 +60,23 @@ export default function ComparePage() {
         {/* Example Calculation */}
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
-            Fort Liberty, NC vs. Fort Cavazos, TX: What&apos;s the Real Financial Difference?
+            Fort Bragg, NC vs. Fort Hood, TX: What&apos;s the Real Financial Difference?
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-5, 8 years of service, married with dependents — comparing total monthly compensation at Fort Liberty, NC (ZIP 28310) vs. Fort Cavazos (formerly Fort Hood), TX (ZIP 76544). Same rank, same years, two very different BAH rates. 2026 data.
+            Scenario: E-5, 8 years of service, married with dependents — comparing total monthly compensation at Fort Bragg, NC (ZIP 28310) vs. Fort Hood (formerly Fort Cavazos), TX (ZIP 76544). Same rank, same years, two very different BAH rates. 2026 data.
           </p>
           <ExampleTable>
             <ExampleRow label="Base Pay (E-5, 8 yrs) — identical at both stations" value="$4,300/mo" />
             <ExampleRow label="BAS — identical at both stations" value="$477/mo" />
-            <ExampleRow label="BAH — Fort Liberty, NC (with dependents)" value="$1,806/mo" />
-            <ExampleRow label="BAH — Fort Cavazos, TX (with dependents)" value="$1,422/mo" />
-            <ExampleRow label="BAH difference (Fort Liberty advantage)" value="+$384/mo" highlight />
-            <ExampleRow label="Monthly gross — Fort Liberty" value="$6,583/mo" highlight />
-            <ExampleRow label="Monthly gross — Fort Cavazos" value="$6,199/mo" highlight />
-            <ExampleRow label="Annual advantage — Fort Liberty" value="+$4,608/yr" highlight />
+            <ExampleRow label="BAH — Fort Bragg, NC (with dependents)" value="$1,806/mo" />
+            <ExampleRow label="BAH — Fort Hood, TX (with dependents)" value="$1,422/mo" />
+            <ExampleRow label="BAH difference (Fort Bragg advantage)" value="+$384/mo" highlight />
+            <ExampleRow label="Monthly gross — Fort Bragg" value="$6,583/mo" highlight />
+            <ExampleRow label="Monthly gross — Fort Hood" value="$6,199/mo" highlight />
+            <ExampleRow label="Annual advantage — Fort Bragg" value="+$4,608/yr" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> The E-5 at Fort Liberty earns $4,608 more per year than their counterpart at Fort Cavazos — entirely due to the higher local housing market driving a higher BAH rate. Neither location qualifies for CONUS COLA. That $384/month difference is tax-free BAH that can be directed toward savings, a home down payment, or debt reduction. When evaluating PCS orders, this difference in annual compensation should factor alongside cost of living differences in the local economy.
+            <strong>What this means:</strong> The E-5 at Fort Bragg earns $4,608 more per year than their counterpart at Fort Hood — entirely due to the higher local housing market driving a higher BAH rate. Neither location qualifies for CONUS COLA. That $384/month difference is tax-free BAH that can be directed toward savings, a home down payment, or debt reduction. When evaluating PCS orders, this difference in annual compensation should factor alongside cost of living differences in the local economy.
           </p>
         </ExampleBox>
 
@@ -94,7 +94,7 @@ export default function ComparePage() {
               no income tax on wages).
             </p>
             <p className="text-zinc-600">
-              A single PCS move between Fort Liberty, NC and Joint Base Lewis-McChord, WA can mean
+              A single PCS move between Fort Bragg, NC and Joint Base Lewis-McChord, WA can mean
               more than $500/month in additional take-home pay — not from a raise, but from the
               combination of higher BAH in the Pacific Northwest and Washington&apos;s lack of state
               income tax.

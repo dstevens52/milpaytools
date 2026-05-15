@@ -81,20 +81,20 @@ export default function BAHPage() {
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
-            How Much Does BAH Vary Between Fort Liberty and San Diego?
+            How Much Does BAH Vary Between Fort Bragg and San Diego?
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-5, 2026 rates — comparing Fort Liberty, NC (ZIP 28310) to NAS North Island / Naval Station San Diego, CA (ZIP 92134). Same rank, same benefits, dramatically different numbers.
+            Scenario: E-5, 2026 rates — comparing Fort Bragg, NC (ZIP 28310) to NAS North Island / Naval Station San Diego, CA (ZIP 92134). Same rank, same benefits, dramatically different numbers.
           </p>
           <ExampleTable>
-            <ExampleRow label="Fort Liberty, NC (28310) — With Dependents" value="$1,806/mo" />
-            <ExampleRow label="Fort Liberty, NC (28310) — Without Dependents" value="$1,527/mo" />
+            <ExampleRow label="Fort Bragg, NC (28310) — With Dependents" value="$1,806/mo" />
+            <ExampleRow label="Fort Bragg, NC (28310) — Without Dependents" value="$1,527/mo" />
             <ExampleRow label="San Diego, CA (92134) — With Dependents" value="$3,975/mo" />
-            <ExampleRow label="Monthly BAH Difference (w/deps, SD vs. Fort Liberty)" value="+$2,169/mo" highlight />
+            <ExampleRow label="Monthly BAH Difference (w/deps, SD vs. Fort Bragg)" value="+$2,169/mo" highlight />
             <ExampleRow label="Annual BAH Difference" value="+$26,028/yr" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> An E-5 with dependents stationed in San Diego receives $26,028 more per year in housing allowance than the same rank at Fort Liberty — entirely tax-free. That $2,169/month gap can make a meaningful difference in savings potential, and is often the deciding factor when comparing PCS offer packages between high-cost and low-cost duty stations.
+            <strong>What this means:</strong> An E-5 with dependents stationed in San Diego receives $26,028 more per year in housing allowance than the same rank at Fort Bragg — entirely tax-free. That $2,169/month gap can make a meaningful difference in savings potential, and is often the deciding factor when comparing PCS offer packages between high-cost and low-cost duty stations.
           </p>
         </ExampleBox>
       </section>

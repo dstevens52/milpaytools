@@ -348,7 +348,7 @@ export function CompareCalculator() {
               label="ZIP code or base name"
               value={zipA}
               onZipChange={setZipA}
-              placeholder="e.g. 28310 or Fort Liberty"
+              placeholder="e.g. 28310 or Fort Bragg"
             />
             <div>
               <label className="block text-sm font-medium text-zinc-700 mb-1.5">
@@ -358,7 +358,7 @@ export function CompareCalculator() {
                 type="text"
                 value={labelA}
                 onChange={(e) => setLabelA(e.target.value)}
-                placeholder={result?.locA.locationName || 'e.g. Fort Liberty, NC'}
+                placeholder={result?.locA.locationName || 'e.g. Fort Bragg, NC'}
                 className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
               />
             </div>

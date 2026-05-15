@@ -23,7 +23,8 @@ export async function generateMetadata({
   const station = STATION_BY_SLUG[slug];
   if (!station) return {};
   const title = `${station.name} BAH Rates 2026 | ${station.city}, ${station.state}`;
-  const description = `2026 Basic Allowance for Housing rates for ${station.name} in ${station.city}, ${station.stateName}. Monthly BAH for every pay grade — with and without dependents — plus local housing market insights.`;
+  const formerNameShort = station.formerName ? station.formerName.split(' (')[0] : null;
+  const description = `2026 BAH rates for ${station.name}${formerNameShort ? ` (formerly ${formerNameShort})` : ''} in ${station.city}, ${station.stateName}. Monthly BAH for every pay grade — with and without dependents — plus local housing market insights.`;
   const ogImageTitle = `${station.name} BAH Rates 2026`;
   const ogImage = `/api/og?type=station&title=${encodeURIComponent(ogImageTitle)}&v=2`;
   return {

@@ -490,7 +490,7 @@ export default function MilitaryPayGuidePage() {
               <div className="bg-white rounded-xl border border-zinc-200 shadow-lg overflow-hidden w-full max-w-xs">
                 <div className="bg-zinc-50 border-b border-zinc-200 px-5 py-3 flex items-center justify-between">
                   <div>
-                    <p className="text-xs text-zinc-500 font-medium">E-3 · 2 years · Fort Liberty, NC</p>
+                    <p className="text-xs text-zinc-500 font-medium">E-3 · 2 years · Fort Bragg, NC</p>
                     <p className="text-sm font-semibold text-zinc-800">Total Compensation Breakdown</p>
                   </div>
                   <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">2026 rates</span>
@@ -524,7 +524,7 @@ export default function MilitaryPayGuidePage() {
                 </div>
               </div>
               <p className="mt-3 text-xs text-center text-white/40">
-                What an E-3 at Fort Liberty sees — your numbers update live as you enter inputs
+                What an E-3 at Fort Bragg sees — your numbers update live as you enter inputs
               </p>
             </div>
           </div>

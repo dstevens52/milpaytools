@@ -50,18 +50,18 @@ export interface DutyStation {
 export const DUTY_STATIONS: DutyStation[] = [
   // ── ARMY ───────────────────────────────────────────────────────────────────
   {
-    name: 'Fort Liberty',
-    slug: 'fort-liberty',
-    formerName: 'Fort Bragg',
+    name: 'Fort Bragg',
+    slug: 'fort-bragg',
+    formerName: 'Fort Liberty (2023–2025)',
     zip: '28301',
     city: 'Fayetteville',
     state: 'NC',
     stateName: 'North Carolina',
     branches: ['Army'],
     description:
-      'Your BAH goes further at Fort Liberty than at most duty stations. Fayetteville\'s housing market runs well below the national average — an E-5 with dependents has roughly $500/month of room between BAH and median rent before utilities and other housing costs. That\'s one of the better BAH-to-cost ratios in the Army. Home of the 82nd Airborne and USASOC, Fort Liberty is the largest installation by population with over 50,000 active-duty soldiers.',
+      'Your BAH goes further at Fort Bragg than at most duty stations. Fayetteville\'s housing market runs well below the national average — an E-5 with dependents has roughly $500/month of room between BAH and median rent before utilities and other housing costs. That\'s one of the better BAH-to-cost ratios in the Army. Home of the 82nd Airborne and USASOC, Fort Bragg is the largest installation by population with over 50,000 active-duty soldiers.',
     rentalNote:
-      'Fort Liberty BAH runs below the national average, but local housing costs are significantly below average too — meaning your dollar goes further here than the raw BAH number suggests. BAH in the Fayetteville market covers most mid-range rentals, and many families find their allowance stretches to a mortgage on a starter home.',
+      'Fort Bragg BAH runs below the national average, but local housing costs are significantly below average too — meaning your dollar goes further here than the raw BAH number suggests. BAH in the Fayetteville market covers most mid-range rentals, and many families find their allowance stretches to a mortgage on a starter home.',
     nearby: ['camp-lejeune', 'seymour-johnson-afb', 'marine-corps-air-station-cherry-point'],
     bahVsHousing: {
       medianRent: 1300,
@@ -103,7 +103,7 @@ export const DUTY_STATIONS: DutyStation[] = [
         },
       ],
       mistakeToAvoid:
-        "Many families PCSing to Fort Liberty rent above their BAH because they search in the wrong neighborhoods or don't realize how far their housing allowance stretches here. An E-5 with dependents receives $1,806/month — that covers a 3-bedroom rental in most Fayetteville neighborhoods with hundreds left over each month.",
+        "Many families PCSing to Fort Bragg rent above their BAH because they search in the wrong neighborhoods or don't realize how far their housing allowance stretches here. An E-5 with dependents receives $1,806/month — that covers a 3-bedroom rental in most Fayetteville neighborhoods with hundreds left over each month.",
     },
   },
   {
@@ -121,16 +121,16 @@ export const DUTY_STATIONS: DutyStation[] = [
     nearby: ['fort-knox', 'redstone-arsenal', 'fort-sill'],
   },
   {
-    name: 'Fort Cavazos',
-    slug: 'fort-cavazos',
-    formerName: 'Fort Hood',
+    name: 'Fort Hood',
+    slug: 'fort-hood',
+    formerName: 'Fort Cavazos (2023–2025)',
     zip: '76541',
     city: 'Killeen',
     state: 'TX',
     stateName: 'Texas',
     branches: ['Army'],
     description:
-      'Fort Cavazos is the primary training and deployment base for III Armored Corps and hosts two heavy combat divisions — the 1st Cavalry Division and the 3rd Cavalry Regiment.',
+      'Fort Hood is the primary training and deployment base for III Armored Corps and hosts two heavy combat divisions — the 1st Cavalry Division and the 3rd Cavalry Regiment.',
     rentalNote:
       'Killeen is one of the most affordable large military markets in the country. BAH at most grades has historically exceeded median rents, making homeownership common among the force.',
     nearby: ['joint-base-san-antonio', 'fort-bliss', 'fort-sill'],
@@ -189,7 +189,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Fort Bliss is home to the 1st Armored Division and the 32nd Army Air and Missile Defense Command, spanning parts of west Texas and New Mexico near the U.S.-Mexico border.',
     rentalNote:
       'El Paso is one of the most affordable major housing markets in the country. BAH at most grades significantly exceeds typical rents, and homeownership is common across the force.',
-    nearby: ['fort-cavazos', 'joint-base-san-antonio', 'kirtland-afb'],
+    nearby: ['fort-hood', 'joint-base-san-antonio', 'kirtland-afb'],
   },
   {
     name: 'Fort Stewart',
@@ -231,37 +231,37 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Fort Riley is home to the 1st Infantry Division (the "Big Red One"), one of the oldest and most decorated divisions in the U.S. Army, located in north-central Kansas.',
     rentalNote:
       'The Junction City/Manhattan market is affordable, and BAH is generally sufficient to cover rents at most grades. Families with housing allowances often opt to purchase in Manhattan for the Kansas State University community.',
-    nearby: ['fort-leavenworth', 'fort-cavazos', 'offutt-afb'],
+    nearby: ['fort-leavenworth', 'fort-hood', 'offutt-afb'],
   },
   {
-    name: 'Fort Moore',
-    slug: 'fort-moore',
-    formerName: 'Fort Benning',
+    name: 'Fort Benning',
+    slug: 'fort-benning',
+    formerName: 'Fort Moore (2023–2025)',
     zip: '31901',
     city: 'Columbus',
     state: 'GA',
     stateName: 'Georgia',
     branches: ['Army'],
     description:
-      'Fort Moore is the center of Infantry and Armor training, home to the Maneuver Center of Excellence, the Ranger Training Brigade, and the 3rd Brigade Combat Team.',
+      'Fort Benning is the center of Infantry and Armor training, home to the Maneuver Center of Excellence, the Ranger Training Brigade, and the 3rd Brigade Combat Team.',
     rentalNote:
       'Columbus has a large, stable military-adjacent rental market with affordable options at most grades. BAH regularly exceeds mid-range rents, and homeownership is common throughout the force.',
-    nearby: ['fort-stewart', 'fort-eisenhower', 'redstone-arsenal'],
+    nearby: ['fort-stewart', 'fort-gordon', 'redstone-arsenal'],
   },
   {
-    name: 'Fort Eisenhower',
-    slug: 'fort-eisenhower',
-    formerName: 'Fort Gordon',
+    name: 'Fort Gordon',
+    slug: 'fort-gordon',
+    formerName: 'Fort Eisenhower (2023–2025)',
     zip: '30901',
     city: 'Augusta',
     state: 'GA',
     stateName: 'Georgia',
     branches: ['Army'],
     description:
-      'Fort Eisenhower is the home of the U.S. Army Cyber Center of Excellence and the Signal Corps, also hosting the National Security Agency\'s Georgia facility.',
+      'Fort Gordon is the home of the U.S. Army Cyber Center of Excellence and the Signal Corps, also hosting the National Security Agency\'s Georgia facility.',
     rentalNote:
       'Augusta has a cost-effective rental market. BAH covers most mid-range apartments comfortably, and the thriving technology and healthcare economy has kept home prices in a range that BAH buyers can access.',
-    nearby: ['fort-jackson', 'fort-moore', 'marine-corps-air-station-beaufort'],
+    nearby: ['fort-jackson', 'fort-benning', 'marine-corps-air-station-beaufort'],
   },
   {
     name: 'Fort Sill',
@@ -275,7 +275,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Fort Sill is the home of the Field Artillery School and a major training center, located in southwestern Oklahoma. It also serves as a detention facility under Army control.',
     rentalNote:
       'Lawton is one of the most affordable military housing markets in the country. BAH at most grades significantly exceeds rents, and homeownership is very accessible.',
-    nearby: ['fort-cavazos', 'tinker-afb', 'fort-riley'],
+    nearby: ['fort-hood', 'tinker-afb', 'fort-riley'],
   },
   {
     name: 'Fort Leavenworth',
@@ -332,7 +332,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Fort Johnson is home to the 3rd Brigade Combat Team, 10th Mountain Division and the Joint Readiness Training Center (JRTC), one of the Army\'s premier combat training centers.',
     rentalNote:
       'Leesville is a small, isolated market. BAH covers local rents comfortably, but rental inventory is limited and many families commute from Natchitoches or Alexandria for more options.',
-    nearby: ['barksdale-afb', 'joint-base-san-antonio', 'fort-cavazos'],
+    nearby: ['barksdale-afb', 'joint-base-san-antonio', 'fort-hood'],
   },
   {
     name: 'Schofield Barracks',
@@ -374,7 +374,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Redstone Arsenal is the center of Army aviation and missile development, home to Army Aviation and Missile Command and NASA\'s Marshall Space Flight Center, located in Huntsville.',
     rentalNote:
       'Huntsville has a highly educated, technology-driven housing market with moderate costs. BAH aligns well with local rents, and Huntsville\'s thriving tech economy creates a healthy ownership market.',
-    nearby: ['fort-campbell', 'fort-moore', 'fort-knox'],
+    nearby: ['fort-campbell', 'fort-benning', 'fort-knox'],
   },
   {
     name: 'Fort Hamilton',
@@ -416,7 +416,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Fort Jackson is the Army\'s largest and most active initial entry training center, producing more than 50% of all soldiers who join the Army each year.',
     rentalNote:
       'Columbia is a large, diversified market with affordable housing. BAH provides strong purchasing power at most grades, and homeownership is very accessible.',
-    nearby: ['marine-corps-air-station-beaufort', 'fort-eisenhower', 'joint-base-charleston'],
+    nearby: ['marine-corps-air-station-beaufort', 'fort-gordon', 'joint-base-charleston'],
   },
   {
     name: 'Fort Detrick',
@@ -474,7 +474,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'JBSA is the largest joint base in the DoD, comprising Lackland AFB, Randolph AFB, Fort Sam Houston, and Camp Bullis — the hub of Air Force Basic Military Training and medical education.',
     rentalNote:
       'San Antonio is one of the most affordable large metros in the country. BAH at nearly all grades covers mid-range rentals comfortably, and homeownership is highly accessible.',
-    nearby: ['fort-cavazos', 'fort-bliss', 'barksdale-afb'],
+    nearby: ['fort-hood', 'fort-bliss', 'barksdale-afb'],
   },
   {
     name: 'Travis AFB',
@@ -628,7 +628,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Tinker AFB hosts the Air Force Sustainment Center and performs depot maintenance on the Air Force\'s B-52, E-3, and KC-135 fleets, located in the Oklahoma City metro.',
     rentalNote:
       'Oklahoma City is among the most affordable large metros in the nation. BAH at all grades provides strong purchasing power — homeownership is the norm rather than the exception.',
-    nearby: ['fort-sill', 'fort-cavazos', 'barksdale-afb'],
+    nearby: ['fort-sill', 'fort-hood', 'barksdale-afb'],
   },
   {
     name: 'Barksdale AFB',
@@ -656,7 +656,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Seymour Johnson AFB is home to the 4th Fighter Wing and its F-15E Strike Eagles, located in Goldsboro in eastern North Carolina.',
     rentalNote:
       'Goldsboro is a small market with affordable housing. BAH provides solid coverage of local rents, and the proximity to the Research Triangle provides an opportunity for buyers to look toward more dynamic markets.',
-    nearby: ['fort-liberty', 'camp-lejeune', 'marine-corps-air-station-cherry-point'],
+    nearby: ['fort-bragg', 'camp-lejeune', 'marine-corps-air-station-cherry-point'],
   },
   {
     name: 'Ellsworth AFB',
@@ -826,7 +826,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Camp Lejeune is home to II Marine Expeditionary Force and is the primary East Coast amphibious assault training base, hosting Marine Corps units and special operations forces.',
     rentalNote:
       'Jacksonville is a military-dominated market with affordable rents. BAH provides solid coverage, but the town\'s rental supply is heavily shaped by military demand cycles. Buyers often find good value in the surrounding Onslow County area.',
-    nearby: ['fort-liberty', 'marine-corps-air-station-cherry-point', 'seymour-johnson-afb'],
+    nearby: ['fort-bragg', 'marine-corps-air-station-cherry-point', 'seymour-johnson-afb'],
   },
   {
     name: 'Joint Base Pearl Harbor-Hickam',
@@ -924,7 +924,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'MCAS Cherry Point is the largest Marine Corps air station on the East Coast, home to 2nd Marine Aircraft Wing squadrons and the Fleet Readiness Center East, located in coastal North Carolina.',
     rentalNote:
       'Havelock is a military-centric market with affordable rents. BAH provides excellent coverage, and buyers often find strong value in the adjacent New Bern area.',
-    nearby: ['camp-lejeune', 'fort-liberty', 'seymour-johnson-afb'],
+    nearby: ['camp-lejeune', 'fort-bragg', 'seymour-johnson-afb'],
   },
   {
     name: 'Marine Corps Base Quantico',

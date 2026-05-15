@@ -84,11 +84,11 @@ export default function DeploymentPage() {
             How Much More Does an E-5 Take Home on a 9-Month Combat Zone Deployment?
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-5, 8 years of service, married (family at Fort Liberty, NC), deploying to a designated Combat Zone Tax Exclusion (CZTE) area for 9 months. Receives HFP/IDP and Family Separation Allowance. No Hardship Duty Pay. 2026 rates.
+            Scenario: E-5, 8 years of service, married (family at Fort Bragg, NC), deploying to a designated Combat Zone Tax Exclusion (CZTE) area for 9 months. Receives HFP/IDP and Family Separation Allowance. No Hardship Duty Pay. 2026 rates.
           </p>
           <ExampleTable>
             <ExampleRow label="Monthly base pay (E-5, 8 yrs)" value="$4,300/mo" />
-            <ExampleRow label="BAH continues at home station (Fort Liberty, w/deps)" value="$1,806/mo" />
+            <ExampleRow label="BAH continues at home station (Fort Bragg, w/deps)" value="$1,806/mo" />
             <ExampleRow label="BAS" value="$477/mo" />
             <ExampleRow label="Hostile Fire / Imminent Danger Pay (HFP/IDP)" value="+$225/mo" />
             <ExampleRow label="Family Separation Allowance (FSA — married 30+ days away)" value="+$300/mo" />

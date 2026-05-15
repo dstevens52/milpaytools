@@ -36,7 +36,7 @@ export function BaseSearchInput({
   id: idProp,
   value,
   onZipChange,
-  placeholder = 'Enter ZIP code or base name (e.g. 78234 or Fort Liberty)',
+  placeholder = 'Enter ZIP code or base name (e.g. 78234 or Fort Bragg)',
   hint,
   excludeOconus = true,
   className,

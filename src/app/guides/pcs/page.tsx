@@ -48,7 +48,7 @@ const FAQS = [
   {
     question: 'How does BAH change at my new station?',
     answer:
-      'When you check into your new duty station, BAH resets to the current rate for the new Military Housing Area (MHA), grade, and dependency status. Your old rate does not carry over — there is no rate protection across a PCS. Rate protection only applies to year-over-year decreases at the same duty station. Moving from San Diego to Fort Liberty could reduce BAH by $1,000–$2,000/month; moving from rural Georgia to Northern Virginia could increase it by the same.',
+      'When you check into your new duty station, BAH resets to the current rate for the new Military Housing Area (MHA), grade, and dependency status. Your old rate does not carry over — there is no rate protection across a PCS. Rate protection only applies to year-over-year decreases at the same duty station. Moving from San Diego to Fort Bragg could reduce BAH by $1,000–$2,000/month; moving from rural Georgia to Northern Virginia could increase it by the same.',
   },
   {
     question: 'How do I compare two duty stations financially?',
@@ -87,7 +87,7 @@ const IMPACT_CARDS = [
     description:
       'When you check into your new station, BAH resets to the new location\'s rate. No rate protection carries over from your old station.',
     bullets: [
-      'San Diego → Fort Liberty: BAH could drop $1,500+/mo',
+      'San Diego → Fort Bragg: BAH could drop $1,500+/mo',
       'Rural GA → Northern VA: BAH could jump $1,000+/mo',
       'Biggest ongoing financial impact of any PCS',
     ],
@@ -208,7 +208,7 @@ const ACCORDION = [
           Once you PCS, you start fresh at the new location's current rate.
         </p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li>Moving from San Diego to Fort Liberty could reduce BAH by $1,000–$2,000/month</li>
+          <li>Moving from San Diego to Fort Bragg could reduce BAH by $1,000–$2,000/month</li>
           <li>Moving from rural Georgia to Northern Virginia could increase it by the same</li>
           <li>Neither situation involves rate protection</li>
         </ul>
@@ -568,7 +568,7 @@ export default function PcsGuidePage() {
                 <div className="px-5 py-3 divide-y divide-zinc-100">
                   {/* Station A */}
                   <div className="py-3">
-                    <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-2">Station A — Fort Liberty, NC</p>
+                    <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-2">Station A — Fort Bragg, NC</p>
                     <div className="flex justify-between py-1">
                       <span className="text-sm text-zinc-600">BAH (w/ dependents)</span>
                       <span className="text-sm font-mono tabular-nums text-zinc-800">$1,584<span className="text-zinc-400">/mo</span></span>

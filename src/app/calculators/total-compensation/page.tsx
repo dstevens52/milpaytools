@@ -208,11 +208,11 @@ export default function TotalCompensationPage() {
             What Does an E-5 with 8 Years Really Make?
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-5 (Sergeant / Petty Officer 2nd Class), 8 years of service, stationed at Fort Liberty, NC (ZIP 28310), married with dependents, enrolled in BRS and contributing 5% to TSP.
+            Scenario: E-5 (Sergeant / Petty Officer 2nd Class), 8 years of service, stationed at Fort Bragg, NC (ZIP 28310), married with dependents, enrolled in BRS and contributing 5% to TSP.
           </p>
           <ExampleTable>
             <ExampleRow label="Monthly Base Pay (E-5, 8 yrs — 2026 table)" value="$4,300/mo" />
-            <ExampleRow label="BAH — Fort Liberty, NC (with dependents)" value="$1,806/mo" />
+            <ExampleRow label="BAH — Fort Bragg, NC (with dependents)" value="$1,806/mo" />
             <ExampleRow label="BAS — Enlisted" value="$477/mo" />
             <ExampleRow label="Monthly Gross" value="$6,583/mo" highlight />
             <ExampleRow label="Annual (Base + BAH + BAS)" value="$78,996/yr" />

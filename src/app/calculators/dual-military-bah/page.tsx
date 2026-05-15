@@ -121,16 +121,16 @@ export default function DualMilitaryBAHPage() {
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
-            What Does a Dual-Military E-5 Couple Take Home at Fort Liberty?
+            What Does a Dual-Military E-5 Couple Take Home at Fort Bragg?
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: Two E-5s stationed together at Fort Liberty, NC (ZIP 28310). Member A has 8 years of service, Member B has 6 years. They have one child — Member A claims the dependent and receives BAH with dependents; Member B receives BAH without dependents. 2026 rates.
+            Scenario: Two E-5s stationed together at Fort Bragg, NC (ZIP 28310). Member A has 8 years of service, Member B has 6 years. They have one child — Member A claims the dependent and receives BAH with dependents; Member B receives BAH without dependents. 2026 rates.
           </p>
           <ExampleTable>
             <ExampleRow label="Member A base pay (E-5, 8 yrs)" value="$4,300/mo" />
             <ExampleRow label="Member B base pay (E-5, 6 yrs)" value="$4,110/mo" />
-            <ExampleRow label="Member A BAH — Fort Liberty, with dependents (claims child)" value="$1,806/mo" />
-            <ExampleRow label="Member B BAH — Fort Liberty, without dependents" value="$1,527/mo" />
+            <ExampleRow label="Member A BAH — Fort Bragg, with dependents (claims child)" value="$1,806/mo" />
+            <ExampleRow label="Member B BAH — Fort Bragg, without dependents" value="$1,527/mo" />
             <ExampleRow label="Household BAH total" value="$3,333/mo" highlight />
             <ExampleRow label="Household BAS (both enlisted)" value="$954/mo" />
             <ExampleRow label="Household gross monthly" value="$12,697/mo" highlight />

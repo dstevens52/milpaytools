@@ -140,8 +140,8 @@ export default function ColaPage() {
             </p>
             <p className="text-zinc-600 mb-3">
               Most CONUS duty stations do not qualify — CONUS COLA is a relatively narrow entitlement
-              compared to BAH. Members stationed at installations like Fort Liberty (Fayetteville,
-              NC), Fort Cavazos (Killeen, TX), or most Midwest and Southeast installations do not
+              compared to BAH. Members stationed at installations like Fort Bragg (Fayetteville,
+              NC), Fort Hood (Killeen, TX), or most Midwest and Southeast installations do not
               receive CONUS COLA.
             </p>
             <p className="text-zinc-600">

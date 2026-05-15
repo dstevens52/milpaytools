@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-// Deployment Pay Calculator has a default ZIP (28310 — Fort Liberty, NC)
+// Deployment Pay Calculator has a default ZIP (28310 — Fort Bragg, NC)
 // and defaults to: E-6 / 10 YOS / combat zone / HFP on / FSA on / 9 months.
 // Results always show since the ZIP is pre-filled. PhaseCard titles are
 // uppercase-tracking-widest text rendered inside card headers.
