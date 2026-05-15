@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { Card } from '@/components/ui/Card';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
+import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
+import { DUTY_STATIONS } from '@/data/duty-stations/stations';
+import { STATION_COORDINATES } from '@/data/duty-stations/coordinates';
 import {
   ENLISTED_GRADES,
   WARRANT_GRADES,
@@ -53,6 +56,20 @@ const MOVE_TYPES: { value: PCSMoveType; label: string; description: string }[] =
     description: 'Government ships most items; you self-move a portion for additional reimbursement.',
   },
 ];
+
+// ─── Distance helpers ─────────────────────────────────────────────────────────
+
+function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 3959; // Earth radius in miles
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
 
 // ─── Action step builder ──────────────────────────────────────────────────────
 
@@ -181,7 +198,10 @@ export function PCSCalculator() {
   const [hasDependents, setHasDependents] = useState(true);
   const [numDependents, setNumDependents] = useState(1);
   const [moveType, setMoveType] = useState<PCSMoveType>('gov');
-  const [distance, setDistance] = useState(500);
+  const [zipFrom, setZipFrom] = useState('');
+  const [zipTo, setZipTo] = useState('');
+  const [showManualOverride, setShowManualOverride] = useState(false);
+  const [manualMiles, setManualMiles] = useState(500);
   const [numPOVs, setNumPOVs] = useState<1 | 2>(1);
   const [hhgWeight, setHhgWeight] = useState(5000);
   const [tleOldDays, setTleOldDays] = useState(0);
@@ -190,18 +210,40 @@ export function PCSCalculator() {
 
   const weightAllowance = useMemo(() => getWeightAllowance(rank), [rank]);
 
+  // Station lookup — only matches when user selects from dropdown (station ZIP = known station)
+  const stationFrom = useMemo(
+    () => (zipFrom ? DUTY_STATIONS.find((s) => s.zip === zipFrom) ?? null : null),
+    [zipFrom]
+  );
+  const stationTo = useMemo(
+    () => (zipTo ? DUTY_STATIONS.find((s) => s.zip === zipTo) ?? null : null),
+    [zipTo]
+  );
+
+  // Auto-distance via haversine × 1.25 road factor when both stations have coordinates
+  const autoDistance = useMemo((): number | null => {
+    if (!stationFrom || !stationTo) return null;
+    const c1 = STATION_COORDINATES[stationFrom.slug];
+    const c2 = STATION_COORDINATES[stationTo.slug];
+    if (!c1 || !c2) return null;
+    return Math.round(haversineDistance(c1.lat, c1.lon, c2.lat, c2.lon) * 1.25);
+  }, [stationFrom, stationTo]);
+
+  // Distance used in all calculations
+  const effectiveDistance = (showManualOverride || autoDistance === null) ? manualMiles : autoDistance;
+
   const input: PCSInput = useMemo(() => ({
     rank,
     hasDependents,
     numDependents: hasDependents ? numDependents : 0,
     moveType,
-    distance: Math.max(0, distance),
+    distance: Math.max(0, effectiveDistance),
     numPOVs,
     hhgWeight: Math.min(hhgWeight, weightAllowance),
     tleOldDays,
     tleNewDays,
     ppmExpenses,
-  }), [rank, hasDependents, numDependents, moveType, distance, numPOVs, hhgWeight, weightAllowance, tleOldDays, tleNewDays, ppmExpenses]);
+  }), [rank, hasDependents, numDependents, moveType, effectiveDistance, numPOVs, hhgWeight, weightAllowance, tleOldDays, tleNewDays, ppmExpenses]);
 
   const output: PCSOutput = useMemo(() => calculatePCS(input), [input]);
   const actionSteps = useMemo(() => buildActionSteps(input, output), [input, output]);
@@ -304,6 +346,22 @@ export function PCSCalculator() {
               <SectionHeading>Move Details</SectionHeading>
               <div className="space-y-4">
 
+                {/* Origin / Destination — optional, enables auto-distance */}
+                <div className="space-y-3">
+                  <BaseSearchInput
+                    label="Moving from (optional)"
+                    value={zipFrom}
+                    onZipChange={setZipFrom}
+                    placeholder="Base name or ZIP code"
+                  />
+                  <BaseSearchInput
+                    label="Moving to (optional)"
+                    value={zipTo}
+                    onZipChange={setZipTo}
+                    placeholder="Base name or ZIP code"
+                  />
+                </div>
+
                 <div>
                   <Label>Move type</Label>
                   <div className="space-y-2">
@@ -334,30 +392,71 @@ export function PCSCalculator() {
                   </div>
                 </div>
 
-                <div>
-                  <Label htmlFor="distance">Distance (miles)</Label>
-                  <input
-                    id="distance"
-                    type="number"
-                    min={0}
-                    max={5000}
-                    value={distance}
-                    onChange={(e) => setDistance(Math.max(0, parseInt(e.target.value) || 0))}
-                    className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
-                  />
-                  <p className="text-xs text-zinc-400 mt-1">
-                    Use the official{' '}
-                    <a
-                      href="https://www.dtod.sddc.army.mil"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline"
+                {/* Distance — auto-calculated or manual */}
+                {autoDistance !== null && !showManualOverride ? (
+                  <div className="rounded-md bg-zinc-50 border border-zinc-200 px-3 py-2.5 space-y-1.5">
+                    <p className="text-sm text-zinc-700">
+                      Estimated driving distance:{' '}
+                      <span className="font-semibold tabular-nums">
+                        {autoDistance.toLocaleString()} miles
+                      </span>
+                    </p>
+                    <p className="text-xs text-zinc-400 leading-relaxed">
+                      Straight-line × 1.25 road factor. Official PCS mileage is determined by the{' '}
+                      <a
+                        href="https://www.dtod.sddc.army.mil"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline"
+                      >
+                        Defense Table of Official Distances (DTOD)
+                      </a>
+                      {' '}— verify with your transportation office.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setShowManualOverride(true)}
+                      className="text-xs text-blue-600 hover:text-blue-800 hover:underline"
                     >
-                      DTOD calculator
-                    </a>{' '}
-                    for the authorized distance on your orders.
-                  </p>
-                </div>
+                      Use a different mileage →
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <Label htmlFor="distance">Distance (miles)</Label>
+                    <input
+                      id="distance"
+                      type="number"
+                      min={0}
+                      max={5000}
+                      value={manualMiles}
+                      onChange={(e) => setManualMiles(Math.max(0, parseInt(e.target.value) || 0))}
+                      className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
+                    />
+                    {autoDistance !== null ? (
+                      <button
+                        type="button"
+                        onClick={() => setShowManualOverride(false)}
+                        className="text-xs text-blue-600 hover:text-blue-800 hover:underline mt-1 block"
+                      >
+                        ← Use calculated distance ({autoDistance.toLocaleString()} miles)
+                      </button>
+                    ) : (
+                      <p className="text-xs text-zinc-400 mt-1">
+                        Or select stations above for an automatic estimate. Verify official mileage with{' '}
+                        <a
+                          href="https://www.dtod.sddc.army.mil"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline"
+                        >
+                          DTOD
+                        </a>
+                        .
+                      </p>
+                    )}
+                  </div>
+                )}
 
                 <div>
                   <Label htmlFor="numPOVs">Number of POVs driving</Label>
@@ -471,7 +570,7 @@ export function PCSCalculator() {
               {fmt(isPPM ? output.ppmMoveTotal : output.govMoveTotal)}
             </p>
             <p className="text-xs text-red-300 mt-1">
-              Based on 2026 rates · {output.travelDays} travel {output.travelDays === 1 ? 'day' : 'days'} · {distance.toLocaleString()} miles
+              Based on 2026 rates · {output.travelDays} travel {output.travelDays === 1 ? 'day' : 'days'} · {effectiveDistance.toLocaleString()} miles
             </p>
           </div>
 
@@ -488,7 +587,7 @@ export function PCSCalculator() {
             <EntitlementRow
               label="MALT (Mileage)"
               value={fmtDecimals(output.malt)}
-              sub={`${distance.toLocaleString()} mi × $0.205 × ${numPOVs} POV${numPOVs > 1 ? 's' : ''}`}
+              sub={`${effectiveDistance.toLocaleString()} mi × $0.205 × ${numPOVs} POV${numPOVs > 1 ? 's' : ''}`}
             />
             <EntitlementRow
               label="Per Diem — Member"
@@ -623,6 +722,34 @@ export function PCSCalculator() {
 
           {/* Act steps */}
           <ActSteps steps={actionSteps} title="Before you move" />
+
+          {/* Station guide links — gaining/losing station BAH pages */}
+          {(stationFrom || stationTo) && (
+            <div className="space-y-2">
+              {stationFrom && (
+                <Link
+                  href={`/bah/${stationFrom.slug}?rank=${rank}&dep=${hasDependents ? 'yes' : 'no'}`}
+                  className="flex items-center justify-between gap-3 rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800 hover:border-blue-200 hover:bg-blue-100 transition-colors"
+                >
+                  <span>
+                    <strong>{stationFrom.name}</strong> housing guide — local rents, neighborhoods &amp; BAH analysis
+                  </span>
+                  <span className="flex-none text-blue-400">→</span>
+                </Link>
+              )}
+              {stationTo && stationTo.slug !== stationFrom?.slug && (
+                <Link
+                  href={`/bah/${stationTo.slug}?rank=${rank}&dep=${hasDependents ? 'yes' : 'no'}`}
+                  className="flex items-center justify-between gap-3 rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800 hover:border-blue-200 hover:bg-blue-100 transition-colors"
+                >
+                  <span>
+                    <strong>{stationTo.name}</strong> housing guide — local rents, neighborhoods &amp; BAH analysis
+                  </span>
+                  <span className="flex-none text-blue-400">→</span>
+                </Link>
+              )}
+            </div>
+          )}
 
           {/* Cross-links */}
           <div className="rounded-lg bg-blue-50 border border-blue-200 p-4">

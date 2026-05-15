@@ -1,0 +1,88 @@
+// Approximate lat/lon centroids for CONUS duty stations.
+// Used exclusively for haversine distance estimation in the PCS calculator.
+// Multiply straight-line result by 1.25 road factor to approximate driving distance.
+// Not intended as precise GPS coordinates — accurate enough for estimation purposes.
+
+export const STATION_COORDINATES: Record<string, { lat: number; lon: number }> = {
+  // ── ARMY ───────────────────────────────────────────────────────────────────
+  'fort-bragg':                        { lat: 35.14, lon: -79.00 },
+  'fort-campbell':                     { lat: 36.66, lon: -87.47 },
+  'fort-hood':                         { lat: 31.13, lon: -97.78 },
+  'joint-base-lewis-mcchord':          { lat: 47.10, lon: -122.58 },
+  'fort-carson':                       { lat: 38.73, lon: -104.79 },
+  'fort-drum':                         { lat: 44.05, lon: -75.78 },
+  'fort-bliss':                        { lat: 31.85, lon: -106.42 },
+  'fort-stewart':                      { lat: 31.87, lon: -81.61 },
+  'fort-knox':                         { lat: 37.89, lon: -85.96 },
+  'fort-riley':                        { lat: 39.07, lon: -96.80 },
+  'fort-benning':                      { lat: 32.35, lon: -84.99 },
+  'fort-gordon':                       { lat: 33.42, lon: -82.14 },
+  'fort-sill':                         { lat: 34.65, lon: -98.41 },
+  'fort-leavenworth':                  { lat: 39.36, lon: -94.92 },
+  'fort-huachuca':                     { lat: 31.55, lon: -110.35 },
+  'fort-wainwright':                   { lat: 64.83, lon: -147.72 },
+  'fort-johnson':                      { lat: 31.04, lon: -93.21 },
+  'schofield-barracks':                { lat: 21.49, lon: -158.07 },
+  'aberdeen-proving-ground':           { lat: 39.47, lon: -76.13 },
+  'redstone-arsenal':                  { lat: 34.68, lon: -86.68 },
+  'fort-hamilton':                     { lat: 40.61, lon: -74.04 },
+  'fort-meade':                        { lat: 39.11, lon: -76.73 },
+  'fort-jackson':                      { lat: 34.05, lon: -80.88 },
+  'fort-detrick':                      { lat: 39.43, lon: -77.41 },
+  'fort-irwin':                        { lat: 35.26, lon: -116.69 },
+  'west-point':                        { lat: 41.39, lon: -73.95 },
+
+  // ── AIR FORCE / SPACE FORCE ────────────────────────────────────────────────
+  'joint-base-san-antonio':            { lat: 29.38, lon: -98.62 },
+  'travis-afb':                        { lat: 38.26, lon: -121.93 },
+  'macdill-afb':                       { lat: 27.85, lon: -82.52 },
+  'eglin-afb':                         { lat: 30.48, lon: -86.53 },
+  'joint-base-langley-eustis':         { lat: 37.08, lon: -76.37 },
+  'wright-patterson-afb':              { lat: 39.83, lon: -84.05 },
+  'scott-afb':                         { lat: 38.54, lon: -89.85 },
+  'luke-afb':                          { lat: 33.54, lon: -112.38 },
+  'davis-monthan-afb':                 { lat: 32.17, lon: -110.88 },
+  'vandenberg-sfb':                    { lat: 34.74, lon: -120.57 },
+  'edwards-afb':                       { lat: 34.90, lon: -117.95 },
+  'tinker-afb':                        { lat: 35.41, lon: -97.39 },
+  'barksdale-afb':                     { lat: 32.50, lon: -93.66 },
+  'seymour-johnson-afb':               { lat: 35.33, lon: -77.96 },
+  'ellsworth-afb':                     { lat: 44.15, lon: -103.10 },
+  'minot-afb':                         { lat: 48.42, lon: -101.36 },
+  'joint-base-elmendorf-richardson':   { lat: 61.25, lon: -149.80 },
+  'joint-base-andrews':                { lat: 38.81, lon: -76.87 },
+  'kirtland-afb':                      { lat: 35.05, lon: -106.60 },
+  'whiteman-afb':                      { lat: 38.72, lon: -93.55 },
+  'offutt-afb':                        { lat: 41.12, lon: -95.91 },
+  'patrick-sfb':                       { lat: 28.24, lon: -80.61 },
+
+  // ── NAVY / MARINE CORPS ────────────────────────────────────────────────────
+  'naval-station-norfolk':             { lat: 36.95, lon: -76.30 },
+  'naval-station-san-diego':           { lat: 32.70, lon: -117.19 },
+  'camp-pendleton':                    { lat: 33.30, lon: -117.35 },
+  'camp-lejeune':                      { lat: 34.76, lon: -77.44 },
+  'joint-base-pearl-harbor-hickam':    { lat: 21.36, lon: -157.97 },
+  'naval-air-station-pensacola':       { lat: 30.35, lon: -87.32 },
+  'naval-station-mayport':             { lat: 30.40, lon: -81.42 },
+  'naval-base-kitsap':                 { lat: 47.56, lon: -122.64 },
+  'naval-air-station-whidbey-island':  { lat: 48.35, lon: -122.65 },
+  'marine-corps-air-station-miramar':  { lat: 32.87, lon: -117.14 },
+  'marine-corps-air-station-cherry-point': { lat: 34.90, lon: -76.88 },
+  'marine-corps-base-quantico':        { lat: 38.52, lon: -77.31 },
+  'naval-station-great-lakes':         { lat: 42.33, lon: -87.84 },
+  'joint-base-little-creek-fort-story': { lat: 36.92, lon: -76.01 },
+  'naval-submarine-base-new-london':   { lat: 41.35, lon: -72.09 },
+  'marine-corps-air-station-beaufort': { lat: 32.48, lon: -80.72 },
+  'joint-base-mcguire-dix-lakehurst':  { lat: 40.02, lon: -74.59 },
+  'naval-air-station-oceana':          { lat: 36.82, lon: -76.03 },
+  'naval-base-ventura-county':         { lat: 34.15, lon: -119.20 },
+  'marine-corps-air-ground-combat-center': { lat: 34.14, lon: -116.06 },
+  'naval-station-newport':             { lat: 41.49, lon: -71.33 },
+
+  // ── MULTI-BRANCH ──────────────────────────────────────────────────────────
+  'joint-base-myer-henderson-hall':    { lat: 38.88, lon: -77.09 },
+  'joint-base-charleston':             { lat: 32.90, lon: -80.04 },
+  'joint-base-cape-cod':               { lat: 41.74, lon: -70.61 },
+
+  // OCONUS stations intentionally omitted (OHA, not BAH; excluded from BaseSearchInput)
+};

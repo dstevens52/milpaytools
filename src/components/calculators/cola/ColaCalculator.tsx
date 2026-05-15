@@ -79,6 +79,7 @@ export function ColaCalculator() {
           {/* ZIP / base name */}
           <div>
             <BaseSearchInput
+              id="zip"
               label="Duty station ZIP code"
               value={zip}
               onZipChange={setZip}
