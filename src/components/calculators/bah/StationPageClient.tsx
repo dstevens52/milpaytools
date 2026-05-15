@@ -337,6 +337,13 @@ export function StationPageClient({
               onGradeChange={setSelectedGrade}
               onDepChange={setHasDependents}
             />
+            <p className="text-sm text-zinc-500">
+              Showing{' '}
+              <strong className="text-zinc-700">
+                {selectedGrade} {hasDependents ? 'with dependents' : 'without dependents'}
+              </strong>{' '}
+              for the <strong className="text-zinc-700">{locationName}</strong> MHA.
+            </p>
             {station.bahVsHousing && selectedBAH > 0 && (
               <MoneyStrip
                 selectedBAH={selectedBAH}
@@ -503,18 +510,19 @@ export function StationPageClient({
               <div className="rounded-lg bg-zinc-50 border border-zinc-200 px-4 py-3 mb-4">
                 <p className="text-sm text-zinc-700 leading-relaxed">
                   At {fmt(selectedBAH)}/month BAH and an estimated{' '}
-                  {fmt(station.bahVsHousing.mortgageMin)}–{fmt(station.bahVsHousing.mortgageMax)}/month on
+                  {fmt(station.bahVsHousing.mortgageMin)}–{fmt(station.bahVsHousing.mortgageMax)}/month PITI on
                   a median-priced home,{' '}
                   {selectedBAH >= station.bahVsHousing.mortgageMin
-                    ? 'BAH likely covers or nearly covers a typical mortgage in this market.'
-                    : 'BAH may not fully cover a typical mortgage, but it significantly reduces your monthly housing cost.'}
+                    ? 'BAH may cover a significant portion of a typical mortgage in this market — though actual costs vary based on rate, taxes, insurance, and individual circumstances.'
+                    : 'BAH may not fully cover a typical mortgage, but it can significantly offset your monthly housing cost — though actual costs vary based on rate, taxes, insurance, and individual circumstances.'}
                 </p>
               </div>
 
               <p className="text-xs text-zinc-400 leading-relaxed">
                 Housing cost estimates are approximate and based on publicly available market data. Actual
-                costs vary by neighborhood, property type, and individual circumstances. This is not
-                financial advice — use these numbers as a starting point for your own research.
+                mortgage costs depend on interest rate, property taxes, insurance, HOA dues, maintenance,
+                credit profile, and lender requirements. This is not financial advice — use these numbers
+                as a starting point for your own research.
               </p>
             </div>
           )}
@@ -600,7 +608,7 @@ export function StationPageClient({
               <p className="text-xs text-zinc-500 uppercase tracking-wide font-semibold mb-3">
                 Best neighborhoods for military families
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
                 {station.localHousingTips.neighborhoods.map((n) => (
                   <div key={n.name} className="rounded-lg border border-zinc-200 p-4">
                     <p className="font-semibold text-zinc-900 text-sm mb-1">{n.name}</p>
@@ -610,6 +618,10 @@ export function StationPageClient({
                   </div>
                 ))}
               </div>
+              <p className="text-xs text-zinc-400 italic mb-6">
+                Neighborhood notes are general guidance based on common PCS advice. Verify school zones,
+                commute times, safety, and current listings before choosing housing.
+              </p>
 
               <p className="text-xs text-zinc-500 uppercase tracking-wide font-semibold mb-3">
                 Local cost of living context

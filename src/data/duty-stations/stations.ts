@@ -59,7 +59,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'North Carolina',
     branches: ['Army'],
     description:
-      'Your BAH goes further at Fort Liberty than at most duty stations. Fayetteville\'s housing market runs well below the national average, which means an E-5 with dependents pockets roughly $500/month over median rent — one of the better BAH-to-cost ratios in the Army. Home of the 82nd Airborne and USASOC, Fort Liberty is the largest installation by population with over 50,000 active-duty soldiers.',
+      'Your BAH goes further at Fort Liberty than at most duty stations. Fayetteville\'s housing market runs well below the national average — an E-5 with dependents has roughly $500/month of room between BAH and median rent before utilities and other housing costs. That\'s one of the better BAH-to-cost ratios in the Army. Home of the 82nd Airborne and USASOC, Fort Liberty is the largest installation by population with over 50,000 active-duty soldiers.',
     rentalNote:
       'Fort Liberty BAH runs below the national average, but local housing costs are significantly below average too — meaning your dollar goes further here than the raw BAH number suggests. BAH in the Fayetteville market covers most mid-range rentals, and many families find their allowance stretches to a mortgage on a starter home.',
     nearby: ['camp-lejeune', 'seymour-johnson-afb', 'marine-corps-air-station-cherry-point'],
@@ -75,11 +75,11 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: '6–10% below the national average',
       groceryNote: '5–8% below national average',
-      stateTaxNote: 'NC taxes military base pay at a flat rate. BAH and BAS are tax-free at both federal and NC state level.',
+      stateTaxNote: 'For North Carolina residents, military base pay is generally subject to NC income tax. BAH and BAS are not taxable income at the federal or state level. Domicile and residency rules may affect your state tax situation.',
       neighborhoods: [
         {
           name: 'Hope Mills',
-          highlight: 'Best school ratings in the area (7–8/10)',
+          highlight: 'Often recommended by families prioritizing schools (7–8/10 area ratings)',
           commute: '15–20 min to main gate',
           bestFor: 'Families who prioritize schools',
         },
@@ -91,7 +91,7 @@ export const DUTY_STATIONS: DutyStation[] = [
         },
         {
           name: 'Spring Lake',
-          highlight: 'Most affordable, mixed school ratings',
+          highlight: 'Generally more affordable, school ratings vary',
           commute: '8–15 min to main gate',
           bestFor: 'Single soldiers or couples without kids',
         },
