@@ -1,9 +1,22 @@
 'use client';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { lookupCola } from '@/lib/calculations/cola';
+import { getMHACode } from '@/lib/calculations/bah';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
+import { DUTY_STATIONS } from '@/data/duty-stations/stations';
 import type { PayGrade } from '@/types/military';
+
+const MHA_TO_STATION = new Map(
+  DUTY_STATIONS
+    .filter((s) => !s.oconus)
+    .flatMap((s) => {
+      const mha = getMHACode(s.zip);
+      return mha ? [[mha, s] as [string, typeof DUTY_STATIONS[0]]] : [];
+    })
+);
 
 const PAY_GRADES: { group: string; grades: PayGrade[] }[] = [
   {
@@ -35,13 +48,18 @@ export function ColaCalculator() {
   const [payGrade, setPayGrade] = useState<PayGrade>('E-5');
   const [hasDependents, setHasDependents] = useState(false);
 
-  const zipDigits = zip.replace(/\D/g, '');
-  const isValidZip = zipDigits.length === 5;
+  const isValidZip = zip.length === 5;
 
   const result = useMemo(() => {
     if (!isValidZip) return null;
-    return lookupCola({ zipCode: zipDigits, payGrade, hasDependents });
-  }, [zipDigits, payGrade, hasDependents, isValidZip]);
+    return lookupCola({ zipCode: zip, payGrade, hasDependents });
+  }, [zip, payGrade, hasDependents, isValidZip]);
+
+  const station = useMemo(() => {
+    if (!isValidZip) return null;
+    const mha = getMHACode(zip);
+    return mha ? (MHA_TO_STATION.get(mha) ?? null) : null;
+  }, [zip, isValidZip]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {
@@ -58,20 +76,12 @@ export function ColaCalculator() {
         <h2 className="text-lg font-semibold text-zinc-900 mb-5">CONUS COLA Lookup</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-          {/* ZIP Code */}
+          {/* ZIP / base name */}
           <div>
-            <label htmlFor="zip" className="block text-sm font-medium text-zinc-700 mb-1.5">
-              Duty station ZIP code
-            </label>
-            <input
-              id="zip"
-              type="text"
-              inputMode="numeric"
-              maxLength={5}
+            <BaseSearchInput
+              label="Duty station ZIP code"
               value={zip}
-              onChange={(e) => setZip(e.target.value.replace(/\D/g, '').slice(0, 5))}
-              placeholder="e.g. 92101"
-              className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+              onZipChange={setZip}
             />
           </div>
 
@@ -156,7 +166,7 @@ export function ColaCalculator() {
               <span className="text-2xl flex-none">📍</span>
               <div>
                 <p className="font-semibold text-zinc-900 mb-1">
-                  ZIP {zipDigits} is not a CONUS COLA area
+                  ZIP {zip} is not a CONUS COLA area
                 </p>
                 <p className="text-sm text-zinc-600 leading-relaxed mb-3">
                   Most duty stations do not qualify for CONUS COLA — it applies only to a small number
@@ -291,6 +301,20 @@ export function ColaCalculator() {
                 precise amount.
               </p>
             </div>
+          </div>
+        )}
+        {/* Station guide link */}
+        {isValidZip && station && (
+          <div className="mt-5">
+            <Link
+              href={`/bah/${station.slug}?rank=${payGrade}&dep=${hasDependents ? 'yes' : 'no'}`}
+              className="flex items-center justify-between gap-3 rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800 hover:border-blue-200 hover:bg-blue-100 transition-colors"
+            >
+              <span>
+                <strong>{station.name}</strong> housing guide — local rents, neighborhoods &amp; BAH analysis
+              </span>
+              <span className="flex-none text-blue-400">→</span>
+            </Link>
           </div>
         )}
       </div>

@@ -1,14 +1,16 @@
 'use client';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { Card } from '@/components/ui/Card';
-import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
+import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import { ShareBar } from '@/components/calculators/shared/ShareButton';
-import { lookupBAH, isTerritory, isZipInDataset } from '@/lib/calculations/bah';
+import { lookupBAH, getMHACode } from '@/lib/calculations/bah';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
+import { DUTY_STATIONS } from '@/data/duty-stations/stations';
 import {
   ENLISTED_GRADES,
   WARRANT_GRADES,
@@ -18,6 +20,15 @@ import {
 } from '@/types/military';
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
+
+const MHA_TO_STATION = new Map(
+  DUTY_STATIONS
+    .filter((s) => !s.oconus)
+    .flatMap((s) => {
+      const mha = getMHACode(s.zip);
+      return mha ? [[mha, s] as [string, typeof DUTY_STATIONS[0]]] : [];
+    })
+);
 
 const GRADE_GROUPS = [
   {
@@ -40,23 +51,6 @@ const GRADE_GROUPS = [
 
 function fmt(n: number) {
   return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-}
-
-function zipError(zip: string): string | undefined {
-  if (zip.length < 5) return undefined;
-  if (!/^\d{5}$/.test(zip)) return 'Enter a valid 5-digit ZIP code';
-  if (isTerritory(zip)) return 'U.S. territory — BAH does not apply (OHA area)';
-  if (!isZipInDataset(zip)) return 'ZIP code not found in BAH dataset';
-  return undefined;
-}
-
-function isZipReady(zip: string): boolean {
-  return (
-    zip.length === 5 &&
-    /^\d{5}$/.test(zip) &&
-    !isTerritory(zip) &&
-    isZipInDataset(zip)
-  );
 }
 
 // ── Result types ──────────────────────────────────────────────────────────────
@@ -150,7 +144,7 @@ export function DualMilitaryBAHCalculator() {
   const zip2Effective = sameStation ? zip1 : zip2;
 
   const results = useMemo((): Results | null => {
-    if (!isZipReady(zip1) || !isZipReady(zip2Effective)) return null;
+    if (zip1.length !== 5 || zip2Effective.length !== 5) return null;
 
     if (!hasDependents) {
       // No dependents — both members always receive the without-dependents rate.
@@ -277,6 +271,21 @@ export function DualMilitaryBAHCalculator() {
     return steps;
   }, [results, whoClaimsDeps]);
 
+  const stationM1 = useMemo(() => {
+    const mha = getMHACode(zip1);
+    return mha ? (MHA_TO_STATION.get(mha) ?? null) : null;
+  }, [zip1]);
+
+  const stationM2 = useMemo(() => {
+    if (sameStation) return null;
+    const mha = getMHACode(zip2);
+    if (!mha) return null;
+    const s = MHA_TO_STATION.get(mha) ?? null;
+    // suppress duplicate if same MHA as M1
+    if (s && stationM1 && s.slug === stationM1.slug) return null;
+    return s;
+  }, [zip2, sameStation, stationM1]);
+
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {
     if (!results) return;
@@ -287,15 +296,9 @@ export function DualMilitaryBAHCalculator() {
 
   // ── Empty state ───────────────────────────────────────────────────────────
   function emptyStateMessage() {
-    if (zip1.length === 0) return 'Enter a duty station ZIP code to see results';
-    if (zip1.length < 5)
-      return `${5 - zip1.length} more digit${5 - zip1.length !== 1 ? 's' : ''}…`;
-    if (!sameStation) {
-      if (zip2.length === 0) return 'Enter Member 2 duty station ZIP to see results';
-      if (zip2.length < 5)
-        return `${5 - zip2.length} more digit${5 - zip2.length !== 1 ? 's' : ''}…`;
-    }
-    return 'Enter valid ZIP codes to see results';
+    if (!zip1) return 'Enter a duty station to see results';
+    if (!sameStation && !zip2) return 'Enter Member 2 duty station to see results';
+    return 'Enter a valid duty station to see results';
   }
 
   const m1DepLabel =
@@ -366,42 +369,27 @@ export function DualMilitaryBAHCalculator() {
             </div>
           </div>
 
-          {/* ZIP inputs */}
+          {/* ZIP / base name inputs */}
           {sameStation ? (
             <div className="max-w-xs">
-              <Input
-                label="Shared Duty Station ZIP Code"
-                type="text"
-                inputMode="numeric"
-                maxLength={5}
-                placeholder="e.g. 92134"
+              <BaseSearchInput
+                label="Shared Duty Station"
                 value={zip1}
-                onChange={(e) => setZip1(e.target.value.replace(/\D/g, '').slice(0, 5))}
-                error={zip1.length === 5 ? zipError(zip1) : undefined}
-                hint="ZIP code for your shared installation"
+                onZipChange={setZip1}
+                hint="Enter ZIP code or base name for your shared installation"
               />
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Input
-                label="Member 1 Duty Station ZIP"
-                type="text"
-                inputMode="numeric"
-                maxLength={5}
-                placeholder="e.g. 92134"
+              <BaseSearchInput
+                label="Member 1 Duty Station"
                 value={zip1}
-                onChange={(e) => setZip1(e.target.value.replace(/\D/g, '').slice(0, 5))}
-                error={zip1.length === 5 ? zipError(zip1) : undefined}
+                onZipChange={setZip1}
               />
-              <Input
-                label="Member 2 Duty Station ZIP"
-                type="text"
-                inputMode="numeric"
-                maxLength={5}
-                placeholder="e.g. 20742"
+              <BaseSearchInput
+                label="Member 2 Duty Station"
                 value={zip2}
-                onChange={(e) => setZip2(e.target.value.replace(/\D/g, '').slice(0, 5))}
-                error={zip2.length === 5 ? zipError(zip2) : undefined}
+                onZipChange={setZip2}
               />
             </div>
           )}
@@ -553,6 +541,30 @@ export function DualMilitaryBAHCalculator() {
           </Card>
 
           <ShareBar getUrl={getShareUrl} />
+
+          {/* ── Station guide links ──────────────────────────────────── */}
+          {stationM1 && (
+            <Link
+              href={`/bah/${stationM1.slug}?rank=${grade1}&dep=${hasDependents && whoClaimsDeps === 'member1' ? 'yes' : 'no'}`}
+              className="flex items-center justify-between gap-3 rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800 hover:border-blue-200 hover:bg-blue-100 transition-colors"
+            >
+              <span>
+                <strong>{stationM1.name}</strong> housing guide — local rents, neighborhoods &amp; BAH analysis
+              </span>
+              <span className="flex-none text-blue-400">→</span>
+            </Link>
+          )}
+          {stationM2 && (
+            <Link
+              href={`/bah/${stationM2.slug}?rank=${grade2}&dep=${hasDependents && whoClaimsDeps === 'member2' ? 'yes' : 'no'}`}
+              className="flex items-center justify-between gap-3 rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800 hover:border-blue-200 hover:bg-blue-100 transition-colors"
+            >
+              <span>
+                <strong>{stationM2.name}</strong> housing guide — local rents, neighborhoods &amp; BAH analysis
+              </span>
+              <span className="flex-none text-blue-400">→</span>
+            </Link>
+          )}
 
           {/* ── Per-member breakdown ─────────────────────────────────── */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
