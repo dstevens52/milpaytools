@@ -12,9 +12,8 @@
  */
 
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { searchStations } from '@/lib/stationSearch';
+import { searchStations, type SearchResult } from '@/lib/stationSearch';
 import { getLocationName, isZipInDataset, isTerritory } from '@/lib/calculations/bah';
-import type { DutyStation } from '@/data/duty-stations/stations';
 
 export interface BaseSearchInputProps {
   label: string;
@@ -36,7 +35,7 @@ export function BaseSearchInput({
   id: idProp,
   value,
   onZipChange,
-  placeholder = 'Enter ZIP code or base name (e.g. 78234 or Fort Bragg)',
+  placeholder = 'Enter base name or ZIP code',
   hint,
   excludeOconus = true,
   className,
@@ -101,10 +100,10 @@ export function BaseSearchInput({
     }
   }
 
-  function selectStation(s: DutyStation) {
-    setText(s.name);
+  function selectResult(r: SearchResult) {
+    setText(r.name);
     setOpen(false);
-    onZipChange(s.zip);
+    onZipChange(r.zip);
     inputRef.current?.blur();
   }
 
@@ -118,7 +117,7 @@ export function BaseSearchInput({
       setHighlighted((h) => Math.max(h - 1, 0));
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      if (suggestions[highlighted]) selectStation(suggestions[highlighted]);
+      if (suggestions[highlighted]) selectResult(suggestions[highlighted]);
     } else if (e.key === 'Escape') {
       setOpen(false);
     }
@@ -171,7 +170,10 @@ export function BaseSearchInput({
       {feedback.kind === 'location' && !showDropdown && (
         <p className="text-xs text-zinc-500 mt-1">{feedback.msg}</p>
       )}
-      {feedback.kind === null && hint && !showDropdown && (
+      {feedback.kind === null && !isNumericMode && text.length >= 3 && suggestions.length === 0 && !showDropdown && (
+        <p className="text-xs text-zinc-500 mt-1">No matches found — try entering your ZIP code directly</p>
+      )}
+      {feedback.kind === null && hint && !showDropdown && (isNumericMode || text.length < 3 || suggestions.length > 0) && (
         <p className="text-xs text-zinc-500 mt-1">{hint}</p>
       )}
 
@@ -182,13 +184,13 @@ export function BaseSearchInput({
           aria-label="Military installations"
           className="absolute z-50 left-0 right-0 mt-1 bg-white border border-zinc-200 rounded-lg shadow-xl overflow-hidden max-h-72 overflow-y-auto"
         >
-          {suggestions.map((s, i) => (
-            <li key={s.slug} role="option" aria-selected={i === highlighted}>
+          {suggestions.map((r, i) => (
+            <li key={`${r.zip}-${r.name}`} role="option" aria-selected={i === highlighted}>
               <button
                 type="button"
                 // onMouseDown (not onClick) prevents the input blur from firing before selection
-                onMouseDown={(e) => { e.preventDefault(); selectStation(s); }}
-                onTouchEnd={(e) => { e.preventDefault(); selectStation(s); }}
+                onMouseDown={(e) => { e.preventDefault(); selectResult(r); }}
+                onTouchEnd={(e) => { e.preventDefault(); selectResult(r); }}
                 className={[
                   'w-full text-left px-4 py-3 flex items-start justify-between gap-3',
                   'min-h-[52px] transition-colors', // 52px ≥ 44px touch target
@@ -200,16 +202,16 @@ export function BaseSearchInput({
               >
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-zinc-900 leading-tight truncate">
-                    {s.name}
+                    {r.name}
                   </p>
                   <p className="text-xs text-zinc-500 mt-0.5 leading-tight">
-                    {s.city}, {s.state}
-                    {s.formerName ? ` · fmr. ${s.formerName}` : ''}
-                    {' · '}{s.branches.join('/')}
+                    {r.city}, {r.state}
+                    {r.formerName ? ` · fmr. ${r.formerName}` : ''}
+                    {' · '}{r.branch}
                   </p>
                 </div>
                 <span className="text-xs text-zinc-400 font-mono flex-none mt-0.5 tabular-nums">
-                  {s.zip}
+                  {r.zip}
                 </span>
               </button>
             </li>
