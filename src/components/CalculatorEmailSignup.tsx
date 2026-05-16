@@ -12,7 +12,7 @@ export function CalculatorEmailSignup() {
     <EmailSignup
       variant="card"
       headline="Want updated numbers when 2027 rates drop?"
-      subtext="One email per year in January with new pay tables, BAH rates, and TSP limits. No spam."
+      subtext="Updates when pay tables, BAH rates, or tools change. No spam."
       source={source}
     />
   );

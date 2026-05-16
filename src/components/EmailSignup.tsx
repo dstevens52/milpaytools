@@ -88,7 +88,7 @@ export function EmailSignup({
         <p className={`text-xs mt-1.5 ${errorClass}`}>{errorMsg}</p>
       )}
       <p className={`text-xs mt-2 ${consentClass}`}>
-        We&apos;ll only email you when official rates change (typically once in January). Unsubscribe anytime.
+        We&apos;ll only email you when official rates change or new tools launch. Unsubscribe anytime.
       </p>
     </>
   );

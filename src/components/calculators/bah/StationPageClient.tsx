@@ -802,7 +802,7 @@ export function StationPageClient({
                 darkBg
                 stationName={station.name}
                 source={`bah-${station.slug}`}
-                subtext="One email in January. No spam."
+                subtext="Updates when rates change. No spam."
               />
             </div>
           </div>

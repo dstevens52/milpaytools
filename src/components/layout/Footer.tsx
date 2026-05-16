@@ -145,7 +145,7 @@ export function Footer() {
             variant="inline"
             darkBg
             headline="Get notified when 2027 military pay data is updated"
-            subtext="One email per year. No spam. Unsubscribe anytime."
+            subtext="Updates when pay tables, BAH rates, or tools change. No spam."
             source="footer"
           />
         </div>
