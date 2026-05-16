@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { EmailSignup } from '@/components/EmailSignup';
 
 const CALCULATORS = [
   { href: '/calculators/total-compensation', label: 'Total Compensation' },
@@ -137,6 +138,16 @@ export function Footer() {
               </li>
             </ul>
           </div>
+        </div>
+
+        <div className="border-t border-zinc-800 pt-6 mb-8">
+          <EmailSignup
+            variant="inline"
+            darkBg
+            headline="Get notified when 2027 military pay data is updated"
+            subtext="One email per year. No spam. Unsubscribe anytime."
+            source="footer"
+          />
         </div>
 
         <div className="border-t border-zinc-800 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">

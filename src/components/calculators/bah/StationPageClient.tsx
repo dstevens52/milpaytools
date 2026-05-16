@@ -14,6 +14,7 @@ import {
 } from '@/types/military';
 import type { DutyStation } from '@/data/duty-stations/stations';
 import type { StateTaxInfo } from '@/data/compare/stateTax';
+import { EmailSignup } from '@/components/EmailSignup';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -793,6 +794,16 @@ export function StationPageClient({
               >
                 How BAH can build long-term wealth →
               </Link>
+            </div>
+            {/* Email signup */}
+            <div className="border-t border-white/10 mt-5 pt-5">
+              <EmailSignup
+                variant="inline"
+                darkBg
+                stationName={station.name}
+                source={`bah-${station.slug}`}
+                subtext="One email in January. No spam."
+              />
             </div>
           </div>
 
