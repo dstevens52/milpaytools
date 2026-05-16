@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 100" fill="white">
+  <!-- Shield outline -->
+  <path d="M6,6 L74,6 L74,58 Q74,92 40,99 Q6,92 6,58 Z" fill="none" stroke="white" stroke-width="6"/>
+  <!-- Racing diagonal bar -->
+  <path d="M9,10 L71,10 L71,28 L9,50 Z"/>
+  <!-- Anchor inside shield (lower portion) -->
+  <circle cx="40" cy="68" r="6" fill="none" stroke="white" stroke-width="4"/>
+  <rect x="38" y="73" width="4" height="20"/>
+  <rect x="26" y="80" width="28" height="4" rx="2"/>
+  <path d="M40,93 C34,90 26,85 24,79 C22,74 26,72 29,74 C32,76 37,84 40,88"/>
+  <path d="M40,93 C46,90 54,85 56,79 C58,74 54,72 51,74 C48,76 43,84 40,88"/>
+</svg>

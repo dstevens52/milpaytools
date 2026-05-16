@@ -82,6 +82,37 @@ function normalizeDep(raw: string): boolean | null {
   return null;
 }
 
+// ─── Branch emblem helpers ────────────────────────────────────────────────────
+
+const BRANCH_EMBLEM: Record<string, string> = {
+  'Army': 'army',
+  'Navy': 'navy',
+  'Air Force': 'air-force',
+  'Marine Corps': 'marines',
+  'Space Force': 'space-force',
+  'Coast Guard': 'coast-guard',
+};
+
+// Slug-level overrides for joint bases where the lead branch needs explicit mapping
+const JOINT_BASE_EMBLEM: Record<string, string> = {
+  'joint-base-lewis-mcchord': 'army',
+  'joint-base-san-antonio': 'air-force',
+  'joint-base-andrews': 'air-force',
+  'joint-base-pearl-harbor-hickam': 'navy',
+  'joint-base-elmendorf-richardson': 'air-force',
+  'joint-base-charleston': 'air-force',
+  'joint-base-langley-eustis': 'air-force',
+  'joint-base-mcguire-dix-lakehurst': 'air-force',
+};
+
+function getBranchEmblem(station: DutyStation): string | null {
+  if (JOINT_BASE_EMBLEM[station.slug]) return JOINT_BASE_EMBLEM[station.slug];
+  for (const branch of station.branches) {
+    if (BRANCH_EMBLEM[branch]) return BRANCH_EMBLEM[branch];
+  }
+  return null;
+}
+
 // ─── HeroBanner sub-component ─────────────────────────────────────────────────
 
 const HERO_STEPS = [
@@ -99,6 +130,8 @@ function HeroBanner({ station, description }: { station: DutyStation; descriptio
     .filter(Boolean)
     .join(' · ');
 
+  const emblemFile = getBranchEmblem(station);
+
   return (
     <div className="relative overflow-hidden bg-slate-800">
       {station.heroImage ? (
@@ -114,6 +147,17 @@ function HeroBanner({ station, description }: { station: DutyStation; descriptio
       )}
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/45" />
+      {/* Branch emblem watermark */}
+      {emblemFile && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={`/images/branches/${emblemFile}.svg`}
+          alt=""
+          aria-hidden="true"
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 w-20 sm:w-28 md:w-36 pointer-events-none select-none"
+          style={{ opacity: 0.10 }}
+        />
+      )}
       {/* Content — relative so it paints above the absolute layers */}
       <div className="relative">
         {/* Hero text */}
