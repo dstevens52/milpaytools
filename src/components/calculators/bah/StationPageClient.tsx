@@ -647,10 +647,10 @@ export function StationPageClient({
           {/* Local Housing Tips */}
           {station.localHousingTips && (
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
-              <h2 className="text-lg font-semibold text-zinc-900 mb-5">Local Housing Tips</h2>
+              <h2 className="text-lg font-semibold text-zinc-900 mb-5">Area Housing Overview</h2>
 
               <p className="text-xs text-zinc-500 uppercase tracking-wide font-semibold mb-3">
-                Best neighborhoods for military families
+                Commonly chosen neighborhoods near base
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
                 {station.localHousingTips.neighborhoods.map((n) => (
