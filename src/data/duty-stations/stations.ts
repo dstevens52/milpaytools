@@ -8,6 +8,7 @@ export interface NeighborhoodTip {
   highlight: string;
   commute: string;
   bestFor: string;
+  typicalRent3br?: string;
 }
 
 export interface BahVsHousing {
@@ -38,6 +39,7 @@ export interface DutyStation {
   stateName: string;
   branches: Branch[];
   description: string;
+  installationDetail?: string;
   rentalNote: string;
   nearby: string[];
   oconus?: true;
@@ -59,9 +61,11 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'North Carolina',
     branches: ['Army'],
     description:
-      'Your BAH goes further at Fort Bragg than at most duty stations. Fayetteville\'s housing market runs well below the national average — an E-5 with dependents has roughly $500/month of room between BAH and median rent before utilities and other housing costs. That\'s one of the better BAH-to-cost ratios in the Army. Home of the 82nd Airborne and USASOC, Fort Bragg is the largest installation by population with over 50,000 active-duty soldiers.',
+      'Your BAH goes further at Fort Bragg than at most duty stations. Fayetteville\'s housing market runs well below the national average — an E-5 with dependents has roughly $500/month of room between BAH and median rent before utilities and other housing costs. That\'s one of the better BAH-to-cost ratios in the Army.',
+    installationDetail:
+      'Home of the 82nd Airborne and USASOC — the largest installation by population with over 50,000 active-duty soldiers.',
     rentalNote:
-      'Fort Bragg BAH runs below the national average, but local housing costs are significantly below average too — meaning your dollar goes further here than the raw BAH number suggests. BAH in the Fayetteville market covers most mid-range rentals, and many families find their allowance stretches to a mortgage on a starter home.',
+      'Fort Bragg BAH is $181/mo below the national E-5 average — but Fayetteville housing costs run roughly 25% below the national median. Your purchasing power here is actually above average.',
     nearby: ['camp-lejeune', 'seymour-johnson-afb', 'marine-corps-air-station-cherry-point'],
     bahVsHousing: {
       medianRent: 1300,
@@ -82,24 +86,28 @@ export const DUTY_STATIONS: DutyStation[] = [
           highlight: 'Often recommended by families prioritizing schools (7–8/10 area ratings)',
           commute: '15–20 min to main gate',
           bestFor: 'Families who prioritize schools',
+          typicalRent3br: '$1,100–$1,400/mo',
         },
         {
           name: "Gray's Creek",
           highlight: 'Rural feel, good schools, more space',
           commute: 'Slightly longer commute',
           bestFor: 'NCOs and officers wanting room to breathe',
+          typicalRent3br: '$1,200–$1,500/mo',
         },
         {
           name: 'Spring Lake',
           highlight: 'Generally more affordable, school ratings vary',
           commute: '8–15 min to main gate',
           bestFor: 'Single soldiers or couples without kids',
+          typicalRent3br: '$900–$1,200/mo',
         },
         {
           name: 'Downtown Fayetteville',
           highlight: 'Improving area — breweries, restaurants, walkable',
           commute: 'Varies by unit',
           bestFor: 'Those who want an urban lifestyle',
+          typicalRent3br: '$1,000–$1,350/mo',
         },
       ],
       mistakeToAvoid:

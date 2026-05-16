@@ -114,6 +114,9 @@ function HeroBanner({ station }: { station: DutyStation }) {
           {station.name}
         </h1>
         <p className="text-sm text-white/70">{subtitle}</p>
+        {station.installationDetail && (
+          <p className="text-xs text-white/50 mt-1">{station.installationDetail}</p>
+        )}
       </div>
       {/* Photo credit — bottom-right, only when photo present */}
       {station.heroImage && (
@@ -325,6 +328,42 @@ export function StationPageClient({
       {/* Hero banner */}
       <HeroBanner station={station} />
 
+      {/* Intro description — only for rich pages, above the 3-step plan */}
+      {hasRichData && (
+        <div className="bg-white border-b border-zinc-200">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">
+            <p className="text-sm text-zinc-600 leading-relaxed">{station.description}</p>
+          </div>
+        </div>
+      )}
+
+      {/* 3-step plan strip — template-level, all BAH station pages */}
+      <div className="hidden md:block border-b border-zinc-200 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
+          <div className="flex items-center gap-5">
+            {([
+              { n: 1, title: 'Check your rate' },
+              { n: 2, title: 'See what it buys' },
+              { n: 3, title: 'Plan your move' },
+            ] as const).map(({ n, title }, i, arr) => (
+              <>
+                <div key={n} className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-full bg-red-700 text-white flex items-center justify-center font-bold text-xs flex-none">
+                    {n}
+                  </div>
+                  <p className="font-semibold text-zinc-700 text-sm whitespace-nowrap">{title}</p>
+                </div>
+                {i < arr.length - 1 && (
+                  <svg key={`sep-${n}`} className="w-4 h-4 text-zinc-300 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
+                  </svg>
+                )}
+              </>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div className="bg-zinc-50 min-h-screen">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
@@ -354,11 +393,6 @@ export function StationPageClient({
               />
             )}
           </div>
-
-          {/* Description — only for stations with rich data */}
-          {hasRichData && (
-            <p className="text-sm text-zinc-600 leading-relaxed max-w-2xl">{station.description}</p>
-          )}
 
           {/* Quick Facts — for stations WITHOUT rich data */}
           {!hasRichData && (
@@ -430,61 +464,16 @@ export function StationPageClient({
             </div>
           )}
 
-          {/* BAH vs. Local Housing Costs */}
+          {/* What Your BAH Buys Here */}
           {!station.oconus && station.bahVsHousing && selectedBAH > 0 && (
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
-              <h2 className="text-lg font-semibold text-zinc-900 mb-1">BAH vs. Local Housing Costs</h2>
+              <h2 className="text-lg font-semibold text-zinc-900 mb-1">What Your BAH Buys Here</h2>
               <p className="text-sm text-zinc-500 mb-5">
-                Your BAH isn&apos;t just a rent check — here&apos;s how it stacks up against what housing
-                actually costs in this market.
+                {selectedBAH - station.bahVsHousing.medianRent >= 0
+                  ? `If you rent at median, you keep about ${fmt(selectedBAH - station.bahVsHousing.medianRent)}/month. But what about buying?`
+                  : `At median rent, BAH runs short by about ${fmt(station.bahVsHousing.medianRent - selectedBAH)}/month. Here's how buying compares:`
+                }
               </p>
-
-              {/* Rent comparison row */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-                <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
-                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Median rent</p>
-                  <p className="text-2xl font-bold text-zinc-900 tabular-nums">
-                    {fmt(station.bahVsHousing.medianRent)}
-                    <span className="text-sm font-normal text-zinc-500">/mo</span>
-                  </p>
-                  <p className="text-xs text-zinc-400 mt-1">{station.bahVsHousing.medianRentSource}</p>
-                </div>
-                <div className="rounded-lg bg-red-50 border border-red-100 p-4">
-                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">
-                    {selectedGrade} {depLabel} BAH
-                  </p>
-                  <p className="text-2xl font-bold text-red-700 tabular-nums">
-                    {fmt(selectedBAH)}
-                    <span className="text-sm font-normal text-zinc-500">/mo</span>
-                  </p>
-                  <p className="text-xs text-zinc-400 mt-1">Tax-free</p>
-                </div>
-                <div
-                  className={[
-                    'rounded-lg border p-4',
-                    selectedBAH - station.bahVsHousing.medianRent >= 0
-                      ? 'bg-green-50 border-green-200'
-                      : 'bg-red-50 border-red-200',
-                  ].join(' ')}
-                >
-                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">
-                    Monthly surplus vs. median rent
-                  </p>
-                  <p
-                    className={[
-                      'text-2xl font-bold tabular-nums',
-                      selectedBAH - station.bahVsHousing.medianRent >= 0
-                        ? 'text-green-700'
-                        : 'text-red-700',
-                    ].join(' ')}
-                  >
-                    {selectedBAH - station.bahVsHousing.medianRent >= 0 ? '+' : ''}
-                    {fmt(selectedBAH - station.bahVsHousing.medianRent)}
-                    <span className="text-sm font-normal">/mo</span>
-                  </p>
-                  <p className="text-xs text-zinc-400 mt-1">If renting at median</p>
-                </div>
-              </div>
 
               {/* Buying comparison row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
@@ -530,8 +519,10 @@ export function StationPageClient({
           {/* How This Market Compares */}
           {selectedBAH > 0 && !station.oconus && (
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
-              <h2 className="text-lg font-semibold text-zinc-900 mb-4">How This Market Compares</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
+              <h2 className="text-lg font-semibold text-zinc-900 mb-3">How This Market Compares</h2>
+              {/* Positive framing first, then the numbers */}
+              <p className="text-sm text-zinc-600 leading-relaxed mb-5">{station.rentalNote}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-3">
                 <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
                   <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">
                     {selectedGrade} {depLabel} BAH here
@@ -568,11 +559,10 @@ export function StationPageClient({
                 </div>
               </div>
               {showNatAvgNote && (
-                <p className="text-xs text-zinc-400 mb-3">
+                <p className="text-xs text-zinc-400">
                   National average shown for E-5 with dependents as a market benchmark.
                 </p>
               )}
-              <p className="text-sm text-zinc-600 leading-relaxed">{station.rentalNote}</p>
             </div>
           )}
 
@@ -613,6 +603,9 @@ export function StationPageClient({
                   <div key={n.name} className="rounded-lg border border-zinc-200 p-4">
                     <p className="font-semibold text-zinc-900 text-sm mb-1">{n.name}</p>
                     <p className="text-sm text-zinc-600 mb-2">{n.highlight}</p>
+                    {n.typicalRent3br && (
+                      <p className="text-xs text-zinc-600 font-medium mb-1">Typical 3BR: {n.typicalRent3br}</p>
+                    )}
                     <p className="text-xs text-zinc-500">Commute: {n.commute}</p>
                     <p className="text-xs text-zinc-400 mt-0.5">Best for: {n.bestFor}</p>
                   </div>
@@ -654,7 +647,8 @@ export function StationPageClient({
             </div>
           )}
 
-          {/* Key Insights */}
+          {/* Key Insights — only for basic pages without full StoryBrand sections */}
+          {!hasRichData && (
           <div className="bg-white rounded-lg border border-zinc-200 p-6">
             <h2 className="text-lg font-semibold text-zinc-900 mb-4">Key Insights for {station.name}</h2>
             <ul className="space-y-3">
@@ -708,6 +702,7 @@ export function StationPageClient({
               </li>
             </ul>
           </div>
+          )}
 
           {/* Calculator CTAs */}
           <div className="bg-zinc-900 rounded-lg p-6">
@@ -715,34 +710,33 @@ export function StationPageClient({
             <p className="text-zinc-400 text-sm mb-5">
               BAH is the starting point. Here are the calculations that matter most for your PCS decision.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <Link
-                href="/calculators/compare"
-                className="flex items-center justify-between px-4 py-3 rounded-md bg-zinc-800 text-white text-sm font-medium hover:bg-zinc-700 transition-colors"
-              >
-                <span>Compare {station.name} to another duty station</span>
-                <span className="ml-3 text-zinc-400 flex-none">→</span>
-              </Link>
+            {/* Primary CTA */}
+            <Link
+              href="/calculators/compare"
+              className="flex items-center justify-between px-5 py-3.5 rounded-md bg-red-700 text-white text-sm font-semibold hover:bg-red-800 transition-colors mb-4"
+            >
+              <span>Compare {station.name} to another duty station</span>
+              <span className="ml-3 flex-none">→</span>
+            </Link>
+            {/* Secondary CTAs */}
+            <div className="flex flex-col gap-2.5">
               <Link
                 href="/calculators/total-compensation"
-                className="flex items-center justify-between px-4 py-3 rounded-md bg-zinc-800 text-white text-sm font-medium hover:bg-zinc-700 transition-colors"
+                className="text-sm text-zinc-300 hover:text-white transition-colors"
               >
-                <span>See your total military compensation at {station.name}</span>
-                <span className="ml-3 text-zinc-400 flex-none">→</span>
+                See your total military compensation at {station.name} →
               </Link>
               <Link
                 href="/calculators/pcs"
-                className="flex items-center justify-between px-4 py-3 rounded-md bg-zinc-800 text-white text-sm font-medium hover:bg-zinc-700 transition-colors"
+                className="text-sm text-zinc-300 hover:text-white transition-colors"
               >
-                <span>Estimate your PCS move costs</span>
-                <span className="ml-3 text-zinc-400 flex-none">→</span>
+                Estimate your PCS move costs →
               </Link>
               <Link
                 href="/blog/how-bah-builds-wealth"
-                className="flex items-center justify-between px-4 py-3 rounded-md bg-red-700 text-white text-sm font-medium hover:bg-red-800 transition-colors"
+                className="text-sm text-zinc-300 hover:text-white transition-colors"
               >
-                <span>How BAH can build long-term wealth</span>
-                <span className="ml-3 flex-none">→</span>
+                How BAH can build long-term wealth →
               </Link>
             </div>
           </div>

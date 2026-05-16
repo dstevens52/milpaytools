@@ -13,7 +13,7 @@ test.describe('Separation Benefits Timeline Calculator', () => {
   });
 
   test('empty state prompts user to enter date', async ({ page }) => {
-    await expect(page.getByText(/enter your separation date/i)).toBeVisible();
+    await expect(page.getByText(/enter your separation date/i).first()).toBeVisible();
   });
 
   test('entering a future date shows timeline', async ({ page }) => {
