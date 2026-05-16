@@ -1039,10 +1039,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Maryland',
     branches: ['Army'],
     description:
-      'Fort Meade is home to the National Security Agency (NSA), U.S. Cyber Command, and the Defense Information Systems Agency, making it the most intelligence-dense installation in the country.',
+      'Fort Meade sits in the Baltimore-DC corridor — expensive but with strong BAH. The Odenton-Severn area immediately surrounding the base offers the best value. Many families here are in intelligence or cyber roles with longer tours, making homeownership a more viable option than at rapid-rotation bases.',
+    installationDetail:
+      'Fort Meade is home to the National Security Agency (NSA), U.S. Cyber Command, and the Defense Information Systems Agency (DISA) — one of the most intelligence-dense installations in the country.',
     rentalNote:
-      'Fort Meade falls in the Baltimore MHA. The DC/Baltimore corridor is expensive, but BAH rates reflect this — mid-grade and senior members can typically cover 2-bedroom apartments or purchase starter homes in the suburbs.',
+      'Fort Meade falls in the Baltimore MHA. The DC/Baltimore corridor is expensive, but BAH rates reflect the market — Odenton and Severn offer the best value closest to the gate. Columbia has better schools at a higher price point.',
+    rentalContext:
+      'the Odenton-Severn corridor closest to the gate offers the best value in the Baltimore-DC market.',
     nearby: ['joint-base-andrews', 'aberdeen-proving-ground', 'joint-base-myer-henderson-hall'],
+    bahVsHousing: {
+      medianRent: 2100,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 430000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 3050,
+      mortgageMax: 3350,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.1% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 20–25% above the national average',
+      stateTaxNote: 'Maryland taxes military pay at up to 5.75%. Military retirement pay is exempt. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Odenton',
+          highlight: 'Anne Arundel County — good (7/10)',
+          commute: '5–10 min to main gate',
+          bestFor: 'Closest to base with decent schools',
+          typicalRent3br: '$1,800–$2,300/mo',
+        },
+        {
+          name: 'Severn / Hanover',
+          highlight: 'Anne Arundel County — good (7/10)',
+          commute: '10–15 min to main gate',
+          bestFor: 'Affordable options with quick base access',
+          typicalRent3br: '$1,700–$2,200/mo',
+        },
+        {
+          name: 'Columbia',
+          highlight: 'Howard County — excellent (9/10)',
+          commute: '15–20 min to main gate',
+          bestFor: 'Families wanting the best schools in the region',
+          typicalRent3br: '$2,200–$2,800/mo',
+        },
+        {
+          name: 'Laurel',
+          highlight: "Prince George's / Howard County line — varies (6–8/10)",
+          commute: '10–15 min to main gate',
+          bestFor: 'Affordable option between Meade and DC',
+          typicalRent3br: '$1,600–$2,100/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Fort Meade sits between Baltimore and DC, which sounds convenient but means you're paying metro-area prices everywhere. The mistake is looking at Annapolis or Columbia without checking commute times — both can be 30+ minutes in rush hour. Odenton, Severn, and Jessup are 5–15 minutes from the gate and significantly cheaper.",
+    },
   },
   {
     name: 'Fort Jackson',
@@ -1053,10 +1102,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'South Carolina',
     branches: ['Army'],
     description:
-      'Fort Jackson is the Army\'s largest and most active initial entry training center, producing more than 50% of all soldiers who join the Army each year.',
+      'Fort Jackson sits in Columbia, SC — an affordable college town (University of South Carolina) with a cost of living well below the national average. BAH creates a comfortable surplus at every pay grade, and the housing market is accessible for families who plan to stay beyond a single tour.',
+    installationDetail:
+      "Fort Jackson is the Army's largest basic training installation — training over 50,000 soldiers annually in Columbia, South Carolina.",
     rentalNote:
-      'Columbia is a large, diversified market with affordable housing. BAH provides strong purchasing power at most grades, and homeownership is very accessible.',
+      'Columbia is a large, diversified market with affordable housing. BAH provides strong purchasing power at most grades — Northeast Columbia near the gate has the best schools, while Elgin and Lugoff offer newer construction at lower prices.',
+    rentalContext:
+      "Columbia's cost of living is well below the national average, and BAH creates a comfortable surplus at most pay grades.",
     nearby: ['marine-corps-air-station-beaufort', 'fort-gordon', 'joint-base-charleston'],
+    bahVsHousing: {
+      medianRent: 1400,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 260000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 1750,
+      mortgageMax: 1950,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.6% SC property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 8–12% below the national average',
+      stateTaxNote: 'South Carolina taxes military pay at up to 6.5%. However, SC offers a partial exemption on military retirement pay. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Northeast Columbia (near gate)',
+          highlight: 'Richland 2 School District — strong (7–8/10)',
+          commute: '5–15 min to main gate',
+          bestFor: 'Best schools closest to Fort Jackson',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+        {
+          name: 'Elgin / Lugoff',
+          highlight: 'Kershaw County Schools — decent (6–7/10)',
+          commute: '15–20 min to main gate',
+          bestFor: 'Families wanting newer construction at lower prices',
+          typicalRent3br: '$1,100–$1,400/mo',
+        },
+        {
+          name: 'Lexington',
+          highlight: 'Lexington-Richland 5 — excellent (8–9/10)',
+          commute: '25–30 min to Fort Jackson',
+          bestFor: 'Families willing to commute for the best schools in the metro',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'Downtown Columbia / Shandon',
+          highlight: 'Richland 1 — varies (5–7/10)',
+          commute: '15–20 min to Fort Jackson',
+          bestFor: 'Singles or couples wanting walkable neighborhoods near USC campus',
+          typicalRent3br: '$1,100–$1,500/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Fort Jackson is primarily a training installation, so most permanent party assignments are shorter. The mistake is buying a home on a 2-year assignment in a market where resale can be slow. Rent in Northeast Columbia or Elgin — your BAH surplus here is substantial — and invest the savings instead.',
+    },
   },
   {
     name: 'Fort Detrick',
@@ -1381,10 +1479,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Ohio',
     branches: ['Air Force'],
     description:
-      'Wright-Patterson is home to Air Force Materiel Command and the Air Force Research Laboratory, making it the largest Air Force installation by personnel — a major acquisition and science hub.',
+      "Wright-Patterson is one of the most affordable Air Force bases with a major metro feel. Dayton's cost of living is well below the national average, and BAH creates a strong surplus at every pay grade. The Beavercreek-Centerville corridor south of base has excellent schools and is the top choice for families.",
+    installationDetail:
+      "Wright-Patterson AFB is home to Air Force Materiel Command, the Air Force Research Laboratory, and the National Museum of the U.S. Air Force — the world's largest military aviation museum.",
     rentalNote:
-      'Dayton is a highly affordable housing market. BAH provides strong purchasing power, and many servicemembers at all grades choose to purchase rather than rent due to the low home prices relative to BAH.',
+      'Dayton is a highly affordable housing market. BAH provides strong purchasing power at all grades, and many servicemembers choose to purchase rather than rent. Beavercreek south of base is the top school corridor.',
+    rentalContext:
+      "Dayton's cost of living is well below the national average, making Wright-Patt one of the most financially favorable Air Force duty stations.",
     nearby: ['fort-knox', 'scott-afb', 'offutt-afb'],
+    bahVsHousing: {
+      medianRent: 1200,
+      medianRentSource: 'Zillow / BestPlaces 2025–2026',
+      medianHomePrice: 240000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 1700,
+      mortgageMax: 1900,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.5% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 12–15% below the national average',
+      stateTaxNote: 'Ohio taxes military pay at up to 3.5%. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Beavercreek',
+          highlight: 'Beavercreek City Schools — excellent (8–9/10)',
+          commute: '10–15 min to main gate',
+          bestFor: 'Top choice for families — best schools near Wright-Patt',
+          typicalRent3br: '$1,100–$1,500/mo',
+        },
+        {
+          name: 'Fairborn',
+          highlight: 'Fairborn City Schools — decent (6/10)',
+          commute: '5–10 min to main gate',
+          bestFor: 'Shortest commute and most affordable',
+          typicalRent3br: '$900–$1,200/mo',
+        },
+        {
+          name: 'Centerville',
+          highlight: 'Centerville City Schools — excellent (8–9/10)',
+          commute: '15–20 min to main gate',
+          bestFor: 'Families wanting suburban polish with top schools',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+        {
+          name: 'Huber Heights',
+          highlight: 'Huber Heights City Schools — decent (6–7/10)',
+          commute: '15–20 min to main gate',
+          bestFor: 'Affordable option north of base',
+          typicalRent3br: '$900–$1,200/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Wright-Patt has a huge civilian workforce (30,000+), which means off-base amenities are better than most Air Force bases. The mistake is living in older neighborhoods close to the Fairborn gate without exploring Beavercreek or Centerville, which have significantly better schools and are only 10–15 minutes further.",
+    },
   },
   {
     name: 'Scott AFB',
@@ -1395,10 +1542,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Illinois',
     branches: ['Air Force'],
     description:
-      'Scott AFB hosts U.S. Transportation Command (TRANSCOM) and the Air Mobility Command, and serves as the Air Force\'s primary mobility and logistics command center, located east of St. Louis.',
+      "Scott AFB offers affordable housing in the Metro East area near St. Louis. BAH creates a healthy surplus at most pay grades. O'Fallon and Shiloh are the most popular off-base choices for families — strong schools, close to base, and access to St. Louis metro amenities across the river.",
+    installationDetail:
+      "Scott AFB is headquarters of U.S. Transportation Command (TRANSCOM) and Air Mobility Command — the military's global logistics nerve center, located near Belleville, Illinois across the river from St. Louis.",
     rentalNote:
-      'The Illinois side of the St. Louis metro offers affordable housing relative to BAH. Most grades have significant BAH surplus, and starter homes are highly accessible for buyers.',
+      "The Illinois side of the St. Louis metro offers affordable housing relative to BAH. Most grades have a significant BAH surplus. Note: IL property taxes are high — compare O'Fallon IL vs. O'Fallon MO carefully before buying.",
+    rentalContext:
+      'the Metro East area near St. Louis offers some of the most favorable BAH-to-rent ratios of any Air Force base.',
     nearby: ['wright-patterson-afb', 'whiteman-afb', 'offutt-afb'],
+    bahVsHousing: {
+      medianRent: 1200,
+      medianRentSource: 'Zillow / BestPlaces 2025–2026',
+      medianHomePrice: 220000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 1600,
+      mortgageMax: 1800,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~2.0% IL property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 10–12% below the national average',
+      stateTaxNote: "Illinois has a flat income tax of 4.95% on military pay. BAH and BAS remain tax-free. Note: IL property taxes are high — factor this into buy-vs-rent decisions.",
+      neighborhoods: [
+        {
+          name: "O'Fallon, IL",
+          highlight: "O'Fallon CCSD / O'Fallon Township HSD — excellent (8–9/10)",
+          commute: '10–15 min to Scott gate',
+          bestFor: 'Top pick for families — best schools in the area',
+          typicalRent3br: '$1,100–$1,500/mo',
+        },
+        {
+          name: 'Shiloh',
+          highlight: "Shiloh Village School District / O'Fallon Township — solid (7–8/10)",
+          commute: '5–10 min to Scott gate',
+          bestFor: 'Closest to base with good schools',
+          typicalRent3br: '$1,000–$1,400/mo',
+        },
+        {
+          name: 'Belleville',
+          highlight: 'Belleville School District — mixed (5–7/10)',
+          commute: '10–15 min to Scott gate',
+          bestFor: 'Most affordable with downtown dining and entertainment',
+          typicalRent3br: '$900–$1,200/mo',
+        },
+        {
+          name: "O'Fallon, MO (across the river)",
+          highlight: 'Fort Zumwalt R-II — excellent (8–9/10)',
+          commute: '25–30 min to Scott gate',
+          bestFor: 'Families willing to commute for lower MO taxes and top schools',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Scott AFB is in Illinois, but many families live in Missouri across the river for lower property taxes and state tax advantages. Illinois property taxes can run $5,000–$8,000/year on a modest home. If you're buying, compare O'Fallon IL (closest, best schools) against O'Fallon MO (lower taxes, slightly longer commute) before committing.",
+    },
   },
   {
     name: 'Luke AFB',
@@ -1409,10 +1605,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Arizona',
     branches: ['Air Force'],
     description:
-      'Luke AFB is the world\'s largest fighter pilot training base, producing F-35 and F-16 pilots for the U.S. and allied nations, located in the western Phoenix metro.',
+      "Luke AFB puts you in the Phoenix metro — 5th largest city in the US, with all the amenities that comes with. Arizona's low income tax (2.5%) and the West Valley's growing housing stock make this an attractive duty station. BAH covers rent comfortably in the surrounding suburbs, and homeownership is realistic with a VA loan.",
+    installationDetail:
+      'Luke AFB is the world\'s largest fighter pilot training base — home to the 56th Fighter Wing training F-35 Lightning II pilots in the Phoenix West Valley.',
     rentalNote:
-      'The Phoenix metro BAH is moderate. West Valley rents are generally lower than Scottsdale or central Phoenix, giving servicemembers decent BAH coverage, though Phoenix\'s population boom has tightened supply.',
+      "West Valley rents (Surprise, Goodyear, Litchfield Park) are lower than Scottsdale or central Phoenix, giving solid BAH coverage. Phoenix's population boom has tightened supply in some areas — the West Valley still has good inventory.",
+    rentalContext:
+      'the Phoenix West Valley offers newer construction and solid BAH coverage — significantly more affordable than Scottsdale or central Phoenix.',
     nearby: ['davis-monthan-afb', 'fort-huachuca', 'kirtland-afb'],
+    bahVsHousing: {
+      medianRent: 1700,
+      medianRentSource: 'Zillow / RentCafe 2025–2026',
+      medianHomePrice: 400000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2700,
+      mortgageMax: 2950,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.7% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 5–8% above the national average',
+      stateTaxNote: 'Arizona has a flat income tax of 2.5% on military pay — one of the lowest in the country. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Surprise',
+          highlight: 'Dysart Unified — good (7/10)',
+          commute: '15–20 min to Luke gate',
+          bestFor: 'Families wanting newer homes, good schools, and suburban amenities',
+          typicalRent3br: '$1,500–$2,000/mo',
+        },
+        {
+          name: 'Goodyear',
+          highlight: 'Litchfield Elementary / Agua Fria Union — decent (6–7/10)',
+          commute: '10–15 min to Luke gate',
+          bestFor: 'Growing area with lots of new construction',
+          typicalRent3br: '$1,600–$2,100/mo',
+        },
+        {
+          name: 'Litchfield Park',
+          highlight: 'Litchfield Elementary — strong (7–8/10)',
+          commute: '5–10 min to Luke gate',
+          bestFor: 'Closest to base with established charm',
+          typicalRent3br: '$1,700–$2,200/mo',
+        },
+        {
+          name: 'Glendale / Peoria',
+          highlight: 'Peoria Unified — strong (7–8/10)',
+          commute: '10–20 min to Luke',
+          bestFor: 'Families wanting more urban access and restaurant/entertainment options',
+          typicalRent3br: '$1,500–$2,000/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Luke is in the Phoenix West Valley, and Phoenix traffic is real. The mistake is living in east Phoenix or Scottsdale for the lifestyle and then sitting in 45+ minutes of I-10 traffic every morning. Surprise, Goodyear, and Litchfield Park are all within 15–20 minutes of Luke's gate with newer construction and good schools.",
+    },
   },
   {
     name: 'Davis-Monthan AFB',
@@ -1549,10 +1794,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Maryland',
     branches: ['Air Force', 'Army'],
     description:
-      'Joint Base Andrews is home of Air Force One, the 11th Wing, and numerous special operations and intelligence units — the primary military air gateway to Washington, D.C.',
+      "JB Andrews puts you in the DC metro — one of the most expensive areas in the country, but with a critical advantage: Prince George's County is significantly more affordable than Northern Virginia or Montgomery County while still offering reasonable commutes to the base. BAH covers rent in most PG County neighborhoods.",
+    installationDetail:
+      'JB Andrews is home to Air Force One — the 89th Airlift Wing — and serves as the air gateway to the National Capital Region, located just outside Washington, DC.',
     rentalNote:
-      'Andrews sits in the DC metro MHA with some of the highest BAH rates in the country. But DC-area rents are equally elevated — junior enlisted and NCOs often find BAH tight, while officers and senior NCOs have more purchasing flexibility.',
+      "Andrews sits in the DC metro MHA with some of the highest BAH rates in the country. Prince George's County is more affordable than Northern Virginia or Montgomery County — but school quality varies dramatically by neighborhood. Research specific school zones before signing a lease.",
+    rentalContext:
+      "Prince George's County is significantly more affordable than Northern Virginia or Montgomery County — and BAH covers rent comfortably in most PG County neighborhoods.",
     nearby: ['fort-meade', 'joint-base-myer-henderson-hall', 'aberdeen-proving-ground'],
+    bahVsHousing: {
+      medianRent: 2100,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 420000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 3000,
+      mortgageMax: 3300,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.1% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 20–25% above the national average',
+      stateTaxNote: 'Maryland taxes military pay at up to 5.75%. However, military retirement pay is exempt from Maryland income tax. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Bowie',
+          highlight: "Prince George's County — Bowie zone is among the strongest (7/10)",
+          commute: '15–20 min to Andrews',
+          bestFor: 'Best schools in the Andrews corridor, suburban feel',
+          typicalRent3br: '$1,800–$2,300/mo',
+        },
+        {
+          name: 'Upper Marlboro',
+          highlight: "Prince George's County — decent in this zone (6–7/10)",
+          commute: '10–15 min to Andrews',
+          bestFor: 'Close to base with a more rural feel',
+          typicalRent3br: '$1,600–$2,100/mo',
+        },
+        {
+          name: 'Clinton / Camp Springs',
+          highlight: "Prince George's County — mixed (5–6/10)",
+          commute: '5–10 min to Andrews',
+          bestFor: 'Shortest commute and most affordable',
+          typicalRent3br: '$1,500–$2,000/mo',
+        },
+        {
+          name: 'Crofton / Odenton',
+          highlight: 'Anne Arundel County — strong (7–8/10)',
+          commute: '20–25 min to Andrews',
+          bestFor: 'Families willing to commute for better schools and proximity to Fort Meade',
+          typicalRent3br: '$2,000–$2,500/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Andrews is in Prince George's County, which is more affordable than Northern Virginia or Montgomery County — but school quality varies dramatically by neighborhood. The mistake is picking housing based on price alone without researching the specific school zone. Bowie, Upper Marlboro, and Crofton have the strongest schools in the Andrews commute corridor.",
+    },
   },
   {
     name: 'Kirtland AFB',
@@ -2062,10 +2356,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Washington',
     branches: ['Navy'],
     description:
-      'Naval Base Kitsap is one of the largest naval installations in the world, homeporting several Ohio-class ballistic missile submarines and surface combatants on Puget Sound.',
+      'Naval Base Kitsap is more affordable than JBLM or Seattle despite being in western Washington. Bremerton and Silverdale offer reasonable housing costs, no state income tax, and a scenic Pacific Northwest lifestyle. The ferry to Seattle is a bonus for weekend trips, not a daily commute strategy.',
+    installationDetail:
+      "Naval Base Kitsap is the Navy's largest installation in the Pacific Northwest — supporting the Trident submarine fleet at Bangor and surface ships at Bremerton, across Puget Sound from Seattle.",
     rentalNote:
-      'Bremerton is more affordable than Seattle but still part of the expensive Puget Sound market. BAH rates are elevated to match, though ferry-dependent commuting from Bremerton can offset some rental cost savings.',
+      "Bremerton is more affordable than Seattle but still part of the Puget Sound market. BAH rates are elevated to match. Note: Kitsap has two main sites — Bangor (north, submarines) and Bremerton (south, surface ships). Know which site you'll work from before house-hunting.",
+    rentalContext:
+      "Washington's no state income tax advantage gives Kitsap families a meaningful net-pay edge over most other duty stations.",
     nearby: ['joint-base-lewis-mcchord', 'naval-air-station-whidbey-island', 'joint-base-elmendorf-richardson'],
+    bahVsHousing: {
+      medianRent: 1800,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 420000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2800,
+      mortgageMax: 3100,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.0% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 10–15% above the national average',
+      stateTaxNote: 'Washington has no state income tax — a significant net-pay advantage over most duty stations.',
+      neighborhoods: [
+        {
+          name: 'Silverdale',
+          highlight: 'Central Kitsap Schools — good (7/10)',
+          commute: '10–15 min to Bangor, 20 min to Bremerton',
+          bestFor: 'Best option for Bangor-assigned families, most shopping',
+          typicalRent3br: '$1,600–$2,100/mo',
+        },
+        {
+          name: 'Bremerton',
+          highlight: 'Bremerton Schools — mixed (5–6/10)',
+          commute: '5–10 min to Bremerton shipyard, 25 min to Bangor',
+          bestFor: 'Shortest commute to the shipyard, most affordable',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'Port Orchard',
+          highlight: 'South Kitsap Schools — decent (6–7/10)',
+          commute: '10–15 min to Bremerton, 30 min to Bangor',
+          bestFor: 'Families wanting more space at lower cost',
+          typicalRent3br: '$1,500–$1,900/mo',
+        },
+        {
+          name: 'Poulsbo',
+          highlight: 'North Kitsap Schools — solid (7/10)',
+          commute: '15–20 min to Bangor, 25 min to Bremerton',
+          bestFor: 'Charming waterfront town with Scandinavian heritage',
+          typicalRent3br: '$1,700–$2,200/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Naval Base Kitsap has two main locations — Bangor (submarines, north) and Bremerton (surface ships, south) — 20 minutes apart. The mistake is picking housing before knowing which site you'll report to daily. Silverdale works for Bangor, Bremerton/Port Orchard for the shipyard. Also, the Seattle ferry is scenic but not a reliable daily commute.",
+    },
   },
   {
     name: 'Naval Air Station Whidbey Island',
@@ -2188,10 +2531,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'New Jersey',
     branches: ['Air Force', 'Army', 'Navy'],
     description:
-      'JB MDL is a tri-service installation combining McGuire AFB, Fort Dix, and Lakehurst Naval Air Engineering Station — the only base in the U.S. hosting all three components of the Total Force.',
+      'JB MDL puts you in central New Jersey — close to Philadelphia, the Jersey Shore, and a train ride from NYC. BAH covers rent comfortably in the surrounding communities, but NJ\'s high property taxes make homeownership math tricky. Most families rent and enjoy the location advantages.',
+    installationDetail:
+      'JB McGuire-Dix-Lakehurst is the only joint base in the Department of Defense combining Air Force, Army, and Navy installations — located in south-central New Jersey between Philadelphia and the Jersey Shore.',
     rentalNote:
-      'JB MDL is in the New Jersey portion of the Philadelphia/South Jersey MHA. BAH rates are substantial, providing solid purchasing power in Burlington and Ocean counties, which are among New Jersey\'s more affordable markets.',
+      "JB MDL is in the New Jersey portion of the Philadelphia/South Jersey MHA. Burlington and Ocean counties are among NJ's more affordable markets — but NJ property taxes are brutal. Run full PITI numbers before buying.",
+    rentalContext:
+      'NJ property taxes ($8,000–$12,000/year on a modest home) make homeownership more expensive than it appears — rent first, learn the market.',
     nearby: ['fort-hamilton', 'naval-submarine-base-new-london', 'joint-base-cape-cod'],
+    bahVsHousing: {
+      medianRent: 1800,
+      medianRentSource: 'PCSgrades / Zillow 2025–2026',
+      medianHomePrice: 350000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2700,
+      mortgageMax: 3000,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~2.2% NJ property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 10–15% above the national average (driven by NJ property taxes)',
+      stateTaxNote: 'New Jersey taxes military pay at up to 10.75% at the top marginal rate. However, active-duty military domiciled outside NJ are generally exempt. NJ property taxes are among the highest in the nation — factor this into any buy decision.',
+      neighborhoods: [
+        {
+          name: 'Mount Holly / Lumberton',
+          highlight: 'Rancocas Valley Regional — decent (6–7/10)',
+          commute: '10–15 min to McGuire gate',
+          bestFor: 'Affordable small towns close to base',
+          typicalRent3br: '$1,500–$1,900/mo',
+        },
+        {
+          name: 'Medford',
+          highlight: 'Medford Township Schools — strong (7–8/10)',
+          commute: '20–25 min to McGuire gate',
+          bestFor: 'Families wanting top schools in a charming town',
+          typicalRent3br: '$1,800–$2,300/mo',
+        },
+        {
+          name: 'Browns Mills / Pemberton',
+          highlight: 'Pemberton Township Schools — mixed (5–6/10)',
+          commute: '5–10 min to Dix gate',
+          bestFor: 'Most affordable and closest to base',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+        {
+          name: 'Bordentown / Hamilton',
+          highlight: 'Bordentown Regional — solid (7/10)',
+          commute: '20–25 min to McGuire',
+          bestFor: 'Families wanting access to Trenton/NJ Transit train corridor',
+          typicalRent3br: '$1,600–$2,100/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'NJ property taxes are brutal — often $8,000–$12,000/year on a modest home. The mistake is buying without factoring taxes into your PITI. What looks affordable as a mortgage becomes much less so when you add $800–$1,000/month in property taxes. Rent first, learn the market, and run the full numbers before buying.',
+    },
   },
   {
     name: 'Naval Air Station Oceana',
@@ -2525,9 +2917,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     state: 'CO',
     stateName: 'Colorado',
     branches: ['Space Force', 'Air Force'],
-    description: 'Peterson SFB hosts the 21st Space Wing, NORAD, and U.S. Northern Command headquarters. It is the center for missile warning, space domain awareness, and homeland defense command.',
-    rentalNote: 'Colorado Springs has a large military housing market. The Fountain, Security-Widefield, and Powers corridors are popular with military families and generally less expensive than central Colorado Springs or Denver.',
+    description:
+      'Peterson SFB sits in the Colorado Springs market — the same MHA as Fort Carson, Schriever, and USAFA. BAH covers rent in most neighborhoods, but homeownership requires careful math at junior enlisted grades. The Powers Corridor and Falcon/Peyton areas east of base offer the best value.',
+    installationDetail:
+      'Peterson SFB is the nerve center of U.S. military space operations — home to Space Operations Command, U.S. Northern Command (NORTHCOM), and NORAD.',
+    rentalNote:
+      'Colorado Springs shares its MHA with three other major installations — competition for housing is real. The Powers Corridor east of base offers the best balance of commute time and price, but inventory moves fast. Start your search 60–90 days before PCS.',
+    rentalContext:
+      'Colorado Springs inventory moves fast in a market shared by four military bases — start your housing search 60–90 days before PCS.',
     nearby: ['schriever-sfb', 'usaf-academy', 'buckley-sfb'],
+    bahVsHousing: {
+      medianRent: 1825,
+      medianRentSource: 'PCS Pay It Forward / Zillow 2025–2026',
+      medianHomePrice: 460000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 3000,
+      mortgageMax: 3300,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.6% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 12–15% above the national average',
+      stateTaxNote: 'Colorado has a flat income tax of 4.40% on military pay. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Powers Corridor (east)',
+          highlight: 'Falcon District 49 — growing, decent (6–7/10)',
+          commute: '10–15 min to Peterson West Gate',
+          bestFor: 'Best balance of price and commute for Peterson',
+          typicalRent3br: '$1,600–$2,100/mo',
+        },
+        {
+          name: 'Briargate / Northgate',
+          highlight: 'Academy District 20 — top-rated (8–9/10)',
+          commute: '15–20 min to Peterson',
+          bestFor: 'Families prioritizing the best schools',
+          typicalRent3br: '$2,100–$2,800/mo',
+        },
+        {
+          name: 'Falcon / Peyton',
+          highlight: 'Falcon District 49 — newer schools',
+          commute: '15–20 min to Peterson',
+          bestFor: 'Families wanting newer homes and more space at lower prices',
+          typicalRent3br: '$1,500–$2,000/mo',
+        },
+        {
+          name: 'Downtown Colorado Springs',
+          highlight: 'District 11 — mixed (5–7/10)',
+          commute: '10–15 min to Peterson',
+          bestFor: 'Singles or couples wanting walkable urban living',
+          typicalRent3br: '$1,400–$1,900/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Peterson shares the Colorado Springs housing market with Fort Carson, Schriever, and the Academy — that's a lot of military families competing for the same housing. The mistake is waiting until you arrive to start looking. The Powers Corridor east of base has the best combination of commute and price, but moves fast. Start your search 60–90 days before PCS.",
+    },
   },
   {
     name: 'Schriever Space Force Base',
@@ -2537,9 +2980,53 @@ export const DUTY_STATIONS: DutyStation[] = [
     state: 'CO',
     stateName: 'Colorado',
     branches: ['Space Force'],
-    description: 'Schriever SFB is home to the 50th Space Wing and Space Deltas responsible for command and control of GPS and military satellite systems — a key node in U.S. space operations.',
-    rentalNote: 'The east side of Colorado Springs (Powers Corridor, Falcon area) is closest to Schriever and offers solid rental inventory at mid-range prices. The Springs has a well-developed military housing market.',
+    description:
+      'Schriever SFB shares the Colorado Springs MHA with Peterson, Fort Carson, and USAFA. The base itself is isolated east of the city, so commute direction matters more here than at other Colorado Springs installations. Families stationed at Schriever should look east — Falcon and Peyton offer the best balance.',
+    installationDetail:
+      "Schriever SFB operates the GPS satellite constellation and multiple space surveillance systems — a critical node in the U.S. Space Force's global network, located east of Colorado Springs.",
+    rentalNote:
+      'The east side of Colorado Springs — Powers Corridor, Falcon, Peyton — is closest to Schriever with solid rental inventory at mid-range prices. Avoid living on the west side of the city, where commute times balloon past 30 minutes.',
+    rentalContext:
+      "living east of Colorado Springs (Falcon/Peyton) cuts your commute to Schriever significantly compared to the popular west-side neighborhoods.",
     nearby: ['peterson-sfb', 'usaf-academy', 'buckley-sfb'],
+    bahVsHousing: {
+      medianRent: 1825,
+      medianRentSource: 'PCS Pay It Forward / Zillow 2025–2026',
+      medianHomePrice: 460000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 3000,
+      mortgageMax: 3300,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.6% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 12–15% above the national average',
+      stateTaxNote: 'Colorado has a flat income tax of 4.40% on military pay. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Falcon / Peyton',
+          highlight: 'Falcon District 49 — growing, newer schools (6–7/10)',
+          commute: '10–15 min to Schriever gate',
+          bestFor: 'Closest to Schriever with best commute',
+          typicalRent3br: '$1,500–$2,000/mo',
+        },
+        {
+          name: 'Powers Corridor (east)',
+          highlight: 'Falcon District 49 — decent',
+          commute: '15–20 min to Schriever',
+          bestFor: 'More shopping and dining access with reasonable commute',
+          typicalRent3br: '$1,600–$2,100/mo',
+        },
+        {
+          name: 'Ellicott / Calhan',
+          highlight: 'Ellicott District 22 — small, rural (5–6/10)',
+          commute: '10–15 min to Schriever',
+          bestFor: 'Families wanting rural acreage and the shortest commute',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Schriever is 10 miles east of Colorado Springs in a rural area — there's nothing near the base itself. The mistake is living too far west in Colorado Springs and having a 30+ minute commute through morning traffic. The Falcon, Peyton, and eastern Powers Corridor areas keep you closer to Schriever's gate while still having access to city amenities.",
+    },
   },
   {
     name: 'Buckley Space Force Base',
@@ -2549,9 +3036,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     state: 'CO',
     stateName: 'Colorado',
     branches: ['Space Force', 'Air Force'],
-    description: 'Buckley SFB hosts the 140th Wing (Colorado ANG) and several space intelligence units, supporting Air Force, Army, and National Guard missions in the Denver metro area.',
-    rentalNote: 'Aurora and the eastern Denver suburbs are the most convenient housing areas. The Denver metro rental market is competitive but more manageable than coastal cities. Commute times on I-225 and E-470 can be significant during peak hours.',
+    description:
+      "Buckley SFB has the highest BAH of any Space Force base, but it sits in the Denver metro where housing costs are elevated. Aurora — the immediate surrounding city — offers the best balance of price and proximity. The Denver metro's job market is a major advantage for military spouses.",
+    installationDetail:
+      'Buckley SFB carries the highest BAH of any Space Force installation in the country — home to Space Delta 4 (Missile Warning) in the Denver metro area.',
+    rentalNote:
+      'Aurora and the eastern Denver suburbs are the most convenient housing areas. Denver metro rents are competitive but more manageable than coastal cities. Centennial and Parker trade a slightly longer commute for significantly better schools.',
+    rentalContext:
+      'Aurora and the southeast Denver suburbs offer the best balance of commute and cost in this metro — Denver proper is significantly pricier.',
     nearby: ['peterson-sfb', 'schriever-sfb', 'fe-warren-afb'],
+    bahVsHousing: {
+      medianRent: 2000,
+      medianRentSource: 'PCS Pay It Forward / Zillow 2025–2026',
+      medianHomePrice: 450000,
+      medianHomePriceSource: 'PCS Pay It Forward / Zillow 2026',
+      mortgageMin: 2950,
+      mortgageMax: 3200,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.7% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 20–25% above the national average',
+      stateTaxNote: 'Colorado has a flat income tax of 4.40% on military pay. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Aurora (east/south)',
+          highlight: 'Aurora Public Schools / Cherry Creek Schools — varies (5–8/10)',
+          commute: '5–15 min to Buckley gate',
+          bestFor: 'Shortest commute, most affordable near base',
+          typicalRent3br: '$1,700–$2,200/mo',
+        },
+        {
+          name: 'Centennial / Highlands Ranch',
+          highlight: 'Cherry Creek Schools / Douglas County — excellent (8–9/10)',
+          commute: '15–20 min to Buckley',
+          bestFor: 'Families prioritizing top schools south of Denver',
+          typicalRent3br: '$2,200–$2,800/mo',
+        },
+        {
+          name: 'Parker / Castle Rock',
+          highlight: 'Douglas County Schools — excellent (8–9/10)',
+          commute: '20–30 min to Buckley',
+          bestFor: 'Families wanting newer construction and suburban feel',
+          typicalRent3br: '$2,000–$2,600/mo',
+        },
+        {
+          name: 'Denver (southeast)',
+          highlight: 'Denver Public Schools — varies widely',
+          commute: '15–25 min to Buckley',
+          bestFor: "Those wanting urban access to Denver's food and entertainment scene",
+          typicalRent3br: '$1,900–$2,500/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Buckley is in Aurora, not Colorado Springs — it uses the Denver MHA, which has higher BAH but also higher costs. The mistake is house-hunting in Denver proper where prices are astronomical. Aurora itself and the southeast suburbs (Centennial, Parker, Castle Rock) offer much better value with 15–25 minute commutes to base.',
+    },
   },
   {
     name: 'Cannon AFB',
@@ -2861,9 +3399,53 @@ export const DUTY_STATIONS: DutyStation[] = [
     state: 'CO',
     stateName: 'Colorado',
     branches: ['Air Force', 'Space Force'],
-    description: 'The United States Air Force Academy is the four-year undergraduate commissioning program for Air Force and Space Force officers, located north of Colorado Springs.',
-    rentalNote: 'Permanent-party faculty and staff typically live in Colorado Springs or Monument. Colorado Springs has a large, active military housing market with mid-range prices. Fountain and Security-Widefield offer more affordable options.',
+    description:
+      'The Academy shares the Colorado Springs MHA. Families stationed here benefit from living on the north side of the city, which has the best school districts in the region. Housing costs are higher in Briargate and Monument, but the school quality makes it worthwhile for families.',
+    installationDetail:
+      'The United States Air Force Academy trains the next generation of Air Force and Space Force officers — located at the foot of the Rampart Range, north of Colorado Springs.',
+    rentalNote:
+      "Permanent-party faculty and staff typically live in Colorado Springs or Monument. The Academy's north side location puts you near the top-rated Lewis-Palmer and Academy District 20 school districts — among the best in Colorado.",
+    rentalContext:
+      'the north side of Colorado Springs (Monument, Briargate, Northgate) is the ideal location for Academy-assigned families, with top schools and 10–15 minute commutes.',
     nearby: ['peterson-sfb', 'schriever-sfb', 'buckley-sfb'],
+    bahVsHousing: {
+      medianRent: 1825,
+      medianRentSource: 'PCS Pay It Forward / Zillow 2025–2026',
+      medianHomePrice: 460000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 3000,
+      mortgageMax: 3300,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.6% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 12–15% above the national average',
+      stateTaxNote: 'Colorado has a flat income tax of 4.40% on military pay. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Monument / Palmer Lake',
+          highlight: 'Lewis-Palmer D38 — excellent (9/10)',
+          commute: '10–15 min to Academy north gate',
+          bestFor: 'Top schools and small-town feel',
+          typicalRent3br: '$2,200–$2,800/mo',
+        },
+        {
+          name: 'Briargate / Northgate',
+          highlight: 'Academy District 20 — top-rated (8–9/10)',
+          commute: '10–15 min to Academy',
+          bestFor: 'Best combination of schools, shopping, and Academy access',
+          typicalRent3br: '$2,100–$2,800/mo',
+        },
+        {
+          name: 'Gleneagle / Black Forest',
+          highlight: 'Academy D20 / Lewis-Palmer D38',
+          commute: '10–15 min to Academy',
+          bestFor: 'Families wanting space and semi-rural feel near Academy',
+          typicalRent3br: '$2,000–$2,600/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "The Academy is on the north side of Colorado Springs, so families who rent in Fountain or Security-Widefield (popular for Fort Carson) face a 35–45 minute commute. Look at Monument, Briargate, or Northgate instead — they're 10–15 minutes from the Academy's north gate with access to the top-rated Lewis-Palmer and Academy D20 school districts.",
+    },
   },
   {
     name: 'Eielson AFB',
