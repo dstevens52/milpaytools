@@ -22,6 +22,8 @@ export interface BaseSearchInputProps {
   /** The resolved 5-digit ZIP code (parent-controlled). '' when unresolved. */
   value: string;
   onZipChange: (zip: string) => void;
+  /** Called when a station is selected from the dropdown, or null when field is cleared. */
+  onSelect?: (result: SearchResult | null) => void;
   placeholder?: string;
   /** Static hint shown when no dynamic hint applies. */
   hint?: string;
@@ -35,6 +37,7 @@ export function BaseSearchInput({
   id: idProp,
   value,
   onZipChange,
+  onSelect,
   placeholder = 'Enter base name or ZIP code',
   hint,
   excludeOconus = true,
@@ -81,6 +84,7 @@ export function BaseSearchInput({
       setText('');
       setOpen(false);
       onZipChange('');
+      onSelect?.(null);
       return;
     }
 
@@ -91,12 +95,14 @@ export function BaseSearchInput({
       setOpen(false);
       setHighlighted(0);
       onZipChange(digits.length === 5 ? digits : '');
+      onSelect?.(null);
     } else {
       // Base name search mode
       setText(raw);
       setOpen(true);
       setHighlighted(0);
       onZipChange('');
+      onSelect?.(null);
     }
   }
 
@@ -104,6 +110,7 @@ export function BaseSearchInput({
     setText(r.name);
     setOpen(false);
     onZipChange(r.zip);
+    onSelect?.(r);
     inputRef.current?.blur();
   }
 

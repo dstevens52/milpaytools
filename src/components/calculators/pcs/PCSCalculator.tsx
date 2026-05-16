@@ -19,6 +19,7 @@ import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { calculatePCS, getWeightAllowance } from '@/lib/calculations/pcs';
 import type { PCSMoveType, PCSInput, PCSOutput } from '@/lib/calculations/pcs';
+import type { SearchResult } from '@/lib/stationSearch';
 
 // ─── Formatters ────────────────────────────────────────────────────────────────
 
@@ -85,6 +86,52 @@ function getCoordinatesForZip(zip: string): { lat: number; lon: number } | null 
     return { lat: inst.lat, lon: inst.lon };
   }
   return null;
+}
+
+// ─── Route classification ─────────────────────────────────────────────────────
+
+type RouteClass = 'conus' | 'ak-hi' | 'oconus';
+
+function classifyZip(zip: string): RouteClass {
+  if (!zip || zip.length < 3) return 'conus';
+  const p2 = zip.slice(0, 2);
+  const p3 = zip.slice(0, 3);
+  if (p3 >= '995') return 'ak-hi'; // Alaska (995–999)
+  if (p3 === '967' || p3 === '968') return 'ak-hi'; // Hawaii
+  if (p2 === '09') return 'oconus'; // APO AE
+  if (p3 >= '962' && p3 <= '966') return 'oconus'; // APO AP
+  if (p3 === '340') return 'oconus'; // APO AA
+  return 'conus';
+}
+
+function classifyEndpoint(
+  zip: string,
+  meta: { state: string; oconus?: boolean } | null,
+): RouteClass {
+  if (meta) {
+    if (meta.oconus) return 'oconus';
+    if (meta.state === 'AK' || meta.state === 'HI') return 'ak-hi';
+    return 'conus';
+  }
+  const ds = zip ? DUTY_STATIONS.find((s) => s.zip === zip) : null;
+  if (ds) {
+    if (ds.oconus) return 'oconus';
+    if (ds.state === 'AK' || ds.state === 'HI') return 'ak-hi';
+    return 'conus';
+  }
+  const il = zip ? INSTALLATIONS_LOOKUP.find((i) => i.zip === zip && i.zip !== '') : null;
+  if (il) {
+    if (il.oconus) return 'oconus';
+    if (il.state === 'AK' || il.state === 'HI') return 'ak-hi';
+    return 'conus';
+  }
+  return classifyZip(zip);
+}
+
+function getRouteType(a: RouteClass, b: RouteClass): RouteClass {
+  if (a === 'oconus' || b === 'oconus') return 'oconus';
+  if (a === 'ak-hi' || b === 'ak-hi') return 'ak-hi';
+  return 'conus';
 }
 
 // ─── Action step builder ──────────────────────────────────────────────────────
@@ -216,6 +263,8 @@ export function PCSCalculator() {
   const [moveType, setMoveType] = useState<PCSMoveType>('gov');
   const [zipFrom, setZipFrom] = useState('');
   const [zipTo, setZipTo] = useState('');
+  const [fromMeta, setFromMeta] = useState<{ state: string; oconus?: boolean } | null>(null);
+  const [toMeta, setToMeta] = useState<{ state: string; oconus?: boolean } | null>(null);
   const [showManualOverride, setShowManualOverride] = useState(false);
   const [manualMiles, setManualMiles] = useState(0);
   const [numPOVs, setNumPOVs] = useState<1 | 2>(1);
@@ -236,6 +285,16 @@ export function PCSCalculator() {
     [zipTo]
   );
 
+  const routeType = useMemo((): RouteClass => {
+    const hasFrom = zipFrom || fromMeta;
+    const hasTo = zipTo || toMeta;
+    if (!hasFrom || !hasTo) return 'conus';
+    return getRouteType(
+      classifyEndpoint(zipFrom, fromMeta),
+      classifyEndpoint(zipTo, toMeta),
+    );
+  }, [zipFrom, zipTo, fromMeta, toMeta]);
+
   // Auto-distance via haversine × 1.25 road factor when both ZIPs resolve to coordinates.
   // Covers both DUTY_STATIONS (slug-keyed) and INSTALLATIONS_LOOKUP (inline lat/lon).
   const autoDistance = useMemo((): number | null => {
@@ -246,8 +305,10 @@ export function PCSCalculator() {
     return Math.round(haversineDistance(c1.lat, c1.lon, c2.lat, c2.lon) * 1.25);
   }, [zipFrom, zipTo]);
 
-  // Distance used in all calculations
-  const effectiveDistance = (showManualOverride || autoDistance === null) ? manualMiles : autoDistance;
+  // Distance used in all calculations — OCONUS always uses manual entry (no auto estimate)
+  const effectiveDistance = routeType === 'oconus'
+    ? manualMiles
+    : (showManualOverride || autoDistance === null) ? manualMiles : autoDistance;
 
   const input: PCSInput = useMemo(() => ({
     rank,
@@ -369,12 +430,16 @@ export function PCSCalculator() {
                     label="Moving from (optional)"
                     value={zipFrom}
                     onZipChange={setZipFrom}
+                    onSelect={(r: SearchResult | null) => setFromMeta(r ? { state: r.state, oconus: r.oconus } : null)}
+                    excludeOconus={false}
                     placeholder="Base name or ZIP code"
                   />
                   <BaseSearchInput
                     label="Moving to (optional)"
                     value={zipTo}
                     onZipChange={setZipTo}
+                    onSelect={(r: SearchResult | null) => setToMeta(r ? { state: r.state, oconus: r.oconus } : null)}
+                    excludeOconus={false}
                     placeholder="Base name or ZIP code"
                   />
                 </div>
@@ -409,38 +474,74 @@ export function PCSCalculator() {
                   </div>
                 </div>
 
-                {/* Distance — auto-calculated or manual */}
-                {autoDistance !== null && !showManualOverride ? (
-                  <div className="rounded-md bg-zinc-50 border border-zinc-200 px-3 py-2.5 space-y-1.5">
+                {/* Distance — varies by route type */}
+                {routeType === 'oconus' ? (
+                  /* OCONUS: no auto estimate — manual entry only */
+                  <div>
+                    <div className="rounded-md bg-amber-50 border border-amber-300 px-3 py-2.5 mb-3">
+                      <p className="text-sm font-semibold text-amber-800">OCONUS move — limited estimate</p>
+                      <p className="text-xs text-amber-700 leading-relaxed mt-0.5">
+                        Auto-distance is not available for overseas routes. Enter the mileage from your orders, or use a planning estimate. Verify all figures with your transportation or finance office.
+                      </p>
+                    </div>
+                    <Label htmlFor="distance">PCS mileage (from your orders)</Label>
+                    <input
+                      id="distance"
+                      type="number"
+                      min={0}
+                      max={20000}
+                      value={manualMiles}
+                      onChange={(e) => setManualMiles(Math.max(0, parseInt(e.target.value) || 0))}
+                      className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
+                    />
+                  </div>
+                ) : autoDistance !== null && !showManualOverride ? (
+                  /* CONUS or AK/HI: auto estimate available */
+                  <div className={`rounded-md px-3 py-2.5 space-y-1.5 ${routeType === 'ak-hi' ? 'bg-amber-50 border border-amber-300' : 'bg-zinc-50 border border-zinc-200'}`}>
                     <p className="text-sm text-zinc-700">
-                      Estimated driving distance:{' '}
+                      {routeType === 'ak-hi' ? 'Special-route estimate' : 'Estimated driving distance'}:{' '}
                       <span className="font-semibold tabular-nums">
                         {autoDistance.toLocaleString()} miles
                       </span>
                     </p>
+                    {routeType === 'ak-hi' && (
+                      <p className="text-xs text-amber-700 leading-relaxed">
+                        Alaska and Hawaii routes may involve ferry, port, or air travel — this straight-line estimate may differ significantly from your DTOD mileage.
+                      </p>
+                    )}
                     <p className="text-xs text-zinc-400 leading-relaxed">
-                      Straight-line × 1.25 road factor. Official PCS mileage is determined by the{' '}
-                      <a
-                        href="https://www.dtod.sddc.army.mil"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline"
-                      >
-                        Defense Table of Official Distances (DTOD)
-                      </a>
-                      {' '}— verify with your transportation office.
+                      {routeType === 'conus' ? (
+                        <>Straight-line × 1.25 road factor. Official PCS mileage is determined by the{' '}
+                        <a href="https://www.dtod.sddc.army.mil" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Defense Table of Official Distances (DTOD)</a>
+                        {' '}— verify with your transportation office.</>
+                      ) : (
+                        <>Verify official mileage with DTOD and your transportation office.</>
+                      )}
                     </p>
-                    <button
-                      type="button"
-                      onClick={() => setShowManualOverride(true)}
-                      className="text-xs text-blue-600 hover:text-blue-800 hover:underline"
-                    >
-                      Use a different mileage →
-                    </button>
+                    {routeType === 'ak-hi' ? (
+                      <button
+                        type="button"
+                        onClick={() => setShowManualOverride(true)}
+                        className="text-xs font-semibold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-400 rounded px-2.5 py-1 transition-colors"
+                      >
+                        Have official mileage from your orders? Enter it here →
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setShowManualOverride(true)}
+                        className="text-xs text-blue-600 hover:text-blue-800 hover:underline"
+                      >
+                        Use a different mileage →
+                      </button>
+                    )}
                   </div>
                 ) : (
+                  /* Manual entry — no auto estimate, or override active */
                   <div>
-                    <Label htmlFor="distance">Distance (miles)</Label>
+                    <Label htmlFor="distance">
+                      {routeType === 'ak-hi' ? 'Estimated PCS mileage for planning' : 'Distance (miles)'}
+                    </Label>
                     <input
                       id="distance"
                       type="number"
@@ -461,15 +562,7 @@ export function PCSCalculator() {
                     ) : (
                       <p className="text-xs text-zinc-400 mt-1">
                         Or select stations above for an automatic estimate. Verify official mileage with{' '}
-                        <a
-                          href="https://www.dtod.sddc.army.mil"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline"
-                        >
-                          DTOD
-                        </a>
-                        .
+                        <a href="https://www.dtod.sddc.army.mil" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">DTOD</a>.
                       </p>
                     )}
                   </div>
@@ -604,7 +697,13 @@ export function PCSCalculator() {
             <EntitlementRow
               label="MALT (Mileage)"
               value={fmtDecimals(output.malt)}
-              sub={`${effectiveDistance.toLocaleString()} mi × $0.205 × ${numPOVs} POV${numPOVs > 1 ? 's' : ''}`}
+              sub={
+                routeType === 'oconus'
+                  ? `${effectiveDistance.toLocaleString()} mi × $0.205 × ${numPOVs} POV${numPOVs > 1 ? 's' : ''} — planning estimate; verify with your orders`
+                  : routeType === 'ak-hi'
+                  ? `${effectiveDistance.toLocaleString()} mi × $0.205 × ${numPOVs} POV${numPOVs > 1 ? 's' : ''} — AK/HI planning estimate`
+                  : `${effectiveDistance.toLocaleString()} mi × $0.205 × ${numPOVs} POV${numPOVs > 1 ? 's' : ''}`
+              }
             />
             <EntitlementRow
               label="Per Diem — Member"
@@ -631,7 +730,7 @@ export function PCSCalculator() {
               highlight
             />
             <p className="text-xs text-zinc-400 mt-3 leading-relaxed">
-              Per diem shown at standard CONUS rates. Actual PCS per diem depends on your orders and may vary — verify with your Finance Office.
+              This estimate uses station coordinates for planning. Official PCS mileage is determined by DTOD and your orders. Alaska, Hawaii, overseas, ferry, port, or air-travel routes may differ significantly — verify with your transportation or finance office.
             </p>
           </div>
 
