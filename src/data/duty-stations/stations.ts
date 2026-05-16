@@ -62,13 +62,13 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'North Carolina',
     branches: ['Army'],
     description:
-      'Your BAH goes further at Fort Bragg than at most duty stations. Fayetteville\'s housing market runs well below the national average — {rank} has roughly {surplus}/month of room between BAH and median rent before utilities and other housing costs. That\'s one of the better BAH-to-cost ratios in the Army.',
+      'An E-5 with dependents at Fort Bragg receives $1,806/month in tax-free BAH. Fayetteville\'s median 3-bedroom rent is approximately $1,300/month — a difference of about $506/month before utilities and other housing costs. (Rental data: Zillow / RentCafe 2025–2026)',
     installationDetail:
       'Home of the 82nd Airborne and USASOC — the largest installation by population with over 50,000 active-duty soldiers.',
     rentalNote:
-      'Fort Bragg BAH is $181/mo below the national E-5 average — but Fayetteville housing costs run roughly 25% below the national median. Your purchasing power here is actually above average.',
+      "Fort Bragg BAH for E-5 with dependents is below the national median — Fayetteville's cost of living is approximately 6–10% below the national average. (Cost of living data: BestPlaces 2025–2026)",
     rentalContext:
-      'Fayetteville housing costs run roughly 25% below the national median. Your purchasing power here is actually above average.',
+      "Fayetteville's cost of living is approximately 6–10% below the national average. (Cost of living data: BestPlaces 2025–2026)",
     nearby: ['camp-lejeune', 'seymour-johnson-afb', 'marine-corps-air-station-cherry-point'],
     bahVsHousing: {
       medianRent: 1300,
@@ -88,33 +88,33 @@ export const DUTY_STATIONS: DutyStation[] = [
           name: 'Hope Mills',
           highlight: 'Often recommended by families prioritizing schools (7–8/10 area ratings)',
           commute: '15–20 min to main gate',
-          bestFor: 'Families who prioritize schools',
+          bestFor: 'Families with school-age children',
           typicalRent3br: '$1,100–$1,400/mo',
         },
         {
           name: "Gray's Creek",
           highlight: 'Rural feel, good schools, more space',
           commute: 'Slightly longer commute',
-          bestFor: 'NCOs and officers wanting room to breathe',
+          bestFor: 'Families seeking more square footage',
           typicalRent3br: '$1,200–$1,500/mo',
         },
         {
           name: 'Spring Lake',
           highlight: 'Generally more affordable, school ratings vary',
           commute: '8–15 min to main gate',
-          bestFor: 'Single soldiers or couples without kids',
+          bestFor: 'Service members prioritizing shorter commute',
           typicalRent3br: '$900–$1,200/mo',
         },
         {
           name: 'Downtown Fayetteville',
           highlight: 'Improving area — breweries, restaurants, walkable',
           commute: 'Varies by unit',
-          bestFor: 'Those who want an urban lifestyle',
+          bestFor: 'Service members seeking walkable dining and entertainment',
           typicalRent3br: '$1,000–$1,350/mo',
         },
       ],
       mistakeToAvoid:
-        "Many families PCSing to Fort Bragg rent above their BAH because they search in the wrong neighborhoods or don't realize how far their housing allowance stretches here. {rank} receives {bahAmount}/month — that covers a 3-bedroom rental in most Fayetteville neighborhoods with hundreds left over each month.",
+        'Rental prices in the Fayetteville area vary significantly by neighborhood. Within a 20-minute commute radius of Fort Bragg, monthly rent for a comparable 3-bedroom home can differ by $400 or more depending on the area. Comparing multiple neighborhoods before signing a lease gives families a clearer picture of the local market. (Rental data: Zillow / RentCafe 2025–2026)',
     },
   },
   {
