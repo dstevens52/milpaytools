@@ -154,8 +154,7 @@ function HeroBanner({ station, description }: { station: DutyStation; descriptio
           src={`/images/branches/${emblemFile}.svg`}
           alt=""
           aria-hidden="true"
-          className="absolute top-4 right-4 sm:top-6 sm:right-6 w-32 sm:w-44 md:w-56 pointer-events-none select-none"
-          style={{ opacity: 0.22 }}
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 w-28 sm:w-44 md:w-56 pointer-events-none select-none opacity-[0.15] sm:opacity-[0.22]"
         />
       )}
       {/* Content — relative so it paints above the absolute layers */}
