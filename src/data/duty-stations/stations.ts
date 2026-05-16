@@ -383,10 +383,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'New York',
     branches: ['Army'],
     description:
-      'Fort Drum is home to the 10th Mountain Division (Light Infantry), one of the most deployed divisions in the U.S. Army, located in upstate New York near the Canadian border.',
+      'Fort Drum is affordable to rent but can be expensive to own due to New York\'s high property taxes. The Watertown area has a low cost of living, and BAH gives most families a comfortable buffer over median rent. Buying here is riskier than other duty stations — the resale market is thin since demand is almost entirely military.',
+    installationDetail:
+      'Fort Drum is home to the 10th Mountain Division (Light Infantry) — the most deployed division in the Army — located in northern New York near the Canadian border.',
     rentalNote:
       'Watertown is a small city with a tight rental market driven almost entirely by military demand. BAH typically covers rents, but selection is limited. Many families choose off-post in Carthage, Adams, or Lowville.',
+    rentalContext:
+      'The Watertown area runs roughly 5–8% below the national median for housing, though NY property taxes can add significantly to ownership costs.',
     nearby: ['fort-hamilton', 'joint-base-mcguire-dix-lakehurst', 'naval-submarine-base-new-london'],
+    bahVsHousing: {
+      medianRent: 1300,
+      medianRentSource: 'BestPlaces / Zillow 2025–2026',
+      medianHomePrice: 215000,
+      medianHomePriceSource: 'BestPlaces / Zillow 2026',
+      mortgageMin: 1800,
+      mortgageMax: 2100,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~2.5% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 5–8% below the national average (but NY property taxes are high)',
+      stateTaxNote:
+        'New York taxes military pay at up to 10.9% at the top marginal rate — one of the highest in the country. However, active-duty military domiciled outside New York are generally exempt from NY state income tax. Verify your domicile status.',
+      neighborhoods: [
+        {
+          name: 'Watertown',
+          highlight: 'Watertown City Schools — decent (6/10)',
+          commute: '15–20 min to main gate',
+          bestFor: 'Most options for shopping, dining, and services',
+          typicalRent3br: '$1,100–$1,500/mo',
+        },
+        {
+          name: 'Evans Mills / LeRay',
+          highlight: 'Indian River Central Schools — military-heavy (6–7/10)',
+          commute: '5–10 min to main gate',
+          bestFor: 'Shortest commute, closest military community',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+        {
+          name: 'Sackets Harbor',
+          highlight: 'Sackets Harbor Central — small, solid (7/10)',
+          commute: '20–25 min to main gate',
+          bestFor: 'Families wanting a charming lakeside village',
+          typicalRent3br: '$1,100–$1,400/mo',
+        },
+        {
+          name: 'Carthage',
+          highlight: 'Carthage Central Schools — decent (6/10)',
+          commute: '20–25 min to main gate',
+          bestFor: 'Families wanting a quiet small town and rural feel',
+          typicalRent3br: '$1,000–$1,300/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Fort Drum winters are no joke — snow starts in October and can last through April, with 100+ inches annually. The mistake is not budgeting for heating costs ($300–$500/month in winter) and not investing in quality winter gear before you arrive. Also, New York property taxes are among the highest in the nation — factor that into any buy-vs-rent decision.',
+    },
   },
   {
     name: 'Fort Bliss',
@@ -397,10 +447,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Texas',
     branches: ['Army'],
     description:
-      'Fort Bliss is home to the 1st Armored Division and the 32nd Army Air and Missile Defense Command, spanning parts of west Texas and New Mexico near the U.S.-Mexico border.',
+      'Fort Bliss offers one of the best BAH-to-cost ratios in the Army. El Paso\'s housing market is well below the national average, Texas has no income tax, and {rank} has a substantial surplus over median rent. Homeownership is easily within reach — many families buy here even on short tours.',
+    installationDetail:
+      'Fort Bliss is one of the Army\'s largest installations by area, home to the 1st Armored Division — located on the Texas-New Mexico border in El Paso.',
     rentalNote:
       'El Paso is one of the most affordable major housing markets in the country. BAH at most grades significantly exceeds typical rents, and homeownership is common across the force.',
+    rentalContext:
+      'El Paso housing costs run roughly 15–18% below the national median — your purchasing power here is well above average, and Texas has no income tax to erode it further.',
     nearby: ['fort-hood', 'joint-base-san-antonio', 'kirtland-afb'],
+    bahVsHousing: {
+      medianRent: 1200,
+      medianRentSource: 'Zillow / RentCafe 2025–2026',
+      medianHomePrice: 240000,
+      medianHomePriceSource: 'Redfin / Zillow 2026',
+      mortgageMin: 1600,
+      mortgageMax: 1800,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~2.0% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 15–18% below the national average',
+      stateTaxNote:
+        'Texas has no state income tax on military pay, meaning your BAH, base pay, and special pays go further here than in high-tax states.',
+      neighborhoods: [
+        {
+          name: 'East El Paso (near base)',
+          highlight: 'El Paso ISD / Socorro ISD — mixed (5–6/10)',
+          commute: '5–15 min to main gate',
+          bestFor: 'Shortest commute, most affordable near base',
+          typicalRent3br: '$900–$1,200/mo',
+        },
+        {
+          name: 'Northeast El Paso',
+          highlight: 'El Paso ISD — improving, newer schools (6–7/10)',
+          commute: '15–20 min to main gate',
+          bestFor: 'Families wanting newer construction and better schools',
+          typicalRent3br: '$1,100–$1,400/mo',
+        },
+        {
+          name: 'West El Paso / Las Cruces NM',
+          highlight: 'El Paso ISD West / Las Cruces Public Schools (7–8/10)',
+          commute: '25–35 min to main gate',
+          bestFor: 'Families willing to commute for best schools in the region',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+        {
+          name: 'Central El Paso',
+          highlight: 'El Paso ISD — varies',
+          commute: '15–20 min to main gate',
+          bestFor: 'Those wanting walkability and downtown access',
+          typicalRent3br: '$900–$1,200/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'El Paso is affordable, but many families underestimate the isolation. The nearest major city (Albuquerque) is 4 hours north, and Dallas is 9+ hours east. Also, the east side neighborhoods near Bliss have the shortest commute but the weakest schools. Northeast El Paso or the west side offers better school options with 15–20 minutes more commute.',
+    },
   },
   {
     name: 'Fort Stewart',
@@ -411,10 +511,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Georgia',
     branches: ['Army'],
     description:
-      'Fort Stewart is the largest Army installation east of the Mississippi River and home to the 3rd Infantry Division, located on the Georgia coast near Savannah.',
+      'Fort Stewart is one of the most affordable Army installations in the country. Hinesville\'s cost of living is roughly 17–20% below the national average, and {rank} has a healthy buffer between BAH and median rent. Homeownership is very realistic here — many families find their mortgage payment is actually less than comparable rent.',
+    installationDetail:
+      'Fort Stewart is the largest Army installation east of the Mississippi — home of the 3rd Infantry Division, one of the Army\'s most deployed combat divisions.',
     rentalNote:
       'Hinesville is a military-dependent housing market with limited rental inventory. Many families commute from the larger Savannah metro for more options, where BAH still covers most mid-range rentals.',
+    rentalContext:
+      'Hinesville housing costs run roughly 17–20% below the national median — your purchasing power here is well above average for a duty station of this size.',
     nearby: ['fort-jackson', 'marine-corps-air-station-beaufort', 'naval-air-station-pensacola'],
+    bahVsHousing: {
+      medianRent: 1575,
+      medianRentSource: 'BiggerPockets / Zillow 2025–2026',
+      medianHomePrice: 236000,
+      medianHomePriceSource: 'Zillow / BiggerPockets 2026',
+      mortgageMin: 1550,
+      mortgageMax: 1750,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.1% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 17–20% below the national average',
+      stateTaxNote:
+        'Georgia taxes military pay at up to 5.75%. BAH and BAS remain tax-free at the federal and state level.',
+      neighborhoods: [
+        {
+          name: 'Hinesville',
+          highlight: 'Liberty County Schools — mixed ratings (5–6/10)',
+          commute: '5–10 min to main gate',
+          bestFor: 'Shortest commute and most affordable housing',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+        {
+          name: 'Richmond Hill',
+          highlight: 'Bryan County Schools — top 10% in Georgia (8–9/10)',
+          commute: '20–25 min to Fort Stewart, 15 min to Hunter AAF',
+          bestFor: 'Families who prioritize schools above all else',
+          typicalRent3br: '$1,800–$2,300/mo',
+        },
+        {
+          name: 'Flemington / Gum Branch',
+          highlight: 'Liberty County Schools — varies',
+          commute: '10–15 min to main gate',
+          bestFor: 'Families wanting a rural feel close to base',
+          typicalRent3br: '$1,300–$1,700/mo',
+        },
+        {
+          name: 'Savannah / Pooler',
+          highlight: 'Savannah-Chatham County Schools — varies widely',
+          commute: '35–45 min to Fort Stewart, 10–15 min to Hunter AAF',
+          bestFor: 'Hunter AAF families wanting city amenities and beach access',
+          typicalRent3br: '$1,600–$2,100/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'The biggest mistake at Fort Stewart is not exploring Richmond Hill. Hinesville is closest and cheapest, but Richmond Hill — halfway between Stewart and Hunter Army Airfield in Savannah — has the best schools in the region (Bryan County, top 10% in Georgia). The commute is only 20–25 minutes, and the quality-of-life jump is significant.',
+    },
   },
   {
     name: 'Fort Knox',
@@ -425,10 +575,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Kentucky',
     branches: ['Army'],
     description:
-      'Fort Knox is the home of Armor School, the U.S. Army Human Resources Command, and the Army\'s gold bullion depository, located southwest of Louisville.',
+      'Fort Knox is an affordable duty station in central Kentucky. The Radcliff-Elizabethtown area has a low cost of living, and BAH leaves a healthy surplus at most pay grades. Homeownership is very realistic — median home prices are well below $250K, making this a strong VA loan market.',
+    installationDetail:
+      'Fort Knox is home to the Army\'s Human Resources Command and the U.S. Army Cadet Command — plus the United States Bullion Depository (the Gold Vault).',
     rentalNote:
       'The Elizabethtown/Radcliff market offers affordable housing. BAH typically covers 2-bedroom apartments with room to spare at E-5 and above, and homebuyers often find strong BAH surplus in starter-home price ranges.',
+    rentalContext:
+      'The Radcliff-Elizabethtown area runs roughly 15–18% below the national median — your purchasing power here is well above average, and Kentucky\'s modest flat tax is manageable.',
     nearby: ['fort-campbell', 'redstone-arsenal', 'wright-patterson-afb'],
+    bahVsHousing: {
+      medianRent: 1100,
+      medianRentSource: 'Zillow / BestPlaces 2025–2026',
+      medianHomePrice: 200000,
+      medianHomePriceSource: 'Zillow / BestPlaces 2026',
+      mortgageMin: 1450,
+      mortgageMax: 1650,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.0% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 15–18% below the national average',
+      stateTaxNote:
+        'Kentucky taxes military pay at a flat rate of 4.0%. BAH and BAS remain tax-free at the federal and state level.',
+      neighborhoods: [
+        {
+          name: 'Radcliff',
+          highlight: 'Hardin County Schools — decent (6/10)',
+          commute: '5–10 min to main gate',
+          bestFor: 'Closest to base, most affordable',
+          typicalRent3br: '$800–$1,100/mo',
+        },
+        {
+          name: 'Elizabethtown',
+          highlight: 'Elizabethtown Independent Schools — strong (7–8/10)',
+          commute: '15–20 min to main gate',
+          bestFor: 'Best schools and most amenities near Knox',
+          typicalRent3br: '$1,000–$1,400/mo',
+        },
+        {
+          name: 'Vine Grove',
+          highlight: 'Hardin County Schools — decent',
+          commute: '5–10 min to main gate',
+          bestFor: 'Small town feel right next to base',
+          typicalRent3br: '$800–$1,100/mo',
+        },
+        {
+          name: 'Brandenburg / Meade County',
+          highlight: 'Meade County Schools — decent (6–7/10)',
+          commute: '20–25 min to main gate',
+          bestFor: 'Families wanting rural acreage and lower prices',
+          typicalRent3br: '$800–$1,100/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Fort Knox isn\'t the same base it was before BRAC — it\'s smaller and quieter now. Radcliff and Vine Grove are the closest towns but have limited amenities. Elizabethtown (E-town), 15 minutes south, has significantly more shopping, dining, and school options. Louisville is 45 minutes north for city amenities.',
+    },
   },
   {
     name: 'Fort Riley',
@@ -439,10 +639,53 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Kansas',
     branches: ['Army'],
     description:
-      'Fort Riley is home to the 1st Infantry Division (the "Big Red One"), one of the oldest and most decorated divisions in the U.S. Army, located in north-central Kansas.',
+      'Fort Riley is one of the most affordable Army installations in the country. Junction City\'s housing costs are far below the national average, and BAH leaves substantial surplus at every pay grade. {rank} can easily afford to buy with a VA loan — many homes are well under $200K.',
+    installationDetail:
+      'Fort Riley is home to the 1st Infantry Division — the \'Big Red One\' — located in the Flint Hills of central Kansas between Junction City and Manhattan.',
     rentalNote:
       'The Junction City/Manhattan market is affordable, and BAH is generally sufficient to cover rents at most grades. Families with housing allowances often opt to purchase in Manhattan for the Kansas State University community.',
+    rentalContext:
+      'Junction City housing costs run roughly 15–18% below the national median — your purchasing power here is exceptional, with strong BAH surplus at virtually every pay grade.',
     nearby: ['fort-leavenworth', 'fort-hood', 'offutt-afb'],
+    bahVsHousing: {
+      medianRent: 1100,
+      medianRentSource: 'BestPlaces / Zillow 2025–2026',
+      medianHomePrice: 200000,
+      medianHomePriceSource: 'Zillow / BestPlaces 2026',
+      mortgageMin: 1450,
+      mortgageMax: 1650,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.4% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 15–18% below the national average',
+      stateTaxNote:
+        'Kansas recently exempted active-duty military pay from state income tax. BAH and BAS remain tax-free. Verify current exemption status.',
+      neighborhoods: [
+        {
+          name: 'Junction City',
+          highlight: 'Geary County Schools — decent (6/10)',
+          commute: '5–10 min to main gate',
+          bestFor: 'Closest to base, most affordable',
+          typicalRent3br: '$800–$1,100/mo',
+        },
+        {
+          name: 'Manhattan',
+          highlight: 'Manhattan-Ogden USD 383 — strong (7–8/10), K-State campus',
+          commute: '20–25 min to main gate',
+          bestFor: 'Families wanting better schools and a college-town feel',
+          typicalRent3br: '$1,000–$1,400/mo',
+        },
+        {
+          name: 'Milford / Wakefield',
+          highlight: 'Geary County Schools',
+          commute: '15–20 min to main gate',
+          bestFor: 'Families wanting lakeside living near Milford Lake',
+          typicalRent3br: '$800–$1,100/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Fort Riley is isolated — Junction City is small and Manhattan (home of K-State) is the nearest college town, 20 minutes west. The mistake is expecting city amenities. Kansas City is 2+ hours east. Budget for road trips, embrace the small-town life, and take advantage of the incredible BAH surplus to save aggressively.',
+    },
   },
   {
     name: 'Fort Benning',
@@ -533,10 +776,53 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Oklahoma',
     branches: ['Army'],
     description:
-      'Fort Sill is the home of the Field Artillery School and a major training center, located in southwestern Oklahoma. It also serves as a detention facility under Army control.',
+      'Fort Sill is one of the cheapest duty stations in the Army. Lawton\'s cost of living is 20–25% below the national average, and BAH creates a massive surplus at every pay grade. This is a station where aggressive saving and investing can set you up for years — if you budget intentionally.',
+    installationDetail:
+      'Fort Sill is the Home of the Fires — the Army\'s Field Artillery and Air Defense Artillery center of excellence, located in southwest Oklahoma.',
     rentalNote:
       'Lawton is one of the most affordable military housing markets in the country. BAH at most grades significantly exceeds rents, and homeownership is very accessible.',
+    rentalContext:
+      'Lawton housing costs run roughly 20–25% below the national median — one of the highest BAH-to-cost ratios in the Army, with massive surplus at every pay grade.',
     nearby: ['fort-hood', 'tinker-afb', 'fort-riley'],
+    bahVsHousing: {
+      medianRent: 1000,
+      medianRentSource: 'Zillow / BestPlaces 2025–2026',
+      medianHomePrice: 160000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 1150,
+      mortgageMax: 1350,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.0% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 20–25% below the national average',
+      stateTaxNote:
+        'Oklahoma taxes military pay at up to 4.75%. However, Oklahoma exempts 100% of active-duty military pay from state income tax for residents. Verify your eligibility.',
+      neighborhoods: [
+        {
+          name: 'Lawton (west side)',
+          highlight: 'Lawton Public Schools — decent (6/10)',
+          commute: '10–15 min to main gate',
+          bestFor: 'Most housing options and shopping access',
+          typicalRent3br: '$800–$1,100/mo',
+        },
+        {
+          name: 'Elgin',
+          highlight: 'Elgin Public Schools — better than Lawton (7/10)',
+          commute: '15–20 min to main gate',
+          bestFor: 'Families wanting better schools and rural feel',
+          typicalRent3br: '$900–$1,200/mo',
+        },
+        {
+          name: 'Medicine Park',
+          highlight: 'Cache Public Schools — decent',
+          commute: '15 min to main gate',
+          bestFor: 'Charming artsy village near the Wichita Mountains',
+          typicalRent3br: '$800–$1,100/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Lawton is isolated and small. The mistake is expecting anything beyond basic amenities. Oklahoma City is 90 minutes north. The upside: your BAH goes incredibly far here. An {grade} can rent a large house for half their BAH or buy a home with a mortgage well under $1,000/month. Use this assignment to save aggressively.',
+    },
   },
   {
     name: 'Fort Leavenworth',
@@ -647,10 +933,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Hawaii',
     branches: ['Army'],
     description:
-      'Schofield Barracks is home to the 25th Infantry Division (Lightning) and is the primary Army installation on Oahu, adjacent to Wahiawa and near the North Shore.',
+      'Schofield Barracks shares Oahu\'s expensive housing market. {rank} receives {bahAmount}/month — enough to cover a modest rental, but Oahu\'s cost of living eats into every other budget category. Many families choose on-base housing to simplify finances and avoid the island\'s brutal traffic.',
+    installationDetail:
+      'Schofield Barracks is the largest Army installation in Hawaii — home to the 25th Infantry Division (\'Tropic Lightning\') in central Oahu.',
     rentalNote:
       'Hawaii is one of the highest-cost military markets in the country. BAH rates are among the highest in CONUS, but Oahu rents have outpaced BAH in recent years — particularly for single members and junior enlisted with dependents.',
+    rentalContext:
+      'Oahu housing costs run 30–50% above the national median — BAH is set to cover median rent, but Oahu\'s broader cost of living eats into every other budget category.',
     nearby: ['joint-base-pearl-harbor-hickam', 'camp-pendleton', 'naval-station-san-diego'],
+    bahVsHousing: {
+      medianRent: 3000,
+      medianRentSource: 'Zillow / PCS Pay It Forward 2025–2026',
+      medianHomePrice: 850000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 5800,
+      mortgageMax: 6400,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.35% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 30–50% above the national average',
+      stateTaxNote:
+        'Hawaii taxes military pay at up to 11% at the top marginal rate. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Wahiawa',
+          highlight: 'Leilehua Complex — mixed (5–6/10)',
+          commute: '5–10 min to main gate',
+          bestFor: 'Closest to base, most affordable on Oahu',
+          typicalRent3br: '$2,200–$2,800/mo',
+        },
+        {
+          name: 'Mililani',
+          highlight: 'Mililani Complex — strong (8/10)',
+          commute: '10–15 min to main gate',
+          bestFor: 'Best school option near Schofield',
+          typicalRent3br: '$2,800–$3,500/mo',
+        },
+        {
+          name: 'Waipio / Waikele',
+          highlight: 'Waipahu Complex — decent (6/10)',
+          commute: '15–20 min to main gate',
+          bestFor: 'Good shopping access (Waikele outlets), newer homes',
+          typicalRent3br: '$2,500–$3,200/mo',
+        },
+        {
+          name: 'On-base housing',
+          highlight: 'On-base schools / Leilehua Complex',
+          commute: 'Walk or 2–3 min drive',
+          bestFor: 'Families wanting simplified finances and avoiding Oahu traffic',
+          typicalRent3br: 'BAH covers 100% (utilities included)',
+        },
+      ],
+      mistakeToAvoid:
+        'Schofield families often look at Kapolei or Ewa Beach because they\'re newer — but those neighborhoods are 30–40 minutes away in Oahu traffic. Mililani and Wahiawa are much closer to Schofield and offer good options. Also, don\'t skip the on-base housing waitlist — get on it the day you receive orders, even if you plan to live off-base.',
+    },
   },
   {
     name: 'Aberdeen Proving Ground',
@@ -853,10 +1189,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Florida',
     branches: ['Air Force'],
     description:
-      'MacDill AFB hosts U.S. Central Command (CENTCOM) and U.S. Special Operations Command (SOCSOUTH), and is home to the 6th Air Refueling Wing on the Tampa Bay peninsula.',
+      'MacDill AFB puts you in Tampa — a major metro with beaches, theme parks, and a thriving food scene. The trade-off is cost: Tampa\'s housing market runs above the national average, and South Tampa near base commands premium prices. Most enlisted families live east in Brandon or Riverview for better value.',
+    installationDetail:
+      'MacDill AFB sits on a peninsula in Tampa Bay — headquarters of U.S. Central Command (CENTCOM) and U.S. Special Operations Command (SOCOM).',
     rentalNote:
       'Tampa is a rapidly growing metro with rising rents. BAH covers most mid-range apartments, but Tampa\'s popularity has outpaced BAH rates in some neighborhoods. Officers and senior NCOs have strong purchasing options.',
+    rentalContext:
+      'The Tampa metro runs roughly 5–10% above the national median — a growing city premium that BAH accounts for, with Florida\'s no income tax helping offset the difference.',
     nearby: ['eglin-afb', 'naval-air-station-pensacola', 'patrick-sfb'],
+    bahVsHousing: {
+      medianRent: 2100,
+      medianRentSource: 'Zumper / Zillow 2025–2026',
+      medianHomePrice: 400000,
+      medianHomePriceSource: 'PCSgrades / Zillow 2026',
+      mortgageMin: 2700,
+      mortgageMax: 3000,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.0% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 5–10% above the national average',
+      stateTaxNote:
+        'Florida has no state income tax on military pay. Your entire paycheck goes further here than at duty stations in income-tax states.',
+      neighborhoods: [
+        {
+          name: 'Brandon / Riverview',
+          highlight: 'Hillsborough County — strong options (7–8/10)',
+          commute: '20–25 min to MacDill',
+          bestFor: 'Best value for families, popular military neighborhoods',
+          typicalRent3br: '$1,700–$2,200/mo',
+        },
+        {
+          name: 'South Tampa',
+          highlight: 'Hillsborough County — varies, magnet options available',
+          commute: '5–15 min to MacDill',
+          bestFor: 'Urban lifestyle closest to base (premium pricing)',
+          typicalRent3br: '$2,300–$3,200/mo',
+        },
+        {
+          name: 'Valrico',
+          highlight: 'Hillsborough County — strong (7–8/10)',
+          commute: '25–30 min to MacDill',
+          bestFor: 'Families wanting newer construction and good schools',
+          typicalRent3br: '$1,800–$2,400/mo',
+        },
+        {
+          name: 'St. Petersburg',
+          highlight: 'Pinellas County Schools — varies',
+          commute: '25–35 min to MacDill (bridge dependent)',
+          bestFor: 'Those wanting a different vibe — arts, waterfront, walkable downtown',
+          typicalRent3br: '$1,800–$2,400/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'South Tampa near MacDill is premium real estate — beautiful but expensive. The mistake is looking only at South Tampa and getting sticker shock. Brandon, Riverview, and Valrico are 15–25 minutes from base with significantly lower rents, better school options, and family-friendly neighborhoods. Also budget for Florida homeowners insurance — it\'s skyrocketed in recent years.',
+    },
   },
   {
     name: 'Eglin AFB',
@@ -867,10 +1253,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Florida',
     branches: ['Air Force', 'Army'],
     description:
-      'Eglin AFB is the largest Air Force base by area in the continental U.S., spanning 700 square miles in the Florida panhandle. It is the center of Air Force development and test operations.',
+      'Eglin AFB is a beach-premium market — BAH reflects the area\'s higher costs, and Florida has no income tax, giving you an immediate advantage. Most enlisted families find BAH covers rent comfortably in Niceville or Fort Walton Beach. Destin and beachfront areas push past BAH for lower grades.',
+    installationDetail:
+      'Eglin AFB is the largest Air Force base by area in the continental U.S. — 700 square miles in the Florida panhandle, home to the 96th Test Wing and Air Force development and test operations.',
     rentalNote:
       'The Fort Walton Beach/Destin area is a popular coastal market. BAH rates are competitive, but coastal demand means lower-grade members may need to look inland toward Crestview or Niceville for BAH-aligned rents.',
+    rentalContext:
+      'The Fort Walton Beach/Niceville area runs roughly 5–8% above the national median — a beach-premium that BAH reflects, with Florida\'s no income tax softening the impact.',
     nearby: ['macdill-afb', 'naval-air-station-pensacola', 'barksdale-afb'],
+    bahVsHousing: {
+      medianRent: 1800,
+      medianRentSource: 'PCS Pay It Forward / RentCafe 2025–2026',
+      medianHomePrice: 380000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2450,
+      mortgageMax: 2700,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.9% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 5–8% above the national average (beach-area premium)',
+      stateTaxNote:
+        'Florida has no state income tax on military pay. Your entire paycheck goes further here than at duty stations in income-tax states.',
+      neighborhoods: [
+        {
+          name: 'Niceville',
+          highlight: 'Okaloosa County Schools — excellent (8–9/10)',
+          commute: '10–15 min to Eglin main gate',
+          bestFor: 'Top pick for families — best schools near Eglin',
+          typicalRent3br: '$1,600–$2,100/mo',
+        },
+        {
+          name: 'Fort Walton Beach',
+          highlight: 'Okaloosa County Schools — good (7–8/10)',
+          commute: '10–15 min to Eglin, 5 min to Hurlburt',
+          bestFor: 'Most options for dining, shopping, and beach access',
+          typicalRent3br: '$1,500–$2,000/mo',
+        },
+        {
+          name: 'Crestview',
+          highlight: 'Okaloosa County Schools — solid (7/10)',
+          commute: '20–25 min to Eglin main gate',
+          bestFor: 'Most affordable option with good schools',
+          typicalRent3br: '$1,300–$1,700/mo',
+        },
+        {
+          name: 'Destin',
+          highlight: 'Okaloosa County Schools — good',
+          commute: '20–25 min to Eglin',
+          bestFor: 'Beach lifestyle (expect to pay above BAH)',
+          typicalRent3br: '$2,200–$3,000/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'The Emerald Coast is tourist country — Destin and beachfront rentals look amazing but will blow past your BAH. The mistake is renting on or near the beach when Niceville and Crestview offer the same Eglin commute with dramatically lower rent. An {grade}\'s BAH covers Niceville or Fort Walton Beach comfortably but gets tight fast in Destin.',
+    },
   },
   {
     name: 'Joint Base Langley-Eustis',
@@ -881,10 +1317,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Virginia',
     branches: ['Air Force', 'Army'],
     description:
-      'JBLE hosts Air Combat Command headquarters, the 1st Fighter Wing, and Army aviation, with Langley AFB on the Hampton Roads peninsula and Fort Eustis providing waterfront logistics capability.',
+      'JB Langley-Eustis offers a solid BAH-to-cost ratio on the Peninsula side of Hampton Roads. Housing is more affordable than Norfolk or Virginia Beach across the water, and {rank} has a comfortable buffer over median rent. The York County school district is one of the draws for families willing to commute a bit further.',
+    installationDetail:
+      'JB Langley-Eustis combines Langley AFB (Air Combat Command headquarters, home of the F-22 Raptor) with Fort Eustis (Army Transportation Corps) in Hampton Roads, Virginia.',
     rentalNote:
       'The Hampton Roads market is one of the largest military housing markets in the country. BAH rates reflect a competitive but not extreme market — most grades can cover 2-bedroom rentals across the region.',
+    rentalContext:
+      'Hampton Roads housing costs run roughly 5–8% below the national median on the Peninsula side — your purchasing power is solid here compared to most East Coast metro duty stations.',
     nearby: ['naval-station-norfolk', 'joint-base-little-creek-fort-story', 'naval-air-station-oceana'],
+    bahVsHousing: {
+      medianRent: 1500,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 300000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2050,
+      mortgageMax: 2250,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.0% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 5–8% below the national average',
+      stateTaxNote:
+        'Virginia taxes military pay. The top marginal rate is 5.75%. BAH and BAS remain tax-free at the federal and state level.',
+      neighborhoods: [
+        {
+          name: 'Hampton',
+          highlight: 'Hampton City Schools — mixed (5–6/10)',
+          commute: '5–15 min to Langley, 10–20 min to Eustis',
+          bestFor: 'Closest to both Langley and Eustis, most affordable',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+        {
+          name: 'Poquoson',
+          highlight: 'Poquoson City Schools — strong (8/10)',
+          commute: '10–15 min to Langley',
+          bestFor: 'Families wanting a small-town feel with excellent schools',
+          typicalRent3br: '$1,500–$1,900/mo',
+        },
+        {
+          name: 'York County / Yorktown',
+          highlight: 'York County Schools — excellent (8–9/10)',
+          commute: '15–20 min to Langley, 10–15 min to Eustis',
+          bestFor: 'Best schools on the Peninsula, historic area',
+          typicalRent3br: '$1,500–$2,000/mo',
+        },
+        {
+          name: 'Newport News (north)',
+          highlight: 'Newport News Public Schools — varies (5–7/10)',
+          commute: '15–20 min to Eustis, 20–25 min to Langley',
+          bestFor: 'Families stationed at Eustis wanting more space',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Langley-Eustis sits on the Peninsula side of Hampton Roads. The mistake is looking at Virginia Beach or Norfolk without realizing the Hampton Roads Bridge-Tunnel makes that a 45–90 minute commute during rush hour. Stay on the Peninsula — Hampton, Poquoson, and York County offer good options without tunnel drama.',
+    },
   },
   {
     name: 'Wright-Patterson AFB',
@@ -1420,10 +1906,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'North Carolina',
     branches: ['Marine Corps', 'Navy'],
     description:
-      'Camp Lejeune is home to II Marine Expeditionary Force and is the primary East Coast amphibious assault training base, hosting Marine Corps units and special operations forces.',
+      'Camp Lejeune is an affordable Marine Corps duty station. Jacksonville\'s median 3-bedroom rental runs about $1,400/month, meaning most families with dependents have meaningful BAH surplus. The VA loan market here is strong — homes in the $200K–$350K range are accessible at every enlisted pay grade.',
+    installationDetail:
+      'Camp Lejeune is one of the Marine Corps\' largest bases with 14 miles of beach on the Atlantic Ocean — home to II Marine Expeditionary Force and multiple infantry battalions.',
     rentalNote:
       'Jacksonville is a military-dominated market with affordable rents. BAH provides solid coverage, but the town\'s rental supply is heavily shaped by military demand cycles. Buyers often find good value in the surrounding Onslow County area.',
+    rentalContext:
+      'Jacksonville housing costs run roughly 10–12% below the national median — your BAH goes further here than at most CONUS Marine Corps installations.',
     nearby: ['fort-bragg', 'marine-corps-air-station-cherry-point', 'seymour-johnson-afb'],
+    bahVsHousing: {
+      medianRent: 1400,
+      medianRentSource: 'PCS Pay It Forward / MilitaryByOwner 2025–2026',
+      medianHomePrice: 275000,
+      medianHomePriceSource: 'Redfin / PCS Pay It Forward 2026',
+      mortgageMin: 1800,
+      mortgageMax: 2000,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.8% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 10–12% below the national average',
+      stateTaxNote:
+        'North Carolina taxes military base pay at approximately 4.5%. BAH and BAS remain tax-free at the federal and state level.',
+      neighborhoods: [
+        {
+          name: 'Jacksonville',
+          highlight: 'Onslow County Schools — mixed (5–7/10)',
+          commute: '5–15 min to main gate',
+          bestFor: 'Most affordable and convenient for base access',
+          typicalRent3br: '$1,100–$1,500/mo',
+        },
+        {
+          name: 'Swansboro',
+          highlight: 'Onslow County — strongest off-base schools (7–8/10)',
+          commute: '20–25 min to main gate',
+          bestFor: 'Families who prioritize schools and want coastal charm',
+          typicalRent3br: '$1,500–$1,900/mo',
+        },
+        {
+          name: 'Sneads Ferry',
+          highlight: 'Onslow County Schools — decent',
+          commute: '15–20 min to Stone Bay gate',
+          bestFor: 'Quiet fishing village with coastal living',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'Hubert / Holly Ridge',
+          highlight: 'Onslow County Schools — improving',
+          commute: '10–15 min to back gate',
+          bestFor: 'Families wanting newer construction at lower prices',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Jacksonville is a classic military town — affordable but not much beyond base-supporting businesses. The mistake is not knowing about Swansboro, which has the best off-base schools in the area and a charming coastal feel, only 20 minutes south. It costs a bit more, but the school quality jump from Jacksonville to Swansboro is significant.',
+    },
   },
   {
     name: 'Joint Base Pearl Harbor-Hickam',
@@ -1434,10 +1970,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Hawaii',
     branches: ['Navy', 'Air Force'],
     description:
-      'JBPHH is the joint headquarters for Pacific Fleet and Pacific Air Forces, combining the historic Pearl Harbor naval complex with Hickam AFB on Oahu\'s south shore.',
+      'Hawaii is a dream assignment for lifestyle and a challenging one for finances. {rank} receives {bahAmount}/month in BAH — high nationally, but Oahu rents often exceed $3,000/month for a 3-bedroom. Homeownership is out of reach for most enlisted families without dual income. Budget every dollar and embrace the commissary.',
+    installationDetail:
+      'Joint Base Pearl Harbor-Hickam is the strategic hub of the Pacific — home to U.S. Pacific Fleet, U.S. Indo-Pacific Command, and multiple Navy and Air Force wings on the island of Oahu.',
     rentalNote:
       'Honolulu is one of the most expensive housing markets in the country. BAH rates are the highest in the DoD, but Hawaii rents consistently outpace BAH — particularly for larger units. Many servicemembers live on base to manage costs.',
+    rentalContext:
+      'Oahu housing costs run 30–50% above the national median — BAH is set to cover median rent, but there\'s little room in the budget for error in this market.',
     nearby: ['schofield-barracks', 'travis-afb', 'naval-station-san-diego'],
+    bahVsHousing: {
+      medianRent: 3000,
+      medianRentSource: 'Zillow / PCS Pay It Forward 2025–2026',
+      medianHomePrice: 850000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 5800,
+      mortgageMax: 6400,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.35% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 30–50% above the national average (groceries, utilities, and transportation all run significantly higher)',
+      stateTaxNote:
+        'Hawaii taxes military pay at up to 11% at the top marginal rate. BAH and BAS remain tax-free. The high state tax rate eats into take-home pay more than most duty stations.',
+      neighborhoods: [
+        {
+          name: 'Ewa Beach / Ocean Pointe',
+          highlight: 'Campbell Complex — decent (6–7/10)',
+          commute: '15–20 min to Hickam/Pearl Harbor',
+          bestFor: 'Most popular for Hickam families, newer homes, military-dense',
+          typicalRent3br: '$2,600–$3,200/mo',
+        },
+        {
+          name: 'Mililani',
+          highlight: 'Mililani Complex — strong (8/10)',
+          commute: '20–25 min to Pearl Harbor, 15 min to Schofield',
+          bestFor: 'Families who prioritize schools, central Oahu',
+          typicalRent3br: '$2,800–$3,500/mo',
+        },
+        {
+          name: 'Kapolei',
+          highlight: 'Campbell Complex — decent, newer schools (6–7/10)',
+          commute: '20–25 min to Pearl Harbor',
+          bestFor: 'Families wanting newer construction in a growing area',
+          typicalRent3br: '$2,500–$3,200/mo',
+        },
+        {
+          name: 'Pearl City / Aiea',
+          highlight: 'Aiea Complex — decent (6–7/10)',
+          commute: '10–15 min to Pearl Harbor',
+          bestFor: 'Closest off-base option to JBPHH',
+          typicalRent3br: '$2,400–$3,000/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Hawaii BAH is among the highest in the nation, but so is everything else. Groceries run 30–50% above mainland prices. A gallon of milk costs $7+. The mistake is budgeting like you\'re on the mainland — you need to factor in island pricing for food, gas, and utilities on top of housing costs. Also, on-base housing waitlists are real — contact Housing the day you get orders.',
+    },
   },
   {
     name: 'Naval Air Station Pensacola',
