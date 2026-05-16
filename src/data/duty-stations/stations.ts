@@ -961,10 +961,52 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Louisiana',
     branches: ['Army'],
     description:
-      'Fort Johnson is home to the 3rd Brigade Combat Team, 10th Mountain Division and the Joint Readiness Training Center (JRTC), one of the Army\'s premier combat training centers.',
+      "Fort Johnson is the Army's most affordable major installation. The Leesville-DeRidder area has rock-bottom housing costs, and BAH creates a massive surplus at every pay grade. This is a station where intentional saving and investing can change your financial trajectory — if you embrace the simplicity.",
+    installationDetail:
+      "Fort Johnson (formerly Fort Polk) is the Army's Joint Readiness Training Center (JRTC) — where combat brigades from across the Army come to train before deployment.",
     rentalNote:
-      'Leesville is a small, isolated market. BAH covers local rents comfortably, but rental inventory is limited and many families commute from Natchitoches or Alexandria for more options.',
+      'Leesville is a small, isolated market. BAH covers local rents with a large surplus — most grades can pocket $200–$400/month extra or buy a home with a mortgage under $1,000.',
+    rentalContext:
+      'the Leesville area has rock-bottom housing costs — BAH creates one of the largest surpluses of any Army installation.',
     nearby: ['barksdale-afb', 'joint-base-san-antonio', 'fort-hood'],
+    bahVsHousing: {
+      medianRent: 1000,
+      medianRentSource: 'Zillow / BestPlaces 2025–2026',
+      medianHomePrice: 165000,
+      medianHomePriceSource: 'Zillow / BestPlaces 2026',
+      mortgageMin: 1200,
+      mortgageMax: 1400,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.6% LA property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 20–25% below the national average',
+      stateTaxNote: 'Louisiana taxes military pay at up to 4.25%. BAH and BAS remain tax-free at the federal and state level.',
+      neighborhoods: [
+        {
+          name: 'Leesville',
+          highlight: 'Vernon Parish Schools — decent (6/10)',
+          commute: '5–10 min to main gate',
+          bestFor: 'Closest to base, most options for a small town',
+          typicalRent3br: '$700–$1,000/mo',
+        },
+        {
+          name: 'DeRidder',
+          highlight: 'Beauregard Parish Schools — solid (7/10)',
+          commute: '25–30 min to main gate',
+          bestFor: 'Better schools and slightly more amenities',
+          typicalRent3br: '$700–$1,000/mo',
+        },
+        {
+          name: 'New Llano',
+          highlight: 'Vernon Parish Schools',
+          commute: '5 min to main gate',
+          bestFor: 'Walking distance to gate, very small community',
+          typicalRent3br: '$600–$900/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Fort Johnson is one of the most isolated Army installations. Leesville and DeRidder are tiny towns with limited amenities. Lake Charles is an hour south, Alexandria an hour north. The mistake is not mentally preparing for the isolation — but the upside is your BAH goes incredibly far. An E-5 can pocket hundreds per month in surplus or buy a home with a mortgage under $1,000.",
+    },
   },
   {
     name: 'Schofield Barracks',
@@ -1759,10 +1801,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Arizona',
     branches: ['Air Force'],
     description:
-      'Davis-Monthan is home to the 355th Wing and the 309th Aerospace Maintenance and Regeneration Group (AMARG) — the famous "boneyard" where more than 4,200 aircraft are stored.',
+      "Davis-Monthan offers 330+ days of sunshine and surprisingly affordable desert living. BAH covers rent comfortably in most Tucson neighborhoods, and Arizona's 2.5% flat income tax is one of the lowest in the country. Rita Ranch is the unofficial military neighborhood — great schools, safe, and 10 minutes from base.",
+    installationDetail:
+      "Davis-Monthan AFB is home to the A-10 Thunderbolt II and the famous 'Boneyard' (309th AMARG) — the world's largest aircraft storage facility with 4,000+ aircraft on 2,600 acres.",
     rentalNote:
-      'Tucson is an affordable desert market. BAH at most grades covers mid-range rentals comfortably, and the lower home prices give buyers strong purchasing power with BAH-level payments.',
+      "Tucson is an affordable desert market. BAH at most grades covers mid-range rentals comfortably, with room to spare in many neighborhoods. Rita Ranch east of base has the top-rated Vail school district — the best schools in Tucson.",
+    rentalContext:
+      "Tucson is affordable by Arizona standards, and Arizona's 2.5% flat income tax means more of your paycheck stays in your pocket.",
     nearby: ['luke-afb', 'fort-huachuca', 'kirtland-afb'],
+    bahVsHousing: {
+      medianRent: 1500,
+      medianRentSource: 'Zillow / PCS Pay It Forward 2025–2026',
+      medianHomePrice: 320000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2150,
+      mortgageMax: 2350,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.8% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 3–5% below the national average',
+      stateTaxNote: 'Arizona has a flat income tax of 2.5% on military pay — one of the lowest in the country. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Rita Ranch',
+          highlight: 'Vail School District — top-rated in Tucson (8–9/10)',
+          commute: '10–15 min to DM gate',
+          bestFor: 'Top pick for families — best schools and strong military community',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'East Tucson / Pantano',
+          highlight: 'Tucson USD / Sunnyside — varies (5–7/10)',
+          commute: '10–15 min to DM gate',
+          bestFor: "More options closer to Tucson's dining and shopping",
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+        {
+          name: 'Sahuarita / Green Valley',
+          highlight: 'Sahuarita USD — solid (7/10)',
+          commute: '20–25 min to DM gate',
+          bestFor: 'Families wanting a quieter suburban feel south of Tucson',
+          typicalRent3br: '$1,300–$1,700/mo',
+        },
+        {
+          name: 'Vail',
+          highlight: 'Vail School District — top-rated (8–9/10)',
+          commute: '15–20 min to DM gate',
+          bestFor: 'Families wanting the best schools with newer construction',
+          typicalRent3br: '$1,500–$1,900/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Tucson is affordable by Arizona standards, but neighborhood quality varies widely. The mistake is renting close to the base gate on the south side without checking Rita Ranch or the Vail school district (top-rated in Tucson, 15 minutes from base). The school quality difference is dramatic, and the rent difference is only $100–$200/month.",
+    },
   },
   {
     name: 'Vandenberg Space Force Base',
@@ -1864,10 +1955,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Louisiana',
     branches: ['Air Force'],
     description:
-      'Barksdale AFB is home to the 2nd Bomb Wing, operating the B-52H Stratofortress, and serves as Global Strike Command\'s nuclear bomber headquarters in northwest Louisiana.',
+      'Barksdale AFB offers one of the best BAH-to-cost ratios in the Air Force. The Bossier City-Shreveport metro has a low cost of living, and BAH creates a strong surplus at most pay grades. Homeownership is very realistic — many families buy here even on 3-year tours.',
+    installationDetail:
+      "Barksdale AFB is home to the 2nd Bomb Wing flying B-52H Stratofortresses and Air Force Global Strike Command headquarters — the Air Force's nuclear bomber mission.",
     rentalNote:
-      'Shreveport/Bossier City is one of the most affordable markets in the country. BAH covers most rentals with room to spare, and buyers can often purchase well below their BAH payment level.',
+      'Shreveport/Bossier City is one of the most affordable markets in the country. BAH covers most rentals with significant room to spare. Haughton northeast of base has the best schools in the Barksdale corridor.',
+    rentalContext:
+      'the Bossier City area offers one of the best BAH-to-cost ratios in the Air Force — homeownership is realistic even on a 3-year tour.',
     nearby: ['fort-johnson', 'joint-base-san-antonio', 'tinker-afb'],
+    bahVsHousing: {
+      medianRent: 1100,
+      medianRentSource: 'Zillow / BestPlaces 2025–2026',
+      medianHomePrice: 210000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 1450,
+      mortgageMax: 1650,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.6% LA property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 15–18% below the national average',
+      stateTaxNote: 'Louisiana taxes military pay at up to 4.25%. BAH and BAS remain tax-free at the federal and state level.',
+      neighborhoods: [
+        {
+          name: 'Bossier City',
+          highlight: 'Bossier Parish Schools — solid (7/10)',
+          commute: '5–15 min to Barksdale gate',
+          bestFor: 'Closest to base with the most amenities',
+          typicalRent3br: '$900–$1,200/mo',
+        },
+        {
+          name: 'Haughton',
+          highlight: 'Bossier Parish — Haughton zone is the strongest (8/10)',
+          commute: '10–15 min to Barksdale gate',
+          bestFor: 'Top pick for families — best schools near Barksdale',
+          typicalRent3br: '$1,000–$1,400/mo',
+        },
+        {
+          name: 'Shreveport',
+          highlight: 'Caddo Parish Schools — mixed (4–7/10, varies by zone)',
+          commute: '15–25 min to Barksdale gate',
+          bestFor: 'Those wanting more urban options and dining',
+          typicalRent3br: '$900–$1,200/mo',
+        },
+        {
+          name: 'Benton',
+          highlight: 'Bossier Parish — strong (7–8/10)',
+          commute: '15–20 min to Barksdale gate',
+          bestFor: 'Families wanting rural feel with good schools',
+          typicalRent3br: '$1,000–$1,300/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Bossier City and Shreveport are twin cities split by the Red River. The mistake is living in Shreveport for the slightly more urban feel without realizing that Bossier City has better schools (Bossier Parish) and shorter commutes to Barksdale. Haughton is the top family pick — great schools, 10 minutes from the gate.",
+    },
   },
   {
     name: 'Seymour Johnson AFB',
@@ -1906,10 +2046,52 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'North Dakota',
     branches: ['Air Force'],
     description:
-      'Minot AFB is one of two bases operating the B-52H bomber and is a dual-mission base with both strategic bombers and ICBM operations — the "Air Power Capital of the North."',
+      "Minot AFB is remote and cold, but the community is tight and your BAH goes far. The housing market is affordable, North Dakota's income tax is minimal, and many families find the assignment grows on them. Save aggressively, embrace the outdoor lifestyle, and take advantage of the dual nuclear mission — career-wise, it's a resume builder.",
+    installationDetail:
+      'Minot AFB is home to the 5th Bomb Wing (B-52H) and the 91st Missile Wing (Minuteman III ICBMs) — one of only two Air Force bases with both nuclear bomber and ICBM missions.',
     rentalNote:
-      'Minot is one of the most affordable military markets in the country. BAH significantly exceeds local rents at most grades, and homeownership is very common despite the cold climate.',
+      "Minot is one of the most affordable military markets in the country. BAH significantly exceeds local rents at most grades, and homeownership is very common. On-base housing is popular for families who want shorter commutes in brutal winter conditions.",
+    rentalContext:
+      "Minot's housing market is highly affordable — BAH creates a strong surplus at most grades, and homeownership is common even on short tours.",
     nearby: ['ellsworth-afb', 'offutt-afb', 'fort-wainwright'],
+    bahVsHousing: {
+      medianRent: 1000,
+      medianRentSource: 'Zillow / BestPlaces 2025–2026',
+      medianHomePrice: 240000,
+      medianHomePriceSource: 'Zillow / BestPlaces 2026',
+      mortgageMin: 1700,
+      mortgageMax: 1900,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.0% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 8–10% below the national average',
+      stateTaxNote: 'North Dakota taxes military pay at a low flat rate of 1.95%. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'South Minot',
+          highlight: 'Minot Public Schools — solid (7/10)',
+          commute: '10–15 min to Minot AFB gate',
+          bestFor: 'Most housing options and shopping access',
+          typicalRent3br: '$900–$1,200/mo',
+        },
+        {
+          name: 'North Minot / Surrey',
+          highlight: 'Minot Public Schools — solid',
+          commute: '15–20 min to Minot AFB gate',
+          bestFor: 'Newer construction areas north of town',
+          typicalRent3br: '$1,000–$1,300/mo',
+        },
+        {
+          name: 'On-base housing',
+          highlight: 'Minot AFB schools / Minot Public Schools',
+          commute: 'Walk or 2–3 min drive',
+          bestFor: 'Families wanting short commute and included utilities in extreme cold',
+          typicalRent3br: 'BAH covers 100% (utilities included)',
+        },
+      ],
+      mistakeToAvoid:
+        "Minot's unofficial motto is 'Why Not Minot? Freezin's the Reason.' Winters are brutal — expect -30°F windchills from November through March. The mistake is not preparing for the cold: plug-in block heaters for your car, quality winter gear, and budgeting for heating costs. The upside: BAH goes far, the community is tight-knit, and there's nothing quite like the Northern Lights from your backyard.",
+    },
   },
   {
     name: 'Joint Base Elmendorf-Richardson',
@@ -2046,10 +2228,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'New Mexico',
     branches: ['Air Force'],
     description:
-      'Kirtland AFB hosts the Air Force Nuclear Weapons Center and Sandia National Laboratories, making it the center of the Air Force\'s nuclear weapons research and sustainment enterprise.',
+      "Kirtland AFB puts you in Albuquerque — a mid-size city with affordable housing, 310+ days of sunshine, and world-class outdoor recreation in the Sandia Mountains. New Mexico exempts military pay from state income tax, and BAH covers rent with a healthy surplus. Homeownership is realistic at most pay grades.",
+    installationDetail:
+      "Kirtland AFB is home to the Air Force Nuclear Weapons Center, Sandia National Laboratories, and the Air Force Research Laboratory's Directed Energy Directorate — the military's hub for nuclear weapons management and advanced energy research.",
     rentalNote:
-      'Albuquerque is an affordable market with moderate BAH rates. Rents are generally well-covered at mid and senior grades, and the homeownership market is accessible for most BAH-earning servicemembers.',
+      "Albuquerque is an affordable market with moderate BAH rates. Rents are generally well-covered at mid and senior grades. The east side and northeast heights are the most popular areas for Kirtland families.",
+    rentalContext:
+      "New Mexico exempts military pay from state income tax, and Albuquerque's affordable housing makes Kirtland one of the more financially favorable Air Force duty stations.",
     nearby: ['fort-bliss', 'luke-afb', 'fort-huachuca'],
+    bahVsHousing: {
+      medianRent: 1350,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 320000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2200,
+      mortgageMax: 2400,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.8% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 5–8% below the national average',
+      stateTaxNote: 'New Mexico exempts active-duty military pay from state income tax. BAH and BAS are also tax-free. This makes Kirtland one of the more tax-friendly duty stations.',
+      neighborhoods: [
+        {
+          name: 'Four Hills / SE Albuquerque',
+          highlight: 'Albuquerque Public Schools — varies (5–7/10)',
+          commute: '5–10 min to Kirtland gate',
+          bestFor: 'Closest to base with established neighborhoods',
+          typicalRent3br: '$1,100–$1,400/mo',
+        },
+        {
+          name: 'NE Heights (Tramway corridor)',
+          highlight: 'Albuquerque Public Schools — stronger in this zone (6–8/10)',
+          commute: '15–20 min to Kirtland gate',
+          bestFor: 'Families wanting safer neighborhoods and Sandia Mountain access',
+          typicalRent3br: '$1,300–$1,700/mo',
+        },
+        {
+          name: 'East Mountains (Tijeras / Edgewood)',
+          highlight: 'East Mountain Charter / APS — small (6/10)',
+          commute: '20–25 min to Kirtland gate',
+          bestFor: 'Families wanting rural mountain living with space',
+          typicalRent3br: '$1,200–$1,500/mo',
+        },
+        {
+          name: 'Rio Rancho',
+          highlight: 'Rio Rancho Public Schools — strong (7–8/10)',
+          commute: '25–35 min to Kirtland gate',
+          bestFor: 'Families willing to commute for better schools and newer construction',
+          typicalRent3br: '$1,300–$1,700/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Albuquerque is affordable and sunny, but crime rates in some neighborhoods are above the national average. The mistake is renting based on price alone without checking neighborhood safety data. The east side of the city (near Kirtland) and the Four Hills/SE Heights area are close to base but vary in safety. Families often prefer the northeast heights or the far east (Tramway corridor) for a better overall feel.",
+    },
   },
   {
     name: 'Whiteman AFB',
@@ -2699,10 +2930,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Virginia',
     branches: ['Marine Corps', 'Navy'],
     description:
-      'MCB Quantico is home to the FBI Academy, the DEA Training Academy, Marine Corps officer training, and the Marine Corps Combat Development Command — the "Crossroads of the Marine Corps."',
+      "MCB Quantico puts you in the Northern Virginia/DC corridor — one of the most expensive housing markets in the country. BAH is generous but the market is competitive. Stafford County offers the best balance of commute and affordability for Quantico families. Many officers live in the Fredericksburg area for more space.",
+    installationDetail:
+      "MCB Quantico is the 'Crossroads of the Marine Corps' — home to Marine Corps University, OCS, TBS, FBI Academy, and the DEA Training Academy, located 35 miles south of Washington, DC.",
     rentalNote:
-      'Quantico falls in the DC metro BAH zone with very high rates. The Northern Virginia market is expensive, but BAH at mid and senior grades provides meaningful purchasing power — particularly in Prince William County and Stafford.',
+      "Quantico falls in the DC metro BAH zone with very high rates. The Northern Virginia market is expensive, but Stafford County offers the best value closest to the base. Fredericksburg is more affordable but adds I-95 commute risk.",
+    rentalContext:
+      'Stafford County offers the best balance of price and commute for Quantico families — Northern Virginia and DC proper will significantly exceed BAH.',
     nearby: ['joint-base-myer-henderson-hall', 'fort-meade', 'joint-base-andrews'],
+    bahVsHousing: {
+      medianRent: 2200,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 500000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 3400,
+      mortgageMax: 3700,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.0% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 25–30% above the national average',
+      stateTaxNote: 'Virginia taxes military pay. The top marginal rate is 5.75%. BAH and BAS remain tax-free at the federal and state level.',
+      neighborhoods: [
+        {
+          name: 'Stafford',
+          highlight: 'Stafford County Schools — strong (7–8/10)',
+          commute: '10–15 min to Quantico main gate',
+          bestFor: 'Best balance of schools, commute, and price for Quantico',
+          typicalRent3br: '$1,800–$2,300/mo',
+        },
+        {
+          name: 'Dumfries / Triangle',
+          highlight: 'Prince William County Schools — decent (6–7/10)',
+          commute: '5–10 min to Quantico',
+          bestFor: 'Closest to base, most affordable in the corridor',
+          typicalRent3br: '$1,700–$2,200/mo',
+        },
+        {
+          name: 'Fredericksburg',
+          highlight: 'Spotsylvania / Stafford County — solid (7/10)',
+          commute: '20–25 min to Quantico (I-95 dependent)',
+          bestFor: 'Families wanting more space and lower prices',
+          typicalRent3br: '$1,500–$2,000/mo',
+        },
+        {
+          name: 'Woodbridge / Lake Ridge',
+          highlight: 'Prince William County Schools — varies (6–8/10)',
+          commute: '15–20 min to Quantico (north on I-95)',
+          bestFor: 'Families wanting suburban amenities between Quantico and DC',
+          typicalRent3br: '$2,000–$2,500/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Quantico sits on I-95 between DC and Fredericksburg — two of the worst commute corridors in America. The mistake is living north toward DC for nightlife and then sitting in 60+ minutes of I-95 traffic every morning. Stafford and Dumfries are closest to the gates. Fredericksburg is more affordable but adds commute time.",
+    },
   },
   {
     name: 'Naval Station Great Lakes',
@@ -3801,9 +4081,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     state: 'FL',
     stateName: 'Florida',
     branches: ['Navy'],
-    description: 'NAS Jacksonville is the Navy\'s largest East Coast aviation installation, home to P-8 Poseidon maritime patrol aircraft and Fleet Readiness Center Southeast.',
-    rentalNote: 'Jacksonville, FL, has a large and diverse rental market. Mandarin, Orange Park, Fleming Island, and Ponte Vedra Beach are popular with Navy families at varying price points. The market is competitive but generally affordable for a major metro area.',
+    description:
+      "NAS Jacksonville puts you in a major Florida city with no state income tax and a cost of living below the national average. BAH covers rent with a comfortable buffer, and Jacksonville's housing market is more affordable than Tampa, Miami, or the Space Coast. The St. Johns County school district is a major draw for families willing to commute.",
+    installationDetail:
+      "NAS Jacksonville is one of the Navy's largest air stations — home to multiple P-8A Poseidon maritime patrol squadrons and helicopter squadrons on the St. Johns River.",
+    rentalNote:
+      "Jacksonville has a large and diverse rental market. Orange Park and Westside Jacksonville are closest to NAS Jax — but St. Johns County to the south has the best schools in Florida and is worth the commute for families.",
+    rentalContext:
+      "Jacksonville's cost of living is below the national average and Florida has no income tax — a strong combination for military families.",
     nearby: ['naval-station-mayport', 'camp-lejeune', 'nas-corpus-christi'],
+    bahVsHousing: {
+      medianRent: 1600,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 320000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2150,
+      mortgageMax: 2350,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.9% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 5–8% below the national average',
+      stateTaxNote: 'Florida has no state income tax on military pay. Your entire paycheck goes further here than at duty stations in income-tax states.',
+      neighborhoods: [
+        {
+          name: 'Orange Park',
+          highlight: 'Clay County Schools — strong (7–8/10)',
+          commute: '10–15 min to NAS Jax',
+          bestFor: 'Best combination of schools and commute',
+          typicalRent3br: '$1,300–$1,700/mo',
+        },
+        {
+          name: 'Westside Jacksonville',
+          highlight: 'Duval County Schools — varies by zone (5–7/10)',
+          commute: '5–15 min to NAS Jax',
+          bestFor: 'Shortest commute and most affordable',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+        {
+          name: 'Fleming Island / Middleburg',
+          highlight: 'Clay County Schools — strong (7–8/10)',
+          commute: '15–20 min to NAS Jax',
+          bestFor: 'Families wanting newer construction with good schools',
+          typicalRent3br: '$1,500–$1,900/mo',
+        },
+        {
+          name: 'St. Johns County (Julington Creek)',
+          highlight: 'St. Johns County Schools — best in Florida (9/10)',
+          commute: '25–35 min to NAS Jax',
+          bestFor: 'Families willing to commute for the best schools in the state',
+          typicalRent3br: '$1,800–$2,300/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Jacksonville is a massive city — one of the largest by area in the US. The mistake is not factoring commute distance. NAS Jax is on the west side near the river, while many newer neighborhoods are on the south side (St. Johns County) 30+ minutes away. Orange Park and Westside Jacksonville keep you within 15 minutes of the gate.",
+    },
   },
   {
     name: 'NAS Lemoore',
