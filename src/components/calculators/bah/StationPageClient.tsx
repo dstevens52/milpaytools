@@ -81,6 +81,12 @@ function normalizeDep(raw: string): boolean | null {
 
 // ─── HeroBanner sub-component ─────────────────────────────────────────────────
 
+const HERO_STEPS = [
+  { title: 'Check your rate', sub: 'Select your rank and dependent status below' },
+  { title: 'See what it buys', sub: 'Compare your BAH to local rent and mortgage costs' },
+  { title: 'Plan your move', sub: 'Compare stations or estimate PCS costs' },
+] as const;
+
 function HeroBanner({ station }: { station: DutyStation }) {
   const subtitle = [
     `${station.city}, ${station.stateName}`,
@@ -91,7 +97,7 @@ function HeroBanner({ station }: { station: DutyStation }) {
     .join(' · ');
 
   return (
-    <div className="relative overflow-hidden h-40 sm:h-56">
+    <div className="relative overflow-hidden bg-slate-800">
       {station.heroImage ? (
         <Image
           src={station.heroImage}
@@ -105,22 +111,48 @@ function HeroBanner({ station }: { station: DutyStation }) {
       )}
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/45" />
-      {/* Text overlay — bottom-left */}
-      <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
-        <span className="inline-flex items-center mb-2 px-2.5 py-1 rounded-full text-xs font-semibold text-white/90 bg-white/15 border border-white/20">
-          2026 BAH Rates
-        </span>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-1">
-          {station.name}
-        </h1>
-        <p className="text-sm text-white/70">{subtitle}</p>
-        {station.installationDetail && (
-          <p className="text-xs text-white/50 mt-1">{station.installationDetail}</p>
-        )}
+      {/* Content — relative so it paints above the absolute layers */}
+      <div className="relative">
+        {/* Hero text */}
+        <div className="px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-5 sm:pb-6">
+          <span className="inline-flex items-center mb-2 px-2.5 py-1 rounded-full text-xs font-semibold text-white/90 bg-white/15 border border-white/20">
+            2026 BAH Rates
+          </span>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-1">
+            {station.name}
+          </h1>
+          <p className="text-sm text-white/70">{subtitle}</p>
+          {station.installationDetail && (
+            <p className="text-xs text-white/50 mt-1">{station.installationDetail}</p>
+          )}
+        </div>
+        {/* 3-step plan strip — inside the dark hero */}
+        <div className="border-t border-white/10 px-4 sm:px-6 lg:px-8 py-5">
+          <div className="flex flex-col gap-4 sm:flex-row sm:gap-0">
+            {HERO_STEPS.map((step, i) => (
+              <div
+                key={step.title}
+                className={[
+                  'flex items-start gap-3 flex-1',
+                  i > 0 ? 'sm:pl-6 sm:border-l sm:border-white/10' : '',
+                  i < HERO_STEPS.length - 1 ? 'sm:pr-6' : '',
+                ].filter(Boolean).join(' ')}
+              >
+                <div className="w-7 h-7 rounded-full bg-red-700 text-white flex items-center justify-center font-bold text-xs flex-none mt-0.5">
+                  {i + 1}
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-white">{step.title}</p>
+                  <p className="text-xs text-white/50">{step.sub}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
       {/* Photo credit — bottom-right, only when photo present */}
       {station.heroImage && (
-        <p className="absolute bottom-2 right-3 text-xs text-white/35 select-none">
+        <p className="absolute bottom-2 right-3 text-xs text-white/35 select-none z-10">
           {station.heroImageCredit ?? 'Photo: U.S. Military / DVIDS'}
         </p>
       )}
@@ -336,33 +368,6 @@ export function StationPageClient({
           </div>
         </div>
       )}
-
-      {/* 3-step plan strip — template-level, all BAH station pages */}
-      <div className="hidden md:block border-b border-zinc-200 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
-          <div className="flex items-center gap-5">
-            {([
-              { n: 1, title: 'Check your rate' },
-              { n: 2, title: 'See what it buys' },
-              { n: 3, title: 'Plan your move' },
-            ] as const).map(({ n, title }, i, arr) => (
-              <>
-                <div key={n} className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-full bg-red-700 text-white flex items-center justify-center font-bold text-xs flex-none">
-                    {n}
-                  </div>
-                  <p className="font-semibold text-zinc-700 text-sm whitespace-nowrap">{title}</p>
-                </div>
-                {i < arr.length - 1 && (
-                  <svg key={`sep-${n}`} className="w-4 h-4 text-zinc-300 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
-                  </svg>
-                )}
-              </>
-            ))}
-          </div>
-        </div>
-      </div>
 
       <div className="bg-zinc-50 min-h-screen">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
