@@ -41,6 +41,7 @@ export interface DutyStation {
   description: string;
   installationDetail?: string;
   rentalNote: string;
+  rentalContext?: string;
   nearby: string[];
   oconus?: true;
   heroImage?: string;       // path like '/images/bases/fort-liberty.jpg'
@@ -66,6 +67,8 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Home of the 82nd Airborne and USASOC — the largest installation by population with over 50,000 active-duty soldiers.',
     rentalNote:
       'Fort Bragg BAH is $181/mo below the national E-5 average — but Fayetteville housing costs run roughly 25% below the national median. Your purchasing power here is actually above average.',
+    rentalContext:
+      'Fayetteville housing costs run roughly 25% below the national median. Your purchasing power here is actually above average.',
     nearby: ['camp-lejeune', 'seymour-johnson-afb', 'marine-corps-air-station-cherry-point'],
     bahVsHousing: {
       medianRent: 1300,

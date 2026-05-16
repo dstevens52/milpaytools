@@ -120,12 +120,12 @@ function HeroBanner({ station }: { station: DutyStation }) {
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-1">
             {station.name}
           </h1>
-          <p className="text-sm text-white/70">{subtitle}</p>
+          <p className="text-sm text-white/60">{subtitle}</p>
           {station.installationDetail && (
-            <p className="text-xs text-white/50 mt-1">{station.installationDetail}</p>
+            <p className="text-xs text-white/45 mt-1">{station.installationDetail}</p>
           )}
           {station.description && station.bahVsHousing && (
-            <p className="mt-3 text-sm text-white/85 leading-relaxed max-w-[640px]">
+            <p className="mt-3 text-sm leading-relaxed max-w-[640px]" style={{ color: 'rgba(255,255,255,0.85)' }}>
               {station.description}
             </p>
           )}
@@ -517,8 +517,11 @@ export function StationPageClient({
           {selectedBAH > 0 && !station.oconus && (
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
               <h2 className="text-lg font-semibold text-zinc-900 mb-3">How This Market Compares</h2>
-              {/* Positive framing first, then the numbers */}
-              <p className="text-sm text-zinc-600 leading-relaxed mb-5">{station.rentalNote}</p>
+              <p className="text-sm text-zinc-600 leading-relaxed mb-5">
+                {station.rentalContext
+                  ? `${station.name} BAH for ${selectedGrade} ${hasDependents ? 'with dependents' : 'without dependents'} is ${fmt(Math.abs(selectedDiff))}/mo ${selectedDiff >= 0 ? 'above' : 'below'} the national average — ${selectedDiff >= 0 ? 'and' : 'but'} ${station.rentalContext}`
+                  : station.rentalNote}
+              </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-3">
                 <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
                   <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">
