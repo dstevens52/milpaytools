@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { HealthcareComparisonCalculator } from '@/components/calculators/healthcare-comparison/HealthcareComparisonCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
@@ -118,8 +119,59 @@ export default function HealthcareComparisonPage() {
         </div>
       </div>
 
+      {/* ── 3-step plan strip ────────────────────────────────────────── */}
+      <div className="hidden md:block border-b border-zinc-200 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
+          <div className="flex items-center gap-5">
+            {[
+              { n: 1, title: 'Enter your family size and service status' },
+              { n: 2, title: 'Compare TRICARE, employer, ACA, and VA options' },
+              { n: 3, title: 'See your first-year healthcare cost for each option' },
+            ].map(({ n, title }, i, arr) => (
+              <>
+                <div key={n} className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-full bg-red-700 text-white flex items-center justify-center font-bold text-xs flex-none">
+                    {n}
+                  </div>
+                  <p className="font-semibold text-zinc-700 text-sm whitespace-nowrap">{title}</p>
+                </div>
+                {i < arr.length - 1 && (
+                  <svg key={`sep-${n}`} className="w-4 h-4 text-zinc-300 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
+                  </svg>
+                )}
+              </>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* ── Calculator ────────────────────────────────────────────────── */}
       <HealthcareComparisonCalculator />
+
+      {/* ── Example Calculation ──────────────────────────────────────── */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <ExampleBox>
+          <h2 className="text-xl font-bold text-zinc-900 mb-2">
+            What Does Healthcare Cost an E-5 Family of 3 After Separation?
+          </h2>
+          <p className="text-sm text-zinc-600 leading-relaxed mb-0">
+            Scenario: E-5 separating after 8 years, married with one child (family of 3). 40% VA disability rating. No TAMP eligibility (voluntary ETS). Comparing all options available in 2026.
+          </p>
+          <ExampleTable>
+            <ExampleRow label="Active-duty TRICARE Prime (for reference)" value="$0/mo — $0/yr" />
+            <ExampleRow label="Employer plan — family (avg employee share, Silver tier)" value="$570/mo — $6,840/yr" highlight />
+            <ExampleRow label="Employer plan — typical family deductible & copays" value="+$1,500–$2,500/yr" />
+            <ExampleRow label="Employer plan — true first-year cost" value="~$8,340–$9,340/yr" highlight />
+            <ExampleRow label="ACA Marketplace silver plan (family, unsubsidized)" value="$1,200/mo — $14,400/yr" />
+            <ExampleRow label="VA Healthcare (member only — SC conditions, 40% rating)" value="$0 for SC care; family not covered" />
+            <ExampleRow label="TRICARE Reserve Select — member + family (if joining Guard/Reserve)" value="$286.66/mo — $3,440/yr" highlight />
+          </ExampleTable>
+          <p className="text-sm leading-relaxed text-zinc-700">
+            <strong>What this means:</strong> Even the most affordable family option — TRICARE Reserve Select at $3,440/year — costs more than $0 active-duty TRICARE. For most separating service members without TAMP, the realistic choice is between an employer plan (~$8,000–$9,000/year after deductibles) and, if joining the Guard or Reserves, TRS at $3,440/year. VA healthcare is valuable but covers the veteran only — your family will still need separate coverage. The $8,000–$10,000/year swing is the single largest underestimated cost of leaving the military.
+          </p>
+        </ExampleBox>
+      </section>
 
       {/* ── Educational content ───────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-6">

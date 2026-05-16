@@ -70,6 +70,33 @@ export default function RetirementCalculatorPage() {
         </div>
       </div>
 
+      {/* ── 3-step plan strip ────────────────────────────────────────── */}
+      <div className="hidden md:block border-b border-zinc-200 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
+          <div className="flex items-center gap-5">
+            {[
+              { n: 1, title: 'Enter your pay grade and planned service length' },
+              { n: 2, title: 'Compare High-3 vs. BRS pension + TSP' },
+              { n: 3, title: 'See your projected retirement income' },
+            ].map(({ n, title }, i, arr) => (
+              <>
+                <div key={n} className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-full bg-red-700 text-white flex items-center justify-center font-bold text-xs flex-none">
+                    {n}
+                  </div>
+                  <p className="font-semibold text-zinc-700 text-sm whitespace-nowrap">{title}</p>
+                </div>
+                {i < arr.length - 1 && (
+                  <svg key={`sep-${n}`} className="w-4 h-4 text-zinc-300 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
+                  </svg>
+                )}
+              </>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Calculator */}
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-3 md:py-6">
         <RetirementCalculator />

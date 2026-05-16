@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { SeparationTimelineCalculator } from '@/components/calculators/separation-timeline/SeparationTimelineCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
@@ -99,8 +100,59 @@ export default function SeparationTimelinePage() {
         </div>
       </div>
 
+      {/* ── 3-step plan strip ────────────────────────────────────────── */}
+      <div className="hidden md:block border-b border-zinc-200 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
+          <div className="flex items-center gap-5">
+            {[
+              { n: 1, title: 'Enter your separation date' },
+              { n: 2, title: 'See every key deadline and benefit window' },
+              { n: 3, title: 'Build your separation checklist' },
+            ].map(({ n, title }, i, arr) => (
+              <>
+                <div key={n} className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-full bg-red-700 text-white flex items-center justify-center font-bold text-xs flex-none">
+                    {n}
+                  </div>
+                  <p className="font-semibold text-zinc-700 text-sm whitespace-nowrap">{title}</p>
+                </div>
+                {i < arr.length - 1 && (
+                  <svg key={`sep-${n}`} className="w-4 h-4 text-zinc-300 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
+                  </svg>
+                )}
+              </>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* ── Calculator ────────────────────────────────────────────────── */}
       <SeparationTimelineCalculator />
+
+      {/* ── Example Calculation ──────────────────────────────────────── */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <ExampleBox>
+          <h2 className="text-xl font-bold text-zinc-900 mb-2">
+            Example: Key Deadlines for an E-6 Separating September 30, 2026
+          </h2>
+          <p className="text-sm text-zinc-600 leading-relaxed mb-0">
+            Scenario: E-6 with 10 years of service, voluntary separation on September 30, 2026. Not eligible for TAMP (voluntary ETS). Every deadline below is calculated from that single date.
+          </p>
+          <ExampleTable>
+            <ExampleRow label="BDD filing window opens (180 days before separation)" value="April 3, 2026" />
+            <ExampleRow label="BDD filing window closes (90 days before separation)" value="July 2, 2026" highlight />
+            <ExampleRow label="Separation date — TRICARE ends" value="September 30, 2026" highlight />
+            <ExampleRow label="SGLI free coverage ends (120 days post-separation)" value="January 28, 2027" />
+            <ExampleRow label="SGLI no-exam VGLI conversion window closes (240 days)" value="May 28, 2027" highlight />
+            <ExampleRow label="Final move deadline — separating member (180 days)" value="March 29, 2027" highlight />
+            <ExampleRow label="VGLI conversion final deadline (485 days)" value="January 28, 2028" />
+          </ExampleTable>
+          <p className="text-sm leading-relaxed text-zinc-700">
+            <strong>What this means:</strong> There are three deadlines that catch separating service members off guard. First, the BDD filing window closes July 2 — if you miss it, you can still file after separation but lose the faster processing timeline. Second, the SGLI no-exam window on May 28, 2027 is critical: after that date you must answer health questions and could be denied coverage. Third, the final move deadline of March 29, 2027 is strictly enforced — contact your TMO well in advance of peak PCS season (May–August).
+          </p>
+        </ExampleBox>
+      </section>
 
       {/* ── Explainer ─────────────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-8">
