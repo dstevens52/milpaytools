@@ -23,7 +23,7 @@ export interface BahVsHousing {
 
 export interface LocalHousingTips {
   coliNote: string;
-  groceryNote: string;
+  groceryNote?: string;
   stateTaxNote: string;
   neighborhoods: NeighborhoodTip[];
   mistakeToAvoid: string;
@@ -141,10 +141,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Texas',
     branches: ['Army'],
     description:
-      'Fort Hood is the primary training and deployment base for III Armored Corps and hosts two heavy combat divisions — the 1st Cavalry Division and the 3rd Cavalry Regiment.',
+      'Fort Hood is one of the most affordable large Army installations in the country. Killeen\'s housing market runs well below the national average — an E-5 with dependents has several hundred dollars of room between BAH and median rent. That surplus is one of the reasons homeownership rates among Fort Hood families are high.',
+    installationDetail:
+      'Home of III Armored Corps and the 1st Cavalry Division, Fort Hood is one of the largest military installations in the world with over 45,000 assigned service members.',
     rentalNote:
       'Killeen is one of the most affordable large military markets in the country. BAH at most grades has historically exceeded median rents, making homeownership common among the force.',
+    rentalContext:
+      'Killeen housing costs run roughly 8–10% below the national median — your purchasing power here stretches further than the raw BAH number suggests.',
     nearby: ['joint-base-san-antonio', 'fort-bliss', 'fort-sill'],
+    bahVsHousing: {
+      medianRent: 1250,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 227000,
+      medianHomePriceSource: 'Zillow 2026',
+      mortgageMin: 1450,
+      mortgageMax: 1600,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.8% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 8–10% below the national average',
+      stateTaxNote:
+        'Texas has no state income tax on military pay, meaning your BAH, base pay, and special pays go further here than in high-tax states.',
+      neighborhoods: [
+        {
+          name: 'Harker Heights',
+          highlight: 'Harker Heights ISD — highest-rated district in the area (7–8/10)',
+          commute: '15–20 min to main gate',
+          bestFor: 'Families who prioritize schools',
+          typicalRent3br: '$1,200–$1,500/mo',
+        },
+        {
+          name: 'Nolanville',
+          highlight: 'Killeen ISD — newer construction area with improving schools',
+          commute: '10–15 min to Clear Creek Gate',
+          bestFor: 'Families wanting new-build neighborhoods',
+          typicalRent3br: '$1,300–$1,600/mo',
+        },
+        {
+          name: 'Copperas Cove',
+          highlight: 'Copperas Cove ISD — decent ratings, rural feel',
+          commute: '20–25 min to West Fort Hood Gate',
+          bestFor: 'Families wanting space and a country feel',
+          typicalRent3br: '$1,000–$1,300/mo',
+        },
+        {
+          name: 'South Killeen',
+          highlight: 'Killeen ISD — ratings vary, research specific zones',
+          commute: '5–10 min to main gate',
+          bestFor: 'Single soldiers or couples prioritizing short commute',
+          typicalRent3br: '$900–$1,200/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Many families PCSing to Fort Hood sign a lease before learning the area. Killeen neighborhoods vary dramatically in quality — South Killeen and areas near the gates tend to be older and less maintained, while Harker Heights and Nolanville offer better schools and newer homes for similar or slightly higher rent. An E-5 with dependents at $1,695/month can rent a solid 3-bedroom and still have room in the budget.',
+    },
   },
   {
     name: 'Joint Base Lewis-McChord',
@@ -155,10 +205,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Washington',
     branches: ['Army', 'Air Force'],
     description:
-      'JBLM is the largest military installation on the West Coast, home to I Corps, the 2nd Infantry Division\'s 7th Infantry Brigade, and the 62nd Airlift Wing.',
+      'JBLM is a high-cost duty station where BAH covers rent but may not cover homeownership for junior enlisted. The Tacoma area rental market is competitive, but neighborhoods south of base — Lakewood, DuPont, Lacey — offer more affordable options with shorter commutes than Tacoma proper.',
+    installationDetail:
+      'JBLM is the largest U.S. Army installation on the West Coast, home to I Corps, the 7th Infantry Division, and the 62nd Airlift Wing flying C-17s.',
     rentalNote:
       'The Puget Sound housing market is expensive and competitive. BAH rates are high relative to CONUS averages, but the Seattle metro\'s rapidly rising rents mean some lower-grade members face a shortfall. CONUS COLA was added for this area in 2026.',
+    rentalContext:
+      'The Puget Sound area runs 10–15% above the national median in overall housing costs, which limits how far BAH stretches compared to CONUS averages.',
     nearby: ['naval-base-kitsap', 'naval-air-station-whidbey-island', 'joint-base-elmendorf-richardson'],
+    bahVsHousing: {
+      medianRent: 1800,
+      medianRentSource: 'RentCafe / Zumper 2025–2026',
+      medianHomePrice: 510000,
+      medianHomePriceSource: 'Herring Bank / Zillow 2026',
+      mortgageMin: 3300,
+      mortgageMax: 3600,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.1% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 10–15% above the national average',
+      stateTaxNote:
+        'Washington has no state income tax — a significant net-pay advantage over most West Coast duty stations.',
+      neighborhoods: [
+        {
+          name: 'Lakewood',
+          highlight: 'Clover Park School District — ratings vary (5–7/10)',
+          commute: '5–15 min to Lewis main gate',
+          bestFor: 'Shortest commute and most affordable rents near base',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'DuPont',
+          highlight: 'Steilacoom Historical School District — solid (7–8/10)',
+          commute: '10–15 min to main gate',
+          bestFor: 'Families wanting a master-planned community feel',
+          typicalRent3br: '$1,800–$2,300/mo',
+        },
+        {
+          name: 'Lacey / Olympia',
+          highlight: 'North Thurston Public Schools — good (7–8/10)',
+          commute: '15–25 min to main gate',
+          bestFor: 'Families wanting lower property taxes (Thurston County)',
+          typicalRent3br: '$1,600–$2,000/mo',
+        },
+        {
+          name: 'Tacoma (South)',
+          highlight: 'Tacoma Public Schools — varies widely by neighborhood',
+          commute: '20–30 min to main gate',
+          bestFor: 'Those wanting urban amenities and food scene',
+          typicalRent3br: '$1,700–$2,200/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'The most common PCS mistake at JBLM is buying a home without understanding the price tier. The median home price near $510,000 means an E-5\'s BAH won\'t cover a mortgage — many junior enlisted families who buy end up house-poor or underwater at PCS. Renting in Lakewood or DuPont keeps housing costs within BAH, and you can explore buying only if you have dual income or plan to keep the property as a rental.',
+    },
   },
   {
     name: 'Fort Carson',
@@ -482,10 +582,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Texas',
     branches: ['Air Force', 'Army', 'Navy', 'Marine Corps', 'Space Force'],
     description:
-      'JBSA is the largest joint base in the DoD, comprising Lackland AFB, Randolph AFB, Fort Sam Houston, and Camp Bullis — the hub of Air Force Basic Military Training and medical education.',
+      'San Antonio is one of the best BAH-to-cost ratio duty stations in the military. Housing is affordable, there\'s no state income tax, and the metro offers big-city amenities at a fraction of coastal prices. An E-5 with dependents can comfortably rent or realistically buy with a VA loan.',
+    installationDetail:
+      'JBSA is a tri-base complex — Lackland AFB (basic training), Fort Sam Houston (military medical), and Randolph AFB (pilot training) — supporting over 80,000 personnel across San Antonio.',
     rentalNote:
       'San Antonio is one of the most affordable large metros in the country. BAH at nearly all grades covers mid-range rentals comfortably, and homeownership is highly accessible.',
+    rentalContext:
+      'San Antonio housing costs run 8–12% below the national median — your BAH goes significantly further here than at most duty stations.',
     nearby: ['fort-hood', 'fort-bliss', 'barksdale-afb'],
+    bahVsHousing: {
+      medianRent: 1400,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 295000,
+      medianHomePriceSource: 'Redfin / Zillow 2026',
+      mortgageMin: 1950,
+      mortgageMax: 2150,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~2.0% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 8–12% below the national average',
+      stateTaxNote:
+        'Texas has no state income tax on military pay, meaning your BAH, base pay, and special pays go further here than in high-tax states.',
+      neighborhoods: [
+        {
+          name: 'Converse / Live Oak (near Randolph)',
+          highlight: 'Judson ISD — decent (6–7/10)',
+          commute: '10–15 min to Randolph AFB',
+          bestFor: 'Families stationed at Randolph wanting affordable housing',
+          typicalRent3br: '$1,200–$1,500/mo',
+        },
+        {
+          name: 'Alamo Ranch (near Lackland)',
+          highlight: 'Northside ISD — strong (7–8/10)',
+          commute: '15–20 min to Lackland AFB',
+          bestFor: 'Families with kids, near Lackland, newer neighborhoods',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'Schertz / Cibolo',
+          highlight: 'Schertz-Cibolo-Universal City ISD — strong (7–8/10)',
+          commute: '15–25 min to Randolph, 30+ to Lackland',
+          bestFor: 'Families wanting small-town feel with good schools',
+          typicalRent3br: '$1,300–$1,700/mo',
+        },
+        {
+          name: 'Government Hill (near Fort Sam)',
+          highlight: 'San Antonio ISD — varies',
+          commute: '5–10 min to Fort Sam Houston',
+          bestFor: 'Singles or couples wanting walkable historic neighborhood near Fort Sam',
+          typicalRent3br: '$1,000–$1,400/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'JBSA families often pick a neighborhood without checking which base they\'ll actually commute to. San Antonio is a big city — living near Lackland on the west side adds a 40+ minute commute to Randolph on the northeast side. Figure out your daily commute first, then pick your neighborhood. An E-5 at $1,869/month BAH has plenty of options in every part of the city.',
+    },
   },
   {
     name: 'Travis AFB',
@@ -792,10 +942,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Virginia',
     branches: ['Navy'],
     description:
-      'Naval Station Norfolk is the largest naval base in the world by area, homeporting more than 75 ships and 130 aircraft and serving as headquarters for Fleet Forces Command.',
+      'Norfolk offers a solid BAH-to-cost ratio despite being in a major metro area. An E-5 with dependents has enough BAH to cover median rent with a meaningful buffer, and the median home price keeps homeownership in reach — especially with a VA loan.',
+    installationDetail:
+      'Naval Station Norfolk is the world\'s largest naval base, home port for aircraft carriers, destroyers, and amphibious ships — the anchor of the Atlantic Fleet.',
     rentalNote:
       'Hampton Roads is a large military housing market with heavy Navy demand. BAH rates are competitive, but the sheer size of the military population creates real competition for housing in desirable Norfolk, Chesapeake, and Virginia Beach neighborhoods.',
+    rentalContext:
+      'Hampton Roads housing costs run roughly 6% below the national median — your BAH goes further here than in most major metro areas.',
     nearby: ['joint-base-langley-eustis', 'joint-base-little-creek-fort-story', 'naval-air-station-oceana'],
+    bahVsHousing: {
+      medianRent: 1550,
+      medianRentSource: 'Zillow 2025–2026',
+      medianHomePrice: 283000,
+      medianHomePriceSource: 'Zillow 2026',
+      mortgageMin: 1900,
+      mortgageMax: 2100,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.1% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 6% below the national average',
+      stateTaxNote:
+        'Virginia taxes military pay. The top marginal rate is 5.75%. BAH and BAS remain tax-free at the federal and state level.',
+      neighborhoods: [
+        {
+          name: 'Ghent',
+          highlight: 'Norfolk Public Schools — ratings vary by zone',
+          commute: '10–15 min to Naval Station',
+          bestFor: 'Young officers and singles wanting walkable urban living',
+          typicalRent3br: '$1,300–$1,700/mo',
+        },
+        {
+          name: 'Chesapeake (Great Bridge)',
+          highlight: 'Chesapeake Public Schools — strong ratings (7–8/10)',
+          commute: '20–30 min to Naval Station',
+          bestFor: 'Families who prioritize schools over commute',
+          typicalRent3br: '$1,500–$1,900/mo',
+        },
+        {
+          name: 'Norfolk (Colonial Place)',
+          highlight: 'Norfolk Public Schools — varies',
+          commute: '10–15 min to Naval Station',
+          bestFor: 'Families wanting character homes close to base',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'Virginia Beach (Town Center area)',
+          highlight: 'Virginia Beach City Schools — strong overall (7–9/10)',
+          commute: '25–35 min without tunnel traffic',
+          bestFor: 'Families willing to trade commute for beach lifestyle and schools',
+          typicalRent3br: '$1,600–$2,100/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'The biggest mistake PCSing families make in Hampton Roads is not factoring in tunnel traffic. Living in Virginia Beach or the Peninsula side can mean a 45–60 minute commute through the Hampton Roads Bridge-Tunnel during rush hour. Families stationed at Naval Station Norfolk should look at Norfolk proper, Ghent, or Chesapeake for the best commute-to-cost ratio.',
+    },
   },
   {
     name: 'Naval Station San Diego',
@@ -806,10 +1006,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'California',
     branches: ['Navy'],
     description:
-      'Naval Station San Diego is the primary homeport for the Pacific Fleet surface ships, hosting over 50 ships and supporting the largest naval installation complex on the West Coast.',
+      'San Diego is one of the most expensive duty stations in the entire military. An E-5 with dependents receives $3,975/month — generous on paper, but a typical 3-bedroom in a decent neighborhood runs $2,800–$3,500+. Homeownership is out of reach for most single-income enlisted families. This is a duty station where you trade financial surplus for world-class weather and lifestyle.',
+    installationDetail:
+      'Naval Base San Diego is the principal home port of the Pacific Fleet, supporting over 20,000 military personnel and 50+ ships.',
     rentalNote:
       'San Diego is one of the most expensive military markets in the country. BAH rates are among the highest in CONUS, but rapidly rising rents mean junior members often struggle to find housing fully covered by BAH alone.',
+    rentalContext:
+      'San Diego housing costs run 45–50% above the national median — BAH is set to cover median rent, but there\'s little surplus for most enlisted members.',
     nearby: ['camp-pendleton', 'marine-corps-air-station-miramar', 'naval-base-ventura-county'],
+    bahVsHousing: {
+      medianRent: 2800,
+      medianRentSource: 'Garrison Ledger / Zillow 2025–2026',
+      medianHomePrice: 850000,
+      medianHomePriceSource: 'Redfin / Zillow 2026',
+      mortgageMin: 5400,
+      mortgageMax: 5900,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.1% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 45–50% above the national average',
+      stateTaxNote:
+        'California taxes military pay. The top marginal rate can reach 9.3%+ depending on income. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Chula Vista / Eastlake',
+          highlight: 'Sweetwater Union HSD — decent (6–7/10)',
+          commute: '20–25 min to 32nd Street Naval Station',
+          bestFor: 'Families wanting the best value relative to BAH',
+          typicalRent3br: '$2,400–$3,000/mo',
+        },
+        {
+          name: 'National City',
+          highlight: 'National School District — varies (5–6/10)',
+          commute: '10–15 min to 32nd Street Naval Station',
+          bestFor: 'Short commute, most affordable near base',
+          typicalRent3br: '$2,000–$2,600/mo',
+        },
+        {
+          name: 'Coronado',
+          highlight: 'Coronado Unified — excellent (9/10)',
+          commute: '10–15 min to Naval Station (via bridge)',
+          bestFor: 'Officers or dual-income families wanting top schools',
+          typicalRent3br: '$3,500–$5,000/mo',
+        },
+        {
+          name: 'La Mesa / El Cajon',
+          highlight: 'Grossmont Union HSD — decent (6–7/10)',
+          commute: '20–30 min to 32nd Street',
+          bestFor: 'Families wanting more space at lower cost, inland',
+          typicalRent3br: '$2,200–$2,800/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'San Diego BAH is the 3rd highest in the Navy — but it still doesn\'t fully cover rent in top school districts like Poway or Del Mar, where 3-bedroom homes run $3,800–$5,500/month. The mistake is expecting BAH to give you a comfortable surplus here. Budget to spend every dollar of your BAH on housing, and look at Chula Vista or National City for the best value.',
+    },
   },
   {
     name: 'Marine Corps Base Camp Pendleton',
@@ -820,10 +1070,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'California',
     branches: ['Marine Corps'],
     description:
-      'Camp Pendleton is the largest active-duty Marine Corps base on the West Coast, spanning 125,000 acres along 17 miles of California coastline between Los Angeles and San Diego.',
+      'Camp Pendleton is one of the most expensive duty stations in the military. BAH is high but so is everything else — rent, groceries, gas, and taxes. Most families find BAH covers rent with a modest buffer, but homeownership is out of reach for junior enlisted without dual income. This is a \'sunshine tax\' duty station.',
+    installationDetail:
+      'Camp Pendleton is the Marine Corps\' largest West Coast base with approximately 38,000 active-duty personnel, located on the Southern California coast between LA and San Diego.',
     rentalNote:
       'The Oceanside/Fallbrook market is slightly more affordable than San Diego proper, but still a high-cost California market. BAH rates reflect the San Diego MHA, which is among the highest in CONUS.',
+    rentalContext:
+      'Southern California housing costs run 40–50% above the national median — BAH is set to cover median rent, leaving little room for error in this market.',
     nearby: ['naval-station-san-diego', 'marine-corps-air-station-miramar', 'travis-afb'],
+    bahVsHousing: {
+      medianRent: 2800,
+      medianRentSource: 'RentCafe / Zillow 2025–2026',
+      medianHomePrice: 750000,
+      medianHomePriceSource: 'MLS / Redfin 2026',
+      mortgageMin: 4800,
+      mortgageMax: 5200,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.1% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 40–50% above the national average',
+      stateTaxNote:
+        'California taxes military pay. The top marginal rate can reach 9.3%+ depending on income. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Oceanside',
+          highlight: 'Oceanside Unified — mixed ratings (5–7/10)',
+          commute: '10–20 min to main gate',
+          bestFor: 'Marines wanting beach proximity and base access',
+          typicalRent3br: '$2,200–$2,800/mo',
+        },
+        {
+          name: 'Vista',
+          highlight: 'Vista Unified — improving (5–7/10)',
+          commute: '15–25 min to main gate',
+          bestFor: 'Families looking for more space at lower cost',
+          typicalRent3br: '$2,000–$2,600/mo',
+        },
+        {
+          name: 'Fallbrook',
+          highlight: 'Fallbrook Union — decent (6–7/10)',
+          commute: '15–20 min to back gate',
+          bestFor: 'Families wanting a small-town feel with more space',
+          typicalRent3br: '$1,800–$2,400/mo',
+        },
+        {
+          name: 'San Clemente',
+          highlight: 'Capistrano Unified — strong (8–9/10)',
+          commute: '15–20 min to north gate (I-5 traffic dependent)',
+          bestFor: 'Families willing to pay more for top schools and beach town living',
+          typicalRent3br: '$2,800–$3,500/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'BAH at Camp Pendleton is among the highest in the country — but so is rent. An E-5 with dependents at $3,963/month will find that quality 3-bedroom rentals in Oceanside start around $2,800 and climb fast. The mistake is assuming BAH gives you a big surplus here. Budget carefully and look at Vista or Fallbrook for more affordable options if Oceanside coastal rents push past your allowance.',
+    },
   },
   {
     name: 'Marine Corps Base Camp Lejeune',

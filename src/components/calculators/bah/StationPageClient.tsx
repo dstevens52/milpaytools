@@ -623,12 +623,14 @@ export function StationPageClient({
                     Overall cost of living is roughly {station.localHousingTips.coliNote}.
                   </p>
                 </li>
+                {station.localHousingTips.groceryNote && (
                 <li className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 flex-none mt-1.5" />
                   <p className="text-sm text-zinc-600">
                     Groceries run about {station.localHousingTips.groceryNote}.
                   </p>
                 </li>
+                )}
                 <li className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 flex-none mt-1.5" />
                   <p className="text-sm text-zinc-600">{station.localHousingTips.stateTaxNote}</p>
