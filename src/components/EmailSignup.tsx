@@ -66,7 +66,7 @@ export function EmailSignup({
     <>
       <p className={`text-sm font-semibold mb-1 ${headlineClass}`}>{displayHeadline}</p>
       {subtext && <p className={`text-xs mb-3 ${subtextClass}`}>{subtext}</p>}
-      <form onSubmit={handleSubmit} className="flex gap-2">
+      <form onSubmit={handleSubmit} className="flex gap-2 sm:max-w-[480px]">
         <input
           type="email"
           value={email}
