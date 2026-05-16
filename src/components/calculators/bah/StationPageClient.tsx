@@ -661,13 +661,12 @@ export function StationPageClient({
                       <p className="text-xs text-zinc-600 font-medium mb-1">Typical 3BR: {n.typicalRent3br}</p>
                     )}
                     <p className="text-xs text-zinc-500">Commute: {n.commute}</p>
-                    <p className="text-xs text-zinc-400 mt-0.5">Best for: {n.bestFor}</p>
+                    <p className="text-xs text-zinc-400 mt-0.5">Common among: {n.bestFor}</p>
                   </div>
                 ))}
               </div>
               <p className="text-xs text-zinc-400 italic mb-6">
-                Neighborhood notes are general guidance based on common PCS advice. Verify school zones,
-                commute times, safety, and current listings before choosing housing.
+                Neighborhood data: Rental estimates from published market sources. School ratings from GreatSchools / Niche.com. Commute times are approximate. Verify all information independently before making housing decisions.
               </p>
 
               <p className="text-xs text-zinc-500 uppercase tracking-wide font-semibold mb-3">
@@ -694,9 +693,9 @@ export function StationPageClient({
                 </li>
               </ul>
 
-              <div className="rounded-lg bg-amber-50 border border-amber-200 p-4">
-                <p className="text-sm font-semibold text-amber-800 mb-1">The mistake to avoid</p>
-                <p className="text-sm text-amber-700 leading-relaxed">
+              <div className="rounded-lg bg-sky-50 border border-sky-200 p-4">
+                <p className="text-sm font-semibold text-sky-900 mb-1">What to know before you move</p>
+                <p className="text-sm text-sky-700 leading-relaxed">
                   {interpolate(station.localHousingTips.mistakeToAvoid, templateVars)}
                 </p>
               </div>
@@ -758,6 +757,15 @@ export function StationPageClient({
               </li>
             </ul>
           </div>
+          )}
+
+          {/* Housing data master disclaimer */}
+          {station.bahVsHousing && (
+            <div className="rounded-lg bg-slate-50 border border-slate-200 p-4">
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Housing data is approximate and provided for informational and educational purposes only. Median rents and home prices reflect market estimates at time of publication and may not reflect current conditions. School ratings are sourced from third-party services and reflect their methodology. MilPayTools does not endorse specific neighborhoods, properties, landlords, or housing decisions. Always verify figures independently and consult with a qualified professional before making financial commitments.
+              </p>
+            </div>
           )}
 
           {/* Calculator CTAs */}

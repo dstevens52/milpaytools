@@ -3822,13 +3822,13 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Colorado',
     branches: ['Space Force', 'Air Force'],
     description:
-      'Peterson SFB sits in the Colorado Springs market — the same MHA as Fort Carson, Schriever, and USAFA. BAH covers rent in most neighborhoods, but homeownership requires careful math at junior enlisted grades. The Powers Corridor and Falcon/Peyton areas east of base offer the best value.',
+      'An E-5 with dependents at Peterson SFB receives $2,058/month in tax-free BAH. Peterson shares the Colorado Springs Military Housing Area with Fort Carson, Schriever SFB, and the Air Force Academy. Median 3-bedroom rent in the Colorado Springs area is approximately $1,825/month. (Rental data: PCS Pay It Forward / Zillow 2025–2026)',
     installationDetail:
       'Peterson SFB is the nerve center of U.S. military space operations — home to Space Operations Command, U.S. Northern Command (NORTHCOM), and NORAD.',
     rentalNote:
       'Colorado Springs shares its MHA with three other major installations — competition for housing is real. The Powers Corridor east of base offers the best balance of commute time and price, but inventory moves fast. Start your search 60–90 days before PCS.',
     rentalContext:
-      'Colorado Springs inventory moves fast in a market shared by four military bases — start your housing search 60–90 days before PCS.',
+      "Colorado Springs' cost of living is approximately 12–15% above the national average. (Cost of living data: BestPlaces 2025–2026)",
     nearby: ['schriever-sfb', 'usaf-academy', 'buckley-sfb'],
     bahVsHousing: {
       medianRent: 1825,
@@ -3847,33 +3847,33 @@ export const DUTY_STATIONS: DutyStation[] = [
           name: 'Powers Corridor (east)',
           highlight: 'Falcon District 49 — growing, decent (6–7/10)',
           commute: '10–15 min to Peterson West Gate',
-          bestFor: 'Best balance of price and commute for Peterson',
+          bestFor: 'Peterson-assigned families balancing commute and housing costs',
           typicalRent3br: '$1,600–$2,100/mo',
         },
         {
           name: 'Briargate / Northgate',
           highlight: 'Academy District 20 — top-rated (8–9/10)',
           commute: '15–20 min to Peterson',
-          bestFor: 'Families prioritizing the best schools',
+          bestFor: 'Families with school-age children',
           typicalRent3br: '$2,100–$2,800/mo',
         },
         {
           name: 'Falcon / Peyton',
           highlight: 'Falcon District 49 — newer schools',
           commute: '15–20 min to Peterson',
-          bestFor: 'Families wanting newer homes and more space at lower prices',
+          bestFor: 'Families seeking newer construction',
           typicalRent3br: '$1,500–$2,000/mo',
         },
         {
           name: 'Downtown Colorado Springs',
           highlight: 'District 11 — mixed (5–7/10)',
           commute: '10–15 min to Peterson',
-          bestFor: 'Singles or couples wanting walkable urban living',
+          bestFor: 'Service members without dependents',
           typicalRent3br: '$1,400–$1,900/mo',
         },
       ],
       mistakeToAvoid:
-        "Peterson shares the Colorado Springs housing market with Fort Carson, Schriever, and the Academy — that's a lot of military families competing for the same housing. The mistake is waiting until you arrive to start looking. The Powers Corridor east of base has the best combination of commute and price, but moves fast. Start your search 60–90 days before PCS.",
+        'Peterson SFB shares the Colorado Springs Military Housing Area with Fort Carson, Schriever SFB, and the U.S. Air Force Academy. The combined military population creates consistent demand for rental housing across the market. Families who begin their housing search 60–90 days before a PCS report date generally have more options available. (Market context: PCS Pay It Forward / Zillow 2025–2026)',
     },
   },
   {
