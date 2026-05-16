@@ -92,3 +92,25 @@ export function getMHACode(zipCode: string): string | null {
   if (!mhaCode || mhaCode === 'XX499') return null;
   return mhaCode;
 }
+
+/**
+ * Compute national average BAH rates for every pay grade across all MHAs.
+ * Returns mean monthly rate rounded to the nearest dollar.
+ */
+export function getNationalAverages(): { w: Record<string, number>; wo: Record<string, number> } {
+  const accumW: Record<string, number[]> = {};
+  const accumWO: Record<string, number[]> = {};
+  for (const mha of Object.values(mhaRates)) {
+    for (const [grade, rate] of Object.entries(mha.w)) {
+      (accumW[grade] ??= []).push(rate);
+    }
+    for (const [grade, rate] of Object.entries(mha.wo)) {
+      (accumWO[grade] ??= []).push(rate);
+    }
+  }
+  const avg = (arr: number[]) => Math.round(arr.reduce((a, b) => a + b, 0) / arr.length);
+  return {
+    w: Object.fromEntries(Object.entries(accumW).map(([g, rates]) => [g, avg(rates)])),
+    wo: Object.fromEntries(Object.entries(accumWO).map(([g, rates]) => [g, avg(rates)])),
+  };
+}

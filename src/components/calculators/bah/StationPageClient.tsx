@@ -35,11 +35,10 @@ export interface StationPageClientProps {
   colaArea: { name: string; tier: string } | null;
   nearbyData: NearbyStationData[];
   hasRates: boolean;
+  nationalAvgs: { w: Record<string, number>; wo: Record<string, number> };
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-
-const NATIONAL_AVG_E5_W = 1987;
 
 // BAH table only goes to O-7; O-8/9/10 use O-7 rates
 const BAH_OFFICER_GRADES = ['O-1', 'O-2', 'O-3', 'O-4', 'O-5', 'O-6', 'O-7'] as const;
@@ -124,6 +123,11 @@ function HeroBanner({ station }: { station: DutyStation }) {
           <p className="text-sm text-white/70">{subtitle}</p>
           {station.installationDetail && (
             <p className="text-xs text-white/50 mt-1">{station.installationDetail}</p>
+          )}
+          {station.description && station.bahVsHousing && (
+            <p className="mt-3 text-sm text-white/85 leading-relaxed max-w-[640px]">
+              {station.description}
+            </p>
           )}
         </div>
         {/* 3-step plan strip — inside the dark hero */}
@@ -294,6 +298,7 @@ export function StationPageClient({
   colaArea,
   nearbyData,
   hasRates,
+  nationalAvgs,
 }: StationPageClientProps) {
   const [selectedGrade, setSelectedGrade] = useState<PayGrade>('E-5');
   const [hasDependents, setHasDependents] = useState(true);
@@ -327,9 +332,8 @@ export function StationPageClient({
   // Derived values
   const selectedRates = hasDependents ? ratesW : ratesWO;
   const selectedBAH = selectedRates[selectedGrade] ?? 0;
-  const e5WithDep = ratesW['E-5'] ?? 0;
-  const selectedDiff = selectedBAH - NATIONAL_AVG_E5_W;
-  const showNatAvgNote = selectedGrade !== 'E-5' || !hasDependents;
+  const natAvg = (hasDependents ? nationalAvgs.w : nationalAvgs.wo)[selectedGrade] ?? 0;
+  const selectedDiff = selectedBAH - natAvg;
 
   const availableGrades = useMemo(
     () => BAH_GRADE_ORDER.filter((g) => ratesW[g] !== undefined || ratesWO[g] !== undefined),
@@ -338,9 +342,6 @@ export function StationPageClient({
 
   const hasRichData = !!station.bahVsHousing;
   const depLabel = hasDependents ? 'w/dep' : 'w/o dep';
-
-  // Suppress unused variable warning — e5WithDep kept for reference
-  void e5WithDep;
 
   return (
     <>
@@ -359,15 +360,6 @@ export function StationPageClient({
 
       {/* Hero banner */}
       <HeroBanner station={station} />
-
-      {/* Intro description — only for rich pages, above the 3-step plan */}
-      {hasRichData && (
-        <div className="bg-white border-b border-zinc-200">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">
-            <p className="text-sm text-zinc-600 leading-relaxed">{station.description}</p>
-          </div>
-        </div>
-      )}
 
       <div className="bg-zinc-50 min-h-screen">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -538,9 +530,11 @@ export function StationPageClient({
                   </p>
                 </div>
                 <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
-                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Natl avg E-5 w/dep</p>
+                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">
+                    Natl avg {selectedGrade} {depLabel}
+                  </p>
                   <p className="text-2xl font-bold text-zinc-500 tabular-nums">
-                    {fmt(NATIONAL_AVG_E5_W)}
+                    {fmt(natAvg)}
                     <span className="text-sm font-normal text-zinc-500">/mo</span>
                   </p>
                 </div>
@@ -550,7 +544,7 @@ export function StationPageClient({
                     selectedDiff >= 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200',
                   ].join(' ')}
                 >
-                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">vs. natl avg (E-5)</p>
+                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">vs. natl avg</p>
                   <p
                     className={[
                       'text-2xl font-bold tabular-nums',
@@ -563,11 +557,6 @@ export function StationPageClient({
                   </p>
                 </div>
               </div>
-              {showNatAvgNote && (
-                <p className="text-xs text-zinc-400">
-                  National average shown for E-5 with dependents as a market benchmark.
-                </p>
-              )}
             </div>
           )}
 

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { DUTY_STATIONS, STATION_BY_SLUG } from '@/data/duty-stations/stations';
-import { getMHACode, getMHARates, getLocationName } from '@/lib/calculations/bah';
+import { getMHACode, getMHARates, getLocationName, getNationalAverages } from '@/lib/calculations/bah';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema } from '@/lib/schema';
 import { STATE_TAX_DATA } from '@/data/compare/stateTax';
@@ -81,6 +81,8 @@ export default async function StationPage({
     };
   });
 
+  const nationalAvgs = getNationalAverages();
+
   const pageUrl = `/bah/${station.slug}`;
   const schema = articleSchema({
     title: `${station.name} BAH Rates 2026`,
@@ -101,6 +103,7 @@ export default async function StationPage({
         colaArea={colaArea}
         nearbyData={nearbyData}
         hasRates={!station.oconus && !!ratesW && !!ratesWO}
+        nationalAvgs={nationalAvgs}
       />
     </>
   );
