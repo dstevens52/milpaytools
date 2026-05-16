@@ -126,10 +126,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Tennessee',
     branches: ['Army'],
     description:
-      'Straddling the Kentucky-Tennessee border, Fort Campbell is home to the 101st Airborne Division (Air Assault) and the Army\'s 5th Special Forces Group.',
+      'Fort Campbell is one of the most financially favorable Army duty stations. Clarksville\'s cost of living is well below the national average, Tennessee has no income tax, and an E-5 with dependents has hundreds of dollars of buffer between BAH and median rent. Homeownership is very realistic here.',
+    installationDetail:
+      'Fort Campbell straddles the Tennessee-Kentucky border and is home to the 101st Airborne Division (Air Assault) — the \'Screaming Eagles.\'',
     rentalNote:
       'The Clarksville housing market is among the more affordable for a post of this size. E-5 and above BAH typically covers 2-bedroom apartments in most neighborhoods, and homebuyers often find significant BAH surplus.',
+    rentalContext:
+      'Clarksville housing costs run roughly 10–15% below the national median — your purchasing power here is well above average.',
     nearby: ['fort-knox', 'redstone-arsenal', 'fort-sill'],
+    bahVsHousing: {
+      medianRent: 1400,
+      medianRentSource: 'Zumper / Homes.com 2025–2026',
+      medianHomePrice: 315000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2050,
+      mortgageMax: 2250,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.7% TN property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 10–15% below the national average',
+      stateTaxNote:
+        'Tennessee has no state income tax on military pay (or any earned income). Your entire paycheck goes further here.',
+      neighborhoods: [
+        {
+          name: 'Tiny Town (near KY border)',
+          highlight: 'Clarksville-Montgomery County Schools — varies',
+          commute: '5–10 min to most base gates',
+          bestFor: 'Single soldiers or families wanting the shortest commute',
+          typicalRent3br: '$1,100–$1,400/mo',
+        },
+        {
+          name: 'Sango',
+          highlight: 'Rossview schools — highest-rated in area (7–8/10)',
+          commute: '20–25 min to Gate 1',
+          bestFor: 'Families who prioritize schools and want suburban feel',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'St. Bethlehem',
+          highlight: 'Clarksville-Montgomery County Schools — decent',
+          commute: '15–20 min to main gates',
+          bestFor: 'Families wanting shopping access and mid-range prices',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+        {
+          name: 'Downtown Clarksville',
+          highlight: 'Clarksville-Montgomery County Schools — varies',
+          commute: '15–20 min to Gate 4',
+          bestFor: 'Those wanting walkable restaurants, breweries, and arts scene',
+          typicalRent3br: '$1,000–$1,400/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Fort Campbell sits on the TN-KY border, and which side you live on matters for taxes and schools. Tennessee has no income tax; Kentucky does. Many families default to the closest apartment and miss that Clarksville\'s Sango or Rossview areas offer better schools and newer housing for the same rent. An E-5 at $1,815/month has strong options on the Tennessee side.',
+    },
   },
   {
     name: 'Fort Hood',
@@ -269,10 +319,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Colorado',
     branches: ['Army'],
     description:
-      'Fort Carson is home to the 4th Infantry Division and several special operations units, situated at the base of Pikes Peak in Colorado Springs.',
+      'Fort Carson BAH covers rent in most neighborhoods, but homeownership requires careful math. The Fountain and Security-Widefield corridor south of base offers the best balance of affordability and commute. Colorado Springs proper — especially the north side — commands premium rents that can exceed BAH for junior enlisted.',
+    installationDetail:
+      'Fort Carson — \'The Mountain Post\' — is home to the 4th Infantry Division, located at the base of the Rocky Mountains with Pikes Peak as a backdrop.',
     rentalNote:
       'Colorado Springs has seen rapid housing price appreciation over the past decade. BAH covers most mid-range apartments, but the competitive ownership market means buyers may need additional funds beyond BAH for a down payment.',
+    rentalContext:
+      'Colorado Springs runs roughly 12–15% above the national median — BAH covers median rents, but leaves less surplus than comparable-grade members at most inland installations.',
     nearby: ['kirtland-afb', 'fort-riley', 'offutt-afb'],
+    bahVsHousing: {
+      medianRent: 1825,
+      medianRentSource: 'PCS Pay It Forward / Zillow 2025–2026',
+      medianHomePrice: 460000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 3000,
+      mortgageMax: 3300,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.6% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 12–15% above the national average',
+      stateTaxNote:
+        'Colorado has a flat income tax of 4.40% on military pay. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Fountain / Security-Widefield',
+          highlight: 'Fountain-Fort Carson D8 / Widefield D3 — decent (6–7/10)',
+          commute: '10–15 min to Gate 1',
+          bestFor: 'Best value near base — where most enlisted families live',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'Colorado Springs (South / Powers Corridor)',
+          highlight: 'District 49 — growing, newer schools (6–7/10)',
+          commute: '15–20 min to Gate 20',
+          bestFor: 'Families wanting more retail and dining options',
+          typicalRent3br: '$1,600–$2,100/mo',
+        },
+        {
+          name: 'Colorado Springs (North / District 20)',
+          highlight: 'Academy District 20 — top-rated (8–9/10)',
+          commute: '25–35 min to Fort Carson',
+          bestFor: 'Families prioritizing schools above all else',
+          typicalRent3br: '$2,100–$2,800/mo',
+        },
+        {
+          name: 'Monument / Palmer Lake',
+          highlight: 'Lewis-Palmer D38 — excellent (9/10)',
+          commute: '35–45 min to Fort Carson',
+          bestFor: 'Officers or dual-income families wanting premium schools and small-town feel',
+          typicalRent3br: '$2,200–$2,800/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Colorado Springs has become genuinely expensive. The median home price around $460,000 means an E-5\'s BAH won\'t cover a mortgage without dual income. Many families buy anyway, then struggle at PCS when the rental market won\'t cover their payment. Rent first in the Fountain/Security-Widefield corridor — it\'s affordable, close to base, and lets you learn the market before committing.',
+    },
   },
   {
     name: 'Fort Drum',
@@ -354,10 +454,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Georgia',
     branches: ['Army'],
     description:
-      'Fort Benning is the center of Infantry and Armor training, home to the Maneuver Center of Excellence, the Ranger Training Brigade, and the 3rd Brigade Combat Team.',
+      'Fort Benning sits in one of the most affordable housing markets of any large Army installation. An E-5 with dependents at $1,716/month has a significant surplus over median rent, and the median home price keeps VA loan homeownership well within reach.',
+    installationDetail:
+      'Fort Benning is the Home of the Infantry and Armor — the Army\'s Maneuver Center of Excellence, training tens of thousands of soldiers annually.',
     rentalNote:
       'Columbus has a large, stable military-adjacent rental market with affordable options at most grades. BAH regularly exceeds mid-range rents, and homeownership is common throughout the force.',
+    rentalContext:
+      'Columbus housing costs run roughly 20–22% below the national median — your BAH gives you significantly more purchasing power here than the national average.',
     nearby: ['fort-stewart', 'fort-gordon', 'redstone-arsenal'],
+    bahVsHousing: {
+      medianRent: 1100,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 230000,
+      medianHomePriceSource: 'Redfin / Zillow 2026',
+      mortgageMin: 1500,
+      mortgageMax: 1700,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.0% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 20–22% below the national average',
+      stateTaxNote:
+        'Georgia taxes military pay at up to 5.75%. However, active-duty pay earned outside Georgia may be partially exempt depending on domicile. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'North Columbus',
+          highlight: 'Muscogee County — improving, research specific zones',
+          commute: '15–25 min to main gate',
+          bestFor: 'Families wanting newer homes and more retail/dining options',
+          typicalRent3br: '$1,100–$1,500/mo',
+        },
+        {
+          name: 'Midtown / Lakebottom',
+          highlight: 'Muscogee County — varies',
+          commute: '15–20 min to main gate',
+          bestFor: 'Those wanting historic charm and walkability near downtown',
+          typicalRent3br: '$1,000–$1,400/mo',
+        },
+        {
+          name: 'Phenix City, AL',
+          highlight: 'Phenix City Schools / Lee County Schools — solid options',
+          commute: '15–25 min to main gate (across river)',
+          bestFor: 'Families open to living in Alabama for potentially better schools',
+          typicalRent3br: '$900–$1,300/mo',
+        },
+        {
+          name: 'Fortson / Harris County',
+          highlight: 'Harris County Schools — strong (8/10)',
+          commute: '20–30 min to main gate',
+          bestFor: 'Families willing to commute for the best schools in the area',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Columbus is affordable, but neighborhood quality varies dramatically. Areas very close to the gates tend to have older housing and lower school ratings. Families who look 15–20 minutes north into North Columbus or across the river into Phenix City, AL find newer homes, better schools, and still stay well within BAH.',
+    },
   },
   {
     name: 'Fort Gordon',
@@ -397,10 +547,53 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Kansas',
     branches: ['Army'],
     description:
-      'Fort Leavenworth hosts the Command and General Staff College, the premier professional military education institution for field-grade officers, and the United States Disciplinary Barracks.',
+      'Fort Leavenworth is a unique duty station — most residents are mid-career officers attending CGSC. The Leavenworth-Lansing area is affordable with a small-town feel, and Kansas City\'s metro amenities are 30–40 minutes south. BAH comfortably covers rent with surplus.',
+    installationDetail:
+      'Fort Leavenworth is the Army\'s oldest active installation west of the Mississippi — home to the Command and General Staff College, where the Army\'s future leaders train.',
     rentalNote:
       'Leavenworth is a small city adjacent to the Kansas City metro. BAH aligns with the Kansas City MHA, providing solid coverage of local rents and solid purchasing power in the housing market.',
+    rentalContext:
+      'Leavenworth housing costs run roughly 10–12% below the national median — BAH covers rent comfortably with surplus.',
     nearby: ['fort-riley', 'offutt-afb', 'whiteman-afb'],
+    bahVsHousing: {
+      medianRent: 1300,
+      medianRentSource: 'BestPlaces / Zillow 2025–2026',
+      medianHomePrice: 250000,
+      medianHomePriceSource: 'Zillow / BestPlaces 2026',
+      mortgageMin: 1800,
+      mortgageMax: 2000,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.4% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 10–12% below the national average',
+      stateTaxNote:
+        'Kansas taxes military pay at up to 5.7%. However, recent legislation exempts active-duty military pay from Kansas income tax. Verify current exemption status with a tax professional.',
+      neighborhoods: [
+        {
+          name: 'Leavenworth (off-post)',
+          highlight: 'Leavenworth USD 453 — decent (6–7/10)',
+          commute: '5–10 min to main gate',
+          bestFor: 'Walkable small-town feel, closest to post',
+          typicalRent3br: '$1,000–$1,400/mo',
+        },
+        {
+          name: 'Lansing',
+          highlight: 'Lansing USD 469 — strong (7–8/10)',
+          commute: '10–15 min to main gate',
+          bestFor: 'Families wanting better schools and newer neighborhoods',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+        {
+          name: 'On-post housing',
+          highlight: 'Fort Leavenworth schools (DoDEA elementary, Leavenworth for middle/high)',
+          commute: 'Walk or 2–3 min drive',
+          bestFor: 'CGSC students wanting maximum convenience and community',
+          typicalRent3br: 'BAH covers 100% (no out-of-pocket)',
+        },
+      ],
+      mistakeToAvoid:
+        'Leavenworth is a short-tour assignment for most families (CGSC is about 10 months). The mistake is buying a home for a tour this short — transaction costs alone eat any equity. Rent near the post or in Lansing, save the BAH surplus, and invest the difference.',
+    },
   },
   {
     name: 'Fort Huachuca',
@@ -898,10 +1091,53 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Missouri',
     branches: ['Air Force'],
     description:
-      'Whiteman AFB is the only base operating the B-2 Spirit stealth bomber and is home to the 509th Bomb Wing, located in west-central Missouri near Kansas City.',
+      'Whiteman AFB received one of the largest BAH increases in the Air Force for 2026 (9.3%). Combined with Missouri\'s low cost of living, your BAH goes further here than at almost any other Air Force base. An E-5 with dependents can easily afford to buy with a VA loan.',
+    installationDetail:
+      'Whiteman AFB is the only base in the world that operates the B-2 Spirit stealth bomber — home of the 509th Bomb Wing.',
     rentalNote:
       'The Warrensburg/Sedalia area is one of the most affordable markets among Air Force bases. BAH provides substantial surplus over typical rents, and many servicemembers purchase in the Kansas City suburbs.',
+    rentalContext:
+      'The Warrensburg/Knob Noster area runs roughly 7–10% below the national median — one of the most favorable BAH-to-cost ratios in the Air Force.',
     nearby: ['scott-afb', 'offutt-afb', 'fort-leavenworth'],
+    bahVsHousing: {
+      medianRent: 1200,
+      medianRentSource: 'PCS Pay It Forward / BestPlaces 2025–2026',
+      medianHomePrice: 195000,
+      medianHomePriceSource: 'Zillow / BestPlaces 2026',
+      mortgageMin: 1350,
+      mortgageMax: 1500,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.0% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 7–10% below the national average',
+      stateTaxNote:
+        'Missouri taxes military pay at up to 4.95%. Active-duty pay may qualify for partial deductions — verify with a tax professional. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Knob Noster',
+          highlight: 'Knob Noster R-VIII — small, decent (6–7/10)',
+          commute: '5–10 min to base gate',
+          bestFor: 'Closest to base, tight-knit military community',
+          typicalRent3br: '$800–$1,200/mo',
+        },
+        {
+          name: 'Warrensburg',
+          highlight: 'Warrensburg R-VI — solid, includes UCM campus area (7/10)',
+          commute: '10–15 min to base gate',
+          bestFor: 'Families wanting more shopping, dining, and a college-town feel',
+          typicalRent3br: '$1,000–$1,400/mo',
+        },
+        {
+          name: 'Sedalia',
+          highlight: 'Sedalia 200 — decent (6/10)',
+          commute: '20–25 min to base',
+          bestFor: 'Families wanting a slightly larger town with more options',
+          typicalRent3br: '$900–$1,200/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Whiteman is remote — Knob Noster is tiny and Warrensburg is small. The mistake is not realizing how isolated this base is before you arrive. Kansas City is 70 miles northwest. If you need urban amenities, budget for regular KC trips. On the upside, your BAH goes incredibly far here — an E-5 can rent a house with a big yard for well under BAH.',
+    },
   },
   {
     name: 'Offutt AFB',
@@ -912,10 +1148,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Nebraska',
     branches: ['Air Force'],
     description:
-      'Offutt AFB is home to U.S. Strategic Command (STRATCOM) and the 55th Wing, coordinating the U.S. nuclear deterrence mission from the Omaha metro area.',
+      'Offutt offers one of the best BAH-to-purchasing-power ratios in the Air Force. The Bellevue-Papillion corridor has affordable homes, strong schools, and Omaha\'s amenities are 15 minutes north. An E-5 with dependents can realistically buy a home here on BAH alone with a VA loan.',
+    installationDetail:
+      'Offutt AFB is headquarters of U.S. Strategic Command (USSTRATCOM) — the nation\'s nuclear command and control center — located just south of Omaha.',
     rentalNote:
       'Bellevue and greater Omaha offer affordable, stable housing. BAH comfortably covers most rentals, and the Omaha metro\'s steady economy makes homeownership a financially sound choice for most servicemembers.',
+    rentalContext:
+      'The Bellevue-Omaha area runs roughly 5–8% below the national median — your BAH stretches well here, and homeownership is within reach on a single income.',
     nearby: ['whiteman-afb', 'fort-leavenworth', 'ellsworth-afb'],
+    bahVsHousing: {
+      medianRent: 1500,
+      medianRentSource: 'Zillow / PCS Pay It Forward 2025–2026',
+      medianHomePrice: 300000,
+      medianHomePriceSource: 'Redfin / Zillow 2026',
+      mortgageMin: 2050,
+      mortgageMax: 2250,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.7% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 5–8% below the national average',
+      stateTaxNote:
+        'Nebraska taxes military pay. The top marginal rate is 6.64%, though recent legislation has been reducing rates. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Bellevue',
+          highlight: 'Bellevue Public Schools — solid (7/10), military-friendly',
+          commute: '5–15 min to main gate',
+          bestFor: 'Shortest commute, established military community',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+        {
+          name: 'Papillion',
+          highlight: 'Papillion-La Vista Schools — top-rated in Nebraska (8–9/10)',
+          commute: '15–20 min to main gate',
+          bestFor: 'Families who prioritize schools',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'La Vista',
+          highlight: 'Papillion-La Vista Schools — top-rated',
+          commute: '15–20 min to main gate',
+          bestFor: 'Newer construction, good retail/dining access',
+          typicalRent3br: '$1,300–$1,700/mo',
+        },
+        {
+          name: 'South Omaha / Sarpy County',
+          highlight: 'Varies — Millard or Papillion-La Vista districts',
+          commute: '20–25 min to main gate',
+          bestFor: 'Those wanting urban access to Omaha\'s food and entertainment scene',
+          typicalRent3br: '$1,300–$1,700/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Offutt families sometimes default to the closest housing without comparing school districts. Bellevue Public Schools are solid, but the Papillion-La Vista district next door consistently ranks among the best in Nebraska. The commute difference is only 5–10 minutes, and at an E-5\'s $2,085/month BAH, both districts are well within reach.',
+    },
   },
   {
     name: 'Patrick Space Force Base',
@@ -2001,9 +2287,54 @@ export const DUTY_STATIONS: DutyStation[] = [
     state: 'AK',
     stateName: 'Alaska',
     branches: ['Air Force'],
-    description: 'Eielson AFB hosts the 354th Fighter Wing (F-35A) and supports Indo-Pacific operations through large-force exercises including Red Flag Alaska. It is a key installation for the defense of Alaska.',
-    rentalNote: 'Fairbanks-area housing is available but limited. Extreme cold (regularly -40°F or colder) shapes housing and lifestyle decisions. BAH reflects the remote, high-cost Alaska market. Most servicemembers live on base or in Fairbanks proper.',
+    description:
+      'Eielson is a unique duty station — extreme cold, limited amenities, but no state income tax and surprisingly affordable housing. The North Pole area near base has homes well within BAH reach. Fairbanks offers more options but adds 25+ minutes of commute on icy winter roads. Many families choose on-base housing to avoid the heating cost surprise.',
+    installationDetail:
+      'Eielson AFB is home to the 354th Fighter Wing, operating F-35A Lightning II jets — the Air Force\'s newest stealth fighters in the extreme Arctic environment, 26 miles southeast of Fairbanks.',
+    rentalNote:
+      'Fairbanks-area housing is available but limited. Extreme cold (regularly -40°F or colder) shapes housing and lifestyle decisions. BAH reflects the remote, high-cost Alaska market. Most servicemembers live on base or in Fairbanks proper.',
+    rentalContext:
+      'Fairbanks-area housing costs are roughly 25–30% above the national median overall, though winter utilities — not rent — are the real budget challenge here.',
     nearby: ['joint-base-elmendorf-richardson', 'fort-wainwright', 'joint-base-pearl-harbor-hickam'],
+    bahVsHousing: {
+      medianRent: 1500,
+      medianRentSource: 'Zillow / AskDoss 2025–2026',
+      medianHomePrice: 260000,
+      medianHomePriceSource: 'Zillow / AskDoss 2026',
+      mortgageMin: 1800,
+      mortgageMax: 2000,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.1% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 25–30% above the national average (driven by groceries and energy)',
+      stateTaxNote:
+        'Alaska has no state income tax and no state sales tax. Your military pay stretches further here on the tax side — but higher costs for food, fuel, and heating offset some of that advantage.',
+      neighborhoods: [
+        {
+          name: 'North Pole',
+          highlight: 'North Pole schools — small, military-heavy (6–7/10)',
+          commute: '10–15 min to Eielson main gate',
+          bestFor: 'Closest to base, most affordable off-base option',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+        {
+          name: 'Fairbanks',
+          highlight: 'Fairbanks North Star Borough Schools — solid (7/10)',
+          commute: '25–35 min to Eielson (weather dependent)',
+          bestFor: 'Families wanting more shopping, dining, and community options',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'On-base housing',
+          highlight: 'On-base schools available',
+          commute: 'Walk or 2–3 min drive',
+          bestFor: 'Families wanting included utilities (critical in -40°F winters)',
+          typicalRent3br: 'BAH covers 100% (utilities included)',
+        },
+      ],
+      mistakeToAvoid:
+        'The biggest shock at Eielson is winter utility costs. Heating a home at -40°F can cost $400–$600/month from October through March. On-base housing includes utilities, but if you live off-base in North Pole or Fairbanks, budget for heating as a major expense that eats into your BAH surplus fast.',
+    },
   },
 
   // ── NAVY / MARINE CORPS (additional) ──────────────────────────────────────
