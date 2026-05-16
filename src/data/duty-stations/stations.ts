@@ -2412,10 +2412,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Florida',
     branches: ['Space Force', 'Air Force'],
     description:
-      'Patrick SFB is home to Space Launch Delta 45, supporting launches from Cape Canaveral Space Force Station, positioned on Florida\'s Space Coast between the launch complexes and the Atlantic.',
+      "Patrick SFB puts you on Florida's Space Coast — beachside living, no state income tax, and a front-row seat to rocket launches. The housing market is more affordable than South Florida but carries a coastal premium. Melbourne and Viera offer the best value, while beachside communities push closer to BAH limits.",
+    installationDetail:
+      "Patrick SFB is the gateway to space — home to Space Launch Delta 45 supporting all launches from Cape Canaveral and Kennedy Space Center on Florida's Space Coast.",
     rentalNote:
-      'Cocoa Beach and the Space Coast are popular coastal markets. BAH covers most of the rental range, but proximity to the ocean and growing tech sector have pushed rents upward in recent years.',
+      'Cocoa Beach and the Space Coast carry a coastal premium. BAH covers most rentals but beach-adjacent units push the limit. Melbourne and Viera are 15 minutes inland with significantly lower rents and newer construction.',
+    rentalContext:
+      "Melbourne and Viera offer 15-minute access to the beach with significantly lower rents than beachside communities — and Florida's no-income-tax advantage applies everywhere.",
     nearby: ['macdill-afb', 'eglin-afb', 'naval-air-station-pensacola'],
+    bahVsHousing: {
+      medianRent: 1800,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 380000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2500,
+      mortgageMax: 2800,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.9% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 5–8% above the national average',
+      stateTaxNote: 'Florida has no state income tax on military pay. Your entire paycheck goes further here than at duty stations in income-tax states.',
+      neighborhoods: [
+        {
+          name: 'Melbourne / Viera',
+          highlight: 'Brevard County Schools — Viera zone is strong (7–8/10)',
+          commute: '15–20 min to Patrick gate',
+          bestFor: 'Best schools and most options, slightly inland',
+          typicalRent3br: '$1,500–$1,900/mo',
+        },
+        {
+          name: 'Satellite Beach',
+          highlight: 'Brevard County Schools — decent (6–7/10)',
+          commute: '5–10 min to Patrick gate',
+          bestFor: 'Closest beachside community to base',
+          typicalRent3br: '$1,700–$2,200/mo',
+        },
+        {
+          name: 'Palm Bay',
+          highlight: 'Brevard County Schools — varies (5–7/10)',
+          commute: '20–25 min to Patrick gate',
+          bestFor: 'Most affordable option in the area',
+          typicalRent3br: '$1,300–$1,700/mo',
+        },
+        {
+          name: 'Cocoa Beach',
+          highlight: 'Brevard County Schools — decent',
+          commute: '15–20 min to Patrick gate (north)',
+          bestFor: 'Classic beach-town living (expect to pay near or above BAH)',
+          typicalRent3br: '$1,800–$2,400/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "The Space Coast is a beach community, and beachside rents reflect it. The mistake is renting in Cocoa Beach or Satellite Beach without checking Melbourne or Viera, which are 10–15 minutes inland with significantly lower rents, newer construction, and better school options. You can still hit the beach in 15 minutes.",
+    },
   },
 
   // ── NAVY / MARINE CORPS ────────────────────────────────────────────────────
@@ -2811,10 +2860,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Florida',
     branches: ['Navy'],
     description:
-      'Naval Station Mayport is the third-largest U.S. Navy fleet concentration area, homeporting surface ships and conducting fleet support operations on Florida\'s Atlantic coast near Jacksonville.',
+      "NS Mayport gives you Jacksonville's beach lifestyle without Miami prices. Florida has no income tax, and BAH covers rent comfortably in most neighborhoods. The Beaches area is walkable to base but commands premium rents. Families looking for the best schools often look south to St. Johns County — consistently the top-rated district in Florida.",
+    installationDetail:
+      "Naval Station Mayport is the third-largest Navy base in the country — home port for guided-missile destroyers, littoral combat ships, and the future home of a carrier strike group on Jacksonville's Atlantic coast.",
     rentalNote:
-      'The Jacksonville Beach / Mayport area commands a coastal premium. BAH covers most 2-bedroom units, but beachside rents can exceed BAH for lower grades. The broader Jacksonville market offers more affordable options inland.',
+      "The Beaches area (Atlantic Beach, Neptune Beach) is walkable to Mayport but commands a coastal premium. BAH covers most rentals — but families after the best schools often commute south to St. Johns County, the top-ranked district in Florida.",
+    rentalContext:
+      "Florida's no-income-tax advantage and Jacksonville's below-average cost of living make Mayport one of the more financially favorable Navy assignments on the East Coast.",
     nearby: ['naval-air-station-pensacola', 'macdill-afb', 'marine-corps-air-station-beaufort'],
+    bahVsHousing: {
+      medianRent: 1600,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 350000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2350,
+      mortgageMax: 2550,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.9% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 5–8% below the national average',
+      stateTaxNote: 'Florida has no state income tax on military pay. Your entire paycheck goes further here than at duty stations in income-tax states.',
+      neighborhoods: [
+        {
+          name: 'Atlantic Beach / Neptune Beach',
+          highlight: 'Duval County Schools — decent (6–7/10)',
+          commute: '5–10 min to Mayport gate',
+          bestFor: 'Beach lifestyle closest to base',
+          typicalRent3br: '$1,700–$2,200/mo',
+        },
+        {
+          name: 'Jacksonville (Arlington / Southside)',
+          highlight: 'Duval County Schools — varies (5–7/10)',
+          commute: '20–25 min to Mayport',
+          bestFor: 'Most affordable with access to city amenities',
+          typicalRent3br: '$1,300–$1,700/mo',
+        },
+        {
+          name: 'St. Johns County (Ponte Vedra)',
+          highlight: 'St. Johns County Schools — best in Florida (9/10)',
+          commute: '25–30 min to Mayport',
+          bestFor: 'Families who prioritize schools above all else',
+          typicalRent3br: '$1,800–$2,300/mo',
+        },
+        {
+          name: 'Mandarin',
+          highlight: 'Duval County — Mandarin zone is stronger (7/10)',
+          commute: '30–35 min to Mayport',
+          bestFor: 'Families wanting suburban feel with more space',
+          typicalRent3br: '$1,500–$1,900/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Mayport sits on the northeast tip of Jacksonville, and the Beaches area (Atlantic Beach, Neptune Beach, Jax Beach) is right next door — beautiful but pricey. The mistake is blowing your BAH on a beach rental when Arlington, Mandarin, or even Orange Park offer solid neighborhoods 20–25 minutes from the gate at prices that leave BAH surplus for saving.",
+    },
   },
   {
     name: 'Naval Base Kitsap',
@@ -3112,10 +3210,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Virginia',
     branches: ['Navy'],
     description:
-      'NAS Oceana is the East Coast Master Jet Base, home to four F/A-18 carrier air wings and the Navy\'s primary strike fighter training pipeline, located in Virginia Beach.',
+      'NAS Oceana puts you in Virginia Beach — great schools, beach lifestyle, and a strong military community. BAH covers most VB neighborhoods comfortably, though oceanfront areas push past the allowance. The Virginia Beach school system is one of the stronger districts in Hampton Roads.',
+    installationDetail:
+      "NAS Oceana is the Navy's East Coast master jet base — home to 17 strike fighter squadrons flying F/A-18E/F Super Hornets, the largest concentration of tactical aircraft on the East Coast.",
     rentalNote:
-      'Virginia Beach BAH is competitive for the Hampton Roads market. The premium beach neighborhoods can strain lower-grade BAH, but the broader Virginia Beach market offers solid BAH coverage for most grades.',
+      'Virginia Beach BAH is competitive for the Hampton Roads market. The premium beach neighborhoods can strain lower-grade BAH, but the Kempsville, Great Neck, and Landstown areas offer more affordable options 10–15 minutes from the Oceana gates.',
+    rentalContext:
+      'the Kempsville and Landstown areas of Virginia Beach offer the best value for Oceana families — significantly more affordable than oceanfront neighborhoods while still in VB.',
     nearby: ['naval-station-norfolk', 'joint-base-little-creek-fort-story', 'joint-base-langley-eustis'],
+    bahVsHousing: {
+      medianRent: 1800,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 370000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2500,
+      mortgageMax: 2800,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.0% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 5–8% above the national average',
+      stateTaxNote: 'Virginia taxes military pay. The top marginal rate is 5.75%. BAH and BAS remain tax-free at the federal and state level.',
+      neighborhoods: [
+        {
+          name: 'Kempsville / Landstown',
+          highlight: 'Virginia Beach City Schools — strong (7–8/10)',
+          commute: '10–15 min to Oceana',
+          bestFor: 'Best value in VB with good schools and base access',
+          typicalRent3br: '$1,500–$1,900/mo',
+        },
+        {
+          name: 'Great Neck / Shore Drive',
+          highlight: 'Virginia Beach City Schools — strong (7–8/10)',
+          commute: '10–15 min to Oceana',
+          bestFor: 'Waterfront feel near Chesapeake Bay',
+          typicalRent3br: '$1,700–$2,200/mo',
+        },
+        {
+          name: 'Chesapeake (Great Bridge)',
+          highlight: 'Chesapeake Public Schools — strong (7–8/10)',
+          commute: '15–20 min to Oceana',
+          bestFor: 'Families wanting more space at slightly lower cost',
+          typicalRent3br: '$1,500–$1,900/mo',
+        },
+        {
+          name: 'Oceanfront / Town Center',
+          highlight: 'Virginia Beach City Schools — varies',
+          commute: '10–15 min to Oceana',
+          bestFor: 'Singles or couples wanting walkable beach/urban lifestyle',
+          typicalRent3br: '$1,800–$2,500/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "NAS Oceana shares the Norfolk/Portsmouth MHA with Naval Station Norfolk, but Oceana is in Virginia Beach — which means higher rents than Norfolk proper. The mistake is assuming Norfolk BAH covers Virginia Beach beach-area rents. The Kempsville, Great Neck, and Landstown areas of VB offer more affordable options 10–15 minutes from the Oceana gates.",
+    },
   },
   {
     name: 'Naval Base Ventura County',
@@ -3325,9 +3472,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     state: 'AL',
     stateName: 'Alabama',
     branches: ['Army'],
-    description: 'Fort Rucker is the Army\'s primary helicopter flight training installation and home of Army Aviation. It hosts the Aviation Center of Excellence and trains pilots for all Army rotary-wing platforms.',
-    rentalNote: 'Daleville and Ozark offer affordable housing near the gate. Dothan (~25 miles) provides more options. Rents are well below national averages — one of the most budget-friendly Army assignments in the Southeast.',
+    description:
+      'Fort Rucker is one of the most affordable Army installations. The Wiregrass region of southeast Alabama has a very low cost of living, and BAH creates a substantial surplus at every pay grade. Most residents are flight school students on shorter tours — renting is the default, and the surplus is significant.',
+    installationDetail:
+      "Fort Rucker is the Home of Army Aviation — the U.S. Army Aviation Center of Excellence where virtually every Army helicopter pilot earns their wings, located in southeast Alabama's Wiregrass region.",
+    rentalNote:
+      'Daleville and Ozark offer affordable housing near the gate. Dothan to the south provides more options — rents are well below national averages. Enterprise has the strongest schools and most amenities in the area.',
+    rentalContext:
+      'the Wiregrass region has some of the lowest housing costs of any Army installation — BAH creates a substantial surplus at every pay grade.',
     nearby: ['fort-benning', 'maxwell-afb', 'naval-air-station-pensacola'],
+    bahVsHousing: {
+      medianRent: 1000,
+      medianRentSource: 'Zillow / BestPlaces 2025–2026',
+      medianHomePrice: 180000,
+      medianHomePriceSource: 'Zillow / BestPlaces 2026',
+      mortgageMin: 1300,
+      mortgageMax: 1500,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.5% AL property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 18–22% below the national average',
+      stateTaxNote: "Alabama taxes military pay at up to 5.0%. However, Alabama's property taxes are among the lowest in the nation. BAH and BAS remain tax-free.",
+      neighborhoods: [
+        {
+          name: 'Daleville',
+          highlight: 'Dale County Schools — decent (6/10)',
+          commute: '5 min to main gate',
+          bestFor: 'Walking distance to gate, flight school convenience',
+          typicalRent3br: '$700–$1,000/mo',
+        },
+        {
+          name: 'Enterprise',
+          highlight: 'Enterprise City Schools — strong for the area (7/10)',
+          commute: '15–20 min to main gate',
+          bestFor: 'Best schools and most amenities in the Wiregrass',
+          typicalRent3br: '$800–$1,100/mo',
+        },
+        {
+          name: 'Ozark',
+          highlight: 'Ozark City Schools — decent (6/10)',
+          commute: '10–15 min to main gate',
+          bestFor: 'Small-town option close to base',
+          typicalRent3br: '$700–$1,000/mo',
+        },
+        {
+          name: 'Dothan',
+          highlight: 'Dothan City Schools — solid (7/10)',
+          commute: '20–25 min to main gate',
+          bestFor: 'Largest nearby city with the most shopping and dining',
+          typicalRent3br: '$900–$1,200/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Fort Rucker is rural and isolated — Daleville and Ozark are tiny, and Dothan (the nearest real city) is 20 minutes south. The mistake is expecting amenities that don't exist. The upside: Alabama has some of the lowest property taxes in the country, and your BAH goes incredibly far. Enterprise and Dothan offer more options if you're willing to commute 15–20 minutes.",
+    },
   },
   {
     name: 'Fort Gregg-Adams',
@@ -3460,9 +3658,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     state: 'NV',
     stateName: 'Nevada',
     branches: ['Air Force'],
-    description: 'Nellis AFB hosts the Air Force Warfare Center and the USAF Thunderbirds aerial demonstration team. It is the Air Force\'s largest and most complex flying and testing installation.',
-    rentalNote: 'Las Vegas has ample rental inventory. Henderson, North Las Vegas, and Summerlin are popular with military families. The housing market is more affordable than coastal assignments of comparable size.',
+    description:
+      'Nellis AFB puts you in Las Vegas — no state income tax, 300+ days of sunshine, and more entertainment than any other duty station. The northeast valley near base is more affordable than the Strip corridor, and BAH covers rent with a modest buffer. The outdoor recreation (Red Rock Canyon, Lake Mead, skiing at Mt. Charleston) surprises most newcomers.',
+    installationDetail:
+      "Nellis AFB is home to the USAF Weapons School and the famous Red Flag exercises — the Air Force's premier air combat training center in the Nevada desert outside Las Vegas.",
+    rentalNote:
+      "Las Vegas has ample rental inventory. North Las Vegas and Aliante are closest to Nellis, with Henderson and Summerlin offering better schools further west. Nevada's no-income-tax advantage is a meaningful financial benefit.",
+    rentalContext:
+      'Nevada has no state income tax, and the northeast Las Vegas valley near Nellis is more affordable than the Strip corridor or west-side suburbs.',
     nearby: ['nas-fallon', 'edwards-afb', 'kirtland-afb'],
+    bahVsHousing: {
+      medianRent: 1700,
+      medianRentSource: 'Niche / Zillow 2025–2026',
+      medianHomePrice: 400000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2700,
+      mortgageMax: 3000,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.7% NV property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 5–10% above the national average',
+      stateTaxNote: 'Nevada has no state income tax — a significant advantage that puts more of your paycheck in your pocket.',
+      neighborhoods: [
+        {
+          name: 'North Las Vegas / Aliante',
+          highlight: 'Clark County Schools — varies, Aliante zone is newer (6–7/10)',
+          commute: '10–15 min to Nellis gate',
+          bestFor: 'Closest to base with newer master-planned communities',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'Centennial Hills',
+          highlight: 'Clark County Schools — strong in this zone (7–8/10)',
+          commute: '15–20 min to Nellis gate',
+          bestFor: 'Families wanting better schools and suburban feel',
+          typicalRent3br: '$1,600–$2,100/mo',
+        },
+        {
+          name: 'Henderson',
+          highlight: 'Clark County — Henderson zone is strong (7–8/10)',
+          commute: '25–35 min to Nellis (across the valley)',
+          bestFor: 'Families willing to commute for a quieter, upscale suburb',
+          typicalRent3br: '$1,700–$2,200/mo',
+        },
+        {
+          name: 'Summerlin',
+          highlight: 'Clark County — Summerlin zone is top-rated (8/10)',
+          commute: '30–40 min to Nellis (west side)',
+          bestFor: 'Best schools in Vegas but long commute to Nellis',
+          typicalRent3br: '$1,900–$2,500/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Nellis is on the northeast side of Las Vegas, and the Strip is 15 miles south. The mistake is living near the Strip for the entertainment and then dealing with tourist traffic and high rents. North Las Vegas, Aliante, and Centennial Hills are all within 15 minutes of Nellis with family-friendly neighborhoods at prices BAH actually covers.",
+    },
   },
   {
     name: 'Hill AFB',
@@ -3472,9 +3721,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     state: 'UT',
     stateName: 'Utah',
     branches: ['Air Force'],
-    description: 'Hill AFB is home to the 388th Fighter Wing (F-35A) and the Air Force Sustainment Center, providing depot maintenance for the F-35, F-16, A-10, and C-130 fleets.',
-    rentalNote: 'Ogden, Layton, and Clearfield are popular military communities in northern Utah with reasonable rents. Salt Lake City (30 miles south) offers more options. Cost of living is moderate for the Mountain West.',
+    description:
+      "Hill AFB puts you along the Wasatch Front — stunning mountain views, world-class skiing within an hour, and a growing metro area. Utah's housing market has appreciated substantially, but the areas immediately surrounding Hill (Layton, Clearfield, Roy) remain more affordable than Salt Lake City proper. BAH covers rent comfortably.",
+    installationDetail:
+      "Hill AFB is home to the Ogden Air Logistics Complex and the 388th Fighter Wing — the Air Force's first operational F-35A Lightning II unit, located between Ogden and Salt Lake City.",
+    rentalNote:
+      "Ogden, Layton, and Clearfield are the most convenient housing areas. Utah's housing market has appreciated significantly since 2020 — verify current prices before assuming affordability. Layton immediately south of base has the best Davis School District schools.",
+    rentalContext:
+      'the Layton-Clearfield corridor immediately adjacent to Hill offers more affordable options than Salt Lake City, with excellent Davis School District schools.',
     nearby: ['fe-warren-afb', 'peterson-sfb', 'kirtland-afb'],
+    bahVsHousing: {
+      medianRent: 1600,
+      medianRentSource: 'Zillow / BestPlaces 2025–2026',
+      medianHomePrice: 420000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2800,
+      mortgageMax: 3100,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.6% UT property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 5–8% above the national average',
+      stateTaxNote: 'Utah has a flat income tax of 4.65% on military pay. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Layton',
+          highlight: 'Davis School District — excellent (8–9/10)',
+          commute: '5–10 min to Hill south gate',
+          bestFor: 'Top pick for families — best schools and closest to base',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'Clearfield',
+          highlight: 'Davis School District — strong (7–8/10)',
+          commute: '5–10 min to Hill south gate',
+          bestFor: 'Most affordable option immediately adjacent to base',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+        {
+          name: 'Roy / Sunset',
+          highlight: 'Weber School District — decent (6–7/10)',
+          commute: '5–10 min to Hill west gate',
+          bestFor: 'Affordable west-side option with quick base access',
+          typicalRent3br: '$1,100–$1,500/mo',
+        },
+        {
+          name: 'Ogden',
+          highlight: 'Ogden City Schools / Weber — varies (5–7/10)',
+          commute: '10–15 min to Hill gate',
+          bestFor: 'Those wanting downtown restaurants, breweries, and mountain access',
+          typicalRent3br: '$1,300–$1,700/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Hill AFB sits between Ogden and Salt Lake City, and both directions have appeal. The mistake is defaulting to Ogden without exploring Layton and Clearfield, which are immediately adjacent to base with newer construction and strong schools. Also, Utah's housing market has appreciated significantly — don't assume 2020 prices still apply.",
+    },
   },
   {
     name: 'Peterson Space Force Base',
@@ -3834,9 +4134,60 @@ export const DUTY_STATIONS: DutyStation[] = [
     state: 'GA',
     stateName: 'Georgia',
     branches: ['Air Force'],
-    description: 'Robins AFB hosts the Air Force Sustainment Center\'s Warner Robins Air Logistics Complex — the Air Force\'s largest aircraft maintenance depot and primary depot for the C-5, C-130, and F-15.',
-    rentalNote: 'Warner Robins is a mid-sized central Georgia city with affordable housing. Perry, Macon, and Bonaire are also options. The local rental market is well within typical BAH rates.',
+    description:
+      'Robins AFB sits in Warner Robins — one of the most affordable Air Force bases in the country. The cost of living runs 12–15% below the national average, and BAH creates a strong surplus at every pay grade. Homeownership is very realistic, and Houston County schools are a draw for families.',
+    installationDetail:
+      "Robins AFB is home to the Warner Robins Air Logistics Complex — the Air Force's largest single-site industrial complex, maintaining and overhauling aircraft, engines, and electronics for the entire fleet.",
+    rentalNote:
+      'Warner Robins is a mid-sized central Georgia city with affordable housing. Bonaire and Kathleen offer the strongest school zones in Houston County — only 10 minutes from base with rents well within BAH.',
+    rentalContext:
+      'Warner Robins is 12–15% below the national cost of living average — BAH creates a strong surplus at every pay grade.',
     nearby: ['maxwell-afb', 'moody-afb', 'marine-corps-air-station-beaufort'],
+    bahVsHousing: {
+      medianRent: 1300,
+      medianRentSource: 'Zillow / Apartments.com 2025–2026',
+      medianHomePrice: 230000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 1550,
+      mortgageMax: 1750,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.0% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 12–15% below the national average',
+      stateTaxNote: 'Georgia taxes military pay at up to 5.75%. BAH and BAS remain tax-free at the federal and state level.',
+      neighborhoods: [
+        {
+          name: 'Bonaire',
+          highlight: 'Houston County Schools — strongest zone (7–8/10)',
+          commute: '10–15 min to Robins gate',
+          bestFor: 'Top pick for families — best schools near Robins',
+          typicalRent3br: '$1,100–$1,400/mo',
+        },
+        {
+          name: 'Warner Robins (south)',
+          highlight: 'Houston County Schools — good (7/10)',
+          commute: '5–10 min to Robins gate',
+          bestFor: 'Closest to base with good school options',
+          typicalRent3br: '$1,000–$1,300/mo',
+        },
+        {
+          name: 'Kathleen',
+          highlight: 'Houston County Schools — solid (7/10)',
+          commute: '10–15 min to Robins gate',
+          bestFor: 'Families wanting a quieter suburban feel',
+          typicalRent3br: '$1,000–$1,300/mo',
+        },
+        {
+          name: 'Perry',
+          highlight: 'Houston County Schools — decent',
+          commute: '15–20 min to Robins gate',
+          bestFor: 'Small-town charm south of base',
+          typicalRent3br: '$900–$1,200/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Warner Robins is a mid-size Georgia city, and the housing market is straightforward — but school quality varies by neighborhood. The mistake is picking housing on the north side near the gate without checking Bonaire or Kathleen, which have the strongest Houston County school zones. The commute difference is only 5–10 minutes.",
+    },
   },
   {
     name: 'Shaw AFB',
