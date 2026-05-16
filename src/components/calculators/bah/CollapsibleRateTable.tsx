@@ -21,14 +21,40 @@ const fmt = (n: number) => formatCurrency(n);
 
 const OFFICER_GRADES = ['O-1', 'O-2', 'O-3', 'O-4', 'O-5', 'O-6', 'O-7'] as const;
 
-const PREVIEW_GRADES = ['E-5', 'E-6', 'E-7'] as const;
+const ALL_GRADES_ORDERED: string[] = [
+  ...ENLISTED_GRADES,
+  ...WARRANT_GRADES,
+  ...PRIOR_ENLISTED_OFFICER_GRADES,
+  ...OFFICER_GRADES,
+];
 
 export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGrade, selectedHasDependents }: Props) {
   const [open, setOpen] = useState(false);
 
-  const previewRates = PREVIEW_GRADES.flatMap((g) => {
-    const rate = ratesW[g];
-    return rate !== undefined ? [{ grade: g as string, rate }] : [];
+  // Available grades at this station in canonical order
+  const availableOrdered = ALL_GRADES_ORDERED.filter(
+    (g) => ratesW[g] !== undefined || ratesWO[g] !== undefined
+  );
+
+  // 3 grades centered on selected, with edge clamping
+  const selIdx = selectedGrade ? availableOrdered.indexOf(selectedGrade) : -1;
+  let previewSlice: string[];
+  const len = availableOrdered.length;
+  if (len <= 3 || selIdx <= 0) {
+    previewSlice = availableOrdered.slice(0, 3);
+  } else if (selIdx >= len - 1) {
+    previewSlice = availableOrdered.slice(len - 3);
+  } else {
+    previewSlice = availableOrdered.slice(selIdx - 1, selIdx + 2);
+  }
+
+  // Use the correct dep rates for the preview
+  const previewRateSource = selectedHasDependents === false ? ratesWO : ratesW;
+  const previewDepLabel = selectedHasDependents === false ? 'w/o dep' : 'w/dep';
+
+  const previewRates = previewSlice.flatMap((g) => {
+    const rate = previewRateSource[g];
+    return rate !== undefined ? [{ grade: g, rate }] : [];
   });
 
   function renderRow(grade: string) {
@@ -65,7 +91,7 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGr
           <p className="text-sm text-zinc-600 tabular-nums mb-4">
             {previewRates.map((x, i) => (
               <span key={x.grade}>
-                <span className={`font-medium ${selectedGrade === x.grade ? 'font-bold text-red-700' : ''}`}>{x.grade} w/dep:</span>{' '}
+                <span className={`font-medium ${selectedGrade === x.grade ? 'font-bold text-red-700' : ''}`}>{x.grade} {previewDepLabel}:</span>{' '}
                 <span className={`font-semibold text-zinc-900 ${selectedGrade === x.grade ? 'font-bold text-red-700' : ''}`}>{fmt(x.rate)}/mo</span>
                 {i < previewRates.length - 1 && <span className="text-zinc-300 mx-2">·</span>}
               </span>

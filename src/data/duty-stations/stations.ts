@@ -62,7 +62,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'North Carolina',
     branches: ['Army'],
     description:
-      'Your BAH goes further at Fort Bragg than at most duty stations. Fayetteville\'s housing market runs well below the national average — an E-5 with dependents has roughly $500/month of room between BAH and median rent before utilities and other housing costs. That\'s one of the better BAH-to-cost ratios in the Army.',
+      'Your BAH goes further at Fort Bragg than at most duty stations. Fayetteville\'s housing market runs well below the national average — {rank} has roughly {surplus}/month of room between BAH and median rent before utilities and other housing costs. That\'s one of the better BAH-to-cost ratios in the Army.',
     installationDetail:
       'Home of the 82nd Airborne and USASOC — the largest installation by population with over 50,000 active-duty soldiers.',
     rentalNote:
@@ -114,7 +114,7 @@ export const DUTY_STATIONS: DutyStation[] = [
         },
       ],
       mistakeToAvoid:
-        "Many families PCSing to Fort Bragg rent above their BAH because they search in the wrong neighborhoods or don't realize how far their housing allowance stretches here. An E-5 with dependents receives $1,806/month — that covers a 3-bedroom rental in most Fayetteville neighborhoods with hundreds left over each month.",
+        "Many families PCSing to Fort Bragg rent above their BAH because they search in the wrong neighborhoods or don't realize how far their housing allowance stretches here. {rank} receives {bahAmount}/month — that covers a 3-bedroom rental in most Fayetteville neighborhoods with hundreds left over each month.",
     },
   },
   {
@@ -126,7 +126,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Tennessee',
     branches: ['Army'],
     description:
-      'Fort Campbell is one of the most financially favorable Army duty stations. Clarksville\'s cost of living is well below the national average, Tennessee has no income tax, and an E-5 with dependents has hundreds of dollars of buffer between BAH and median rent. Homeownership is very realistic here.',
+      'Fort Campbell is one of the most financially favorable Army duty stations. Clarksville\'s cost of living is well below the national average, Tennessee has no income tax, and {rank} has {surplus}/month of buffer between BAH and median rent. Homeownership is very realistic here.',
     installationDetail:
       'Fort Campbell straddles the Tennessee-Kentucky border and is home to the 101st Airborne Division (Air Assault) — the \'Screaming Eagles.\'',
     rentalNote:
@@ -178,7 +178,7 @@ export const DUTY_STATIONS: DutyStation[] = [
         },
       ],
       mistakeToAvoid:
-        'Fort Campbell sits on the TN-KY border, and which side you live on matters for taxes and schools. Tennessee has no income tax; Kentucky does. Many families default to the closest apartment and miss that Clarksville\'s Sango or Rossview areas offer better schools and newer housing for the same rent. An E-5 at $1,815/month has strong options on the Tennessee side.',
+        'Fort Campbell sits on the TN-KY border, and which side you live on matters for taxes and schools. Tennessee has no income tax; Kentucky does. Many families default to the closest apartment and miss that Clarksville\'s Sango or Rossview areas offer better schools and newer housing for the same rent. {rank} at {bahAmount}/month has strong options on the Tennessee side.',
     },
   },
   {
@@ -191,7 +191,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Texas',
     branches: ['Army'],
     description:
-      'Fort Hood is one of the most affordable large Army installations in the country. Killeen\'s housing market runs well below the national average — an E-5 with dependents has several hundred dollars of room between BAH and median rent. That surplus is one of the reasons homeownership rates among Fort Hood families are high.',
+      'Fort Hood is one of the most affordable large Army installations in the country. Killeen\'s housing market runs well below the national average — {rank} has {surplus}/month of room between BAH and median rent. That surplus is one of the reasons homeownership rates among Fort Hood families are high.',
     installationDetail:
       'Home of III Armored Corps and the 1st Cavalry Division, Fort Hood is one of the largest military installations in the world with over 45,000 assigned service members.',
     rentalNote:
@@ -243,7 +243,7 @@ export const DUTY_STATIONS: DutyStation[] = [
         },
       ],
       mistakeToAvoid:
-        'Many families PCSing to Fort Hood sign a lease before learning the area. Killeen neighborhoods vary dramatically in quality — South Killeen and areas near the gates tend to be older and less maintained, while Harker Heights and Nolanville offer better schools and newer homes for similar or slightly higher rent. An E-5 with dependents at $1,695/month can rent a solid 3-bedroom and still have room in the budget.',
+        'Many families PCSing to Fort Hood sign a lease before learning the area. Killeen neighborhoods vary dramatically in quality — South Killeen and areas near the gates tend to be older and less maintained, while Harker Heights and Nolanville offer better schools and newer homes for similar or slightly higher rent. {rank} at {bahAmount}/month can rent a solid 3-bedroom and still have room in the budget.',
     },
   },
   {
@@ -371,7 +371,7 @@ export const DUTY_STATIONS: DutyStation[] = [
         },
       ],
       mistakeToAvoid:
-        'Colorado Springs has become genuinely expensive. The median home price around $460,000 means an E-5\'s BAH won\'t cover a mortgage without dual income. Many families buy anyway, then struggle at PCS when the rental market won\'t cover their payment. Rent first in the Fountain/Security-Widefield corridor — it\'s affordable, close to base, and lets you learn the market before committing.',
+        'Colorado Springs has become genuinely expensive. The median home price around $460,000 means an {grade}\'s BAH won\'t cover a mortgage without dual income. Many families buy anyway, then struggle at PCS when the rental market won\'t cover their payment. Rent first in the Fountain/Security-Widefield corridor — it\'s affordable, close to base, and lets you learn the market before committing.',
     },
   },
   {
@@ -454,7 +454,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Georgia',
     branches: ['Army'],
     description:
-      'Fort Benning sits in one of the most affordable housing markets of any large Army installation. An E-5 with dependents at $1,716/month has a significant surplus over median rent, and the median home price keeps VA loan homeownership well within reach.',
+      'Fort Benning sits in one of the most affordable housing markets of any large Army installation. {rank} at {bahAmount}/month has a significant surplus over median rent, and the median home price keeps VA loan homeownership well within reach.',
     installationDetail:
       'Fort Benning is the Home of the Infantry and Armor — the Army\'s Maneuver Center of Excellence, training tens of thousands of soldiers annually.',
     rentalNote:
@@ -775,7 +775,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Texas',
     branches: ['Air Force', 'Army', 'Navy', 'Marine Corps', 'Space Force'],
     description:
-      'San Antonio is one of the best BAH-to-cost ratio duty stations in the military. Housing is affordable, there\'s no state income tax, and the metro offers big-city amenities at a fraction of coastal prices. An E-5 with dependents can comfortably rent or realistically buy with a VA loan.',
+      'San Antonio is one of the best BAH-to-cost ratio duty stations in the military. Housing is affordable, there\'s no state income tax, and the metro offers big-city amenities at a fraction of coastal prices. {rank} can comfortably rent or realistically buy with a VA loan.',
     installationDetail:
       'JBSA is a tri-base complex — Lackland AFB (basic training), Fort Sam Houston (military medical), and Randolph AFB (pilot training) — supporting over 80,000 personnel across San Antonio.',
     rentalNote:
@@ -827,7 +827,7 @@ export const DUTY_STATIONS: DutyStation[] = [
         },
       ],
       mistakeToAvoid:
-        'JBSA families often pick a neighborhood without checking which base they\'ll actually commute to. San Antonio is a big city — living near Lackland on the west side adds a 40+ minute commute to Randolph on the northeast side. Figure out your daily commute first, then pick your neighborhood. An E-5 at $1,869/month BAH has plenty of options in every part of the city.',
+        'JBSA families often pick a neighborhood without checking which base they\'ll actually commute to. San Antonio is a big city — living near Lackland on the west side adds a 40+ minute commute to Randolph on the northeast side. Figure out your daily commute first, then pick your neighborhood. {rank} at {bahAmount}/month has plenty of options in every part of the city.',
     },
   },
   {
@@ -1091,7 +1091,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Missouri',
     branches: ['Air Force'],
     description:
-      'Whiteman AFB received one of the largest BAH increases in the Air Force for 2026 (9.3%). Combined with Missouri\'s low cost of living, your BAH goes further here than at almost any other Air Force base. An E-5 with dependents can easily afford to buy with a VA loan.',
+      'Whiteman AFB received one of the largest BAH increases in the Air Force for 2026 (9.3%). Combined with Missouri\'s low cost of living, your BAH goes further here than at almost any other Air Force base. {rank} can easily afford to buy with a VA loan.',
     installationDetail:
       'Whiteman AFB is the only base in the world that operates the B-2 Spirit stealth bomber — home of the 509th Bomb Wing.',
     rentalNote:
@@ -1136,7 +1136,7 @@ export const DUTY_STATIONS: DutyStation[] = [
         },
       ],
       mistakeToAvoid:
-        'Whiteman is remote — Knob Noster is tiny and Warrensburg is small. The mistake is not realizing how isolated this base is before you arrive. Kansas City is 70 miles northwest. If you need urban amenities, budget for regular KC trips. On the upside, your BAH goes incredibly far here — an E-5 can rent a house with a big yard for well under BAH.',
+        'Whiteman is remote — Knob Noster is tiny and Warrensburg is small. The mistake is not realizing how isolated this base is before you arrive. Kansas City is 70 miles northwest. If you need urban amenities, budget for regular KC trips. On the upside, your BAH goes incredibly far here — an {grade} can rent a house with a big yard for well under BAH.',
     },
   },
   {
@@ -1148,7 +1148,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Nebraska',
     branches: ['Air Force'],
     description:
-      'Offutt offers one of the best BAH-to-purchasing-power ratios in the Air Force. The Bellevue-Papillion corridor has affordable homes, strong schools, and Omaha\'s amenities are 15 minutes north. An E-5 with dependents can realistically buy a home here on BAH alone with a VA loan.',
+      'Offutt offers one of the best BAH-to-purchasing-power ratios in the Air Force. The Bellevue-Papillion corridor has affordable homes, strong schools, and Omaha\'s amenities are 15 minutes north. {rank} can realistically buy a home here on BAH alone with a VA loan.',
     installationDetail:
       'Offutt AFB is headquarters of U.S. Strategic Command (USSTRATCOM) — the nation\'s nuclear command and control center — located just south of Omaha.',
     rentalNote:
@@ -1200,7 +1200,7 @@ export const DUTY_STATIONS: DutyStation[] = [
         },
       ],
       mistakeToAvoid:
-        'Offutt families sometimes default to the closest housing without comparing school districts. Bellevue Public Schools are solid, but the Papillion-La Vista district next door consistently ranks among the best in Nebraska. The commute difference is only 5–10 minutes, and at an E-5\'s $2,085/month BAH, both districts are well within reach.',
+        'Offutt families sometimes default to the closest housing without comparing school districts. Bellevue Public Schools are solid, but the Papillion-La Vista district next door consistently ranks among the best in Nebraska. The commute difference is only 5–10 minutes, and at an {grade}\'s {bahAmount}/month BAH, both districts are well within reach.',
     },
   },
   {
@@ -1228,7 +1228,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Virginia',
     branches: ['Navy'],
     description:
-      'Norfolk offers a solid BAH-to-cost ratio despite being in a major metro area. An E-5 with dependents has enough BAH to cover median rent with a meaningful buffer, and the median home price keeps homeownership in reach — especially with a VA loan.',
+      'Norfolk offers a solid BAH-to-cost ratio despite being in a major metro area. {rank} has enough BAH to cover median rent with a meaningful buffer, and the median home price keeps homeownership in reach — especially with a VA loan.',
     installationDetail:
       'Naval Station Norfolk is the world\'s largest naval base, home port for aircraft carriers, destroyers, and amphibious ships — the anchor of the Atlantic Fleet.',
     rentalNote:
@@ -1292,7 +1292,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'California',
     branches: ['Navy'],
     description:
-      'San Diego is one of the most expensive duty stations in the entire military. An E-5 with dependents receives $3,975/month — generous on paper, but a typical 3-bedroom in a decent neighborhood runs $2,800–$3,500+. Homeownership is out of reach for most single-income enlisted families. This is a duty station where you trade financial surplus for world-class weather and lifestyle.',
+      'San Diego is one of the most expensive duty stations in the entire military. {rank} receives {bahAmount}/month — generous on paper, but a typical 3-bedroom in a decent neighborhood runs $2,800–$3,500+. Homeownership is out of reach for most single-income enlisted families. This is a duty station where you trade financial surplus for world-class weather and lifestyle.',
     installationDetail:
       'Naval Base San Diego is the principal home port of the Pacific Fleet, supporting over 20,000 military personnel and 50+ ships.',
     rentalNote:
@@ -1408,7 +1408,7 @@ export const DUTY_STATIONS: DutyStation[] = [
         },
       ],
       mistakeToAvoid:
-        'BAH at Camp Pendleton is among the highest in the country — but so is rent. An E-5 with dependents at $3,963/month will find that quality 3-bedroom rentals in Oceanside start around $2,800 and climb fast. The mistake is assuming BAH gives you a big surplus here. Budget carefully and look at Vista or Fallbrook for more affordable options if Oceanside coastal rents push past your allowance.',
+        'BAH at Camp Pendleton is among the highest in the country — but so is rent. {rank} at {bahAmount}/month will find that quality 3-bedroom rentals in Oceanside start around $2,800 and climb fast. The mistake is assuming BAH gives you a big surplus here. Budget carefully and look at Vista or Fallbrook for more affordable options if Oceanside coastal rents push past your allowance.',
     },
   },
   {

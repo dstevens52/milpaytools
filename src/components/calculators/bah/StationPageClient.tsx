@@ -59,6 +59,10 @@ const GRADE_GROUPS: { label: string; grades: PayGrade[] }[] = [
 
 const fmt = (n: number) => formatCurrency(n);
 
+function interpolate(template: string, vars: Record<string, string>): string {
+  return template.replace(/\{(\w+)\}/g, (_, key) => vars[key] ?? `{${key}}`);
+}
+
 // ─── URL param normalization helpers ─────────────────────────────────────────
 
 function normalizeGrade(raw: string): PayGrade | null {
@@ -86,7 +90,7 @@ const HERO_STEPS = [
   { title: 'Plan your move', sub: 'Compare stations or estimate PCS costs' },
 ] as const;
 
-function HeroBanner({ station }: { station: DutyStation }) {
+function HeroBanner({ station, description }: { station: DutyStation; description?: string }) {
   const subtitle = [
     `${station.city}, ${station.stateName}`,
     station.branches.join(' / '),
@@ -124,9 +128,9 @@ function HeroBanner({ station }: { station: DutyStation }) {
           {station.installationDetail && (
             <p className="text-xs text-white/45 mt-1">{station.installationDetail}</p>
           )}
-          {station.description && station.bahVsHousing && (
+          {description && station.bahVsHousing && (
             <p className="mt-3 text-sm leading-relaxed max-w-[640px]" style={{ color: 'rgba(255,255,255,0.85)' }}>
-              {station.description}
+              {description}
             </p>
           )}
         </div>
@@ -343,6 +347,15 @@ export function StationPageClient({
   const hasRichData = !!station.bahVsHousing;
   const depLabel = hasDependents ? 'w/dep' : 'w/o dep';
 
+  const surplus = station.bahVsHousing ? selectedBAH - station.bahVsHousing.medianRent : 0;
+  const templateVars: Record<string, string> = {
+    rank: `${selectedGrade} ${hasDependents ? 'with dependents' : 'without dependents'}`,
+    grade: selectedGrade,
+    bahAmount: fmt(selectedBAH),
+    surplus: fmt(Math.abs(surplus)),
+  };
+  const heroDescription = station.description ? interpolate(station.description, templateVars) : undefined;
+
   return (
     <>
       {/* Breadcrumb — above the hero */}
@@ -359,7 +372,7 @@ export function StationPageClient({
       </div>
 
       {/* Hero banner */}
-      <HeroBanner station={station} />
+      <HeroBanner station={station} description={heroDescription} />
 
       <div className="bg-zinc-50 min-h-screen">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -640,7 +653,7 @@ export function StationPageClient({
               <div className="rounded-lg bg-amber-50 border border-amber-200 p-4">
                 <p className="text-sm font-semibold text-amber-800 mb-1">The mistake to avoid</p>
                 <p className="text-sm text-amber-700 leading-relaxed">
-                  {station.localHousingTips.mistakeToAvoid}
+                  {interpolate(station.localHousingTips.mistakeToAvoid, templateVars)}
                 </p>
               </div>
             </div>
