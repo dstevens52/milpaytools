@@ -12,6 +12,8 @@ export interface InstallationLookup {
   branch: string;     // display string for dropdown
   altNames?: string[];
   oconus?: true;
+  lat?: number;       // approximate centroid latitude (CONUS only)
+  lon?: number;       // approximate centroid longitude (CONUS only)
 }
 
 export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
@@ -25,6 +27,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'AL',
     branch: 'Army',
     altNames: ['Fort Rucker', 'Rucker', 'Novosel'],
+    lat: 31.33, lon: -85.65,
   },
   {
     name: 'Fort Gregg-Adams',
@@ -33,6 +36,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'VA',
     branch: 'Army',
     altNames: ['Fort Lee', 'Lee', 'Gregg-Adams', 'Gregg Adams'],
+    lat: 37.24, lon: -77.37,
   },
   {
     name: 'Fort Leonard Wood',
@@ -41,6 +45,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'MO',
     branch: 'Army',
     altNames: ['Leonard Wood'],
+    lat: 37.74, lon: -92.14,
   },
   {
     name: 'Fort Belvoir',
@@ -49,6 +54,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'VA',
     branch: 'Army',
     altNames: ['Belvoir'],
+    lat: 38.71, lon: -77.15,
   },
   {
     name: 'Rock Island Arsenal',
@@ -57,6 +63,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'IL',
     branch: 'Army',
     altNames: ['RIA', 'Rock Island'],
+    lat: 41.51, lon: -90.55,
   },
   {
     name: 'Fort McCoy',
@@ -65,6 +72,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'WI',
     branch: 'Army',
     altNames: ['McCoy'],
+    lat: 43.96, lon: -90.79,
   },
   {
     name: 'Fort Shafter',
@@ -73,6 +81,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'HI',
     branch: 'Army',
     altNames: ['Shafter'],
+    lat: 21.33, lon: -157.88,
   },
   {
     name: 'White Sands Missile Range',
@@ -81,6 +90,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'NM',
     branch: 'Army',
     altNames: ['WSMR', 'White Sands'],
+    lat: 32.38, lon: -106.48,
   },
   {
     name: 'Yuma Proving Ground',
@@ -89,6 +99,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'AZ',
     branch: 'Army',
     altNames: ['YPG'],
+    lat: 32.83, lon: -114.43,
   },
   {
     name: 'Camp Atterbury',
@@ -97,6 +108,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'IN',
     branch: 'Army',
     altNames: ['Atterbury'],
+    lat: 39.33, lon: -86.04,
   },
   {
     name: 'Tobyhanna Army Depot',
@@ -105,6 +117,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'PA',
     branch: 'Army',
     altNames: ['Tobyhanna'],
+    lat: 41.18, lon: -75.42,
   },
   {
     name: 'Presidio of Monterey',
@@ -113,6 +126,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'CA',
     branch: 'Army',
     altNames: ['Monterey', 'DLI', 'Defense Language Institute'],
+    lat: 36.59, lon: -121.87,
   },
   {
     name: 'Carlisle Barracks',
@@ -121,6 +135,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'PA',
     branch: 'Army',
     altNames: ['Army War College', 'Carlisle'],
+    lat: 40.20, lon: -77.19,
   },
   {
     name: 'Walter Reed National Military Medical Center',
@@ -129,6 +144,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'MD',
     branch: 'Army',
     altNames: ['Walter Reed', 'WRNMMC', 'Bethesda Naval Hospital', 'National Naval Medical Center'],
+    lat: 38.98, lon: -77.10,
   },
   {
     name: 'Fort McNair',
@@ -137,6 +153,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'DC',
     branch: 'Army',
     altNames: ['McNair', 'National Defense University', 'NDU'],
+    lat: 38.86, lon: -77.02,
   },
   {
     name: 'Anniston Army Depot',
@@ -145,6 +162,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'AL',
     branch: 'Army',
     altNames: ['ANAD', 'Anniston'],
+    lat: 33.69, lon: -85.96,
   },
   {
     name: 'Tooele Army Depot',
@@ -153,6 +171,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'UT',
     branch: 'Army',
     altNames: ['Tooele'],
+    lat: 40.49, lon: -112.38,
   },
   {
     name: 'Pine Bluff Arsenal',
@@ -161,6 +180,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'AR',
     branch: 'Army',
     altNames: ['PBA'],
+    lat: 34.14, lon: -92.07,
   },
   {
     name: 'Fort AP Hill',
@@ -169,6 +189,16 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'VA',
     branch: 'Army',
     altNames: ['AP Hill', 'A.P. Hill'],
+    lat: 38.10, lon: -77.32,
+  },
+  {
+    name: 'Fort Greely',
+    zip: '99733',
+    city: 'Delta Junction',
+    state: 'AK',
+    branch: 'Army',
+    altNames: ['Greely', 'Ground-Based Midcourse Defense', 'GMD'],
+    lat: 63.97, lon: -145.70,
   },
 
   // ── AIR FORCE / SPACE FORCE (CONUS) ──────────────────────────────────────
@@ -180,6 +210,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'KS',
     branch: 'Air Force',
     altNames: ['McConnell', 'McConnell Air Force Base'],
+    lat: 37.62, lon: -97.27,
   },
   {
     name: 'Nellis AFB',
@@ -188,6 +219,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'NV',
     branch: 'Air Force',
     altNames: ['Nellis', 'Nellis Air Force Base', 'Red Flag'],
+    lat: 36.24, lon: -115.04,
   },
   {
     name: 'Hill AFB',
@@ -196,6 +228,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'UT',
     branch: 'Air Force',
     altNames: ['Hill Air Force Base', 'Ogden AFB'],
+    lat: 41.12, lon: -111.97,
   },
   {
     name: 'Peterson Space Force Base',
@@ -204,6 +237,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'CO',
     branch: 'Space Force',
     altNames: ['Peterson AFB', 'Peterson SFB', 'Peterson', 'NORAD', 'NORTHCOM'],
+    lat: 38.82, lon: -104.70,
   },
   {
     name: 'Schriever Space Force Base',
@@ -212,6 +246,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'CO',
     branch: 'Space Force',
     altNames: ['Schriever AFB', 'Schriever SFB', 'Schriever'],
+    lat: 38.80, lon: -104.53,
   },
   {
     name: 'Buckley Space Force Base',
@@ -220,6 +255,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'CO',
     branch: 'Space Force',
     altNames: ['Buckley AFB', 'Buckley SFB', 'Buckley'],
+    lat: 39.71, lon: -104.75,
   },
   {
     name: 'Cannon AFB',
@@ -228,6 +264,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'NM',
     branch: 'Air Force',
     altNames: ['Cannon', 'Cannon Air Force Base'],
+    lat: 34.38, lon: -103.32,
   },
   {
     name: 'Dyess AFB',
@@ -236,6 +273,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'TX',
     branch: 'Air Force',
     altNames: ['Dyess', 'Dyess Air Force Base'],
+    lat: 32.42, lon: -99.85,
   },
   {
     name: 'Laughlin AFB',
@@ -244,6 +282,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'TX',
     branch: 'Air Force',
     altNames: ['Laughlin', 'Laughlin Air Force Base'],
+    lat: 29.36, lon: -100.78,
   },
   {
     name: 'Sheppard AFB',
@@ -252,6 +291,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'TX',
     branch: 'Air Force',
     altNames: ['Sheppard', 'Sheppard Air Force Base'],
+    lat: 33.98, lon: -98.83,
   },
   {
     name: 'Altus AFB',
@@ -260,6 +300,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'OK',
     branch: 'Air Force',
     altNames: ['Altus Air Force Base'],
+    lat: 34.66, lon: -99.27,
   },
   {
     name: 'Columbus AFB',
@@ -268,6 +309,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'MS',
     branch: 'Air Force',
     altNames: ['Columbus Air Force Base'],
+    lat: 33.64, lon: -88.44,
   },
   {
     name: 'Goodfellow AFB',
@@ -276,6 +318,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'TX',
     branch: 'Air Force',
     altNames: ['Goodfellow', 'Goodfellow Air Force Base'],
+    lat: 31.42, lon: -100.39,
   },
   {
     name: 'Holloman AFB',
@@ -284,6 +327,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'NM',
     branch: 'Air Force',
     altNames: ['Holloman', 'Holloman Air Force Base'],
+    lat: 32.85, lon: -106.10,
   },
   {
     name: 'Hurlburt Field',
@@ -292,6 +336,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'FL',
     branch: 'Air Force',
     altNames: ['Hurlburt', 'AFSOC', 'Air Force Special Operations Command'],
+    lat: 30.43, lon: -86.68,
   },
   {
     name: 'Keesler AFB',
@@ -300,6 +345,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'MS',
     branch: 'Air Force',
     altNames: ['Keesler', 'Keesler Air Force Base'],
+    lat: 30.41, lon: -88.92,
   },
   {
     name: 'Little Rock AFB',
@@ -308,6 +354,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'AR',
     branch: 'Air Force',
     altNames: ['Little Rock Air Force Base', 'LRAFB'],
+    lat: 34.92, lon: -92.15,
   },
   {
     name: 'Malmstrom AFB',
@@ -316,6 +363,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'MT',
     branch: 'Air Force',
     altNames: ['Malmstrom', 'Malmstrom Air Force Base'],
+    lat: 47.51, lon: -111.19,
   },
   {
     name: 'Moody AFB',
@@ -324,6 +372,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'GA',
     branch: 'Air Force',
     altNames: ['Moody', 'Moody Air Force Base'],
+    lat: 30.97, lon: -83.19,
   },
   {
     name: 'Mountain Home AFB',
@@ -332,6 +381,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'ID',
     branch: 'Air Force',
     altNames: ['Mountain Home Air Force Base', 'MHAFB'],
+    lat: 43.04, lon: -115.86,
   },
   {
     name: 'Robins AFB',
@@ -340,6 +390,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'GA',
     branch: 'Air Force',
     altNames: ['Robins', 'Robins Air Force Base', 'Warner Robins AFB'],
+    lat: 32.64, lon: -83.59,
   },
   {
     name: 'Shaw AFB',
@@ -348,6 +399,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'SC',
     branch: 'Air Force',
     altNames: ['Shaw', 'Shaw Air Force Base'],
+    lat: 33.97, lon: -80.47,
   },
   {
     name: 'Tyndall AFB',
@@ -356,6 +408,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'FL',
     branch: 'Air Force',
     altNames: ['Tyndall', 'Tyndall Air Force Base'],
+    lat: 30.07, lon: -85.58,
   },
   {
     name: 'Vance AFB',
@@ -364,6 +417,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'OK',
     branch: 'Air Force',
     altNames: ['Vance', 'Vance Air Force Base'],
+    lat: 36.34, lon: -97.91,
   },
   {
     name: 'Beale AFB',
@@ -372,6 +426,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'CA',
     branch: 'Air Force',
     altNames: ['Beale', 'Beale Air Force Base'],
+    lat: 39.14, lon: -121.44,
   },
   {
     name: 'Fairchild AFB',
@@ -380,6 +435,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'WA',
     branch: 'Air Force',
     altNames: ['Fairchild', 'Fairchild Air Force Base', 'Spokane AFB'],
+    lat: 47.62, lon: -117.65,
   },
   {
     name: 'Grand Forks AFB',
@@ -388,6 +444,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'ND',
     branch: 'Air Force',
     altNames: ['Grand Forks Air Force Base'],
+    lat: 47.96, lon: -97.40,
   },
   {
     name: 'Hanscom AFB',
@@ -396,6 +453,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'MA',
     branch: 'Air Force',
     altNames: ['Hanscom', 'Hanscom Air Force Base', 'Hanscom Field'],
+    lat: 42.46, lon: -71.29,
   },
   {
     name: 'Los Angeles AFB',
@@ -404,6 +462,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'CA',
     branch: 'Space Force',
     altNames: ['LA AFB', 'LAAFB', 'Space Systems Command', 'El Segundo AFB'],
+    lat: 33.92, lon: -118.39,
   },
   {
     name: 'Maxwell AFB',
@@ -412,6 +471,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'AL',
     branch: 'Air Force',
     altNames: ['Maxwell', 'Maxwell Air Force Base', 'Air University', 'Air War College'],
+    lat: 32.38, lon: -86.36,
   },
   {
     name: 'F.E. Warren AFB',
@@ -420,6 +480,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'WY',
     branch: 'Air Force',
     altNames: ['Warren AFB', 'FE Warren', 'F E Warren', 'Cheyenne AFB'],
+    lat: 41.14, lon: -104.87,
   },
   {
     name: 'Grissom Air Reserve Base',
@@ -428,6 +489,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'IN',
     branch: 'Air Force Reserve',
     altNames: ['Grissom ARB', 'Grissom'],
+    lat: 40.65, lon: -86.15,
   },
   {
     name: 'March Air Reserve Base',
@@ -436,6 +498,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'CA',
     branch: 'Air Force Reserve',
     altNames: ['March ARB', 'March AFB', 'March'],
+    lat: 33.88, lon: -117.26,
   },
   {
     name: 'Dobbins Air Reserve Base',
@@ -444,6 +507,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'GA',
     branch: 'Air Force Reserve',
     altNames: ['Dobbins ARB', 'Dobbins'],
+    lat: 33.92, lon: -84.52,
   },
   {
     name: 'US Air Force Academy',
@@ -452,6 +516,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'CO',
     branch: 'Air Force',
     altNames: ['USAFA', 'Air Force Academy', 'Colorado Springs Academy'],
+    lat: 38.99, lon: -104.87,
   },
   {
     name: 'NAS JRB Fort Worth',
@@ -460,6 +525,25 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'TX',
     branch: 'Navy',
     altNames: ['Carswell', 'Carswell AFB', 'JRB Fort Worth', 'Naval Air Station Fort Worth', 'NAS Fort Worth'],
+    lat: 32.77, lon: -97.44,
+  },
+  {
+    name: 'Eielson AFB',
+    zip: '99702',
+    city: 'Fairbanks',
+    state: 'AK',
+    branch: 'Air Force',
+    altNames: ['Eielson Air Force Base', 'Eielson'],
+    lat: 64.66, lon: -147.10,
+  },
+  {
+    name: 'Clear Space Force Station',
+    zip: '99704',
+    city: 'Clear',
+    state: 'AK',
+    branch: 'Space Force',
+    altNames: ['Clear SFS', 'Clear AFS', 'Clear Air Force Station'],
+    lat: 64.30, lon: -149.12,
   },
 
   // ── AIR FORCE / SPACE FORCE (OCONUS) ─────────────────────────────────────
@@ -537,6 +621,15 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     oconus: true,
   },
   {
+    name: 'Pituffik Space Base',
+    zip: '',
+    city: 'Pituffik',
+    state: 'GL',
+    branch: 'Space Force',
+    altNames: ['Thule AB', 'Thule Air Base', 'Thule', 'Pituffik'],
+    oconus: true,
+  },
+  {
     name: 'USAG Grafenwöhr',
     zip: '',
     city: 'Grafenwöhr',
@@ -582,6 +675,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'FL',
     branch: 'Navy',
     altNames: ['NAS Jax', 'Jacksonville NAS', 'Naval Air Station Jacksonville'],
+    lat: 30.23, lon: -81.81,
   },
   {
     name: 'NAS Lemoore',
@@ -590,6 +684,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'CA',
     branch: 'Navy',
     altNames: ['Lemoore', 'Naval Air Station Lemoore'],
+    lat: 36.33, lon: -119.95,
   },
   {
     name: 'NAS Fallon',
@@ -598,6 +693,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'NV',
     branch: 'Navy',
     altNames: ['Fallon', 'Naval Air Station Fallon', 'NAWDC', 'Top Gun', 'Strike Fighter Tactics Instructor'],
+    lat: 39.42, lon: -118.70,
   },
   {
     name: 'NAS Patuxent River',
@@ -606,6 +702,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'MD',
     branch: 'Navy',
     altNames: ['Pax River', 'Patuxent River', 'NAS Pax River', 'Naval Test Center'],
+    lat: 38.29, lon: -76.41,
   },
   {
     name: 'Naval Station Everett',
@@ -614,6 +711,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'WA',
     branch: 'Navy',
     altNames: ['Everett', 'NS Everett'],
+    lat: 47.97, lon: -122.20,
   },
   {
     name: 'NAS Corpus Christi',
@@ -622,6 +720,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'TX',
     branch: 'Navy',
     altNames: ['Corpus Christi', 'Naval Air Station Corpus Christi'],
+    lat: 27.70, lon: -97.29,
   },
   {
     name: 'NAS Kingsville',
@@ -630,6 +729,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'TX',
     branch: 'Navy',
     altNames: ['Kingsville', 'Naval Air Station Kingsville'],
+    lat: 27.51, lon: -97.81,
   },
   {
     name: 'Naval Submarine Base Kings Bay',
@@ -638,6 +738,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'GA',
     branch: 'Navy',
     altNames: ['Kings Bay', 'SUBASE Kings Bay', 'NSB Kings Bay'],
+    lat: 30.79, lon: -81.57,
   },
   {
     name: 'NAB Coronado',
@@ -646,6 +747,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'CA',
     branch: 'Navy',
     altNames: ['Coronado', 'Naval Amphibious Base', 'Naval Special Warfare', 'SEAL training', 'BUD/S'],
+    lat: 32.68, lon: -117.18,
   },
   {
     name: 'NAS Key West',
@@ -654,6 +756,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'FL',
     branch: 'Navy',
     altNames: ['Key West', 'Naval Air Station Key West', 'Boca Chica'],
+    lat: 24.58, lon: -81.69,
   },
   {
     name: 'MCAS New River',
@@ -662,6 +765,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'NC',
     branch: 'Marine Corps',
     altNames: ['New River', 'Marine Corps Air Station New River', 'MCAS New River NC'],
+    lat: 34.71, lon: -77.43,
   },
   {
     name: 'MCB Hawaii',
@@ -670,6 +774,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'HI',
     branch: 'Marine Corps',
     altNames: ['MCBH', 'Kaneohe Bay', 'Kaneohe', 'MCB Hawaii Kaneohe', 'Marine Corps Base Hawaii'],
+    lat: 21.45, lon: -157.77,
   },
   {
     name: 'MCAS Yuma',
@@ -678,6 +783,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'AZ',
     branch: 'Marine Corps',
     altNames: ['Yuma', 'Marine Corps Air Station Yuma'],
+    lat: 32.66, lon: -114.60,
   },
   {
     name: 'NAS North Island',
@@ -686,6 +792,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'CA',
     branch: 'Navy',
     altNames: ['North Island', 'Naval Air Station North Island', 'NAS North Island San Diego'],
+    lat: 32.70, lon: -117.21,
   },
   {
     name: 'NAWS China Lake',
@@ -694,6 +801,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'CA',
     branch: 'Navy',
     altNames: ['China Lake', 'Naval Air Weapons Station', 'NAVAIR China Lake'],
+    lat: 35.69, lon: -117.68,
   },
   {
     name: 'NCBC Gulfport',
@@ -702,6 +810,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'MS',
     branch: 'Navy',
     altNames: ['Gulfport Naval', 'CBC Gulfport', 'Naval Construction Battalion Gulfport', 'Seabees Gulfport'],
+    lat: 30.41, lon: -89.10,
   },
   {
     name: 'NAS Meridian',
@@ -710,6 +819,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'MS',
     branch: 'Navy',
     altNames: ['Meridian NAS', 'Naval Air Station Meridian', 'NAAS Meridian'],
+    lat: 32.55, lon: -88.56,
   },
   {
     name: 'NAS Whiting Field',
@@ -718,6 +828,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'FL',
     branch: 'Navy',
     altNames: ['Whiting Field', 'Naval Air Station Whiting Field'],
+    lat: 30.72, lon: -87.02,
   },
   {
     name: 'MCRD San Diego',
@@ -726,6 +837,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'CA',
     branch: 'Marine Corps',
     altNames: ['MCRD', 'Marine Recruit Depot San Diego', 'Marine boot camp San Diego'],
+    lat: 32.73, lon: -117.20,
   },
   {
     name: 'MCRD Parris Island',
@@ -734,6 +846,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'SC',
     branch: 'Marine Corps',
     altNames: ['Parris Island', 'MCRD PI', 'Marine boot camp East Coast'],
+    lat: 32.34, lon: -80.68,
   },
   {
     name: 'Marine Corps Logistics Base Albany',
@@ -742,6 +855,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'GA',
     branch: 'Marine Corps',
     altNames: ['MCLB Albany', 'Albany Marine Corps'],
+    lat: 31.56, lon: -84.07,
   },
   {
     name: 'Naval Medical Center Portsmouth',
@@ -750,6 +864,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'VA',
     branch: 'Navy',
     altNames: ['NMCP', 'Portsmouth Naval Hospital', 'Naval Hospital Portsmouth'],
+    lat: 36.84, lon: -76.30,
   },
   {
     name: 'US Naval Academy',
@@ -758,6 +873,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'MD',
     branch: 'Navy',
     altNames: ['USNA', 'Annapolis', 'Naval Academy'],
+    lat: 38.99, lon: -76.48,
   },
   {
     name: 'Dam Neck Annex',
@@ -766,6 +882,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'VA',
     branch: 'Navy',
     altNames: ['Dam Neck', 'FCTCLANT', 'Fleet Combat Training Center'],
+    lat: 36.72, lon: -76.01,
   },
 
   // ── NAVY / MARINE CORPS (OCONUS) ──────────────────────────────────────────
@@ -833,6 +950,15 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     altNames: ['Naples', 'Naval Support Activity Naples'],
     oconus: true,
   },
+  {
+    name: 'Diego Garcia',
+    zip: '',
+    city: 'Diego Garcia',
+    state: 'IO',
+    branch: 'Navy',
+    altNames: ['Camp Justice', 'NAVSUPSFA Diego Garcia', 'British Indian Ocean Territory'],
+    oconus: true,
+  },
 
   // ── COAST GUARD ───────────────────────────────────────────────────────────
 
@@ -843,6 +969,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'NJ',
     branch: 'Coast Guard',
     altNames: ['TRACEN Cape May', 'Cape May', 'Coast Guard boot camp', 'CG Cape May'],
+    lat: 38.93, lon: -74.90,
   },
   {
     name: 'Air Station Elizabeth City',
@@ -851,6 +978,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'NC',
     branch: 'Coast Guard',
     altNames: ['CGAS Elizabeth City', 'Elizabeth City CG'],
+    lat: 36.27, lon: -76.19,
   },
   {
     name: 'USCG Yard',
@@ -859,6 +987,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'MD',
     branch: 'Coast Guard',
     altNames: ['Coast Guard Yard', 'Curtis Bay Yard', 'CG Yard Baltimore'],
+    lat: 39.22, lon: -76.59,
   },
   {
     name: 'Air Station Clearwater',
@@ -867,6 +996,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'FL',
     branch: 'Coast Guard',
     altNames: ['CGAS Clearwater', 'Clearwater CG'],
+    lat: 27.91, lon: -82.69,
   },
   {
     name: 'Base Kodiak',
@@ -875,6 +1005,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'AK',
     branch: 'Coast Guard',
     altNames: ['CG Kodiak', 'Coast Guard Kodiak', 'Kodiak Station'],
+    lat: 57.72, lon: -152.50,
   },
   {
     name: 'Sector Puget Sound',
@@ -883,6 +1014,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'WA',
     branch: 'Coast Guard',
     altNames: ['CG Seattle', 'Base Seattle', 'Coast Guard Seattle'],
+    lat: 47.59, lon: -122.33,
   },
   {
     name: 'Air Station Traverse City',
@@ -891,6 +1023,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'MI',
     branch: 'Coast Guard',
     altNames: ['CGAS Traverse City'],
+    lat: 44.74, lon: -85.58,
   },
   {
     name: 'Sector Virginia',
@@ -899,6 +1032,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'VA',
     branch: 'Coast Guard',
     altNames: ['CG Portsmouth', 'Base Portsmouth', 'Sector Hampton Roads'],
+    lat: 36.83, lon: -76.33,
   },
   {
     name: 'Air Station Sacramento',
@@ -907,6 +1041,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'CA',
     branch: 'Coast Guard',
     altNames: ['CGAS Sacramento', 'McClellan CG'],
+    lat: 38.67, lon: -121.40,
   },
   {
     name: 'Air Station Atlantic City',
@@ -915,6 +1050,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'NJ',
     branch: 'Coast Guard',
     altNames: ['CGAS Atlantic City'],
+    lat: 39.46, lon: -74.57,
   },
   {
     name: 'Air Station Houston',
@@ -923,6 +1059,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'TX',
     branch: 'Coast Guard',
     altNames: ['CGAS Houston', 'Ellington Field CG'],
+    lat: 29.61, lon: -95.18,
   },
   {
     name: 'Air Station New Orleans',
@@ -931,6 +1068,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'LA',
     branch: 'Coast Guard',
     altNames: ['CGAS New Orleans'],
+    lat: 29.99, lon: -90.14,
   },
   {
     name: 'Air Station Miami',
@@ -939,6 +1077,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'FL',
     branch: 'Coast Guard',
     altNames: ['CGAS Miami', 'Opa-locka CG'],
+    lat: 25.91, lon: -80.28,
   },
   {
     name: 'US Coast Guard Academy',
@@ -947,6 +1086,7 @@ export const INSTALLATIONS_LOOKUP: InstallationLookup[] = [
     state: 'CT',
     branch: 'Coast Guard',
     altNames: ['USCGA', 'Coast Guard Academy', 'New London Academy'],
+    lat: 41.37, lon: -72.10,
   },
 
 ];

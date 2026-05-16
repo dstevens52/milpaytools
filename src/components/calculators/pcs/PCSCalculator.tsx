@@ -8,6 +8,7 @@ import { ActSteps } from '@/components/calculators/shared/ActStep';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { DUTY_STATIONS } from '@/data/duty-stations/stations';
 import { STATION_COORDINATES } from '@/data/duty-stations/coordinates';
+import { INSTALLATIONS_LOOKUP } from '@/data/installations-lookup';
 import {
   ENLISTED_GRADES,
   WARRANT_GRADES,
@@ -69,6 +70,21 @@ function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
     Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
+}
+
+// Returns coordinates for a ZIP by checking DUTY_STATIONS (slug-keyed) then INSTALLATIONS_LOOKUP (lat/lon inline).
+function getCoordinatesForZip(zip: string): { lat: number; lon: number } | null {
+  if (!zip) return null;
+  const station = DUTY_STATIONS.find((s) => s.zip === zip);
+  if (station) {
+    const coords = STATION_COORDINATES[station.slug];
+    if (coords) return coords;
+  }
+  const inst = INSTALLATIONS_LOOKUP.find((i) => i.zip === zip);
+  if (inst && inst.lat !== undefined && inst.lon !== undefined) {
+    return { lat: inst.lat, lon: inst.lon };
+  }
+  return null;
 }
 
 // ─── Action step builder ──────────────────────────────────────────────────────
@@ -201,7 +217,7 @@ export function PCSCalculator() {
   const [zipFrom, setZipFrom] = useState('');
   const [zipTo, setZipTo] = useState('');
   const [showManualOverride, setShowManualOverride] = useState(false);
-  const [manualMiles, setManualMiles] = useState(500);
+  const [manualMiles, setManualMiles] = useState(0);
   const [numPOVs, setNumPOVs] = useState<1 | 2>(1);
   const [hhgWeight, setHhgWeight] = useState(5000);
   const [tleOldDays, setTleOldDays] = useState(0);
@@ -220,14 +236,15 @@ export function PCSCalculator() {
     [zipTo]
   );
 
-  // Auto-distance via haversine × 1.25 road factor when both stations have coordinates
+  // Auto-distance via haversine × 1.25 road factor when both ZIPs resolve to coordinates.
+  // Covers both DUTY_STATIONS (slug-keyed) and INSTALLATIONS_LOOKUP (inline lat/lon).
   const autoDistance = useMemo((): number | null => {
-    if (!stationFrom || !stationTo) return null;
-    const c1 = STATION_COORDINATES[stationFrom.slug];
-    const c2 = STATION_COORDINATES[stationTo.slug];
+    if (!zipFrom || !zipTo) return null;
+    const c1 = getCoordinatesForZip(zipFrom);
+    const c2 = getCoordinatesForZip(zipTo);
     if (!c1 || !c2) return null;
     return Math.round(haversineDistance(c1.lat, c1.lon, c2.lat, c2.lon) * 1.25);
-  }, [stationFrom, stationTo]);
+  }, [zipFrom, zipTo]);
 
   // Distance used in all calculations
   const effectiveDistance = (showManualOverride || autoDistance === null) ? manualMiles : autoDistance;
