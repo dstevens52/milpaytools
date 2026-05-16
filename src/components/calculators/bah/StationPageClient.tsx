@@ -794,6 +794,12 @@ export function StationPageClient({
               >
                 How BAH can build long-term wealth →
               </Link>
+              <Link
+                href="/blog/how-much-does-an-e5-really-make-2026"
+                className="text-sm text-zinc-300 hover:text-white transition-colors"
+              >
+                How much does an E-5 really make in 2026? →
+              </Link>
             </div>
             {/* Email signup */}
             <div className="border-t border-white/10 mt-5 pt-5">
