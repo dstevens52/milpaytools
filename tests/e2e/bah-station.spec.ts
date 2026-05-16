@@ -76,18 +76,18 @@ test.describe('BAH Station Page — Fort Bragg (upgraded, rich data)', () => {
   });
 });
 
-test.describe('BAH Station Page — Fort Hood (basic page, no rich data)', () => {
+test.describe('BAH Station Page — Fort Hood (upgraded, rich data)', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(FORT_HOOD);
   });
 
-  test('Key Insights section IS present on basic page', async ({ page }) => {
+  test('Key Insights section is NOT present on upgraded page', async ({ page }) => {
     await expect(
       page.getByRole('heading', { name: /Key Insights for Fort Hood/i }),
-    ).toBeVisible();
+    ).not.toBeAttached();
   });
 
-  test('3-step plan is present on basic page', async ({ page }) => {
+  test('3-step plan is present', async ({ page }) => {
     await expect(page.getByText('Check your rate')).toBeVisible();
   });
 });
