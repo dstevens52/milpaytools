@@ -406,33 +406,35 @@ export function CompareCalculator() {
 
           {/* Station housing guide links */}
           {(stationA || stationB) && (
-            <div className="rounded-lg border border-blue-100 bg-blue-50 p-4">
-              <p className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-3">
+            <div className="space-y-2">
+              <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">
                 Full Housing Guides
               </p>
-              <div className={`grid gap-3 ${stationA && stationB ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}`}>
+              <div className={`grid gap-2 ${stationA && stationB ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}`}>
                 {stationA && (
                   <Link
                     href={`/bah/${stationA.slug}?rank=${payGrade}&dep=${hasDependents ? 'yes' : 'no'}`}
-                    className="flex items-center justify-between rounded-md bg-white border border-blue-100 px-4 py-3 text-sm font-medium text-blue-700 hover:border-blue-300 hover:shadow-sm transition-all"
+                    className="group relative flex items-center justify-between gap-3 overflow-hidden rounded-lg border border-zinc-200 bg-white py-3 pl-5 pr-4 text-sm shadow-sm hover:border-zinc-300 hover:shadow transition-all"
                   >
-                    <span>
-                      See {stationA.name} BAH rates, local housing costs
-                      {stationA.localHousingTips ? ', and neighborhood tips' : ', and market analysis'}
+                    <span className="absolute inset-y-0 left-0 w-[3px] bg-red-600" />
+                    <span className="text-zinc-800">
+                      <strong>{stationA.name}</strong>{' '}housing guide
+                      {stationA.localHousingTips ? ' — neighborhoods &amp; BAH analysis' : ' — BAH rates &amp; market analysis'}
                     </span>
-                    <span className="ml-3 flex-none">→</span>
+                    <span className="flex-none text-red-600">→</span>
                   </Link>
                 )}
                 {stationB && (
                   <Link
                     href={`/bah/${stationB.slug}?rank=${payGrade}&dep=${hasDependents ? 'yes' : 'no'}`}
-                    className="flex items-center justify-between rounded-md bg-white border border-blue-100 px-4 py-3 text-sm font-medium text-blue-700 hover:border-blue-300 hover:shadow-sm transition-all"
+                    className="group relative flex items-center justify-between gap-3 overflow-hidden rounded-lg border border-zinc-200 bg-white py-3 pl-5 pr-4 text-sm shadow-sm hover:border-zinc-300 hover:shadow transition-all"
                   >
-                    <span>
-                      See {stationB.name} BAH rates, local housing costs
-                      {stationB.localHousingTips ? ', and neighborhood tips' : ', and market analysis'}
+                    <span className="absolute inset-y-0 left-0 w-[3px] bg-red-600" />
+                    <span className="text-zinc-800">
+                      <strong>{stationB.name}</strong>{' '}housing guide
+                      {stationB.localHousingTips ? ' — neighborhoods &amp; BAH analysis' : ' — BAH rates &amp; market analysis'}
                     </span>
-                    <span className="ml-3 flex-none">→</span>
+                    <span className="flex-none text-red-600">→</span>
                   </Link>
                 )}
               </div>

@@ -746,23 +746,25 @@ export function PCSCalculator() {
               {stationFrom && (
                 <Link
                   href={`/bah/${stationFrom.slug}?rank=${rank}&dep=${hasDependents ? 'yes' : 'no'}`}
-                  className="flex items-center justify-between gap-3 rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800 hover:border-blue-200 hover:bg-blue-100 transition-colors"
+                  className="group relative flex items-center justify-between gap-3 overflow-hidden rounded-lg border border-zinc-200 bg-white py-3 pl-5 pr-4 text-sm shadow-sm hover:border-zinc-300 hover:shadow transition-all"
                 >
-                  <span>
-                    <strong>{stationFrom.name}</strong> housing guide — local rents, neighborhoods &amp; BAH analysis
+                  <span className="absolute inset-y-0 left-0 w-[3px] bg-red-600" />
+                  <span className="text-zinc-800">
+                    <strong>{stationFrom.name}</strong>{' '}housing guide — local rents, neighborhoods &amp; BAH analysis
                   </span>
-                  <span className="flex-none text-blue-400">→</span>
+                  <span className="flex-none text-red-600">→</span>
                 </Link>
               )}
               {stationTo && stationTo.slug !== stationFrom?.slug && (
                 <Link
                   href={`/bah/${stationTo.slug}?rank=${rank}&dep=${hasDependents ? 'yes' : 'no'}`}
-                  className="flex items-center justify-between gap-3 rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800 hover:border-blue-200 hover:bg-blue-100 transition-colors"
+                  className="group relative flex items-center justify-between gap-3 overflow-hidden rounded-lg border border-zinc-200 bg-white py-3 pl-5 pr-4 text-sm shadow-sm hover:border-zinc-300 hover:shadow transition-all"
                 >
-                  <span>
-                    <strong>{stationTo.name}</strong> housing guide — local rents, neighborhoods &amp; BAH analysis
+                  <span className="absolute inset-y-0 left-0 w-[3px] bg-red-600" />
+                  <span className="text-zinc-800">
+                    <strong>{stationTo.name}</strong>{' '}housing guide — local rents, neighborhoods &amp; BAH analysis
                   </span>
-                  <span className="flex-none text-blue-400">→</span>
+                  <span className="flex-none text-red-600">→</span>
                 </Link>
               )}
             </div>
