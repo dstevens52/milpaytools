@@ -904,10 +904,52 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Alaska',
     branches: ['Army'],
     description:
-      'Fort Wainwright is home to the 1st Brigade Combat Team (Stryker), 25th Infantry Division, located in Fairbanks — the coldest major U.S. military installation.',
+      'Fort Wainwright is considered an overseas tour — your dependents need concurrent travel authorization to come with you. Fairbanks housing is surprisingly affordable by Alaska standards, but extreme winter utility costs change the math. Most families choose on-post housing for the included utilities and shorter commute on icy roads.',
+    installationDetail:
+      "Fort Wainwright is home to the 1st Stryker Brigade Combat Team, 25th Infantry Division — the Army's Arctic warfare specialists in the interior of Alaska, near Fairbanks.",
     rentalNote:
-      'Fairbanks housing costs are elevated due to Alaska\'s remote supply chains. BAH is calibrated to the market, but the limited inventory means competition for quality rentals is real despite the high rates.',
+      'Fairbanks housing is affordable by Alaska standards, but heating costs ($400–$600/month from October through March) dramatically change the off-post math. On-post housing includes utilities and is strongly recommended for first-time Alaska families.',
+    rentalContext:
+      'heating costs ($400–$600/month in winter) make on-post housing the financially smarter choice for most Wainwright families.',
     nearby: ['joint-base-elmendorf-richardson', 'minot-afb', 'ellsworth-afb'],
+    bahVsHousing: {
+      medianRent: 1500,
+      medianRentSource: 'PCSgrades / Zillow 2025–2026',
+      medianHomePrice: 260000,
+      medianHomePriceSource: 'Zillow / PCSgrades 2026',
+      mortgageMin: 1800,
+      mortgageMax: 2000,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.1% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 25–30% above the national average (driven by groceries and energy)',
+      stateTaxNote: 'Alaska has no state income tax and no state sales tax. Your military pay stretches further on the tax side — but higher costs for food, fuel, and heating offset some of that advantage.',
+      neighborhoods: [
+        {
+          name: 'On-post housing (North Haven Communities)',
+          highlight: 'Fairbanks North Star Borough Schools',
+          commute: 'Walk or 2–3 min drive',
+          bestFor: 'Strongly recommended — utilities included, critical in -40°F winters',
+          typicalRent3br: 'BAH covers 100% (utilities included)',
+        },
+        {
+          name: 'Fairbanks',
+          highlight: 'Fairbanks North Star Borough Schools — solid (7/10)',
+          commute: '10–15 min to main gate',
+          bestFor: 'Families wanting more shopping, dining, and community options',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'North Pole',
+          highlight: 'North Pole schools — small, military-heavy (6–7/10)',
+          commute: '15–20 min to Wainwright, 10 min to Eielson',
+          bestFor: 'Families splitting commute between Wainwright and Eielson',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+      ],
+      mistakeToAvoid:
+        'Fort Wainwright shares Fairbanks with Eielson AFB 26 miles south. The same winter heating warning applies — $400–$600/month from October through March if you live off-post. On-post housing includes utilities and is strongly recommended, especially for first-time Alaska families. If you do go off-post, budget heating as a line item, not an afterthought.',
+    },
   },
   {
     name: 'Fort Johnson',
@@ -1273,10 +1315,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'California',
     branches: ['Air Force'],
     description:
-      'Travis AFB is home to the 60th Air Mobility Wing and is the largest air mobility wing in the Air Force, positioned at the gateway to the Pacific between San Francisco and Sacramento.',
+      "Travis AFB sits in Solano County — cheaper than San Francisco or the East Bay, but still California-priced. BAH covers rent in Fairfield and Vacaville with a modest buffer, but homeownership requires careful math. California's income tax is a real hit to take-home pay.",
+    installationDetail:
+      "Travis AFB is the Air Force's largest air mobility base on the West Coast — home to the 60th Air Mobility Wing flying C-5M Super Galaxies and C-17s, located between San Francisco and Sacramento.",
     rentalNote:
-      'Travis sits in the Fairfield/Vacaville area, which is more affordable than the Bay Area proper but still expensive by national standards. BAH rates are high, reflecting the Northern California market.',
+      'Travis sits in Fairfield and Vacaville — more affordable than the Bay Area proper but still expensive by national standards. BAH rates are high, reflecting the Northern California market, but California income tax significantly reduces net take-home pay.',
+    rentalContext:
+      "Fairfield and Vacaville offer dramatically lower rents than the Bay Area or Sacramento — and that's where BAH goes the furthest for Travis families.",
     nearby: ['naval-base-ventura-county', 'vandenberg-sfb', 'camp-pendleton'],
+    bahVsHousing: {
+      medianRent: 2200,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 550000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 3600,
+      mortgageMax: 3900,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.1% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 20–25% above the national average',
+      stateTaxNote: 'California taxes military pay. The top marginal rate can reach 9.3%+ depending on income. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Fairfield',
+          highlight: 'Fairfield-Suisun USD — mixed (5–7/10)',
+          commute: '5–15 min to Travis gate',
+          bestFor: 'Closest to base with the most options',
+          typicalRent3br: '$1,800–$2,300/mo',
+        },
+        {
+          name: 'Vacaville',
+          highlight: 'Vacaville USD — better than Fairfield (6–7/10)',
+          commute: '15–20 min to Travis gate',
+          bestFor: 'Families wanting better schools and a nicer downtown',
+          typicalRent3br: '$2,000–$2,500/mo',
+        },
+        {
+          name: 'Suisun City',
+          highlight: 'Fairfield-Suisun USD — varies',
+          commute: '5–10 min to Travis gate',
+          bestFor: 'Most affordable option right next to base',
+          typicalRent3br: '$1,700–$2,100/mo',
+        },
+        {
+          name: 'Dixon',
+          highlight: 'Dixon USD — small, decent (6–7/10)',
+          commute: '15–20 min to Travis gate',
+          bestFor: 'Families wanting a small-town feel at lower prices',
+          typicalRent3br: '$1,800–$2,200/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Travis sits between the Bay Area and Sacramento — both expensive metros that pull housing prices up. The mistake is looking at Napa or Walnut Creek for the lifestyle when Vacaville and Fairfield are right next to the base with dramatically lower rents. Also, Bay Area commuters drive through this corridor, so I-80 traffic can be brutal during rush hour.",
+    },
   },
   {
     name: 'MacDill AFB',
@@ -1710,10 +1801,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Oklahoma',
     branches: ['Air Force'],
     description:
-      'Tinker AFB hosts the Air Force Sustainment Center and performs depot maintenance on the Air Force\'s B-52, E-3, and KC-135 fleets, located in the Oklahoma City metro.',
+      "Tinker AFB puts you in Oklahoma City — a major metro with surprisingly affordable housing. OKC's cost of living is well below the national average, Oklahoma exempts military pay from state income tax, and BAH creates a strong surplus at every pay grade. Homeownership here is very realistic.",
+    installationDetail:
+      "Tinker AFB is one of the Air Force's largest maintenance and logistics centers — home to the Oklahoma City Air Logistics Complex, the 552nd Air Control Wing (AWACS), and Air Force Sustainment Center.",
     rentalNote:
-      'Oklahoma City is among the most affordable large metros in the nation. BAH at all grades provides strong purchasing power — homeownership is the norm rather than the exception.',
+      'Oklahoma City is among the most affordable large metros in the nation. BAH at all grades provides strong purchasing power — homeownership is the norm rather than the exception. Midwest City right next to base is the most convenient option.',
+    rentalContext:
+      "Oklahoma City's cost of living is well below the national average and Oklahoma exempts military pay from state income tax — a rare combination.",
     nearby: ['fort-sill', 'fort-hood', 'barksdale-afb'],
+    bahVsHousing: {
+      medianRent: 1200,
+      medianRentSource: 'Zillow / BestPlaces 2025–2026',
+      medianHomePrice: 230000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 1600,
+      mortgageMax: 1800,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.0% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 12–15% below the national average',
+      stateTaxNote: 'Oklahoma taxes military pay at up to 4.75%. However, Oklahoma exempts 100% of active-duty military pay from state income tax for residents. Verify your eligibility.',
+      neighborhoods: [
+        {
+          name: 'Midwest City',
+          highlight: 'Mid-Del Schools — decent (6–7/10)',
+          commute: '5–10 min to Tinker gate',
+          bestFor: 'Closest to base, established military community',
+          typicalRent3br: '$900–$1,200/mo',
+        },
+        {
+          name: 'Moore',
+          highlight: 'Moore Public Schools — solid (7/10)',
+          commute: '15–20 min to Tinker',
+          bestFor: 'Families wanting better schools and newer construction',
+          typicalRent3br: '$1,100–$1,400/mo',
+        },
+        {
+          name: 'Norman',
+          highlight: 'Norman Public Schools — strong (7–8/10), OU campus',
+          commute: '20–25 min to Tinker',
+          bestFor: 'Families wanting a college-town feel with top schools',
+          typicalRent3br: '$1,100–$1,500/mo',
+        },
+        {
+          name: 'Edmond',
+          highlight: 'Edmond Public Schools — excellent (8–9/10)',
+          commute: '30–35 min to Tinker',
+          bestFor: 'Families willing to commute for the best schools in the OKC metro',
+          typicalRent3br: '$1,300–$1,700/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Tinker is on the southeast side of OKC, and Oklahoma City is sprawling. The mistake is living on the north side of the metro for lifestyle and then driving 30–40 minutes to Tinker every day. Midwest City, Del City, and Moore are all within 15 minutes of the gate with affordable housing and solid school options.",
+    },
   },
   {
     name: 'Barksdale AFB',
@@ -1780,10 +1920,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Alaska',
     branches: ['Air Force', 'Army'],
     description:
-      'JBER is the primary military installation in Alaska, home to the 3rd Wing and 11th Airborne Division, positioned at the strategic gateway between the Pacific and the Arctic.',
+      "JBER puts you in Anchorage — Alaska's largest city with actual urban amenities. BAH is generous, and while Anchorage is expensive, it's more manageable than Hawaii or coastal California. No state income tax and the annual Permanent Fund Dividend are real financial perks.",
+    installationDetail:
+      "JBER is Alaska's largest military installation — home to the 11th Airborne Division, the 3rd Wing flying F-22 Raptors, and the headquarters of Alaskan Command, located in Anchorage.",
     rentalNote:
-      'Anchorage has elevated housing costs relative to the continental U.S. due to Alaska\'s remote supply chains. BAH rates reflect this, but the combination of BAH and Alaska\'s unique pay makes Anchorage financially competitive for career servicemembers.',
+      "Anchorage has elevated housing costs but BAH rates reflect the market. Eagle River north of the city has the best schools in the JBER corridor. Get on the on-base waitlist immediately — it fills fast.",
+    rentalContext:
+      "Anchorage is expensive but more manageable than Hawaii or coastal California — and Alaska's no-income-tax advantage is a real financial benefit.",
     nearby: ['fort-wainwright', 'joint-base-lewis-mcchord', 'naval-base-kitsap'],
+    bahVsHousing: {
+      medianRent: 1900,
+      medianRentSource: 'Zillow / PCS Pay It Forward 2025–2026',
+      medianHomePrice: 380000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2600,
+      mortgageMax: 2900,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~1.1% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 25–35% above the national average',
+      stateTaxNote: 'Alaska has no state income tax and no state sales tax. Plus every Alaska resident receives an annual Permanent Fund Dividend (typically $1,000–$2,000 per person, including children).',
+      neighborhoods: [
+        {
+          name: 'Eagle River',
+          highlight: 'Anchorage School District — Eagle River zone is strong (7–8/10)',
+          commute: '15–20 min to JBER-Richardson gate',
+          bestFor: 'Top pick for families — best schools in the JBER corridor',
+          typicalRent3br: '$1,700–$2,200/mo',
+        },
+        {
+          name: 'Anchorage (east/south)',
+          highlight: 'Anchorage School District — varies by zone (5–8/10)',
+          commute: '10–20 min to JBER-Elmendorf gate',
+          bestFor: 'Most options for shopping, dining, and urban amenities',
+          typicalRent3br: '$1,600–$2,100/mo',
+        },
+        {
+          name: 'Government Hill / Mountain View',
+          highlight: 'Anchorage School District — improving (5–6/10)',
+          commute: '5–10 min to Elmendorf gate',
+          bestFor: 'Shortest commute and most affordable off-base option',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'On-base housing (Aurora Military Housing)',
+          highlight: 'On-base schools / Anchorage School District',
+          commute: 'Walk or 2–3 min drive',
+          bestFor: 'Families wanting included utilities and the JBER community',
+          typicalRent3br: 'BAH covers 100% (utilities included)',
+        },
+      ],
+      mistakeToAvoid:
+        "JBER has two sides — Elmendorf (Air Force, north) and Richardson (Army, south) — and your daily gate matters for housing. The mistake is not asking which side you'll report to before picking a neighborhood. Also, Anchorage's housing market is tighter than Fairbanks — start your housing search 60–90 days early and get on the on-base waitlist immediately.",
+    },
   },
   {
     name: 'Joint Base Andrews',
@@ -2328,10 +2517,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'Florida',
     branches: ['Navy'],
     description:
-      'NAS Pensacola is the "Cradle of Naval Aviation," home to primary flight training, the Naval Aviation Museum, and the Blue Angels flight demonstration squadron.',
+      "NAS Pensacola is one of the more affordable Navy duty stations in the country. Northwest Florida's cost of living is below the national average, Florida has no income tax, and BAH covers rent with a comfortable buffer. The Gulf Coast lifestyle — white sand beaches, fishing, warm weather — is the bonus.",
+    installationDetail:
+      "NAS Pensacola is the 'Cradle of Naval Aviation' — home to Naval Air Technical Training Command, the Blue Angels flight demonstration team, and the National Naval Aviation Museum.",
     rentalNote:
-      'Pensacola is an attractive coastal market with moderate rents relative to Florida averages. BAH covers most mid-range rentals, and buyers find good value in neighborhoods north of downtown.',
+      'Pensacola is an attractive coastal market with moderate rents relative to Florida averages. BAH covers most mid-range rentals with room to spare. Neighborhoods north of downtown and in Santa Rosa County offer the best balance of price and quality.',
+    rentalContext:
+      "Northwest Florida's cost of living is below the national average, and Florida's no-income-tax advantage makes Pensacola one of the better financial deals in the Navy.",
     nearby: ['eglin-afb', 'macdill-afb', 'naval-station-mayport'],
+    bahVsHousing: {
+      medianRent: 1500,
+      medianRentSource: 'Zillow / Zumper 2025–2026',
+      medianHomePrice: 280000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 1850,
+      mortgageMax: 2050,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.8% property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 5–8% below the national average',
+      stateTaxNote: 'Florida has no state income tax on military pay. Your entire paycheck goes further here than at duty stations in income-tax states.',
+      neighborhoods: [
+        {
+          name: 'Pensacola (east/north)',
+          highlight: 'Escambia County Schools — varies (5–7/10)',
+          commute: '10–15 min to NAS Pensacola',
+          bestFor: 'Most options closest to base',
+          typicalRent3br: '$1,200–$1,600/mo',
+        },
+        {
+          name: 'Pace / Milton',
+          highlight: 'Santa Rosa County Schools — strong (7–8/10)',
+          commute: '20–25 min to NAS Pensacola',
+          bestFor: 'Families wanting the best schools in the area',
+          typicalRent3br: '$1,300–$1,700/mo',
+        },
+        {
+          name: 'Gulf Breeze',
+          highlight: 'Santa Rosa County Schools — strong (7–8/10)',
+          commute: '15–20 min to NAS Pensacola',
+          bestFor: 'Families wanting a waterfront community with good schools',
+          typicalRent3br: '$1,500–$1,900/mo',
+        },
+        {
+          name: 'Cantonment / Gonzalez',
+          highlight: 'Escambia County — improving (6–7/10)',
+          commute: '20–25 min to NAS Pensacola',
+          bestFor: 'Most affordable with a rural feel',
+          typicalRent3br: '$1,100–$1,400/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Pensacola Beach and Perdido Key are gorgeous — but rentals there are priced for tourists, not military families. The mistake is paying beach-premium rent when Pace, Gulf Breeze, or Cantonment offer solid neighborhoods 15–20 minutes from the gate at prices BAH actually covers. Save the beach for weekends.",
+    },
   },
   {
     name: 'Naval Station Mayport',
@@ -2666,10 +2904,59 @@ export const DUTY_STATIONS: DutyStation[] = [
     stateName: 'South Carolina',
     branches: ['Air Force', 'Navy'],
     description:
-      'Joint Base Charleston hosts the 437th Airlift Wing and serves as the primary East Coast port of embarkation, combining Charleston AFB and Naval Weapons Station Charleston.',
+      "JB Charleston puts you in one of the Southeast's most charming cities — historic downtown, beaches, and a nationally recognized food scene. The trade-off is cost: Charleston's housing market has appreciated significantly and BAH doesn't stretch as far as at most Air Force bases. Look north and west of the base for the best value.",
+    installationDetail:
+      "JB Charleston is the Air Force's primary East Coast airlift hub — home to the 437th Airlift Wing flying C-17 Globemaster IIIs, plus a Navy Weapons Station.",
     rentalNote:
-      'Charleston is a growing coastal market with rising rents. BAH covers most mid-range apartments, but the city\'s popularity with transplants and retirees has added pricing pressure in desirable neighborhoods.',
+      "Charleston is a growing coastal market with rising rents. BAH covers most mid-range apartments, but the city's popularity with transplants has added pricing pressure. North Charleston, Goose Creek, and Summerville are where BAH actually goes the distance.",
+    rentalContext:
+      'North Charleston, Goose Creek, and Summerville offer strong military communities at prices BAH can cover — downtown Charleston and Mount Pleasant will test your limits.',
     nearby: ['marine-corps-air-station-beaufort', 'fort-jackson', 'fort-stewart'],
+    bahVsHousing: {
+      medianRent: 2000,
+      medianRentSource: 'RentCafe / Zumper 2025–2026',
+      medianHomePrice: 420000,
+      medianHomePriceSource: 'Zillow / Redfin 2026',
+      mortgageMin: 2700,
+      mortgageMax: 3000,
+      mortgageAssumptions: '$0 down, ~6.5% rate, ~0.6% SC property tax + insurance',
+    },
+    localHousingTips: {
+      coliNote: 'roughly 10–15% above the national average (coastal premium)',
+      stateTaxNote: 'South Carolina taxes military pay at up to 6.5%. However, SC has one of the lowest property tax rates in the country. BAH and BAS remain tax-free.',
+      neighborhoods: [
+        {
+          name: 'Goose Creek',
+          highlight: 'Berkeley County Schools — decent (6–7/10)',
+          commute: '10–15 min to JB Charleston',
+          bestFor: 'Most popular military neighborhood — affordable and close',
+          typicalRent3br: '$1,500–$1,900/mo',
+        },
+        {
+          name: 'Summerville',
+          highlight: 'Dorchester District 2 — strong (7–8/10)',
+          commute: '20–25 min to JB Charleston',
+          bestFor: 'Families wanting better schools and a charming downtown',
+          typicalRent3br: '$1,600–$2,100/mo',
+        },
+        {
+          name: 'North Charleston',
+          highlight: 'Charleston County — mixed (5–7/10)',
+          commute: '10–15 min to JB Charleston',
+          bestFor: 'Most affordable option near base',
+          typicalRent3br: '$1,400–$1,800/mo',
+        },
+        {
+          name: 'Mount Pleasant',
+          highlight: 'Charleston County — strong in this zone (7–8/10)',
+          commute: '20–30 min to JB Charleston',
+          bestFor: 'Families willing to pay more for beach proximity and top schools',
+          typicalRent3br: '$2,200–$2,800/mo',
+        },
+      ],
+      mistakeToAvoid:
+        "Charleston is one of the most desirable cities in the Southeast, and housing prices reflect it. The mistake is looking only at downtown Charleston or Mount Pleasant — both are beautiful but will blow past your BAH. North Charleston, Goose Creek, and Summerville offer strong military communities at prices BAH can actually cover.",
+    },
   },
   {
     name: 'Joint Base Cape Cod',
