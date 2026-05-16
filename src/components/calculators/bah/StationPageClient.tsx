@@ -591,7 +591,7 @@ export function StationPageClient({
                 </div>
                 <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
                   <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">
-                    Natl avg {selectedGrade} {depLabel}
+                    Natl median {selectedGrade} {depLabel}
                   </p>
                   <p className="text-2xl font-bold text-zinc-500 tabular-nums">
                     {fmt(natAvg)}

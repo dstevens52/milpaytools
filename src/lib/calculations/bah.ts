@@ -94,8 +94,9 @@ export function getMHACode(zipCode: string): string | null {
 }
 
 /**
- * Compute national average BAH rates for every pay grade across all MHAs.
- * Returns mean monthly rate rounded to the nearest dollar.
+ * Compute national median BAH rates for every pay grade across all MHAs.
+ * Median is used (not mean) because coastal outliers (SF, NYC) skew the mean
+ * significantly upward and don't represent a typical duty station.
  */
 export function getNationalAverages(): { w: Record<string, number>; wo: Record<string, number> } {
   const accumW: Record<string, number[]> = {};
@@ -108,9 +109,13 @@ export function getNationalAverages(): { w: Record<string, number>; wo: Record<s
       (accumWO[grade] ??= []).push(rate);
     }
   }
-  const avg = (arr: number[]) => Math.round(arr.reduce((a, b) => a + b, 0) / arr.length);
+  const median = (arr: number[]) => {
+    const s = [...arr].sort((a, b) => a - b);
+    const mid = Math.floor(s.length / 2);
+    return s.length % 2 === 0 ? Math.round((s[mid - 1] + s[mid]) / 2) : s[mid];
+  };
   return {
-    w: Object.fromEntries(Object.entries(accumW).map(([g, rates]) => [g, avg(rates)])),
-    wo: Object.fromEntries(Object.entries(accumWO).map(([g, rates]) => [g, avg(rates)])),
+    w: Object.fromEntries(Object.entries(accumW).map(([g, rates]) => [g, median(rates)])),
+    wo: Object.fromEntries(Object.entries(accumWO).map(([g, rates]) => [g, median(rates)])),
   };
 }
