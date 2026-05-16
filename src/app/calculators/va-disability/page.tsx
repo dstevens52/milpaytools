@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
+import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { VADisabilityCalculator } from '@/components/calculators/va-disability/VADisabilityCalculator';
 import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -72,39 +73,11 @@ export default function VADisabilityPage() {
       </div>
 
       {/* ── 3-step plan strip ────────────────────────────────────────── */}
-      <div className="bg-white border-t border-b border-zinc-200 mt-6">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {[
-              {
-                step: '1',
-                title: 'Enter each condition',
-                desc: 'Add the rating percentage and body location for each service-connected disability.',
-              },
-              {
-                step: '2',
-                title: 'See the VA math',
-                desc: 'The calculator applies the whole-person formula and bilateral factor step by step.',
-              },
-              {
-                step: '3',
-                title: 'Estimate your compensation',
-                desc: 'Add dependents to see your estimated 2026 monthly VA compensation.',
-              },
-            ].map(({ step, title, desc }) => (
-              <div key={step} className="flex gap-3 items-start">
-                <div className="flex-none w-8 h-8 rounded-full bg-red-700 text-white font-black text-sm flex items-center justify-center">
-                  {step}
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-zinc-900">{title}</p>
-                  <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">{desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <CalcStepStrip steps={[
+        { title: 'Enter each condition', sub: 'Add the rating percentage and body location for each service-connected disability.' },
+        { title: 'See the VA math', sub: 'The calculator applies the whole-person formula and bilateral factor step by step.' },
+        { title: 'Estimate your compensation', sub: 'Add dependents to see your estimated 2026 monthly VA compensation.' },
+      ]} />
 
       {/* ── Feature chips + stakes ───────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">

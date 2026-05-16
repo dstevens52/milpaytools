@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
 test.describe('Separation Benefits Timeline Calculator', () => {
   // Run serially — parallel execution with shared localhost causes flaky date-fill behavior
@@ -13,7 +13,7 @@ test.describe('Separation Benefits Timeline Calculator', () => {
    * webkit's <input type="date"> doesn't reliably fire React onChange via fill() +
    * programmatic events, so we navigate with ?date= which is proven to work on all browsers.
    */
-  async function fillDate(page: Parameters<typeof test>[1] extends (args: { page: infer P }) => unknown ? P : never, date: string) {
+  async function fillDate(page: Page, date: string) {
     await page.goto(`/calculators/separation-timeline?date=${date}`);
   }
 
