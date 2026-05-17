@@ -235,6 +235,11 @@ export default function StartingServicePage() {
         </div>
       </section>
 
+      {/* ── DEBUG: remove after confirming image loads ─────────────────────── */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/images/young-soldier.png" alt="debug test" width={200} height={200} style={{ display: 'block', border: '4px solid red', margin: '16px' }} />
+      {/* ── END DEBUG ────────────────────────────────────────────────────────── */}
+
       {/* ── Start Here ────────────────────────────────────────────────────────── */}
       <section className="bg-white border-b border-zinc-200 py-5 sm:py-7 px-4">
         <div className="mx-auto max-w-5xl">
