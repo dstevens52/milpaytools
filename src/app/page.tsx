@@ -45,11 +45,15 @@ function HeroSection() {
           </span>
         </div>
 
-        <h1 className="text-[36px] sm:text-[38px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-0">
+        <h1 className="text-[36px] sm:text-[38px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-3">
           Stop guessing what your{' '}
           <span className="text-red-700">military pay and benefits</span>{' '}
           are worth.
         </h1>
+
+        <p className="text-base text-zinc-400 text-center">
+          Powerful, free tools to help you plan, compare, and make confident money decisions.
+        </p>
       </div>
     </section>
   );
@@ -212,8 +216,8 @@ function ProofStrip() {
           <div className="flex flex-col md:flex-row md:items-center md:flex-1 gap-2 md:gap-0">
             {PROOF_STEPS.map(({ n, title }, i) => (
               <Fragment key={n}>
-                <div className="flex items-center gap-2 md:flex-1">
-                  <div className="w-[22px] h-[22px] rounded-full bg-red-700 flex items-center justify-center flex-none shrink-0">
+                <div className="flex items-start gap-2 md:flex-1">
+                  <div className="w-[24px] h-[24px] rounded-full bg-red-700 flex items-center justify-center flex-none shrink-0 mt-0.5">
                     <span className="text-white text-[10px] font-black leading-none">{n}</span>
                   </div>
                   <p className="text-[12px] font-semibold text-white leading-snug">{title}</p>
