@@ -104,11 +104,11 @@ export default function StartingServicePage() {
         style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
       >
         {/* Soldier image — right column, desktop only */}
-        <div className="absolute inset-y-0 right-0 w-[42%] hidden sm:block" aria-hidden="true">
+        <div className="absolute inset-y-0 right-0 w-[42%] hidden sm:block overflow-hidden" aria-hidden="true">
           {/* Fade into cream at the left edge so text stays readable */}
           <div
             className="absolute inset-0 z-10"
-            style={{ background: 'linear-gradient(to right, rgba(242,232,212,1) 0%, rgba(242,232,212,0) 38%)' }}
+            style={{ background: 'linear-gradient(to right, rgba(242,232,212,1) 0%, rgba(242,232,212,0.5) 12%, rgba(242,232,212,0) 22%)' }}
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -234,11 +234,6 @@ export default function StartingServicePage() {
 
         </div>
       </section>
-
-      {/* ── DEBUG: remove after confirming image loads ─────────────────────── */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/images/young-soldier.png" alt="debug test" width={200} height={200} style={{ display: 'block', border: '4px solid red', margin: '16px' }} />
-      {/* ── END DEBUG ────────────────────────────────────────────────────────── */}
 
       {/* ── Start Here ────────────────────────────────────────────────────────── */}
       <section className="bg-white border-b border-zinc-200 py-5 sm:py-7 px-4">
