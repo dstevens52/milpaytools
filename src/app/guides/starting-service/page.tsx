@@ -148,7 +148,7 @@ export default function StartingServicePage() {
 
             {/* Primary CTA */}
             <Link
-              href="/calculators/total-compensation"
+              href="/calculators/total-compensation?rank=e3&yos=2&zip=28310&dependents=no"
               className="inline-flex items-center gap-2 rounded-md bg-red-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
             >
               Calculate My Total Compensation
