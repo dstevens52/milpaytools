@@ -647,28 +647,6 @@ export function StationPageClient({
           {/* Local Housing Tips */}
           {station.localHousingTips && (
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
-              <h2 className="text-lg font-semibold text-zinc-900 mb-5">Area Housing Overview</h2>
-
-              <p className="text-xs text-zinc-500 uppercase tracking-wide font-semibold mb-3">
-                Commonly chosen neighborhoods near base
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-                {station.localHousingTips.neighborhoods.map((n) => (
-                  <div key={n.name} className="rounded-lg border border-zinc-200 p-4">
-                    <p className="font-semibold text-zinc-900 text-sm mb-1">{n.name}</p>
-                    <p className="text-sm text-zinc-600 mb-2">{n.highlight}</p>
-                    {n.typicalRent3br && (
-                      <p className="text-xs text-zinc-600 font-medium mb-1">Typical 3BR: {n.typicalRent3br}</p>
-                    )}
-                    <p className="text-xs text-zinc-500">Commute: {n.commute}</p>
-                    <p className="text-xs text-zinc-400 mt-0.5">Common among: {n.bestFor}</p>
-                  </div>
-                ))}
-              </div>
-              <p className="text-xs text-zinc-400 italic mb-6">
-                Neighborhood data: Rental estimates from published market sources. School ratings from GreatSchools / Niche.com. Commute times are approximate. Verify all information independently before making housing decisions.
-              </p>
-
               <p className="text-xs text-zinc-500 uppercase tracking-wide font-semibold mb-3">
                 Local cost of living context
               </p>

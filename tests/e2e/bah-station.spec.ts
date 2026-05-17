@@ -41,10 +41,6 @@ test.describe('BAH Station Page — Fort Bragg (upgraded, rich data)', () => {
     await expect(page.getByText('Monthly surplus', { exact: true })).toHaveCount(1);
   });
 
-  test('neighborhood tips include typical 3BR rent ranges', async ({ page }) => {
-    await expect(page.getByText('Typical 3BR:', { exact: false }).first()).toBeVisible();
-  });
-
   test('Key Insights section is NOT present on upgraded page', async ({ page }) => {
     await expect(
       page.getByRole('heading', { name: /Key Insights for Fort Bragg/i }),
