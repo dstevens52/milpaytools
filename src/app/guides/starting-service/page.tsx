@@ -72,8 +72,25 @@ export default function StartingServicePage() {
   return (
     <>
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
-      <section className="hero-starting-service border-b border-zinc-200 pt-6 pb-5 sm:pt-9 sm:pb-6 px-4">
-        <div className="mx-auto max-w-5xl">
+      <section
+        className="relative overflow-hidden border-b border-zinc-200 pt-6 pb-5 sm:pt-9 sm:pb-6 px-4"
+        style={{ backgroundColor: '#f2e8d8' }}
+      >
+        {/* Desktop: soldier image fades in from the right behind a cream overlay */}
+        <div
+          className="absolute inset-0 hidden sm:block"
+          aria-hidden="true"
+          style={{
+            backgroundImage: [
+              'linear-gradient(90deg, rgba(247,238,224,0.98) 0%, rgba(247,238,224,0.92) 42%, rgba(247,238,224,0.35) 68%, rgba(247,238,224,0.05) 100%)',
+              "url('/images/young-soldier.png')",
+            ].join(', '),
+            backgroundPosition: 'center right',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+          }}
+        />
+        <div className="relative z-10 mx-auto max-w-5xl">
 
           {/* Trust pill */}
           <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">

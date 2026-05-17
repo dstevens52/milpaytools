@@ -81,22 +81,6 @@ body {
    On print:  just the entered value with a subtle underline — no input chrome.
    ────────────────────────────────────────────────────────────────────────── */
 
-/* ─── Starting Service hero — photo on right, cream overlay on left ─────── */
-
-.hero-starting-service {
-  background: linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%);
-}
-
-@media (min-width: 640px) {
-  .hero-starting-service {
-    background-image:
-      linear-gradient(90deg, rgba(247,238,224,0.98) 0%, rgba(247,238,224,0.92) 42%, rgba(247,238,224,0.35) 68%, rgba(247,238,224,0.05) 100%),
-      url('/images/young-soldier.png');
-    background-position: center right;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-}
 
 @media print {
   .worksheet-input {
