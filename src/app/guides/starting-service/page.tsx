@@ -72,10 +72,7 @@ export default function StartingServicePage() {
   return (
     <>
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
-      <section
-        className="border-b border-zinc-200 pt-6 pb-5 sm:pt-9 sm:pb-6 px-4"
-        style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
-      >
+      <section className="hero-starting-service border-b border-zinc-200 pt-6 pb-5 sm:pt-9 sm:pb-6 px-4">
         <div className="mx-auto max-w-5xl">
 
           {/* Trust pill */}
