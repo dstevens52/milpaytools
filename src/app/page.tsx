@@ -267,107 +267,6 @@ function ProofStrip() {
   );
 }
 
-// ── Trust / value band ────────────────────────────────────────────────────────
-
-const TRUST_ITEMS = [
-  {
-    title: 'Official Source Data',
-    description: 'Uses official 2026 DoD, DFAS, DTMO, VA, and TSP source data.',
-    icon: (
-      <svg
-        className="w-6 h-6"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
-        />
-      </svg>
-    ),
-  },
-  {
-    title: 'Private by Default',
-    description: 'No account. No personal info collected. Calculations run in your browser.',
-    icon: (
-      <svg
-        className="w-6 h-6"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        aria-hidden="true"
-      >
-        <rect x="3" y="11" width="18" height="11" rx="2" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M7 11V7a5 5 0 0 1 10 0v4" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Decision-Focused Tools',
-    description:
-      'Built to help you compare, plan, and make confident military money decisions.',
-    icon: (
-      <svg
-        className="w-6 h-6"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        aria-hidden="true"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v18h18M7 16l4-4 4 4 4-4" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Built for Military Families',
-    description: 'Because every decision affects more than just one paycheck.',
-    icon: (
-      <svg
-        className="w-6 h-6"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
-        />
-      </svg>
-    ),
-  },
-];
-
-function TrustBand() {
-  return (
-    <section className="bg-slate-900 py-12 px-4">
-      <div className="mx-auto max-w-6xl">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {TRUST_ITEMS.map(({ title, description, icon }) => (
-            <div key={title} className="flex flex-col items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white flex-none">
-                {icon}
-              </div>
-              <div>
-                <p className="font-bold text-white text-sm mb-1.5">{title}</p>
-                <p className="text-xs text-white/60 leading-relaxed">{description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 // ── Calculator discovery grid ─────────────────────────────────────────────────
 
 const CALCULATORS = [
@@ -625,7 +524,6 @@ export default function HomePage() {
       <HeroSection />
       <JourneySection />
       <ProofStrip />
-      <TrustBand />
       <CalculatorGridSection />
       <CalcsAndBlogSection />
       <FooterTrustBand />
