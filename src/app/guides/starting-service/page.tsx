@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -73,49 +74,54 @@ export default function StartingServicePage() {
     <>
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
       <section
-        className="relative overflow-hidden border-b border-zinc-200 pt-6 pb-5 sm:pt-9 sm:pb-6 px-4"
-        style={{ backgroundColor: '#f2e8d8' }}
+        className="relative overflow-hidden border-b border-zinc-200"
+        style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
       >
-        {/* Desktop: soldier image fades in from the right behind a cream overlay */}
-        <div
-          className="absolute inset-0 hidden sm:block"
-          aria-hidden="true"
-          style={{
-            backgroundImage: [
-              'linear-gradient(90deg, rgba(247,238,224,0.98) 0%, rgba(247,238,224,0.92) 42%, rgba(247,238,224,0.35) 68%, rgba(247,238,224,0.05) 100%)',
-              "url('/images/young-soldier.png')",
-            ].join(', '),
-            backgroundPosition: 'center right',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-          }}
-        />
-        <div className="relative z-10 mx-auto max-w-5xl">
+        {/* Soldier image — right column, desktop only */}
+        <div className="absolute inset-y-0 right-0 w-[42%] hidden sm:block" aria-hidden="true">
+          {/* Fade into cream at the left edge so text stays readable */}
+          <div
+            className="absolute inset-0 z-10"
+            style={{ background: 'linear-gradient(to right, rgba(242,232,212,1) 0%, rgba(242,232,212,0) 38%)' }}
+          />
+          <Image
+            src="/images/young-soldier.png"
+            alt=""
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="42vw"
+          />
+        </div>
 
-          {/* Trust pill */}
-          <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
-            <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-              Free Calculators &bull; No Account &bull; Official 2026 DoD &amp; VA Data
-            </span>
-          </div>
+        <div className="relative z-10 mx-auto max-w-5xl pt-6 pb-5 sm:pt-9 sm:pb-6 px-4">
 
-          {/* Headline */}
-          <h1 className="text-[32px] sm:text-[42px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-3 max-w-3xl">
-            Starting Service: Understand your{' '}
-            <span className="text-red-700">military pay and benefits</span>{' '}
-            from day one.
-          </h1>
+          {/* Left column text — constrained so the image stays visible on desktop */}
+          <div className="sm:max-w-[58%] mb-5">
 
-          {/* Subtext */}
-          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed max-w-2xl mb-4">
-            Military pay is more than base pay. See the full picture—including BAH, BAS, tax
-            advantages, healthcare value, and TSP match—so you can make smart money decisions
-            from the start.
-          </p>
+            {/* Trust pill */}
+            <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+              <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+                Free Calculators &bull; No Account &bull; Official 2026 DoD &amp; VA Data
+              </span>
+            </div>
 
-          {/* Buttons */}
-          <div className="flex flex-wrap gap-3 mb-5">
+            {/* Headline */}
+            <h1 className="text-[32px] sm:text-[42px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-3">
+              Starting Service: Understand your{' '}
+              <span className="text-red-700">military pay and benefits</span>{' '}
+              from day one.
+            </h1>
+
+            {/* Subtext */}
+            <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-4">
+              Military pay is more than base pay. See the full picture—including BAH, BAS, tax
+              advantages, healthcare value, and TSP match—so you can make smart money decisions
+              from the start.
+            </p>
+
+            {/* Primary CTA */}
             <Link
               href="/calculators/total-compensation"
               className="inline-flex items-center gap-2 rounded-md bg-red-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
@@ -125,12 +131,7 @@ export default function StartingServicePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
               </svg>
             </Link>
-            <button
-              type="button"
-              className="inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors"
-            >
-              See Example: E-3 With 2 Years
-            </button>
+
           </div>
 
           {/* ── Example compensation card ── */}
