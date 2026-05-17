@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Fragment } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 const HOME_TITLE = 'MilPayTools — Military Pay & Benefits Calculators';
@@ -31,23 +32,26 @@ export const metadata: Metadata = {
 
 function HeroSection() {
   return (
-    <section className="bg-white border-b border-zinc-100 py-10 sm:py-12 px-4">
+    <section
+      className="border-b border-zinc-200 py-5 sm:py-7 px-4"
+      style={{ background: 'linear-gradient(135deg, #faf8f5 0%, #f3ebe0 55%, #fff 100%)' }}
+    >
       <div className="mx-auto max-w-4xl">
         {/* Trust badge */}
-        <div className="inline-flex items-center gap-2.5 mb-5 rounded-full bg-zinc-900 px-4 py-1.5">
+        <div className="inline-flex items-center gap-2.5 mb-4 rounded-full bg-zinc-900 px-4 py-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
           <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
             Free · No Account · No Personal Info · Official 2026 DoD &amp; VA Data
           </span>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight text-zinc-900 mb-5">
+        <h1 className="text-[30px] sm:text-[32px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-3">
           Stop guessing what your{' '}
           <span className="text-red-700">military pay and benefits</span>{' '}
           are worth.
         </h1>
 
-        <p className="text-base sm:text-lg text-zinc-600 leading-relaxed max-w-[580px]">
+        <p className="text-base text-zinc-600 leading-relaxed">
           Free calculators that help service members compare total compensation, BAH, PCS
           decisions, deployment pay, VA benefits, and civilian salary equivalents — using
           official 2026 data with no account and no personal information required.
@@ -61,6 +65,9 @@ function HeroSection() {
 
 const JOURNEY_CARDS = [
   {
+    imgSrc: '/images/journey-starting-service.png',
+    overlay: 'linear-gradient(135deg, rgba(30,58,138,0.72) 0%, rgba(23,37,84,0.82) 100%)',
+    borderLeft: 'border-l-blue-400',
     title: 'Starting service',
     description:
       'Understand base pay, BAH, BAS, TSP match, and what your compensation is really worth.',
@@ -68,7 +75,7 @@ const JOURNEY_CARDS = [
     href: '/guides/military-pay',
     icon: (
       <svg
-        className="w-4 h-4 text-red-700"
+        className="w-4 h-4 text-white"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -84,6 +91,9 @@ const JOURNEY_CARDS = [
     ),
   },
   {
+    imgSrc: '/images/journey-navigating-service.png',
+    overlay: 'linear-gradient(135deg, rgba(6,78,59,0.72) 0%, rgba(2,44,34,0.82) 100%)',
+    borderLeft: 'border-l-emerald-400',
     title: 'Navigating service',
     description:
       'Compare duty stations, PCS costs, BAH changes, deployment pay, and cost-of-living tradeoffs.',
@@ -91,7 +101,7 @@ const JOURNEY_CARDS = [
     href: '/guides/pcs',
     icon: (
       <svg
-        className="w-4 h-4 text-red-700"
+        className="w-4 h-4 text-white"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -112,6 +122,9 @@ const JOURNEY_CARDS = [
     ),
   },
   {
+    imgSrc: '/images/journey-transitioning-service.png',
+    overlay: 'linear-gradient(135deg, rgba(120,53,15,0.72) 0%, rgba(69,26,3,0.82) 100%)',
+    borderLeft: 'border-l-amber-400',
     title: 'Transitioning from service',
     description:
       'Estimate VA disability, retirement income, healthcare costs, and civilian salary targets.',
@@ -119,7 +132,7 @@ const JOURNEY_CARDS = [
     href: '/transition',
     icon: (
       <svg
-        className="w-4 h-4 text-red-700"
+        className="w-4 h-4 text-white"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -138,30 +151,47 @@ const JOURNEY_CARDS = [
 
 function JourneySection() {
   return (
-    <section className="bg-zinc-50 border-b border-zinc-200 py-7 sm:py-8 px-4">
+    <section className="bg-white border-b border-zinc-200 py-4 sm:py-5 px-4">
       <div className="mx-auto max-w-4xl">
-        <p className="text-base font-medium text-zinc-700 mb-4">
+        <h2 className="text-[22px] font-medium text-zinc-800 text-center mb-3">
           Where are you in your military money journey?
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {JOURNEY_CARDS.map(({ title, description, cta, href, icon }) => (
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {JOURNEY_CARDS.map(({ imgSrc, overlay, borderLeft, title, description, cta, href, icon }) => (
             <div
               key={title}
-              className="flex flex-col bg-white rounded-xl border border-zinc-200 p-5"
+              className={`group relative flex flex-col rounded-xl overflow-hidden border-l-[3px] ${borderLeft} shadow-lg hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 min-h-[210px]`}
             >
-              <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center mb-3 flex-none">
-                {icon}
+              {/* Background photo */}
+              <Image
+                src={imgSrc}
+                alt=""
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
+              {/* Color overlay */}
+              <div className="absolute inset-0" aria-hidden="true" style={{ background: overlay }} />
+              {/* Stretched link — whole card clickable */}
+              <Link href={href} className="absolute inset-0 z-10" aria-label={title} tabIndex={-1} />
+              {/* Card content */}
+              <div className="relative z-20 flex flex-col flex-1 px-5 py-4 pointer-events-none">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-8 h-8 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center flex-none">
+                    {icon}
+                  </div>
+                  <p className="text-white font-bold text-sm drop-shadow-sm">{title}</p>
+                </div>
+                <p className="text-[13px] text-white/85 leading-relaxed flex-1 mb-3">
+                  {description}
+                </p>
+                <Link
+                  href={href}
+                  className="pointer-events-auto text-[13px] font-semibold text-white/90 hover:text-white transition-colors"
+                >
+                  {cta}
+                </Link>
               </div>
-              <p className="font-bold text-zinc-900 text-sm mb-1.5">{title}</p>
-              <p className="text-[13px] text-zinc-500 leading-relaxed flex-1 mb-4">
-                {description}
-              </p>
-              <Link
-                href={href}
-                className="text-[13px] font-semibold text-red-700 hover:text-red-800 transition-colors"
-              >
-                {cta}
-              </Link>
             </div>
           ))}
         </div>
@@ -180,7 +210,7 @@ const PROCESS_STEPS = [
 
 function ProcessStrip() {
   return (
-    <section className="bg-zinc-900 border-b border-zinc-800 py-5 px-4">
+    <section className="bg-zinc-900 border-b border-zinc-800 py-4 px-4">
       <div className="mx-auto max-w-4xl">
         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-0">
           {PROCESS_STEPS.map(({ n, title, sub }, i) => (
@@ -218,7 +248,7 @@ function ProcessStrip() {
 
 function ExampleResultBar() {
   return (
-    <section className="bg-zinc-50 border-b border-zinc-200 px-4 py-5">
+    <section className="bg-zinc-50 border-b border-zinc-200 px-4 py-4">
       <div className="mx-auto max-w-4xl">
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
           {/* Label */}
@@ -510,7 +540,7 @@ function CalculatorGridSection() {
   );
 }
 
-// ── Calculators + Blog two-column footer ──────────────────────────────────────
+// ── Calculators + Blog two-column section ─────────────────────────────────────
 
 const BLOG_POSTS = [
   {
