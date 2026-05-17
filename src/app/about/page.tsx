@@ -100,21 +100,27 @@ export default function AboutPage() {
 
               <div className="mt-4 space-y-4 text-base text-zinc-600 leading-relaxed">
                 <p>
-                  Dan Stevens is an NMLS-licensed mortgage industry professional and the creator
-                  of MilPayTools. He grew up as a military brat — his father served 20 years in the
-                  United States Air Force, with the family stationed at bases including Offutt AFB,
-                  Lajes Field (Azores), and Eielson AFB (Alaska).
+                  MilPayTools is built by Dan Stevens — an NMLS-licensed mortgage professional
+                  with 20+ years in the banking industry, much of it serving military borrowers
+                  and VA loan clients.
                 </p>
                 <p>
-                  That experience — watching his family navigate PCS moves, housing decisions, and
-                  the financial complexity of military life — shaped his understanding of what service
-                  members and their families actually need: clear numbers, not guesswork.
+                  Dan grew up as a military brat on Air Force bases around the world —{' '}
+                  <Link href="/bah/offutt-afb" className="text-red-700 hover:text-red-800 underline underline-offset-2 transition-colors">Offutt</Link>,
+                  {' '}Lajes Field,{' '}
+                  <Link href="/bah/eielson-afb" className="text-red-700 hover:text-red-800 underline underline-offset-2 transition-colors">Eielson</Link>{' '}
+                  — watching his father serve 20 years in the Air Force. That experience, combined
+                  with decades of working alongside service members navigating some of the biggest
+                  financial decisions of their lives, made one thing clear: the information military
+                  families need to make smart money decisions exists, but it&apos;s scattered across
+                  dozens of government PDFs, outdated websites, and dense policy documents that
+                  nobody has time to read.
                 </p>
                 <p>
-                  Dan brings professional lending expertise to MilPayTools. As a mortgage industry
-                  manager, he understands how military compensation translates to civilian financial
-                  systems — and where the gaps create real problems for service members making major
-                  decisions.
+                  MilPayTools exists to fix that. Every calculator, every BAH page, and every
+                  guide on this site pulls from official DoD and VA sources, organizes it in one
+                  place, and presents it in a way that&apos;s actually useful — no account
+                  required, no personal information collected, no cost.
                 </p>
                 <p className="text-sm text-zinc-500 border-t border-zinc-100 pt-4">
                   MilPayTools is independently built and operated. It is not affiliated with or
