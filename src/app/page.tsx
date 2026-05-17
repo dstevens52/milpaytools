@@ -66,7 +66,7 @@ const JOURNEY_CARDS = [
     description:
       'Understand base pay, BAH, BAS, TSP match, and what your compensation is really worth.',
     cta: 'Start with pay basics →',
-    href: '/guides/military-pay',
+    href: '/guides/starting-service',
     icon: (
       <svg
         className="w-4 h-4 text-white"
