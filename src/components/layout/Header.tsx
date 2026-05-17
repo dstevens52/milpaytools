@@ -21,7 +21,7 @@ export function Header() {
               height={50}
               className="w-10 h-auto flex-none"
             />
-            <span className="text-zinc-900 font-bold text-lg tracking-tight">
+            <span className="text-zinc-900 font-bold text-[22px] sm:text-[28px] tracking-tight">
               MilPay<span className="text-red-700">Tools</span>
             </span>
           </Link>
