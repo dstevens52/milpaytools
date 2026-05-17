@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { lookupBasePay, calculateTotalCompensation } from '@/lib/calculations/total-compensation';
 import { lookupBAH } from '@/lib/calculations/bah';
@@ -111,13 +110,11 @@ export default function StartingServicePage() {
             className="absolute inset-0 z-10"
             style={{ background: 'linear-gradient(to right, rgba(242,232,212,1) 0%, rgba(242,232,212,0) 38%)' }}
           />
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/images/young-soldier.png"
             alt=""
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="42vw"
+            className="absolute inset-0 w-full h-full object-cover object-center"
           />
         </div>
 
