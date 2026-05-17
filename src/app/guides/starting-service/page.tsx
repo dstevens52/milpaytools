@@ -103,18 +103,19 @@ export default function StartingServicePage() {
         className="relative overflow-hidden border-b border-zinc-200"
         style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
       >
-        {/* Soldier image — right column, desktop only */}
-        <div className="absolute inset-y-0 right-0 w-[42%] hidden sm:block overflow-hidden" aria-hidden="true">
-          {/* Fade into cream at the left edge so text stays readable */}
-          <div
-            className="absolute inset-0 z-10"
-            style={{ background: 'linear-gradient(to right, rgba(242,232,212,1) 0%, rgba(242,232,212,0.5) 12%, rgba(242,232,212,0) 22%)' }}
-          />
+        {/* Soldier image — full-width background, desktop only */}
+        <div className="absolute inset-0 hidden sm:block" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/young-soldier.png"
             alt=""
-            className="absolute inset-0 w-full h-full object-cover object-center"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: 'right center' }}
+          />
+          {/* Cream overlay: solid on left (text area), fades to transparent on right (soldier) */}
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to right, rgba(242,232,212,1) 0%, rgba(242,232,212,1) 30%, rgba(242,232,212,0.85) 45%, rgba(242,232,212,0) 62%)' }}
           />
         </div>
 
