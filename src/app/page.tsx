@@ -33,28 +33,26 @@ export const metadata: Metadata = {
 function HeroSection() {
   return (
     <section
-      className="border-b border-zinc-200 py-5 sm:py-7 px-4"
-      style={{ background: 'linear-gradient(135deg, #faf8f5 0%, #f3ebe0 55%, #fff 100%)' }}
+      className="border-b border-zinc-200 py-4 sm:py-5 px-4"
+      style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
     >
       <div className="mx-auto max-w-4xl">
         {/* Trust badge */}
-        <div className="inline-flex items-center gap-2.5 mb-4 rounded-full bg-zinc-900 px-4 py-1.5">
+        <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
           <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
             Free · No Account · No Personal Info · Official 2026 DoD &amp; VA Data
           </span>
         </div>
 
-        <h1 className="text-[30px] sm:text-[32px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-3">
+        <h1 className="text-[36px] sm:text-[38px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-2">
           Stop guessing what your{' '}
           <span className="text-red-700">military pay and benefits</span>{' '}
           are worth.
         </h1>
 
-        <p className="text-base text-zinc-600 leading-relaxed">
-          Free calculators that help service members compare total compensation, BAH, PCS
-          decisions, deployment pay, VA benefits, and civilian salary equivalents — using
-          official 2026 data with no account and no personal information required.
+        <p className="text-sm text-zinc-600 leading-relaxed">
+          Free military financial calculators using official 2026 DoD and VA data. No account required. No personal information collected.
         </p>
       </div>
     </section>
@@ -248,7 +246,7 @@ function ProcessStrip() {
 
 function ExampleResultBar() {
   return (
-    <section className="bg-zinc-50 border-b border-zinc-200 px-4 py-4">
+    <section className="bg-zinc-50 border-t border-b border-zinc-200 px-4 py-4">
       <div className="mx-auto max-w-4xl">
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
           {/* Label */}
