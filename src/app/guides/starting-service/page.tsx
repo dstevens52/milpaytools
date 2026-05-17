@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { lookupBasePay, calculateTotalCompensation } from '@/lib/calculations/total-compensation';
+import { lookupBAH } from '@/lib/calculations/bah';
+import { BAS_RATES } from '@/data/constants';
 
 export const metadata: Metadata = {
   title: 'Starting Military Service: Understand Your Pay & Benefits | MilPayTools',
@@ -9,14 +12,38 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.milpaytools.com/guides/starting-service' },
 };
 
-// TODO: replace with live calc from lib/calculations/total-compensation (E-3, 2 yrs, ZIP 28307)
+// Example scenario: E-3, 2 years, no dependents, Fort Bragg (ZIP 28310)
+const _GRADE = 'E-3';
+const _YOS = 2;
+const _ZIP = '28310';
+
+const _basePay = lookupBasePay(_GRADE, _YOS);
+const _bas = Math.round(BAS_RATES.enlisted);
+const _bah = lookupBAH({ payGrade: _GRADE, zipCode: _ZIP, hasDependents: false })?.monthlyRate ?? 0;
+const _monthly = _basePay + _bas + _bah;
+const _comp = calculateTotalCompensation({
+  payGrade: _GRADE,
+  yearsOfService: _YOS,
+  zipCode: _ZIP,
+  hasDependents: false,
+  retirementSystem: 'brs',
+  tspContributionPct: 5,
+  govHousing: false,
+  mealCard: false,
+});
+const _civAnnual = Math.round(_comp.civilianEquivalent / 500) * 500;
+
+function _fmt(n: number) {
+  return '$' + n.toLocaleString('en-US');
+}
+
 const EX = {
   label: 'Example: E-3 • 2 years • no dependents • Fort Bragg, NC',
-  base: '$2,263',
-  bas: '$476',
-  bah: '$1,236',
-  monthly: '$3,975',
-  annual: '≈$66,600',
+  base: _fmt(_basePay),
+  bas: _fmt(_bas),
+  bah: _fmt(_bah),
+  monthly: _fmt(_monthly),
+  annual: '≈' + _fmt(_civAnnual),
 };
 
 const TOOLS = [
