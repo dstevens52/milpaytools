@@ -208,63 +208,66 @@ const PROOF_STEPS = [
 
 function ProofStrip() {
   return (
-    <section className="bg-zinc-900 border-b border-zinc-800 px-4 py-[14px]">
+    <section className="bg-white border-b border-zinc-200 px-4 py-5">
       <div className="mx-auto max-w-4xl">
-        <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-5">
+        {/* Dark floating card — same width as journey cards above */}
+        <div className="rounded-2xl bg-[#111318] shadow-xl px-5 py-4 md:px-7 md:py-5">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center">
 
-          {/* Steps */}
-          <div className="flex flex-col md:flex-row md:items-center md:flex-1 gap-2 md:gap-0">
-            {PROOF_STEPS.map(({ n, title }, i) => (
-              <Fragment key={n}>
-                <div className="flex items-start gap-2 md:flex-1">
-                  <div className="w-[24px] h-[24px] rounded-full bg-red-700 flex items-center justify-center flex-none shrink-0 mt-0.5">
-                    <span className="text-white text-[10px] font-black leading-none">{n}</span>
+            {/* Steps */}
+            <div className="flex flex-col gap-3 md:flex-row md:items-center md:flex-1 md:gap-4">
+              {PROOF_STEPS.map(({ n, title }, i) => (
+                <Fragment key={n}>
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-red-600 text-xs font-bold text-white flex-none shrink-0">
+                      {n}
+                    </span>
+                    <span className="text-[13px] font-semibold text-white leading-snug">{title}</span>
                   </div>
-                  <p className="text-[12px] font-semibold text-white leading-snug">{title}</p>
-                </div>
-                {i < PROOF_STEPS.length - 1 && (
-                  <span className="hidden md:block text-white/25 px-2 text-sm" aria-hidden="true">›</span>
-                )}
-              </Fragment>
-            ))}
-          </div>
-
-          {/* Proof card */}
-          <div
-            className="flex items-center gap-3 bg-white rounded-lg px-4 py-2.5 w-full md:w-auto flex-shrink-0"
-            style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-          >
-            <div className="flex-none">
-              <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
-                E-5 · 8yrs · San Diego
-              </p>
-              <div className="flex items-baseline gap-0.5">
-                <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>$8,752</span>
-                <span style={{ fontSize: 11, color: '#999' }}>/mo</span>
-              </div>
+                  {i < PROOF_STEPS.length - 1 && (
+                    <span className="hidden md:block text-white/25 text-base" aria-hidden="true">›</span>
+                  )}
+                </Fragment>
+              ))}
             </div>
 
-            <div className="h-[30px] w-px bg-[#e5e5e5] flex-none" aria-hidden="true" />
-
-            <div className="flex-none">
-              <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
-                Civilian equiv.
-              </p>
-              <div className="flex items-baseline gap-0.5">
-                <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>≈$121k</span>
-                <span style={{ fontSize: 11, color: '#999' }}>/yr</span>
-              </div>
-            </div>
-
-            <Link
-              href="/calculators/total-compensation"
-              className="flex-none ml-1 transition-opacity hover:opacity-80"
-              style={{ background: '#c0392b', color: '#fff', fontSize: 11, fontWeight: 600, padding: '5px 12px', borderRadius: 6, whiteSpace: 'nowrap' }}
+            {/* Proof card */}
+            <div
+              className="flex items-center gap-3 bg-white rounded-xl px-4 py-3 flex-shrink-0 w-full md:w-auto"
+              style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}
             >
-              View →
-            </Link>
-          </div>
+              <div className="flex-none">
+                <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
+                  E-5 · 8yrs · San Diego
+                </p>
+                <div className="flex items-baseline gap-0.5">
+                  <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>$8,752</span>
+                  <span style={{ fontSize: 11, color: '#999' }}>/mo</span>
+                </div>
+              </div>
 
+              <div className="h-[30px] w-px bg-[#e5e5e5] flex-none" aria-hidden="true" />
+
+              <div className="flex-none">
+                <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
+                  Civilian equiv.
+                </p>
+                <div className="flex items-baseline gap-0.5">
+                  <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>≈$121k</span>
+                  <span style={{ fontSize: 11, color: '#999' }}>/yr</span>
+                </div>
+              </div>
+
+              <Link
+                href="/calculators/total-compensation"
+                className="flex-none ml-1 transition-opacity hover:opacity-80"
+                style={{ background: '#c0392b', color: '#fff', fontSize: 11, fontWeight: 600, padding: '5px 12px', borderRadius: 6, whiteSpace: 'nowrap' }}
+              >
+                View →
+              </Link>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
