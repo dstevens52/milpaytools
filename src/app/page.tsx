@@ -144,13 +144,22 @@ const JOURNEY_CARDS = [
   },
 ];
 
-function JourneySection() {
+function JourneyHeading() {
   return (
     <section className="bg-white border-b border-zinc-200 py-4 sm:py-5 px-4">
       <div className="mx-auto max-w-4xl">
-        <h2 className="text-[24px] font-medium text-zinc-800 text-center mb-3">
+        <h2 className="text-[24px] font-medium text-zinc-800 text-center">
           Where are you in your military money journey?
         </h2>
+      </div>
+    </section>
+  );
+}
+
+function JourneyCards() {
+  return (
+    <section className="bg-white border-b border-zinc-200 py-4 sm:py-5 px-4">
+      <div className="mx-auto max-w-4xl">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {JOURNEY_CARDS.map(({ imgSrc, overlay, borderLeft, title, description, cta, href, icon }) => (
             <div
@@ -406,8 +415,9 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <JourneySection />
+      <JourneyHeading />
       <ProofStrip />
+      <JourneyCards />
       <CalculatorGridSection />
       <CalcsAndBlogSection />
       <FooterTrustBand />
