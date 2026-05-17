@@ -146,7 +146,7 @@ const JOURNEY_CARDS = [
 
 function JourneyHeading() {
   return (
-    <section className="bg-white border-b border-zinc-200 py-4 sm:py-5 px-4">
+    <section className="bg-white border-b border-zinc-200 pt-3 pb-2 sm:pt-4 sm:pb-3 px-4">
       <div className="mx-auto max-w-4xl">
         <h2 className="text-[24px] font-medium text-zinc-800 text-center">
           Where are you in your military money journey?
@@ -158,7 +158,7 @@ function JourneyHeading() {
 
 function JourneyCards() {
   return (
-    <section className="bg-white border-b border-zinc-200 py-4 sm:py-5 px-4">
+    <section className="bg-white border-b border-zinc-200 pt-3 pb-4 px-4">
       <div className="mx-auto max-w-4xl">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {JOURNEY_CARDS.map(({ imgSrc, overlay, borderLeft, title, description, cta, href, icon }) => (
@@ -214,7 +214,7 @@ const PROOF_STEPS = [
 
 function ProofStrip() {
   return (
-    <section className="bg-white border-b border-zinc-200 px-4 py-5">
+    <section className="bg-white border-b border-zinc-200 px-4 py-3">
       <div className="mx-auto max-w-4xl">
         {/* Dark floating card — same width as journey cards above */}
         <div className="rounded-2xl bg-[#111318] shadow-xl px-5 py-4 md:px-7 md:py-5">
