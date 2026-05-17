@@ -41,19 +41,15 @@ function HeroSection() {
         <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
           <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-            Free · No Account · No Personal Info · Official 2026 DoD &amp; VA Data
+            Free Calculators · No Account · No Personal Info · Official 2026 DoD &amp; VA Data
           </span>
         </div>
 
-        <h1 className="text-[36px] sm:text-[38px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-2">
+        <h1 className="text-[36px] sm:text-[38px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-0">
           Stop guessing what your{' '}
           <span className="text-red-700">military pay and benefits</span>{' '}
           are worth.
         </h1>
-
-        <p className="text-sm text-zinc-600 leading-relaxed">
-          Free military financial calculators using official 2026 DoD and VA data. No account required. No personal information collected.
-        </p>
       </div>
     </section>
   );
@@ -151,7 +147,7 @@ function JourneySection() {
   return (
     <section className="bg-white border-b border-zinc-200 py-4 sm:py-5 px-4">
       <div className="mx-auto max-w-4xl">
-        <h2 className="text-[22px] font-medium text-zinc-800 text-center mb-3">
+        <h2 className="text-[24px] font-medium text-zinc-800 text-center mb-3">
           Where are you in your military money journey?
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -198,95 +194,73 @@ function JourneySection() {
   );
 }
 
-// ── 1-2-3 Process strip ───────────────────────────────────────────────────────
+// ── Combined process + proof strip ───────────────────────────────────────────
 
-const PROCESS_STEPS = [
-  { n: '1', title: 'Choose your situation', sub: 'Pick a calculator or life stage' },
-  { n: '2', title: 'Run the numbers', sub: 'Use official data and simple inputs' },
-  { n: '3', title: 'Make a confident decision', sub: 'Compare options before you act' },
+const PROOF_STEPS = [
+  { n: '1', title: 'Choose your situation' },
+  { n: '2', title: 'Run the numbers' },
+  { n: '3', title: 'Make a confident decision' },
 ];
 
-function ProcessStrip() {
+function ProofStrip() {
   return (
-    <section className="bg-zinc-900 border-b border-zinc-800 py-4 px-4">
+    <section className="bg-zinc-900 border-b border-zinc-800 px-4 py-[14px]">
       <div className="mx-auto max-w-4xl">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-0">
-          {PROCESS_STEPS.map(({ n, title, sub }, i) => (
-            <Fragment key={n}>
-              <div className="flex items-center gap-3 py-2 sm:py-0 sm:flex-1">
-                <div className="w-[26px] h-[26px] rounded-full bg-red-700 flex items-center justify-center flex-none shrink-0">
-                  <span className="text-white text-xs font-black">{n}</span>
+        <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-5">
+
+          {/* Steps */}
+          <div className="flex flex-col md:flex-row md:items-center md:flex-1 gap-2 md:gap-0">
+            {PROOF_STEPS.map(({ n, title }, i) => (
+              <Fragment key={n}>
+                <div className="flex items-center gap-2 md:flex-1">
+                  <div className="w-[22px] h-[22px] rounded-full bg-red-700 flex items-center justify-center flex-none shrink-0">
+                    <span className="text-white text-[10px] font-black leading-none">{n}</span>
+                  </div>
+                  <p className="text-[12px] font-semibold text-white leading-snug">{title}</p>
                 </div>
-                <div>
-                  <p className="text-[13px] font-bold text-white leading-snug">{title}</p>
-                  <p className="text-[11px] text-white/50 leading-snug mt-0.5">{sub}</p>
-                </div>
+                {i < PROOF_STEPS.length - 1 && (
+                  <span className="hidden md:block text-white/25 px-2 text-sm" aria-hidden="true">›</span>
+                )}
+              </Fragment>
+            ))}
+          </div>
+
+          {/* Proof card */}
+          <div
+            className="flex items-center gap-3 bg-white rounded-lg px-4 py-2.5 w-full md:w-auto flex-shrink-0"
+            style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
+          >
+            <div className="flex-none">
+              <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
+                E-5 · 8yrs · San Diego
+              </p>
+              <div className="flex items-baseline gap-0.5">
+                <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>$8,752</span>
+                <span style={{ fontSize: 11, color: '#999' }}>/mo</span>
               </div>
-              {i < PROCESS_STEPS.length - 1 && (
-                <svg
-                  className="hidden sm:block w-4 h-4 text-zinc-600 flex-none"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  aria-hidden="true"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
-                </svg>
-              )}
-            </Fragment>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ── Example result bar ────────────────────────────────────────────────────────
-
-function ExampleResultBar() {
-  return (
-    <section className="bg-zinc-50 border-t border-b border-zinc-200 px-4 py-4">
-      <div className="mx-auto max-w-4xl">
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-          {/* Label */}
-          <div className="flex-none">
-            <p className="text-[11px] font-semibold text-zinc-400 uppercase tracking-wide mb-0.5">
-              Example result
-            </p>
-            <p className="text-[13px] text-zinc-600">E-5 · 8 years · San Diego</p>
-          </div>
-
-          <div className="hidden sm:block h-8 w-px bg-zinc-200 flex-none" aria-hidden="true" />
-
-          {/* Stats */}
-          <div className="flex gap-6 flex-wrap">
-            <div>
-              <p className="text-[11px] text-zinc-400 uppercase tracking-wide font-medium">
-                Monthly value
-              </p>
-              <p className="text-lg font-bold text-zinc-900 tabular-nums">$8,752</p>
             </div>
-            <div>
-              <p className="text-[11px] text-zinc-400 uppercase tracking-wide font-medium">
-                Civilian equivalent
-              </p>
-              <p className="text-lg font-bold text-zinc-900 tabular-nums">
-                ≈ $121,000
-                <span className="text-sm font-medium text-zinc-500">/yr</span>
-              </p>
-            </div>
-          </div>
 
-          {/* CTA */}
-          <div className="sm:ml-auto">
+            <div className="h-[30px] w-px bg-[#e5e5e5] flex-none" aria-hidden="true" />
+
+            <div className="flex-none">
+              <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
+                Civilian equiv.
+              </p>
+              <div className="flex items-baseline gap-0.5">
+                <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>≈$121k</span>
+                <span style={{ fontSize: 11, color: '#999' }}>/yr</span>
+              </div>
+            </div>
+
             <Link
               href="/calculators/total-compensation"
-              className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-red-700 hover:text-red-800 transition-colors bg-white border border-zinc-200 hover:border-zinc-300 rounded-lg px-4 py-2"
+              className="flex-none ml-1 transition-opacity hover:opacity-80"
+              style={{ background: '#c0392b', color: '#fff', fontSize: 11, fontWeight: 600, padding: '5px 12px', borderRadius: 6, whiteSpace: 'nowrap' }}
             >
-              View breakdown →
+              View →
             </Link>
           </div>
+
         </div>
       </div>
     </section>
@@ -650,8 +624,7 @@ export default function HomePage() {
     <>
       <HeroSection />
       <JourneySection />
-      <ProcessStrip />
-      <ExampleResultBar />
+      <ProofStrip />
       <TrustBand />
       <CalculatorGridSection />
       <CalcsAndBlogSection />
