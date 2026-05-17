@@ -45,15 +45,11 @@ function HeroSection() {
           </span>
         </div>
 
-        <h1 className="text-[36px] sm:text-[38px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-3">
+        <h1 className="text-[36px] sm:text-[38px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-0">
           Stop guessing what your{' '}
           <span className="text-red-700">military pay and benefits</span>{' '}
           are worth.
         </h1>
-
-        <p className="text-base text-zinc-400 text-center">
-          Powerful, free tools to help you plan, compare, and make confident money decisions.
-        </p>
       </div>
     </section>
   );
