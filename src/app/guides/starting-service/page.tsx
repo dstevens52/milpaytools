@@ -50,7 +50,7 @@ const TOOLS = [
     title: 'Total Compensation Calculator',
     desc: 'See your full monthly and annual compensation.',
     cta: 'Open calculator →',
-    href: '/calculators/total-compensation',
+    href: '/calculators/total-compensation?rank=e3&yos=2&zip=28310&dependents=no',
     iconBg: 'bg-green-50',
     iconColor: 'text-green-700',
     iconPath:
@@ -60,7 +60,7 @@ const TOOLS = [
     title: 'BAH Calculator',
     desc: 'Find your housing allowance by location.',
     cta: 'Open calculator →',
-    href: '/calculators/bah',
+    href: '/calculators/bah?rank=e3&dependents=no',
     iconBg: 'bg-blue-50',
     iconColor: 'text-blue-700',
     iconPath:
@@ -88,11 +88,40 @@ const TOOLS = [
   },
 ];
 
-const MOVES = [
-  { title: 'Start TSP early', desc: 'BRS matches up to 4% after 60 days. Free money.' },
-  { title: 'Know your BAH before signing a lease', desc: 'Rates vary enormously by duty station.' },
-  { title: 'Build an emergency fund', desc: 'Three months of expenses before anything else.' },
-  { title: 'Use SCRA/MLA protections', desc: 'Caps interest rates and blocks predatory loans.' },
+const TIMELINE = [
+  {
+    period: 'First 30 Days',
+    labelBg: 'bg-blue-50',
+    labelText: 'text-blue-700',
+    items: [
+      { text: 'Review your first LES — confirm rank, pay, and deductions are correct' },
+      { text: 'Check your BAH rate for your duty station', href: '/calculators/bah?rank=e3&dependents=no' },
+      { text: 'Understand your total compensation beyond base pay', href: '/calculators/total-compensation?rank=e3&yos=2&zip=28310&dependents=no' },
+      { text: 'Confirm your TSP enrollment status — automatic 1% contribution starts after 60 days under BRS' },
+    ],
+  },
+  {
+    period: 'First 90 Days',
+    labelBg: 'bg-amber-50',
+    labelText: 'text-amber-700',
+    items: [
+      { text: 'Compare your BAH to local housing costs at your installation', href: '/bah/fort-bragg?rank=E-3&dep=no' },
+      { text: 'Review your TSP fund allocation — new accounts default to the Lifecycle fund based on your birth year' },
+      { text: 'Learn what SCRA and MLA protections apply to your existing accounts' },
+      { text: 'Complete the free online Financial Readiness Course at Military OneSource' },
+    ],
+  },
+  {
+    period: 'First Year',
+    labelBg: 'bg-green-50',
+    labelText: 'text-green-700',
+    items: [
+      { text: 'Recalculate total compensation after any promotion or PCS', href: '/calculators/total-compensation?rank=e3&yos=2&zip=28310&dependents=no' },
+      { text: 'Review education benefits available to you', href: '/guides/education-benefits' },
+      { text: 'Check your credit report at annualcreditreport.com — free, no impact to score' },
+      { text: 'Explore TSP contribution options and projected growth', href: '/calculators/tsp-growth' },
+    ],
+  },
 ];
 
 export default function StartingServicePage() {
@@ -236,6 +265,46 @@ export default function StartingServicePage() {
         </div>
       </section>
 
+      {/* ── Your First Year ──────────────────────────────────────────────────── */}
+      <section className="bg-white border-b border-zinc-200 py-5 sm:py-7 px-4">
+        <div className="mx-auto max-w-5xl">
+
+          <h2 className="text-base font-bold text-zinc-900 mb-0.5 tracking-tight">
+            Your first year
+          </h2>
+          <p className="text-xs text-zinc-500 mb-4">
+            Key checkpoints to understand your pay and benefits.
+          </p>
+
+          <div className="rounded-xl border border-zinc-200 shadow-sm overflow-hidden divide-y divide-zinc-100">
+            {TIMELINE.map(({ period, labelBg, labelText, items }) => (
+              <div key={period} className="flex flex-col sm:flex-row gap-3 sm:gap-0 px-4 py-3.5">
+                <div className="sm:w-32 flex-none">
+                  <span className={`inline-block text-[11px] font-bold ${labelBg} ${labelText} px-2.5 py-1 rounded-full whitespace-nowrap`}>
+                    {period}
+                  </span>
+                </div>
+                <ul className="flex-1 space-y-1.5 sm:pl-2">
+                  {items.map(({ text, href }) => (
+                    <li key={text} className="flex gap-2 items-start">
+                      <span className="w-1 h-1 rounded-full bg-zinc-300 mt-1.5 flex-none" aria-hidden="true" />
+                      {href ? (
+                        <Link href={href} className="text-[11px] text-red-700 hover:text-red-800 underline decoration-red-200 underline-offset-2 leading-snug">
+                          {text}
+                        </Link>
+                      ) : (
+                        <span className="text-[11px] text-zinc-600 leading-snug">{text}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
       {/* ── Start Here ────────────────────────────────────────────────────────── */}
       <section className="bg-white border-b border-zinc-200 py-5 sm:py-7 px-4">
         <div className="mx-auto max-w-5xl">
@@ -271,48 +340,6 @@ export default function StartingServicePage() {
         </div>
       </section>
 
-      {/* ── First Money Moves + Info Strip ────────────────────────────────────── */}
-      <section className="bg-zinc-50 border-b border-zinc-200 py-4 sm:py-5 px-4">
-        <div className="mx-auto max-w-5xl">
-
-          <h2 className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-2.5">
-            First money moves that matter
-          </h2>
-
-          {/* Compact checklist row */}
-          <div className="bg-white rounded-xl border border-zinc-200 shadow-sm overflow-hidden">
-            <div className="flex flex-col sm:flex-row sm:divide-x divide-zinc-100">
-              {MOVES.map(({ title, desc }, i) => (
-                <div
-                  key={title}
-                  className={`flex-1 flex gap-2.5 px-3 py-3 ${i < MOVES.length - 1 ? 'border-b sm:border-b-0 border-zinc-100' : ''}`}
-                >
-                  <div className="w-4 h-4 rounded-full bg-green-100 flex items-center justify-center flex-none mt-0.5">
-                    <svg className="w-2.5 h-2.5 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-[11px] font-bold text-zinc-900 leading-snug">{title}</p>
-                    <p className="text-[10px] text-zinc-400 leading-snug mt-0.5">{desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Subtle info strip */}
-          <div className="mt-3 flex items-center gap-2 rounded-lg bg-blue-50 border border-blue-100 px-3 py-2.5">
-            <svg className="w-3.5 h-3.5 text-blue-400 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-            </svg>
-            <p className="text-[11px] text-blue-600">
-              Most new service members underestimate the value of tax-free allowances and matching contributions.
-            </p>
-          </div>
-
-        </div>
-      </section>
     </>
   );
 }
