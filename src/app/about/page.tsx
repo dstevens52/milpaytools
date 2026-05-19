@@ -41,7 +41,7 @@ const PRINCIPLES = [
 
 const STATS = [
   { value: '16', label: 'Free calculators' },
-  { value: '34', label: 'Blog posts' },
+  { value: '39', label: 'Blog posts' },
   { value: '200+', label: 'BAH station pages' },
   { value: '2026', label: 'Official DoD & VA data' },
 ];

@@ -22,8 +22,8 @@ MilPayTools.com is a free military financial calculator and education platform f
 - 16 calculators at /calculators/[name]
 - 65 BAH station pages at /bah/[slug] with full StoryBrand content (hero, money strip, housing costs, "What to know before you move", CTAs, email signup)
 - ~135+ additional basic BAH pages with rate tables only
-- 38 blog posts (MDX)
-- 7 guide hub pages at /guides/[name]
+- 39 blog posts (MDX)
+- 7 guide hub pages at /guides/[name] (includes /guides/starting-service and /guides/navigating-service journey landing pages)
 - /guides/starting-service — dedicated journey landing page for new service members
 - /guides/navigating-service — dedicated journey landing page for mid-career (PCS, deployment, duty station)
 - /transition — transition hub page
