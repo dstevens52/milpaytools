@@ -93,7 +93,7 @@ const JOURNEY_CARDS = [
     description:
       'Compare duty stations, PCS costs, BAH changes, deployment pay, and cost-of-living tradeoffs.',
     cta: 'Plan my next move →',
-    href: '/guides/pcs',
+    href: '/guides/navigating-service',
     icon: (
       <svg
         className="w-4 h-4 text-white"
