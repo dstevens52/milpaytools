@@ -120,7 +120,6 @@ export default function NavigatingServicePage() {
         style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
       >
         {/* Soldier image — full-width background, desktop only */}
-        {/* TODO: Add /public/images/navigating-soldier.png — layout ready */}
         <div className="absolute inset-0 hidden sm:block" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
