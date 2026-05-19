@@ -12,10 +12,12 @@ export const metadata: Metadata = {
 // PCS comparison example — E-6 w/dep Fort Campbell → JBLM (hardcoded)
 // TODO: Make dynamic using lookupBAH once Fort Campbell and JBLM ZIP mappings are verified
 const EX = {
-  scenario: 'E-6 · Fort Campbell → JBLM',
+  label: 'Example: E-6 · Fort Campbell → JBLM · with dependents',
+  bahFtCampbell: '$1,815/mo',
+  bahJBLM: '$2,478/mo',
   bahDiff: '+$663/mo',
   colDiff: '+25%',
-  insight: "Higher BAH doesn't always mean more money",
+  insight: 'Higher BAH ≠ more money',
 };
 
 const TOOLS = [
@@ -175,61 +177,67 @@ export default function NavigatingServicePage() {
 
           </div>
 
+          {/* PCS comparison card — inside hero to give it height and reveal the soldier image */}
+          <div className="bg-white rounded-2xl border border-zinc-200 shadow-md overflow-hidden">
+            <div className="px-4 py-2 border-b border-zinc-100 bg-zinc-50/70 flex items-center justify-between gap-4">
+              <p className="text-[11px] text-zinc-400 font-medium">{EX.label}</p>
+              <Link
+                href="/calculators/compare"
+                className="text-[11px] font-semibold text-red-700 hover:text-red-800 flex-none"
+              >
+                Compare stations →
+              </Link>
+            </div>
+            <div className="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-zinc-100">
+
+              {/* Col 1: Fort Campbell BAH */}
+              <div className="flex-1 px-4 py-3 flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-none">
+                  <svg className="w-3.5 h-3.5 text-blue-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0zM19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-[10px] text-zinc-400 uppercase tracking-wide">Fort Campbell BAH</p>
+                  <p className="text-lg font-extrabold text-zinc-900">{EX.bahFtCampbell}</p>
+                </div>
+              </div>
+
+              {/* Col 2: JBLM BAH */}
+              <div className="flex-1 px-4 py-3 flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center flex-none">
+                  <svg className="w-3.5 h-3.5 text-indigo-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0zM19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-[10px] text-zinc-400 uppercase tracking-wide">JBLM BAH</p>
+                  <p className="text-lg font-extrabold text-zinc-900">{EX.bahJBLM}</p>
+                </div>
+              </div>
+
+              {/* Col 3: BAH Change — green */}
+              <div className="flex-1 px-4 py-3 bg-green-50 flex items-center">
+                <div>
+                  <p className="text-[10px] text-green-600 uppercase tracking-wide font-medium">BAH Change</p>
+                  <p className="text-lg font-extrabold text-green-800">{EX.bahDiff}</p>
+                </div>
+              </div>
+
+              {/* Col 4: Cost of Living — amber */}
+              <div className="flex-1 px-4 py-3 bg-amber-50 flex items-center">
+                <div>
+                  <p className="text-[10px] text-amber-600 uppercase tracking-wide font-medium">Cost of Living</p>
+                  <p className="text-lg font-extrabold text-amber-800">{EX.colDiff}</p>
+                  <p className="text-[9px] text-amber-600 mt-0.5">{EX.insight}</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </section>
-
-      {/* ── PCS Comparison Proof Bar ─────────────────────────────────────────── */}
-      <div
-        className="border-b border-zinc-200 px-4 py-3"
-        style={{ background: '#faf9f7' }}
-      >
-        <div className="mx-auto max-w-5xl">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-
-            {/* Example label */}
-            <span className="text-[11px] font-semibold text-zinc-400 uppercase tracking-wide flex-none">
-              Example
-            </span>
-
-            <div className="w-px h-4 bg-zinc-200 hidden sm:block flex-none" aria-hidden="true" />
-
-            {/* Scenario */}
-            <span className="text-[13px] font-medium text-zinc-700 flex-none">
-              {EX.scenario}
-            </span>
-
-            <div className="w-px h-4 bg-zinc-200 hidden sm:block flex-none" aria-hidden="true" />
-
-            {/* BAH change */}
-            <div className="flex items-baseline gap-1.5 flex-none">
-              <span className="text-[10px] text-zinc-400 uppercase tracking-wide">BAH change</span>
-              <span className="text-base font-bold" style={{ color: '#1D9E75' }}>{EX.bahDiff}</span>
-            </div>
-
-            <div className="w-px h-4 bg-zinc-200 hidden sm:block flex-none" aria-hidden="true" />
-
-            {/* COL change */}
-            <div className="flex items-baseline gap-1.5 flex-none">
-              <span className="text-[10px] text-zinc-400 uppercase tracking-wide">COL change</span>
-              <span className="text-base font-bold" style={{ color: '#c0392b' }}>{EX.colDiff}</span>
-            </div>
-
-            <div className="w-px h-4 bg-zinc-200 hidden sm:block flex-none" aria-hidden="true" />
-
-            {/* Insight */}
-            <span className="text-[12px] text-zinc-500 italic">{EX.insight}</span>
-
-            {/* CTA — pushes to right */}
-            <Link
-              href="/calculators/compare"
-              className="ml-auto text-[12px] font-semibold text-red-700 hover:text-red-800 flex-none"
-            >
-              Compare →
-            </Link>
-
-          </div>
-        </div>
-      </div>
 
       {/* ── Your Next Move Timeline ──────────────────────────────────────────── */}
       <section className="bg-white border-b border-zinc-200 py-5 sm:py-7 px-4">
