@@ -47,14 +47,8 @@ export default function TotalCompensationPage() {
               <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
                 Total Military Compensation Calculator
               </h1>
-              <p className="text-zinc-800 mt-2 text-lg font-semibold leading-snug">
-                See what your military compensation is really worth.
-              </p>
-              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
-                Base pay is only part of the picture. This calculator adds your BAH (Basic Allowance
-                for Housing), BAS (Basic Allowance for Subsistence), TSP retirement match, and
-                quantifies the tax advantage of your tax-free allowances — then converts it all into
-                a civilian salary equivalent so you can make accurate comparisons.
+              <p className="text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
+                See what your military compensation is really worth — including BAH, BAS, TSP match, and tax advantages.
               </p>
             </div>
           </div>
@@ -208,122 +202,153 @@ export default function TotalCompensationPage() {
         </ExampleBox>
       </section>
 
-      {/* ── Explainer ────────────────────────────────────────────────── */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-8">
-        <hr className="border-zinc-200" />
+      {/* ── Explainer accordions ─────────────────────────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <hr className="border-zinc-200 mb-6" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <h2 className="text-xl font-semibold text-zinc-900 mb-3">
-              Why base pay understates your compensation
-            </h2>
-            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              Military pay stubs list Basic Pay prominently because that&apos;s what&apos;s taxable —
-              but the two largest allowances, BAH and BAS, are excluded from federal taxable income
-              and are generally not taxed by states, but state treatment can vary. A civilian earning
-              the same total dollar amount would pay hundreds or thousands more in taxes each year.
-            </p>
-            <p className="text-zinc-600 text-sm leading-relaxed">
-              The civilian equivalent salary in this calculator accounts for that difference. It
-              answers the question: &ldquo;What gross salary would a civilian need to earn to take home
-              the same economic value you receive?&rdquo; This is the right number to compare against
-              job offers.
-            </p>
-          </div>
+        <div className="space-y-2 mb-8">
 
-          <div>
-            <h2 className="text-xl font-semibold text-zinc-900 mb-3">
-              How BAH is calculated
-            </h2>
-            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              BAH (Basic Allowance for Housing) is set by pay grade and local median rental costs for
-              the Military Housing Area (MHA) surrounding your duty station. Rates update every January
-              1st. With dependents, rates are often higher, but the difference varies by location and
-              pay grade.
-            </p>
-            <p className="text-zinc-600 text-sm leading-relaxed">
-              BAH is based on rental and utility cost data for your pay grade, dependency status, and
-              Military Housing Area. It helps offset housing costs, but your actual out-of-pocket cost
-              depends on the housing you choose. You keep any amount under your BAH if you find cheaper
-              housing, and you pay the difference if you spend more.
-            </p>
-          </div>
+          <details className="group border border-zinc-200 rounded-lg overflow-hidden bg-white">
+            <summary className="flex items-center justify-between px-5 py-4 cursor-pointer select-none hover:bg-zinc-50 list-none [&::-webkit-details-marker]:hidden">
+              <h2 className="text-base font-semibold text-zinc-900">Why base pay understates your compensation</h2>
+              <svg className="w-4 h-4 text-zinc-400 group-open:rotate-180 transition-transform flex-none ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div className="px-5 pb-5 pt-3 border-t border-zinc-100 space-y-3">
+              <p className="text-zinc-600 text-sm leading-relaxed">
+                Military pay stubs list Basic Pay prominently because that&apos;s what&apos;s taxable —
+                but the two largest allowances, BAH and BAS, are excluded from federal taxable income
+                and are generally not taxed by states, but state treatment can vary. A civilian earning
+                the same total dollar amount would pay hundreds or thousands more in taxes each year.
+              </p>
+              <p className="text-zinc-600 text-sm leading-relaxed">
+                The civilian equivalent salary in this calculator accounts for that difference. It
+                answers the question: &ldquo;What gross salary would a civilian need to earn to take home
+                the same economic value you receive?&rdquo; This is the right number to compare against
+                job offers.
+              </p>
+            </div>
+          </details>
 
-          <div>
-            <h2 className="text-xl font-semibold text-zinc-900 mb-3">
-              BRS vs. Legacy retirement
-            </h2>
-            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              <strong>Legacy (High-3):</strong> Receive 2.5% × years of service × average of highest
-              36 months of basic pay. For a standard active-duty retirement, you must complete 20
-              years of qualifying service.
-            </p>
-            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              <strong>BRS (Blended Retirement):</strong> A reduced 2.0% pension multiplier plus DoD
-              contributions to your TSP: 1% automatic, plus matching up to 4% of basic pay. You build
-              retirement savings even if you serve fewer than 20 years. Most service members who
-              with a DIEMS (Date of Initial Entry to Military Service) on or after January 1, 2018 are
-              automatically covered by BRS. Some members who entered service earlier elected BRS
-              during the opt-in window.
-            </p>
-            <p className="text-zinc-600 text-sm leading-relaxed">
-              <strong>BRS contribution timing:</strong> The 1% automatic DoD contribution begins after
-              60 days of service. Matching contributions (up to 4%) begin at the start of the
-              member&apos;s 25th month of service.
-            </p>
-          </div>
+          <details className="group border border-zinc-200 rounded-lg overflow-hidden bg-white">
+            <summary className="flex items-center justify-between px-5 py-4 cursor-pointer select-none hover:bg-zinc-50 list-none [&::-webkit-details-marker]:hidden">
+              <h2 className="text-base font-semibold text-zinc-900">How BAH is calculated</h2>
+              <svg className="w-4 h-4 text-zinc-400 group-open:rotate-180 transition-transform flex-none ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div className="px-5 pb-5 pt-3 border-t border-zinc-100 space-y-3">
+              <p className="text-zinc-600 text-sm leading-relaxed">
+                BAH (Basic Allowance for Housing) is set by pay grade and local median rental costs for
+                the Military Housing Area (MHA) surrounding your duty station. Rates update every January
+                1st. With dependents, rates are often higher, but the difference varies by location and
+                pay grade.
+              </p>
+              <p className="text-zinc-600 text-sm leading-relaxed">
+                BAH is based on rental and utility cost data for your pay grade, dependency status, and
+                Military Housing Area. It helps offset housing costs, but your actual out-of-pocket cost
+                depends on the housing you choose. You keep any amount under your BAH if you find cheaper
+                housing, and you pay the difference if you spend more.
+              </p>
+            </div>
+          </details>
 
-          <div>
-            <h2 className="text-xl font-semibold text-zinc-900 mb-3">
-              Understanding BAS
-            </h2>
-            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              BAS (Basic Allowance for Subsistence) is a monthly allowance designed to offset food
-              costs. In 2026: enlisted members receive $476.95/month; officers receive $328.48/month.
-              BAS is paid regardless of duty station — it does not vary by location.
-            </p>
-            <p className="text-zinc-600 text-sm leading-relaxed">
-              Like BAH, BAS is fully excluded from federal income tax, adding measurable economic value
-              beyond the dollar amount shown on your pay stub.
-            </p>
-          </div>
+          <details className="group border border-zinc-200 rounded-lg overflow-hidden bg-white">
+            <summary className="flex items-center justify-between px-5 py-4 cursor-pointer select-none hover:bg-zinc-50 list-none [&::-webkit-details-marker]:hidden">
+              <h2 className="text-base font-semibold text-zinc-900">BRS vs. Legacy retirement</h2>
+              <svg className="w-4 h-4 text-zinc-400 group-open:rotate-180 transition-transform flex-none ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div className="px-5 pb-5 pt-3 border-t border-zinc-100 space-y-3">
+              <p className="text-zinc-600 text-sm leading-relaxed">
+                <strong>Legacy (High-3):</strong> Receive 2.5% × years of service × average of highest
+                36 months of basic pay. For a standard active-duty retirement, you must complete 20
+                years of qualifying service.
+              </p>
+              <p className="text-zinc-600 text-sm leading-relaxed">
+                <strong>BRS (Blended Retirement):</strong> A reduced 2.0% pension multiplier plus DoD
+                contributions to your TSP: 1% automatic, plus matching up to 4% of basic pay. You build
+                retirement savings even if you serve fewer than 20 years. Most service members with a
+                DIEMS (Date of Initial Entry to Military Service) on or after January 1, 2018 are
+                automatically covered by BRS. Some members who entered service earlier elected BRS
+                during the opt-in window.
+              </p>
+              <p className="text-zinc-600 text-sm leading-relaxed">
+                <strong>BRS contribution timing:</strong> The 1% automatic DoD contribution begins after
+                60 days of service. Matching contributions (up to 4%) begin at the start of the
+                member&apos;s 25th month of service.
+              </p>
+            </div>
+          </details>
+
+          <details className="group border border-zinc-200 rounded-lg overflow-hidden bg-white">
+            <summary className="flex items-center justify-between px-5 py-4 cursor-pointer select-none hover:bg-zinc-50 list-none [&::-webkit-details-marker]:hidden">
+              <h2 className="text-base font-semibold text-zinc-900">Understanding BAS</h2>
+              <svg className="w-4 h-4 text-zinc-400 group-open:rotate-180 transition-transform flex-none ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div className="px-5 pb-5 pt-3 border-t border-zinc-100 space-y-3">
+              <p className="text-zinc-600 text-sm leading-relaxed">
+                BAS (Basic Allowance for Subsistence) is a monthly allowance designed to offset food
+                costs. In 2026: enlisted members receive $476.95/month; officers receive $328.48/month.
+                BAS is paid regardless of duty station — it does not vary by location.
+              </p>
+              <p className="text-zinc-600 text-sm leading-relaxed">
+                Like BAH, BAS is fully excluded from federal income tax, adding measurable economic value
+                beyond the dollar amount shown on your pay stub.
+              </p>
+            </div>
+          </details>
+
+          <details className="group border border-zinc-200 rounded-lg overflow-hidden bg-white">
+            <summary className="flex items-center justify-between px-5 py-4 cursor-pointer select-none hover:bg-zinc-50 list-none [&::-webkit-details-marker]:hidden">
+              <h2 className="text-base font-semibold text-zinc-900">What this calculator does not include</h2>
+              <svg className="w-4 h-4 text-zinc-400 group-open:rotate-180 transition-transform flex-none ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </summary>
+            <div className="px-5 pb-5 pt-3 border-t border-zinc-100">
+              <p className="text-sm text-zinc-600 mb-3">
+                Want to see where your basic pay falls across all ranks?{' '}
+                <a href="/calculators/pay-charts" className="underline text-blue-700 hover:text-blue-800">
+                  View the full 2026 military pay charts →
+                </a>
+              </p>
+              <ul className="text-sm text-zinc-600 space-y-1.5 list-disc list-inside">
+                <li>Special pay: flight pay, hazardous duty pay, combat zone tax exclusion, sea pay, etc.</li>
+                <li>SGLI life insurance (up to $500K coverage at $26/month as of July 2025)</li>
+                <li>Commissary and exchange savings (estimated $2,000–4,000/year for a family)</li>
+                <li>TRICARE health insurance value (estimated $12,000–20,000/year civilian equivalent)</li>
+                <li>VA loan eligibility and education benefits (GI Bill)</li>
+                <li>The value of the military pension itself (not just the TSP match)</li>
+                <li>
+                  CONUS COLA — if your duty station is in a high-cost area (parts of CA, NY, MA, CT, NJ, or the NCR),
+                  you may receive additional taxable allowance.{' '}
+                  <a href="/calculators/cola" className="underline text-blue-700 hover:text-blue-800">
+                    Check CONUS COLA eligibility →
+                  </a>
+                </li>
+              </ul>
+              <p className="text-xs text-zinc-500 mt-3">
+                Your total value may be higher than this calculator shows if you receive special pays, use TRICARE, qualify for CONUS COLA, build pension eligibility, or use education and VA loan benefits.
+              </p>
+              <p className="text-xs text-zinc-400 mt-2">
+                <strong>E-1 note:</strong> E-1 members with less than 4 months of active duty receive
+                $2,225.70/month. This calculator shows the standard E-1 rate of $2,407.20.
+              </p>
+            </div>
+          </details>
+
         </div>
 
-        <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
-          <p className="text-sm text-zinc-600 mb-3">
-            Want to see where your basic pay falls across all ranks?{' '}
-            <a href="/calculators/pay-charts" className="underline text-blue-700 hover:text-blue-800">
-              View the full 2026 military pay charts →
-            </a>
-          </p>
-          <h3 className="text-base font-semibold text-zinc-900 mb-2">What this calculator does not include</h3>
-          <ul className="text-sm text-zinc-600 space-y-1.5 list-disc list-inside">
-            <li>Special pay: flight pay, hazardous duty pay, combat zone tax exclusion, sea pay, etc.</li>
-            <li>SGLI life insurance (up to $500K coverage at $26/month as of July 2025)</li>
-            <li>Commissary and exchange savings (estimated $2,000–4,000/year for a family)</li>
-            <li>TRICARE health insurance value (estimated $12,000–20,000/year civilian equivalent)</li>
-            <li>VA loan eligibility and education benefits (GI Bill)</li>
-            <li>The value of the military pension itself (not just the TSP match)</li>
-            <li>
-              CONUS COLA — if your duty station is in a high-cost area (parts of CA, NY, MA, CT, NJ, or the NCR),
-              you may receive additional taxable allowance.{' '}
-              <a href="/calculators/cola" className="underline text-blue-700 hover:text-blue-800">
-                Check CONUS COLA eligibility →
-              </a>
-            </li>
-          </ul>
-          <p className="text-xs text-zinc-500 mt-3">
-            Your total value may be higher than this calculator shows if you receive special pays, use TRICARE, qualify for CONUS COLA, build pension eligibility, or use education and VA loan benefits.
-          </p>
-          <p className="text-xs text-zinc-400 mt-2">
-            <strong>E-1 note:</strong> E-1 members with less than 4 months of active duty receive
-            $2,225.70/month. This calculator shows the standard E-1 rate of $2,407.20.
-          </p>
+        {/* VARefinance subtle link */}
+        <div className="mb-8">
+          <a
+            href="https://www.varefinance.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-red-700 transition-colors"
+          >
+            <span>🏡</span>
+            <span>Using BAH for housing? Learn how VA loan eligibility and monthly affordability fit together at VARefinance.com →</span>
+          </a>
         </div>
 
-        
         {/* Related calculators */}
-        <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 mt-6">
+        <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 mb-6">
           <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-3">
             Related Calculators
           </p>
