@@ -91,35 +91,38 @@ const TOOLS = [
 const TIMELINE = [
   {
     period: 'First 30 Days',
+    question: 'What am I actually getting paid?',
     labelBg: 'bg-blue-50',
     labelText: 'text-blue-700',
     items: [
-      { text: 'Review your first LES — confirm rank, pay, and deductions are correct' },
-      { text: 'Check your BAH rate for your duty station', href: '/calculators/bah?rank=e3&dependents=no' },
-      { text: 'Understand your total compensation beyond base pay', href: '/calculators/total-compensation?rank=e3&yos=2&zip=28310&dependents=no' },
-      { text: 'Confirm your TSP enrollment status — automatic 1% contribution starts after 60 days under BRS' },
+      { text: "Your base pay isn't your full compensation — see the real number", href: '/calculators/total-compensation?rank=e3&yos=2&zip=28310&dependents=no' },
+      { text: 'Look up your housing allowance by location', href: '/calculators/bah?rank=e3&dependents=no' },
+      { text: 'Your first paycheck stub (LES) — make sure the numbers match your rank', href: '/blog/how-to-read-your-military-les' },
+      { text: "You're auto-enrolled in a retirement savings plan (TSP) after 60 days", href: '/calculators/tsp-growth' },
     ],
   },
   {
     period: 'First 90 Days',
+    question: 'Where should I live and what can I afford?',
     labelBg: 'bg-amber-50',
     labelText: 'text-amber-700',
     items: [
-      { text: 'Compare your BAH to local housing costs at your installation', href: '/bah/fort-bragg?rank=E-3&dep=no' },
-      { text: 'Review your TSP fund allocation — new accounts default to the Lifecycle fund based on your birth year' },
-      { text: 'Learn what SCRA and MLA protections apply to your existing accounts' },
-      { text: 'Complete the free online Financial Readiness Course at Military OneSource' },
+      { text: 'See what housing costs near your base', href: '/bah/fort-bragg?rank=E-3&dep=no' },
+      { text: "Your retirement account (TSP) picks investments for you by default — worth understanding what it chose", href: '/blog/tsp-fund-options-explained' },
+      { text: 'You have legal protections on interest rates and loans — look up SCRA and MLA', href: '/blog/scra-mla-protections-new-service-members' },
+      { text: 'Free money course that takes an afternoon', href: 'https://www.militaryonesource.mil/financial-legal/personal-finance/', external: true },
     ],
   },
   {
     period: 'First Year',
+    question: 'What changes when I get promoted or move?',
     labelBg: 'bg-green-50',
     labelText: 'text-green-700',
     items: [
-      { text: 'Recalculate total compensation after any promotion or PCS', href: '/calculators/total-compensation?rank=e3&yos=2&zip=28310&dependents=no' },
-      { text: 'Review education benefits available to you', href: '/guides/education-benefits' },
-      { text: 'Check your credit report at annualcreditreport.com — free, no impact to score' },
-      { text: 'Explore TSP contribution options and projected growth', href: '/calculators/tsp-growth' },
+      { text: 'Your pay changes with every promotion and PCS — recalculate', href: '/calculators/total-compensation?rank=e3&yos=2&zip=28310&dependents=no' },
+      { text: 'You have education benefits you might not know about', href: '/guides/education-benefits' },
+      { text: 'Free credit report once a year at annualcreditreport.com', href: 'https://www.annualcreditreport.com', external: true },
+      { text: 'See how your retirement savings could grow', href: '/calculators/tsp-growth' },
     ],
   },
 ];
@@ -277,18 +280,23 @@ export default function StartingServicePage() {
           </p>
 
           <div className="rounded-xl border border-zinc-200 shadow-sm overflow-hidden divide-y divide-zinc-100">
-            {TIMELINE.map(({ period, labelBg, labelText, items }) => (
+            {TIMELINE.map(({ period, question, labelBg, labelText, items }) => (
               <div key={period} className="flex flex-col sm:flex-row gap-3 sm:gap-0 px-4 py-3.5">
-                <div className="sm:w-32 flex-none">
+                <div className="sm:w-44 flex-none">
                   <span className={`inline-block text-[11px] font-bold ${labelBg} ${labelText} px-2.5 py-1 rounded-full whitespace-nowrap`}>
                     {period}
                   </span>
+                  <p className="text-[10px] text-zinc-400 italic mt-1.5 leading-snug">{question}</p>
                 </div>
                 <ul className="flex-1 space-y-1.5 sm:pl-2">
-                  {items.map(({ text, href }) => (
+                  {items.map(({ text, href, external }) => (
                     <li key={text} className="flex gap-2 items-start">
                       <span className="w-1 h-1 rounded-full bg-zinc-300 mt-1.5 flex-none" aria-hidden="true" />
-                      {href ? (
+                      {href && external ? (
+                        <a href={href} target="_blank" rel="noopener noreferrer" className="text-[11px] text-red-700 hover:text-red-800 underline decoration-red-200 underline-offset-2 leading-snug">
+                          {text}
+                        </a>
+                      ) : href ? (
                         <Link href={href} className="text-[11px] text-red-700 hover:text-red-800 underline decoration-red-200 underline-offset-2 leading-snug">
                           {text}
                         </Link>

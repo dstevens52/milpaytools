@@ -59,7 +59,7 @@ export default function BAHPage() {
           <div className="mt-3 hidden md:flex flex-wrap gap-3">
             {[
               { text: '40,959 ZIP codes' },
-              { text: '299 military housing areas' },
+              { text: '338 military housing areas' },
               { text: 'Official 2026 DTMO data' },
               { text: 'PCS comparison mode' },
             ].map(({ text }) => (
@@ -260,7 +260,7 @@ export default function BAHPage() {
           <p className="mt-3 text-sm text-zinc-500">
             Looking for rates by base?{' '}
             <a href="/bah" className="text-blue-700 hover:underline font-medium">
-              Browse BAH rates for all 76 duty stations →
+              Browse all BAH station pages →
             </a>
           </p>
         </div>

@@ -40,9 +40,9 @@ const PRINCIPLES = [
 ];
 
 const STATS = [
-  { value: '14', label: 'Free calculators' },
-  { value: '33', label: 'Blog posts & guides' },
-  { value: '76', label: 'Duty station BAH pages' },
+  { value: '16', label: 'Free calculators' },
+  { value: '34', label: 'Blog posts' },
+  { value: '200+', label: 'BAH station pages' },
   { value: '2026', label: 'Official DoD & VA data' },
 ];
 

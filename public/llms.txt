@@ -19,7 +19,8 @@
 - [Separation Benefits Timeline](/calculators/separation-timeline): When each benefit stops, converts, or expires after separation
 - [Healthcare Cost Comparison](/calculators/healthcare-comparison): TRICARE vs civilian healthcare cost comparison
 
-## Guides (6)
+## Guides (7)
+- [Starting Service: Military Pay & Benefits from Day One](/guides/starting-service): New service member guide — total compensation, BAH, TSP enrollment, LES, and first-year financial checkpoints
 - [Military Pay & Compensation Guide](/guides/military-pay): Understanding base pay, BAH, BAS, tax advantages, and total compensation
 - [PCS & Duty Station Financial Guide](/guides/pcs): DLA, MALT, per diem, TLE, PPM, and duty station cost comparison tools
 - [VA Disability Benefits Guide](/guides/va-disability): Combined rating formula, bilateral factor, 2026 compensation rates, CRDP and CRSC
@@ -262,4 +263,4 @@
 
 ## About
 
-Built by Dan Stevens — grew up on Air Force bases worldwide as the son of a 20-year Air Force veteran, now an NMLS-licensed mortgage industry professional. 16 calculators, 33 blog posts, 6 comprehensive guides, 76 duty station BAH pages, a transition financial roadmap, and a printable TAP student worksheet — all multi-LLM fact-checked against official government sources and verified with a Playwright test suite.
+Built by Dan Stevens — grew up on Air Force bases worldwide as the son of a 20-year Air Force veteran, now an NMLS-licensed mortgage industry professional. 16 calculators, 34 blog posts, 7 comprehensive guides, 200+ BAH station pages, a transition financial roadmap, and a printable TAP student worksheet — all multi-LLM fact-checked against official government sources and verified with a Playwright test suite.

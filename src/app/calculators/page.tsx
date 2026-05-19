@@ -57,7 +57,7 @@ const CALCULATORS: CalculatorDetail[] = [
       'Look up your 2026 Basic Allowance for Housing by duty station ZIP code, pay grade, and dependency status. Compare two locations side by side for PCS planning.',
     features: [
       'All 40,959 U.S. ZIP codes',
-      '299 military housing areas',
+      '338 military housing areas',
       'PCS comparison mode',
       'With and without dependents',
     ],
