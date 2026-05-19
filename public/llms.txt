@@ -252,6 +252,12 @@
 
 - [Your First Military Paycheck: What to Know Before You Spend It](https://www.milpaytools.com/blog/your-first-military-paycheck-what-to-know): What new service members need to understand before their first LES hits — BAH start date, TSP default enrollment, SGLI coverage, and the financial decisions that compound over a career.
 
+- [How to Read Your Military LES](https://www.milpaytools.com/blog/how-to-read-your-military-les): Plain-English section-by-section walkthrough of the Leave and Earnings Statement — entitlements, deductions, leave balance, YTD totals, and a monthly 5-minute review routine for catching pay errors.
+
+- [SCRA and MLA Protections for New Service Members](https://www.milpaytools.com/blog/scra-mla-protections-new-service-members): SCRA caps interest at 6% on pre-service debt; MLA caps interest at 36% MAPR on new consumer loans during active duty. Covers lease termination rights, how to claim the interest rate reduction, and what these laws don't cover.
+
+- [TSP Fund Options Explained](https://www.milpaytools.com/blog/tsp-fund-options-explained): G, F, C, S, I, and L funds explained in plain English — what each fund invests in, historical return context, and what the default Lifecycle fund means for new service members who haven't changed anything.
+
 ## Data Sources
 
 - 2026 Military Pay Tables: Defense Finance and Accounting Service (DFAS)
@@ -263,4 +269,4 @@
 
 ## About
 
-Built by Dan Stevens — grew up on Air Force bases worldwide as the son of a 20-year Air Force veteran, now an NMLS-licensed mortgage industry professional. 16 calculators, 34 blog posts, 7 comprehensive guides, 200+ BAH station pages, a transition financial roadmap, and a printable TAP student worksheet — all multi-LLM fact-checked against official government sources and verified with a Playwright test suite.
+Built by Dan Stevens — grew up on Air Force bases worldwide as the son of a 20-year Air Force veteran, now an NMLS-licensed mortgage industry professional. 16 calculators, 37 blog posts, 7 comprehensive guides, 200+ BAH station pages, a transition financial roadmap, and a printable TAP student worksheet — all multi-LLM fact-checked against official government sources and verified with a Playwright test suite.
