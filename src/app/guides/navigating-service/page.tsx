@@ -73,7 +73,6 @@ const TIMELINE = [
       { text: 'Compare BAH, taxes, and COLA between current and new station', href: '/calculators/compare' },
       { text: 'Estimate PCS entitlements — DLA, mileage, per diem, PPM profit', href: '/calculators/pcs' },
       { text: 'Check housing costs at your new base', href: '/bah' },
-      { text: 'Dual military? See how both BAH rates change', href: '/calculators/dual-military-bah' },
     ],
   },
   {
@@ -85,7 +84,6 @@ const TIMELINE = [
       { text: 'Your entire income can become tax-free in a combat zone', href: '/calculators/deployment' },
       { text: 'Savings Deposit Program (SDP) pays 10% guaranteed interest on up to $10,000' },
       { text: 'TSP contributions from tax-free combat pay go into Roth completely tax-free — a major long-term advantage' },
-      { text: 'BAH continues for your dependents at your home station rate' },
     ],
   },
   {
@@ -94,9 +92,8 @@ const TIMELINE = [
     labelBg: 'bg-teal-50',
     labelText: 'text-teal-800',
     items: [
-      { text: 'Recalculate total compensation at your new location', href: '/calculators/total-compensation' },
+      { text: 'Recalculate total compensation after any move or promotion', href: '/calculators/total-compensation' },
       { text: 'Compare your BAH to local housing costs', href: '/bah' },
-      { text: 'Recalculate after promotion — your pay changes at every grade increase' },
     ],
   },
   {
