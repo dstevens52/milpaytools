@@ -82,8 +82,8 @@ const TIMELINE = [
     labelText: 'text-amber-800',
     items: [
       { text: 'Your entire income can become tax-free in a combat zone', href: '/calculators/deployment' },
-      { text: 'Savings Deposit Program (SDP) pays 10% guaranteed interest on up to $10,000' },
-      { text: 'TSP contributions from tax-free combat pay go into Roth completely tax-free — a major long-term advantage' },
+      { text: 'Savings Deposit Program (SDP) pays 10% guaranteed interest on up to $10,000', href: '/blog/savings-deposit-program-sdp-explained' },
+      { text: 'TSP contributions from tax-free combat pay go into Roth completely tax-free — a major long-term advantage', href: '/blog/roth-tsp-deployment-strategy' },
     ],
   },
   {

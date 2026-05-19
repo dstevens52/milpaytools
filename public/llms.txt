@@ -259,6 +259,8 @@
 
 - [TSP Fund Options Explained](https://www.milpaytools.com/blog/tsp-fund-options-explained): G, F, C, S, I, and L funds explained in plain English — what each fund invests in, historical return context, and what the default Lifecycle fund means for new service members who haven't changed anything.
 
+- [Savings Deposit Program (SDP) Explained](https://www.milpaytools.com/blog/savings-deposit-program-sdp-explained): Standalone guide to the SDP — 10% guaranteed interest on up to $10,000 for service members deployed to combat zones. Covers eligibility, enrollment via DD Form 2558, interest math (deposit timing vs. earnings), the 90-day post-deployment grace period, CZTE tax interaction, and how SDP fits into a broader deployment savings stack alongside Roth TSP.
+
 ## Data Sources
 
 - 2026 Military Pay Tables: Defense Finance and Accounting Service (DFAS)
@@ -270,4 +272,4 @@
 
 ## About
 
-Built by Dan Stevens — grew up on Air Force bases worldwide as the son of a 20-year Air Force veteran, now an NMLS-licensed mortgage industry professional. 16 calculators, 37 blog posts, 8 comprehensive guides, 200+ BAH station pages, a transition financial roadmap, and a printable TAP student worksheet — all multi-LLM fact-checked against official government sources and verified with a Playwright test suite.
+Built by Dan Stevens — grew up on Air Force bases worldwide as the son of a 20-year Air Force veteran, now an NMLS-licensed mortgage industry professional. 16 calculators, 38 blog posts, 8 comprehensive guides, 200+ BAH station pages, a transition financial roadmap, and a printable TAP student worksheet — all multi-LLM fact-checked against official government sources and verified with a Playwright test suite.
