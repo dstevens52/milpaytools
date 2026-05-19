@@ -98,7 +98,7 @@ const TIMELINE = [
       { text: "Your base pay isn't your full compensation — see the real number", href: '/calculators/total-compensation?rank=e3&yos=2&zip=28310&dependents=no' },
       { text: 'Look up your housing allowance by location', href: '/calculators/bah?rank=e3&dependents=no' },
       { text: 'Your first paycheck stub (LES) — make sure the numbers match your rank', href: '/blog/how-to-read-your-military-les' },
-      { text: "You're auto-enrolled in a retirement savings plan (TSP) after 60 days", href: '/calculators/tsp' },
+      { text: "You're auto-enrolled in a retirement savings plan (TSP) after 60 days", href: '/calculators/tsp?rank=e3&yos=2&balance=0&years=20&match=yes&roth=yes' },
     ],
   },
   {
@@ -122,7 +122,7 @@ const TIMELINE = [
       { text: 'Your pay changes with every promotion and PCS — recalculate', href: '/calculators/total-compensation?rank=e3&yos=2&zip=28310&dependents=no' },
       { text: 'You have education benefits you might not know about', href: '/guides/education-benefits' },
       { text: 'Free credit report once a year at annualcreditreport.com', href: 'https://www.annualcreditreport.com', external: true },
-      { text: 'See how your retirement savings could grow', href: '/calculators/tsp' },
+      { text: 'See how your retirement savings could grow', href: '/calculators/tsp?rank=e3&yos=2&balance=0&years=20&match=yes&roth=yes' },
     ],
   },
 ];
