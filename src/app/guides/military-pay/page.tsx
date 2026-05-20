@@ -38,7 +38,7 @@ const FAQS = [
   {
     question: 'How does military base pay work?',
     answer:
-      'Base pay is your taxable monthly salary, determined by pay grade (E-1 through E-9, W-1 through W-5, O-1 through O-10) and years of service. It increased 3.8% in 2026. Selected rates: E-1 under 2 years $2,052/month; E-5 with 6 years $3,717/month; O-3 with 6 years $6,156/month. Most service members see automatic pay increases at the 2-, 3-, 4-, 6-, 8-, 10-, 12-, 14-, 16-, 18-, 20-, and 22-year marks.',
+      'Base pay is your taxable monthly salary, determined by pay grade (E-1 through E-9, W-1 through W-5, O-1 through O-10) and years of service. It increased 3.8% in 2026. Selected rates: E-1 under 2 years $2,052/month; E-5 with 6 years $4,110/month; O-3 with 6 years $6,156/month. Most service members see automatic pay increases at the 2-, 3-, 4-, 6-, 8-, 10-, 12-, 14-, 16-, 18-, 20-, and 22-year marks.',
   },
   {
     question: 'How does BAH work and why does it vary so much?',
@@ -63,7 +63,7 @@ const FAQS = [
   {
     question: 'What would a civilian need to earn to match military pay?',
     answer:
-      "To calculate civilian salary equivalence, combine base pay plus the taxable equivalent of tax-free allowances. Example — E-5 with 6 years, JBLM, with dependents: base pay $3,717/month + BAH $2,991/month + BAS $477.75/month + TSP match ~$186/month = $7,372/month ($88,464/year). At the 22% federal bracket, a civilian would need roughly $107,000–$115,000/year in gross wages to match this. Most E-5s underestimate their total package by 40–60% when looking only at base pay.",
+      "To calculate civilian salary equivalence, combine base pay plus the taxable equivalent of tax-free allowances. Example — E-5 with 6 years, JBLM, with dependents: base pay $4,110/month + BAH $2,991/month + BAS $477.75/month + TSP match ~$206/month = $7,785/month ($93,420/year). At the 22% federal bracket, a civilian would need roughly $110,000–$120,000/year in gross wages to match this. Most E-5s underestimate their total package by 40–60% when looking only at base pay.",
   },
 ];
 
@@ -86,7 +86,7 @@ const PAY_LAYERS = [
     title: 'Housing Allowance (BAH)',
     description:
       'A tax-free monthly payment based on your duty station ZIP code. This is where most of the hidden compensation lives.',
-    bullets: ['~$1,200/mo to $4,500+/mo by location', 'Completely tax-free income', 'Not on your W-2'],
+    bullets: ['~$1,200/mo to $4,500+/mo by location', 'Excluded from federal taxable income', 'Not on your W-2'],
     cta: 'Look up your BAH →',
     href: '/calculators/bah',
   },
@@ -121,7 +121,7 @@ const ACCORDION = [
         <ul className="space-y-1 pl-4 list-disc">
           <li><strong className="text-zinc-800">E-1 (under 2 years):</strong> $2,052</li>
           <li><strong className="text-zinc-800">E-4 (4 years):</strong> $2,810</li>
-          <li><strong className="text-zinc-800">E-5 (6 years):</strong> $3,717</li>
+          <li><strong className="text-zinc-800">E-5 (6 years):</strong> $4,110</li>
           <li><strong className="text-zinc-800">E-7 (10 years):</strong> $4,739</li>
           <li><strong className="text-zinc-800">O-1 (under 2 years):</strong> $3,988</li>
           <li><strong className="text-zinc-800">O-3 (6 years):</strong> $6,156</li>
@@ -254,7 +254,7 @@ const ACCORDION = [
           <li>Per drill period: $4,387 ÷ 30 = $146.23</li>
           <li>Per drill weekend (4 periods): $584.92</li>
           <li>Per year (standard 48 IDT periods): $7,019</li>
-          <li>Plus 2-week Annual Training: ~$2,924</li>
+          <li>Plus 15-day Annual Training: ~$2,193</li>
         </ul>
         <p>
           Guard and Reserve members also have access to TRICARE Reserve Select health coverage.
@@ -278,15 +278,15 @@ const ACCORDION = [
           <strong className="text-zinc-800">E-5 with 6 years, Joint Base Lewis-McChord, with dependents:</strong>
         </p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li>Base pay: $3,717/month</li>
+          <li>Base pay: $4,110/month</li>
           <li>BAH (with dependents): $2,991/month</li>
           <li>BAS: $477.75/month</li>
-          <li>BRS TSP matching (~5% contribution): ~$186/month</li>
-          <li><strong className="text-zinc-800">Total: $7,372/month — $88,464/year</strong></li>
+          <li>BRS TSP matching (~5% contribution): ~$206/month</li>
+          <li><strong className="text-zinc-800">Total: $7,785/month — $93,420/year</strong></li>
         </ul>
         <p>
           At the 22% federal bracket, a civilian would need roughly{' '}
-          <strong className="text-zinc-800">$107,000–$115,000/year in gross wages</strong> to match
+          <strong className="text-zinc-800">$110,000–$120,000/year in gross wages</strong> to match
           this — and that&apos;s before accounting for subsidized TRICARE health coverage.
         </p>
         <p className="text-xs text-zinc-400 italic">
@@ -354,13 +354,13 @@ export default function MilitaryPayGuidePage() {
       </div>
 
       {/* ── ZONE 1: Hero ── */}
-      <section className="bg-zinc-50 border-b border-zinc-200 py-12 sm:py-16 px-4">
+      <section className="border-b border-zinc-200 py-12 sm:py-16 px-4" style={{ background: 'linear-gradient(to bottom, #ecddc8 0%, #f5f0e8 100%)' }}>
         <div className="mx-auto max-w-3xl">
           {/* Eyebrow */}
           <div className="inline-flex items-center gap-2.5 mb-6 rounded-full bg-zinc-900 px-4 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-              Comprehensive Guide · Official 2026 DFAS & DTMO Data
+              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
             </span>
           </div>
 
@@ -490,16 +490,16 @@ export default function MilitaryPayGuidePage() {
               <div className="bg-white rounded-xl border border-zinc-200 shadow-lg overflow-hidden w-full max-w-xs">
                 <div className="bg-zinc-50 border-b border-zinc-200 px-5 py-3 flex items-center justify-between">
                   <div>
-                    <p className="text-xs text-zinc-500 font-medium">E-3 · 2 years · Fort Bragg, NC</p>
+                    <p className="text-xs text-zinc-500 font-medium">E-5 · 6 years · Fort Carson, CO</p>
                     <p className="text-sm font-semibold text-zinc-800">Total Compensation Breakdown</p>
                   </div>
                   <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">2026 rates</span>
                 </div>
                 <div className="px-5 py-1 divide-y divide-zinc-100">
                   {[
-                    { label: 'Base Pay', value: '$3,015.00' },
-                    { label: 'BAH (w/ dependents)', value: '$1,722' },
-                    { label: 'BAS', value: '$476.95' },
+                    { label: 'Base Pay', value: '$4,110.00' },
+                    { label: 'BAH (w/ dependents)', value: '$2,358' },
+                    { label: 'BAS', value: '$477.75' },
                   ].map(({ label, value }) => (
                     <div key={label} className="flex items-center justify-between py-2.5">
                       <span className="text-sm text-zinc-600">{label}</span>
@@ -510,11 +510,11 @@ export default function MilitaryPayGuidePage() {
                 <div className="mx-5 my-3 rounded-lg bg-red-50 border border-red-200 px-4 py-3 flex items-center justify-between">
                   <div>
                     <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Total Monthly</p>
-                    <p className="text-2xl font-bold tabular-nums text-red-700">$5,214</p>
+                    <p className="text-2xl font-bold tabular-nums text-red-700">$6,946</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-zinc-500">Civilian equivalent</p>
-                    <p className="text-sm font-semibold text-zinc-700">≈ $74,000 / yr</p>
+                    <p className="text-sm font-semibold text-zinc-700">≈ $97,000 / yr</p>
                   </div>
                 </div>
                 <div className="px-5 pb-4">
@@ -524,7 +524,7 @@ export default function MilitaryPayGuidePage() {
                 </div>
               </div>
               <p className="mt-3 text-xs text-center text-white/40">
-                What an E-3 at Fort Bragg sees — your numbers update live as you enter inputs
+                What an E-5 at Fort Carson, CO sees — your numbers update live as you enter inputs
               </p>
             </div>
           </div>
