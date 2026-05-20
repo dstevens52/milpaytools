@@ -201,8 +201,6 @@ export function CompareCalculator() {
   const [hasDependents, setHasDependents] = useState(true);
   const [zipA, setZipA] = useState('28310');
   const [zipB, setZipB] = useState('98433');
-  const [labelA, setLabelA] = useState('');
-  const [labelB, setLabelB] = useState('');
 
   // Pre-populate from URL params on mount
   // ?zip1=28310&zip2=98433&rank=E5&dependents=yes&yos=6
@@ -270,8 +268,8 @@ export function CompareCalculator() {
   }, [result]);
 
   // Display names for each location
-  const nameA = labelA.trim() || result?.locA.locationName || `ZIP ${zipA}`;
-  const nameB = labelB.trim() || result?.locB.locationName || `ZIP ${zipB}`;
+  const nameA = result?.locA.locationName || `ZIP ${zipA}`;
+  const nameB = result?.locB.locationName || `ZIP ${zipB}`;
 
   const showCOLA = result && (result.locA.isColaArea || result.locB.isColaArea);
 
@@ -345,46 +343,22 @@ export function CompareCalculator() {
           <div className="rounded-md border border-zinc-200 p-4 space-y-3">
             <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">Location A</p>
             <BaseSearchInput
-              label="ZIP code or base name"
+              label="Base or duty station"
               value={zipA}
               onZipChange={setZipA}
-              placeholder="e.g. 28310 or Fort Bragg"
+              placeholder="Try Fort Bragg, San Diego, or 98433"
             />
-            <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1.5">
-                Label <span className="font-normal text-zinc-400">(optional)</span>
-              </label>
-              <input
-                type="text"
-                value={labelA}
-                onChange={(e) => setLabelA(e.target.value)}
-                placeholder={result?.locA.locationName || 'e.g. Fort Bragg, NC'}
-                className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
-              />
-            </div>
           </div>
 
           {/* Location B */}
           <div className="rounded-md border border-zinc-200 p-4 space-y-3">
             <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">Location B</p>
             <BaseSearchInput
-              label="ZIP code or base name"
+              label="Base or duty station"
               value={zipB}
               onZipChange={setZipB}
-              placeholder="e.g. 98433 or JBLM"
+              placeholder="Try JBLM, Fort Hood, or 28310"
             />
-            <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1.5">
-                Label <span className="font-normal text-zinc-400">(optional)</span>
-              </label>
-              <input
-                type="text"
-                value={labelB}
-                onChange={(e) => setLabelB(e.target.value)}
-                placeholder={result?.locB.locationName || 'e.g. JBLM, WA'}
-                className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
-              />
-            </div>
           </div>
         </div>
       </div>
