@@ -39,22 +39,21 @@ export default function VADisabilityPage() {
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-6">
-          <div className="flex items-start gap-4">
-            <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
-              <span className="text-white font-black text-lg leading-none select-none">★</span>
-            </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
-                VA Disability Combined Rating Calculator
-              </h1>
-              <p className="text-red-700 font-semibold mt-1.5 text-base leading-snug">
-                Stop guessing your VA combined rating.
-              </p>
-              <p className="hidden md:block text-zinc-600 mt-1 text-sm leading-relaxed max-w-2xl">
-                Enter each service-connected condition to see the official VA whole-person formula
-                applied step by step, with the bilateral factor calculated automatically.
-              </p>
-            </div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
+            VA Disability Combined Rating Calculator
+          </h1>
+          <p className="text-red-700 font-semibold mt-1.5 text-base leading-snug">
+            Stop guessing your VA combined rating.
+          </p>
+          <p className="hidden md:block text-zinc-600 mt-1 text-sm leading-relaxed max-w-2xl mb-3">
+            Enter each service-connected condition to see the official VA whole-person formula
+            applied step by step, with the bilateral factor calculated automatically.
+          </p>
+          <div className="inline-flex items-center gap-2.5 rounded-full bg-zinc-900 px-4 py-1.5 mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+            <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
+            </span>
           </div>
           <div className="hidden md:block"><DataCurrencyBadge source="Official VA rates effective December 1, 2025 (2.8% COLA)" /></div>
         </div>

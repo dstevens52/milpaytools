@@ -3,7 +3,6 @@ import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/s
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { BAHCalculator } from '@/components/calculators/bah/BAHCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
-import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -39,39 +38,18 @@ export default function BAHPage() {
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
-          <div className="flex items-start gap-4">
-            <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
-              <span className="text-white font-black text-lg leading-none select-none">⌂</span>
-            </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
-                BAH Calculator — 2026 Rates
-              </h1>
-              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
-                Look up your Basic Allowance for Housing rate by ZIP code, pay grade, and dependency
-                status. Uses official 2026 DTMO data covering all 40,959 ZIP codes across all U.S.
-                military housing areas. Includes a PCS comparison tool to see how your BAH changes
-                between duty stations.
-              </p>
-            </div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight mb-2">
+            BAH Calculator — 2026 Rates
+          </h1>
+          <p className="text-zinc-600 text-sm leading-relaxed mb-3">
+            Look up your BAH rate by ZIP code, rank, and dependency status — with PCS comparison mode.
+          </p>
+          <div className="inline-flex items-center gap-2.5 rounded-full bg-zinc-900 px-4 py-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+            <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
+            </span>
           </div>
-
-          <div className="mt-3 hidden md:flex flex-wrap gap-3">
-            {[
-              { text: '40,959 ZIP codes' },
-              { text: '338 military housing areas' },
-              { text: 'Official 2026 DTMO data' },
-              { text: 'PCS comparison mode' },
-            ].map(({ text }) => (
-              <span
-                key={text}
-                className="inline-flex items-center gap-1.5 text-sm text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1"
-              >
-                {text}
-              </span>
-            ))}
-          </div>
-          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS &amp; DTMO rates" /></div>
         </div>
       </div>
 
