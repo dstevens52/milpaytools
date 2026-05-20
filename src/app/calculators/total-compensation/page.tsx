@@ -40,7 +40,7 @@ export default function TotalCompensationPage() {
         className="relative overflow-hidden border-b border-zinc-200"
         style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
       >
-        {/* Background image — desktop only */}
+        {/* Soldier image — full-width background, desktop only */}
         <div className="absolute inset-0 hidden sm:block" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -49,6 +49,7 @@ export default function TotalCompensationPage() {
             className="absolute inset-0 w-full h-full object-cover"
             style={{ objectPosition: 'right center' }}
           />
+          {/* Cream overlay: solid on left (text area), fades to transparent on right (soldier) */}
           <div
             className="absolute inset-0"
             style={{ background: 'linear-gradient(to right, rgba(242,232,212,1) 0%, rgba(242,232,212,1) 30%, rgba(242,232,212,0.85) 45%, rgba(242,232,212,0) 62%)' }}
@@ -56,27 +57,30 @@ export default function TotalCompensationPage() {
         </div>
 
         <div className="relative z-10 mx-auto max-w-5xl pt-6 pb-5 sm:pt-9 sm:pb-6 px-4">
-          <div className="sm:max-w-[58%]">
-            <div className="flex items-start gap-4">
-              <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
-                <span className="text-white font-black text-lg leading-none select-none">$</span>
-              </div>
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
-                  Total Military Compensation Calculator
-                </h1>
-                <p className="text-zinc-600 mt-1.5 text-sm leading-relaxed">
-                  See what your military compensation is really worth — including BAH, BAS, TSP match, and tax advantages.
-                </p>
-              </div>
-            </div>
-            <div className="mt-3 inline-flex items-center gap-2.5 rounded-full bg-zinc-900 px-4 py-1.5">
+
+          {/* Left column — constrained so image stays visible on desktop */}
+          <div className="sm:max-w-[58%] mb-5">
+
+            {/* Trust pill */}
+            <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
               <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
                 Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
               </span>
             </div>
+
+            {/* Headline */}
+            <h1 className="text-[32px] sm:text-[42px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-3">
+              Total Military Compensation Calculator
+            </h1>
+
+            {/* Subtext */}
+            <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-4">
+              See what your military compensation is really worth — including BAH, BAS, TSP match, and tax advantages.
+            </p>
+
           </div>
+
         </div>
       </section>
 
