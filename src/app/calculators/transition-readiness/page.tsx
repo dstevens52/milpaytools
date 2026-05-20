@@ -44,9 +44,13 @@ export default function TransitionReadinessPage() {
         })}
       />
 
-      {/* ── Page intro ─────────────────────────────────────────────── */}
-      <div className="tr-page-intro border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
+      <section
+        className="tr-page-intro border-b border-zinc-200"
+        style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
+      >
+        {/* ── Intro ──────────────────────────────────────────────────── */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-3">
           <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
@@ -60,33 +64,33 @@ export default function TransitionReadinessPage() {
             Find out if you can afford to leave the military — compare your current compensation against civilian income, healthcare costs, and emergency fund runway.
           </p>
         </div>
-      </div>
 
-      {/* ── 3-step plan strip ────────────────────────────────────────── */}
-      <CalcStepStrip steps={[
-        { title: 'Enter your military profile and civilian target' },
-        { title: 'See the true compensation gap' },
-        { title: 'Get your readiness verdict and action steps' },
-      ]} />
+        {/* ── 3-step plan strip ──────────────────────────────────────── */}
+        <CalcStepStrip noBg steps={[
+          { title: 'Enter your military profile and civilian target' },
+          { title: 'See the true compensation gap' },
+          { title: 'Get your readiness verdict and action steps' },
+        ]} />
 
-      {/* ── Proof bar ──────────────────────────────────────────────── */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 pb-0">
-        <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
-          <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
-            Sample output
-          </span>
-          <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
-            E-6 &middot; 10 yrs &middot; JBSA &middot; w/dep
-          </p>
-          <p className="text-[12px] text-zinc-500 flex-none whitespace-nowrap">
-            $75K salary &middot; 40% VA
-          </p>
-          <div className="flex-1 min-w-0" />
-          <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
-            Verdict: <span className="font-semibold text-amber-600">Not yet ready</span> &mdash; <span className="font-semibold text-zinc-700">$374/mo surplus · 2.5 mo runway</span>
-          </p>
+        {/* ── Proof bar ──────────────────────────────────────────────── */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
+          <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
+            <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
+              Sample output
+            </span>
+            <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
+              E-6 &middot; 10 yrs &middot; JBSA &middot; w/dep
+            </p>
+            <p className="text-[12px] text-zinc-500 flex-none whitespace-nowrap">
+              $75K salary &middot; 40% VA
+            </p>
+            <div className="flex-1 min-w-0" />
+            <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
+              Verdict: <span className="font-semibold text-amber-600">Not yet ready</span> &mdash; <span className="font-semibold text-zinc-700">$374/mo surplus · 2.5 mo runway</span>
+            </p>
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* ── Calculator ─────────────────────────────────────────────── */}
       <TransitionReadinessCalculator />
