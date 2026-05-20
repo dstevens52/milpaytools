@@ -3,7 +3,6 @@ import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/s
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { SeparationTimelineCalculator } from '@/components/calculators/separation-timeline/SeparationTimelineCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
-import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import Link from 'next/link';
@@ -46,67 +45,53 @@ export default function SeparationTimelinePage() {
         })}
       />
 
-      {/* ── Page intro ────────────────────────────────────────────────── */}
-      <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
-          <div className="flex items-start gap-4">
-            <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-white"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                <line x1="16" y1="2" x2="16" y2="6" />
-                <line x1="8" y1="2" x2="8" y2="6" />
-                <line x1="3" y1="10" x2="21" y2="10" />
-              </svg>
-            </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
-                Separation Benefits Timeline
-              </h1>
-              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
-                TRICARE, SGLI, TAMP, BDD filing windows, final move deadlines — all calculated
-                from your specific separation date. See exactly when each benefit stops, converts,
-                or expires so you can see critical deadlines before they arrive.
-              </p>
-            </div>
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
+      <section
+        className="border-b border-zinc-200"
+        style={{ background: 'linear-gradient(to bottom, #ecddc8 0%, #f5f0e8 100%)' }}
+      >
+        {/* ── Intro ──────────────────────────────────────────────────── */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-7 pb-3">
+          <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+            <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
+            </span>
           </div>
+          <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
+            Separation Benefits Timeline
+          </h1>
+          <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
+            Enter your separation date and see exactly when TRICARE, SGLI, TAMP, BDD filing, and final move deadlines hit.
+          </p>
+        </div>
 
-          <div className="mt-3 hidden md:flex flex-wrap gap-3">
-            {[
-              { icon: '🏥', text: 'TRICARE & TAMP deadlines' },
-              { icon: '🛡️', text: 'SGLI → VGLI conversion windows' },
-              { icon: '📋', text: 'BDD filing window' },
-              { icon: '📦', text: 'Final move deadline' },
-            ].map(({ icon, text }) => (
-              <span
-                key={text}
-                className="inline-flex items-center gap-1.5 text-sm text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1"
-              >
-                <span>{icon}</span>
-                {text}
-              </span>
-            ))}
-          </div>
-          <div className="hidden md:block">
-            <DataCurrencyBadge source="Official DoD &amp; VA benefit rules" />
+        {/* ── 3-step plan strip ──────────────────────────────────────── */}
+        <CalcStepStrip noBg steps={[
+          { title: 'Enter your separation date' },
+          { title: 'See every key deadline and benefit window' },
+          { title: 'Build your separation checklist' },
+        ]} />
+
+        {/* ── Proof bar ──────────────────────────────────────────────── */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
+          <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
+            <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
+              Sample output
+            </span>
+            <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
+              Separating Nov 30 &middot; TAMP eligible &middot; VA not yet filed
+            </p>
+            <div className="flex items-baseline gap-3 min-w-0 flex-1 overflow-hidden">
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">BDD window <span className="font-semibold text-zinc-700">Jun 3 – Sep 1</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">SGLI ends <span className="font-semibold text-zinc-700">Mar 30, 2027</span></span>
+            </div>
+            <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
+              TAMP through: <span className="font-semibold text-red-700">May 29, 2027</span>
+            </p>
           </div>
         </div>
-      </div>
-
-      {/* ── 3-step plan strip ────────────────────────────────────────── */}
-      <CalcStepStrip steps={[
-        { title: 'Enter your separation date' },
-        { title: 'See every key deadline and benefit window' },
-        { title: 'Build your separation checklist' },
-      ]} />
+      </section>
 
       {/* ── Calculator ────────────────────────────────────────────────── */}
       <SeparationTimelineCalculator />
