@@ -3,7 +3,6 @@ import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/s
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { CompareCalculator } from '@/components/calculators/compare/CompareCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
-import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -36,46 +35,53 @@ export default function ComparePage() {
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Duty Station Comparison Calculator 2026', description: 'Compare total compensation, BAH, and take-home pay between two CONUS duty stations side by side. See the real financial difference between PCS orders using 2026 official data.', url: '/calculators/compare' })} />
-      <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4 md:py-8">
-          <div className="hidden md:inline-flex items-center gap-2 mb-4">
-            <span className="block w-6 h-0.5 bg-red-700" />
-            <span className="text-sm font-semibold text-red-700 uppercase tracking-widest">
-              Duty Station Comparison
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
+      <section
+        className="border-b border-zinc-200"
+        style={{ background: 'linear-gradient(to bottom, #ecddc8 0%, #f5f0e8 100%)' }}
+      >
+        {/* ── Intro ──────────────────────────────────────────────────── */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-7 pb-3">
+          <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+            <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
             </span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 mb-3">
+          <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
             Duty Station Comparison
           </h1>
-          <p className="hidden md:block text-lg text-zinc-600 max-w-2xl">
-            Compare total compensation between two duty stations — BAH, CONUS COLA, state income
-            tax, and estimated take-home pay — all in one side-by-side view.
+          <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
+            Compare two duty stations side by side — BAH, CONUS COLA, state income tax, and estimated take-home pay.
           </p>
-          <div className="mt-3 hidden md:flex flex-wrap gap-3">
-            {[
-              'Side-by-side BAH + COLA + tax',
-              'Two duty stations compared',
-              'State income tax estimate',
-              '2026 official data',
-            ].map((text) => (
-              <span
-                key={text}
-                className="inline-flex items-center text-sm text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1"
-              >
-                {text}
-              </span>
-            ))}
-          </div>
-          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS &amp; DTMO rates" /></div>
         </div>
-      </div>
 
-      {/* ── 3-step plan strip ────────────────────────────────────────── */}
-      <CalcStepStrip steps={[
-        { title: 'Enter two duty stations and your rank' },
-        { title: 'See side-by-side BAH, COLA, and tax differences' },
-        { title: 'Make an informed PCS preference decision' },
-      ]} />
+        {/* ── 3-step plan strip ──────────────────────────────────────── */}
+        <CalcStepStrip noBg steps={[
+          { title: 'Enter two duty stations and your rank' },
+          { title: 'See side-by-side BAH, COLA, and tax differences' },
+          { title: 'Make an informed PCS preference decision' },
+        ]} />
+
+        {/* ── Proof bar ──────────────────────────────────────────────── */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
+          <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
+            <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
+              Sample output
+            </span>
+            <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
+              E-5 &middot; 8 yrs &middot; w/dep &middot; Fort Bragg &rarr; JBLM
+            </p>
+            <div className="flex items-baseline gap-3 min-w-0 flex-1 overflow-hidden">
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">BAH diff <span className="font-semibold text-zinc-700">+$750/mo</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">State tax savings <span className="font-semibold text-zinc-700">+$172/mo</span></span>
+            </div>
+            <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
+              JBLM ahead: <span className="font-semibold text-red-700">+$922/mo</span>
+            </p>
+          </div>
+        </div>
+      </section>
 
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-6 md:py-10 space-y-10">
         <CompareCalculator />
