@@ -66,8 +66,11 @@ export default function VADisabilityPage() {
         { title: 'Estimate your compensation' },
       ]} />
 
+      {/* ── Calculator ───────────────────────────────────────────────── */}
+      <VADisabilityCalculator />
+
       {/* ── What this calculator does and does not do ────────────────── */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-0">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-0">
         <div className="rounded-lg border border-zinc-200 bg-zinc-50 px-5 py-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -95,9 +98,6 @@ export default function VADisabilityPage() {
           </p>
         </div>
       </div>
-
-      {/* ── Calculator ───────────────────────────────────────────────── */}
-      <VADisabilityCalculator />
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
