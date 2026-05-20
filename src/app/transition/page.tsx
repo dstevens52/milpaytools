@@ -349,33 +349,31 @@ export default function TransitionPage() {
         </div>
       </div>
 
-      {/* ── Hero — warm gradient + image slot ── */}
+      {/* ── Hero ── */}
       <section
-        className="relative border-b border-zinc-200"
+        className="relative overflow-hidden border-b border-zinc-200"
         style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
       >
-        {/* Transition soldier image — desktop only; warm gradient fallback if image missing */}
-        <div className="absolute inset-x-0 top-0 hidden sm:block" aria-hidden="true">
+        {/* Soldier image — full-width background, desktop only */}
+        <div className="absolute inset-0 hidden sm:block" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/transition-soldier.png"
             alt=""
-            className="w-full object-cover"
-            style={{ objectPosition: 'center top', height: '560px' }}
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: 'right center' }}
           />
-          {/* Cream overlay: solid on left (text area), fades to transparent on right */}
+          {/* Cream overlay: solid on left (text area), fades to transparent on right (soldier) */}
           <div
             className="absolute inset-0"
-            style={{
-              background:
-                'linear-gradient(to right, rgba(242,232,212,1) 0%, rgba(242,232,212,1) 30%, rgba(242,232,212,0.85) 45%, rgba(242,232,212,0) 62%)',
-            }}
+            style={{ background: 'linear-gradient(to right, rgba(242,232,212,1) 0%, rgba(242,232,212,1) 30%, rgba(242,232,212,0.85) 45%, rgba(242,232,212,0) 62%)' }}
           />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-5xl pt-5 pb-5 sm:pt-6 sm:pb-5 px-4">
+        <div className="relative z-10 mx-auto max-w-5xl pt-6 pb-5 sm:pt-9 sm:pb-6 px-4">
+
           {/* Left column — constrained so image stays visible on desktop */}
-          <div className="sm:max-w-[58%]">
+          <div className="sm:max-w-[58%] mb-5">
 
             {/* Trust pill */}
             <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
@@ -386,20 +384,20 @@ export default function TransitionPage() {
             </div>
 
             {/* Headline */}
-            <h1 className="text-[28px] sm:text-[34px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-2">
+            <h1 className="text-[32px] sm:text-[42px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-3">
               Know what your{' '}
               <span className="text-red-700">income, healthcare, and benefits</span>{' '}
               look like after you take off the uniform.
             </h1>
 
             {/* Subtext */}
-            <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-3">
+            <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-4">
               Separation changes more than your paycheck. BAH, BAS, TRICARE, tax advantages, and TSP
               contributions all shift on day one. Use free tools to see exactly where you stand
               — before you sign out.
             </p>
 
-            {/* Primary CTA — single button */}
+            {/* Primary CTA */}
             <Link
               href="/calculators/transition-readiness"
               className="inline-flex items-center gap-2 rounded-md bg-red-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
@@ -411,65 +409,69 @@ export default function TransitionPage() {
             </Link>
 
           </div>
-        </div>
-      </section>
 
-      {/* ── Proof bar ── */}
-      {/* TODO: make dynamic using lookupBasePay + lookupBAH for E-6, 10yr, Fort Campbell */}
-      <section className="relative z-10 bg-white border-b border-zinc-200 py-5 px-4">
-        <div className="mx-auto max-w-5xl">
-          <div className="rounded-xl border border-zinc-200 bg-white shadow-md overflow-hidden">
-            <div className="px-4 py-2.5 border-b border-zinc-100 bg-zinc-50/70">
-              <p className="text-[11px] text-zinc-400 font-medium">
-                Example: E-6 &middot; 10 years &middot; Fort Campbell &middot; separating
-              </p>
+          {/* Proof bar — inside hero to give it height and reveal the soldier image */}
+          {/* TODO: make dynamic using lookupBasePay + lookupBAH for E-6, 10yr, Fort Campbell */}
+          <div className="bg-white rounded-2xl border border-zinc-200 shadow-md overflow-hidden">
+            <div className="px-4 py-2 border-b border-zinc-100 bg-zinc-50/70 flex items-center justify-between gap-4">
+              <p className="text-[11px] text-zinc-400 font-medium">Example: E-6 &middot; 10 years &middot; Fort Campbell &middot; separating</p>
+              <Link
+                href="#comparison"
+                className="text-[11px] font-semibold text-red-700 hover:text-red-800 flex-none"
+              >
+                See what changes ↓
+              </Link>
             </div>
             <div className="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-zinc-100">
-              <div className="flex-1 px-4 py-4">
-                <p className="text-[10px] text-zinc-400 uppercase tracking-wide font-medium mb-1">
-                  Active duty value
-                </p>
-                <p className="text-2xl font-extrabold text-zinc-900 tabular-nums leading-none">
-                  $8,200
-                  <span className="text-sm font-semibold text-zinc-400">/mo</span>
-                </p>
+
+              {/* Col 1: Active duty value */}
+              <div className="flex-1 px-4 py-3 flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-none">
+                  <svg className="w-3.5 h-3.5 text-blue-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-[10px] text-zinc-400 uppercase tracking-wide">Active duty value</p>
+                  <p className="text-lg font-extrabold text-zinc-900">$8,200/mo</p>
+                </div>
               </div>
-              <div className="flex-1 px-4 py-4">
-                <p className="text-[10px] text-zinc-400 uppercase tracking-wide font-medium mb-1">
-                  Civilian salary to match
-                </p>
-                <p className="text-2xl font-extrabold tabular-nums leading-none" style={{ color: '#c0392b' }}>
-                  $95,000
-                  <span className="text-sm font-semibold" style={{ color: '#c0392b', opacity: 0.7 }}>/yr</span>
-                </p>
+
+              {/* Col 2: Civilian salary to match */}
+              <div className="flex-1 px-4 py-3 flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center flex-none">
+                  <svg className="w-3.5 h-3.5 text-red-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-[10px] text-zinc-400 uppercase tracking-wide">Civilian salary to match</p>
+                  <p className="text-lg font-extrabold" style={{ color: '#c0392b' }}>$95,000/yr</p>
+                </div>
               </div>
-              <div className="flex-1 px-4 py-4">
-                <p className="text-[10px] text-zinc-400 uppercase tracking-wide font-medium mb-1">
-                  Hidden gap
-                </p>
-                <p className="text-2xl font-extrabold tabular-nums leading-none" style={{ color: '#c0392b' }}>
-                  $16,800
-                  <span className="text-sm font-semibold" style={{ color: '#c0392b', opacity: 0.7 }}>/yr</span>
-                </p>
+
+              {/* Col 3: Hidden gap — red tint */}
+              <div className="flex-1 px-4 py-3 bg-red-50 flex items-center">
+                <div>
+                  <p className="text-[10px] text-red-600 uppercase tracking-wide font-medium">Hidden gap</p>
+                  <p className="text-lg font-extrabold" style={{ color: '#c0392b' }}>$16,800/yr</p>
+                  <p className="text-[9px] text-red-600 mt-0.5">in tax-free allowances + healthcare</p>
+                </div>
               </div>
-              <div className="flex-1 px-4 py-4 flex items-center">
+
+              {/* Col 4: Calculate yours */}
+              <div className="flex-1 px-4 py-3 bg-zinc-50 flex items-center">
                 <Link
                   href="/calculators/total-compensation"
-                  className="inline-flex items-center gap-1.5 rounded-md border border-red-700 px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-50 transition-colors"
+                  className="text-[11px] font-semibold text-red-700 hover:text-red-800 transition-colors"
                 >
                   Calculate yours →
                 </Link>
               </div>
+
             </div>
           </div>
-          <p className="mt-3 text-center">
-            <Link
-              href="#comparison"
-              className="text-xs text-zinc-400 hover:text-zinc-600 transition-colors hover:underline underline-offset-2"
-            >
-              See what changes after separation ↓
-            </Link>
-          </p>
+
         </div>
       </section>
 
