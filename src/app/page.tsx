@@ -242,6 +242,9 @@ function ProofStrip() {
               className="flex items-center gap-3 bg-white rounded-xl px-4 py-3 flex-shrink-0 w-full md:w-auto"
               style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}
             >
+              <span style={{ fontSize: 9, color: '#bbb', textTransform: 'uppercase', letterSpacing: '0.08em', lineHeight: 1, whiteSpace: 'nowrap', border: '1px solid #e5e5e5', borderRadius: 4, padding: '2px 5px', flexShrink: 0 }}>
+                Sample
+              </span>
               <div className="flex-none">
                 <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
                   E-5 · 8yrs · San Diego
