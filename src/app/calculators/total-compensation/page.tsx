@@ -62,28 +62,23 @@ export default function TotalCompensationPage() {
           <div className="mx-auto max-w-5xl pt-6 sm:pt-9 px-4">
             <div className="sm:max-w-[58%] mb-5">
 
-              {/* Icon + Title */}
-              <div className="flex items-center gap-3 mb-3">
-                <div className="flex-none w-9 h-9 rounded-full flex items-center justify-center" style={{ background: '#c0392b' }}>
-                  <span className="text-white font-black text-lg leading-none select-none">$</span>
-                </div>
-                <h1 className="text-[28px] sm:text-[38px] font-extrabold leading-tight tracking-tight text-zinc-900">
-                  Total Military Compensation Calculator
-                </h1>
-              </div>
-
-              {/* Description */}
-              <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-3">
-                See what your military compensation is really worth — including BAH, BAS, TSP match, and tax advantages.
-              </p>
-
               {/* Trust badge */}
-              <div className="inline-flex items-center gap-2.5 rounded-full bg-zinc-900 px-4 py-1.5">
+              <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
                 <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
                   Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
                 </span>
               </div>
+
+              {/* Title */}
+              <h1 className="text-[28px] sm:text-[38px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-3">
+                Total Military Compensation Calculator
+              </h1>
+
+              {/* Description */}
+              <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+                See what your military compensation is really worth — including BAH, BAS, TSP match, and tax advantages.
+              </p>
 
             </div>
           </div>
