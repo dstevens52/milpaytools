@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { TSPCalculator } from '@/components/calculators/tsp/TSPCalculator';
-import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -35,51 +34,50 @@ export default function TSPPage() {
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'TSP Growth Projector 2026', description: 'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 contribution limits.', url: '/calculators/tsp' })} />
-      {/* ── Page intro ───────────────────────────────────────────────── */}
-      <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
-          <div className="flex items-start gap-4">
-            <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
-              <span className="text-white font-black text-lg leading-none select-none">↗</span>
-            </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
-                TSP Growth Projector
-              </h1>
-              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
-                See how your Thrift Savings Plan grows between now and retirement. Inputs your
-                pay grade, BRS matching, and fund allocation — then models compound growth year by year
-                with a contribution increase assumption and a full Roth vs. Traditional comparison.
-              </p>
-            </div>
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
+      <section
+        className="border-b border-zinc-200"
+        style={{ background: 'linear-gradient(to bottom, #ecddc8 0%, #f5f0e8 100%)' }}
+      >
+        {/* ── Intro ──────────────────────────────────────────────────── */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-7 pb-3">
+          <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+            <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
+            </span>
           </div>
-
-          <div className="mt-3 hidden md:flex flex-wrap gap-3">
-            {[
-              'BRS matching calculator',
-              'Fund allocation (G/F/C/S/I)',
-              'Roth vs Traditional',
-              '2026 contribution limits',
-              'Year-by-year growth chart',
-            ].map((text) => (
-              <span
-                key={text}
-                className="inline-flex items-center text-sm text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1"
-              >
-                {text}
-              </span>
-            ))}
-          </div>
-          <div className="hidden md:block"><DataCurrencyBadge source="2026 IRS contribution limits &bull; DFAS pay tables" /></div>
+          <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
+            TSP Growth Projector
+          </h1>
+          <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
+            Project your TSP growth year by year — with BRS matching, fund allocation, Roth vs. Traditional comparison, and 2026 contribution limits.
+          </p>
         </div>
-      </div>
 
-      {/* ── 3-step plan strip ────────────────────────────────────────── */}
-      <CalcStepStrip steps={[
-        { title: 'Enter your pay grade and contribution rate' },
-        { title: 'See year-by-year TSP growth' },
-        { title: 'Compare Roth vs. Traditional and BRS match scenarios' },
-      ]} />
+        {/* ── 3-step plan strip ──────────────────────────────────────── */}
+        <CalcStepStrip noBg steps={[
+          { title: 'Enter your pay grade and contribution rate' },
+          { title: 'See year-by-year TSP growth' },
+          { title: 'Compare Roth vs. Traditional and BRS match scenarios' },
+        ]} />
+
+        {/* ── Proof bar ──────────────────────────────────────────────── */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
+          <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
+            <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
+              Sample output
+            </span>
+            <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
+              E-5 &middot; age 26 &middot; BRS 5% &middot; aggressive &middot; $0 starting
+            </p>
+            <div className="flex-1 min-w-0" />
+            <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
+              Projected at 65: <span className="font-semibold text-red-700">$2.85M</span>
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <TSPCalculator />
