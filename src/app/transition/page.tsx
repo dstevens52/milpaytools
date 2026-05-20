@@ -373,7 +373,7 @@ export default function TransitionPage() {
           />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-5xl pt-6 pb-5 sm:pt-9 sm:pb-8 px-4">
+        <div className="relative z-10 mx-auto max-w-5xl pt-5 pb-4 sm:pt-6 sm:pb-5 px-4">
           {/* Left column — constrained so image stays visible on desktop */}
           <div className="sm:max-w-[58%]">
 
@@ -386,17 +386,16 @@ export default function TransitionPage() {
             </div>
 
             {/* Headline */}
-            <h1 className="text-[32px] sm:text-[42px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-3">
+            <h1 className="text-[28px] sm:text-[34px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-2">
               Know what your{' '}
               <span className="text-red-700">income, healthcare, and benefits</span>{' '}
               look like after you take off the uniform.
             </h1>
 
             {/* Subtext */}
-            <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-5">
+            <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-3">
               Separation changes more than your paycheck. BAH, BAS, TRICARE, tax advantages, and TSP
-              contributions all shift on day one.{' '}
-              <strong className="text-zinc-900">Use free tools to see exactly where you stand</strong>{' '}
+              contributions all shift on day one. Use free tools to see exactly where you stand
               — before you sign out.
             </p>
 
