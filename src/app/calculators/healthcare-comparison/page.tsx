@@ -102,15 +102,13 @@ export default function HealthcareComparisonPage() {
               Sample output
             </span>
             <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
-              Family of 4 &middot; separating E-6 &middot; no VA healthcare
+              Family of 4 &middot; separating E-6 &middot; employer plan &middot; silver tier
             </p>
             <div className="flex-1 min-w-0" />
             <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
               TRICARE: <span className="font-semibold text-zinc-700">$0/yr</span>
               <span className="mx-1.5 text-zinc-300">&rarr;</span>
-              Employer: <span className="font-semibold text-zinc-700">$7,200/yr</span>
-              <span className="mx-1 text-zinc-300">&middot;</span>
-              Marketplace: <span className="font-semibold text-red-700">$10,800/yr</span>
+              Employer silver: <span className="font-semibold text-red-700">$8,640/yr</span>
             </p>
           </div>
         </div>
