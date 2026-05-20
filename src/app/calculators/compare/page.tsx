@@ -36,7 +36,7 @@ export default function ComparePage() {
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Duty Station Comparison Calculator 2026', description: 'Compare total compensation, BAH, and take-home pay between two CONUS duty stations side by side. See the real financial difference between PCS orders using 2026 official data.', url: '/calculators/compare' })} />
-      <div className="bg-white border-b border-zinc-200">
+      <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4 md:py-8">
           <div className="hidden md:inline-flex items-center gap-2 mb-4">
             <span className="block w-6 h-0.5 bg-red-700" />

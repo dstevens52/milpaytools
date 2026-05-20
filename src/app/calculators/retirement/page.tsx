@@ -38,7 +38,7 @@ export default function RetirementCalculatorPage() {
       <JsonLdScript schema={webApplicationSchema({ name: 'Military Retirement Calculator 2026', description: 'Estimate your military pension under High-3 or BRS. See monthly pension, lifetime value, TSP projection, and VA disability combined income using 2026 pay tables.', url: '/calculators/retirement' })} />
     <div className="bg-zinc-50">
       {/* Page header */}
-      <div className="bg-white border-b border-zinc-200">
+      <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4 md:py-8">
           <div className="hidden md:inline-flex items-center gap-2 mb-4">
             <span className="block w-6 h-0.5 bg-red-700" />

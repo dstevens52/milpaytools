@@ -36,7 +36,7 @@ export default function EducationCalculatorPage() {
       <JsonLdScript schema={webApplicationSchema({ name: 'Military Education Benefits Comparison Calculator 2026', description: 'Compare Post-9/11 GI Bill, VR&E (Chapter 31), Tuition Assistance, and Montgomery GI Bill side by side. See total program value by ZIP code, school type, and eligibility.', url: '/calculators/education' })} />
     <div className="min-h-screen bg-zinc-50">
       {/* Page header */}
-      <div className="bg-white border-b border-zinc-200">
+      <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4 md:py-8">
           <div className="hidden md:inline-flex items-center gap-2 mb-4">
             <span className="block w-6 h-0.5 bg-red-700" />
