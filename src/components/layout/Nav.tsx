@@ -6,46 +6,46 @@ import { usePathname } from 'next/navigation';
 
 const CALCULATOR_GROUPS = [
   {
-    label: 'Pay & Compensation',
+    label: 'Top Calculators',
     links: [
       { href: '/calculators/total-compensation', label: 'Total Military Compensation' },
-      { href: '/calculators/pay-charts', label: '2026 Pay Charts' },
       { href: '/calculators/bah', label: 'BAH Calculator' },
-      { href: '/calculators/cola', label: 'CONUS COLA' },
-      { href: '/calculators/guard-reserve', label: 'Guard/Reserve Pay' },
+      { href: '/calculators/va-disability', label: 'VA Disability Rating' },
+      { href: '/calculators/compare', label: 'Duty Station Comparison' },
+      { href: '/calculators/pcs', label: 'PCS Cost Estimator' },
+      { href: '/calculators/tsp', label: 'TSP Growth Projector' },
       { href: '/calculators/deployment', label: 'Deployment Pay' },
     ],
   },
   {
-    label: 'Planning & Comparison',
+    label: 'More Calculators',
     links: [
-      { href: '/calculators/compare', label: 'Duty Station Comparison' },
-      { href: '/calculators/pcs', label: 'PCS Cost Estimator' },
+      { href: '/calculators/cola', label: 'CONUS COLA' },
+      { href: '/calculators/guard-reserve', label: 'Guard/Reserve Pay' },
       { href: '/calculators/dual-military-bah', label: 'Dual Military BAH' },
-    ],
-  },
-  {
-    label: 'Benefits & Retirement',
-    links: [
-      { href: '/calculators/va-disability', label: 'VA Disability Rating' },
-      { href: '/calculators/retirement', label: 'Military Retirement' },
-      { href: '/calculators/tsp', label: 'TSP Growth Projector' },
-      { href: '/calculators/education', label: 'Education Benefits' },
-      { href: '/calculators/transition-readiness', label: 'Transition Readiness' },
-      { href: '/calculators/separation-timeline', label: 'Separation Timeline' },
+      { href: '/calculators/retirement', label: 'Retirement Calculator' },
       { href: '/calculators/healthcare-comparison', label: 'Healthcare Comparison' },
+      { href: '/calculators/separation-timeline', label: 'Separation Timeline' },
+      { href: '/calculators/education', label: 'Education Benefits' },
+      { href: '/calculators/pay-charts', label: 'Pay Charts' },
     ],
   },
 ];
 
-const GUIDES_LINKS = [
-  { href: '/guides/military-pay', label: 'Military Pay & Compensation' },
-  { href: '/guides/pcs', label: 'PCS & Duty Station' },
-  { href: '/guides/va-disability', label: 'VA Disability Benefits' },
-  { href: '/guides/retirement-tsp', label: 'Retirement & TSP' },
-  { href: '/guides/education-benefits', label: 'Education Benefits' },
-  { href: '/bah', label: 'BAH by Duty Station' },
+const GUIDES_JOURNEY = [
+  { href: '/guides/starting-service', label: 'Starting Service' },
+  { href: '/guides/navigating-service', label: 'Navigating Service' },
 ];
+
+const GUIDES_TOPICS = [
+  { href: '/guides/military-pay', label: 'Military Pay Guide' },
+  { href: '/guides/pcs', label: 'PCS & Duty Station Guide' },
+  { href: '/guides/retirement-tsp', label: 'Retirement & TSP Guide' },
+  { href: '/guides/va-disability', label: 'VA Disability Guide' },
+  { href: '/guides/education-benefits', label: 'Education Benefits Guide' },
+];
+
+const GUIDES_LINKS = [...GUIDES_JOURNEY, ...GUIDES_TOPICS];
 
 const ALL_CALCULATOR_LINKS = CALCULATOR_GROUPS.flatMap((g) => g.links);
 
@@ -134,65 +134,27 @@ function CalculatorsDropdown({ pathname }: { pathname: string }) {
           className="absolute top-full left-0 mt-1.5 w-[480px] bg-white border border-zinc-200 rounded-lg shadow-lg z-50 overflow-hidden"
         >
           <div className="grid grid-cols-2 divide-x divide-zinc-100 py-2">
-            {/* Left: Pay & Compensation */}
-            <div>
-              <p className="px-4 pt-1 pb-1 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-                {CALCULATOR_GROUPS[0].label}
-              </p>
-              {CALCULATOR_GROUPS[0].links.map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  role="menuitem"
-                  onClick={close}
-                  className={[
-                    'block px-4 py-1.5 text-sm transition-colors',
-                    pathname === href ? 'text-red-700 font-semibold bg-red-50' : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50',
-                  ].join(' ')}
-                >
-                  {label}
-                </Link>
-              ))}
-            </div>
-
-            {/* Right: Planning & Comparison + Benefits & Retirement */}
-            <div>
-              <p className="px-4 pt-1 pb-1 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-                {CALCULATOR_GROUPS[1].label}
-              </p>
-              {CALCULATOR_GROUPS[1].links.map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  role="menuitem"
-                  onClick={close}
-                  className={[
-                    'block px-4 py-1.5 text-sm transition-colors',
-                    pathname === href ? 'text-red-700 font-semibold bg-red-50' : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50',
-                  ].join(' ')}
-                >
-                  {label}
-                </Link>
-              ))}
-              <div className="my-2 mx-4 border-t border-zinc-100" />
-              <p className="px-4 pb-1 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-                {CALCULATOR_GROUPS[2].label}
-              </p>
-              {CALCULATOR_GROUPS[2].links.map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  role="menuitem"
-                  onClick={close}
-                  className={[
-                    'block px-4 py-1.5 text-sm transition-colors',
-                    pathname === href ? 'text-red-700 font-semibold bg-red-50' : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50',
-                  ].join(' ')}
-                >
-                  {label}
-                </Link>
-              ))}
-            </div>
+            {CALCULATOR_GROUPS.map((group) => (
+              <div key={group.label}>
+                <p className="px-4 pt-1 pb-1 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                  {group.label}
+                </p>
+                {group.links.map(({ href, label }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    role="menuitem"
+                    onClick={close}
+                    className={[
+                      'block px-4 py-1.5 text-sm transition-colors',
+                      pathname === href ? 'text-red-700 font-semibold bg-red-50' : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50',
+                    ].join(' ')}
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
       )}
@@ -232,7 +194,22 @@ function GuidesDropdown({ pathname }: { pathname: string }) {
           className="absolute top-full left-0 mt-1.5 w-56 bg-white border border-zinc-200 rounded-lg shadow-lg z-50 overflow-hidden"
         >
           <div className="py-1.5">
-            {GUIDES_LINKS.map(({ href, label }) => (
+            {GUIDES_JOURNEY.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                role="menuitem"
+                onClick={close}
+                className={[
+                  'block px-3 py-1.5 text-sm transition-colors',
+                  pathname === href ? 'text-red-700 font-semibold bg-red-50' : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50',
+                ].join(' ')}
+              >
+                {label}
+              </Link>
+            ))}
+            <div className="my-1.5 mx-3 border-t border-zinc-100" />
+            {GUIDES_TOPICS.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
@@ -268,9 +245,9 @@ export function Nav({ mobile = false, onClose }: NavProps) {
   // ── Mobile layout ──────────────────────────────────────────────────────────
   if (mobile) {
     const standaloneLinks = [
+      { href: '/bah', label: 'BAH by Station', active: pathname === '/bah' },
       { href: '/transition', label: 'Transition', active: pathname.startsWith('/transition') },
       { href: '/blog', label: 'Blog', active: pathname.startsWith('/blog') },
-      { href: '/about', label: 'About', active: pathname === '/about' },
     ];
 
     return (
@@ -389,6 +366,17 @@ export function Nav({ mobile = false, onClose }: NavProps) {
         </li>
         <li>
           <Link
+            href="/bah"
+            className={[
+              'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+              pathname === '/bah' ? 'text-red-700 bg-red-50' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
+            ].join(' ')}
+          >
+            BAH by Station
+          </Link>
+        </li>
+        <li>
+          <Link
             href="/transition"
             className={[
               'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
@@ -407,17 +395,6 @@ export function Nav({ mobile = false, onClose }: NavProps) {
             ].join(' ')}
           >
             Blog
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/about"
-            className={[
-              'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-              pathname === '/about' ? 'text-red-700 bg-red-50' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
-            ].join(' ')}
-          >
-            About
           </Link>
         </li>
       </ul>
