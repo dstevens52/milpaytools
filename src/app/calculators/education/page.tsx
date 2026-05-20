@@ -61,24 +61,6 @@ export default function EducationCalculatorPage() {
           { title: 'See your total education benefit value' },
         ]} />
 
-        {/* ── Proof bar ──────────────────────────────────────────────── */}
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
-          <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
-            <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
-              Sample output
-            </span>
-            <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
-              Veteran &middot; Public in-state &middot; 100% GI Bill &middot; San Diego
-            </p>
-            <div className="flex items-baseline gap-3 min-w-0 flex-1 overflow-hidden">
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">Post-9/11 <span className="font-semibold text-zinc-700">$48,775/yr</span></span>
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">MGIB <span className="font-semibold text-zinc-700">$22,662/yr</span></span>
-            </div>
-            <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
-              GI Bill advantage: <span className="font-semibold text-red-700">+$104K over 4 yrs</span>
-            </p>
-          </div>
-        </div>
       </section>
 
       <div className="min-h-screen bg-zinc-50">
