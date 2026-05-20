@@ -3,7 +3,6 @@ import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/s
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { HealthcareComparisonCalculator } from '@/components/calculators/healthcare-comparison/HealthcareComparisonCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
-import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import Link from 'next/link';
@@ -68,64 +67,54 @@ export default function HealthcareComparisonPage() {
         })}
       />
 
-      {/* ── Page intro ────────────────────────────────────────────────── */}
-      <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
-          <div className="flex items-start gap-4">
-            <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-white"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-              </svg>
-            </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
-                Healthcare Cost Comparison
-              </h1>
-              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
-                Active-duty TRICARE costs you nothing. Civilian healthcare can cost thousands per year.
-                Estimate what that gap could look like for your family — employer insurance, ACA Marketplace,
-                VA healthcare, and TRICARE Reserve Select compared side by side.
-              </p>
-            </div>
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
+      <section
+        className="border-b border-zinc-200"
+        style={{ background: 'linear-gradient(to bottom, #ecddc8 0%, #f5f0e8 100%)' }}
+      >
+        {/* ── Intro ──────────────────────────────────────────────────── */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-7 pb-3">
+          <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+            <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
+            </span>
           </div>
+          <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
+            Healthcare Cost Comparison
+          </h1>
+          <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
+            Compare what healthcare costs after separation — employer insurance, ACA Marketplace, VA healthcare, and TRICARE Reserve Select side by side.
+          </p>
+        </div>
 
-          <div className="mt-3 hidden md:flex flex-wrap gap-3">
-            {[
-              { icon: '🏥', text: 'Employer vs. ACA vs. VA' },
-              { icon: '💰', text: 'First-year cost estimate' },
-              { icon: '🛡️', text: 'TAMP 180-day bridge split' },
-              { icon: '📊', text: '2026 rate data' },
-            ].map(({ icon, text }) => (
-              <span
-                key={text}
-                className="inline-flex items-center gap-1.5 text-sm text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1"
-              >
-                <span>{icon}</span>
-                {text}
-              </span>
-            ))}
-          </div>
-          <div className="hidden md:block">
-            <DataCurrencyBadge source="KFF, VA.gov, TRICARE.mil — 2026 estimates" />
+        {/* ── 3-step plan strip ──────────────────────────────────────── */}
+        <CalcStepStrip noBg steps={[
+          { title: 'Enter your family size and service status' },
+          { title: 'Compare TRICARE, employer, ACA, and VA options' },
+          { title: 'See your first-year healthcare cost for each option' },
+        ]} />
+
+        {/* ── Proof bar ──────────────────────────────────────────────── */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
+          <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
+            <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
+              Sample output
+            </span>
+            <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
+              Family of 4 &middot; separating E-6 &middot; no VA healthcare
+            </p>
+            <div className="flex-1 min-w-0" />
+            <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
+              TRICARE: <span className="font-semibold text-zinc-700">$0/yr</span>
+              <span className="mx-1.5 text-zinc-300">&rarr;</span>
+              Employer: <span className="font-semibold text-zinc-700">$7,200/yr</span>
+              <span className="mx-1 text-zinc-300">&middot;</span>
+              Marketplace: <span className="font-semibold text-red-700">$10,800/yr</span>
+            </p>
           </div>
         </div>
-      </div>
-
-      {/* ── 3-step plan strip ────────────────────────────────────────── */}
-      <CalcStepStrip steps={[
-        { title: 'Enter your family size and service status' },
-        { title: 'Compare TRICARE, employer, ACA, and VA options' },
-        { title: 'See your first-year healthcare cost for each option' },
-      ]} />
+      </section>
 
       {/* ── Calculator ────────────────────────────────────────────────── */}
       <HealthcareComparisonCalculator />
