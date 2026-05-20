@@ -73,24 +73,6 @@ export default function SeparationTimelinePage() {
           { title: 'Build your separation checklist' },
         ]} />
 
-        {/* ── Proof bar ──────────────────────────────────────────────── */}
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
-          <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
-            <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
-              Sample output
-            </span>
-            <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
-              Separating Nov 30 &middot; TAMP eligible &middot; VA not yet filed
-            </p>
-            <div className="flex items-baseline gap-3 min-w-0 flex-1 overflow-hidden">
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">BDD window <span className="font-semibold text-zinc-700">Jun 3 – Sep 1</span></span>
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">SGLI ends <span className="font-semibold text-zinc-700">Mar 30, 2027</span></span>
-            </div>
-            <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
-              TAMP through: <span className="font-semibold text-red-700">May 29, 2027</span>
-            </p>
-          </div>
-        </div>
       </section>
 
       {/* ── Calculator ────────────────────────────────────────────────── */}
