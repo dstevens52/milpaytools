@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { DeploymentCalculator } from '@/components/calculators/deployment/DeploymentCalculator';
-import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -35,50 +34,54 @@ export default function DeploymentPage() {
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Deployment Pay Calculator 2026', description: 'Calculate your deployment pay increase: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings, and Savings Deposit Program interest. All ranks, 2026 rates.', url: '/calculators/deployment' })} />
-      {/* ── Page intro ─────────────────────────────────────────────────── */}
-      <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
-          <div className="flex items-start gap-4">
-            <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
-              <span className="text-white font-black text-lg leading-none select-none">🎖️</span>
-            </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
-                Deployment Pay Calculator — 2026 Rates
-              </h1>
-              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
-                See exactly how much more you take home during a deployment — before vs. during vs.
-                full tour total. Models HFP/IDP, Hardship Duty Pay, Family Separation Allowance,
-                Combat Zone Tax Exclusion, Savings Deposit Program, and TSP contribution capacity.
-              </p>
-            </div>
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
+      <section
+        className="border-b border-zinc-200"
+        style={{ background: 'linear-gradient(to bottom, #ecddc8 0%, #f5f0e8 100%)' }}
+      >
+        {/* ── Intro ──────────────────────────────────────────────────── */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-7 pb-3">
+          <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+            <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
+            </span>
           </div>
-
-          <div className="mt-3 hidden md:flex flex-wrap gap-3">
-            {[
-              { text: 'All ranks E-1 through O-10' },
-              { text: 'CZTE tax savings (enlisted & officer)' },
-              { text: 'SDP 10% annual return' },
-              { text: '2026 DoD & IRS rates' },
-            ].map(({ text }) => (
-              <span
-                key={text}
-                className="inline-flex items-center gap-1.5 text-sm text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1"
-              >
-                {text}
-              </span>
-            ))}
-          </div>
-          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS &amp; DTMO rates" /></div>
+          <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
+            Deployment Pay Calculator
+          </h1>
+          <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
+            See how much more you take home during a deployment — HFP, tax exclusion, Family Separation Allowance, and SDP growth in one view.
+          </p>
         </div>
-      </div>
 
-      {/* ── 3-step plan strip ────────────────────────────────────────── */}
-      <CalcStepStrip steps={[
-        { title: 'Enter your rank, location, and deployment length' },
-        { title: 'See combat zone pay, tax savings, and SDP growth' },
-        { title: 'Calculate your total deployment financial impact' },
-      ]} />
+        {/* ── 3-step plan strip ──────────────────────────────────────── */}
+        <CalcStepStrip noBg steps={[
+          { title: 'Enter your rank, location, and deployment length' },
+          { title: 'See combat zone pay, tax savings, and SDP growth' },
+          { title: 'Calculate your total deployment financial impact' },
+        ]} />
+
+        {/* ── Proof bar ──────────────────────────────────────────────── */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
+          <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
+            <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
+              Sample output
+            </span>
+            <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
+              E-5 &middot; 6 yrs &middot; 6-mo combat zone &middot; w/dep
+            </p>
+            <div className="flex items-baseline gap-3 min-w-0 flex-1 overflow-hidden">
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">HFP <span className="font-semibold text-zinc-700">$225/mo</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">Tax savings <span className="font-semibold text-zinc-700">$1,940</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">SDP <span className="font-semibold text-zinc-700">$500</span></span>
+            </div>
+            <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
+              Total impact: <span className="font-semibold text-red-700">$5,590</span>
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* ── Calculator ─────────────────────────────────────────────────── */}
       <div className="bg-zinc-50">
