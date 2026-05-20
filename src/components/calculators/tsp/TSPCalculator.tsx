@@ -371,6 +371,11 @@ export function TSPCalculator() {
                 ? `= ${fmt(monthlyContrib, false)}/mo (${(contribPct).toFixed(1)}% of base pay)`
                 : `= ${contribPct.toFixed(1)}% of base pay`}
             </p>
+            {retirementSystem === 'brs' && (
+              <p className="text-xs text-amber-700 mt-1">
+                BRS tip: contribute evenly across all 12 months — hitting the $24,500 annual limit before December stops your government matching for the remaining months.
+              </p>
+            )}
           </div>
 
           {/* Contribution type */}
@@ -507,9 +512,9 @@ export function TSPCalculator() {
                 <p className="text-sm text-zinc-500 mt-1">at age {targetAge} ({yearsToProject} years)</p>
               </div>
               <div>
-                <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1">Monthly Retirement Income</p>
+                <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1">Est. Monthly Withdrawal (4% rule)</p>
                 <p className="text-3xl font-bold text-zinc-900 tabular-nums leading-none">{fmt(projection.monthlyRetirementIncome4pct)}</p>
-                <p className="text-xs text-zinc-400 mt-1">4% rule · {fmt(projection.monthlyRetirementIncome4pct * 12)}/yr</p>
+                <p className="text-xs text-zinc-400 mt-1">Planning estimate — not guaranteed income · {fmt(projection.monthlyRetirementIncome4pct * 12)}/yr</p>
               </div>
               <div>
                 <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-2">Balance Breakdown</p>

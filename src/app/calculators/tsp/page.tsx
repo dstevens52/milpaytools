@@ -47,8 +47,9 @@ export default function TSPPage() {
               Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
             </span>
           </div>
+          <p className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-1">TSP Growth Projector</p>
           <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
-            TSP Growth Projector
+            Your TSP could be worth more than you think — run the numbers.
           </h1>
           <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
             Project your TSP growth year by year — with BRS matching, fund allocation, Roth vs. Traditional comparison, and 2026 contribution limits.
@@ -123,10 +124,10 @@ export default function TSPPage() {
               allocations as you approach your target retirement date.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              The TSP has the lowest expense ratios of any retirement plan in the country — as
-              of 2025, around 0.04% annually. That means more of your money stays invested
-              instead of going to fund managers. A civilian 401(k) might charge 0.5–1.5% per year,
-              which compounds into dramatically less money at retirement.
+              The TSP is among the lowest-cost retirement plans available — with core fund
+              expense ratios around a few basis points per year as of 2025. That means more
+              of your money stays invested instead of going to fund managers. A civilian 401(k)
+              might charge 0.5–1.5% per year, which compounds into dramatically less money at retirement.
             </p>
           </div>
 
@@ -155,10 +156,13 @@ export default function TSPPage() {
               <strong>Traditional TSP:</strong> Contributions are pre-tax (reduce your taxable income now). Your entire balance is taxed when you withdraw in retirement.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              <strong>Roth TSP:</strong> Contributions are after-tax (no immediate tax break). Qualified withdrawals in retirement are completely tax-free, including all the growth.
+              <strong>Roth TSP:</strong> Contributions are after-tax (no immediate tax break). Qualified withdrawals in retirement are tax-free, including all the growth.
+            </p>
+            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
+              <strong>Combat zone triple tax advantage (Roth TSP only):</strong> If you contribute to Roth TSP from combat zone pay, you get a rare benefit — combat pay is already excluded from income tax, so you pay no tax going in, no tax on the growth, and no tax on the withdrawal. This is a significant tax advantage that applies specifically to Roth TSP in qualifying combat zones.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              <strong>Combat zone triple tax advantage:</strong> If you contribute to Roth TSP from combat zone pay, you get a uniquely powerful benefit — combat pay is excluded from income tax, so you pay no tax going in, no tax on the growth, and no tax on the withdrawal. This is one of the best tax advantages available to any American investor.
+              <strong>Traditional TSP in a combat zone:</strong> Contributions made from excluded combat pay are not subject to income tax withholding at the time of contribution — but all growth and withdrawals from Traditional TSP are still taxed in retirement. The full triple tax-free benefit only applies to Roth TSP.
             </p>
           </div>
 
@@ -169,8 +173,7 @@ export default function TSPPage() {
                 { label: 'Elective deferral limit (all ages)', value: '$24,500/year' },
                 { label: 'Catch-up contributions (age 50–59, 64+)', value: '+$8,000/year' },
                 { label: 'Enhanced catch-up (ages 60–63, SECURE 2.0)', value: '+$11,250/year' },
-                { label: 'Annual additions limit (incl. employer match)', value: '$72,000/year' },
-                { label: 'Combat zone limit (all contributions)', value: '$72,000/year' },
+                { label: 'Annual additions limit (incl. employer contributions)', value: '$72,000/year' },
               ].map(({ label, value }) => (
                 <div key={label} className="flex justify-between gap-4 text-sm border-b border-zinc-100 pb-1.5">
                   <span className="text-zinc-600">{label}</span>
@@ -178,6 +181,9 @@ export default function TSPPage() {
                 </div>
               ))}
             </div>
+            <p className="text-xs text-zinc-500 mt-3">
+              In a combat zone, the $72,000 annual additions limit applies to total contributions — but the Roth TSP elective deferral portion is still capped at $24,500. Contributions above that go to Traditional TSP only. Verify your specific situation with your finance office.
+            </p>
             <p className="text-xs text-zinc-400 mt-2">
               Limits are set by the IRS. Sources:{' '}
               <a href="https://www.tsp.gov/making-contributions/contribution-limits/" target="_blank" rel="noopener noreferrer" className="underline">TSP.gov</a>
@@ -190,9 +196,9 @@ export default function TSPPage() {
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">The TSP Funds</h2>
             <div className="space-y-2 text-sm">
               {[
-                { fund: 'G Fund', full: 'Government Securities', desc: 'Invests in short-term U.S. Treasury securities. Principal cannot decrease. Returns are currently ~4–5%. Good for near-retirement capital preservation.' },
+                { fund: 'G Fund', full: 'Government Securities', desc: 'Invests in short-term U.S. Treasury securities. Principal cannot decrease in nominal terms. Returns are currently ~4–5%. Best suited for near-retirement stability or short-term preservation — returns may not outpace inflation over long periods.' },
                 { fund: 'F Fund', full: 'Fixed Income Index', desc: 'Tracks the Bloomberg U.S. Aggregate Bond Index. Higher return potential than G, but bond prices fluctuate with interest rates.' },
-                { fund: 'C Fund', full: 'Common Stock Index (S&P 500)', desc: 'Tracks the S&P 500. Long-term average ~10%/year. The most popular single-fund choice for young, growth-oriented investors.' },
+                { fund: 'C Fund', full: 'Common Stock Index (S&P 500)', desc: 'Tracks the S&P 500. Long-term historical average approximately 10%/year. A common growth option for investors with long time horizons — past performance does not guarantee future results.' },
                 { fund: 'S Fund', full: 'Small/Mid Cap Stock Index', desc: 'Tracks the Dow Jones U.S. Completion Total Stock Market Index — everything not in the S&P 500. Higher volatility and higher long-term return potential than C.' },
                 { fund: 'I Fund', full: 'International Stock Index', desc: 'Tracks international developed markets. Provides geographic diversification. Performance varies with currency and global economic conditions.' },
               ].map(({ fund, full, desc }) => (
@@ -214,11 +220,38 @@ export default function TSPPage() {
               paying in for only 6 fewer years.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              The math is unforgiving: those early years do the most compounding. Even a
-              very small contribution at 20 beats a large contribution at 30. Start now,
-              even if the amount is small.
+              Those early years do the most compounding. Even a small contribution at 20
+              beats a larger contribution at 30. Start with what you can, and increase it
+              over time as your pay grows.
             </p>
           </div>
+        </div>
+
+        {/* What this projection does not include */}
+        <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
+          <h3 className="text-base font-semibold text-zinc-900 mb-2">What this projection does not include</h3>
+          <ul className="text-sm text-zinc-600 space-y-1.5 list-disc list-inside">
+            <li>Inflation — projected balances are in nominal (today&apos;s) dollars, not inflation-adjusted purchasing power</li>
+            <li>Taxes on Traditional TSP withdrawals — your actual after-tax income will be lower</li>
+            <li>Required Minimum Distributions (RMDs) beginning at age 73</li>
+            <li>The Roth TSP 5-year rule — qualified tax-free withdrawals require 5 years to have passed since your first Roth TSP contribution</li>
+            <li>TSP loans or early withdrawals — both reduce compound growth and can trigger taxes and penalties</li>
+            <li>Future rank or duty status changes — pay grade promotions, early separation, or retirement system changes all affect contributions</li>
+            <li>Sequence-of-returns risk — a series of poor returns early in retirement can significantly reduce how long your balance lasts</li>
+            <li>State income taxes on Traditional TSP withdrawals — most states tax these; a few exempt military retirement income</li>
+          </ul>
+        </div>
+
+        {/* Common TSP mistakes */}
+        <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
+          <h3 className="text-base font-semibold text-zinc-900 mb-2">Common TSP mistakes to understand</h3>
+          <ul className="text-sm text-zinc-600 space-y-1.5 list-disc list-inside">
+            <li><strong>Front-loading contributions under BRS:</strong> If you hit the $24,500 annual limit before December, you stop receiving BRS matching contributions for the rest of the year. Spread contributions evenly across all 12 months to capture the full match.</li>
+            <li><strong>Moving to the G Fund during market downturns:</strong> Selling out of stock funds when the market drops locks in losses and misses the recovery. Historically, staying invested has outperformed market-timing attempts.</li>
+            <li><strong>Taking TSP loans:</strong> A TSP loan removes money from compound growth, and if you separate before repaying it, the outstanding balance becomes a taxable distribution with potential penalties.</li>
+            <li><strong>Ignoring the Roth option in low-income years:</strong> Early career — especially in tax-free combat zones — is often the best time to use Roth TSP, since your marginal tax rate is lower and growth compounds tax-free for decades.</li>
+            <li><strong>Not keeping beneficiary designations current:</strong> TSP beneficiaries are determined by your TSP designation on file, not your will. Review your designation after major life events (marriage, divorce, birth of a child).</li>
+          </ul>
         </div>
 
         {/* Disclaimer */}
