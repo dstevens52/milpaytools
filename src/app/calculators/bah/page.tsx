@@ -56,7 +56,7 @@ export default function BAHPage() {
       {/* ── 3-step plan strip ────────────────────────────────────────── */}
       <CalcStepStrip steps={[
         { title: 'Enter your duty station and rank' },
-        { title: 'See your exact 2026 BAH rate' },
+        { title: 'See your official 2026 BAH rate' },
         { title: 'Compare across duty stations' },
       ]} />
 
@@ -100,17 +100,19 @@ export default function BAHPage() {
             <p className="text-zinc-600 text-sm leading-relaxed">
               BAH is determined by three factors: your pay grade, your duty station&apos;s Military
               Housing Area (MHA), and whether you have dependents. It does not depend on your actual
-              rent — you receive the same rate whether you spend every dollar of it or find a great
-              deal and pocket the difference.
+              rent — you receive the same published rate whether your actual rent is higher or lower,
+              so housing choices can create a monthly surplus or shortfall.
             </p>
           </div>
 
           <div>
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">How BAH rates are set</h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              The Defense Travel Management Office (DTMO) surveys local rental markets each year and
-              sets BAH to cover approximately 95% of median local housing costs for your grade. Rates
-              update every January 1st based on the prior year&apos;s survey data.
+              BAH is designed to cover approximately 95% of average housing costs for your pay grade,
+              with a 5% out-of-pocket cost-sharing element built into the program. Rates are calculated
+              by Military Housing Area, pay grade, and dependency status using local rental and utility
+              data. The Defense Travel Management Office (DTMO) surveys local rental markets each year
+              and updates rates every January 1st based on the prior year&apos;s survey data.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               Because surveys lag the market by roughly a year, BAH may not perfectly match current
@@ -146,6 +148,11 @@ export default function BAHPage() {
               dependents receive the same rate. The &ldquo;without dependents&rdquo; rate applies
               to single service members and those whose dependents are not enrolled in DEERS.
             </p>
+            <p className="text-zinc-600 text-sm leading-relaxed">
+              Edge cases — dual-military couples, child support-only situations, custody arrangements,
+              government quarters, and unaccompanied tours — can change the entitlement. Verify your
+              specific situation with your finance office.
+            </p>
           </div>
 
           <div>
@@ -153,8 +160,8 @@ export default function BAHPage() {
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               BAH is excluded from gross income for federal income tax, FICA (Social Security and
               Medicare), and most state income taxes under 26 U.S.C. § 134. It does not appear on
-              your W-2 as taxable wages. A few states partially tax military allowances —
-              consult your state&apos;s tax guidance if you are unsure.
+              your W-2 as taxable wages. State treatment generally follows the federal exclusion,
+              but residency and state-specific rules can vary. Verify with your state tax guidance.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               This tax exclusion meaningfully increases the real value of BAH. A service member in
