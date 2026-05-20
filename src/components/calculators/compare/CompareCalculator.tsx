@@ -197,7 +197,7 @@ function LocationHeader({ loc, label }: { loc: LocationData; label: string }) {
 
 export function CompareCalculator() {
   const [payGrade, setPayGrade] = useState<PayGrade>('E-5');
-  const [yos, setYos] = useState(6);
+  const [yos, setYos] = useState(8);
   const [hasDependents, setHasDependents] = useState(true);
   const [zipA, setZipA] = useState('28310');
   const [zipB, setZipB] = useState('98433');
@@ -347,6 +347,7 @@ export function CompareCalculator() {
               value={zipA}
               onZipChange={setZipA}
               placeholder="Try Fort Bragg, San Diego, or 98433"
+              initialText="Fort Bragg"
             />
           </div>
 
@@ -358,6 +359,7 @@ export function CompareCalculator() {
               value={zipB}
               onZipChange={setZipB}
               placeholder="Try JBLM, Fort Hood, or 28310"
+              initialText="JBLM"
             />
           </div>
         </div>

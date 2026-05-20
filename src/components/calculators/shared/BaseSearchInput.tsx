@@ -25,6 +25,8 @@ export interface BaseSearchInputProps {
   /** Called when a station is selected from the dropdown, or null when field is cleared. */
   onSelect?: (result: SearchResult | null) => void;
   placeholder?: string;
+  /** Initial display text (e.g. "Fort Bragg") when the resolved ZIP is already known. Overrides showing the ZIP as initial text. */
+  initialText?: string;
   /** Static hint shown when no dynamic hint applies. */
   hint?: string;
   /** Exclude OCONUS installations from suggestions (default true — they use OHA, not BAH). */
@@ -39,12 +41,13 @@ export function BaseSearchInput({
   onZipChange,
   onSelect,
   placeholder = 'Enter base name or ZIP code',
+  initialText,
   hint,
   excludeOconus = true,
   className,
 }: BaseSearchInputProps) {
   const inputId = idProp ?? label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-  const [text, setText] = useState(value || '');
+  const [text, setText] = useState(initialText ?? value ?? '');
   const [open, setOpen] = useState(false);
   const [highlighted, setHighlighted] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -52,8 +55,14 @@ export function BaseSearchInput({
   // Track whether the user has interacted so we don't clobber their input
   // when a parent sets an initial value after mount (e.g. from URL params).
   const userHasInteracted = useRef(false);
+  // Skip the first effect run so an initialText display isn't overwritten by the resolved ZIP.
+  const isMountedRef = useRef(false);
 
   useEffect(() => {
+    if (!isMountedRef.current) {
+      isMountedRef.current = true;
+      return;
+    }
     if (value && !userHasInteracted.current) setText(value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
