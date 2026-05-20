@@ -51,7 +51,7 @@ export default function TotalCompensationPage() {
             <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
               Total Military Compensation Calculator
             </h1>
-            <p className="text-zinc-600 mt-1.5 text-base leading-relaxed max-w-2xl">
+            <p className="text-zinc-600 mt-1.5 text-sm leading-relaxed max-w-2xl">
               See what your military compensation is really worth — including BAH, BAS, TSP match, and tax advantages.
             </p>
           </div>
@@ -66,8 +66,8 @@ export default function TotalCompensationPage() {
 
       {/* ── 3-step plan strip ────────────────────────────────────────── */}
       <CalcStepStrip noBg steps={[
-        { title: 'Enter rank, years, and duty station' },
-        { title: 'See pay, BAH, BAS, tax value, and TSP match' },
+        { title: 'Enter rank, years, and station' },
+        { title: 'See full pay, BAH, and tax value' },
         { title: 'Compare against civilian salary' },
       ]} />
 
@@ -75,16 +75,16 @@ export default function TotalCompensationPage() {
 
       {/* ── Proof bar ────────────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 pb-0">
-        <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5">
+        <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-4 overflow-hidden">
           <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
-            Example: E-5 &middot; 8 yrs &middot; Fort Bragg &middot; with dependents
+            E-5 &middot; 8 yrs &middot; Fort Bragg &middot; w/dep
           </p>
-          <div className="flex flex-wrap gap-x-5 gap-y-0.5 items-baseline">
-            <span className="text-xs text-zinc-500">Base Pay <span className="font-semibold text-zinc-700">$4,300/mo</span></span>
-            <span className="text-xs text-zinc-500">BAH <span className="font-semibold text-zinc-700">$1,806/mo</span></span>
-            <span className="text-xs text-zinc-500">BAS <span className="font-semibold text-zinc-700">$477/mo</span></span>
-            <span className="text-xs text-zinc-400">Civilian Equivalent <span className="text-base font-extrabold text-red-700">&asymp;$91,700/yr</span></span>
+          <div className="flex items-baseline gap-4 min-w-0 flex-1">
+            <span className="text-[12px] text-zinc-500 whitespace-nowrap">Base <span className="font-semibold text-zinc-700">$4,300</span></span>
+            <span className="text-[12px] text-zinc-500 whitespace-nowrap">BAH <span className="font-semibold text-zinc-700">$1,806</span></span>
+            <span className="text-[12px] text-zinc-500 whitespace-nowrap">BAS <span className="font-semibold text-zinc-700">$477</span></span>
           </div>
+          <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">Civilian equiv. <span className="text-[16px] font-extrabold text-red-700">&asymp;$91,700/yr</span></p>
         </div>
       </div>
 
