@@ -376,7 +376,7 @@ export function DualMilitaryBAHCalculator() {
                 label="Shared Duty Station"
                 value={zip1}
                 onZipChange={setZip1}
-                hint="Enter ZIP code or base name for your shared installation"
+                hint="Try Fort Bragg, San Diego, or 28310"
               />
             </div>
           ) : (

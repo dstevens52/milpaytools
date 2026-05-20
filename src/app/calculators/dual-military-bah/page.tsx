@@ -3,7 +3,6 @@ import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/s
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { DualMilitaryBAHCalculator } from '@/components/calculators/dual-military-bah/DualMilitaryBAHCalculator';
 import { GuidePromo } from '@/components/calculators/shared/GuidePromo';
-import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -36,51 +35,31 @@ export default function DualMilitaryBAHPage() {
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Dual Military BAH Calculator 2026', description: 'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.', url: '/calculators/dual-military-bah' })} />
-      {/* ── Page intro ───────────────────────────────────────────────── */}
-      <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
-          <div className="flex items-start gap-4">
-            <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
-              <span className="text-white font-black text-lg leading-none select-none">⌂⌂</span>
-            </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
-                Dual Military BAH Calculator — 2026 Rates
-              </h1>
-              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
-                Calculate total household BAH for dual active-duty couples. Enter both members&apos;
-                pay grades, your duty station ZIP, and whether you have dependents — the calculator
-                shows the optimal dependent-claiming configuration and the dollar difference between
-                the two options.
-              </p>
-            </div>
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
+      <section
+        className="border-b border-zinc-200"
+        style={{ background: 'linear-gradient(to bottom, #ecddc8 0%, #f5f0e8 100%)' }}
+      >
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-7 pb-3">
+          <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+            <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
+            </span>
           </div>
-
-          <div className="mt-3 hidden md:flex flex-wrap gap-3">
-            {[
-              { text: 'Same or different duty stations' },
-              { text: 'Dependent-claiming comparison' },
-              { text: 'Optimal configuration finder' },
-              { text: 'Official 2026 DTMO data' },
-            ].map(({ text }) => (
-              <span
-                key={text}
-                className="inline-flex items-center gap-1.5 text-sm text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1"
-              >
-                {text}
-              </span>
-            ))}
-          </div>
-          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS &amp; DTMO rates" /></div>
+          <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
+            Dual Military BAH Calculator
+          </h1>
+          <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
+            Calculate total household BAH for dual active-duty couples — see the optimal dependent-claiming configuration and compare duty station scenarios.
+          </p>
         </div>
-      </div>
-
-      {/* ── 3-step plan strip ────────────────────────────────────────── */}
-      <CalcStepStrip steps={[
-        { title: "Enter both service members' duty stations and ranks" },
-        { title: 'See who should claim dependents for maximum BAH' },
-        { title: 'Compare all housing scenarios' },
-      ]} />
+        <CalcStepStrip noBg steps={[
+          { title: "Enter both service members' duty stations and ranks" },
+          { title: 'See who should claim dependents for maximum BAH' },
+          { title: 'Compare all housing scenarios' },
+        ]} />
+      </section>
 
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <DualMilitaryBAHCalculator />
@@ -145,7 +124,7 @@ export default function DualMilitaryBAHPage() {
             <ExampleRow label="Household gross annual" value="$152,364/yr" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> This dual-military couple earns $152,364/year in gross compensation — more than twice the median U.S. household income — while $51,444 of that ($3,333 BAH + $954 BAS × 12) is completely tax-free. Because only one member can claim the dependent, choosing which spouse claims the child does not change the household total in this example, since both are E-5s with the same BAH rates.
+            <strong>What this means:</strong> This dual-military couple earns $152,364/year in gross compensation — more than twice the median U.S. household income — while $51,444 of that ($3,333 BAH + $954 BAS × 12) is excluded from federal taxable income. Because only one member can claim the dependent, choosing which spouse claims the child does not change the household total in this example, since both are E-5s with the same BAH rates.
           </p>
         </ExampleBox>
       </section>
