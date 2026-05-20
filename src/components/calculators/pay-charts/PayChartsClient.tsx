@@ -193,6 +193,32 @@ function PayTableSection({
   );
 }
 
+// ─── Next-step / promotion helpers ────────────────────────────────────────────
+
+/** Return the next higher YOS bracket key for a grade, or null if already at max. */
+function getNextBracket(grade: PayGrade, yos: number): number | null {
+  const entry = payTable[grade];
+  if (!entry) return null;
+  const keys = Object.keys(entry).map(Number).sort((a, b) => a - b);
+  const currentBracketIdx = keys.findLastIndex((k) => k <= yos);
+  if (currentBracketIdx === -1 || currentBracketIdx >= keys.length - 1) return null;
+  return keys[currentBracketIdx + 1];
+}
+
+/** Return the next rank above the given grade (same group), or null if at top. */
+function getNextGrade(grade: PayGrade): PayGrade | null {
+  const allGroups: PayGrade[][] = [
+    ENLISTED_GRADES as unknown as PayGrade[],
+    WARRANT_GRADES as unknown as PayGrade[],
+    OFFICER_GRADES as unknown as PayGrade[],
+  ];
+  for (const group of allGroups) {
+    const idx = group.indexOf(grade);
+    if (idx !== -1 && idx < group.length - 1) return group[idx + 1];
+  }
+  return null;
+}
+
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export function PayChartsClient() {
@@ -203,6 +229,16 @@ export function PayChartsClient() {
   const activePay = getPayAtBracket(selectedGrade, selectedYOS);
   const monthlyPay = activePay;
   const annualPay = activePay !== null ? activePay * 12 : null;
+
+  // Next longevity step
+  const nextBracket = monthlyPay !== null ? getNextBracket(selectedGrade, selectedYOS) : null;
+  const nextStepPay = nextBracket !== null ? getPayAtBracket(selectedGrade, nextBracket) : null;
+  const nextStepDiff = nextStepPay !== null && monthlyPay !== null ? nextStepPay - monthlyPay : null;
+
+  // Promotion impact (next grade, same YOS)
+  const nextGrade = monthlyPay !== null ? getNextGrade(selectedGrade) : null;
+  const promotionPay = nextGrade !== null ? getPayAtBracket(nextGrade, selectedYOS) : null;
+  const promotionDiff = promotionPay !== null && monthlyPay !== null ? promotionPay - monthlyPay : null;
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const _gaMountedRef = useRef(false);
@@ -269,31 +305,78 @@ export function PayChartsClient() {
                   </option>
                 ))}
               </select>
+              <p className="text-xs text-zinc-400 mt-1">
+                Pay tables use &ldquo;over X years&rdquo; brackets — select your completed years.
+              </p>
             </div>
           </div>
 
           {/* Result */}
           {monthlyPay !== null ? (
-            <div className="rounded-lg bg-red-50 border border-red-100 p-5">
-              <p className="text-sm text-red-700 font-semibold mb-1">
-                {selectedGrade} with {selectedYOS === 0 ? 'less than 2' : selectedYOS} year{selectedYOS !== 1 ? 's' : ''} of service
-              </p>
-              <div className="flex flex-col sm:flex-row sm:items-end gap-2">
-                <div>
-                  <span className="text-3xl font-extrabold text-zinc-900 tabular-nums">
-                    {formatMoney(monthlyPay)}
-                  </span>
-                  <span className="text-zinc-500 text-sm ml-1">/month</span>
+            <div className="space-y-3">
+              {/* Main pay result */}
+              <div className="rounded-lg bg-red-50 border border-red-100 p-5">
+                <p className="text-sm text-red-700 font-semibold mb-1">
+                  {selectedGrade} with {selectedYOS === 0 ? 'less than 2' : selectedYOS} year{selectedYOS !== 1 ? 's' : ''} of service
+                </p>
+                <div className="flex flex-col sm:flex-row sm:items-end gap-2">
+                  <div>
+                    <span className="text-3xl font-extrabold text-zinc-900 tabular-nums">
+                      {formatMoney(monthlyPay)}
+                    </span>
+                    <span className="text-zinc-500 text-sm ml-1">/month</span>
+                  </div>
+                  <div className="text-zinc-500 text-sm sm:mb-0.5">
+                    {annualPay !== null && (
+                      <span>({formatMoney(annualPay)}/year)</span>
+                    )}
+                  </div>
                 </div>
-                <div className="text-zinc-500 text-sm sm:mb-0.5">
-                  {annualPay !== null && (
-                    <span>({formatMoney(annualPay)}/year)</span>
-                  )}
-                </div>
+                <p className="text-xs text-zinc-500 mt-2">
+                  Basic pay only — does not include BAH, BAS, or other allowances.
+                </p>
               </div>
-              <p className="text-xs text-zinc-500 mt-2">
-                Basic pay only — does not include BAH, BAS, or other allowances.
-              </p>
+
+              {/* Next longevity step */}
+              <div className="rounded-lg bg-zinc-50 border border-zinc-200 px-4 py-3 text-sm text-zinc-700">
+                {nextBracket !== null && nextStepPay !== null && nextStepDiff !== null ? (
+                  <span>
+                    <span className="font-semibold">Next longevity step:</span>{' '}
+                    {selectedGrade} at {nextBracket} years → {formatMoney(nextStepPay)}/mo{' '}
+                    <span className="text-green-700 font-semibold">(+{formatMoney(nextStepDiff)}/mo)</span>
+                  </span>
+                ) : (
+                  <span className="text-zinc-500">You&apos;re at the top longevity step for this grade.</span>
+                )}
+              </div>
+
+              {/* Promotion impact */}
+              {nextGrade !== null && promotionPay !== null && promotionDiff !== null && (
+                <div className="rounded-lg bg-zinc-50 border border-zinc-200 px-4 py-3 text-sm text-zinc-700">
+                  <span className="font-semibold">Promotion to {nextGrade}</span>{' '}
+                  at {selectedYOS === 0 ? 'less than 2' : selectedYOS} years:{' '}
+                  {formatMoney(promotionPay)}/mo{' '}
+                  <span className="text-green-700 font-semibold">
+                    (+{formatMoney(promotionDiff)}/mo, +{formatMoney(promotionDiff * 12)}/yr)
+                  </span>
+                </div>
+              )}
+
+              {/* Total compensation CTA */}
+              <div className="rounded-lg border border-zinc-200 bg-white p-4">
+                <p className="text-sm font-semibold text-zinc-900 mb-1">
+                  Base pay is only the starting point.
+                </p>
+                <p className="text-sm text-zinc-600 mb-3">
+                  Add BAH, BAS, tax advantages, and TSP match to see what your military compensation is really worth.
+                </p>
+                <Link
+                  href="/calculators/total-compensation"
+                  className="inline-flex items-center gap-2 rounded-md bg-red-700 px-4 py-2 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
+                >
+                  Calculate Full Compensation →
+                </Link>
+              </div>
             </div>
           ) : (
             <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
@@ -303,18 +386,6 @@ export function PayChartsClient() {
               </p>
             </div>
           )}
-
-          <div className="mt-4 pt-4 border-t border-zinc-100">
-            <p className="text-sm text-zinc-600">
-              Basic pay is only part of your compensation.{' '}
-              <Link
-                href="/calculators/total-compensation"
-                className="text-blue-700 underline hover:text-blue-800"
-              >
-                See your full compensation including BAH, BAS, and tax advantages →
-              </Link>
-            </p>
-          </div>
         </div>
       </section>
 

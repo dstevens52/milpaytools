@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { PayChartsClient } from '@/components/calculators/pay-charts/PayChartsClient';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
-import { webApplicationSchema } from '@/lib/schema';
+import { webApplicationSchema, faqPageSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: '2026 Military Pay Charts | MilPayTools' },
@@ -34,6 +34,14 @@ export default function PayChartsPage() {
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: '2026 Military Pay Charts', description: 'Official 2026 military pay tables for all ranks E-1 through O-10 and warrant officers. 3.8% pay raise effective January 1, 2026. Monthly basic pay by grade and years of service.', url: '/calculators/pay-charts' })} />
+      <JsonLdScript schema={faqPageSchema([
+        { question: 'What is the 2026 military pay raise?', answer: 'The 2026 military pay raise is 3.8%, effective January 1, 2026. It was authorized by the FY2026 National Defense Authorization Act, signed December 18, 2025.' },
+        { question: 'Is military basic pay taxable?', answer: 'Yes. Military basic pay is subject to federal income tax and generally state income tax. Allowances such as BAH and BAS are excluded from federal taxable income.' },
+        { question: 'Is BAH included in basic pay?', answer: 'No. BAH (Basic Allowance for Housing) is a separate allowance paid in addition to basic pay. It is excluded from federal taxable income.' },
+        { question: 'Are military pay charts the same for all branches?', answer: 'Yes. Basic pay rates are identical across Army, Navy, Air Force, Marine Corps, Space Force, and Coast Guard. All branches use the same DFAS pay tables.' },
+        { question: 'What does "over 6 years" mean on the pay chart?', answer: '"Over 6 years" means more than 6 completed years of creditable military service. The pay table uses "over X" brackets — select your completed years to find your rate.' },
+        { question: 'What is O-1E, O-2E, or O-3E?', answer: 'O-1E, O-2E, and O-3E are commissioned officer grades (O-1 through O-3) with prior enlisted service. These officers receive higher base pay than officers without prior enlisted experience.' },
+      ])} />
       {/* ── Hero ──────────────────────────────────────────────────────── */}
       <section
         className="border-b border-zinc-200"
@@ -86,7 +94,7 @@ export default function PayChartsPage() {
               <p className="text-sm font-semibold text-zinc-800 mb-1.5">Basic pay is taxable</p>
               <p className="text-sm text-zinc-600 leading-relaxed">
                 Basic pay is subject to federal income tax. Your housing allowance (BAH) and food
-                allowance (BAS) are completely tax-free — which significantly increases the real
+                allowance (BAS) are excluded from federal taxable income — which significantly increases the real
                 value of your compensation.{' '}
                 <Link href="/blog/military-tax-advantages" className="text-blue-700 underline hover:text-blue-800 text-xs">
                   Learn about military tax advantages →
@@ -105,7 +113,7 @@ export default function PayChartsPage() {
               <p className="text-sm font-semibold text-zinc-800 mb-1.5">Senior officer cap</p>
               <p className="text-sm text-zinc-600 leading-relaxed">
                 General and flag officers (O-7 through O-10) are capped at Executive Schedule Level
-                II. In 2026, O-9 and O-10 pay is capped at $20,058.13/month regardless of years of
+                II. In 2026, O-9 and O-10 pay is capped at $18,999.90/month regardless of years of
                 service.
               </p>
             </div>
@@ -117,6 +125,14 @@ export default function PayChartsPage() {
                 contributions) and additional allowances.
               </p>
             </div>
+            <div className="rounded-lg border border-zinc-200 bg-white p-5">
+              <p className="text-sm font-semibold text-zinc-800 mb-1.5">How &ldquo;over X years&rdquo; works</p>
+              <p className="text-sm text-zinc-600 leading-relaxed">
+                Pay tables use &ldquo;over X years&rdquo; service brackets. For example, &ldquo;over 6&rdquo; means more than
+                6 completed years of creditable service. Select your completed years in the Quick
+                Lookup to find the correct column.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -126,9 +142,9 @@ export default function PayChartsPage() {
           </p>
           <p className="text-sm text-zinc-600 leading-relaxed mb-3">
             Most service members receive BAH (Basic Allowance for Housing) and BAS (Basic
-            Allowance for Subsistence) on top of basic pay — and both are completely tax-free. An
+            Allowance for Subsistence) on top of basic pay — both are excluded from federal taxable income. An
             E-5 with dependents in a mid-cost duty station receives roughly $3,000–$4,000/month in
-            tax-free allowances on top of their basic pay.
+            allowances on top of their basic pay.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
@@ -177,6 +193,42 @@ export default function PayChartsPage() {
             </a>
             .
           </p>
+        </div>
+
+        {/* FAQ */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold text-zinc-900">Frequently asked questions</h2>
+          {[
+            {
+              q: 'What is the 2026 military pay raise?',
+              a: 'The 2026 pay raise is 3.8%, effective January 1, 2026, authorized by the FY2026 National Defense Authorization Act.',
+            },
+            {
+              q: 'Is military basic pay taxable?',
+              a: 'Yes. Basic pay is subject to federal income tax and generally state income tax. Allowances such as BAH and BAS are excluded from federal taxable income.',
+            },
+            {
+              q: 'Is BAH included in basic pay?',
+              a: 'No. BAH (Basic Allowance for Housing) is a separate allowance paid in addition to basic pay and is excluded from federal taxable income.',
+            },
+            {
+              q: 'Are pay charts the same for all branches?',
+              a: 'Yes. Basic pay is identical across Army, Navy, Air Force, Marine Corps, Space Force, and Coast Guard — all branches use the same DFAS pay tables.',
+            },
+            {
+              q: 'What does "over 6 years" mean on the pay chart?',
+              a: 'Pay tables use "over X years" service brackets. "Over 6" means more than 6 completed years of creditable service. Select your completed years in the Quick Lookup.',
+            },
+            {
+              q: 'What is O-1E, O-2E, or O-3E?',
+              a: 'These are commissioned officers (O-1 through O-3) with prior enlisted service. They receive higher base pay than officers without prior enlisted experience.',
+            },
+          ].map(({ q, a }) => (
+            <div key={q} className="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+              <p className="text-sm font-semibold text-zinc-900 mb-1">{q}</p>
+              <p className="text-sm text-zinc-600 leading-relaxed">{a}</p>
+            </div>
+          ))}
         </div>
 
         {/* Guide links */}
