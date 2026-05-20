@@ -351,14 +351,14 @@ export function EducationCalculator() {
             {schoolType !== 'online' && (
               <div>
                 <label className="block text-sm font-medium text-zinc-700 mb-1">
-                  School ZIP code
-                  <span className="font-normal text-zinc-400 ml-1">(for MHA lookup)</span>
+                  School location
+                  <span className="font-normal text-zinc-400 ml-1">(enter ZIP code)</span>
                 </label>
                 <input
                   type="text"
                   inputMode="numeric"
                   maxLength={5}
-                  placeholder="e.g. 92101"
+                  placeholder="e.g. 92101, 78234, 28310"
                   value={schoolZip}
                   onChange={(e) => setSchoolZip(e.target.value.replace(/\D/g, '').slice(0, 5))}
                   className={[
@@ -378,7 +378,7 @@ export function EducationCalculator() {
                   <p className="text-xs text-amber-600 mt-1">ZIP code not found in BAH dataset</p>
                 )}
                 <p className="text-xs text-zinc-400 mt-1">
-                  GI Bill MHA = E-5 with-dependents BAH at your school's ZIP code
+                  GI Bill MHA = E-5 with-dependents BAH at your school's location
                 </p>
               </div>
             )}
