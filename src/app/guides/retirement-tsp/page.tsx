@@ -43,7 +43,7 @@ const FAQS = [
   {
     question: 'How is my military pension calculated?',
     answer:
-      'High-3: Monthly pension = 2.5% × years of service × average of highest 36 months of base pay. At 20 years: 50%. BRS uses the same 2.5% formula but starts at 40% at 20 years, partially offset by TSP matching. Both formulas add 2.5% per additional year past 20, capping at 75% (High-3) or 70% (BRS) at 30 years.',
+      'High-3: Monthly pension = 2.5% × years of service × average of highest 36 months of base pay. At 20 years: 50%; at 30 years: 75%. BRS uses 2.0% per year — 40% at 20 years, 60% at 30 years — partially offset by TSP matching over a career.',
   },
   {
     question: 'What are the 2026 TSP contribution limits?',
@@ -53,7 +53,7 @@ const FAQS = [
   {
     question: 'Should I choose Roth or Traditional TSP?',
     answer:
-      'Roth TSP often deserves a closer look for junior and mid-grade service members, especially during low-tax or combat-zone years. Contributions from combat zone tax-excluded pay going into Roth TSP are never taxed at any point. Military retirees already have a taxable pension income stream, making tax-free Roth withdrawals more valuable in retirement.',
+      'Traditional TSP reduces current taxable income — an advantage in higher brackets or if you expect a lower rate in retirement. Roth TSP may appeal in lower tax years or when contributions come from combat-zone tax-exempt pay, since qualified withdrawals are tax-free. Military retirees have a guaranteed taxable pension income stream, which is one factor to consider. The right approach depends on current brackets, expected retirement income, state taxes, and other personal factors.',
   },
   {
     question: 'How does BRS TSP matching work?',
@@ -63,7 +63,7 @@ const FAQS = [
   {
     question: 'Is it worth staying to 20 years for the pension?',
     answer:
-      'The 20-year pension cliff is significant. An E-7 retiring at 38 with a $2,500/month pension who lives to 82 collects for 44 years — with COLA, the lifetime nominal value can exceed $2 million. Healthcare: TRICARE for retirees is worth an estimated $10,000–$15,000/year compared to civilian coverage. The financial case for staying to 20 is strong, but career factors and quality of life matter equally.',
+      'The 20-year pension cliff is significant. An E-7 retiring at 38 with a $3,100/month pension who lives to 82 collects for 44 years — with COLA, the lifetime nominal value can exceed $2.9 million. Healthcare: TRICARE for retirees is worth an estimated $10,000–$15,000/year compared to civilian coverage. The financial case for staying to 20 is strong, but career factors and quality of life matter equally.',
   },
   {
     question: 'How does VA disability interact with military retirement pay?',
@@ -87,7 +87,7 @@ const INSIGHT_CARDS = [
     label: 'Decision 2',
     title: 'BRS matching can add thousands to your retirement savings — if your contributions qualify',
     description:
-      'Under BRS, the government matches up to 5% of your base pay. Contributing less than 5% of base pay means missing part of the available government match. At 0.055% expense ratio, TSP is the cheapest retirement plan in the country.',
+      'Under BRS, the government matches up to 5% of your base pay. Contributing less than 5% of base pay means missing part of the available government match. With expense ratios around a few basis points, TSP is among the lowest-cost retirement plans available.',
     cta: 'Project my TSP growth →',
     href: '/calculators/tsp',
   },
@@ -96,7 +96,7 @@ const INSIGHT_CARDS = [
     label: 'Decision 3',
     title: 'Roth vs Traditional TSP depends on your bracket',
     description:
-      'Junior and mid-grade service members are usually in the 12–22% tax bracket. Locking in Roth contributions at those low rates — especially from combat zone pay — creates tax-free income in retirement that can\'t be replicated later.',
+      'Contributing to Roth TSP at lower tax brackets — especially from combat-zone tax-exempt pay — may create tax-advantaged retirement income. Whether Roth or Traditional is better depends on current and future tax rates, state taxes, and other factors.',
     cta: 'See Roth vs Traditional comparison →',
     href: '#learning',
   },
@@ -162,8 +162,8 @@ const ACCORDION = [
           <li>Pension: 50% × $9,200 = <strong className="text-zinc-800">$4,600/month ($55,200/year)</strong>, for life with COLA</li>
         </ul>
         <p>
-          <strong className="text-zinc-800">BRS formula:</strong> Same 2.5% per year, but starting
-          at 40% at 20 years (not 50%). At 30 years: 70%. The pension reduction is partially offset
+          <strong className="text-zinc-800">BRS formula:</strong> 2.0% per year (not 2.5%),
+          reaching 40% at 20 years and 60% at 30 years. The pension reduction is partially offset
           by TSP matching over a career.
         </p>
         <Link href="/calculators/retirement" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
@@ -214,26 +214,31 @@ const ACCORDION = [
         </p>
         <p>
           <strong className="text-zinc-800">Roth TSP:</strong> Contributions are after-tax (no
-          tax break now), but qualified withdrawals — including all growth — are completely
-          tax-free.
+          tax break now), but qualified withdrawals — including all growth — are tax-free.
         </p>
-        <p><strong className="text-zinc-800">Factors that often favor Roth for junior and mid-grade service members:</strong></p>
+        <p><strong className="text-zinc-800">Factors commonly considered for each approach:</strong></p>
         <ul className="space-y-2 pl-4 list-disc">
           <li>
-            <strong className="text-zinc-800">Lower current brackets:</strong> An E-5 or O-2 is
-            likely in the 12–22% federal bracket. Roth locks in that low rate. If retirement income
-            pushes you into 22–24%, you&apos;ve won the tax trade.
+            <strong className="text-zinc-800">Traditional TSP:</strong> Reduces current taxable
+            income — valuable in higher brackets or when you expect a lower rate in retirement.
+            Withdrawals are taxed as ordinary income.
+          </li>
+          <li>
+            <strong className="text-zinc-800">Roth TSP in lower-bracket years:</strong> An E-5 or
+            O-2 in the 12–22% federal bracket may find Roth favorable if retirement income will push
+            into higher brackets. Whether this pays off depends on actual future tax rates.
           </li>
           <li>
             <strong className="text-zinc-800">Combat zone Roth opportunity:</strong> Contributions
-            from combat zone tax-excluded pay can go into Roth TSP completely tax-free — you&apos;re
-            contributing untaxed money that will never be taxed again on withdrawal. This is one of
-            the most notable tax opportunities available to service members.
+            from combat-zone tax-exempt pay go into Roth TSP with no tax at contribution or on
+            qualified withdrawal — one of the more notable tax-advantaged opportunities available
+            to service members in a combat zone.
           </li>
           <li>
-            <strong className="text-zinc-800">Pension backstop:</strong> Military retirees already
-            have a guaranteed taxable income stream. That pension reduces the need for additional
-            taxable income from Traditional TSP withdrawals.
+            <strong className="text-zinc-800">Pension consideration:</strong> Military retirees
+            already have a guaranteed taxable income stream. This may reduce the need for
+            Traditional TSP withdrawals — but the right balance depends on your overall
+            retirement income picture.
           </li>
         </ul>
         <Link href="/blog/roth-tsp-deployment-strategy" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
@@ -255,9 +260,9 @@ const ACCORDION = [
         </ul>
         <p>
           <strong className="text-zinc-800">Cost of under-contributing:</strong> If you contribute
-          3% instead of 5%, you forfeit 1% of base pay — approximately $37–$97/month depending on
-          grade. On an E-5 salary of $3,717/month, the missing 2% costs roughly $74/month or
-          $888/year in forfeited matching.
+          3% instead of 5%, the top 1% of government matching is forfeited — approximately
+          $28–$97/month depending on grade. For an E-5 at $4,110/month (6 years of service),
+          that&apos;s roughly $41/month or $493/year in forfeited government contributions.
         </p>
         <Link href="/calculators/tsp" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Model your TSP matching over a career →
@@ -277,9 +282,9 @@ const ACCORDION = [
         </p>
         <p><strong className="text-zinc-800">What the pension is actually worth:</strong></p>
         <p>
-          An E-7 retiring at age 38 with a $2,500/month pension who lives to 82 will collect for{' '}
+          An E-7 retiring at age 38 with a $3,100/month pension who lives to 82 will collect for{' '}
           44 years. With COLA adjustments, the lifetime nominal value can easily exceed{' '}
-          <strong className="text-zinc-800">$2 million</strong>.
+          <strong className="text-zinc-800">$2.9 million</strong>.
         </p>
         <p><strong className="text-zinc-800">TRICARE:</strong> Military retirees qualify for TRICARE coverage — one of the most comprehensive and affordable health insurance options available. For a family, the difference between TRICARE and civilian employer coverage can exceed $10,000–$15,000/year. This benefit is frequently underweighted in retirement calculations.</p>
         <p>
@@ -352,7 +357,7 @@ const RELATED = [
     border: 'border-l-emerald-500',
     label: 'TSP STRATEGY',
     title: 'The Roth TSP Deployment Strategy That Builds a Tax-Free Fortune',
-    description: 'How combat zone Roth TSP contributions are never taxed at any point — and what $20K at age 25 becomes by 60.',
+    description: 'How combat-zone Roth TSP contributions may avoid taxation at both contribution and withdrawal — and what $20K at age 25 becomes by 60.',
   },
   {
     href: '/blog/what-walking-away-at-12-years-costs',
@@ -383,12 +388,12 @@ export default function RetirementTspGuidePage() {
       </div>
 
       {/* ── ZONE 1: Hero ── */}
-      <section className="bg-zinc-50 border-b border-zinc-200 py-12 sm:py-16 px-4">
+      <section className="border-b border-zinc-200 py-12 sm:py-16 px-4" style={{ background: 'linear-gradient(to bottom, #ecddc8 0%, #f5f0e8 100%)' }}>
         <div className="mx-auto max-w-3xl">
           <div className="inline-flex items-center gap-2.5 mb-6 rounded-full bg-zinc-900 px-4 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-              Military Retirement & TSP Guide · Official 2026 Data
+              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
             </span>
           </div>
 
@@ -400,16 +405,16 @@ export default function RetirementTspGuidePage() {
 
           <p className="text-lg text-zinc-600 leading-relaxed mb-7">
             Your pension, TSP balance, TRICARE, and VA disability all add up to a retirement package
-            most civilians can&apos;t match. But only if you understand the math and make the right
-            moves with TSP along the way.
+            most civilians can&apos;t match. But only if you understand the math and make informed
+            TSP decisions along the way.
           </p>
 
           <div className="rounded-lg bg-red-50 border border-red-200 px-5 py-4 mb-8 flex items-start gap-3">
             <div className="w-1 self-stretch rounded-full bg-red-500 flex-none" aria-hidden="true" />
             <p className="text-base font-semibold text-red-800 leading-snug">
-              An E-7 retiring at 38 with a $2,500/month pension will collect over{' '}
-              <span className="text-red-700">$2 million in lifetime pension value alone.</span>{' '}
-              But contributing 3% to TSP instead of 5% costs roughly $888/year in free matching money.
+              An E-7 retiring at 38 with a $3,100/month pension will collect over{' '}
+              <span className="text-red-700">$2.9 million in lifetime pension value alone.</span>{' '}
+              But contributing 3% to TSP instead of 5% costs roughly $493/year in available government matching.
             </p>
           </div>
 
@@ -508,9 +513,9 @@ export default function RetirementTspGuidePage() {
                 </div>
                 <div className="px-5 py-1 divide-y divide-zinc-100">
                   {[
-                    { label: 'Monthly pension', value: '$2,508' },
-                    { label: 'Annual pension', value: '$30,096' },
-                    { label: 'TSP at retirement (proj.)', value: '$485,000' },
+                    { label: 'Monthly pension', value: '$3,100' },
+                    { label: 'Annual pension', value: '$37,200' },
+                    { label: 'Est. TRICARE savings', value: '~$12,000/yr' },
                   ].map(({ label, value }) => (
                     <div key={label} className="flex items-center justify-between py-2.5">
                       <span className="text-sm text-zinc-600">{label}</span>
@@ -521,7 +526,7 @@ export default function RetirementTspGuidePage() {
                 <div className="mx-5 my-3 rounded-lg bg-red-50 border border-red-200 px-4 py-3">
                   <div className="flex items-center justify-between mb-1.5">
                     <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Lifetime pension value</p>
-                    <p className="text-2xl font-bold tabular-nums text-red-700">~$2.1M</p>
+                    <p className="text-2xl font-bold tabular-nums text-red-700">~$2.4M</p>
                   </div>
                   <div className="flex items-center justify-between">
                     <p className="text-xs text-zinc-500">CRDP eligible</p>
