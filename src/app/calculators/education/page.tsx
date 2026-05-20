@@ -104,7 +104,7 @@ export default function EducationCalculatorPage() {
               <ExampleRow label="Post-9/11 advantage over MGIB" value="+$29,113/yr" highlight />
             </ExampleTable>
             <p className="text-sm leading-relaxed text-zinc-700">
-              <strong>What this means:</strong> In a high-cost city like San Diego, the Post-9/11 GI Bill is overwhelmingly the better choice — worth $29,000+ more per year than the Montgomery GI Bill, primarily because the Monthly Housing Allowance ($3,975/month) is benchmarked to the local BAH rate. A student in San Diego on the Post-9/11 GI Bill can realistically cover both tuition and rent with their benefit alone.
+              <strong>What this means:</strong> Under this scenario, Post-9/11 GI Bill has the higher estimated dollar value — primarily because the Monthly Housing Allowance ($3,975/month) is benchmarked to the local BAH rate. In this scenario, Post-9/11 benefits may cover in-state tuition and provide a substantial housing allowance, though actual rent, fees, enrollment level, and eligibility tier will affect the result.
             </p>
           </ExampleBox>
         </section>
@@ -128,11 +128,11 @@ export default function EducationCalculatorPage() {
                 },
                 {
                   title: 'VR&E — Vocational Rehab (Ch. 31)',
-                  body: 'Often overlooked but potentially the most valuable: covers full tuition with no dollar cap, all required books and supplies, and the same housing allowance as GI Bill. Requires 10%+ VA rating and an employment barrier determination by a VR&E counselor.',
+                  body: 'Often overlooked: covers full tuition with no dollar cap and all required books and supplies. VR&E participants may receive a subsistence allowance; some may elect the Post-9/11 subsistence rate if they have GI Bill entitlement. Requires 10%+ VA rating and employment barrier determination by a VR&E counselor.',
                 },
                 {
                   title: 'Tuition Assistance (Active Duty)',
-                  body: 'Available to active duty members only. Covers $250/credit hour up to $4,500/year — less total value than GI Bill, but doesn\'t consume GI Bill months. The right strategy for most active duty members is TA now, GI Bill after separation.',
+                  body: 'Available to active duty members only. Covers $250/credit hour up to $4,500/year — does not consume GI Bill months. For many active-duty members, TA is worth comparing first because it does not use GI Bill months and active-duty GI Bill use generally does not include MHA.',
                 },
                 {
                   title: 'Montgomery GI Bill (Ch. 30)',
@@ -158,22 +158,21 @@ export default function EducationCalculatorPage() {
             </p>
             <p className="text-sm text-zinc-600 leading-relaxed mt-3">
               If you&apos;re choosing between comparable schools, enter both ZIP codes separately and compare
-              the resulting MHA. The housing allowance difference often exceeds the tuition difference.
+              the resulting MHA. In some high-cost locations, the housing allowance difference can exceed the tuition difference.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-zinc-900 mb-3">The Active Duty Strategy</h2>
+            <h2 className="text-xl font-bold text-zinc-900 mb-3">Active Duty: TA vs. GI Bill</h2>
             <p className="text-sm text-zinc-600 leading-relaxed">
-              For service members still on active duty, the optimal sequencing is almost always:
-              use Tuition Assistance while serving, save GI Bill for after separation. Here&apos;s why:
+              For service members on active duty, TA and GI Bill have different rules worth comparing. Key factors:
             </p>
             <ul className="mt-3 space-y-2">
               {[
                 'TA covers $4,500/year and resets annually — use it or lose it each fiscal year.',
-                'GI Bill\'s main financial value is the housing allowance, which is not paid to active duty members (you already receive BAH).',
-                'Every GI Bill month used on active duty is a month of MHA you\'ll never collect post-separation.',
-                'A TA-first strategy can be worth $30,000–$60,000+ in GI Bill months preserved.',
+                'Post-9/11 GI Bill generally does not pay MHA to active-duty members — they already receive BAH separately.',
+                'Every GI Bill month used on active duty is a month of MHA not collected post-separation.',
+                'Using TA while on active duty may preserve GI Bill months that could include MHA post-separation — a difference that can be significant over a multi-year program.',
               ].map((point, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-zinc-600">
                   <span className="w-1.5 h-1.5 rounded-full bg-red-700 flex-none mt-1.5" />
@@ -182,6 +181,21 @@ export default function EducationCalculatorPage() {
               ))}
             </ul>
           </section>
+
+          <div className="rounded-lg border border-zinc-200 bg-zinc-50 px-6 py-5">
+            <p className="font-semibold text-zinc-800 mb-2">What this calculator does not include</p>
+            <ul className="space-y-1 text-sm text-zinc-500">
+              <li className="flex gap-2"><span>•</span> Yellow Ribbon school-specific matching (may close the private school tuition gap)</li>
+              <li className="flex gap-2"><span>•</span> GI Bill kicker / college fund</li>
+              <li className="flex gap-2"><span>•</span> MGIB $600 buy-up option</li>
+              <li className="flex gap-2"><span>•</span> Transferability service-obligation approval details</li>
+              <li className="flex gap-2"><span>•</span> VR&amp;E counselor-approved plan specifics</li>
+              <li className="flex gap-2"><span>•</span> School-specific fees not certified to VA</li>
+              <li className="flex gap-2"><span>•</span> Break months or summer term differences</li>
+              <li className="flex gap-2"><span>•</span> State tuition waivers or grants</li>
+              <li className="flex gap-2"><span>•</span> Changes from individual VA eligibility determinations</li>
+            </ul>
+          </div>
 
           <Disclaimer dataYear="2026" />
 

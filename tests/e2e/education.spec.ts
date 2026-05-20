@@ -26,7 +26,7 @@ test.describe('Education Benefits Calculator', () => {
   });
 
   test('best value badge appears on the highest-value benefit', async ({ page }) => {
-    await expect(page.getByText('Best value')).toBeVisible();
+    await expect(page.getByText('Highest est. value')).toBeVisible();
   });
 
   test('total program value is displayed for eligible benefits', async ({ page }) => {

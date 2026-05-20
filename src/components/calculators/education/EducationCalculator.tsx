@@ -124,7 +124,7 @@ function BenefitCard({
         </div>
         {isBest && (
           <span className="shrink-0 text-xs font-bold text-red-700 bg-red-50 border border-red-200 rounded-full px-2 py-0.5">
-            Best value
+            Highest est. value
           </span>
         )}
       </div>
@@ -135,6 +135,13 @@ function BenefitCard({
         <p className="text-3xl font-black tabular-nums text-zinc-900">{fmt(benefit.totalProgramValue)}</p>
         <p className="text-xs text-zinc-400">{fmt(benefit.totalAnnualValue)}/year</p>
       </div>
+
+      {/* Active duty MHA notice */}
+      {!isMGIB && !isTA && benefit.monthlyMHA === 0 && (
+        <div className="mb-3 rounded bg-amber-50 border border-amber-100 px-3 py-2 text-xs text-amber-800 leading-snug">
+          Active-duty members using Post-9/11 GI Bill generally do not receive MHA — they already receive BAH.
+        </div>
+      )}
 
       {/* Breakdown rows */}
       <div className="space-y-2 flex-1">
@@ -215,7 +222,7 @@ function BenefitCard({
         <div className="flex items-baseline justify-between gap-2">
           <span className="text-xs text-zinc-500">Transferable</span>
           <span className={`text-xs font-medium ${benefit.transferable ? 'text-green-700' : 'text-zinc-400'}`}>
-            {benefit.transferable ? '✓ Yes (6+ yr service)' : '✕ No'}
+            {benefit.transferable ? '✓ Possibly — 6+ yrs + 4-yr obligation req.' : '✕ No'}
           </span>
         </div>
       </div>
@@ -439,9 +446,7 @@ export function EducationCalculator() {
       {/* ── MHA note ───────────────────────────────────────────────────── */}
       {schoolType !== 'online' && result.mhaMonthly && (
         <div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-800 leading-relaxed">
-          MHA shown using 2026 BAH rates (effective Jan 1, 2026). The current academic year
-          (through Jul 31, 2026) uses 2025 BAH rates, which may differ slightly. Both GI Bill
-          and VR&E housing allowances are based on E-5 with-dependents BAH at the school&apos;s ZIP code.
+          MHA shown using 2026 BAH rates (effective Jan 1, 2026). The current academic year (through Jul 31, 2026) uses 2025 BAH rates, which may differ slightly. Post-9/11 GI Bill MHA for in-person training is based on E-5 with-dependent BAH at the school ZIP. VR&amp;E participants may receive a subsistence allowance, and some may qualify to elect the Post-9/11 subsistence allowance if they have remaining GI Bill entitlement — VR&amp;E housing/subsistence rules depend on counselor approval and individual eligibility.
         </div>
       )}
 
@@ -466,13 +471,17 @@ export function EducationCalculator() {
         </div>
       </div>
 
-      {/* ── 48-month combined cap note ──────────────────────────────────── */}
+      {/* ── 48-month cap note ──────────────────────────────────── */}
       <div className="rounded-lg border border-amber-100 bg-amber-50 px-4 py-3 text-xs text-amber-800 leading-relaxed">
-        <span className="font-semibold">48-month combined cap:</span> VA limits combined education
-        benefits to 48 months total across all programs. For example, using 36 months of GI Bill
-        leaves up to 12 months of VR&amp;E available (subject to counselor approval). Plan accordingly
-        if you intend to use more than one benefit.
+        <span className="font-semibold">48-month general cap:</span> VA generally limits combined GI Bill-style education benefits (Chapters 30, 33, 35, 1606) to 48 months total. However, VA states this general cap does not include VR&amp;E (Chapter 31). VR&amp;E entitlement and duration depend on counselor approval, rehabilitation plan, and individual VA rules.
       </div>
+
+      {/* ── Yellow Ribbon note for private schools ──────────────────────── */}
+      {schoolType === 'private' && (
+        <div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-800 leading-relaxed">
+          <span className="font-semibold">Yellow Ribbon program:</span> If tuition exceeds the Post-9/11 private-school cap, Yellow Ribbon participation at your school may help close the gap. Yellow Ribbon matching varies by school and program — check with your school&apos;s VA certifying official.
+        </div>
+      )}
 
       {/* ── Insights ───────────────────────────────────────────────────── */}
       {result.insights.length > 0 && (
@@ -521,7 +530,7 @@ export function EducationCalculator() {
             <span className="text-xl flex-none">📖</span>
             <div>
               <p className="text-sm font-semibold text-zinc-800">GI Bill vs. Tuition Assistance</p>
-              <p className="text-xs text-zinc-500 mt-0.5">Why active duty members should usually use TA first and save GI Bill</p>
+              <p className="text-xs text-zinc-500 mt-0.5">Why active-duty members often compare TA before using GI Bill months</p>
             </div>
           </Link>
           <Link
@@ -565,8 +574,7 @@ export function EducationCalculator() {
           depend on VA eligibility determinations, school certifying official verification, and
           current VA payment rates. VR&amp;E eligibility requires counselor evaluation — a disability
           rating alone does not guarantee approval. Tuition Assistance policies vary by branch.
-          Montgomery GI Bill eligibility requires the $1,200 buy-in and applicable service
-          requirements. MHA shown using 2026 BAH data; academic year rates effective August 1, 2026.
+          MGIB eligibility depends on when and how you entered service, whether you paid into the program, and specific service requirements. Many newer service members are primarily under Post-9/11 GI Bill rules. MHA shown using 2026 BAH data; academic year rates effective August 1, 2026.
           Verify all benefits with{' '}
           <a href="https://www.va.gov/education/" target="_blank" rel="noopener noreferrer" className="underline text-blue-700">
             VA.gov
