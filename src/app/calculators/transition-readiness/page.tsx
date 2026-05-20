@@ -47,20 +47,20 @@ export default function TransitionReadinessPage() {
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="tr-page-intro border-b border-zinc-200"
-        style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
+        style={{ background: 'linear-gradient(to bottom, #ecddc8 0%, #f5f0e8 100%)' }}
       >
         {/* ── Intro ──────────────────────────────────────────────────── */}
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-3">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-7 pb-3">
           <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
               Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight mb-2">
+          <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
             Transition Readiness Calculator
           </h1>
-          <p className="text-zinc-600 text-sm leading-relaxed">
+          <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
             Find out if you can afford to leave the military — compare your current compensation against civilian income, healthcare costs, and emergency fund runway.
           </p>
         </div>

@@ -38,7 +38,7 @@ const YOS_OPTIONS = Array.from({ length: 41 }, (_, i) => ({
   label: i === 0 ? 'Less than 1 year' : i === 1 ? '1 year' : `${i} years`,
 }));
 
-const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const SEP_MONTH_OPTIONS = MONTH_NAMES.map((m, i) => ({ value: String(i), label: m }));
 
 const VA_RATING_OPTIONS = [
@@ -367,11 +367,11 @@ export function TransitionReadinessCalculator() {
               />
 
               <BaseSearchInput
-                label="Duty Station ZIP Code"
+                label="Duty Station"
                 value={zipCode}
                 onZipChange={setZipCode}
-                placeholder="e.g. 78234 or Fort Sam Houston"
-                hint="Enter your ZIP for BAH (optional)"
+                placeholder="Try Fort Bragg, San Diego, or 78234"
+                hint="Enter your duty station name or ZIP for BAH (optional)"
               />
 
               <div className="flex flex-col gap-1">
