@@ -37,7 +37,7 @@ export default function TotalCompensationPage() {
       <JsonLdScript schema={webApplicationSchema({ name: 'Total Military Compensation Calculator 2026', description: 'Calculate your true total military compensation: base pay, BAH, BAS, TSP match, and tax advantage. See the civilian salary equivalent using official 2026 DoD rates.', url: '/calculators/total-compensation' })} />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
-        className="relative overflow-hidden border-b border-zinc-200"
+        className="relative overflow-hidden border-b border-zinc-200 md:min-h-[340px]"
         style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
       >
         {/* Soldier image — full-width background, desktop only */}
@@ -56,55 +56,62 @@ export default function TotalCompensationPage() {
           />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-5xl pt-6 pb-5 sm:pt-9 sm:pb-6 px-4">
+        <div className="relative z-10">
 
           {/* Left column — constrained so image stays visible on desktop */}
-          <div className="sm:max-w-[58%] mb-5">
+          <div className="mx-auto max-w-5xl pt-6 sm:pt-9 px-4">
+            <div className="sm:max-w-[58%] mb-5">
 
-            {/* Trust pill */}
-            <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
-              <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-                Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
-              </span>
+              {/* Icon + Title */}
+              <div className="flex items-center gap-3 mb-3">
+                <div className="flex-none w-9 h-9 rounded-full flex items-center justify-center" style={{ background: '#c0392b' }}>
+                  <span className="text-white font-black text-lg leading-none select-none">$</span>
+                </div>
+                <h1 className="text-[28px] sm:text-[38px] font-extrabold leading-tight tracking-tight text-zinc-900">
+                  Total Military Compensation Calculator
+                </h1>
+              </div>
+
+              {/* Description */}
+              <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-3">
+                See what your military compensation is really worth — including BAH, BAS, TSP match, and tax advantages.
+              </p>
+
+              {/* Trust badge */}
+              <div className="inline-flex items-center gap-2.5 rounded-full bg-zinc-900 px-4 py-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+                <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+                  Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
+                </span>
+              </div>
+
             </div>
+          </div>
 
-            {/* Headline */}
-            <h1 className="text-[32px] sm:text-[42px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-3">
-              Total Military Compensation Calculator
-            </h1>
+          {/* ── 3-step plan strip — inside hero ──────────────────────── */}
+          <CalcStepStrip noBg steps={[
+            { title: 'Enter rank, years, and station' },
+            { title: 'See full pay, BAH, and tax value' },
+            { title: 'Compare against civilian salary' },
+          ]} />
 
-            {/* Subtext */}
-            <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-4">
-              See what your military compensation is really worth — including BAH, BAS, TSP match, and tax advantages.
-            </p>
-
+          {/* ── Proof bar — inside hero ───────────────────────────────── */}
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
+            <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-4 overflow-hidden">
+              <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
+                E-5 &middot; 8 yrs &middot; Fort Bragg &middot; w/dep
+              </p>
+              <div className="flex items-baseline gap-4 min-w-0 flex-1">
+                <span className="text-[12px] text-zinc-500 whitespace-nowrap">Base <span className="font-semibold text-zinc-700">$4,300</span></span>
+                <span className="text-[12px] text-zinc-500 whitespace-nowrap">BAH <span className="font-semibold text-zinc-700">$1,806</span></span>
+                <span className="text-[12px] text-zinc-500 whitespace-nowrap">BAS <span className="font-semibold text-zinc-700">$477</span></span>
+              </div>
+              <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">Civilian equiv. <span className="text-[16px] font-extrabold text-red-700">&asymp;$91,700/yr</span></p>
+            </div>
           </div>
 
         </div>
       </section>
-
-      {/* ── 3-step plan strip ────────────────────────────────────────── */}
-      <CalcStepStrip steps={[
-        { title: 'Enter rank, years, and station' },
-        { title: 'See full pay, BAH, and tax value' },
-        { title: 'Compare against civilian salary' },
-      ]} />
-
-      {/* ── Proof bar ────────────────────────────────────────────────── */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 pb-0">
-        <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-4 overflow-hidden">
-          <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
-            E-5 &middot; 8 yrs &middot; Fort Bragg &middot; w/dep
-          </p>
-          <div className="flex items-baseline gap-4 min-w-0 flex-1">
-            <span className="text-[12px] text-zinc-500 whitespace-nowrap">Base <span className="font-semibold text-zinc-700">$4,300</span></span>
-            <span className="text-[12px] text-zinc-500 whitespace-nowrap">BAH <span className="font-semibold text-zinc-700">$1,806</span></span>
-            <span className="text-[12px] text-zinc-500 whitespace-nowrap">BAS <span className="font-semibold text-zinc-700">$477</span></span>
-          </div>
-          <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">Civilian equiv. <span className="text-[16px] font-extrabold text-red-700">&asymp;$91,700/yr</span></p>
-        </div>
-      </div>
 
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <TotalCompensationCalculator />
