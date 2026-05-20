@@ -38,7 +38,7 @@ const FAQS = [
   {
     question: 'What PCS entitlements am I authorized?',
     answer:
-      'PCS entitlements include: Dislocation Allowance (DLA) — $1,883.10 without dependents, $3,766.20 with dependents in 2026; MALT mileage at $0.205/mile for the official distance; per diem for authorized travel days (1 day per 350 miles); and Temporary Lodging Expense (TLE) for up to 21 days combined at old and new stations at actual cost up to the per diem rate.',
+      'PCS entitlements include: Dislocation Allowance (DLA) — amounts vary by rank and dependency status (e.g., $2,389 without dependents and $3,548 with dependents for E-6 in 2026); MALT mileage at $0.205/mile for the official distance; per diem for authorized travel days (1 day per 350 miles); and Temporary Lodging Expense (TLE) for up to 21 days combined at old and new stations at actual cost up to the per diem rate.',
   },
   {
     question: 'Should I use a government move or do a PPM (DITY move)?',
@@ -101,7 +101,7 @@ const IMPACT_CARDS = [
     description:
       'DLA, MALT mileage, per diem, and TLE offset your costs — but they rarely cover the full expense of a military move.',
     bullets: [
-      'DLA: $1,883 (single) / $3,766 (with dependents)',
+      'DLA: $2,389 (E-6, no dep) / $3,548 (E-6, w/ dep) — varies by rank',
       'MALT: $0.205/mile — less than actual driving costs',
       'PPM net proceeds: $1,000–$8,000 if you move yourself',
     ],
@@ -141,8 +141,8 @@ const ACCORDION = [
           reimbursement — no receipts required, no tie to actual expenses.
         </p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li>Without dependents: $1,883.10</li>
-          <li>With dependents: $3,766.20</li>
+          <li>Without dependents: $2,389.42 (E-6) — ranges from ~$1,871 (E-1) to ~$5,187 (O-7+)</li>
+          <li>With dependents: $3,548.02 (E-1–E-6) — ranges up to ~$6,386 (O-7+)</li>
         </ul>
         <p>
           <strong className="text-zinc-800">MALT (Monetary Allowance in Lieu of Transportation)</strong>{' '}
@@ -430,13 +430,13 @@ export default function PcsGuidePage() {
       </div>
 
       {/* ── ZONE 1: Hero ── */}
-      <section className="bg-zinc-50 border-b border-zinc-200 py-12 sm:py-16 px-4">
+      <section className="border-b border-zinc-200 py-12 sm:py-16 px-4" style={{ background: 'linear-gradient(to bottom, #ecddc8 0%, #f5f0e8 100%)' }}>
         <div className="mx-auto max-w-3xl">
           {/* Eyebrow */}
           <div className="inline-flex items-center gap-2.5 mb-6 rounded-full bg-zinc-900 px-4 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-              Comprehensive Guide · Official 2026 DTMO & DFAS Data
+              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DTMO &amp; DFAS Data
             </span>
           </div>
 
@@ -571,7 +571,7 @@ export default function PcsGuidePage() {
                     <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-2">Station A — Fort Bragg, NC</p>
                     <div className="flex justify-between py-1">
                       <span className="text-sm text-zinc-600">BAH (w/ dependents)</span>
-                      <span className="text-sm font-mono tabular-nums text-zinc-800">$1,584<span className="text-zinc-400">/mo</span></span>
+                      <span className="text-sm font-mono tabular-nums text-zinc-800">$2,049<span className="text-zinc-400">/mo</span></span>
                     </div>
                     <div className="flex justify-between py-1">
                       <span className="text-sm text-zinc-600">State income tax</span>
@@ -587,7 +587,7 @@ export default function PcsGuidePage() {
                     <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-2">Station B — JBLM, WA</p>
                     <div className="flex justify-between py-1">
                       <span className="text-sm text-zinc-600">BAH (w/ dependents)</span>
-                      <span className="text-sm font-mono tabular-nums text-zinc-800">$2,991<span className="text-zinc-400">/mo</span></span>
+                      <span className="text-sm font-mono tabular-nums text-zinc-800">$2,919<span className="text-zinc-400">/mo</span></span>
                     </div>
                     <div className="flex justify-between py-1">
                       <span className="text-sm text-zinc-600">State income tax</span>
@@ -603,11 +603,11 @@ export default function PcsGuidePage() {
                 <div className="mx-5 mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3 flex items-center justify-between">
                   <div>
                     <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">BAH Difference</p>
-                    <p className="text-2xl font-bold tabular-nums text-red-700">+$1,407/mo</p>
+                    <p className="text-2xl font-bold tabular-nums text-red-700">+$870/mo</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-zinc-500">Annual impact</p>
-                    <p className="text-sm font-semibold text-zinc-700">+$16,884/yr</p>
+                    <p className="text-sm font-semibold text-zinc-700">+$10,440/yr</p>
                   </div>
                 </div>
                 <div className="px-5 pb-4">
