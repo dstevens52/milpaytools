@@ -38,18 +38,18 @@ export default function BAHPage() {
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
-          <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight mb-2">
-            BAH Calculator — 2026 Rates
-          </h1>
-          <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-            Look up your BAH rate by ZIP code, rank, and dependency status — with PCS comparison mode.
-          </p>
-          <div className="inline-flex items-center gap-2.5 rounded-full bg-zinc-900 px-4 py-1.5">
+          <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
               Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
             </span>
           </div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight mb-2">
+            BAH Calculator — 2026 Rates
+          </h1>
+          <p className="text-zinc-600 text-sm leading-relaxed">
+            Look up your BAH rate by ZIP code, rank, and dependency status — with PCS comparison mode.
+          </p>
         </div>
       </div>
 
