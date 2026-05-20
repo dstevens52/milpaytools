@@ -708,8 +708,9 @@ export function TSPCalculator() {
         <a href="/calculators/deployment" className="text-blue-700 hover:underline font-medium">
           Deployment Pay Calculator
         </a>{' '}
-        models the full picture — CZTE tax savings, the jump from $24,500 to $72,000 in TSP
-        contribution room, SDP interest, and total tour financial benefit.
+        models the full picture — CZTE tax savings, the elevated $72,000 annual additions limit
+        (with Roth still capped at $24,500 — excess goes to traditional tax-exempt), SDP interest,
+        and total tour financial benefit.
       </div>
     </div>
   );

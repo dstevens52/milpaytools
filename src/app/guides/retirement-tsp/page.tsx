@@ -48,7 +48,7 @@ const FAQS = [
   {
     question: 'What are the 2026 TSP contribution limits?',
     answer:
-      '2026 limits: annual elective deferral $24,500; catch-up contributions age 50–59 and 64+: additional $8,000 (total $32,500); enhanced catch-up ages 60–63 under SECURE 2.0: additional $11,250 (total $35,750). Combat-zone tax-exempt pay can allow contributions above the elective deferral limit, but total contributions remain subject to the annual additions limit ($70,000 in 2026). TSP expense ratio: 0.055% — far below any comparable civilian 401(k).',
+      '2026 limits: annual elective deferral $24,500; catch-up contributions age 50–59 and 64+: additional $8,000 (total $32,500); enhanced catch-up ages 60–63 under SECURE 2.0: additional $11,250 (total $35,750). In a combat zone, the total annual additions limit rises to $72,000 — but Roth TSP contributions remain capped at $24,500; contributions above that from tax-exempt combat-zone pay go into the traditional tax-exempt portion of TSP, not Roth. TSP expense ratios are among the lowest of any retirement plan available.',
   },
   {
     question: 'Should I choose Roth or Traditional TSP?',
@@ -188,7 +188,7 @@ const ACCORDION = [
           <li>Annual elective deferral: <strong className="text-zinc-800">$24,500</strong></li>
           <li>Catch-up (age 50–59 and 64+): additional $8,000 → total $32,500</li>
           <li>Enhanced catch-up (ages 60–63, SECURE 2.0): additional $11,250 → total $35,750</li>
-          <li>Combat zone: tax-exempt pay can allow contributions above the elective deferral limit, but total contributions remain subject to the annual additions limit ($70,000 in 2026)</li>
+          <li>Combat zone: total annual additions limit rises to <strong className="text-zinc-800">$72,000</strong> — Roth TSP remains capped at $24,500; contributions above that from tax-exempt combat-zone pay go into the traditional tax-exempt portion of TSP, not Roth</li>
         </ul>
         <p><strong className="text-zinc-800">TSP fund options:</strong></p>
         <ul className="space-y-1 pl-4 list-disc">

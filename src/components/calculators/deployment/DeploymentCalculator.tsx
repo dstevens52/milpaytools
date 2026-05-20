@@ -173,7 +173,7 @@ function buildActionSteps(
   if (isCombatZone && tspPct < 20) {
     steps.push({
       label: 'Increase Roth TSP contributions — your pay is already tax-free',
-      description: `In a combat zone, Roth TSP contributions come from CZTE-excluded pay, meaning no taxes now, no taxes on growth, no taxes at withdrawal. The ${DEPLOYMENT_RATES_2026.tspCombatZoneLimit.toLocaleString()} annual limit applies during deployment. Consider raising your contribution percentage before you deploy.`,
+      description: `In a combat zone, Roth TSP contributions come from CZTE-excluded pay, meaning no taxes now, no taxes on growth, no taxes at withdrawal. The annual additions limit rises to $${DEPLOYMENT_RATES_2026.tspCombatZoneLimit.toLocaleString()} during deployment — but Roth TSP contributions are still capped at $${DEPLOYMENT_RATES_2026.tspNormalLimit.toLocaleString()} (the elective deferral limit). Contributions above that from tax-exempt combat-zone pay go into the traditional tax-exempt portion of TSP, not Roth. Consider raising your contribution percentage before you deploy.`,
       priority: 'high',
       href: '/calculators/tsp',
     });
@@ -471,7 +471,7 @@ export function DeploymentCalculator() {
                 <Label
                   htmlFor="tsp-pct"
                   hint={isCombatZone
-                    ? `Combat zone limit: $${DEPLOYMENT_RATES_2026.tspCombatZoneLimit.toLocaleString()}/yr`
+                    ? `Annual additions limit: $${DEPLOYMENT_RATES_2026.tspCombatZoneLimit.toLocaleString()}/yr (Roth capped at $${DEPLOYMENT_RATES_2026.tspNormalLimit.toLocaleString()} — excess goes traditional)`
                     : `Normal limit: $${DEPLOYMENT_RATES_2026.tspNormalLimit.toLocaleString()}/yr`}
                 >
                   TSP contribution

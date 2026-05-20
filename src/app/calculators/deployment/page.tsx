@@ -192,15 +192,19 @@ export default function DeploymentPage() {
               TSP during deployment
             </h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              During months in a designated combat zone, the TSP contribution limit rises from the
-              normal elective deferral limit ($24,500 in 2026) to the IRC § 415(c) total additions
-              limit ($72,000 in 2026). This dramatically increases the amount you can shelter
-              tax-free during a deployment.
+              During months in a designated combat zone, the total annual additions limit (IRC § 415(c))
+              rises from $24,500 to $72,000 in 2026. This allows higher overall contributions to TSP
+              from tax-exempt combat-zone pay.
+            </p>
+            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
+              <strong>Important:</strong> Roth TSP contributions remain capped at the $24,500 elective
+              deferral limit — even in a combat zone. Contributions above $24,500 from tax-exempt
+              combat-zone pay go into the traditional tax-exempt portion of TSP, not Roth. You cannot
+              contribute $72,000 to Roth TSP.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              Contributions above the normal limit must go into the traditional TSP — not Roth TSP —
-              during combat zone months. Plan your contribution percentage in advance; DFAS processes
-              TSP elections and changes through myPay.
+              Plan your contribution percentage in advance; DFAS processes TSP elections and changes
+              through myPay.
             </p>
           </div>
 
@@ -231,7 +235,9 @@ export default function DeploymentPage() {
               TSP Growth Projector
             </a>{' '}
             can model the long-term impact of maxing your TSP contributions during a combat zone
-            deployment — the jump from $24,500 to $72,000 in contribution room is significant.
+            deployment — the annual additions limit rises to $72,000 in a combat zone, though Roth
+            contributions remain capped at $24,500 and excess tax-exempt contributions go into
+            traditional TSP.
           </div>
 
           <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 text-sm text-zinc-600">
@@ -253,8 +259,9 @@ export default function DeploymentPage() {
             entitlements depend on your deployment orders, official combat zone designation, DFAS
             processing, and individual tax situation. HFP/IDP rate: $225/month (37 U.S.C. § 310).
             FSA: $300/month (37 U.S.C. § 427, FY2026 NDAA). CZTE: 26 U.S.C. § 112 and IRS
-            Publication 3. SDP: 10 U.S.C. § 1035. TSP combat zone limit: IRC § 415(c) — $72,000
-            for 2026. Federal tax calculation uses 2026 tax brackets and standard deduction for
+            Publication 3. SDP: 10 U.S.C. § 1035. TSP: IRC § 415(c) total additions limit $72,000
+            in combat zones; Roth TSP elective deferral (IRC § 402(g)) remains capped at $24,500.
+            Federal tax calculation uses 2026 tax brackets and standard deduction for
             single filers; actual taxes will vary based on filing status, deductions, and state tax
             law. Always verify your specific entitlements with your finance office and DFAS.
           </p>
