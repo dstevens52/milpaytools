@@ -332,23 +332,6 @@ export default function TransitionPage() {
         })}
       />
 
-      {/* ── Breadcrumb ── */}
-      <div className="bg-white border-b border-zinc-100">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-3">
-          <nav aria-label="Breadcrumb">
-            <ol className="flex items-center gap-1.5 text-sm text-zinc-500">
-              <li>
-                <Link href="/" className="hover:text-zinc-700 transition-colors">
-                  Home
-                </Link>
-              </li>
-              <li aria-hidden>/</li>
-              <li className="text-zinc-800 font-medium">Transition Guide</li>
-            </ol>
-          </nav>
-        </div>
-      </div>
-
       {/* ── Hero ── */}
       <section
         className="relative overflow-hidden border-b border-zinc-200"
