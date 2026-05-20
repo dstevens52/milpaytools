@@ -413,7 +413,8 @@ export function BAHCalculator() {
               label="Duty Station ZIP Code"
               value={zip}
               onZipChange={setZip}
-              hint="Enter the ZIP code or base name for your duty station"
+              placeholder="Try 'Fort Bragg', 'San Diego', or '28310'"
+              hint="We'll match your ZIP or installation to the correct BAH area."
             />
           </div>
         ) : (
