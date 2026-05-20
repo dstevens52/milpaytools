@@ -396,14 +396,8 @@ export default function TransitionPage() {
           {/* Proof bar — inside hero to give it height and reveal the soldier image */}
           {/* TODO: make dynamic using lookupBasePay + lookupBAH for E-6, 10yr, Fort Campbell */}
           <div className="bg-white rounded-2xl border border-zinc-200 shadow-md overflow-hidden">
-            <div className="px-4 py-2 border-b border-zinc-100 bg-zinc-50/70 flex items-center justify-between gap-4">
+            <div className="px-4 py-2 border-b border-zinc-100 bg-zinc-50/70">
               <p className="text-[11px] text-zinc-400 font-medium">Example: E-6 &middot; 10 years &middot; Fort Campbell &middot; separating</p>
-              <Link
-                href="#comparison"
-                className="text-[11px] font-semibold text-red-700 hover:text-red-800 flex-none"
-              >
-                See what changes ↓
-              </Link>
             </div>
             <div className="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-zinc-100">
 
