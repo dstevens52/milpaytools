@@ -480,7 +480,7 @@ export function VADisabilityCalculator() {
                       <span className="text-base font-normal text-zinc-500 ml-1">/mo</span>
                     </p>
                     <p className="text-sm text-zinc-500 mt-1 tabular-nums">
-                      {fmt(compensation.annual)}/year · 100% tax-free
+                      {fmt(compensation.annual)}/year · tax-free VA disability compensation
                     </p>
                     <p className="text-xs text-zinc-400 mt-1">
                       {compensation.dataYear} VA rates
@@ -524,6 +524,10 @@ export function VADisabilityCalculator() {
               </div>
             </div>
           </Card>
+
+          <p className="text-[11px] text-zinc-400 leading-relaxed px-1 -mt-1">
+            Before planning around these numbers, compare this estimate with your VA decision letter, C&amp;P exam results, or review with an accredited VSO or attorney.
+          </p>
 
           <ShareBar getUrl={getShareUrl} />
 

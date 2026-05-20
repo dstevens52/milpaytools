@@ -59,6 +59,36 @@ export default function VADisabilityPage() {
         </div>
       </div>
 
+      {/* ── What this calculator does and does not do ────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-0">
+        <div className="rounded-lg border border-zinc-200 bg-zinc-50 px-5 py-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <p className="text-xs font-semibold text-zinc-700 mb-1.5">This calculator estimates:</p>
+              <ul className="text-xs text-zinc-600 space-y-1 leading-relaxed list-disc list-inside">
+                <li>Combined VA disability rating using the whole-person formula</li>
+                <li>Bilateral factor impact on paired body parts</li>
+                <li>2026 monthly compensation based on rating and dependents</li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-zinc-700 mb-1.5">This calculator does not estimate:</p>
+              <ul className="text-xs text-zinc-600 space-y-1 leading-relaxed list-disc list-inside">
+                <li>Whether VA will grant service connection for a condition</li>
+                <li>The rating VA will assign for a specific medical condition</li>
+                <li>Effective dates or back pay amounts</li>
+                <li>Special Monthly Compensation (SMC)</li>
+                <li>TDIU approval</li>
+                <li>VA healthcare priority group or state-level benefits</li>
+              </ul>
+            </div>
+          </div>
+          <p className="text-xs text-zinc-500 mt-3 pt-3 border-t border-zinc-200">
+            Always verify estimates with your VA decision letter, C&P exam results, or an accredited VSO.
+          </p>
+        </div>
+      </div>
+
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <VADisabilityCalculator />
 
@@ -122,7 +152,7 @@ export default function VADisabilityPage() {
             <ExampleRow label="Annual VA compensation" value="$21,701/yr" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> Without the bilateral factor, these three conditions combine to 72% (100 − (0.50 × 0.70 × 0.80) = 72%), which also rounds to 70% — so in this particular case the rounded result is the same either way. But the bilateral factor matters enormously in cases near a rounding threshold: a combined value of 63% without the factor becomes 67% with it, changing the rounded rating from 60% to 70% and adding hundreds of dollars per month. VA rules require the bilateral adjustment whenever both sides of a paired joint carry compensable ratings. At 70%, this veteran receives $1,808.45/month completely tax-free, and may qualify for additional dependent-based increases if they have a spouse or children.
+            <strong>What this means:</strong> Without the bilateral factor, these three conditions combine to 72% (100 − (0.50 × 0.70 × 0.80) = 72%), which also rounds to 70% — so in this particular case the rounded result is the same either way. But the bilateral factor matters enormously in cases near a rounding threshold: a combined value of 63% without the factor becomes 67% with it, changing the rounded rating from 60% to 70% and adding hundreds of dollars per month. VA rules require the bilateral adjustment whenever both sides of a paired joint carry compensable ratings. At 70%, this veteran receives $1,808.45/month in tax-free VA disability compensation, and may qualify for additional dependent-based increases if they have a spouse or children.
           </p>
         </ExampleBox>
       </section>
@@ -170,6 +200,11 @@ export default function VADisabilityPage() {
               are affected, review whether each side is separately documented and claimed. An
               accredited VSO can help confirm how to file bilateral conditions.
             </p>
+            <p className="text-zinc-600 text-sm leading-relaxed">
+              Note: Eye ratings can involve separate VA rating rules beyond the standard bilateral
+              factor. If your claim involves paired eye conditions, verify the calculation with an
+              accredited representative.
+            </p>
           </div>
 
           <div>
@@ -179,7 +214,7 @@ export default function VADisabilityPage() {
                 { pct: '0%', text: 'Service-connected with no monthly compensation. Establishes the condition for VA purposes but does not increase the combined percentage unless later increased.' },
                 { pct: '10–20%', text: 'Flat compensation rate — no dependent additions at these levels' },
                 { pct: '30%+', text: 'Dependent compensation kicks in (spouse, children, parents)' },
-                { pct: '50%+', text: 'Higher VA healthcare priority and no copays for many types of care; additional benefits may apply depending on your situation.' },
+                { pct: '50%+', text: 'At 50% or higher, veterans are usually placed in Priority Group 1 for VA healthcare, with reduced or eliminated copays for many types of care. Exact healthcare eligibility, copays, and covered services depend on care type, priority group, and current VA rules.' },
                 { pct: '70%+', text: 'May qualify for TDIU (see below) if unable to work' },
                 { pct: '100%', text: 'Maximum schedular rating — highest compensation tier, P&T status if permanent' },
               ].map(({ pct, text }) => (
@@ -212,7 +247,7 @@ export default function VADisabilityPage() {
                 },
                 {
                   mistake: 'Filing only one side of a bilateral condition',
-                  fix: 'File separate claims for both sides. Even a low rating on the second side can trigger the bilateral factor.',
+                  fix: 'If symptoms affect both sides of a paired body part, make sure both sides are documented in your records. Review the filing approach with an accredited VSO or attorney before submitting.',
                 },
               ].map(({ mistake, fix }) => (
                 <div key={mistake}>
