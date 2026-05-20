@@ -59,6 +59,13 @@ export default function VADisabilityPage() {
         </div>
       </div>
 
+      {/* ── 3-step plan strip ────────────────────────────────────────── */}
+      <CalcStepStrip steps={[
+        { title: 'Enter each condition' },
+        { title: 'See the VA math' },
+        { title: 'Estimate your compensation' },
+      ]} />
+
       {/* ── What this calculator does and does not do ────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-0">
         <div className="rounded-lg border border-zinc-200 bg-zinc-50 px-5 py-4">
@@ -84,54 +91,13 @@ export default function VADisabilityPage() {
             </div>
           </div>
           <p className="text-xs text-zinc-500 mt-3 pt-3 border-t border-zinc-200">
-            Always verify estimates with your VA decision letter, C&P exam results, or an accredited VSO.
+            A small difference near a rounding threshold can move you from 60% to 70%, or from 90% to 100% — this calculator shows the math before you file, appeal, or plan around your expected rating. Always verify estimates with your VA decision letter, C&P exam results, or an accredited VSO.
           </p>
         </div>
       </div>
 
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <VADisabilityCalculator />
-
-      {/* ── Success outcome ──────────────────────────────────────────── */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 pb-2">
-        <div className="rounded-lg bg-green-50 border border-green-200 px-5 py-4 text-sm text-green-800 leading-relaxed">
-          After using this calculator, you'll have a clear view of your estimated combined rating, whether
-          the bilateral factor affects your math, and which assumptions to verify with an accredited
-          VSO before relying on the result.
-        </div>
-      </div>
-
-      {/* ── 3-step plan strip ────────────────────────────────────────── */}
-      <CalcStepStrip steps={[
-        { title: 'Enter each condition', sub: 'Add the rating percentage and body location for each service-connected disability.' },
-        { title: 'See the VA math', sub: 'The calculator applies the whole-person formula and bilateral factor step by step.' },
-        { title: 'Estimate your compensation', sub: 'Add dependents to see your estimated 2026 monthly VA compensation.' },
-      ]} />
-
-      {/* ── Feature chips + stakes ───────────────────────────────────── */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="flex flex-wrap gap-3 mb-4">
-          {[
-            'Official VA whole-person formula',
-            'Bilateral factor (38 CFR § 4.26)',
-            'Step-by-step math',
-            '2026 compensation rates',
-            'Scenario builder',
-          ].map((text) => (
-            <span
-              key={text}
-              className="inline-flex items-center text-sm text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1"
-            >
-              {text}
-            </span>
-          ))}
-        </div>
-        <p className="text-zinc-600 text-sm leading-relaxed max-w-2xl">
-          A small difference near a rounding threshold can move you from 60% to 70%, or from
-          90% to 100%. This calculator shows the math before you file, appeal, or plan around
-          your expected rating.
-        </p>
-      </div>
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
