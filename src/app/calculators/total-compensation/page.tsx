@@ -35,7 +35,7 @@ export default function TotalCompensationPage() {
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Total Military Compensation Calculator 2026', description: 'Calculate your true total military compensation: base pay, BAH, BAS, TSP match, and tax advantage. See the civilian salary equivalent using official 2026 DoD rates.', url: '/calculators/total-compensation' })} />
-      {/* ── Warm gradient header: hero + step strip ─────────────────── */}
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="relative overflow-hidden border-b border-zinc-200"
         style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
@@ -55,42 +55,37 @@ export default function TotalCompensationPage() {
           />
         </div>
 
-        {/* Content */}
-        <div className="relative z-10">
-          {/* ── Page intro ─────────────────────────────────────────────── */}
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-4 pb-3 md:pt-5 md:pb-3">
-            <div className="sm:max-w-[58%]">
-              <div className="flex items-start gap-4">
-                <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
-                  <span className="text-white font-black text-lg leading-none select-none">$</span>
-                </div>
-                <div>
-                  <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
-                    Total Military Compensation Calculator
-                  </h1>
-                  <p className="text-zinc-600 mt-1.5 text-sm leading-relaxed">
-                    See what your military compensation is really worth — including BAH, BAS, TSP match, and tax advantages.
-                  </p>
-                </div>
+        <div className="relative z-10 mx-auto max-w-5xl pt-6 pb-5 sm:pt-9 sm:pb-6 px-4">
+          <div className="sm:max-w-[58%]">
+            <div className="flex items-start gap-4">
+              <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
+                <span className="text-white font-black text-lg leading-none select-none">$</span>
               </div>
-              <div className="mt-3 inline-flex items-center gap-2.5 rounded-full bg-zinc-900 px-4 py-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
-                <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-                  Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
-                </span>
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
+                  Total Military Compensation Calculator
+                </h1>
+                <p className="text-zinc-600 mt-1.5 text-sm leading-relaxed">
+                  See what your military compensation is really worth — including BAH, BAS, TSP match, and tax advantages.
+                </p>
               </div>
             </div>
+            <div className="mt-3 inline-flex items-center gap-2.5 rounded-full bg-zinc-900 px-4 py-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+              <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+                Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
+              </span>
+            </div>
           </div>
-
-          {/* ── 3-step plan strip ──────────────────────────────────────── */}
-          <CalcStepStrip noBg steps={[
-            { title: 'Enter rank, years, and station' },
-            { title: 'See full pay, BAH, and tax value' },
-            { title: 'Compare against civilian salary' },
-          ]} />
         </div>
+      </section>
 
-      </section>{/* end gradient wrapper */}
+      {/* ── 3-step plan strip ────────────────────────────────────────── */}
+      <CalcStepStrip steps={[
+        { title: 'Enter rank, years, and station' },
+        { title: 'See full pay, BAH, and tax value' },
+        { title: 'Compare against civilian salary' },
+      ]} />
 
       {/* ── Proof bar ────────────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 pb-0">
