@@ -69,15 +69,15 @@ export default function PCSPage() {
               Sample output
             </span>
             <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
-              E-5 &middot; w/dep &middot; Fort Bragg &rarr; JBLM &middot; 2,800 mi
+              E-5 &middot; w/dep &middot; Fort Bragg &rarr; JBLM &middot; 2,973 mi
             </p>
             <div className="flex items-baseline gap-3 min-w-0 flex-1 overflow-hidden">
               <span className="text-[12px] text-zinc-500 whitespace-nowrap">DLA <span className="font-semibold text-zinc-700">$3,548</span></span>
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">MALT <span className="font-semibold text-zinc-700">$574</span></span>
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">Per diem <span className="font-semibold text-zinc-700">$2,349</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">MALT <span className="font-semibold text-zinc-700">$609</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">Per diem <span className="font-semibold text-zinc-700">$2,663</span></span>
             </div>
             <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
-              Gov move total: <span className="font-semibold text-red-700">$6,471</span>
+              Gov move total: <span className="font-semibold text-red-700">$6,820</span>
             </p>
           </div>
         </div>
