@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { GuardReserveCalculator } from '@/components/calculators/guard-reserve/GuardReserveCalculator';
-import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -35,55 +34,34 @@ export default function GuardReservePage() {
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Guard & Reserve Pay Calculator 2026', description: 'Estimate total Guard and Reserve annual compensation: drill pay (MUTA), Annual Training pay, Tricare Reserve Select savings, and BRS matching. Uses 2026 DFAS pay tables.', url: '/calculators/guard-reserve' })} />
-      {/* ── Page intro ──────────────────────────────────────────────────── */}
-      <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
-          <div className="flex items-start gap-4">
-            <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
-              <span className="text-white font-black text-lg leading-none select-none">⭐</span>
-            </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
-                Guard &amp; Reserve Pay Calculator — 2026
-              </h1>
-              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
-                Estimate your total annual compensation as a Guard or Reserve member — drill pay,
-                Annual Training income, Tricare Reserve Select savings, and BRS government TSP
-                matching. See what your service is actually worth per drill weekend.
-              </p>
-            </div>
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
+      <section
+        className="border-b border-zinc-200"
+        style={{ background: 'linear-gradient(to bottom, #ecddc8 0%, #f5f0e8 100%)' }}
+      >
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-7 pb-3">
+          <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+            <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+              Free &middot; No Account &middot; No Personal Info &middot; Official DFAS 2026 Reserve Pay Data &middot; TRICARE 2026 Premium Data
+            </span>
           </div>
-
-          <div className="mt-3 hidden md:flex flex-wrap gap-3">
-            {[
-              { text: 'All ranks E-1 through O-10' },
-              { text: 'MUTA-4/6/8 drill schedules' },
-              { text: 'TRS healthcare savings' },
-              { text: '2026 DFAS pay tables' },
-            ].map(({ text }) => (
-              <span
-                key={text}
-                className="inline-flex items-center gap-1.5 text-sm text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1"
-              >
-                {text}
-              </span>
-            ))}
-          </div>
-          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS &amp; DTMO rates" /></div>
+          <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
+            Guard &amp; Reserve Pay Calculator
+          </h1>
+          <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
+            Calculate your total Guard or Reserve compensation — drill pay, Annual Training, TRICARE Reserve Select value, and BRS/TSP contributions in one view.
+          </p>
         </div>
-      </div>
-
-      {/* ── 3-step plan strip ────────────────────────────────────────── */}
-      <CalcStepStrip steps={[
-        { title: 'Enter your pay grade and drill schedule' },
-        { title: 'See annual drill pay and AT earnings' },
-        { title: 'Add TRICARE Reserve Select to see full compensation value' },
-      ]} />
+        <CalcStepStrip noBg steps={[
+          { title: 'Enter your pay grade and drill schedule' },
+          { title: 'See annual drill pay and AT earnings' },
+          { title: 'Add TRICARE Reserve Select to see full compensation value' },
+        ]} />
+      </section>
 
       {/* ── Calculator ──────────────────────────────────────────────────── */}
-      <div className="bg-zinc-50">
-        <GuardReserveCalculator />
-      </div>
+      <GuardReserveCalculator />
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -92,20 +70,20 @@ export default function GuardReservePage() {
             What Does a Drilling E-5 Reservist Actually Earn Each Year?
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-5, 6 years of service, standard drilling reservist — 12 weekend UTAs (48 drill periods), 14-day Annual Training, with Tricare Reserve Select family coverage. No activations or mobilizations.
+            Scenario: E-5, 6 years of service, standard drilling reservist — 12 weekend UTAs (48 drill periods), 15-day Annual Training, with TRICARE Reserve Select family coverage. No activations or mobilizations.
           </p>
           <ExampleTable>
             <ExampleRow label="E-5 daily base pay rate (6 yrs — $4,110/mo ÷ 30)" value="$137.00/day" />
             <ExampleRow label="Weekend drill pay (48 periods × $137)" value="$6,576/yr" />
-            <ExampleRow label="Annual Training pay (14 days × $137)" value="$1,918/yr" />
-            <ExampleRow label="Total drill + AT pay" value="$8,494/yr" highlight />
-            <ExampleRow label="Retirement points earned (48 drills + 14 AT + 15 membership)" value="77 pts/yr" />
-            <ExampleRow label="Tricare Reserve Select — member + family premium" value="$286.66/mo ($3,440/yr)" />
-            <ExampleRow label="Comparable civilian family health plan (est.)" value="~$23,000/yr" />
-            <ExampleRow label="TRS healthcare savings vs. civilian coverage" value="~$19,560/yr" highlight />
+            <ExampleRow label="Annual Training pay (15 days × $137)" value="$2,055/yr" />
+            <ExampleRow label="Total drill + AT pay" value="$8,631/yr" highlight />
+            <ExampleRow label="Estimated retirement points (48 drills + 15 AT + 15 membership)" value="78 pts/yr" />
+            <ExampleRow label="TRICARE Reserve Select — member + family premium" value="$286.66/mo ($3,440/yr)" />
+            <ExampleRow label="Avg. employer-sponsored family plan total premiums (KFF 2025 est.)" value="~$23,000/yr" />
+            <ExampleRow label="Est. TRS premium value vs. avg. employer plan" value="~$19,560/yr" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> The cash drill pay of $8,494/year understates the true value of reserve service. When you add the $19,560 in annual healthcare savings from Tricare Reserve Select alone, this E-5&apos;s total compensation package is worth approximately $28,000/year — for roughly one weekend per month and two weeks of summer training. Retirement points also accumulate toward a reserve pension payable at age 60.
+            <strong>What this means:</strong> The cash drill pay of $8,631/year understates the total value of reserve service. TRICARE Reserve Select family premiums are $3,440/year — substantially lower than typical employer-sponsored family coverage, though employee payroll cost, deductibles, and employer contributions vary widely. Retirement points accumulate toward a reserve pension payable at age 60.
           </p>
         </ExampleBox>
       </section>
@@ -221,6 +199,24 @@ export default function GuardReservePage() {
             policy — verify applicability with your unit finance office. Verify all pay with your
             unit finance office and LES.
           </p>
+        </div>
+
+        {/* What this calculator does not include */}
+        <div className="rounded-lg border border-zinc-200 bg-zinc-50 px-6 py-5">
+          <p className="font-semibold text-zinc-800 mb-2">What this calculator does not include</p>
+          <ul className="space-y-1 text-sm text-zinc-500">
+            <li className="flex gap-2"><span>•</span> Travel reimbursement or lodging</li>
+            <li className="flex gap-2"><span>•</span> Special or incentive pays</li>
+            <li className="flex gap-2"><span>•</span> Enlistment or reenlistment bonuses</li>
+            <li className="flex gap-2"><span>•</span> Per diem during AT or ADOS orders</li>
+            <li className="flex gap-2"><span>•</span> Federal and state income taxes</li>
+            <li className="flex gap-2"><span>•</span> SGLI premiums</li>
+            <li className="flex gap-2"><span>•</span> Uniform or clothing allowances</li>
+            <li className="flex gap-2"><span>•</span> State active duty pay</li>
+            <li className="flex gap-2"><span>•</span> Mobilization or deployment pay</li>
+            <li className="flex gap-2"><span>•</span> TRS deductibles, copays, or catastrophic cap costs</li>
+            <li className="flex gap-2"><span>•</span> Retirement point corrections or official point statements</li>
+          </ul>
         </div>
 
         {/* Guide links */}

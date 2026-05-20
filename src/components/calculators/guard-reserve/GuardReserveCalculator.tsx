@@ -64,8 +64,8 @@ function buildActionSteps(output: GuardReserveOutput, input: GuardReserveInput):
 
   if (!input.brsEnrolled) {
     steps.push({
-      label: 'Increase TSP contributions',
-      description: `You can contribute to TSP on any military pay. Under BRS, the government also adds a 1% automatic contribution plus matching up to 5% on all military pay — drill, AT, and additional duty.`,
+      label: 'Enroll in TSP to capture BRS government contributions',
+      description: `Under BRS, the government contributes 1% automatically and matches up to 4% of your TSP contributions during active duty periods (AT, ADOS, mobilization). Matching does not apply during IDT drill weekends. Verify your BRS/TSP contributions on your LES and TSP.gov account.`,
       href: '/calculators/tsp',
       priority: 'medium',
     });
@@ -222,7 +222,7 @@ export function GuardReserveCalculator() {
     { label: 'Drill pay', value: output.annualDrillPay, color: 'bg-red-700' },
     { label: 'Annual Training', value: output.atPay, color: 'bg-red-400' },
     ...(output.additionalPay > 0 ? [{ label: 'Additional duty', value: output.additionalPay, color: 'bg-red-200' }] : []),
-    ...(output.trsSavings > 0 ? [{ label: 'TRS savings', value: output.trsSavings, color: 'bg-green-500' }] : []),
+    ...(output.trsSavings > 0 ? [{ label: 'TRS premium value', value: output.trsSavings, color: 'bg-green-500' }] : []),
     ...(output.brs.totalGovContrib > 0 ? [{ label: 'TSP gov match', value: output.brs.totalGovContrib, color: 'bg-blue-400' }] : []),
   ];
 
@@ -409,7 +409,7 @@ export function GuardReserveCalculator() {
                       <span className="text-sm font-mono tabular-nums w-10 text-right">{tspContribPct}%</span>
                     </div>
                     <p className="text-xs text-zinc-400 mt-1">
-                      BRS matching applies to all military pay — drill, AT, and additional duty.
+                      BRS matching applies during active duty periods (AT, ADOS, mobilization) — not during IDT drill weekends.
                     </p>
                   </div>
                 )}
@@ -433,7 +433,7 @@ export function GuardReserveCalculator() {
               </div>
               {output.trsSavings > 0 && (
                 <div className="flex justify-between text-red-200">
-                  <span>Healthcare savings (TRS vs. civilian)</span>
+                  <span>Est. TRS premium value</span>
                   <span className="tabular-nums">{fmt(output.trsSavings)}</span>
                 </div>
               )}
@@ -528,27 +528,30 @@ export function GuardReserveCalculator() {
             <Row label="Annual Training pay" value={fmt(output.atPay)} />
             {additionalDays > 0 && <Row label="Additional duty pay" value={fmt(output.additionalPay)} />}
             <Row label="Total military income" value={fmt(output.totalMilitaryPay)} highlight />
+            <p className="text-xs text-zinc-400 mt-3 leading-relaxed">
+              Drill and AT pay are generally taxable income. Figures shown are gross pay before taxes, deductions, SGLI, and TSP contributions.
+            </p>
           </div>
 
           {/* TRS section */}
           {trsPlan !== 'none' && (
             <div className="rounded-lg border border-green-200 bg-green-50 p-5">
-              <h3 className="font-semibold text-zinc-900 mb-1">Tricare Reserve Select Value</h3>
+              <h3 className="font-semibold text-zinc-900 mb-1">TRS Premium Comparison</h3>
               <p className="text-xs text-zinc-500 mb-3">
-                TRS premiums are a fraction of civilian health insurance costs. This difference is real compensation.
+                TRS premiums are substantially lower than most civilian alternatives. Average employer-sponsored family coverage has total premiums in the tens of thousands per year, but employee payroll cost, deductibles, and employer contributions vary widely.
               </p>
               <Row
                 label="Annual TRS premium"
-                value={`−${fmtD(output.trsAnnualPremium)}`}
+                value={`${fmtD(output.trsAnnualPremium)}`}
                 sub={`${fmtD(trsPlan === 'family' ? TRICARE_RATES_2026.reserveSelect.memberAndFamily : TRICARE_RATES_2026.reserveSelect.memberOnly)}/month`}
               />
               <Row
-                label="Comparable civilian coverage"
-                value={fmt(output.trsCivilianComparable)}
-                sub="Approximate employer + employee cost (KFF 2025 survey)"
+                label="Avg. employer-sponsored family plan total premiums (KFF 2025)"
+                value={`~${fmt(output.trsCivilianComparable)}`}
+                sub="Includes employer + employee share — your employee cost will vary"
               />
               <Row
-                label="Annual healthcare savings"
+                label="Est. TRS premium value vs. avg. employer plan"
                 value={fmt(output.trsSavings)}
                 highlight
               />
@@ -560,13 +563,13 @@ export function GuardReserveCalculator() {
             <div className="rounded-lg border border-blue-200 bg-blue-50 p-5">
               <h3 className="font-semibold text-zinc-900 mb-1">BRS / TSP Government Match</h3>
               <p className="text-xs text-zinc-500 mb-3">
-                BRS matching applies to all military pay — drill weekends, Annual Training, and additional duty.
+                BRS matching applies during active duty periods (AT, ADOS, mobilization) — not during IDT drill weekends. Verify your contributions on your LES and TSP.gov.
               </p>
-              {output.brs.totalMilitaryPay > 0 ? (
+              {output.brs.activeDutyPayForBRS > 0 ? (
                 <>
                   <Row
-                    label="Total military pay (drill + AT + additional)"
-                    value={fmtD(output.brs.totalMilitaryPay)}
+                    label="Active duty pay for BRS matching (AT + additional duty)"
+                    value={fmtD(output.brs.activeDutyPayForBRS)}
                   />
                   <Row
                     label={`Your TSP contribution (${tspContribPct}%)`}
@@ -608,7 +611,7 @@ export function GuardReserveCalculator() {
               </div>
               {output.trsSavings > 0 && (
                 <div className="flex justify-between text-sm">
-                  <span className="text-zinc-400">Healthcare savings (TRS)</span>
+                  <span className="text-zinc-400">Est. TRS premium value</span>
                   <span className="font-mono tabular-nums text-green-400">{fmt(output.trsSavings)}</span>
                 </div>
               )}
@@ -641,7 +644,7 @@ export function GuardReserveCalculator() {
               <span className="font-semibold text-zinc-900">{fmtD(output.effectiveHourlyRate)}/hour</span>{' '}
               when spread across {output.totalHours} hours of service.
               {output.trsSavings > 0 && (
-                <> Healthcare savings account for {Math.round((output.trsSavings / output.totalValue) * 100)}% of that total.</>
+                <> Estimated TRS premium value accounts for {Math.round((output.trsSavings / output.totalValue) * 100)}% of that total.</>
               )}
             </p>
             <div className="mt-3 flex flex-col gap-2">
