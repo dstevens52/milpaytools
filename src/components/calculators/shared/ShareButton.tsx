@@ -14,7 +14,7 @@ export function ShareButton({ getUrl, className }: ShareButtonProps) {
     try {
       await navigator.clipboard.writeText(getUrl());
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopied(false), 4000);
     } catch {
       // Clipboard API unavailable — silently ignore
     }
@@ -60,7 +60,7 @@ export function ShareBar({ getUrl, className }: ShareButtonProps) {
     try {
       await navigator.clipboard.writeText(getUrl());
       setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
+      setTimeout(() => setCopied(false), 4000);
     } catch {
       // Clipboard API unavailable — silently ignore
     }
