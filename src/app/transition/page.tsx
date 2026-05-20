@@ -37,8 +37,6 @@ const RELATED_GUIDES = [
   { href: '/guides/education-benefits', title: 'Military Education Benefits Guide' },
 ];
 
-// ─── Comparison table data ─────────────────────────────────────────────────
-
 const COMPARISON_ROWS: { active: string; after: string }[] = [
   {
     active: 'Base pay (taxable)',
@@ -74,12 +72,17 @@ const COMPARISON_ROWS: { active: string; after: string }[] = [
   },
 ];
 
-// ─── Transition path cards ─────────────────────────────────────────────────
-
-const PATH_CARDS: { title: string; description: string; href: string; icon: string; secondaryHref?: string; secondaryLabel?: string }[] = [
+const PATH_CARDS: {
+  title: string;
+  description: string;
+  href: string;
+  icon: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+}[] = [
   {
     title: 'Going to Civilian Employment',
-    description: 'Compare your military compensation to what you\'ll need on the civilian side. Get a readiness verdict with action steps.',
+    description: "Compare your military compensation to what you'll need on the civilian side. Get a readiness verdict with action steps.",
     href: '/calculators/transition-readiness',
     icon: '💼',
     secondaryHref: '/calculators/healthcare-comparison',
@@ -111,54 +114,61 @@ const PATH_CARDS: { title: string; description: string; href: string; icon: stri
   },
 ];
 
-// ─── Three financial shocks (Zone 2) ──────────────────────────────────────
+type Bullet = { text: string; color?: 'green' | 'red' };
 
-const THREE_SHOCKS = [
+const THREE_SHOCKS: {
+  iconPath: string;
+  label: string;
+  title: string;
+  description: string;
+  bullets: Bullet[];
+  cta: string;
+  href: string;
+}[] = [
   {
-    accent: 'bg-blue-800',
+    iconPath: 'M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z',
     label: 'Shock 1',
     title: 'Healthcare costs appear',
     description:
       'TRICARE costs you $0 in premiums. Civilian health insurance for a family runs $400–$600/month — or $8,000–$12,000/year after TAMP coverage ends.',
     bullets: [
-      'TRICARE → $0/month in premiums',
-      'Employer plan → $400–$600/month for family coverage',
-      'Marketplace plan → potentially more without subsidy',
+      { text: 'TRICARE → $0/month in premiums', color: 'green' },
+      { text: 'Employer plan → $400–$600/month for family coverage', color: 'red' },
+      { text: 'Marketplace plan → potentially more without subsidy' },
     ],
     cta: 'Compare healthcare costs →',
     href: '/calculators/healthcare-comparison',
   },
   {
-    accent: 'bg-emerald-600',
+    iconPath:
+      'M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
     label: 'Shock 2',
     title: 'Tax-free income disappears',
     description:
       "BAH and BAS are tax-free. Your civilian salary is fully taxable. An E-6 receiving $3,000/month in BAH would need ~$3,850/month in civilian gross pay to match — that's $10,200/year in hidden income loss.",
     bullets: [
-      'BAH + BAS: tax-free on active duty',
-      'Civilian salary: fully taxed',
-      'The gap is real and often overlooked',
+      { text: 'BAH + BAS: tax-free on active duty', color: 'green' },
+      { text: 'Civilian salary: fully taxed', color: 'red' },
+      { text: 'The gap is real and often overlooked' },
     ],
     cta: 'Calculate the civilian equivalent →',
     href: '/calculators/total-compensation',
   },
   {
-    accent: 'bg-amber-600',
+    iconPath: 'M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z',
     label: 'Shock 3',
     title: 'Benefit deadlines are unforgiving',
     description:
       "SGLI ends 120 days after separation. TAMP healthcare is 180 days — if you qualify. GI Bill transfer has its own timeline. Miss a window and you can't go back.",
     bullets: [
-      'SGLI → 120-day conversion window',
-      'TAMP → 180 days (not automatic)',
-      'BDD claim → file 180–90 days before separation',
+      { text: 'SGLI → 120-day conversion window', color: 'red' },
+      { text: 'TAMP → 180 days (not automatic)', color: 'red' },
+      { text: 'BDD claim → file 180–90 days before separation', color: 'red' },
     ],
     cta: 'See the full timeline below ↓',
     href: '#timeline',
   },
 ];
-
-// ─── Phase data ────────────────────────────────────────────────────────────
 
 const PHASE0_STEPS = [
   "Schedule TAP initial counseling and pre-separation briefing at your installation's Military & Family Readiness Center.",
@@ -272,8 +282,6 @@ function ComingSoonCard({ title, description }: { title: string; description: st
   );
 }
 
-// ─── Shared accordion summary header ──────────────────────────────────────
-
 function PhaseAccordionSummary({
   number,
   timeframe,
@@ -341,86 +349,132 @@ export default function TransitionPage() {
         </div>
       </div>
 
-      {/* ── ZONE 1: Hero ── */}
-      <section className="bg-zinc-50 border-b border-zinc-200 py-12 sm:py-16 px-4">
-        <div className="mx-auto max-w-3xl">
-          {/* Eyebrow */}
-          <div className="inline-flex items-center gap-2.5 mb-6 rounded-full bg-zinc-900 px-4 py-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
-            <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-              Transition Financial Guide · Official 2026 DoD &amp; VA Data
-            </span>
-          </div>
+      {/* ── Hero — warm gradient + image slot ── */}
+      <section
+        className="relative overflow-hidden border-b border-zinc-200"
+        style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
+      >
+        {/* Transition soldier image — desktop only; warm gradient fallback if image missing */}
+        <div className="absolute inset-0 hidden sm:block" aria-hidden="true">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/transition-soldier.png"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: 'right center' }}
+          />
+          {/* Cream overlay: solid on left (text area), fades to transparent on right */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(to right, rgba(242,232,212,1) 0%, rgba(242,232,212,1) 30%, rgba(242,232,212,0.85) 45%, rgba(242,232,212,0) 62%)',
+            }}
+          />
+        </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight text-zinc-900 mb-5">
-            Know what your{' '}
-            <span className="text-red-700">income, healthcare, and benefits</span>{' '}
-            look like after you take off the uniform.
-          </h1>
+        <div className="relative z-10 mx-auto max-w-5xl pt-6 pb-5 sm:pt-9 sm:pb-8 px-4">
+          {/* Left column — constrained so image stays visible on desktop */}
+          <div className="sm:max-w-[58%]">
 
-          <p className="text-lg text-zinc-600 leading-relaxed mb-4">
-            Separation changes more than your paycheck. BAH, BAS, TRICARE, tax advantages, and TSP
-            contributions all shift on day one.{' '}
-            <strong className="text-zinc-900">Use free tools to see exactly where you stand</strong>{' '}
-            — before you sign out.
-          </p>
-
-          <p className="text-sm font-medium text-zinc-500 mb-7">
-            Leave TAP with your numbers, deadlines, and next steps written down.
-          </p>
-
-          {/* Urgency stat */}
-          <div className="rounded-lg bg-red-50 border border-red-200 px-5 py-4 mb-8 flex items-start gap-3">
-            <div className="w-1 self-stretch rounded-full bg-red-500 flex-none" aria-hidden="true" />
-            <p className="text-base font-semibold text-red-800 leading-snug">
-              Many separating service members face a significant effective income drop in year one —
-              not because civilian pay is low, but because{' '}
-              <span className="text-red-700">
-                replacing tax-free housing, healthcare, and food allowances costs more than expected.
+            {/* Trust pill */}
+            <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+              <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+                Free Calculators &bull; No Account &bull; No Personal Info &bull; Official 2026 DoD &amp; VA Data
               </span>
-            </p>
-          </div>
+            </div>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-5">
+            {/* Headline */}
+            <h1 className="text-[32px] sm:text-[42px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-3">
+              Know what your{' '}
+              <span className="text-red-700">income, healthcare, and benefits</span>{' '}
+              look like after you take off the uniform.
+            </h1>
+
+            {/* Subtext */}
+            <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-5">
+              Separation changes more than your paycheck. BAH, BAS, TRICARE, tax advantages, and TSP
+              contributions all shift on day one.{' '}
+              <strong className="text-zinc-900">Use free tools to see exactly where you stand</strong>{' '}
+              — before you sign out.
+            </p>
+
+            {/* Primary CTA — single button */}
             <Link
               href="/calculators/transition-readiness"
-              className="inline-flex items-center justify-center rounded-lg bg-red-700 px-7 py-3.5 text-base font-bold text-white hover:bg-red-800 transition-all duration-300 shadow-md hover:shadow-lg"
+              className="inline-flex items-center gap-2 rounded-md bg-red-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
             >
               Check My Transition Readiness →
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
             </Link>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── Proof bar ── */}
+      {/* TODO: make dynamic using lookupBasePay + lookupBAH for E-6, 10yr, Fort Campbell */}
+      <section className="bg-white border-b border-zinc-200 py-5 px-4">
+        <div className="mx-auto max-w-5xl">
+          <div className="rounded-xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
+            <div className="px-4 py-2.5 border-b border-zinc-100 bg-zinc-50/70">
+              <p className="text-[11px] text-zinc-400 font-medium">
+                Example: E-6 &middot; 10 years &middot; Fort Campbell &middot; separating
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-zinc-100">
+              <div className="flex-1 px-4 py-4">
+                <p className="text-[10px] text-zinc-400 uppercase tracking-wide font-medium mb-1">
+                  Active duty value
+                </p>
+                <p className="text-2xl font-extrabold text-zinc-900 tabular-nums leading-none">
+                  $8,200
+                  <span className="text-sm font-semibold text-zinc-400">/mo</span>
+                </p>
+              </div>
+              <div className="flex-1 px-4 py-4">
+                <p className="text-[10px] text-zinc-400 uppercase tracking-wide font-medium mb-1">
+                  Civilian salary to match
+                </p>
+                <p className="text-2xl font-extrabold tabular-nums leading-none" style={{ color: '#c0392b' }}>
+                  $95,000
+                  <span className="text-sm font-semibold" style={{ color: '#c0392b', opacity: 0.7 }}>/yr</span>
+                </p>
+              </div>
+              <div className="flex-1 px-4 py-4">
+                <p className="text-[10px] text-zinc-400 uppercase tracking-wide font-medium mb-1">
+                  Hidden gap
+                </p>
+                <p className="text-2xl font-extrabold tabular-nums leading-none" style={{ color: '#c0392b' }}>
+                  $16,800
+                  <span className="text-sm font-semibold" style={{ color: '#c0392b', opacity: 0.7 }}>/yr</span>
+                </p>
+              </div>
+              <div className="flex-1 px-4 py-4 flex items-center">
+                <Link
+                  href="/calculators/total-compensation"
+                  className="inline-flex items-center gap-1.5 rounded-md border border-red-700 px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-50 transition-colors"
+                >
+                  Calculate yours →
+                </Link>
+              </div>
+            </div>
+          </div>
+          <p className="mt-3 text-center">
             <Link
               href="#comparison"
-              className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-7 py-3.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 hover:shadow-sm transition-all duration-300"
+              className="text-xs text-zinc-400 hover:text-zinc-600 transition-colors hover:underline underline-offset-2"
             >
-              See What Changes After Separation ↓
+              See what changes after separation ↓
             </Link>
-            <Link
-              href="/transition/worksheet"
-              className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-7 py-3.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 hover:shadow-sm transition-all duration-300"
-            >
-              Open Printable TAP Student Worksheet →
-            </Link>
-          </div>
-
-          <p className="text-xs text-zinc-400 flex items-center gap-1.5">
-            <svg
-              className="w-3.5 h-3.5 flex-none"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              aria-hidden="true"
-            >
-              <rect x="3" y="11" width="18" height="11" rx="2" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7 11V7a5 5 0 0 1 10 0v4" />
-            </svg>
-            No account. No personal info. Uses official 2026 DoD and VA data.
           </p>
         </div>
       </section>
 
-      {/* ── ZONE 2: Three financial shocks ── */}
+      {/* ── Three financial shocks ── */}
       <section className="bg-white border-b border-zinc-200 py-10 sm:py-14 px-4">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-10">
@@ -436,24 +490,54 @@ export default function TransitionPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {THREE_SHOCKS.map(({ accent, label, title, description, bullets, cta, href }) => (
+            {THREE_SHOCKS.map(({ iconPath, label, title, description, bullets, cta, href }) => (
               <div
                 key={title}
-                className="bg-white rounded-xl border border-zinc-200 shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col overflow-hidden"
+                className="bg-white flex flex-col overflow-hidden"
+                style={{
+                  border: '0.5px solid #e8e5e0',
+                  borderRadius: '10px',
+                  borderTop: '3px solid #c0392b',
+                }}
               >
-                <div className={`${accent} px-5 py-3`}>
-                  <span className="text-xs font-semibold text-white/80 uppercase tracking-wide">
-                    {label}
-                  </span>
-                  <p className="text-lg font-bold text-white leading-snug mt-0.5">{title}</p>
+                <div className="px-5 pt-5 pb-4">
+                  <div className="flex items-start gap-3 mb-4">
+                    <div
+                      className="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center flex-none"
+                      aria-hidden="true"
+                    >
+                      <svg
+                        className="w-4 h-4 text-red-700"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        aria-hidden="true"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d={iconPath} />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-bold text-red-700 uppercase tracking-widest leading-none mb-1">
+                        {label}
+                      </p>
+                      <p className="text-base font-bold text-zinc-900 leading-snug">{title}</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-zinc-600 leading-relaxed">{description}</p>
                 </div>
-                <div className="px-5 py-4 flex flex-col flex-1">
-                  <p className="text-sm text-zinc-600 leading-relaxed mb-4">{description}</p>
-                  <ul className="space-y-2 flex-1 mb-5">
+                <div className="px-5 pb-5 flex flex-col flex-1">
+                  <ul className="space-y-2.5 flex-1 mb-5">
                     {bullets.map((b) => (
-                      <li key={b} className="flex items-start gap-2">
+                      <li key={b.text} className="flex items-start gap-2">
                         <svg
-                          className="w-4 h-4 flex-none text-zinc-400 mt-0.5"
+                          className={`w-4 h-4 flex-none mt-0.5 ${
+                            b.color === 'green'
+                              ? 'text-emerald-500'
+                              : b.color === 'red'
+                              ? 'text-red-500'
+                              : 'text-zinc-300'
+                          }`}
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
@@ -462,7 +546,17 @@ export default function TransitionPage() {
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
-                        <span className="text-sm text-zinc-700">{b}</span>
+                        <span
+                          className={`text-sm font-medium leading-snug ${
+                            b.color === 'green'
+                              ? 'text-emerald-700'
+                              : b.color === 'red'
+                              ? 'text-red-700'
+                              : 'text-zinc-600'
+                          }`}
+                        >
+                          {b.text}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -479,10 +573,9 @@ export default function TransitionPage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-
-        {/* ── What Changes After Separation ── */}
-        <section id="comparison" className="py-10 sm:py-12 border-b border-zinc-200">
+      {/* ── What Changes After Separation ── */}
+      <section id="comparison" className="bg-white border-b border-zinc-200 py-10 sm:py-12 px-4">
+        <div className="mx-auto max-w-4xl">
           <h2 className="text-2xl font-bold text-zinc-900 mb-2">What Changes After Separation</h2>
           <p className="text-base text-zinc-600 leading-relaxed mb-7 max-w-2xl">
             Most service members underestimate how much of their compensation is invisible — BAH, BAS,
@@ -509,7 +602,9 @@ export default function TransitionPage() {
           <div className="hidden sm:block rounded-lg border border-zinc-200 overflow-hidden">
             <div className="grid grid-cols-2">
               <div className="px-5 py-3 bg-zinc-800 text-white text-sm font-semibold">Active Duty</div>
-              <div className="px-5 py-3 bg-zinc-700 text-white text-sm font-semibold border-l border-zinc-600">After Separation</div>
+              <div className="px-5 py-3 bg-zinc-700 text-white text-sm font-semibold border-l border-zinc-600">
+                After Separation
+              </div>
             </div>
             {COMPARISON_ROWS.map(({ active, after }, i) => (
               <div
@@ -521,14 +616,15 @@ export default function TransitionPage() {
               </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ── Choose Your Transition Path ── */}
-        <section className="py-10 sm:py-12 border-b border-zinc-200">
-          <h2 className="text-2xl font-bold text-zinc-900 mb-2">Choose Your Transition Path</h2>
-          <p className="text-base text-zinc-600 leading-relaxed mb-7 max-w-2xl">
-            Select the path that best describes your post-military plan. Each links to the calculator or
-            guide most relevant to your situation.
+      {/* ── Transition path cards — warm background ── */}
+      <section className="border-b border-zinc-200 py-10 sm:py-12 px-4" style={{ background: '#f8f7f5' }}>
+        <div className="mx-auto max-w-4xl">
+          <h2 className="text-base font-medium text-zinc-900 mb-1">Choose your transition path</h2>
+          <p className="text-sm text-zinc-500 mb-7">
+            Select the path that fits your plan. Each links to the most relevant tools.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -536,7 +632,7 @@ export default function TransitionPage() {
               secondaryHref ? (
                 <div
                   key={href}
-                  className="flex flex-col rounded-lg border border-zinc-200 bg-white p-5 hover:shadow-md hover:border-zinc-300 transition-all duration-150"
+                  className="flex flex-col rounded-xl border border-zinc-200 bg-white shadow-sm p-4 hover:shadow-md hover:border-zinc-300 transition-all duration-150"
                 >
                   <div className="flex items-center gap-2.5 mb-3">
                     <span className="text-xl" aria-hidden>{icon}</span>
@@ -544,10 +640,16 @@ export default function TransitionPage() {
                   </div>
                   <p className="text-sm text-zinc-600 leading-relaxed flex-1">{description}</p>
                   <div className="mt-3 flex flex-col gap-1.5">
-                    <Link href={href} className="inline-flex items-center gap-1 text-xs font-semibold text-red-700 hover:text-red-800 transition-colors">
+                    <Link
+                      href={href}
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-red-700 hover:text-red-800 transition-colors"
+                    >
                       Open <span aria-hidden>→</span>
                     </Link>
-                    <Link href={secondaryHref} className="inline-flex items-center gap-1 text-xs font-semibold text-red-700 hover:text-red-800 transition-colors">
+                    <Link
+                      href={secondaryHref}
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-red-700 hover:text-red-800 transition-colors"
+                    >
                       {secondaryLabel}
                     </Link>
                   </div>
@@ -556,7 +658,7 @@ export default function TransitionPage() {
                 <Link
                   key={href}
                   href={href}
-                  className="group flex flex-col rounded-lg border border-zinc-200 bg-white p-5 hover:shadow-md hover:border-zinc-300 transition-all duration-150"
+                  className="group flex flex-col rounded-xl border border-zinc-200 bg-white shadow-sm p-4 hover:shadow-md hover:border-zinc-300 transition-all duration-150"
                 >
                   <div className="flex items-center gap-2.5 mb-3">
                     <span className="text-xl" aria-hidden>{icon}</span>
@@ -572,7 +674,10 @@ export default function TransitionPage() {
               )
             )}
           </div>
-        </section>
+        </div>
+      </section>
+
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
 
         {/* ── Timeline (accordion phases) ── */}
         <div id="timeline" className="border-b border-zinc-200">
@@ -821,7 +926,16 @@ export default function TransitionPage() {
                 rel="noopener noreferrer"
                 className="mt-2.5 inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 hover:text-blue-900 transition-colors"
               >
-                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <svg
+                  className="w-3.5 h-3.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
                   <path d="M12 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                   <polyline points="14 2 14 8 20 8" />
                 </svg>
@@ -831,7 +945,7 @@ export default function TransitionPage() {
           </div>
         </section>
 
-        {/* ── Coming Next ── */}
+        {/* ── More Tools ── */}
         <section className="py-10 sm:py-12 border-b border-zinc-200">
           <h2 className="text-xl font-bold text-zinc-900 mb-1">More Tools</h2>
           <p className="text-sm text-zinc-500 mb-6">Additional tools to support your transition plan.</p>
