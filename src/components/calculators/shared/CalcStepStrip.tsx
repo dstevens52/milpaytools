@@ -5,9 +5,9 @@ interface CalcStep {
   sub?: string;
 }
 
-export function CalcStepStrip({ steps }: { steps: CalcStep[] }) {
+export function CalcStepStrip({ steps, noBg }: { steps: CalcStep[]; noBg?: boolean }) {
   return (
-    <div className="bg-zinc-50 px-4 sm:px-6 lg:px-8 pb-5">
+    <div className={[noBg ? '' : 'bg-zinc-50', 'px-4 sm:px-6 lg:px-8 pb-5'].filter(Boolean).join(' ')}>
       <div className="max-w-4xl mx-auto">
         <div className="rounded-2xl bg-[#111318] shadow-xl px-5 py-4 md:px-7 md:py-5">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">

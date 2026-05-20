@@ -36,8 +36,14 @@ export default function TotalCompensationPage() {
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Total Military Compensation Calculator 2026', description: 'Calculate your true total military compensation: base pay, BAH, BAS, TSP match, and tax advantage. See the civilian salary equivalent using official 2026 DoD rates.', url: '/calculators/total-compensation' })} />
+      {/* ── Warm gradient header: hero + step strip ─────────────────── */}
+      <div
+        className="border-b border-zinc-200"
+        style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
+      >
+
       {/* ── Page intro ───────────────────────────────────────────────── */}
-      <div className="bg-zinc-50 border-b border-zinc-200">
+      <div>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
           <div className="flex items-start gap-4">
             <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
@@ -74,11 +80,13 @@ export default function TotalCompensationPage() {
       </div>
 
       {/* ── 3-step plan strip ────────────────────────────────────────── */}
-      <CalcStepStrip steps={[
+      <CalcStepStrip noBg steps={[
         { title: 'Enter your military profile' },
         { title: 'See your full compensation' },
         { title: 'Compare with confidence' },
       ]} />
+
+      </div>{/* end gradient wrapper */}
 
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <TotalCompensationCalculator />
