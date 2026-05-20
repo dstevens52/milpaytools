@@ -3,7 +3,6 @@ import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/s
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { TotalCompensationCalculator } from '@/components/calculators/total-compensation/TotalCompensationCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
-import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
@@ -43,39 +42,25 @@ export default function TotalCompensationPage() {
       >
 
       {/* ── Page intro ───────────────────────────────────────────────── */}
-      <div>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
-          <div className="flex items-start gap-4">
-            <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
-              <span className="text-white font-black text-lg leading-none select-none">$</span>
-            </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
-                Total Military Compensation Calculator
-              </h1>
-              <p className="text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
-                See what your military compensation is really worth — including BAH, BAS, TSP match, and tax advantages.
-              </p>
-            </div>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-3 md:pt-5 md:pb-3">
+        <div className="flex items-start gap-4">
+          <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
+            <span className="text-white font-black text-lg leading-none select-none">$</span>
           </div>
-
-          <div className="mt-3 hidden md:flex flex-wrap gap-3">
-            {[
-              { icon: '📊', text: 'Official 2026 DoD pay tables' },
-              { icon: '🏠', text: '40,959 ZIP codes' },
-              { icon: '💼', text: 'BRS & Legacy retirement' },
-              { icon: '🧾', text: 'Tax advantage calculation' },
-            ].map(({ icon, text }) => (
-              <span
-                key={text}
-                className="inline-flex items-center gap-1.5 text-sm text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1"
-              >
-                <span>{icon}</span>
-                {text}
-              </span>
-            ))}
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
+              Total Military Compensation Calculator
+            </h1>
+            <p className="text-zinc-600 mt-1.5 text-base leading-relaxed max-w-2xl">
+              See what your military compensation is really worth — including BAH, BAS, TSP match, and tax advantages.
+            </p>
           </div>
-          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS &amp; DTMO rates" /></div>
+        </div>
+        <div className="mt-3 inline-flex items-center gap-2.5 rounded-full bg-zinc-900 px-4 py-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+          <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+            Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
+          </span>
         </div>
       </div>
 
