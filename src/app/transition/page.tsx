@@ -351,17 +351,17 @@ export default function TransitionPage() {
 
       {/* ── Hero — warm gradient + image slot ── */}
       <section
-        className="relative overflow-hidden border-b border-zinc-200"
-        style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)', minHeight: '460px' }}
+        className="relative border-b border-zinc-200"
+        style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
       >
         {/* Transition soldier image — desktop only; warm gradient fallback if image missing */}
-        <div className="absolute inset-0 hidden sm:block" aria-hidden="true">
+        <div className="absolute inset-x-0 top-0 hidden sm:block" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/transition-soldier.png"
             alt=""
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{ objectPosition: 'center top' }}
+            className="w-full object-cover"
+            style={{ objectPosition: 'center top', height: '560px' }}
           />
           {/* Cream overlay: solid on left (text area), fades to transparent on right */}
           <div
@@ -373,7 +373,7 @@ export default function TransitionPage() {
           />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-5xl pt-5 pb-5 sm:pt-6 sm:pb-8 px-4">
+        <div className="relative z-10 mx-auto max-w-5xl pt-5 pb-5 sm:pt-6 sm:pb-5 px-4">
           {/* Left column — constrained so image stays visible on desktop */}
           <div className="sm:max-w-[58%]">
 
@@ -416,7 +416,7 @@ export default function TransitionPage() {
 
       {/* ── Proof bar ── */}
       {/* TODO: make dynamic using lookupBasePay + lookupBAH for E-6, 10yr, Fort Campbell */}
-      <section className="bg-white border-b border-zinc-200 py-5 px-4">
+      <section className="relative z-10 bg-white border-b border-zinc-200 py-5 px-4">
         <div className="mx-auto max-w-5xl">
           <div className="rounded-xl border border-zinc-200 bg-white shadow-md overflow-hidden">
             <div className="px-4 py-2.5 border-b border-zinc-100 bg-zinc-50/70">
