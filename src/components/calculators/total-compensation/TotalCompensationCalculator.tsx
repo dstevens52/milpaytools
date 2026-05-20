@@ -221,7 +221,8 @@ export function TotalCompensationCalculator() {
             label="Duty Station ZIP Code"
             value={zipCode}
             onZipChange={setZipCode}
-            hint="Enter your duty station ZIP or base name for BAH"
+            placeholder="Try 'Fort Bragg', 'San Diego', or '28310'"
+            hint="We'll match your ZIP or installation to the correct BAH area."
           />
 
           <div className="flex flex-col gap-1">

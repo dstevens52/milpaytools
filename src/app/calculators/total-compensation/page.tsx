@@ -66,12 +66,27 @@ export default function TotalCompensationPage() {
 
       {/* ── 3-step plan strip ────────────────────────────────────────── */}
       <CalcStepStrip noBg steps={[
-        { title: 'Enter your military profile' },
-        { title: 'See your full compensation' },
-        { title: 'Compare with confidence' },
+        { title: 'Enter rank, years, and duty station' },
+        { title: 'See pay, BAH, BAS, tax value, and TSP match' },
+        { title: 'Compare against civilian salary' },
       ]} />
 
       </div>{/* end gradient wrapper */}
+
+      {/* ── Proof bar ────────────────────────────────────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 pb-0">
+        <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5">
+          <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
+            Example: E-5 &middot; 8 yrs &middot; Fort Bragg &middot; with dependents
+          </p>
+          <div className="flex flex-wrap gap-x-5 gap-y-0.5 items-baseline">
+            <span className="text-xs text-zinc-500">Base Pay <span className="font-semibold text-zinc-700">$4,300/mo</span></span>
+            <span className="text-xs text-zinc-500">BAH <span className="font-semibold text-zinc-700">$1,806/mo</span></span>
+            <span className="text-xs text-zinc-500">BAS <span className="font-semibold text-zinc-700">$477/mo</span></span>
+            <span className="text-xs text-zinc-400">Civilian Equivalent <span className="text-base font-extrabold text-red-700">&asymp;$91,700/yr</span></span>
+          </div>
+        </div>
+      </div>
 
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <TotalCompensationCalculator />
@@ -304,7 +319,7 @@ export default function TotalCompensationPage() {
                 <li>Special pay: flight pay, hazardous duty pay, combat zone tax exclusion, sea pay, etc.</li>
                 <li>SGLI life insurance (up to $500K coverage at $26/month as of July 2025)</li>
                 <li>Commissary and exchange savings (estimated $2,000–4,000/year for a family)</li>
-                <li>TRICARE health insurance value (estimated $12,000–20,000/year civilian equivalent)</li>
+                <li>Full TRICARE health insurance value — this calculator includes a conservative TRICARE replacement estimate ($2,040/yr for individual, $6,840/yr for family) in the Full Economic Value section based on employer Silver plan premiums. The actual civilian replacement cost can be significantly higher ($12,000–20,000/year for comprehensive family coverage).</li>
                 <li>VA loan eligibility and education benefits (GI Bill)</li>
                 <li>The value of the military pension itself (not just the TSP match)</li>
                 <li>
