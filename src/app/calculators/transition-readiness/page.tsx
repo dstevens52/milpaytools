@@ -3,7 +3,6 @@ import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/s
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { TransitionReadinessCalculator } from '@/components/calculators/transition-readiness/TransitionReadinessCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
-import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import Link from 'next/link';
@@ -48,52 +47,18 @@ export default function TransitionReadinessPage() {
       {/* ── Page intro ─────────────────────────────────────────────── */}
       <div className="tr-page-intro border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
-          <div className="flex items-start gap-4">
-            <div className="flex-none w-10 h-10 rounded-lg bg-red-700 flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-white"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-              </svg>
-            </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
-                Transition Readiness Calculator
-              </h1>
-              <p className="hidden md:block text-zinc-600 mt-2 text-base leading-relaxed max-w-2xl">
-                Separating from the military isn&apos;t just a career change — it&apos;s a complete
-                financial reset. This calculator compares what you earn now against what you&apos;ll
-                need on the civilian side: salary, VA compensation, healthcare costs, and emergency
-                fund runway. The result is a clear verdict and the specific gaps standing between
-                you and a financially safe separation.
-              </p>
-            </div>
+          <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
+            <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
+              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
+            </span>
           </div>
-
-          <div className="mt-3 hidden md:flex flex-wrap gap-3">
-            {[
-              { icon: '📊', text: 'Full compensation comparison' },
-              { icon: '🏥', text: 'Healthcare replacement cost' },
-              { icon: '🛡️', text: 'VA disability included' },
-              { icon: '💰', text: 'Emergency fund runway' },
-            ].map(({ icon, text }) => (
-              <span
-                key={text}
-                className="inline-flex items-center gap-1.5 text-sm text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1"
-              >
-                <span>{icon}</span>
-                {text}
-              </span>
-            ))}
-          </div>
-          <div className="hidden md:block"><DataCurrencyBadge source="Official DFAS, DTMO &amp; VA rates" /></div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight mb-2">
+            Transition Readiness Calculator
+          </h1>
+          <p className="text-zinc-600 text-sm leading-relaxed">
+            Find out if you can afford to leave the military — compare your current compensation against civilian income, healthcare costs, and emergency fund runway.
+          </p>
         </div>
       </div>
 
@@ -103,6 +68,25 @@ export default function TransitionReadinessPage() {
         { title: 'See the true compensation gap' },
         { title: 'Get your readiness verdict and action steps' },
       ]} />
+
+      {/* ── Proof bar ──────────────────────────────────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 pb-0">
+        <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
+          <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
+            Sample output
+          </span>
+          <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
+            E-6 &middot; 10 yrs &middot; JBSA &middot; w/dep
+          </p>
+          <p className="text-[12px] text-zinc-500 flex-none whitespace-nowrap">
+            $75K salary &middot; 40% VA
+          </p>
+          <div className="flex-1 min-w-0" />
+          <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
+            Verdict: <span className="font-semibold text-amber-600">Not yet ready</span> &mdash; <span className="font-semibold text-zinc-700">$374/mo surplus · 2.5 mo runway</span>
+          </p>
+        </div>
+      </div>
 
       {/* ── Calculator ─────────────────────────────────────────────── */}
       <TransitionReadinessCalculator />
