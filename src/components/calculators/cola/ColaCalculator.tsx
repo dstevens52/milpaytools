@@ -80,9 +80,10 @@ export function ColaCalculator() {
           <div>
             <BaseSearchInput
               id="zip"
-              label="Duty station ZIP code"
+              label="Base or duty station"
               value={zip}
               onZipChange={setZip}
+              placeholder="Try Monterey, Fort Irwin, or 93940"
             />
           </div>
 
