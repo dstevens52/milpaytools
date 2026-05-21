@@ -5,6 +5,7 @@ import { DualMilitaryBAHCalculator } from '@/components/calculators/dual-militar
 import { GuidePromo } from '@/components/calculators/shared/GuidePromo';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { CalculatorFeedbackLink } from '@/components/CalculatorFeedbackLink';
 
 export const metadata: Metadata = {
   title: { absolute: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH | MilPayTools' },
@@ -127,6 +128,7 @@ export default function DualMilitaryBAHPage() {
             <strong>What this means:</strong> This dual-military couple earns $152,364/year in gross compensation — more than twice the median U.S. household income — while $51,444 of that ($3,333 BAH + $954 BAS × 12) is excluded from federal taxable income. Because only one member can claim the dependent, choosing which spouse claims the child does not change the household total in this example, since both are E-5s with the same BAH rates.
           </p>
         </ExampleBox>
+        <CalculatorFeedbackLink />
       </section>
 
       {/* ── Explainer ────────────────────────────────────────────────── */}

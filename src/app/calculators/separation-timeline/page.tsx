@@ -6,6 +6,7 @@ import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import Link from 'next/link';
+import { CalculatorFeedbackLink } from '@/components/CalculatorFeedbackLink';
 
 const TITLE =
   'Military Separation Benefits Timeline Calculator 2026 | MilPayTools';
@@ -100,6 +101,7 @@ export default function SeparationTimelinePage() {
             <strong>What this means:</strong> There are three deadlines that catch separating service members off guard. First, the BDD filing window closes July 2 — if you miss it, you can still file after separation but lose the faster processing timeline. Second, the SGLI no-exam window on May 28, 2027 is critical: after that date you must answer health questions and could be denied coverage. Third, the final move deadline of March 29, 2027 is strictly enforced — contact your TMO well in advance of peak PCS season (May–August).
           </p>
         </ExampleBox>
+        <CalculatorFeedbackLink />
       </section>
 
       {/* ── Explainer ─────────────────────────────────────────────────── */}

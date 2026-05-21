@@ -6,6 +6,7 @@ import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import Link from 'next/link';
+import { CalculatorFeedbackLink } from '@/components/CalculatorFeedbackLink';
 
 const TITLE = 'Military Healthcare Cost Comparison Calculator 2026 | MilPayTools';
 const DESC =
@@ -139,6 +140,7 @@ export default function HealthcareComparisonPage() {
             <strong>What this means:</strong> Even the most affordable family option — TRICARE Reserve Select at $3,440/year — costs more than $0 active-duty TRICARE. For most separating service members without TAMP, the realistic choice is between an employer plan (~$8,000–$9,000/year after deductibles) and, if joining the Guard or Reserves, TRS at $3,440/year. VA healthcare is valuable but covers the veteran only — your family will still need separate coverage. The $8,000–$10,000/year swing is the single largest underestimated cost of leaving the military.
           </p>
         </ExampleBox>
+        <CalculatorFeedbackLink />
       </section>
 
       {/* ── Educational content ───────────────────────────────────────── */}

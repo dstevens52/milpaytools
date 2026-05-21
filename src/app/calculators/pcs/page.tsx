@@ -4,6 +4,7 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { PCSCalculator } from '@/components/calculators/pcs/PCSCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { CalculatorFeedbackLink } from '@/components/CalculatorFeedbackLink';
 
 export const metadata: Metadata = {
   title: { absolute: 'PCS Cost Estimator 2026 | Military Move Calculator | MilPayTools' },
@@ -113,6 +114,7 @@ export default function PCSPage() {
             <strong>What this means:</strong> DLA, MALT, per diem, and TLE ($10,041) are paid the same way regardless of which move type you choose. With a PPM, you keep all of those entitlements AND net $14,508 after tax — bringing total PPM compensation to $24,549 vs. $10,041 for a government move. The E-6 keeps approximately $14,508 more by choosing PPM over a government move. The net proceeds come from moving efficiently under the 11,000-lb weight allowance; actual amounts depend on real moving costs and how much of the weight allowance you use.
           </p>
         </ExampleBox>
+        <CalculatorFeedbackLink />
       </section>
 
       {/* ── Explainer ──────────────────────────────────────────────────── */}

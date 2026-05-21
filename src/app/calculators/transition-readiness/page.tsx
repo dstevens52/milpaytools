@@ -6,6 +6,7 @@ import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import Link from 'next/link';
+import { CalculatorFeedbackLink } from '@/components/CalculatorFeedbackLink';
 
 const TITLE = 'Transition Readiness Calculator 2026: Am I Financially Ready to Leave the Military? | MilPayTools';
 const DESC =
@@ -132,6 +133,7 @@ export default function TransitionReadinessPage() {
             civilian salary.
           </p>
         </ExampleBox>
+        <CalculatorFeedbackLink />
       </section>
 
       {/* ── Explainer ──────────────────────────────────────────────── */}
