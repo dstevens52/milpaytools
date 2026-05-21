@@ -50,15 +50,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={inter.variable}>
       <body className="flex min-h-screen flex-col">
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-YQFJ5J3P52" strategy="afterInteractive" />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-YQFJ5J3P52');
-          `}
-        </Script>
+        {/* GA4 — production only. NEXT_PUBLIC_VERCEL_ENV is injected by Vercel automatically.
+            Preview deployments ('preview') and local dev (undefined) are excluded so they
+            don't inflate the production GA4 property. */}
+        {process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' && (
+          <>
+            <Script src="https://www.googletagmanager.com/gtag/js?id=G-YQFJ5J3P52" strategy="afterInteractive" />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                if (['milpaytools.com', 'www.milpaytools.com'].includes(window.location.hostname)) {
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', 'G-YQFJ5J3P52');
+                }
+              `}
+            </Script>
+          </>
+        )}
         <Script id="microsoft-clarity" strategy="afterInteractive">
           {`(function(c,l,a,r,i,t,y){
     c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
