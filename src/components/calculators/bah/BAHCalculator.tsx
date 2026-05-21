@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
-import Link from 'next/link';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
@@ -13,17 +12,8 @@ import { ENLISTED_GRADES, WARRANT_GRADES, OFFICER_GRADES, PRIOR_ENLISTED_OFFICER
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
-import { DUTY_STATIONS } from '@/data/duty-stations/stations';
-
-// Module-level MHA → duty station map (built once at load)
-const MHA_TO_STATION = new Map(
-  DUTY_STATIONS
-    .filter((s) => !s.oconus)
-    .flatMap((s) => {
-      const mha = getMHACode(s.zip);
-      return mha ? [[mha, s] as [string, typeof DUTY_STATIONS[0]]] : [];
-    })
-);
+import { getStationPagesForZip } from '@/data/bah/2026/mhaToStationPage';
+import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
 
 // ─── Grade select options ──────────────────────────────────────────────────
 
@@ -288,16 +278,12 @@ export function BAHCalculator() {
     return getMHACode(zipB);
   }, [zipB]);
 
-  // Matched duty station pages (for guide links)
-  const stationSingle = useMemo(
-    () => (mhaCode ? MHA_TO_STATION.get(mhaCode) ?? null : null),
-    [mhaCode]
-  );
-  const stationB = useMemo(() => {
-    if (!mhaCodeB) return null;
-    const s = MHA_TO_STATION.get(mhaCodeB) ?? null;
-    return s && stationSingle && s.slug === stationSingle.slug ? null : s;
-  }, [mhaCodeB, stationSingle]);
+  // Station pages for guide links — MHA-based so ZIP variants in the same area also match
+  const stationPagesSingle = useMemo(() => getStationPagesForZip(zip), [zip]);
+  const stationPagesB = useMemo(() => {
+    const slugsA = new Set(stationPagesSingle.map((p) => p.slug));
+    return getStationPagesForZip(zipB).filter((p) => !slugsA.has(p.slug));
+  }, [zipB, stationPagesSingle]);
 
   // Action steps
   const actionSteps = useMemo(() => {
@@ -445,17 +431,11 @@ export function BAHCalculator() {
           </Card>
 
           {/* Station guide link */}
-          {result && stationSingle && (
-            <Link
-              href={`/bah/${stationSingle.slug}?rank=${grade}&dep=${hasDependents ? 'yes' : 'no'}`}
-              className="group relative flex items-center justify-between gap-3 overflow-hidden rounded-lg border border-zinc-200 bg-white py-3 pl-5 pr-4 text-sm shadow-sm hover:border-zinc-300 hover:shadow transition-all"
-            >
-              <span className="absolute inset-y-0 left-0 w-[3px] bg-red-600" />
-              <span className="text-zinc-800">
-                <strong>{stationSingle.name}</strong>{' '}housing guide — local rents, neighborhoods &amp; BAH analysis
-              </span>
-              <span className="flex-none text-red-600">→</span>
-            </Link>
+          {result && (
+            <StationPageCard
+              pages={stationPagesSingle}
+              linkSuffix={`?rank=${grade}&dep=${hasDependents ? 'yes' : 'no'}`}
+            />
           )}
 
           {result && (
@@ -547,32 +527,16 @@ export function BAHCalculator() {
           )}
 
           {/* Station guide links — compare mode */}
-          {(stationSingle || stationB) && (
+          {(stationPagesSingle.length > 0 || stationPagesB.length > 0) && (
             <div className="space-y-2">
-              {stationSingle && (
-                <Link
-                  href={`/bah/${stationSingle.slug}?rank=${grade}&dep=${hasDependents ? 'yes' : 'no'}`}
-                  className="group relative flex items-center justify-between gap-3 overflow-hidden rounded-lg border border-zinc-200 bg-white py-3 pl-5 pr-4 text-sm shadow-sm hover:border-zinc-300 hover:shadow transition-all"
-                >
-                  <span className="absolute inset-y-0 left-0 w-[3px] bg-red-600" />
-                  <span className="text-zinc-800">
-                    <strong>{stationSingle.name}</strong>{' '}housing guide — local rents, neighborhoods &amp; BAH analysis
-                  </span>
-                  <span className="flex-none text-red-600">→</span>
-                </Link>
-              )}
-              {stationB && (
-                <Link
-                  href={`/bah/${stationB.slug}?rank=${grade}&dep=${hasDependents ? 'yes' : 'no'}`}
-                  className="group relative flex items-center justify-between gap-3 overflow-hidden rounded-lg border border-zinc-200 bg-white py-3 pl-5 pr-4 text-sm shadow-sm hover:border-zinc-300 hover:shadow transition-all"
-                >
-                  <span className="absolute inset-y-0 left-0 w-[3px] bg-red-600" />
-                  <span className="text-zinc-800">
-                    <strong>{stationB.name}</strong>{' '}housing guide — local rents, neighborhoods &amp; BAH analysis
-                  </span>
-                  <span className="flex-none text-red-600">→</span>
-                </Link>
-              )}
+              <StationPageCard
+                pages={stationPagesSingle}
+                linkSuffix={`?rank=${grade}&dep=${hasDependents ? 'yes' : 'no'}`}
+              />
+              <StationPageCard
+                pages={stationPagesB}
+                linkSuffix={`?rank=${grade}&dep=${hasDependents ? 'yes' : 'no'}`}
+              />
             </div>
           )}
         </>

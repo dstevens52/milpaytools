@@ -71,4 +71,24 @@ test.describe('PCS Cost Estimator', () => {
   test('per diem row shows in results', async ({ page }) => {
     await expect(page.getByText(/Per diem|Per Diem/i).first()).toBeVisible();
   });
+
+  // ── Destination station page cross-links ────────────────────────────────────
+
+  test('destination ZIP matching a station MHA shows station guide link', async ({ page }) => {
+    // 28301 is Fort Bragg's station ZIP → NC182 MHA → Fort Bragg /bah/ page
+    await page.getByLabel('Moving to (optional)').pressSequentially('28301', { delay: 50 });
+    await expect(page.getByRole('link', { name: /Moving to Fort Bragg/i })).toBeVisible();
+  });
+
+  test('non-station ZIP in a base MHA shows station guide link via MHA lookup', async ({ page }) => {
+    // 28310 is a Fort Bragg area ZIP (not the station ZIP 28301) — MHA lookup should still find it
+    await page.getByLabel('Moving to (optional)').pressSequentially('28310', { delay: 50 });
+    await expect(page.getByRole('link', { name: /Moving to Fort Bragg/i })).toBeVisible();
+  });
+
+  test('destination ZIP with no station page shows no station guide link', async ({ page }) => {
+    // 66062 is Olathe, KS — residential area with no military base page
+    await page.getByLabel('Moving to (optional)').pressSequentially('66062', { delay: 50 });
+    await expect(page.getByRole('link', { name: /Moving to/i })).not.toBeVisible();
+  });
 });

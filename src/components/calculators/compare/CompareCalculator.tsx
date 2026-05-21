@@ -1,25 +1,15 @@
 'use client';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
-import Link from 'next/link';
 import { compareLocations } from '@/lib/calculations/compare';
-import { getMHACode } from '@/lib/calculations/bah';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import type { CompareResult, LocationData } from '@/lib/calculations/compare';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { ShareBar } from '@/components/calculators/shared/ShareButton';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
-import { DUTY_STATIONS, type DutyStation } from '@/data/duty-stations/stations';
-
-// Map MHA code → duty station, built once at module load
-const MHA_TO_STATION = new Map<string, DutyStation>();
-for (const s of DUTY_STATIONS) {
-  if (!s.oconus) {
-    const mha = getMHACode(s.zip);
-    if (mha) MHA_TO_STATION.set(mha, s);
-  }
-}
+import { getStationPagesForZip } from '@/data/bah/2026/mhaToStationPage';
+import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -244,20 +234,16 @@ export function CompareCalculator() {
     });
   }, [payGrade, yos, hasDependents, zipA, zipB, bothReady]);
 
-  // Match each ZIP to a duty station page via MHA code (handles ZIP variants in same housing area)
-  const stationA = useMemo(() => {
-    if (!bothReady) return null;
-    const mha = getMHACode(zipA);
-    return mha ? (MHA_TO_STATION.get(mha) ?? null) : null;
-  }, [zipA, bothReady]);
-
-  const stationB = useMemo(() => {
-    if (!bothReady) return null;
-    const mha = getMHACode(zipB);
-    const s = mha ? (MHA_TO_STATION.get(mha) ?? null) : null;
-    // Don't show a second link if both ZIPs resolve to the same station
-    return s?.slug !== stationA?.slug ? s : null;
-  }, [zipB, bothReady, stationA]);
+  // Station pages via MHA code — handles ZIP variants in same housing area, supports multiple per MHA
+  const stationPagesA = useMemo(
+    () => (bothReady ? getStationPagesForZip(zipA) : []),
+    [zipA, bothReady]
+  );
+  const stationPagesB = useMemo(() => {
+    if (!bothReady) return [];
+    const slugsA = new Set(stationPagesA.map((p) => p.slug));
+    return getStationPagesForZip(zipB).filter((p) => !slugsA.has(p.slug));
+  }, [zipB, bothReady, stationPagesA]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {
@@ -381,39 +367,19 @@ export function CompareCalculator() {
           <ShareBar getUrl={getShareUrl} />
 
           {/* Station housing guide links */}
-          {(stationA || stationB) && (
+          {(stationPagesA.length > 0 || stationPagesB.length > 0) && (
             <div className="space-y-2">
               <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">
                 Full Housing Guides
               </p>
-              <div className={`grid gap-2 ${stationA && stationB ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}`}>
-                {stationA && (
-                  <Link
-                    href={`/bah/${stationA.slug}?rank=${payGrade}&dep=${hasDependents ? 'yes' : 'no'}`}
-                    className="group relative flex items-center justify-between gap-3 overflow-hidden rounded-lg border border-zinc-200 bg-white py-3 pl-5 pr-4 text-sm shadow-sm hover:border-zinc-300 hover:shadow transition-all"
-                  >
-                    <span className="absolute inset-y-0 left-0 w-[3px] bg-red-600" />
-                    <span className="text-zinc-800">
-                      <strong>{stationA.name}</strong>{' '}housing guide
-                      {stationA.localHousingTips ? ' — neighborhoods &amp; BAH analysis' : ' — BAH rates &amp; market analysis'}
-                    </span>
-                    <span className="flex-none text-red-600">→</span>
-                  </Link>
-                )}
-                {stationB && (
-                  <Link
-                    href={`/bah/${stationB.slug}?rank=${payGrade}&dep=${hasDependents ? 'yes' : 'no'}`}
-                    className="group relative flex items-center justify-between gap-3 overflow-hidden rounded-lg border border-zinc-200 bg-white py-3 pl-5 pr-4 text-sm shadow-sm hover:border-zinc-300 hover:shadow transition-all"
-                  >
-                    <span className="absolute inset-y-0 left-0 w-[3px] bg-red-600" />
-                    <span className="text-zinc-800">
-                      <strong>{stationB.name}</strong>{' '}housing guide
-                      {stationB.localHousingTips ? ' — neighborhoods &amp; BAH analysis' : ' — BAH rates &amp; market analysis'}
-                    </span>
-                    <span className="flex-none text-red-600">→</span>
-                  </Link>
-                )}
-              </div>
+              <StationPageCard
+                pages={stationPagesA}
+                linkSuffix={`?rank=${payGrade}&dep=${hasDependents ? 'yes' : 'no'}`}
+              />
+              <StationPageCard
+                pages={stationPagesB}
+                linkSuffix={`?rank=${payGrade}&dep=${hasDependents ? 'yes' : 'no'}`}
+              />
             </div>
           )}
 

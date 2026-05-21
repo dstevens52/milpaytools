@@ -7,6 +7,8 @@ import { Card } from '@/components/ui/Card';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { DUTY_STATIONS } from '@/data/duty-stations/stations';
+import { getStationPagesForZip } from '@/data/bah/2026/mhaToStationPage';
+import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
 import { STATION_COORDINATES } from '@/data/duty-stations/coordinates';
 import { INSTALLATIONS_LOOKUP } from '@/data/installations-lookup';
 import {
@@ -275,15 +277,8 @@ export function PCSCalculator() {
 
   const weightAllowance = useMemo(() => getWeightAllowance(rank), [rank]);
 
-  // Station lookup — only matches when user selects from dropdown (station ZIP = known station)
-  const stationFrom = useMemo(
-    () => (zipFrom ? DUTY_STATIONS.find((s) => s.zip === zipFrom) ?? null : null),
-    [zipFrom]
-  );
-  const stationTo = useMemo(
-    () => (zipTo ? DUTY_STATIONS.find((s) => s.zip === zipTo) ?? null : null),
-    [zipTo]
-  );
+  // Station lookup via MHA — matches station ZIPs and any ZIP variant in the same housing area
+  const stationPagesTo = useMemo(() => getStationPagesForZip(zipTo), [zipTo]);
 
   const routeType = useMemo((): RouteClass => {
     const hasFrom = zipFrom || fromMeta;
@@ -839,35 +834,12 @@ export function PCSCalculator() {
           {/* Act steps */}
           <ActSteps steps={actionSteps} title="Before you move" />
 
-          {/* Station guide links — gaining/losing station BAH pages */}
-          {(stationFrom || stationTo) && (
-            <div className="space-y-2">
-              {stationFrom && (
-                <Link
-                  href={`/bah/${stationFrom.slug}?rank=${rank}&dep=${hasDependents ? 'yes' : 'no'}`}
-                  className="group relative flex items-center justify-between gap-3 overflow-hidden rounded-lg border border-zinc-200 bg-white py-3 pl-5 pr-4 text-sm shadow-sm hover:border-zinc-300 hover:shadow transition-all"
-                >
-                  <span className="absolute inset-y-0 left-0 w-[3px] bg-red-600" />
-                  <span className="text-zinc-800">
-                    <strong>{stationFrom.name}</strong>{' '}housing guide — local rents, neighborhoods &amp; BAH analysis
-                  </span>
-                  <span className="flex-none text-red-600">→</span>
-                </Link>
-              )}
-              {stationTo && stationTo.slug !== stationFrom?.slug && (
-                <Link
-                  href={`/bah/${stationTo.slug}?rank=${rank}&dep=${hasDependents ? 'yes' : 'no'}`}
-                  className="group relative flex items-center justify-between gap-3 overflow-hidden rounded-lg border border-zinc-200 bg-white py-3 pl-5 pr-4 text-sm shadow-sm hover:border-zinc-300 hover:shadow transition-all"
-                >
-                  <span className="absolute inset-y-0 left-0 w-[3px] bg-red-600" />
-                  <span className="text-zinc-800">
-                    <strong>{stationTo.name}</strong>{' '}housing guide — local rents, neighborhoods &amp; BAH analysis
-                  </span>
-                  <span className="flex-none text-red-600">→</span>
-                </Link>
-              )}
-            </div>
-          )}
+          {/* Destination station guide — helps PCS planning with local housing context */}
+          <StationPageCard
+            pages={stationPagesTo}
+            linkSuffix={`?rank=${rank}&dep=${hasDependents ? 'yes' : 'no'}`}
+            context="pcs"
+          />
 
           {/* Cross-links */}
           <div className="rounded-lg bg-blue-50 border border-blue-200 p-4">

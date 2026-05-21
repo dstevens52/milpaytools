@@ -94,4 +94,27 @@ test.describe('BAH Calculator', () => {
     await page.getByLabel('Pay Grade').selectOption('W-4');
     await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(rate!) })).toBeVisible();
   });
+
+  // ── Station page cross-links ────────────────────────────────────────────────
+
+  test('ZIP in a base MHA shows station housing guide link', async ({ page }) => {
+    // 28310 is a Fort Bragg area ZIP → NC182 MHA → Fort Bragg station page
+    await page.getByLabel('Duty Station ZIP Code').pressSequentially('28310', { delay: 50 });
+    await expect(page.getByRole('link', { name: /Fort Bragg.*housing guide/i })).toBeVisible();
+  });
+
+  test('ZIP with no station page shows no housing guide link', async ({ page }) => {
+    // 66062 is Olathe, KS — residential area with no military base page
+    await page.getByLabel('Duty Station ZIP Code').pressSequentially('66062', { delay: 50 });
+    await expect(page.getByRole('link', { name: /housing guide/i })).not.toBeVisible();
+  });
+
+  test('compare mode shows station guide links for both locations', async ({ page }) => {
+    await page.getByRole('button', { name: 'Compare' }).click();
+    await page.getByLabel('Current / Origin').pressSequentially('28310', { delay: 50 });
+    await page.getByLabel('Gaining / Destination').pressSequentially('92134', { delay: 50 });
+    // Fort Bragg (28310 → NC182) and NAS San Diego (92134) both have station pages
+    await expect(page.getByRole('link', { name: /Fort Bragg.*housing guide/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /NAS San Diego.*housing guide|San Diego.*housing guide/i })).toBeVisible();
+  });
 });
