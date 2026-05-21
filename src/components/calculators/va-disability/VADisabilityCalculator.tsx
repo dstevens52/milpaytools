@@ -26,13 +26,13 @@ const BODY_LOCATIONS: Array<{
   side: 'left' | 'right' | 'none';
   pairKey: string | null;
 }> = [
-  { value: 'other',      label: 'Other / Non-extremity',      side: 'none',  pairKey: null  },
-  { value: 'left-arm',   label: 'Left Arm / Shoulder',        side: 'left',  pairKey: 'arm' },
-  { value: 'right-arm',  label: 'Right Arm / Shoulder',       side: 'right', pairKey: 'arm' },
-  { value: 'left-leg',   label: 'Left Leg / Knee / Ankle',    side: 'left',  pairKey: 'leg' },
-  { value: 'right-leg',  label: 'Right Leg / Knee / Ankle',   side: 'right', pairKey: 'leg' },
-  { value: 'left-eye',   label: 'Left Eye',                   side: 'left',  pairKey: 'eye' },
-  { value: 'right-eye',  label: 'Right Eye',                  side: 'right', pairKey: 'eye' },
+  { value: 'other',      label: 'Other / Non-bilateral',      side: 'none',  pairKey: null  },
+  { value: 'left-arm',   label: 'Left upper extremity',       side: 'left',  pairKey: 'arm' },
+  { value: 'right-arm',  label: 'Right upper extremity',      side: 'right', pairKey: 'arm' },
+  { value: 'left-leg',   label: 'Left lower extremity',       side: 'left',  pairKey: 'leg' },
+  { value: 'right-leg',  label: 'Right lower extremity',      side: 'right', pairKey: 'leg' },
+  { value: 'left-eye',   label: 'Left eye',                   side: 'left',  pairKey: 'eye' },
+  { value: 'right-eye',  label: 'Right eye',                  side: 'right', pairKey: 'eye' },
 ];
 
 const WHAT_IF_RATINGS = [10, 20, 30, 40, 50];
@@ -480,7 +480,7 @@ export function VADisabilityCalculator() {
                       <span className="text-base font-normal text-zinc-500 ml-1">/mo</span>
                     </p>
                     <p className="text-sm text-zinc-500 mt-1 tabular-nums">
-                      {fmt(compensation.annual)}/year · tax-free VA disability compensation
+                      {fmt(compensation.annual)}/year · excluded from federal taxable income
                     </p>
                     <p className="text-xs text-zinc-400 mt-1">
                       {compensation.dataYear} VA rates
@@ -589,10 +589,10 @@ export function VADisabilityCalculator() {
             <div className="space-y-3">
               <div className="flex gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
                 <div className="flex-1">
-                  <p className="font-semibold text-zinc-900 text-sm">VA compensation is 100% tax-free</p>
+                  <p className="font-semibold text-zinc-900 text-sm">VA compensation is excluded from federal taxable income</p>
                   <p className="text-sm text-zinc-600 mt-0.5">
                     {fmt(compensation.monthly)}/month in VA disability compensation is excluded from
-                    federal and state income tax and FICA. A civilian earning the same amount would
+                    federal taxable income and FICA. A civilian earning the same amount would
                     net considerably less after taxes.
                   </p>
                 </div>

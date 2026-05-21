@@ -90,6 +90,7 @@ export default function VADisabilityPage() {
                 <li>Effective dates or back pay amounts</li>
                 <li>Special Monthly Compensation (SMC)</li>
                 <li>TDIU approval</li>
+                <li>Spouse Aid &amp; Attendance added amounts</li>
                 <li>VA healthcare priority group or state-level benefits</li>
               </ul>
             </div>
@@ -113,13 +114,13 @@ export default function VADisabilityPage() {
             <ExampleRow label="Left knee (30%) + right knee (20%) combined" value="44.0% before factor" />
             <ExampleRow label="Bilateral factor added (+10% of combined)" value="+4.4 pts → 48.4%" />
             <ExampleRow label="50% back applied to remaining 51.6%" value="−25.8 pts" />
-            <ExampleRow label="Combined exact value" value="74.2%" />
+            <ExampleRow label="Combined before rounding" value="74.2%" />
             <ExampleRow label="VA rounded rating (nearest 10%)" value="70%" highlight />
             <ExampleRow label="2026 monthly compensation — veteran alone" value="$1,808.45/mo" highlight />
             <ExampleRow label="Annual VA compensation" value="$21,701/yr" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> Without the bilateral factor, these three conditions combine to 72% (100 − (0.50 × 0.70 × 0.80) = 72%), which also rounds to 70% — so in this particular case the rounded result is the same either way. But the bilateral factor matters enormously in cases near a rounding threshold: a combined value of 63% without the factor becomes 67% with it, changing the rounded rating from 60% to 70% and adding hundreds of dollars per month. VA rules require the bilateral adjustment whenever both sides of a paired joint carry compensable ratings. At 70%, this veteran receives $1,808.45/month in tax-free VA disability compensation, and may qualify for additional dependent-based increases if they have a spouse or children.
+            <strong>What this means:</strong> Without the bilateral factor, these three conditions combine to 72% (100 − (0.50 × 0.70 × 0.80) = 72%), which also rounds to 70% — so in this particular case the rounded result is the same either way. But the bilateral factor matters enormously in cases near a rounding threshold: a combined value of 63% without the factor becomes 67% with it, changing the rounded rating from 60% to 70% and adding hundreds of dollars per month. VA rules require the bilateral adjustment whenever both sides of a paired joint carry compensable ratings. At 70%, this veteran receives $1,808.45/month in VA disability compensation, which is excluded from federal taxable income, and may qualify for additional dependent-based increases if they have a spouse or children.
           </p>
         </ExampleBox>
         <CalculatorFeedbackLink />
@@ -146,7 +147,9 @@ export default function VADisabilityPage() {
             <p className="text-zinc-600 text-sm leading-relaxed">
               The VA&apos;s position is that you cannot be more than 100% disabled — so each
               additional condition has diminishing impact the higher your existing combined rating.
-              The final combined value is rounded <em>once</em> to the nearest 10%.
+              Do not round to the nearest 10% between each condition. VA combines the ratings first,
+              applies any bilateral factor when applicable, and converts the final combined value to
+              the nearest 10%.
             </p>
           </div>
 
@@ -207,7 +210,7 @@ export default function VADisabilityPage() {
                 },
                 {
                   mistake: 'Rounding between steps',
-                  fix: 'Round only once — at the very end, after all ratings have been applied.',
+                  fix: 'VA combines all ratings first, applies any bilateral factor, then rounds once at the very end.',
                 },
                 {
                   mistake: 'Forgetting the bilateral factor',

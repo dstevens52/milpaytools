@@ -244,7 +244,7 @@ export function calculateCombinedRating(disabilities: DisabilityEntry[]): Combin
 
   steps.push({
     type: 'result',
-    label: 'Exact combined value',
+    label: 'Combined before rounding',
     detail: `100 − ${remaining.toFixed(2)} = ${exact.toFixed(1)}%`,
     value: exact,
   });
