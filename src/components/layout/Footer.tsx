@@ -157,12 +157,17 @@ export function Footer() {
           </p>
           <div className="flex flex-col sm:items-end gap-1">
             <p className="text-zinc-500">Verify all figures with official DoD and VA sources.</p>
-            <a
-              href="mailto:dan@milpaytools.com"
-              className="text-zinc-500 hover:text-zinc-300 transition-colors"
-            >
-              Contact: dan@milpaytools.com
-            </a>
+            <div className="flex items-center gap-3">
+              <Link href="/feedback" className="text-zinc-500 hover:text-zinc-300 transition-colors">
+                Spot an issue?
+              </Link>
+              <a
+                href="mailto:dan@milpaytools.com"
+                className="text-zinc-500 hover:text-zinc-300 transition-colors"
+              >
+                Contact: dan@milpaytools.com
+              </a>
+            </div>
           </div>
         </div>
       </div>
