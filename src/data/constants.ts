@@ -21,7 +21,7 @@ export const BAS_RATES = {
 // IRS 415(c) elective deferral limit
 export const TSP_ELECTIVE_DEFERRAL_LIMIT = 24_500;  // IRS 2026 elective deferral limit
 // Catch-up contribution limit (age 50+)
-export const TSP_CATCHUP_LIMIT = 7_500;
+export const TSP_CATCHUP_LIMIT = 8_000;
 // BRS: DoD matches up to 4% of basic pay (after 2-year vesting cliff for 1–2%)
 export const BRS_AUTOMATIC_CONTRIBUTION_PCT = 0.01; // 1% automatic regardless
 export const BRS_MATCHING_MAX_PCT = 0.04;           // DoD matches up to 4%
