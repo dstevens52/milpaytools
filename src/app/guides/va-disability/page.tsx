@@ -49,12 +49,12 @@ const FAQS = [
   {
     question: 'What are the 2026 VA disability monthly compensation rates?',
     answer:
-      '2026 monthly rates (veteran alone): 10% = $180.42; 20% = $356.66; 30% = $552.47; 40% = $795.84; 50% = $1,132.90; 60% = $1,435.02; 70% = $1,808.45; 80% = $2,102.15; 90% = $2,362.30; 100% = $3,938.58. All VA disability compensation is tax-free. Dependent additions apply at 30% rating and above.',
+      '2026 monthly rates (veteran alone): 10% = $180.42; 20% = $356.66; 30% = $552.47; 40% = $795.84; 50% = $1,132.90; 60% = $1,435.02; 70% = $1,808.45; 80% = $2,102.15; 90% = $2,362.30; 100% = $3,938.58. VA disability compensation is excluded from federal taxable income. Dependent additions apply at 30% rating and above.',
   },
   {
     question: 'What is Benefits Delivery at Discharge (BDD) and why does it matter?',
     answer:
-      'BDD allows you to file a VA disability claim 180 to 90 days before separation using VA Form 21-526EZ. Your effective date equals your filing date, protecting back pay regardless of how long the decision takes. Filing through BDD may help the VA process your claim sooner.',
+      'BDD lets you file 180 to 90 days before separation, giving VA time to review records and schedule exams while you\'re still in. If approved, compensation can generally begin as early as the day after separation, rather than being delayed by filing later. Filing through BDD may help the VA process your claim sooner.',
   },
   {
     question: 'What is CRDP and who qualifies?',
@@ -86,9 +86,9 @@ const INSIGHT_CARDS = [
   {
     accent: 'bg-emerald-600',
     label: 'Thing 2',
-    title: 'Filing before separation is worth thousands',
+    title: 'Filing before separation can protect your earliest payment date',
     description:
-      'BDD (Benefits Delivery at Discharge) lets you file 180 to 90 days before separation. Your effective date equals your filing date, which protects back pay. Waiting until after separation delays everything.',
+      'BDD (Benefits Delivery at Discharge) lets you file 180 to 90 days before separation. If approved, compensation can generally begin as early as the day after separation. Waiting until after separation can delay when benefits begin.',
     cta: 'Learn about BDD timing →',
     href: '#learning',
   },
@@ -97,7 +97,7 @@ const INSIGHT_CARDS = [
     label: 'Thing 3',
     title: 'Retirement + VA disability interact in complex ways',
     description:
-      'Retirees with 50%+ VA disability can receive both full pension and full VA compensation through CRDP. Combat-related disabilities may qualify for CRSC instead — which is tax-free. The right choice depends on your specific numbers.',
+      'Eligible military retirees with a VA disability rating of 50% or higher generally receive retired pay restored through CRDP, allowing them to receive both military retired pay and VA disability compensation without the old dollar-for-dollar offset. Combat-related disabilities may qualify for CRSC instead — which is non-taxable. The comparison depends on your specific numbers.',
     cta: 'Understand CRDP vs CRSC →',
     href: '#learning',
   },
@@ -123,8 +123,9 @@ const ACCORDION = [
           <li>Round to nearest 10%: <strong className="text-zinc-800">70%</strong></li>
         </ol>
         <p>
-          The VA rounds <em>once</em> — at the very end. Values ending in 1–4 round down; values
-          ending in 5–9 round up.
+          In a standard non-bilateral calculation, VA combines the conditions first, then rounds the
+          final combined value to the nearest 10%. Values ending in 1–4 round down; values ending in
+          5–9 round up.
         </p>
         <p>
           <strong className="text-zinc-800">Why this matters:</strong> The difference between 64.4%
@@ -179,7 +180,7 @@ const ACCORDION = [
     question: 'What are the 2026 VA disability compensation rates?',
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed" id="rates">
-        <p>All VA disability compensation is excluded from federal and state income tax.</p>
+        <p>VA disability compensation is excluded from federal taxable income.</p>
         <p><strong className="text-zinc-800">2026 monthly rates (veteran alone, no dependents):</strong></p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm border-collapse">
@@ -212,6 +213,14 @@ const ACCORDION = [
             </tbody>
           </table>
         </div>
+        <div className="rounded-lg bg-blue-50 border border-blue-200 px-4 py-3">
+          <p className="text-sm text-blue-800 leading-relaxed">
+            <strong>30% is a key compensation breakpoint.</strong> At 10% and 20%, the monthly
+            payment is the same regardless of dependents. At 30% and above, spouse, child, and
+            dependent-parent additions apply and can add $60–$160+ per month depending on rating
+            and family size.
+          </p>
+        </div>
         <p>
           <strong className="text-zinc-800">Dependent additions</strong> apply at 30% and above only
           — veterans rated at 10% or 20% receive the flat base rate regardless of dependents.
@@ -224,6 +233,10 @@ const ACCORDION = [
           Individual Unemployability, which pays at the 100% rate even if the combined schedular
           rating is lower. Generally requires a single disability rated 60%+ or combined 70%+ with at
           least one condition at 40%+.
+        </p>
+        <p>
+          In some cases, veterans who do not meet these percentage thresholds may be considered on
+          an extraschedular basis, but that process is more situation-specific.
         </p>
         <Link href="/calculators/va-disability" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           See your compensation with dependent additions →
@@ -239,10 +252,9 @@ const ACCORDION = [
           Filing early matters for two reasons that directly affect how much money you receive:
         </p>
         <p>
-          <strong className="text-zinc-800">1. Effective date = filing date.</strong> The VA pays
-          back to the date of your original claim, not the date they made a decision. Filing on your
-          last day of active duty establishes an effective date that protects your back pay if the
-          decision takes months.
+          <strong className="text-zinc-800">1. Effective date and timing.</strong> Filing before
+          separation or within one year after separation can help preserve the earliest possible
+          effective date, which is often the day after separation for direct service-connected claims.
         </p>
         <p>
           <strong className="text-zinc-800">2. BDD may speed processing.</strong> The Benefits Delivery at
@@ -271,6 +283,50 @@ const ACCORDION = [
     ),
   },
   {
+    question: 'Already separated? Submit an Intent to File first.',
+    content: (
+      <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
+        <p>
+          If you&apos;re not ready to submit a full VA disability claim, an{' '}
+          <strong className="text-zinc-800">Intent to File</strong> can protect a potential
+          earlier effective date while you gather records and evidence. After submitting, you
+          generally have one year to complete and file the claim.
+        </p>
+        <p>
+          This can be done online at VA.gov, by phone, or through a VSO. It takes only a few
+          minutes and requires no supporting documentation upfront.
+        </p>
+        <p>
+          If you are still on active duty within the BDD window (90–180 days before separation),
+          use BDD instead — Intent to File is for veterans who have already separated or who are
+          outside the BDD window.
+        </p>
+      </div>
+    ),
+  },
+  {
+    question: 'Why a 0% rating can still matter',
+    content: (
+      <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
+        <p>
+          A 0% (noncompensable) rating does not pay monthly compensation, but it establishes
+          that the VA recognizes the condition as{' '}
+          <strong className="text-zinc-800">service-connected</strong>. If the condition worsens
+          later, that existing service connection can make a future increase claim simpler than
+          establishing service connection from scratch.
+        </p>
+        <p>
+          A 0% rating may also provide access to VA healthcare for that specific condition,
+          depending on your overall priority group.
+        </p>
+        <p>
+          Veterans sometimes overlook 0% conditions at claim time because there is no immediate
+          payment. Filing for them anyway preserves the record and may make future claims easier.
+        </p>
+      </div>
+    ),
+  },
+  {
     question: 'How do CRDP and CRSC work for military retirees?',
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
@@ -281,10 +337,10 @@ const ACCORDION = [
         </p>
         <p>
           <strong className="text-zinc-800">CRDP (Concurrent Retirement and Disability Pay):</strong>{' '}
-          Since 2004, most veterans with a VA disability rating of{' '}
-          <strong className="text-zinc-800">50% or higher</strong> who retired with 20+ years of
-          service receive both their full retirement pension and their full VA disability
-          compensation with no offset.
+          Since 2004, eligible military retirees with a VA disability rating of{' '}
+          <strong className="text-zinc-800">50% or higher</strong> and 20+ years of qualifying
+          service generally receive retired pay restored, allowing them to receive both military
+          retired pay and VA disability compensation without the old dollar-for-dollar offset.
         </p>
         <p>
           <strong className="text-zinc-800">CRSC (Combat-Related Special Compensation):</strong>{' '}
@@ -416,12 +472,12 @@ export default function VADisabilityGuidePage() {
       </div>
 
       {/* ── ZONE 1: Hero ── */}
-      <section className="bg-zinc-50 border-b border-zinc-200 py-12 sm:py-16 px-4">
+      <section className="border-b border-zinc-200 py-12 sm:py-16 px-4" style={{ background: 'linear-gradient(to bottom, #ecddc8 0%, #f5f0e8 100%)' }}>
         <div className="mx-auto max-w-3xl">
           <div className="inline-flex items-center gap-2.5 mb-6 rounded-full bg-zinc-900 px-4 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-              VA Disability Benefits Guide · Official 2026 VA Data
+              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 VA Data
             </span>
           </div>
 
@@ -441,7 +497,7 @@ export default function VADisabilityGuidePage() {
             <div className="w-1 self-stretch rounded-full bg-red-500 flex-none" aria-hidden="true" />
             <p className="text-base font-semibold text-red-800 leading-snug">
               The difference between rounding to 60% and 70% is{' '}
-              <span className="text-red-700">$373/month — $4,481/year, tax-free.</span>{' '}
+              <span className="text-red-700">$373/month — $4,481/year, excluded from federal taxable income.</span>{' '}
               Knowing your exact combined value before filing matters.
             </p>
           </div>
@@ -636,6 +692,14 @@ export default function VADisabilityGuidePage() {
                 Military Pay Guide →
               </Link>
             </div>
+          </div>
+
+          <div className="rounded-lg bg-blue-50 border border-blue-200 px-5 py-4 mt-6">
+            <p className="text-sm text-blue-800 leading-relaxed">
+              <strong>Note:</strong> This calculator estimates VA combined rating math — it is not a
+              claims tool. Be accurate in documenting conditions, and work with a VSO or
+              VA-accredited representative when filing. MilPayTools does not provide claims advice.
+            </p>
           </div>
 
           <div className="mt-4 pt-4 border-t border-zinc-100">
