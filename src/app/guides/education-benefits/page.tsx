@@ -49,7 +49,7 @@ const FAQS = [
   {
     question: 'What is VR&E Chapter 31 and who qualifies?',
     answer:
-      'Vocational Rehabilitation and Employment (Chapter 31) can cover approved tuition, required books, and supplies under a counselor-approved rehabilitation plan, and does not consume GI Bill months. Eligibility and covered services depend on VA counselor approval. Veterans with a service-connected disability rating (even 0% with an employment handicap) may qualify. Using VR&E first preserves all 36 months of GI Bill for a later program or transfer to dependents.',
+      'Vocational Rehabilitation and Employment (Chapter 31) can cover approved tuition, required books, and supplies under a counselor-approved rehabilitation plan, and does not consume GI Bill months. Veterans may apply for VR&E with a VA service-connected disability rating of at least 10%, but actual entitlement is determined by a VA Vocational Rehabilitation Counselor. Using VR&E first preserves all 36 months of GI Bill for a later program or transfer to dependents.',
   },
   {
     question: 'Should I use Tuition Assistance or the GI Bill first?',
@@ -59,7 +59,7 @@ const FAQS = [
   {
     question: 'How does GI Bill transfer to dependents work?',
     answer:
-      'Requirements: must be on active duty at time of transfer request (cannot add after separation); at least 6 years of service; a 4-year additional service commitment from the date of transfer approval; dependents enrolled in DEERS. Spouses can use the benefit immediately. Children must be at least 18. The 4-year commitment is typically worth it given the value of a covered 4-year degree.',
+      'Requirements: must be on active duty at time of transfer request (cannot add after separation); at least 6 years of service; a 4-year additional service commitment from the date of transfer approval; dependents enrolled in DEERS. A spouse can use transferred benefits right away, but a spouse using them while the service member is on active duty does not receive MHA. Children can generally use transferred benefits after the service member has at least 10 years of service, and the child has a high school diploma or equivalent or is at least 18, and is younger than 26. The 4-year commitment is often worth evaluating given the potential value of a covered degree.',
   },
   {
     question: 'How do online programs affect GI Bill housing allowance?',
@@ -122,8 +122,12 @@ const ACCORDION = [
           least 90 days of aggregate active duty after September 10, 2001):
         </p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li>90+ days: 40% of full benefit</li>
-          <li>12 months: 60% &nbsp;·&nbsp; 24 months: 80% &nbsp;·&nbsp; 36+ months: 100%</li>
+          <li>90–179 days: 50%</li>
+          <li>180–544 days: 60%</li>
+          <li>545–729 days: 70%</li>
+          <li>730–909 days: 80%</li>
+          <li>910–1,094 days: 90%</li>
+          <li>36+ months (or qualifying discharge): 100%</li>
         </ul>
         <p><strong className="text-zinc-800">At 100% eligibility, the GI Bill covers:</strong></p>
         <ul className="space-y-1 pl-4 list-disc">
@@ -180,6 +184,9 @@ const ACCORDION = [
           The Bay Area school produces <strong className="text-zinc-800">$21,600 more per year</strong> in MHA — even if tuition is identical. Over a 4-year degree, that&apos;s an{' '}
           <strong className="text-zinc-800">$86,400 difference</strong> from one ZIP code.
         </p>
+        <p>
+          Don&apos;t choose a school just for MHA — choose a strong program with good career outcomes — but do include MHA in your real cost-of-attendance comparison.
+        </p>
         <Link href="/blog/gi-bill-housing-allowance-zip-code" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           GI Bill housing allowance: why your school ZIP code matters →
         </Link>
@@ -198,9 +205,9 @@ const ACCORDION = [
         <p><strong className="text-zinc-800">Key differences from GI Bill:</strong></p>
         <ul className="space-y-2 pl-4 list-disc">
           <li><strong className="text-zinc-800">Tuition and supplies:</strong> VR&amp;E can cover approved tuition, required books, and supplies under a counselor-approved rehabilitation plan. Eligibility and covered services depend on VA counselor approval.</li>
-          <li><strong className="text-zinc-800">Duration:</strong> Up to 48 months for an undergraduate degree.</li>
+          <li><strong className="text-zinc-800">Duration and services:</strong> VR&amp;E may provide substantial education and training support under an approved rehabilitation plan, but the exact duration and covered services depend on VA approval and the veteran&apos;s rehabilitation goal.</li>
           <li><strong className="text-zinc-800">No GI Bill consumption:</strong> VR&amp;E has a separate entitlement — using it does not consume GI Bill months.</li>
-          <li><strong className="text-zinc-800">Eligibility:</strong> Service-connected disability with an employment handicap. A 0% rating can qualify. Veterans at 10%+ are presumed to have an employment handicap.</li>
+          <li><strong className="text-zinc-800">Eligibility:</strong> Veterans may apply for VR&amp;E with a VA service-connected disability rating of at least 10%, but actual entitlement is determined by a VA Vocational Rehabilitation Counselor. A 10% rating may require a serious employment handicap finding; ratings of 20% or higher with an employment handicap are generally stronger cases for entitlement.</li>
         </ul>
         <p>
           A veteran who uses VR&amp;E to complete a bachelor&apos;s degree can then use their full
@@ -216,15 +223,20 @@ const ACCORDION = [
     question: 'Should you use TA or GI Bill first?',
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
+        <div className="rounded-md bg-amber-50 border border-amber-200 px-4 py-3">
+          <p className="text-sm font-semibold text-amber-900">Active-duty GI Bill use and MHA</p>
+          <p className="text-sm text-amber-800 leading-relaxed mt-1">
+            If you use your own Post-9/11 GI Bill while on active duty, you generally do not receive the Monthly Housing Allowance (MHA). That is why many service members use Tuition Assistance first and save GI Bill months for after separation, when MHA can add significant value.
+          </p>
+        </div>
         <p>
-          A widely used approach: <strong className="text-zinc-800">use Tuition Assistance while
-          on active duty. Preserve GI Bill months for after separation.</strong>
+          A commonly used approach: many service members use Tuition Assistance while on active duty to preserve GI Bill months for after separation.
         </p>
         <p>
           <strong className="text-zinc-800">Why TA on active duty:</strong> TA covers up to
           $250/credit hour, capped at $4,500/year. It is funded by your branch&apos;s education
           budget — not your GI Bill. Using TA costs zero GI Bill months. On active duty, you have
-          a salary and BAH covering housing; the GI Bill MHA adds no marginal value.
+          a salary and BAH covering housing; the GI Bill MHA adds no marginal value on top of that.
         </p>
         <p>
           <strong className="text-zinc-800">Why GI Bill after separation:</strong> The MHA
@@ -258,9 +270,7 @@ const ACCORDION = [
           <li>Dependents must be enrolled in DEERS</li>
         </ul>
         <p>
-          Spouses can use the benefit immediately upon transfer. Children must be at least 18 (or
-          17 if deployed parent). Transfer requests submitted too close to a separation date are
-          routinely denied — initiate well before your projected separation.
+          A spouse can use transferred benefits right away, but a spouse using transferred benefits while the service member is on active duty does not receive MHA. Children can generally use transferred benefits after the service member has completed at least 10 years of service, and the child has a high school diploma or equivalent or is at least 18, and is younger than 26. Transfer requests submitted too close to a separation date are routinely denied — initiate well before your projected separation.
         </p>
         <p>
           A transferred GI Bill benefit covering a dependent child&apos;s four-year degree is worth
@@ -321,8 +331,33 @@ const ACCORDION = [
           For nearly all service members at standard four-year programs, Post-9/11 GI Bill is more
           valuable than MGIB. The calculator makes this comparison automatic.
         </p>
+        <p className="text-xs text-zinc-500 bg-zinc-50 border border-zinc-200 rounded px-3 py-2">
+          <strong className="text-zinc-700">Rudisill / 48-month note:</strong> Some veterans who qualify for both MGIB-AD and Post-9/11 GI Bill based on multiple qualifying periods of service may be eligible for up to 48 months of total education benefits under the Rudisill decision. This is situation-specific — verify with VA before choosing a benefit.
+        </p>
         <Link href="/calculators/education" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Compare GI Bill vs MGIB for your situation →
+        </Link>
+      </div>
+    ),
+  },
+  {
+    question: 'Before you spend GI Bill months, ask these questions',
+    content: (
+      <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
+        <p>GI Bill months are a finite resource — each one spent is one less you can use or transfer. Before committing to a school or program, work through this checklist:</p>
+        <ul className="space-y-2 pl-4 list-disc">
+          <li>Is the school VA-approved?</li>
+          <li>Is the program accredited for the career you want?</li>
+          <li>What is the graduation rate?</li>
+          <li>What is the job placement rate for graduates in your field?</li>
+          <li>Will credits transfer if you change schools or programs?</li>
+          <li>Does the school participate in Yellow Ribbon (if you need private/out-of-state tuition covered)?</li>
+          <li>Will you be enrolled more than half-time? (Less than half-time significantly reduces or eliminates MHA.)</li>
+          <li>Is at least one class in person? (Online-only enrollment uses a lower national MHA rate, not the school ZIP code rate.)</li>
+        </ul>
+        <p>These questions matter before you enroll, not after. A program that fails on career outcomes or credit transferability can cost GI Bill months with little return.</p>
+        <Link href="/calculators/education" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+          Compare education benefits by school →
         </Link>
       </div>
     ),
@@ -331,7 +366,7 @@ const ACCORDION = [
     question: 'How should you sequence your education benefits?',
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
-        <p>A widely used strategy for most service members:</p>
+        <p>A widely used strategy for many service members:</p>
         <ul className="space-y-2 pl-4 list-disc">
           <li>
             <strong className="text-zinc-800">Phase 1 — Active duty:</strong> Use Tuition
@@ -407,12 +442,12 @@ export default function EducationBenefitsGuidePage() {
       </div>
 
       {/* ── ZONE 1: Hero ── */}
-      <section className="bg-zinc-50 border-b border-zinc-200 py-12 sm:py-16 px-4">
+      <section className="border-b border-zinc-200 py-12 sm:py-16 px-4" style={{ background: 'linear-gradient(to bottom, #ecddc8 0%, #f5f0e8 100%)' }}>
         <div className="mx-auto max-w-3xl">
           <div className="inline-flex items-center gap-2.5 mb-6 rounded-full bg-zinc-900 px-4 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-              Military Education Benefits Guide · Official 2026 VA Data
+              Free · No Account · No Personal Info · Official 2026 DoD &amp; VA Data
             </span>
           </div>
 
@@ -458,6 +493,52 @@ export default function EducationBenefitsGuidePage() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M7 11V7a5 5 0 0 1 10 0v4" />
             </svg>
             No account. No personal info. Uses official 2026 VA education benefit rates.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Which benefit first: Decision table ── */}
+      <section className="bg-white border-b border-zinc-200 py-8 sm:py-10 px-4">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="text-xl font-black text-zinc-900 mb-1 tracking-tight">Which benefit should you look at first?</h2>
+          <div className="overflow-x-auto mt-4">
+            <table className="w-full text-sm border-collapse">
+              <thead>
+                <tr className="border-b-2 border-zinc-200">
+                  <th className="text-left py-2.5 pr-6 font-semibold text-zinc-700">Your situation</th>
+                  <th className="text-left py-2.5 font-semibold text-zinc-700">Usually compare first</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-zinc-100">
+                <tr>
+                  <td className="py-2.5 pr-6 text-zinc-600">Active duty and taking classes now</td>
+                  <td className="py-2.5 font-medium text-zinc-800">Tuition Assistance</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 pr-6 text-zinc-600">Separating soon and going to school full-time</td>
+                  <td className="py-2.5 font-medium text-zinc-800">Post-9/11 GI Bill</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 pr-6 text-zinc-600">Service-connected disability and career retraining need</td>
+                  <td className="py-2.5 font-medium text-zinc-800">VR&amp;E before GI Bill</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 pr-6 text-zinc-600">Very low-cost school or trade program</td>
+                  <td className="py-2.5 font-medium text-zinc-800">Compare MGIB vs Post-9/11</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 pr-6 text-zinc-600">Have spouse/kids and plan to stay in</td>
+                  <td className="py-2.5 font-medium text-zinc-800">Transfer GI Bill before separation</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-zinc-400 mt-4">
+            These are starting points, not rules.{' '}
+            <Link href="/calculators/education" className="text-zinc-500 hover:text-zinc-700 underline underline-offset-2 transition-colors">
+              Use the Education Benefits Comparison Calculator
+            </Link>{' '}
+            to see actual dollar values for your situation.
           </p>
         </div>
       </section>
