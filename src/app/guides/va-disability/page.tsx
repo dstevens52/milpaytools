@@ -88,7 +88,7 @@ const INSIGHT_CARDS = [
     label: 'Thing 2',
     title: 'Filing before separation can protect your earliest payment date',
     description:
-      'BDD (Benefits Delivery at Discharge) lets you file 180 to 90 days before separation. If approved, compensation can generally begin as early as the day after separation. Waiting until after separation can delay when benefits begin.',
+      'BDD lets you file 180 to 90 days before separation, giving VA time to review records while you\'re still in. If approved, compensation can begin as early as the day after separation.',
     cta: 'Learn about BDD timing →',
     href: '#learning',
   },
@@ -130,7 +130,7 @@ const ACCORDION = [
         <p>
           <strong className="text-zinc-800">Why this matters:</strong> The difference between 64.4%
           and 65% is the difference between a 60% rating ($1,435.02/month) and a 70% rating
-          ($1,808.45/month) — a gap of $373.43/month or $4,481/year, tax-free. Knowing your exact
+          ($1,808.45/month) — a gap of $373.43/month or $4,481/year. Knowing your exact
           combined value tells you how close you are to the next threshold and what an additional
           condition could do.
         </p>
@@ -257,10 +257,11 @@ const ACCORDION = [
           effective date, which is often the day after separation for direct service-connected claims.
         </p>
         <p>
-          <strong className="text-zinc-800">2. BDD may speed processing.</strong> The Benefits Delivery at
-          Discharge program allows service members to file{' '}
-          <strong className="text-zinc-800">180 to 90 days before separation</strong> using VA Form
-          21-526EZ. Filing while still on active duty may help the VA process your claim sooner.
+          <strong className="text-zinc-800">2. Effective date and BDD processing.</strong> The VA&apos;s
+          effective date for BDD claims is generally the day after separation, not the filing date
+          itself. Filing early through BDD gives VA time to review records and schedule exams while
+          you&apos;re still in, which may speed the decision. File using VA Form 21-526EZ,{' '}
+          <strong className="text-zinc-800">180 to 90 days before separation</strong>.
         </p>
         <p>
           Your military medical records are the foundation of any service-connection claim. They are
@@ -621,7 +622,7 @@ export default function VADisabilityGuidePage() {
                     <p className="text-sm font-semibold text-zinc-700">$1,808.45</p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <p className="text-xs text-zinc-500">Annual tax-free</p>
+                    <p className="text-xs text-zinc-500">Annual (tax-exempt)</p>
                     <p className="text-sm font-semibold text-zinc-700">$21,701</p>
                   </div>
                 </div>
