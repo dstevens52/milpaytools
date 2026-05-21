@@ -49,7 +49,7 @@ const FAQS = [
   {
     question: 'What are the 2026 VA disability monthly compensation rates?',
     answer:
-      '2026 monthly rates (veteran alone): 10% = $175.51; 20% = $346.95; 30% = $537.42; 40% = $774.16; 50% = $1,102.01; 60% = $1,395.93; 70% = $1,808.45; 80% = $2,102.15; 90% = $2,362.30; 100% = $3,938.58. All VA disability compensation is tax-free. Dependent additions apply at 30% rating and above.',
+      '2026 monthly rates (veteran alone): 10% = $180.42; 20% = $356.66; 30% = $552.47; 40% = $795.84; 50% = $1,132.90; 60% = $1,435.02; 70% = $1,808.45; 80% = $2,102.15; 90% = $2,362.30; 100% = $3,938.58. All VA disability compensation is tax-free. Dependent additions apply at 30% rating and above.',
   },
   {
     question: 'What is Benefits Delivery at Discharge (BDD) and why does it matter?',
@@ -128,7 +128,7 @@ const ACCORDION = [
         </p>
         <p>
           <strong className="text-zinc-800">Why this matters:</strong> The difference between 64.4%
-          and 65% is the difference between a 60% rating ($1,395.93/month) and a 70% rating
+          and 65% is the difference between a 60% rating ($1,435.02/month) and a 70% rating
           ($1,808.45/month) — a gap of $373.43/month or $4,481/year, tax-free. Knowing your exact
           combined value tells you how close you are to the next threshold and what an additional
           condition could do.
@@ -192,12 +192,12 @@ const ACCORDION = [
             </thead>
             <tbody className="divide-y divide-zinc-100">
               {[
-                ['10%', '$175.51', '$2,106'],
-                ['20%', '$346.95', '$4,163'],
-                ['30%', '$537.42', '$6,449'],
-                ['40%', '$774.16', '$9,290'],
-                ['50%', '$1,102.01', '$13,224'],
-                ['60%', '$1,395.93', '$16,751'],
+                ['10%', '$180.42', '$2,165'],
+                ['20%', '$356.66', '$4,280'],
+                ['30%', '$552.47', '$6,630'],
+                ['40%', '$795.84', '$9,550'],
+                ['50%', '$1,132.90', '$13,595'],
+                ['60%', '$1,435.02', '$17,220'],
                 ['70%', '$1,808.45', '$21,701'],
                 ['80%', '$2,102.15', '$25,226'],
                 ['90%', '$2,362.30', '$28,348'],
