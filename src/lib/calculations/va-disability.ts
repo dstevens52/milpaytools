@@ -283,42 +283,69 @@ export function getCompensation(
   const breakdown: CompensationBreakdownLine[] = [];
   const dependentsApply = roundedRating >= 30;
 
-  // Base rate
-  const baseRate = (deps.hasSpouse && dependentsApply) ? entry.withSpouse : entry.veteranAlone;
-  const baseLabel = deps.hasSpouse && dependentsApply ? 'Veteran + spouse' : 'Veteran alone';
-  breakdown.push({ label: baseLabel, amount: baseRate });
+  const under18Count = Math.max(0, Math.floor(deps.childrenUnder18));
+  const schoolCount = Math.max(0, Math.min(5, Math.floor(deps.schoolChildren)));
+  const hasAnyChild = (under18Count + schoolCount) > 0;
+  const parents = Math.max(0, Math.min(2, Math.floor(deps.dependentParents)));
 
+  // Direct lookup from Table A (no children) or Table B (with 1 child).
+  // VA publishes these combination rates — do NOT compute by addition.
+  let baseRate: number;
+  let baseLabel: string;
+
+  if (!dependentsApply || (!deps.hasSpouse && !hasAnyChild && parents === 0)) {
+    baseRate = entry.veteranAlone;
+    baseLabel = 'Veteran alone';
+  } else if (deps.hasSpouse && hasAnyChild) {
+    baseRate = parents === 2 ? entry.withSpouseAnd1ChildAnd2Parents
+             : parents === 1 ? entry.withSpouseAnd1ChildAnd1Parent
+             : entry.withSpouseAnd1Child;
+    baseLabel = parents > 0
+      ? `Veteran + spouse + 1 child + ${parents} parent${parents > 1 ? 's' : ''}`
+      : 'Veteran + spouse + 1 child';
+  } else if (deps.hasSpouse) {
+    baseRate = parents === 2 ? entry.withSpouseAnd2Parents
+             : parents === 1 ? entry.withSpouseAnd1Parent
+             : entry.withSpouse;
+    baseLabel = parents > 0
+      ? `Veteran + spouse + ${parents} parent${parents > 1 ? 's' : ''}`
+      : 'Veteran + spouse';
+  } else if (hasAnyChild) {
+    baseRate = parents === 2 ? entry.with1ChildAnd2Parents
+             : parents === 1 ? entry.with1ChildAnd1Parent
+             : entry.with1Child;
+    baseLabel = parents > 0
+      ? `Veteran + 1 child + ${parents} parent${parents > 1 ? 's' : ''}`
+      : 'Veteran + 1 child';
+  } else {
+    // Parents only, no spouse, no children
+    baseRate = parents === 2 ? entry.with2Parents : entry.with1Parent;
+    baseLabel = `Veteran + ${parents} parent${parents > 1 ? 's' : ''}`;
+  }
+
+  breakdown.push({ label: baseLabel, amount: baseRate });
   let monthly = baseRate;
 
   if (dependentsApply) {
-    // Children under 18
-    const under18Count = Math.max(0, Math.floor(deps.childrenUnder18));
-    if (under18Count > 0) {
-      const amt = under18Count * entry.additionalChild;
+    // Under-18 children beyond the first (Table B already includes 1 child).
+    const additionalUnder18 = hasAnyChild ? Math.max(0, under18Count - 1) : 0;
+    if (additionalUnder18 > 0) {
+      const amt = additionalUnder18 * entry.additionalChild;
       breakdown.push({
-        label: `${under18Count} child${under18Count > 1 ? 'ren' : ''} under 18`,
+        label: `${additionalUnder18} additional child${additionalUnder18 > 1 ? 'ren' : ''} under 18`,
         amount: amt,
       });
       monthly += amt;
     }
 
-    // School children 18-23
-    const schoolCount = Math.max(0, Math.min(5, Math.floor(deps.schoolChildren)));
-    if (schoolCount > 0) {
-      const amt = schoolCount * entry.additionalSchoolChild;
+    // School children (18-23): when under-18 children exist, the Table B base
+    // used an under-18 child, so all school children are additional. When there
+    // are no under-18 children, the first school child is the Table B base.
+    const additionalSchool = under18Count > 0 ? schoolCount : Math.max(0, schoolCount - 1);
+    if (additionalSchool > 0) {
+      const amt = additionalSchool * entry.additionalSchoolChild;
       breakdown.push({
-        label: `${schoolCount} school child${schoolCount > 1 ? 'ren' : ''} (18–23)`,
-        amount: amt,
-      });
-      monthly += amt;
-    }
-
-    // Dependent parents (max 2)
-    const parentCount = Math.max(0, Math.min(2, Math.floor(deps.dependentParents)));
-    if (parentCount > 0) {
-      const amt = parentCount * entry.additionalParent;
-      breakdown.push({
-        label: `${parentCount} dependent parent${parentCount > 1 ? 's' : ''}`,
+        label: `${additionalSchool} school child${additionalSchool > 1 ? 'ren' : ''} (18–23)`,
         amount: amt,
       });
       monthly += amt;

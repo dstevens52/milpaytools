@@ -44,14 +44,13 @@ test.describe('VA Disability — known answers', () => {
     await expect(page.locator('p.text-4xl').filter({ hasText: vaAmount(882.84) })).toBeVisible();
   });
 
-  // withSpouse($1,961.45) + additionalChild×1($76.00) = $2,037.45
-  // Calculator uses dynamic formula, not the withSpouseAndOneChild lookup column
-  test('VA: 70% with spouse + 1 child = $2,037.45/mo', async ({ page }) => {
+  // Direct lookup from VA Table B: withSpouseAnd1Child at 70% = $2,074.45
+  test('VA: 70% with spouse + 1 child = $2,074.45/mo', async ({ page }) => {
     await page.getByRole('button', { name: '70%', exact: true }).click();
     await page.getByRole('button', { name: '+ Add Rating' }).click();
     await page.getByRole('button', { name: 'Yes', exact: true }).click();
     await page.getByRole('button', { name: 'Increase Children under 18' }).click();
-    await expect(page.locator('p.text-4xl').filter({ hasText: vaAmount(2037.45) })).toBeVisible();
+    await expect(page.locator('p.text-4xl').filter({ hasText: vaAmount(2074.45) })).toBeVisible();
   });
 
   // 10% and 20% ratings have no dependent additions — all columns are flat (VA.gov confirmed)
