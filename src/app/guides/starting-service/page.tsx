@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { lookupBasePay, calculateTotalCompensation } from '@/lib/calculations/total-compensation';
 import { lookupBAH } from '@/lib/calculations/bah';
 import { BAS_RATES } from '@/data/constants';
+import { EmailSignup } from '@/components/EmailSignup';
 
 export const metadata: Metadata = {
   title: 'Starting Military Service: Understand Your Pay & Benefits | MilPayTools',
@@ -44,88 +45,6 @@ const EX = {
   monthly: _fmt(_monthly),
   annual: '≈' + _fmt(_civAnnual),
 };
-
-const TOOLS = [
-  {
-    title: 'Total Compensation Calculator',
-    desc: 'See your full monthly and annual compensation.',
-    cta: 'Open calculator →',
-    href: '/calculators/total-compensation?rank=e3&yos=2&zip=28310&dependents=no',
-    iconBg: 'bg-green-50',
-    iconColor: 'text-green-700',
-    iconPath:
-      'M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
-  },
-  {
-    title: 'BAH Calculator',
-    desc: 'Find your housing allowance by location.',
-    cta: 'Open calculator →',
-    href: '/calculators/bah?rank=e3&dependents=no',
-    iconBg: 'bg-blue-50',
-    iconColor: 'text-blue-700',
-    iconPath:
-      'M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25',
-  },
-  {
-    title: 'Military Pay Guide',
-    desc: 'Understand base pay, allowances, and special pays.',
-    cta: 'Learn more →',
-    href: '/guides/military-pay',
-    iconBg: 'bg-purple-50',
-    iconColor: 'text-purple-700',
-    iconPath:
-      'M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25',
-  },
-  {
-    title: 'TSP & BRS Basics',
-    desc: 'Learn how matching works and build early habits.',
-    cta: 'Learn more →',
-    href: '/guides/retirement-tsp',
-    iconBg: 'bg-emerald-50',
-    iconColor: 'text-emerald-700',
-    iconPath:
-      'M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941',
-  },
-];
-
-const TIMELINE = [
-  {
-    period: 'First 30 Days',
-    question: 'What am I actually getting paid?',
-    labelBg: 'bg-blue-50',
-    labelText: 'text-blue-700',
-    items: [
-      { text: "Your base pay isn't your full compensation — see the real number", href: '/calculators/total-compensation?rank=e3&yos=2&zip=28310&dependents=no' },
-      { text: 'Look up your housing allowance by location', href: '/calculators/bah?rank=e3&dependents=no' },
-      { text: 'Your first paycheck stub (LES) — make sure the numbers match your rank', href: '/blog/how-to-read-your-military-les' },
-      { text: "You're auto-enrolled in a retirement savings plan (TSP) after 60 days", href: '/calculators/tsp?rank=e3&yos=2&balance=0&years=20&match=yes&roth=yes' },
-    ],
-  },
-  {
-    period: 'First 90 Days',
-    question: 'Where should I live and what can I afford?',
-    labelBg: 'bg-amber-50',
-    labelText: 'text-amber-700',
-    items: [
-      { text: 'See what housing costs near your base', href: '/bah/fort-bragg?rank=E-3&dep=no' },
-      { text: "Your retirement account (TSP) picks investments for you by default — worth understanding what it chose", href: '/blog/tsp-fund-options-explained' },
-      { text: 'You have legal protections on interest rates and loans — look up SCRA and MLA', href: '/blog/scra-mla-protections-new-service-members' },
-      { text: 'Free money course that takes an afternoon', href: 'https://www.militaryonesource.mil/financial-legal/personal-finance/', external: true },
-    ],
-  },
-  {
-    period: 'First Year',
-    question: 'What changes when I get promoted or move?',
-    labelBg: 'bg-green-50',
-    labelText: 'text-green-700',
-    items: [
-      { text: 'Your pay changes with every promotion and PCS — recalculate', href: '/calculators/total-compensation?rank=e3&yos=2&zip=28310&dependents=no' },
-      { text: 'You have education benefits you might not know about', href: '/guides/education-benefits' },
-      { text: 'Free credit report once a year at annualcreditreport.com', href: 'https://www.annualcreditreport.com', external: true },
-      { text: 'See how your retirement savings could grow', href: '/calculators/tsp?rank=e3&yos=2&balance=0&years=20&match=yes&roth=yes' },
-    ],
-  },
-];
 
 export default function StartingServicePage() {
   return (
@@ -268,81 +187,152 @@ export default function StartingServicePage() {
         </div>
       </section>
 
-      {/* ── Your First Year ──────────────────────────────────────────────────── */}
-      <section className="bg-white border-b border-zinc-200 py-5 sm:py-7 px-4">
+      {/* ── Zone 1: 4 things to do your first month ─────────────────────────── */}
+      <section className="bg-white border-b border-zinc-200 py-8 sm:py-10 px-4">
         <div className="mx-auto max-w-5xl">
 
-          <h2 className="text-base font-bold text-zinc-900 mb-0.5 tracking-tight">
-            Your first year
+          <h2 className="text-xl sm:text-2xl font-extrabold text-zinc-900 mb-1 tracking-tight">
+            4 things to do your first month
           </h2>
-          <p className="text-xs text-zinc-500 mb-4">
-            Key checkpoints to understand your pay and benefits.
-          </p>
+          <p className="text-sm text-zinc-500 mb-6">Each one takes less than 2 minutes.</p>
 
-          <div className="rounded-xl border border-zinc-200 shadow-sm overflow-hidden divide-y divide-zinc-100">
-            {TIMELINE.map(({ period, question, labelBg, labelText, items }) => (
-              <div key={period} className="flex flex-col sm:flex-row gap-3 sm:gap-0 px-4 py-3.5">
-                <div className="sm:w-44 flex-none">
-                  <span className={`inline-block text-[11px] font-bold ${labelBg} ${labelText} px-2.5 py-1 rounded-full whitespace-nowrap`}>
-                    {period}
-                  </span>
-                  <p className="text-[10px] text-zinc-400 italic mt-1.5 leading-snug">{question}</p>
-                </div>
-                <ul className="flex-1 space-y-1.5 sm:pl-2">
-                  {items.map(({ text, href, external }) => (
-                    <li key={text} className="flex gap-2 items-start">
-                      <span className="w-1 h-1 rounded-full bg-zinc-300 mt-1.5 flex-none" aria-hidden="true" />
-                      {href && external ? (
-                        <a href={href} target="_blank" rel="noopener noreferrer" className="text-[11px] text-red-700 hover:text-red-800 underline decoration-red-200 underline-offset-2 leading-snug">
-                          {text}
-                        </a>
-                      ) : href ? (
-                        <Link href={href} className="text-[11px] text-red-700 hover:text-red-800 underline decoration-red-200 underline-offset-2 leading-snug">
-                          {text}
-                        </Link>
-                      ) : (
-                        <span className="text-[11px] text-zinc-600 leading-snug">{text}</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+            {/* Card 1 — Green: See your real pay */}
+            <Link
+              href="/calculators/total-compensation"
+              className="group flex flex-col gap-3 rounded-xl border-2 border-green-700 bg-green-50 p-5 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-lg"
+            >
+              <div className="w-10 h-10 rounded-md bg-green-800 flex items-center justify-center flex-none">
+                <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.626 4.5 4.734V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.734c0-1.108-.806-2.034-1.907-2.162A48.55 48.55 0 0012 2.25z" />
+                </svg>
               </div>
-            ))}
-          </div>
+              <div className="flex-1">
+                <p className="text-base font-extrabold text-green-900 mb-1">See your real pay</p>
+                <p className="text-sm text-zinc-600 leading-relaxed">Your base pay is just the start. See the full number.</p>
+              </div>
+              <p className="text-sm font-semibold text-green-800 group-hover:text-green-900">Open calculator →</p>
+            </Link>
 
+            {/* Card 2 — Blue: Look up your BAH */}
+            <Link
+              href="/calculators/bah"
+              className="group flex flex-col gap-3 rounded-xl border-2 border-blue-700 bg-blue-50 p-5 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-lg"
+            >
+              <div className="w-10 h-10 rounded-md bg-blue-800 flex items-center justify-center flex-none">
+                <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <p className="text-base font-extrabold text-blue-900 mb-1">Look up your BAH</p>
+                <p className="text-sm text-zinc-600 leading-relaxed">Your housing allowance depends on rank and location.</p>
+              </div>
+              <p className="text-sm font-semibold text-blue-800 group-hover:text-blue-900">Open calculator →</p>
+            </Link>
+
+            {/* Card 3 — Amber: Check your first paycheck */}
+            <Link
+              href="/blog/how-to-read-military-les-2026"
+              className="group flex flex-col gap-3 rounded-xl border-2 border-amber-600 bg-amber-50 p-5 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-lg"
+            >
+              <div className="w-10 h-10 rounded-md bg-amber-700 flex items-center justify-center flex-none">
+                <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <p className="text-base font-extrabold text-amber-900 mb-1">Check your first paycheck</p>
+                <p className="text-sm text-zinc-600 leading-relaxed">How to read your LES and catch errors early.</p>
+              </div>
+              <p className="text-sm font-semibold text-amber-700 group-hover:text-amber-800">Read guide →</p>
+            </Link>
+
+            {/* Card 4 — Red: Don't get ripped off on a car loan */}
+            <Link
+              href="/blog/scra-mla-protections-new-service-members"
+              className="group flex flex-col gap-3 rounded-xl border-2 border-red-700 bg-red-50 p-5 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-lg"
+            >
+              <div className="w-10 h-10 rounded-md bg-red-700 flex items-center justify-center flex-none">
+                <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <p className="text-base font-extrabold text-red-900 mb-1">Don&apos;t get ripped off on a car loan</p>
+                <p className="text-sm text-zinc-600 leading-relaxed">SCRA caps your interest rate. Know before you sign.</p>
+              </div>
+              <p className="text-sm font-semibold text-red-700 group-hover:text-red-800">Read guide →</p>
+            </Link>
+
+          </div>
         </div>
       </section>
 
-      {/* ── Start Here ────────────────────────────────────────────────────────── */}
-      <section className="bg-white border-b border-zinc-200 py-5 sm:py-7 px-4">
+      {/* ── Zone 2 + 3 ───────────────────────────────────────────────────────── */}
+      <section className="bg-white py-8 sm:py-10 px-4">
         <div className="mx-auto max-w-5xl">
 
-          <h2 className="text-base font-bold text-zinc-900 mb-0.5 tracking-tight">
-            Start here
-          </h2>
-          <p className="text-xs text-zinc-500 mb-4">
-            Choose a tool or guide to understand your pay and benefits.
-          </p>
+          {/* Zone 2: When you're ready for more */}
+          <p className="text-base font-medium text-zinc-900 mb-4">When you&apos;re ready for more</p>
+          <ul className="space-y-4 mb-10">
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {TOOLS.map(({ title, desc, cta, href, iconBg, iconColor, iconPath }) => (
-              <Link
-                key={title}
-                href={href}
-                className="group bg-white rounded-xl border border-zinc-200 shadow-sm p-3.5 flex flex-col gap-2.5 hover:border-zinc-300 hover:shadow-md transition-all"
-              >
-                <div className={`w-8 h-8 rounded-full ${iconBg} flex items-center justify-center flex-none`}>
-                  <svg className={`w-3.5 h-3.5 ${iconColor}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" d={iconPath} />
+            <li className="flex items-start gap-3">
+              <svg className="w-4 h-4 text-zinc-400 mt-0.5 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+              </svg>
+              <span className="text-sm text-zinc-700 leading-relaxed">
+                Your TSP is already investing for you —{' '}
+                <Link href="/blog/tsp-fund-options-explained" className="text-red-700 hover:text-red-800 underline decoration-red-200 underline-offset-2">
+                  see what it&apos;s doing
+                </Link>
+              </span>
+            </li>
+
+            <li className="flex items-start gap-3">
+              <svg className="w-4 h-4 text-zinc-400 mt-0.5 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+              </svg>
+              <span className="text-sm text-zinc-700 leading-relaxed">
+                You have education benefits you can use now —{' '}
+                <Link href="/blog/gi-bill-vs-tuition-assistance" className="text-red-700 hover:text-red-800 underline decoration-red-200 underline-offset-2">
+                  learn how to sequence them
+                </Link>
+              </span>
+            </li>
+
+            <li className="flex items-start gap-3">
+              <svg className="w-4 h-4 text-zinc-400 mt-0.5 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+              </svg>
+              <span className="text-sm text-zinc-700 leading-relaxed">
+                Military credit card perks most people miss —{' '}
+                <Link href="/blog/military-credit-card-scra-mla-benefits" className="text-red-700 hover:text-red-800 underline decoration-red-200 underline-offset-2">
+                  SCRA fee waivers
+                </Link>
+              </span>
+            </li>
+
+          </ul>
+
+          {/* Zone 3: Email capture */}
+          <div className="border-t border-zinc-200 pt-8">
+            <div className="max-w-lg mx-auto">
+              <div className="flex justify-center mb-4">
+                <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center">
+                  <svg className="w-5 h-5 text-zinc-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                   </svg>
                 </div>
-                <div className="flex-1">
-                  <p className="text-xs font-bold text-zinc-900 mb-0.5 leading-snug">{title}</p>
-                  <p className="text-[11px] text-zinc-500 leading-snug">{desc}</p>
-                </div>
-                <p className="text-[11px] font-semibold text-red-700 group-hover:text-red-800">{cta}</p>
-              </Link>
-            ))}
+              </div>
+              <EmailSignup
+                source="starting-service"
+                headline="Stay in the loop on military pay updates"
+                subtext="We only email when it matters — new rates, benefit changes, tools you can use."
+                variant="card"
+              />
+            </div>
           </div>
 
         </div>
