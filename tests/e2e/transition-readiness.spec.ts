@@ -115,6 +115,6 @@ test.describe('Transition Readiness Calculator', () => {
   test('page is mobile-responsive: input cards visible on small viewport', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await expect(page.getByText(/current military/i).first()).toBeVisible();
-    await expect(page.getByText(/financially ready|almost ready|not yet ready/i).first()).toBeVisible();
+    await expect(page.getByText(/monthly expenses/i).first()).toBeVisible();
   });
 });

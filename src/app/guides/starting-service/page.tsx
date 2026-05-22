@@ -215,147 +215,185 @@ export default function StartingServicePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
-            {/* Card 1 — Green: See your real pay */}
+            {/* ── Card 1: PAY / Total Compensation ───────────────────────── */}
             <Link
               href="/calculators/total-compensation"
-              className="group relative overflow-hidden rounded-2xl flex flex-col gap-3 transition-all duration-200 hover:-translate-y-[3px] shadow-[0_1px_4px_rgba(15,110,86,0.07)] hover:shadow-[0_8px_24px_rgba(15,110,86,0.14)]"
-              style={{
-                background: 'linear-gradient(135deg, #f0faf4 0%, #d8f2e4 100%)',
-                borderLeft: '4px solid #0F6E56',
-                padding: '24px 20px',
-              }}
+              className="group relative overflow-hidden rounded-xl flex flex-col transition-all duration-200 hover:-translate-y-[3px] shadow-[0_1px_3px_rgba(0,0,0,0.07),0_0_0_1px_rgba(21,128,61,0.10)] hover:shadow-[0_8px_28px_rgba(21,128,61,0.18)]"
+              style={{ background: 'linear-gradient(160deg,#ffffff 0%,#f0fdf4 100%)', borderLeft: '4px solid #15803d', padding: '24px 24px 20px 24px' }}
             >
-              {/* Decorative circle */}
-              <div
-                className="absolute top-[-20px] right-[-20px] w-[100px] h-[100px] rounded-full pointer-events-none"
-                style={{ background: 'rgba(15,110,86,0.09)' }}
-                aria-hidden="true"
-              />
-              {/* Icon */}
-              <div className="w-12 h-12 rounded-full flex items-center justify-center flex-none relative z-10" style={{ background: '#0F6E56' }}>
-                <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.626 4.5 4.734V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.734c0-1.108-.806-2.034-1.907-2.162A48.55 48.55 0 0012 2.25z" />
-                </svg>
+              {/* Background illustration — bar chart */}
+              <svg className="absolute top-0 right-0 w-[130px] h-[130px] sm:w-[145px] sm:h-[145px] pointer-events-none" viewBox="0 0 120 120" fill="#15803d" aria-hidden="true" style={{ opacity: 0.14 }}>
+                <rect x="15" y="58" width="22" height="50" rx="3" />
+                <rect x="49" y="36" width="22" height="72" rx="3" />
+                <rect x="83" y="14" width="22" height="94" rx="3" />
+              </svg>
+              {/* Category + icon */}
+              <div className="relative z-10 flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center flex-none" style={{ background: '#15803d' }}>
+                  <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.626 4.5 4.734V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.734c0-1.108-.806-2.034-1.907-2.162A48.55 48.55 0 0012 2.25z" />
+                  </svg>
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: '#15803d' }}>PAY</span>
               </div>
-              {/* Content */}
-              <div className="flex-1 relative z-10">
-                <p className="text-[18px] font-medium mb-1.5" style={{ color: '#04342C' }}>See your real pay</p>
-                <p className="text-[13px] leading-[1.6]" style={{ color: '#085041' }}>
-                  Your base pay is just the start — BAH, BAS, and tax savings add up fast.
+              {/* Title + body */}
+              <div className="relative z-10 flex-1">
+                <p className="text-[20px] font-semibold leading-snug mb-2" style={{ color: '#14532d' }}>See your real pay</p>
+                <p className="text-sm leading-relaxed" style={{ color: '#166534' }}>
+                  Most new service members underestimate what they actually earn. See your full compensation in 2 minutes.
                 </p>
               </div>
+              <hr className="relative z-10 my-4 border-green-100" />
+              {/* Benefit */}
+              <div className="relative z-10 flex items-center gap-2 mb-3">
+                <svg className="w-4 h-4 flex-none" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="7" fill="#16a34a" />
+                  <path d="M5 8l2 2 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span className="text-[13px] font-semibold text-zinc-700">Know your numbers. Plan with confidence.</span>
+              </div>
               {/* CTA */}
-              <div className="flex items-center gap-1.5 relative z-10">
-                <span className="text-[13px] font-medium" style={{ color: '#0F6E56' }}>Open calculator</span>
-                <ArrowRight color="#0F6E56" />
+              <div className="relative z-10 flex items-center gap-1.5">
+                <span className="text-[13px] font-semibold" style={{ color: '#15803d' }}>Open calculator</span>
+                <ArrowRight color="#15803d" />
               </div>
             </Link>
 
-            {/* Card 2 — Blue: Look up your BAH */}
+            {/* ── Card 2: HOUSING / BAH ──────────────────────────────────── */}
             <Link
               href="/calculators/bah"
-              className="group relative overflow-hidden rounded-2xl flex flex-col gap-3 transition-all duration-200 hover:-translate-y-[3px] shadow-[0_1px_4px_rgba(24,95,165,0.07)] hover:shadow-[0_8px_24px_rgba(24,95,165,0.14)]"
-              style={{
-                background: 'linear-gradient(135deg, #eef5fc 0%, #d4e6f7 100%)',
-                borderLeft: '4px solid #185FA5',
-                padding: '24px 20px',
-              }}
+              className="group relative overflow-hidden rounded-xl flex flex-col transition-all duration-200 hover:-translate-y-[3px] shadow-[0_1px_3px_rgba(0,0,0,0.07),0_0_0_1px_rgba(29,78,216,0.10)] hover:shadow-[0_8px_28px_rgba(29,78,216,0.18)]"
+              style={{ background: 'linear-gradient(160deg,#ffffff 0%,#eff6ff 100%)', borderLeft: '4px solid #1d4ed8', padding: '24px 24px 20px 24px' }}
             >
-              {/* Decorative circle */}
-              <div
-                className="absolute top-[-20px] right-[-20px] w-[100px] h-[100px] rounded-full pointer-events-none"
-                style={{ background: 'rgba(24,95,165,0.09)' }}
-                aria-hidden="true"
-              />
-              {/* Icon */}
-              <div className="w-12 h-12 rounded-full flex items-center justify-center flex-none relative z-10" style={{ background: '#185FA5' }}>
-                <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                </svg>
+              {/* Background illustration — house outline */}
+              <svg className="absolute top-0 right-0 w-[130px] h-[130px] sm:w-[145px] sm:h-[145px] pointer-events-none" viewBox="0 0 120 115" fill="none" stroke="#1d4ed8" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ opacity: 0.13 }}>
+                <polyline points="8,62 60,12 112,62" />
+                <rect x="22" y="62" width="76" height="48" />
+                <rect x="47" y="82" width="26" height="28" />
+              </svg>
+              {/* Category + icon */}
+              <div className="relative z-10 flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center flex-none" style={{ background: '#1d4ed8' }}>
+                  <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                  </svg>
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: '#1d4ed8' }}>HOUSING</span>
               </div>
-              {/* Content */}
-              <div className="flex-1 relative z-10">
-                <p className="text-[18px] font-medium mb-1.5" style={{ color: '#042C53' }}>Look up your BAH</p>
-                <p className="text-[13px] leading-[1.6]" style={{ color: '#0C447C' }}>
-                  Your housing allowance depends on rank, location, and dependents.
+              {/* Title + body */}
+              <div className="relative z-10 flex-1">
+                <p className="text-[20px] font-semibold leading-snug mb-2" style={{ color: '#1e3a8a' }}>Look up your BAH</p>
+                <p className="text-sm leading-relaxed" style={{ color: '#1e40af' }}>
+                  See what housing money you should actually receive before you sign a lease.
                 </p>
               </div>
+              <hr className="relative z-10 my-4 border-blue-100" />
+              {/* Benefit */}
+              <div className="relative z-10 flex items-center gap-2 mb-3">
+                <svg className="w-4 h-4 flex-none" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="7" fill="#16a34a" />
+                  <path d="M5 8l2 2 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span className="text-[13px] font-semibold text-zinc-700">Avoid overpaying. Budget smarter.</span>
+              </div>
               {/* CTA */}
-              <div className="flex items-center gap-1.5 relative z-10">
-                <span className="text-[13px] font-medium" style={{ color: '#185FA5' }}>Open calculator</span>
-                <ArrowRight color="#185FA5" />
+              <div className="relative z-10 flex items-center gap-1.5">
+                <span className="text-[13px] font-semibold" style={{ color: '#1d4ed8' }}>Open calculator</span>
+                <ArrowRight color="#1d4ed8" />
               </div>
             </Link>
 
-            {/* Card 3 — Amber: Check your first paycheck */}
+            {/* ── Card 3: PAYCHECK / LES ─────────────────────────────────── */}
             <Link
               href="/blog/how-to-read-military-les-2026"
-              className="group relative overflow-hidden rounded-2xl flex flex-col gap-3 transition-all duration-200 hover:-translate-y-[3px] shadow-[0_1px_4px_rgba(133,79,11,0.07)] hover:shadow-[0_8px_24px_rgba(133,79,11,0.14)]"
-              style={{
-                background: 'linear-gradient(135deg, #fdf5e8 0%, #f7e4c4 100%)',
-                borderLeft: '4px solid #854F0B',
-                padding: '24px 20px',
-              }}
+              className="group relative overflow-hidden rounded-xl flex flex-col transition-all duration-200 hover:-translate-y-[3px] shadow-[0_1px_3px_rgba(0,0,0,0.07),0_0_0_1px_rgba(180,83,9,0.10)] hover:shadow-[0_8px_28px_rgba(180,83,9,0.18)]"
+              style={{ background: 'linear-gradient(160deg,#ffffff 0%,#fffbeb 100%)', borderLeft: '4px solid #b45309', padding: '24px 24px 20px 24px' }}
             >
-              {/* Decorative circle */}
-              <div
-                className="absolute top-[-20px] right-[-20px] w-[100px] h-[100px] rounded-full pointer-events-none"
-                style={{ background: 'rgba(133,79,11,0.09)' }}
-                aria-hidden="true"
-              />
-              {/* Icon */}
-              <div className="w-12 h-12 rounded-full flex items-center justify-center flex-none relative z-10" style={{ background: '#854F0B' }}>
-                <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                </svg>
+              {/* Background illustration — document + dollar circle */}
+              <svg className="absolute top-0 right-0 w-[130px] h-[130px] sm:w-[145px] sm:h-[145px] pointer-events-none" viewBox="0 0 120 120" fill="none" stroke="#b45309" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ opacity: 0.13 }}>
+                <rect x="18" y="6" width="62" height="82" rx="6" />
+                <line x1="30" y1="34" x2="68" y2="34" />
+                <line x1="30" y1="48" x2="58" y2="48" />
+                <line x1="30" y1="62" x2="68" y2="62" />
+                <circle cx="88" cy="90" r="22" strokeWidth="4.5" />
+                <line x1="88" y1="73" x2="88" y2="107" strokeWidth="4" />
+              </svg>
+              {/* Category + icon */}
+              <div className="relative z-10 flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center flex-none" style={{ background: '#b45309' }}>
+                  <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                  </svg>
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: '#b45309' }}>PAYCHECK</span>
               </div>
-              {/* Content */}
-              <div className="flex-1 relative z-10">
-                <p className="text-[18px] font-medium mb-1.5" style={{ color: '#412402' }}>Check your first paycheck</p>
-                <p className="text-[13px] leading-[1.6]" style={{ color: '#633806' }}>
-                  How to read your LES and spot errors before they cost you.
+              {/* Title + body */}
+              <div className="relative z-10 flex-1">
+                <p className="text-[20px] font-semibold leading-snug mb-2" style={{ color: '#451a03' }}>Check your first paycheck</p>
+                <p className="text-sm leading-relaxed" style={{ color: '#92400e' }}>
+                  Learn how to read your LES and catch pay mistakes early before they snowball.
                 </p>
               </div>
+              <hr className="relative z-10 my-4 border-amber-100" />
+              {/* Benefit */}
+              <div className="relative z-10 flex items-center gap-2 mb-3">
+                <svg className="w-4 h-4 flex-none" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="7" fill="#16a34a" />
+                  <path d="M5 8l2 2 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span className="text-[13px] font-semibold text-zinc-700">Fix errors fast and keep more of what you earn.</span>
+              </div>
               {/* CTA */}
-              <div className="flex items-center gap-1.5 relative z-10">
-                <span className="text-[13px] font-medium" style={{ color: '#854F0B' }}>Read guide</span>
-                <ArrowRight color="#854F0B" />
+              <div className="relative z-10 flex items-center gap-1.5">
+                <span className="text-[13px] font-semibold" style={{ color: '#b45309' }}>Read guide</span>
+                <ArrowRight color="#b45309" />
               </div>
             </Link>
 
-            {/* Card 4 — Red: Don't get ripped off on a car loan */}
+            {/* ── Card 4: PROTECTION / SCRA ──────────────────────────────── */}
             <Link
               href="/blog/scra-mla-protections-new-service-members"
-              className="group relative overflow-hidden rounded-2xl flex flex-col gap-3 transition-all duration-200 hover:-translate-y-[3px] shadow-[0_1px_4px_rgba(163,45,45,0.07)] hover:shadow-[0_8px_24px_rgba(163,45,45,0.14)]"
-              style={{
-                background: 'linear-gradient(135deg, #fdf0f0 0%, #f5d1d1 100%)',
-                borderLeft: '4px solid #A32D2D',
-                padding: '24px 20px',
-              }}
+              className="group relative overflow-hidden rounded-xl flex flex-col transition-all duration-200 hover:-translate-y-[3px] shadow-[0_1px_3px_rgba(0,0,0,0.07),0_0_0_1px_rgba(185,28,28,0.10)] hover:shadow-[0_8px_28px_rgba(185,28,28,0.18)]"
+              style={{ background: 'linear-gradient(160deg,#ffffff 0%,#fef2f2 100%)', borderLeft: '4px solid #b91c1c', padding: '24px 24px 20px 24px' }}
             >
-              {/* Decorative circle */}
-              <div
-                className="absolute top-[-20px] right-[-20px] w-[100px] h-[100px] rounded-full pointer-events-none"
-                style={{ background: 'rgba(163,45,45,0.09)' }}
-                aria-hidden="true"
-              />
-              {/* Icon */}
-              <div className="w-12 h-12 rounded-full flex items-center justify-center flex-none relative z-10" style={{ background: '#A32D2D' }}>
-                <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-                </svg>
+              {/* Background illustration — car + shield */}
+              <svg className="absolute top-0 right-0 w-[140px] h-[130px] sm:w-[155px] sm:h-[145px] pointer-events-none" viewBox="0 0 130 120" fill="none" stroke="#b91c1c" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ opacity: 0.13 }}>
+                <rect x="8" y="66" width="96" height="34" rx="8" />
+                <path d="M25,66 L36,42 L76,42 L87,66" />
+                <circle cx="30" cy="100" r="10" />
+                <circle cx="82" cy="100" r="10" />
+                <path d="M88,8 L108,16 L108,34 C108,46 98,54 88,60 C78,54 68,46 68,34 L68,16 Z" strokeWidth="4" />
+                <path d="M82,34 L86,38 L95,27" strokeWidth="3.5" />
+              </svg>
+              {/* Category + icon */}
+              <div className="relative z-10 flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center flex-none" style={{ background: '#b91c1c' }}>
+                  <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                  </svg>
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: '#b91c1c' }}>PROTECTION</span>
               </div>
-              {/* Content */}
-              <div className="flex-1 relative z-10">
-                <p className="text-[18px] font-medium mb-1.5" style={{ color: '#501313' }}>Don&apos;t get ripped off on a car loan</p>
-                <p className="text-[13px] leading-[1.6]" style={{ color: '#791F1F' }}>
-                  SCRA caps your interest rate. Know before you sign anything.
+              {/* Title + body */}
+              <div className="relative z-10 flex-1">
+                <p className="text-[20px] font-semibold leading-snug mb-2" style={{ color: '#450a0a' }}>Avoid a bad car loan</p>
+                <p className="text-sm leading-relaxed" style={{ color: '#991b1b' }}>
+                  Know your SCRA protections before you finance anything or sign at the dealership.
                 </p>
               </div>
+              <hr className="relative z-10 my-4 border-red-100" />
+              {/* Benefit */}
+              <div className="relative z-10 flex items-center gap-2 mb-3">
+                <svg className="w-4 h-4 flex-none" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="7" fill="#16a34a" />
+                  <path d="M5 8l2 2 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span className="text-[13px] font-semibold text-zinc-700">Save thousands and protect your rights.</span>
+              </div>
               {/* CTA */}
-              <div className="flex items-center gap-1.5 relative z-10">
-                <span className="text-[13px] font-medium" style={{ color: '#A32D2D' }}>Read guide</span>
-                <ArrowRight color="#A32D2D" />
+              <div className="relative z-10 flex items-center gap-1.5">
+                <span className="text-[13px] font-semibold" style={{ color: '#b91c1c' }}>Read guide</span>
+                <ArrowRight color="#b91c1c" />
               </div>
             </Link>
 
