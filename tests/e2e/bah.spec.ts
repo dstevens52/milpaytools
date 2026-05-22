@@ -114,7 +114,8 @@ test.describe('BAH Calculator', () => {
     await page.getByLabel('Current / Origin').pressSequentially('28310', { delay: 50 });
     await page.getByLabel('Gaining / Destination').pressSequentially('92134', { delay: 50 });
     // Fort Bragg (28310 → NC182) and NAS San Diego (92134) both have station pages
+    // 92134 maps to the San Diego MHA which has multiple stations — use .first() to avoid strict mode
     await expect(page.getByRole('link', { name: /Fort Bragg.*housing guide/i })).toBeVisible();
-    await expect(page.getByRole('link', { name: /NAS San Diego.*housing guide|San Diego.*housing guide/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Naval Station San Diego.*housing guide/i }).first()).toBeVisible();
   });
 });
