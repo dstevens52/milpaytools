@@ -96,7 +96,7 @@ export default function HealthcareComparisonPage() {
         ]} />
 
         {/* ── Proof bar ──────────────────────────────────────────────── */}
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
+        <div className="hidden md:block max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
           <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
             <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
               Sample output
