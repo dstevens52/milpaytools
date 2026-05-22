@@ -87,6 +87,7 @@ export default function ColaPage() {
         <ColaCalculator />
 
         {/* Example Calculation */}
+        <div className="hidden md:block">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
             How Much CONUS COLA Does an E-5 at Monterey, CA Receive?
@@ -105,6 +106,7 @@ export default function ColaPage() {
             <strong>What this means:</strong> An E-5 with dependents at the Naval Postgraduate School receives $5,160/year in additional pay specifically because Monterey&apos;s cost of living far exceeds the national average — even accounting for BAH. Unlike BAH, CONUS COLA is taxable income, so the net value after federal taxes at the 12% marginal bracket is approximately $4,541/year. It is still a meaningful supplement for one of the most expensive duty stations in the country.
           </p>
         </ExampleBox>
+        </div>
 
         {/* Explainer */}
         <div className="space-y-8 text-sm leading-relaxed">

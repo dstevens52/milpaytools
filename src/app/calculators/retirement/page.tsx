@@ -90,7 +90,7 @@ export default function RetirementCalculatorPage() {
         </div>
 
         {/* Example Calculation */}
-        <section className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8">
+        <section className="hidden md:block mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8">
           <ExampleBox>
             <h2 className="text-xl font-bold text-zinc-900 mb-2">
               BRS vs. High-3 at 20 Years: What Does an E-7 Actually Take Home?

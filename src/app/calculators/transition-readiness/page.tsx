@@ -96,7 +96,7 @@ export default function TransitionReadinessPage() {
       <TransitionReadinessCalculator />
 
       {/* ── Example Calculation ────────────────────────────────────── */}
-      <section className="tr-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section className="tr-example hidden md:block max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
             Example: Tech Sergeant (E-6), 10 Years, Separating in 14 Months

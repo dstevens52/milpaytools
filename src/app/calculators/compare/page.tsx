@@ -87,6 +87,7 @@ export default function ComparePage() {
         <CompareCalculator />
 
         {/* Example Calculation */}
+        <div className="hidden md:block">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
             Fort Bragg, NC vs. Fort Hood, TX: What&apos;s the Real Financial Difference?
@@ -108,6 +109,7 @@ export default function ComparePage() {
             <strong>What this means:</strong> The E-5 at Fort Bragg earns $4,608 more per year than their counterpart at Fort Hood — entirely due to the higher local housing market driving a higher BAH rate. Neither location qualifies for CONUS COLA. That $384/month difference is tax-free BAH that can be directed toward savings, a home down payment, or debt reduction. When evaluating PCS orders, this difference in annual compensation should factor alongside cost of living differences in the local economy.
           </p>
         </ExampleBox>
+        </div>
 
         {/* Explainer */}
         <div className="space-y-8 text-sm leading-relaxed">

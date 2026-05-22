@@ -89,7 +89,7 @@ export default function DeploymentPage() {
       </div>
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section className="hidden md:block max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
             How Much More Does an E-5 Take Home on a 9-Month Combat Zone Deployment?

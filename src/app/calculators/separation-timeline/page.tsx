@@ -79,7 +79,7 @@ export default function SeparationTimelinePage() {
       <SeparationTimelineCalculator />
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section className="hidden md:block max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
             Example: Key Deadlines for an E-6 Separating September 30, 2026
