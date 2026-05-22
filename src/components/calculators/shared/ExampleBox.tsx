@@ -1,6 +1,6 @@
 export function ExampleBox({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-xl border border-blue-200 bg-blue-50 p-6 sm:p-8">
+    <div className="rounded-xl border border-blue-200 bg-blue-50 p-3 sm:p-8">
       {children}
     </div>
   );
@@ -18,7 +18,7 @@ export function ExampleRow({
   return (
     <div
       className={[
-        'flex justify-between px-4 py-2.5 text-sm',
+        'flex justify-between px-3 sm:px-4 py-1.5 sm:py-2.5 text-xs sm:text-sm',
         highlight ? 'bg-blue-50 font-semibold' : '',
       ].join(' ')}
     >
@@ -32,7 +32,7 @@ export function ExampleRow({
 
 export function ExampleTable({ children }: { children: React.ReactNode }) {
   return (
-    <div className="my-5 overflow-hidden rounded-lg border border-blue-100 bg-white divide-y divide-zinc-100">
+    <div className="my-2 sm:my-5 overflow-hidden rounded-lg border border-blue-100 bg-white divide-y divide-zinc-100">
       {children}
     </div>
   );
