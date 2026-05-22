@@ -86,7 +86,7 @@ export default function StartingServicePage() {
           />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-5xl pt-6 pb-5 sm:pt-9 sm:pb-6 px-4">
+        <div className="relative z-10 mx-auto max-w-5xl pt-6 pb-3 sm:pt-9 sm:pb-6 px-4">
 
           {/* Left column text — constrained so the image stays visible on desktop */}
           <div className="sm:max-w-[58%] mb-5">
@@ -129,71 +129,72 @@ export default function StartingServicePage() {
           {/* ── Example compensation card ── */}
           <div className="bg-white rounded-2xl border border-zinc-200 shadow-md overflow-hidden">
             {/* Card label */}
-            <div className="px-4 py-2 border-b border-zinc-100 bg-zinc-50/70">
-              <p className="text-[11px] text-zinc-400 font-medium">{EX.label}</p>
+            <div className="px-4 py-2 border-b border-zinc-100 bg-zinc-50/70 flex items-center gap-3">
+              <p className="text-[11px] text-zinc-400 font-medium flex-1">{EX.label}</p>
+              <p className="text-[10px] text-zinc-400 sm:hidden flex-none">all monthly</p>
             </div>
 
             {/* Pay columns */}
             <div className="flex flex-col sm:flex-row">
 
               {/* Base Pay */}
-              <div className="flex-1 flex items-center gap-2.5 px-4 py-3 sm:border-r border-b sm:border-b-0 border-zinc-100">
-                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-none">
-                  <svg className="w-3.5 h-3.5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+              <div className="flex-1 flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 sm:py-3 sm:border-r border-b sm:border-b-0 border-zinc-100">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-50 flex items-center justify-center flex-none">
+                  <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <div>
-                  <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider leading-none mb-1">Base Pay</p>
-                  <p className="text-base font-bold text-zinc-900 tabular-nums leading-none">{EX.base}</p>
-                  <p className="text-[10px] text-zinc-400 mt-0.5">monthly</p>
+                <div className="flex items-center flex-1 min-w-0 sm:block">
+                  <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider leading-none flex-1 sm:mb-1">Base Pay</p>
+                  <p className="text-sm sm:text-base font-bold text-zinc-900 tabular-nums leading-none">{EX.base}</p>
+                  <p className="hidden sm:block text-[10px] text-zinc-400 mt-0.5">monthly</p>
                 </div>
               </div>
 
               {/* BAS */}
-              <div className="flex-1 flex items-center gap-2.5 px-4 py-3 sm:border-r border-b sm:border-b-0 border-zinc-100">
-                <div className="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center flex-none">
-                  <svg className="w-3.5 h-3.5 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+              <div className="flex-1 flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 sm:py-3 sm:border-r border-b sm:border-b-0 border-zinc-100">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-orange-50 flex items-center justify-center flex-none">
+                  <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" />
                   </svg>
                 </div>
-                <div>
-                  <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider leading-none mb-1">BAS</p>
-                  <p className="text-base font-bold text-zinc-900 tabular-nums leading-none">{EX.bas}</p>
-                  <p className="text-[10px] text-zinc-400 mt-0.5">monthly</p>
+                <div className="flex items-center flex-1 min-w-0 sm:block">
+                  <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider leading-none flex-1 sm:mb-1">BAS</p>
+                  <p className="text-sm sm:text-base font-bold text-zinc-900 tabular-nums leading-none">{EX.bas}</p>
+                  <p className="hidden sm:block text-[10px] text-zinc-400 mt-0.5">monthly</p>
                 </div>
               </div>
 
               {/* BAH */}
-              <div className="flex-1 flex items-center gap-2.5 px-4 py-3 sm:border-r border-b sm:border-b-0 border-zinc-100">
-                <div className="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center flex-none">
-                  <svg className="w-3.5 h-3.5 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+              <div className="flex-1 flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 sm:py-3 sm:border-r border-b sm:border-b-0 border-zinc-100">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-50 flex items-center justify-center flex-none">
+                  <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
                   </svg>
                 </div>
-                <div>
-                  <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider leading-none mb-1">BAH</p>
-                  <p className="text-base font-bold text-zinc-900 tabular-nums leading-none">{EX.bah}</p>
-                  <p className="text-[10px] text-zinc-400 mt-0.5">monthly</p>
+                <div className="flex items-center flex-1 min-w-0 sm:block">
+                  <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider leading-none flex-1 sm:mb-1">BAH</p>
+                  <p className="text-sm sm:text-base font-bold text-zinc-900 tabular-nums leading-none">{EX.bah}</p>
+                  <p className="hidden sm:block text-[10px] text-zinc-400 mt-0.5">monthly</p>
                 </div>
               </div>
 
               {/* Est. Monthly — green */}
-              <div className="flex-1 flex items-center gap-2.5 px-4 py-3 bg-green-50 sm:border-r border-b sm:border-b-0 border-green-100">
-                <div>
-                  <p className="text-[10px] font-semibold text-green-600 uppercase tracking-wider leading-none mb-1">Est. Monthly Value</p>
-                  <p className="text-lg font-extrabold text-green-800 tabular-nums leading-none">{EX.monthly}</p>
-                  <p className="text-[10px] text-green-500 mt-0.5">per month</p>
+              <div className="flex-1 flex items-center gap-2.5 px-3 sm:px-4 py-1.5 sm:py-3 bg-green-50 sm:border-r border-b sm:border-b-0 border-green-100">
+                <div className="flex items-center flex-1 min-w-0 sm:block">
+                  <p className="text-[10px] font-semibold text-green-600 uppercase tracking-wider leading-none flex-1 sm:mb-1">Est. Monthly Value</p>
+                  <p className="text-sm sm:text-lg font-extrabold text-green-800 tabular-nums leading-none">{EX.monthly}</p>
+                  <p className="hidden sm:block text-[10px] text-green-500 mt-0.5">per month</p>
                 </div>
               </div>
 
               {/* Civilian Equivalent — amber */}
-              <div className="flex-1 flex items-center gap-2.5 px-4 py-3 bg-amber-50">
-                <div>
-                  <p className="text-[10px] font-semibold text-amber-600 uppercase tracking-wider leading-none mb-1">Civilian Equivalent</p>
-                  <p className="text-lg font-extrabold text-amber-900 tabular-nums leading-none">{EX.annual}</p>
-                  <p className="text-[10px] text-amber-500 mt-0.5">annual, pre-tax</p>
+              <div className="flex-1 flex items-center gap-2.5 px-3 sm:px-4 py-1.5 sm:py-3 bg-amber-50">
+                <div className="flex items-center flex-1 min-w-0 sm:block">
+                  <p className="text-[10px] font-semibold text-amber-600 uppercase tracking-wider leading-none flex-1 sm:mb-1">Civilian Equivalent</p>
+                  <p className="text-sm sm:text-lg font-extrabold text-amber-900 tabular-nums leading-none">{EX.annual}</p>
+                  <p className="hidden sm:block text-[10px] text-amber-500 mt-0.5">annual, pre-tax</p>
                 </div>
               </div>
 
