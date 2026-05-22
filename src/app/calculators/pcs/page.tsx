@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { PCSCalculator } from '@/components/calculators/pcs/PCSCalculator';
@@ -63,7 +63,7 @@ export default function PCSPage() {
         ]} />
 
         {/* ── Proof bar ──────────────────────────────────────────────── */}
-        <div className="hidden md:block max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
+        <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
           <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
             <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
               Sample output
@@ -89,7 +89,7 @@ export default function PCSPage() {
       </div>
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
-      <section className="hidden md:block max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
             Government Move vs. PPM: E-6 from Fort Campbell, KY to JBLM, WA

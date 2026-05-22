@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { EducationCalculator } from '@/components/calculators/education/EducationCalculator';
@@ -67,7 +67,7 @@ export default function EducationCalculatorPage() {
         <EducationCalculator />
 
         {/* Example Calculation */}
-        <section className="hidden md:block mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8">
+        <section className="calc-example mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8">
           <ExampleBox>
             <h2 className="text-xl font-bold text-zinc-900 mb-2">
               How Much Is the Post-9/11 GI Bill Worth at a San Diego University?

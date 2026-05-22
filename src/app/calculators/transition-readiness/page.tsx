@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { TransitionReadinessCalculator } from '@/components/calculators/transition-readiness/TransitionReadinessCalculator';
@@ -73,7 +73,7 @@ export default function TransitionReadinessPage() {
         ]} />
 
         {/* ── Proof bar ──────────────────────────────────────────────── */}
-        <div className="hidden md:block max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
+        <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
           <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
             <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
               Sample output
@@ -96,7 +96,7 @@ export default function TransitionReadinessPage() {
       <TransitionReadinessCalculator />
 
       {/* ── Example Calculation ────────────────────────────────────── */}
-      <section className="tr-example hidden md:block max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section className="tr-example calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
             Example: Tech Sergeant (E-6), 10 Years, Separating in 14 Months

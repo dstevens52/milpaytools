@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { DualMilitaryBAHCalculator } from '@/components/calculators/dual-military-bah/DualMilitaryBAHCalculator';
@@ -105,7 +105,7 @@ export default function DualMilitaryBAHPage() {
       </div>
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
-      <section className="hidden md:block max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
             What Does a Dual-Military E-5 Couple Take Home at Fort Bragg?

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { VADisabilityCalculator } from '@/components/calculators/va-disability/VADisabilityCalculator';
@@ -101,7 +101,7 @@ export default function VADisabilityPage() {
       </div>
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
-      <section className="hidden md:block max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
             How Does the VA Rate a Veteran with Back and Bilateral Knee Conditions?
