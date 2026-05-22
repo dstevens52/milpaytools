@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, Fragment } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -8,10 +8,10 @@ const CALCULATOR_GROUPS = [
   {
     label: 'Top Calculators',
     links: [
-      { href: '/calculators/total-compensation', label: 'Total Military Compensation' },
-      { href: '/calculators/bah', label: 'BAH Calculator' },
+      { href: '/calculators/total-compensation', label: 'Total Military Compensation', featured: true },
+      { href: '/calculators/bah', label: 'BAH Calculator', featured: true },
+      { href: '/calculators/va-disability', label: 'VA Disability Rating', featured: true },
       { href: '/bah', label: 'BAH by Duty Station' },
-      { href: '/calculators/va-disability', label: 'VA Disability Rating' },
       { href: '/calculators/compare', label: 'Duty Station Comparison' },
       { href: '/calculators/pcs', label: 'PCS Cost Estimator' },
       { href: '/calculators/tsp', label: 'TSP Growth Projector' },
@@ -122,8 +122,8 @@ function CalculatorsDropdown({ pathname }: { pathname: string }) {
         aria-expanded={open}
         aria-haspopup="menu"
         className={[
-          'flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors select-none',
-          isActive || open ? 'text-red-700 bg-red-50' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
+          'flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-semibold transition-colors select-none text-red-700',
+          open ? 'bg-red-100' : 'bg-red-50 hover:bg-red-100',
         ].join(' ')}
       >
         Calculators
@@ -141,19 +141,27 @@ function CalculatorsDropdown({ pathname }: { pathname: string }) {
                 <p className="px-4 pt-1 pb-1 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
                   {group.label}
                 </p>
-                {group.links.map(({ href, label }) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    role="menuitem"
-                    onClick={close}
-                    className={[
-                      'block px-4 py-1.5 text-sm transition-colors',
-                      pathname === href ? 'text-red-700 font-semibold bg-red-50' : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50',
-                    ].join(' ')}
-                  >
-                    {label}
-                  </Link>
+                {group.links.map(({ href, label, featured }, index) => (
+                  <Fragment key={href}>
+                    {!featured && index > 0 && group.links[index - 1].featured && (
+                      <div className="mx-3 my-1 border-t border-zinc-200" />
+                    )}
+                    <Link
+                      href={href}
+                      role="menuitem"
+                      onClick={close}
+                      className={[
+                        'block px-4 py-1.5 text-sm transition-colors',
+                        pathname === href
+                          ? 'text-red-700 font-semibold bg-red-50'
+                          : featured
+                            ? 'text-zinc-800 font-medium hover:text-zinc-900 hover:bg-zinc-50'
+                            : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50',
+                      ].join(' ')}
+                    >
+                      {label}
+                    </Link>
+                  </Fragment>
                 ))}
               </div>
             ))}
@@ -348,14 +356,14 @@ export function Nav({ mobile = false, onClose }: NavProps) {
             </Link>
           </li>
 
-          {/* Got feedback? — muted, positioned at bottom of menu */}
+          {/* Got feedback? — warm muted, positioned at bottom of menu */}
           <li>
             <Link
               href="/feedback"
               onClick={onClose}
               className={[
                 'block px-4 py-3 text-sm font-medium border-b border-zinc-100',
-                pathname === '/feedback' ? 'text-zinc-600' : 'text-zinc-400 hover:text-zinc-600',
+                pathname === '/feedback' ? 'text-stone-700' : 'text-stone-500 hover:text-stone-700',
               ].join(' ')}
             >
               Got feedback?
@@ -376,7 +384,7 @@ export function Nav({ mobile = false, onClose }: NavProps) {
             href="/feedback"
             className={[
               'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-              pathname === '/feedback' ? 'text-zinc-600 bg-zinc-100' : 'text-zinc-400 hover:text-zinc-600 hover:bg-zinc-50',
+              pathname === '/feedback' ? 'text-stone-700 bg-stone-100' : 'text-stone-500 hover:text-stone-700 hover:bg-stone-50',
             ].join(' ')}
           >
             Got feedback?
