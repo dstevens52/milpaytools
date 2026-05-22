@@ -4,7 +4,6 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
-import { FeedbackWidget } from '@/components/FeedbackWidget';
 
 const TITLE = 'Know What Your PCS Move Really Costs — Before Orders Drop';
 const DESC =
@@ -369,14 +368,6 @@ const ACCORDION = [
           <Link href="/blog/how-bah-builds-wealth" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
             How BAH Builds Wealth →
           </Link>
-          <a
-            href="https://varefinance.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors"
-          >
-            VA loan strategy at VARefinance.com →
-          </a>
         </div>
       </div>
     ),
@@ -681,7 +672,6 @@ export default function PcsGuidePage() {
           </div>
 
           <div className="mt-4 pt-4 border-t border-zinc-100">
-            <FeedbackWidget />
           </div>
 
           <div className="mt-6">

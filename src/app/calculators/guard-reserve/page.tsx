@@ -4,7 +4,6 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { GuardReserveCalculator } from '@/components/calculators/guard-reserve/GuardReserveCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
-import { CalculatorFeedbackLink } from '@/components/CalculatorFeedbackLink';
 
 export const metadata: Metadata = {
   title: { absolute: 'Guard & Reserve Pay Calculator 2026 | Drill Pay + AT + TRS | MilPayTools' },
@@ -87,7 +86,6 @@ export default function GuardReservePage() {
             <strong>What this means:</strong> The cash drill pay of $8,631/year understates the total value of reserve service. TRICARE Reserve Select family premiums are $3,440/year — substantially lower than typical employer-sponsored family coverage, though employee payroll cost, deductibles, and employer contributions vary widely. Retirement points accumulate toward a reserve pension payable at age 60.
           </p>
         </ExampleBox>
-        <CalculatorFeedbackLink />
       </section>
 
       {/* ── Explainer ───────────────────────────────────────────────────── */}

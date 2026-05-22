@@ -4,7 +4,6 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
-import { FeedbackWidget } from '@/components/FeedbackWidget';
 
 const TITLE = 'Stop guessing your VA combined rating — and what it\'s worth.';
 const DESC =
@@ -704,7 +703,6 @@ export default function VADisabilityGuidePage() {
           </div>
 
           <div className="mt-4 pt-4 border-t border-zinc-100">
-            <FeedbackWidget />
           </div>
 
           <div className="mt-6">

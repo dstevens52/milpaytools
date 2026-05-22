@@ -4,7 +4,6 @@ import { PayChartsClient } from '@/components/calculators/pay-charts/PayChartsCl
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema, faqPageSchema } from '@/lib/schema';
-import { CalculatorFeedbackLink } from '@/components/CalculatorFeedbackLink';
 
 export const metadata: Metadata = {
   title: { absolute: '2026 Military Pay Charts | MilPayTools' },
@@ -68,7 +67,6 @@ export default function PayChartsPage() {
       <PayChartsClient />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
-        <CalculatorFeedbackLink />
       </div>
 
       {/* ── Key Facts ─────────────────────────────────────────────────── */}

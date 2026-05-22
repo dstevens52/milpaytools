@@ -5,7 +5,6 @@ import { EducationCalculator } from '@/components/calculators/education/Educatio
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
-import { CalculatorFeedbackLink } from '@/components/CalculatorFeedbackLink';
 
 export const metadata: Metadata = {
   title: { absolute: 'Military Education Benefits Comparison Calculator — 2026 | MilPayTools' },
@@ -90,7 +89,6 @@ export default function EducationCalculatorPage() {
               <strong>What this means:</strong> Under this scenario, Post-9/11 GI Bill has the higher estimated dollar value — primarily because the Monthly Housing Allowance ($3,975/month) is benchmarked to the local BAH rate. In this scenario, Post-9/11 benefits may cover in-state tuition and provide a substantial housing allowance, though actual rent, fees, enrollment level, and eligibility tier will affect the result.
             </p>
           </ExampleBox>
-          <CalculatorFeedbackLink />
         </section>
 
         {/* Explainer content */}

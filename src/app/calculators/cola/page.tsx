@@ -5,7 +5,6 @@ import { ColaCalculator } from '@/components/calculators/cola/ColaCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
-import { CalculatorFeedbackLink } from '@/components/CalculatorFeedbackLink';
 
 export const metadata: Metadata = {
   title: { absolute: 'CONUS COLA Calculator — 2026 | MilPayTools' },
@@ -106,7 +105,6 @@ export default function ColaPage() {
             <strong>What this means:</strong> An E-5 with dependents at the Naval Postgraduate School receives $5,160/year in additional pay specifically because Monterey&apos;s cost of living far exceeds the national average — even accounting for BAH. Unlike BAH, CONUS COLA is taxable income, so the net value after federal taxes at the 12% marginal bracket is approximately $4,541/year. It is still a meaningful supplement for one of the most expensive duty stations in the country.
           </p>
         </ExampleBox>
-        <CalculatorFeedbackLink />
 
         {/* Explainer */}
         <div className="space-y-8 text-sm leading-relaxed">

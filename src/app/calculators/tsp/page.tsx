@@ -4,7 +4,6 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { TSPCalculator } from '@/components/calculators/tsp/TSPCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
-import { CalculatorFeedbackLink } from '@/components/CalculatorFeedbackLink';
 
 export const metadata: Metadata = {
   title: { absolute: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator | MilPayTools' },
@@ -109,7 +108,6 @@ export default function TSPPage() {
             <strong>What this means:</strong> By contributing 10% under BRS, the government adds nearly $238/month on top of the member&apos;s $476 — effectively a 50% match up to 5% of base pay. Over 10 years, that government contribution alone is worth approximately $47,000 in the account. The projected $658/month in TSP income supplements the BRS pension, which at E-7/20-year retirement adds another $2,457/month.
           </p>
         </ExampleBox>
-        <CalculatorFeedbackLink />
       </section>
 
       {/* ── Explainer ────────────────────────────────────────────────── */}

@@ -137,8 +137,7 @@ function buildActionSteps(input: RetirementInput, output: ReturnType<typeof calc
 
   steps.push({
     label: 'VA home loan benefit never expires after service',
-    description: `Veterans retain full VA loan eligibility — $0 down and no PMI — for life. This is one of the most valuable benefits that carries into retirement. Learn how veterans use it at VARefinance.com.`,
-    href: 'https://www.varefinance.com',
+    description: `Veterans retain full VA loan eligibility — $0 down and no PMI — for life. This is one of the most valuable benefits that carries into retirement.`,
     priority: 'low',
   });
 

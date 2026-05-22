@@ -5,7 +5,6 @@ import { BAHCalculator } from '@/components/calculators/bah/BAHCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
-import { CalculatorFeedbackLink } from '@/components/CalculatorFeedbackLink';
 
 export const metadata: Metadata = {
   title: { absolute: 'BAH Calculator 2026 | Military Housing Allowance | MilPayTools' },
@@ -84,7 +83,6 @@ export default function BAHPage() {
             <strong>What this means:</strong> An E-5 with dependents stationed in San Diego receives $26,028 more per year in housing allowance than the same rank at Fort Bragg — entirely tax-free. That $2,169/month gap can make a meaningful difference in savings potential, and is often the deciding factor when comparing PCS offer packages between high-cost and low-cost duty stations.
           </p>
         </ExampleBox>
-        <CalculatorFeedbackLink />
       </section>
 
       {/* ── Explainer ────────────────────────────────────────────────── */}

@@ -4,7 +4,6 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { DeploymentCalculator } from '@/components/calculators/deployment/DeploymentCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
-import { CalculatorFeedbackLink } from '@/components/CalculatorFeedbackLink';
 
 export const metadata: Metadata = {
   title: { absolute: 'Deployment Pay Calculator 2026 | CZTE, HFP, SDP | MilPayTools' },
@@ -114,7 +113,6 @@ export default function DeploymentPage() {
             <strong>What this means:</strong> This E-5 takes home $871 more per month during the deployment — and because family expenses typically drop while a spouse is deployed (one fewer car, shared housing costs), many families can bank $1,000–$2,000+ per month. Over 9 months the CZTE alone saves $3,115 in federal income taxes. Deploying under BRS is also an opportunity to increase Roth TSP contributions from already tax-free pay, potentially doubling the financial impact.
           </p>
         </ExampleBox>
-        <CalculatorFeedbackLink />
       </section>
 
       {/* ── Explainer ──────────────────────────────────────────────────── */}

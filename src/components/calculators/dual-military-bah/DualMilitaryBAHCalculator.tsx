@@ -248,8 +248,7 @@ export function DualMilitaryBAHCalculator() {
 
     steps.push({
       label: 'Both spouses may have independent VA home loan eligibility',
-      description: `Dual military couples can often each use a VA loan. See how your combined ${fmt(results.total)}/month BAH supports a home purchase at VARefinance.com — $0 down, no PMI.`,
-      href: 'https://www.varefinance.com',
+      description: `Dual military couples can often each use a VA loan — $0 down and no PMI. Your combined ${fmt(results.total)}/month BAH can cover the mortgage while you build equity.`,
       priority: 'high',
     });
 
@@ -783,26 +782,6 @@ export function DualMilitaryBAHCalculator() {
             </Card>
           )}
 
-          {/* ── VARefinance callout ──────────────────────────────────── */}
-          <a
-            href="https://www.varefinance.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-start gap-4 rounded-lg border border-zinc-200 bg-white p-5 hover:border-zinc-300 hover:shadow-sm transition-all group"
-          >
-            <div className="flex-none w-10 h-10 rounded-lg bg-red-50 border border-red-100 flex items-center justify-center text-xl">
-              🏡
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-zinc-900 group-hover:text-red-700 transition-colors">
-                Dual military couples can each use a VA home loan
-              </p>
-              <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">
-                Both spouses typically have independent VA loan eligibility. See how your combined
-                BAH supports a home purchase with $0 down and no PMI at VARefinance.com →
-              </p>
-            </div>
-          </a>
         </>
       )}
     </div>

@@ -4,7 +4,6 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
-import { FeedbackWidget } from '@/components/FeedbackWidget';
 
 const TITLE = 'Know what your military retirement is actually worth — before you decide to stay or go.';
 const DESC =
@@ -604,7 +603,6 @@ export default function RetirementTspGuidePage() {
           </div>
 
           <div className="mt-4 pt-4 border-t border-zinc-100">
-            <FeedbackWidget />
           </div>
 
           <div className="mt-6">

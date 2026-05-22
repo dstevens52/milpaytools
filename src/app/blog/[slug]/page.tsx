@@ -8,7 +8,6 @@ import { KeyFact } from '@/components/blog/KeyFact';
 import { QuickAnswer, QAItem } from '@/components/blog/QuickAnswer';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
-import { FeedbackWidget } from '@/components/FeedbackWidget';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
 
@@ -230,7 +229,6 @@ export default async function BlogPostPage({
 
       {/* Feedback */}
       <div className="mt-6 pt-6 border-t border-zinc-100">
-        <FeedbackWidget pageTitle={post.title} />
       </div>
 
       {/* Disclaimer */}

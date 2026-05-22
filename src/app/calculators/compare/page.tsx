@@ -5,7 +5,6 @@ import { CompareCalculator } from '@/components/calculators/compare/CompareCalcu
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
-import { CalculatorFeedbackLink } from '@/components/CalculatorFeedbackLink';
 
 export const metadata: Metadata = {
   title: { absolute: 'Duty Station Comparison Calculator — 2026 | MilPayTools' },
@@ -109,7 +108,6 @@ export default function ComparePage() {
             <strong>What this means:</strong> The E-5 at Fort Bragg earns $4,608 more per year than their counterpart at Fort Hood — entirely due to the higher local housing market driving a higher BAH rate. Neither location qualifies for CONUS COLA. That $384/month difference is tax-free BAH that can be directed toward savings, a home down payment, or debt reduction. When evaluating PCS orders, this difference in annual compensation should factor alongside cost of living differences in the local economy.
           </p>
         </ExampleBox>
-        <CalculatorFeedbackLink />
 
         {/* Explainer */}
         <div className="space-y-8 text-sm leading-relaxed">

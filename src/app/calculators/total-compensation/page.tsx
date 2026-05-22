@@ -5,7 +5,6 @@ import { TotalCompensationCalculator } from '@/components/calculators/total-comp
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
-import { CalculatorFeedbackLink } from '@/components/CalculatorFeedbackLink';
 
 export const metadata: Metadata = {
   title: { absolute: 'Total Military Compensation Calculator 2026: Base Pay, BAH, BAS & Tax Advantages | MilPayTools' },
@@ -232,7 +231,6 @@ export default function TotalCompensationPage() {
             <strong>What this means:</strong> This E-5 sees $4,300 on their pay stub, but their true economic compensation is $91,703 — 78% higher than base pay alone. The gap comes from BAH and BAS being completely excluded from federal income tax, plus TRICARE family coverage that would cost a civilian roughly $6,840/year in employer-plan premiums. A civilian would need to earn roughly $91,700 before taxes to match the same financial value, and that still doesn&apos;t count commissary access or the pension.
           </p>
         </ExampleBox>
-        <CalculatorFeedbackLink />
       </section>
 
       {/* ── Explainer accordions ─────────────────────────────────────── */}
@@ -365,19 +363,6 @@ export default function TotalCompensationPage() {
             </div>
           </details>
 
-        </div>
-
-        {/* VARefinance subtle link */}
-        <div className="mb-8">
-          <a
-            href="https://www.varefinance.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-red-700 transition-colors"
-          >
-            <span>🏡</span>
-            <span>Using BAH for housing? Learn how VA loan eligibility and monthly affordability fit together at VARefinance.com →</span>
-          </a>
         </div>
 
         {/* Related calculators */}
