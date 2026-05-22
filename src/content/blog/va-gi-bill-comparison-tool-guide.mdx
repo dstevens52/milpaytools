@@ -44,17 +44,18 @@ The tool pulls school data from federal databases, so graduation rates, default 
 
 **3. Select your GI Bill chapter.** Chapter 33 (Post-9/11) is the most commonly used. The tool also supports Chapter 30 (Montgomery GI Bill), Chapter 31 (VR&E), and others. If you're not sure which chapter you're eligible for, the [VA education benefits page](https://www.va.gov/education/eligibility/) has the eligibility breakdown.
 
-**4. Enter your cumulative service months.** This is what determines your benefit percentage:
+**4. Enter your cumulative service period.** This is what determines your benefit percentage under Post-9/11 GI Bill (Chapter 33):
 
-| Cumulative Active Duty Service | Benefit Level |
-|-------------------------------|--------------|
-| 90 days – 5 months, 29 days | 40% |
-| 6 – 11 months, 29 days | 50% |
-| 12 – 17 months, 29 days | 60% |
-| 18 – 23 months, 29 days | 70% |
-| 24 – 29 months, 29 days | 80% |
-| 30 – 35 months, 29 days | 90% |
-| 36+ months | 100% |
+| Cumulative qualifying active-duty service | Benefit level |
+|------------------------------------------|--------------|
+| 90–179 days | 50% |
+| 180–544 days | 60% |
+| 545–729 days | 70% |
+| 730–909 days | 80% |
+| 910–1,094 days | 90% |
+| 1,095+ days (36+ months) | 100% |
+
+*Source: [VA.gov Post-9/11 GI Bill rates](https://www.va.gov/education/benefit-rates/post-9-11-gi-bill-rates/)*
 
 **5. Search for your school.** You can search by name, location, or school type (four-year university, community college, trade school, on-the-job training, flight training, etc.).
 
@@ -68,7 +69,7 @@ The tool's school-level data is solid. Graduation rates and loan default rates c
 
 Yellow Ribbon status and contribution levels are current — schools submit this information annually, and the tool reflects whether a school is participating and how much they're putting in.
 
-The housing allowance calculation is accurate: it uses the official BAH data for the school's ZIP code, so the MHA estimate you see in the tool will match what you'd actually receive. Use our [BAH Calculator](/calculators/bah) to verify any school's housing allowance by ZIP code directly against the 2026 DTMO data.
+The housing allowance estimate should generally match the VA's school ZIP-code MHA assumption, but your actual payment depends on enrollment status, rate of pursuit, in-person versus online attendance, and your VA eligibility percentage. Use our [BAH Calculator](/calculators/bah) to verify any school's E-5 with-dependents BAH rate against the 2026 DTMO data.
 
 ## What the tool doesn't tell you
 
@@ -76,15 +77,24 @@ This is where the tool has real gaps — and where veterans make expensive mista
 
 **It doesn't calculate your actual benefit percentage for you.** The tool asks you to enter your service months, which it then uses to estimate benefits. But many veterans don't know their exact eligible service months — especially if they had breaks in service, Guard/Reserve time mixed with active duty time, or multiple enlistments. If you enter the wrong percentage, the estimate is wrong. Verify your eligibility tier through your VA Certificate of Eligibility before relying on the tool's numbers.
 
-**It doesn't make clear what your out-of-pocket gap is at private schools.** The Post-9/11 GI Bill pays up to $30,908.34 per academic year (2026–2027) for private or out-of-state schools. At many private universities, tuition exceeds this cap by $10,000–$30,000+ per year. The tool shows the VA's maximum contribution and the Yellow Ribbon contribution, but it doesn't automatically calculate what you'd owe out of pocket. Run the math: school tuition minus VA cap minus Yellow Ribbon contribution equals your annual gap.
+**It doesn't make clear what your out-of-pocket gap is at private schools.** For the 2026–2027 academic year, the private or foreign school tuition cap is $30,908.34. For current-year planning, always verify the active rate period on VA.gov. At many private universities, tuition exceeds this cap by $10,000–$30,000+ per year. The tool shows the VA's maximum contribution and the Yellow Ribbon contribution, but it doesn't automatically calculate what you'd owe out of pocket. Run the math: school tuition minus VA cap minus Yellow Ribbon contribution equals your annual gap.
 
-**It doesn't compare GI Bill to VR&E (Chapter 31) or Tuition Assistance.** If you have a service-connected disability rating of 10% or higher, you may qualify for VR&E — which covers tuition with no cap, includes books and equipment, and pays a housing allowance without depleting your GI Bill months. If you're still active duty, Tuition Assistance covers $250 per credit hour while you're serving, letting you preserve GI Bill for after separation. The VA Comparison Tool only shows GI Bill. Our [Education Benefits Calculator](/calculators/education) compares all three programs in one view so you can see which produces the highest dollar value for your situation.
+**It doesn't compare GI Bill to VR&E (Chapter 31) or Tuition Assistance.** Veterans may generally apply for VR&E with a service-connected disability rating of at least 10%, but actual entitlement depends on VA's evaluation of employment handicap, rehabilitation goals, and program approval. VR&E covers tuition with no cap, includes books and equipment, and pays a housing allowance without depleting your GI Bill months. If you're still active duty, Tuition Assistance covers $250 per credit hour while you're serving, letting you preserve GI Bill for after separation. The VA Comparison Tool only shows GI Bill. Our [Education Benefits Calculator](/calculators/education) compares all three programs in one view so you can see which produces the highest dollar value for your situation.
 
 **It doesn't project your total benefit across a full degree.** GI Bill benefits cover 36 months of enrollment. The tool shows estimated annual or per-term benefits, but doesn't show you what happens if your program takes longer. A 4-year degree typically uses 33–36 months of benefit (about 8–9 semesters). A 5-year engineering program or a degree program you start part-time can exceed 36 months, leaving you uncovered for the final stretch. Plan the full timeline before you enroll.
 
 **It doesn't account for state veteran education benefits.** Many states offer tuition waivers, fee exemptions, or scholarships for veterans that stack on top of GI Bill. Texas, Illinois, California, Florida, and others have programs that can significantly reduce or eliminate remaining tuition costs. The VA tool doesn't surface these — you have to look them up separately through your state's veterans affairs agency.
 
 **The online vs. in-person housing allowance gap is easy to miss.** If you attend school entirely online, your housing allowance drops from the location-based BAH rate to a flat national rate — $1,261/month for the 2025–2026 academic year. At a school where the in-person BAH rate is $2,200/month, that's a $939/month difference. The tool shows both rates, but the consequences of switching to online courses mid-program aren't always obvious. Even one in-person class per semester locks in the full location-based rate. Going 100% online, even temporarily, drops you to the national rate for that enrollment period.
+
+**Before you trust the estimate, verify:**
+- Your Certificate of Eligibility percentage
+- Whether your program is full-time or part-time
+- Whether at least one class is in person (affects housing allowance)
+- Whether the school is public, private, or out-of-state
+- Whether Yellow Ribbon applies to your specific program
+- Whether state veteran education benefits stack with GI Bill
+- Whether VR&E or Tuition Assistance should be used first
 
 <CalculatorCallout calculator="education" text="Compare GI Bill, VR&E, and Tuition Assistance side by side — including total program value by school ZIP code and which benefit sequence maximizes your total education package." />
 
@@ -106,7 +116,7 @@ Use the VA Comparison Tool to narrow your school list and get tuition, Yellow Ri
 
 **Not realizing the housing allowance follows the school's ZIP code, not yours.** GI Bill MHA is based on where your school is, not where you live. If you enroll in a university in a high-BAH area and commute from a lower-cost suburb, you still receive the full school-location rate. This can work significantly in your favor.
 
-**Overlooking VR&E if you have a service-connected disability.** Veterans with a service-connected disability of 10% or higher and an employment barrier may qualify for Chapter 31, which pays tuition with no annual cap, a comparable housing allowance, and book and equipment costs — without touching GI Bill months. See [VR&E vs. GI Bill: The Benefit Most Veterans Don't Know About](/blog/vre-chapter-31-vs-gi-bill) for the full breakdown.
+**Overlooking VR&E if you have a service-connected disability.** Veterans may generally apply for VR&E (Chapter 31) with a service-connected disability rating of at least 10%, but entitlement depends on VA's evaluation of employment handicap and program approval. If you qualify, Chapter 31 pays tuition with no annual cap, a comparable housing allowance, and book and equipment costs — without touching GI Bill months. See [VR&E vs. GI Bill: The Benefit Most Veterans Don't Know About](/blog/vre-chapter-31-vs-gi-bill) for the full breakdown.
 
 **Burning GI Bill months on classes Tuition Assistance could cover.** If you're still active duty, every GI Bill month you use while serving is a month you won't have post-separation — when the housing allowance is actually worth something. See [GI Bill vs. Tuition Assistance: Which to Use First](/blog/gi-bill-vs-tuition-assistance) for the sequencing logic.
 
