@@ -10,6 +10,7 @@ const CALCULATOR_GROUPS = [
     links: [
       { href: '/calculators/total-compensation', label: 'Total Military Compensation' },
       { href: '/calculators/bah', label: 'BAH Calculator' },
+      { href: '/bah', label: 'BAH by Duty Station' },
       { href: '/calculators/va-disability', label: 'VA Disability Rating' },
       { href: '/calculators/compare', label: 'Duty Station Comparison' },
       { href: '/calculators/pcs', label: 'PCS Cost Estimator' },
@@ -43,6 +44,7 @@ const GUIDES_TOPICS = [
   { href: '/guides/retirement-tsp', label: 'Retirement & TSP Guide' },
   { href: '/guides/va-disability', label: 'VA Disability Guide' },
   { href: '/guides/education-benefits', label: 'Education Benefits Guide' },
+  { href: '/transition', label: 'Military Transition Roadmap' },
 ];
 
 const GUIDES_LINKS = [...GUIDES_JOURNEY, ...GUIDES_TOPICS];
@@ -166,7 +168,7 @@ function CalculatorsDropdown({ pathname }: { pathname: string }) {
 
 function GuidesDropdown({ pathname }: { pathname: string }) {
   const { open, setOpen, containerRef, cancelClose, scheduleClose, close } = useDropdown();
-  const isActive = GUIDES_LINKS.some((l) => pathname === l.href);
+  const isActive = GUIDES_LINKS.some((l) => pathname === l.href || (l.href === '/transition' && pathname.startsWith('/transition')));
 
   return (
     <div
@@ -191,7 +193,7 @@ function GuidesDropdown({ pathname }: { pathname: string }) {
       {open && (
         <div
           role="menu"
-          className="absolute top-full left-0 mt-1.5 w-56 bg-white border border-zinc-200 rounded-lg shadow-lg z-50 overflow-hidden"
+          className="absolute top-full left-0 mt-1.5 w-64 bg-white border border-zinc-200 rounded-lg shadow-lg z-50 overflow-hidden"
         >
           <div className="py-1.5">
             {GUIDES_JOURNEY.map(({ href, label }) => (
@@ -217,7 +219,9 @@ function GuidesDropdown({ pathname }: { pathname: string }) {
                 onClick={close}
                 className={[
                   'block px-3 py-1.5 text-sm transition-colors',
-                  pathname === href ? 'text-red-700 font-semibold bg-red-50' : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50',
+                  pathname === href || (href === '/transition' && pathname.startsWith('/transition'))
+                    ? 'text-red-700 font-semibold bg-red-50'
+                    : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-50',
                 ].join(' ')}
               >
                 {label}
@@ -244,12 +248,6 @@ export function Nav({ mobile = false, onClose }: NavProps) {
 
   // ── Mobile layout ──────────────────────────────────────────────────────────
   if (mobile) {
-    const standaloneLinks = [
-      { href: '/bah', label: 'BAH by Station', active: pathname === '/bah' },
-      { href: '/transition', label: 'Transition', active: pathname.startsWith('/transition') },
-      { href: '/blog', label: 'Blog', active: pathname.startsWith('/blog') },
-    ];
-
     return (
       <nav aria-label="Mobile navigation">
         <ul className="flex flex-col">
@@ -323,7 +321,9 @@ export function Nav({ mobile = false, onClose }: NavProps) {
                       onClick={onClose}
                       className={[
                         'block px-6 py-2.5 text-sm border-b border-zinc-100 last:border-0',
-                        pathname === href ? 'text-red-700 font-semibold' : 'text-zinc-700',
+                        pathname === href || (href === '/transition' && pathname.startsWith('/transition'))
+                          ? 'text-red-700 font-semibold'
+                          : 'text-zinc-700',
                       ].join(' ')}
                     >
                       {label}
@@ -334,21 +334,34 @@ export function Nav({ mobile = false, onClose }: NavProps) {
             )}
           </li>
 
-          {/* Standalone links */}
-          {standaloneLinks.map(({ href, label, active }) => (
-            <li key={href}>
-              <Link
-                href={href}
-                onClick={onClose}
-                className={[
-                  'block px-4 py-3 text-base font-medium border-b border-zinc-100',
-                  active ? 'text-red-700' : 'text-zinc-800 hover:text-zinc-900',
-                ].join(' ')}
-              >
-                {label}
-              </Link>
-            </li>
-          ))}
+          {/* Blog */}
+          <li>
+            <Link
+              href="/blog"
+              onClick={onClose}
+              className={[
+                'block px-4 py-3 text-base font-medium border-b border-zinc-100',
+                pathname.startsWith('/blog') ? 'text-red-700' : 'text-zinc-800 hover:text-zinc-900',
+              ].join(' ')}
+            >
+              Blog
+            </Link>
+          </li>
+
+          {/* Got feedback? — muted, positioned at bottom of menu */}
+          <li>
+            <Link
+              href="/feedback"
+              onClick={onClose}
+              className={[
+                'block px-4 py-3 text-sm font-medium border-b border-zinc-100',
+                pathname === '/feedback' ? 'text-zinc-600' : 'text-zinc-400 hover:text-zinc-600',
+              ].join(' ')}
+            >
+              Got feedback?
+            </Link>
+          </li>
+
         </ul>
       </nav>
     );
@@ -359,32 +372,21 @@ export function Nav({ mobile = false, onClose }: NavProps) {
     <nav aria-label="Main navigation">
       <ul className="flex items-center gap-0.5">
         <li>
+          <Link
+            href="/feedback"
+            className={[
+              'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+              pathname === '/feedback' ? 'text-zinc-600 bg-zinc-100' : 'text-zinc-400 hover:text-zinc-600 hover:bg-zinc-50',
+            ].join(' ')}
+          >
+            Got feedback?
+          </Link>
+        </li>
+        <li>
           <CalculatorsDropdown pathname={pathname} />
         </li>
         <li>
           <GuidesDropdown pathname={pathname} />
-        </li>
-        <li>
-          <Link
-            href="/bah"
-            className={[
-              'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-              pathname === '/bah' ? 'text-red-700 bg-red-50' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
-            ].join(' ')}
-          >
-            BAH by Station
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/transition"
-            className={[
-              'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-              pathname.startsWith('/transition') ? 'text-red-700 bg-red-50' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
-            ].join(' ')}
-          >
-            Transition
-          </Link>
         </li>
         <li>
           <Link
