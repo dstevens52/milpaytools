@@ -152,19 +152,28 @@ export function Footer() {
           />
         </div>
 
-        <div className="border-t border-zinc-800 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-          <p>
-            &copy; 2026 MilPayTools. Not affiliated with the DoD, VA, or any government agency. For
-            educational purposes only.
+        <div className="border-t border-zinc-800 pt-6 space-y-3 text-xs">
+          <p className="text-zinc-500 leading-relaxed">
+            MilPayTools provides educational information only — not financial, tax, or legal advice.
+            All calculations are estimates. Verify figures with official DoD and VA sources.
           </p>
-          <div className="flex flex-col sm:items-end gap-1">
-            <p className="text-zinc-500">Verify all figures with official DoD and VA sources.</p>
-            <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <p className="text-zinc-500">
+              &copy; 2026 DPS Digital LLC. All rights reserved. Not affiliated with the DoD, VA, or
+              any government agency.
+            </p>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+              <Link href="/terms" className="text-zinc-500 hover:text-zinc-300 transition-colors">
+                Terms of Service
+              </Link>
+              <Link href="/privacy" className="text-zinc-500 hover:text-zinc-300 transition-colors">
+                Privacy Policy
+              </Link>
               <a
                 href="mailto:dan@milpaytools.com"
                 className="text-zinc-500 hover:text-zinc-300 transition-colors"
               >
-                Contact: dan@milpaytools.com
+                Contact
               </a>
             </div>
           </div>
