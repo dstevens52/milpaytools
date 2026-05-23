@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema } from '@/lib/schema';
@@ -29,13 +30,53 @@ export const metadata: Metadata = {
   },
 };
 
-const RELATED_GUIDES = [
-  { href: '/guides/military-pay', title: 'Military Pay & Compensation Guide' },
-  { href: '/guides/va-disability', title: 'VA Disability Benefits Guide' },
-  { href: '/guides/retirement-tsp', title: 'Military Retirement & TSP Guide' },
-  { href: '/guides/pcs', title: 'PCS & Duty Station Financial Guide' },
-  { href: '/guides/education-benefits', title: 'Military Education Benefits Guide' },
-];
+const TRANSITION_RISK_CARDS = [
+  {
+    id: 'income',
+    category: 'Income & Taxes',
+    headline: 'Income and taxes change fast',
+    body: 'Your civilian salary may need to replace more than base pay. BAH, BAS, tax advantages, and TSP contributions can all change after separation.',
+    cta: { label: 'Calculate civilian equivalent pay', href: '/calculators/total-compensation' },
+    image: '/images/wallet.png',
+    imageAlt: 'Wallet illustration',
+    theme: {
+      band: 'linear-gradient(135deg,#f0fdf4 0%,#dcfce7 100%)',
+      borderColor: '#bbf7d0',
+      category: '#15803d',
+      ctaBg: '#15803d',
+    },
+  },
+  {
+    id: 'healthcare',
+    category: 'Healthcare',
+    headline: 'Healthcare becomes a real bill',
+    body: 'Compare employer coverage, VA healthcare, marketplace plans, TAMP, and CHCBP before your final out.',
+    cta: { label: 'Compare healthcare costs', href: '/calculators/healthcare-comparison' },
+    image: '/images/healthcare.png',
+    imageAlt: 'Healthcare illustration',
+    theme: {
+      band: 'linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%)',
+      borderColor: '#bfdbfe',
+      category: '#1d4ed8',
+      ctaBg: '#1d4ed8',
+    },
+  },
+  {
+    id: 'deadlines',
+    category: 'Deadlines',
+    headline: 'Some windows are easy to miss',
+    body: 'BDD claims, SGLI/VGLI, TAMP, final move benefits, records, and DD-214 corrections all have timing rules.',
+    cta: { label: 'View transition timeline', href: '#timeline' },
+    image: '/images/clock.png',
+    imageAlt: 'Clock illustration',
+    theme: {
+      band: 'linear-gradient(135deg,#fff7ed 0%,#fed7aa 100%)',
+      borderColor: '#fdba74',
+      category: '#c2410c',
+      ctaBg: '#c2410c',
+    },
+  },
+] as const;
 
 const COMPARISON_ROWS: { active: string; after: string }[] = [
   {
@@ -111,62 +152,6 @@ const PATH_CARDS: {
     description: 'Calculate drill pay, TRICARE Reserve Select premiums, and the financial picture of part-time military service.',
     href: '/calculators/guard-reserve',
     icon: '⚡',
-  },
-];
-
-type Bullet = { text: string; color?: 'green' | 'red' };
-
-const THREE_SHOCKS: {
-  iconPath: string;
-  label: string;
-  title: string;
-  description: string;
-  bullets: Bullet[];
-  cta: string;
-  href: string;
-}[] = [
-  {
-    iconPath: 'M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z',
-    label: 'Shock 1',
-    title: 'Healthcare costs appear',
-    description:
-      'TRICARE costs you $0 in premiums. Civilian health insurance for a family runs $400–$600/month — or $8,000–$12,000/year after TAMP coverage ends.',
-    bullets: [
-      { text: 'TRICARE → $0/month in premiums', color: 'green' },
-      { text: 'Employer plan → $400–$600/month for family coverage', color: 'red' },
-      { text: 'Marketplace plan → potentially more without subsidy' },
-    ],
-    cta: 'Compare healthcare costs →',
-    href: '/calculators/healthcare-comparison',
-  },
-  {
-    iconPath:
-      'M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
-    label: 'Shock 2',
-    title: 'Tax-free income disappears',
-    description:
-      "BAH and BAS are tax-free. Your civilian salary is fully taxable. An E-6 receiving $3,000/month in BAH would need ~$3,850/month in civilian gross pay to match — that's $10,200/year in hidden income loss.",
-    bullets: [
-      { text: 'BAH + BAS: tax-free on active duty', color: 'green' },
-      { text: 'Civilian salary: fully taxed', color: 'red' },
-      { text: 'The gap is real and often overlooked' },
-    ],
-    cta: 'Calculate the civilian equivalent →',
-    href: '/calculators/total-compensation',
-  },
-  {
-    iconPath: 'M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z',
-    label: 'Shock 3',
-    title: 'Benefit deadlines are unforgiving',
-    description:
-      "SGLI ends 120 days after separation. TAMP healthcare is 180 days — if you qualify. GI Bill transfer has its own timeline. Miss a window and you can't go back.",
-    bullets: [
-      { text: 'SGLI → 120-day conversion window', color: 'red' },
-      { text: 'TAMP → 180 days (not automatic)', color: 'red' },
-      { text: 'BDD claim → file 180–90 days before separation', color: 'red' },
-    ],
-    cta: 'See the full timeline below ↓',
-    href: '#timeline',
   },
 ];
 
@@ -264,20 +249,6 @@ function InfoCard({ title, description }: { title: string; description: string }
     <div className="rounded-lg border border-zinc-200 bg-white p-5">
       <h3 className="font-semibold text-zinc-900 mb-2 leading-snug">{title}</h3>
       <p className="text-sm text-zinc-600 leading-relaxed">{description}</p>
-    </div>
-  );
-}
-
-function ComingSoonCard({ title, description }: { title: string; description: string }) {
-  return (
-    <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-5">
-      <div className="flex items-start justify-between gap-3 mb-2">
-        <h3 className="font-semibold text-zinc-500 leading-snug">{title}</h3>
-        <span className="flex-none text-xs font-medium bg-zinc-200 text-zinc-500 px-2 py-0.5 rounded-full whitespace-nowrap">
-          Coming soon
-        </span>
-      </div>
-      <p className="text-sm text-zinc-400 leading-relaxed">{description}</p>
     </div>
   );
 }
@@ -394,7 +365,6 @@ export default function TransitionPage() {
           </div>
 
           {/* Proof bar — inside hero to give it height and reveal the soldier image */}
-          {/* TODO: make dynamic using lookupBasePay + lookupBAH for E-6, 10yr, Fort Campbell */}
           <div className="bg-white rounded-2xl border border-zinc-200 shadow-md overflow-hidden">
             <div className="px-4 py-2 border-b border-zinc-100 bg-zinc-50/70">
               <p className="text-[11px] text-zinc-400 font-medium">Example: E-6 &middot; 10 years &middot; Fort Campbell &middot; separating</p>
@@ -452,102 +422,76 @@ export default function TransitionPage() {
         </div>
       </section>
 
-      {/* ── Three financial shocks ── */}
-      <section className="bg-white border-b border-zinc-200 py-10 sm:py-14 px-4">
-        <div className="mx-auto max-w-6xl">
-          <div className="text-center mb-10">
-            <div className="flex justify-center mb-4" aria-hidden="true">
-              <div className="w-8 h-0.5 bg-red-700 rounded-full" />
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 mb-3 tracking-tight">
+      {/* ── Three things that change after separation ── */}
+      <section className="bg-zinc-50 border-b border-zinc-200 py-10 sm:py-14 px-4">
+        <div className="mx-auto max-w-5xl">
+
+          <div className="mb-8 mx-auto max-w-3xl text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 mb-2 tracking-tight">
               Three financial shocks most service members don&apos;t see coming.
             </h2>
-            <p className="text-base text-zinc-500 max-w-xl mx-auto">
+            <p className="text-base text-zinc-500">
               Base pay has a civilian equivalent. These don&apos;t.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {THREE_SHOCKS.map(({ iconPath, label, title, description, bullets, cta, href }) => (
+            {TRANSITION_RISK_CARDS.map((card) => (
               <div
-                key={title}
-                className="bg-white flex flex-col overflow-hidden"
-                style={{
-                  border: '0.5px solid #e8e5e0',
-                  borderRadius: '10px',
-                  borderTop: '3px solid #c0392b',
-                }}
+                key={card.id}
+                className="rounded-2xl overflow-hidden flex flex-col bg-white shadow-sm hover:shadow-md transition-shadow"
+                style={{ border: `1px solid ${card.theme.borderColor}` }}
               >
-                <div className="px-5 pt-5 pb-4">
-                  <div className="flex items-start gap-3 mb-4">
-                    <div
-                      className="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center flex-none"
-                      aria-hidden="true"
-                    >
-                      <svg
-                        className="w-4 h-4 text-red-700"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        aria-hidden="true"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d={iconPath} />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-bold text-red-700 uppercase tracking-widest leading-none mb-1">
-                        {label}
-                      </p>
-                      <p className="text-base font-bold text-zinc-900 leading-snug">{title}</p>
-                    </div>
-                  </div>
-                  <p className="text-sm text-zinc-600 leading-relaxed">{description}</p>
+                {/* Full-bleed image band */}
+                <div
+                  className="relative h-44 overflow-hidden flex-none"
+                  style={{ background: card.theme.band }}
+                >
+                  <Image
+                    src={card.image}
+                    alt={card.imageAlt}
+                    fill
+                    className="object-cover object-center"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                  {/* Subtle bottom fade into card content */}
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-10 pointer-events-none"
+                    aria-hidden="true"
+                    style={{ background: 'linear-gradient(to bottom, transparent, rgba(255,255,255,0.6))' }}
+                  />
                 </div>
-                <div className="px-5 pb-5 flex flex-col flex-1">
-                  <ul className="space-y-2.5 flex-1 mb-5">
-                    {bullets.map((b) => (
-                      <li key={b.text} className="flex items-start gap-2">
-                        <svg
-                          className={`w-4 h-4 flex-none mt-0.5 ${
-                            b.color === 'green'
-                              ? 'text-emerald-500'
-                              : b.color === 'red'
-                              ? 'text-red-500'
-                              : 'text-zinc-300'
-                          }`}
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          aria-hidden="true"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span
-                          className={`text-sm font-medium leading-snug ${
-                            b.color === 'green'
-                              ? 'text-emerald-700'
-                              : b.color === 'red'
-                              ? 'text-red-700'
-                              : 'text-zinc-600'
-                          }`}
-                        >
-                          {b.text}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Link
-                    href={href}
-                    className="text-sm font-bold text-red-700 hover:text-red-800 transition-colors"
+
+                {/* Content */}
+                <div className="flex flex-col flex-1 p-5">
+                  <span
+                    className="text-[10px] font-bold uppercase tracking-[0.13em] mb-2.5"
+                    style={{ color: card.theme.category }}
                   >
-                    {cta}
+                    {card.category}
+                  </span>
+                  <h3 className="text-[18px] font-bold text-zinc-900 leading-snug mb-2">
+                    {card.headline}
+                  </h3>
+                  <p className="text-sm text-zinc-500 leading-relaxed mb-5">
+                    {card.body}
+                  </p>
+                  <div className="flex-1" />
+                  <Link
+                    href={card.cta.href}
+                    className="flex items-center justify-center gap-2 w-full rounded-xl py-2.5 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
+                    style={{ background: card.theme.ctaBg }}
+                  >
+                    {card.cta.label}
+                    <svg className="w-3.5 h-3.5 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
                   </Link>
                 </div>
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
@@ -597,7 +541,7 @@ export default function TransitionPage() {
         </div>
       </section>
 
-      {/* ── Transition path cards — warm background ── */}
+      {/* ── Transition path cards ── */}
       <section className="border-b border-zinc-200 py-10 sm:py-12 px-4" style={{ background: '#f8f7f5' }}>
         <div className="mx-auto max-w-4xl">
           <h2 className="text-base font-medium text-zinc-900 mb-1">Choose your transition path</h2>
@@ -873,7 +817,7 @@ export default function TransitionPage() {
         </div>
 
         {/* ── Classroom & Privacy Note ── */}
-        <section className="py-10 sm:py-12 border-b border-zinc-200">
+        <section className="py-10 sm:py-12">
           <div className="rounded-lg bg-blue-50 border border-blue-200 p-5 flex gap-4">
             <div className="flex-none mt-0.5">
               <svg
@@ -921,55 +865,6 @@ export default function TransitionPage() {
               </Link>
             </div>
           </div>
-        </section>
-
-        {/* ── More Tools ── */}
-        <section className="py-10 sm:py-12 border-b border-zinc-200">
-          <h2 className="text-xl font-bold text-zinc-900 mb-1">More Tools</h2>
-          <p className="text-sm text-zinc-500 mb-6">Additional tools to support your transition plan.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <ResourceCard
-              href="/calculators/separation-timeline"
-              title="Separation Benefits Timeline"
-              description="See exactly when each benefit stops, converts, or changes after your separation date. SGLI, TRICARE, BAH, BAS — all on one visual timeline."
-            />
-            <ComingSoonCard
-              title="TSP Separation Decision Tool"
-              description="Leave your TSP in place, roll to a civilian IRA, or Roth convert? See the tax implications of each option based on your balance and expected civilian income."
-            />
-          </div>
-        </section>
-
-        {/* ── Related guides ── */}
-        <section className="py-10 sm:py-12">
-          <h2 className="text-xl font-bold text-zinc-900 mb-1">Related Guides</h2>
-          <p className="text-sm text-zinc-500 mb-6">
-            In-depth coverage of every major topic in military finance.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {RELATED_GUIDES.map(({ href, title }) => (
-              <Link
-                key={href}
-                href={href}
-                className="group flex items-center justify-between gap-3 rounded-lg border border-zinc-200 bg-white px-4 py-3 hover:shadow-sm hover:border-zinc-300 transition-all duration-150"
-              >
-                <span className="text-sm font-medium text-zinc-800 group-hover:text-red-700 transition-colors leading-snug">
-                  {title}
-                </span>
-                <span
-                  className="flex-none text-zinc-400 group-hover:text-red-700 transition-colors"
-                  aria-hidden
-                >
-                  →
-                </span>
-              </Link>
-            ))}
-          </div>
-
-          <p className="mt-8 text-xs text-zinc-400 border-t border-zinc-100 pt-6">
-            This guide is continuously updated. All data reflects official 2026 DoD, DFAS, and
-            VA rates.
-          </p>
         </section>
 
       </div>
