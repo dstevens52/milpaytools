@@ -25,8 +25,6 @@ export async function generateMetadata({
   const title = `${station.name} BAH Rates 2026 | ${station.city}, ${station.state}`;
   const formerNameShort = station.formerName ? station.formerName.split(' (')[0] : null;
   const description = `2026 BAH rates for ${station.name}${formerNameShort ? ` (formerly ${formerNameShort})` : ''} in ${station.city}, ${station.stateName}. Monthly BAH for every pay grade — with and without dependents — plus local housing market insights.`;
-  const ogImageTitle = `${station.name} BAH Rates 2026`;
-  const ogImage = `/api/og?type=station&title=${encodeURIComponent(ogImageTitle)}&v=2`;
   return {
     title,
     description,
@@ -37,13 +35,11 @@ export async function generateMetadata({
       type: 'website',
       url: `/bah/${station.slug}`,
       siteName: 'MilPayTools',
-      images: [{ url: ogImage, width: 2400, height: 1260 }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [ogImage],
     },
   };
 }
