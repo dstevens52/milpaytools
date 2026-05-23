@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
         const resend = new Resend(process.env.RESEND_API_KEY);
         await resend.emails.send({
           from: 'MilPayTools Feedback <onboarding@resend.dev>',
-          to: 'dan@milpaytools.com',
+          to: 'danielstevens52@gmail.com',
           replyTo: entry.email ?? undefined,
           subject: `[MilPayTools] ${entry.type}`,
           html: `
