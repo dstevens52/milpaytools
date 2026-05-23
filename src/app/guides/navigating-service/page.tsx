@@ -27,7 +27,7 @@ const SITUATION_CARDS = [
     headline: 'Moving to a new base?',
     body: 'Compare BAH and PCS money before you sign a lease or plan your move.',
     cta: { label: 'Plan your move', href: '/calculators/compare' },
-    secondaryLink: { label: 'BAH calculator', href: '/calculators/bah' },
+    secondaryLink: { label: 'Estimate PCS costs', href: '/calculators/pcs' },
     image: '/images/house.png',
     imageAlt: 'House illustration',
     theme: {
@@ -201,11 +201,11 @@ export default function NavigatingServicePage() {
       <section className="bg-zinc-50 border-b border-zinc-200 py-10 sm:py-14 px-4">
         <div className="mx-auto max-w-5xl">
 
-          <div className="mb-8">
+          <div className="mb-8 mx-auto max-w-3xl text-center">
             <h2 className="text-[22px] sm:text-[28px] font-bold text-zinc-900 mb-2 leading-tight">
               Before your next military move, check the money.
             </h2>
-            <p className="text-sm sm:text-base text-zinc-500 leading-relaxed max-w-2xl">
+            <p className="text-sm sm:text-base text-zinc-500 leading-relaxed">
               PCS orders, deployment, promotion, and separation can all change your real income.{' '}
               Start with the situation that fits you.
             </p>
