@@ -20,7 +20,7 @@ import {
 import type { TotalCompensationInput, ActionStep } from '@/types/calculator';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
-import { ShareBar } from '@/components/calculators/shared/ShareButton';
+import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { InfoTip } from '@/components/calculators/shared/InfoTip';
 
 // ─── Grade options grouped for the dropdown ────────────────────────────────
@@ -149,6 +149,11 @@ export function TotalCompensationCalculator() {
     const yosRaw = params.get('yos');
     const gz = parseZip(params.get('zip'));
     const dep = parseBool(params.get('dependents'));
+    const retirement = params.get('retirement');
+    const tspRaw = params.get('tsp');
+    const housing = parseBool(params.get('housing'));
+    const meals = parseBool(params.get('meals'));
+
     if (gr) setGrade(gr);
     if (yosRaw) {
       const n = parseInt(yosRaw, 10);
@@ -156,6 +161,13 @@ export function TotalCompensationCalculator() {
     }
     if (gz) setZipCode(gz);
     if (dep !== null) setHasDependents(dep);
+    if (retirement === 'brs' || retirement === 'legacy') setRetirementSystem(retirement);
+    if (tspRaw) {
+      const n = parseInt(tspRaw, 10);
+      if (!isNaN(n) && n >= 0 && n <= 92) setTspPct(n);
+    }
+    if (housing !== null) setGovHousing(housing);
+    if (meals !== null) setMealCard(meals);
   }, []);
 
   function getShareUrl() {
@@ -164,6 +176,10 @@ export function TotalCompensationCalculator() {
     p.set('yos', String(yos));
     if (zipCode) p.set('zip', zipCode);
     p.set('dependents', hasDependents ? 'yes' : 'no');
+    p.set('retirement', retirementSystem);
+    if (retirementSystem === 'brs') p.set('tsp', String(tspPct));
+    p.set('housing', govHousing ? 'yes' : 'no');
+    p.set('meals', mealCard ? 'yes' : 'no');
     return `${window.location.origin}/calculators/total-compensation?${p.toString()}`;
   }
 
@@ -381,7 +397,14 @@ export function TotalCompensationCalculator() {
           )}
         </div>
 
-        <ShareBar getUrl={getShareUrl} />
+        <SaveOrShareResults
+          headline="Save or share your compensation estimate"
+          supportingText="Use this when comparing civilian pay, talking with family, or saving your assumptions for later."
+          usefulFor={['Civilian salary comparison', 'Family planning', 'Save for later']}
+          getUrl={getShareUrl}
+          shareTitle="Military compensation estimate"
+          shareText="Here's my MilPayTools compensation estimate."
+        />
 
         {/* Breakdown */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
