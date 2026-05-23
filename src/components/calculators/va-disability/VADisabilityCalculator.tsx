@@ -13,7 +13,7 @@ import {
   type DependentConfig,
   type CalculationStep,
 } from '@/lib/calculations/va-disability';
-import { ShareBar } from '@/components/calculators/shared/ShareButton';
+import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { InfoTip } from '@/components/calculators/shared/InfoTip';
 
 // ─── Constants ─────────────────────────────────────────────────────────────
@@ -529,7 +529,14 @@ export function VADisabilityCalculator() {
             Before planning around these numbers, compare this estimate with your VA decision letter, C&amp;P exam results, or review with an accredited VSO or attorney.
           </p>
 
-          <ShareBar getUrl={getShareUrl} />
+          <SaveOrShareResults
+            headline="Save or share your VA disability rating"
+            supportingText="Useful for tracking your combined rating, discussing your claim with a VSO, or sharing your estimate with family."
+            usefulFor={['VA claim tracking', 'VSO consultation', 'Combined rating']}
+            getUrl={getShareUrl}
+            shareTitle="My VA disability rating"
+            shareText="Here's my VA disability rating estimate from MilPayTools."
+          />
 
           {/* Step-by-step breakdown */}
           <Card>

@@ -15,6 +15,7 @@ import {
   type EnrollmentStatus,
 } from '@/lib/calculations/education';
 import { SERVICE_TIER_LABELS } from '@/data/education/2026/constants';
+import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 
 // ─── Formatters ────────────────────────────────────────────────────────────
 
@@ -278,6 +279,39 @@ export function EducationCalculator() {
     return () => clearTimeout(_gaTimerRef.current);
   }, [result]);
 
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const s = p.get('status') as ServiceStatus | null;
+    const t = p.get('tier') as ServiceTier | null;
+    const va = p.get('va');
+    const school = p.get('school') as SchoolType | null;
+    const zip = p.get('zip');
+    const tuition = p.get('tuition');
+    const years = p.get('years');
+    const enroll = p.get('enrollment') as EnrollmentStatus | null;
+    if (s === 'veteran' || s === 'active-duty' || s === 'guard-reserve') setStatus(s);
+    if (t) setServiceTier(t);
+    if (va) { const n = parseInt(va, 10); if (!isNaN(n)) setVaRating(n); }
+    if (school === 'public' || school === 'private' || school === 'online') setSchoolType(school);
+    if (zip) setSchoolZip(zip);
+    if (tuition) { const n = parseInt(tuition, 10); if (!isNaN(n) && n >= 0) setAnnualTuition(n); }
+    if (years) { const n = parseInt(years, 10); if (n >= 1 && n <= 4) setProgramYears(n); }
+    if (enroll === 'full' || enroll === 'three-quarter' || enroll === 'half') setEnrollment(enroll);
+  }, []);
+
+  function getShareUrl() {
+    const p = new URLSearchParams();
+    p.set('status', status);
+    p.set('tier', serviceTier);
+    p.set('va', String(vaRating));
+    p.set('school', schoolType);
+    if (schoolType !== 'online') p.set('zip', schoolZip);
+    p.set('tuition', String(annualTuition));
+    p.set('years', String(programYears));
+    p.set('enrollment', enrollment);
+    return `${window.location.origin}/calculators/education?${p.toString()}`;
+  }
+
   const mhaMonthsPerYear = 9; // display constant (matches EDUCATION_RATES.giBill.mhaMonthsPerYear)
 
   return (
@@ -498,6 +532,15 @@ export function EducationCalculator() {
           </div>
         </Card>
       )}
+
+      <SaveOrShareResults
+        headline="Save or share your education benefits estimate"
+        supportingText="Useful for comparing school options, planning your post-service education, or reviewing benefits with a school counselor."
+        usefulFor={['School comparison', 'GI Bill planning', 'Benefits review']}
+        getUrl={getShareUrl}
+        shareTitle="My education benefits estimate"
+        shareText="Here's my education benefits comparison from MilPayTools."
+      />
 
       {/* ── Cross-links ─────────────────────────────────────────────────── */}
       <Card>

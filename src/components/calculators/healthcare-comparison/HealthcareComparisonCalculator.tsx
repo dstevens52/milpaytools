@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { ShareBar } from '@/components/calculators/shared/ShareButton';
+import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import {
   HEALTHCARE_2026,
@@ -683,7 +683,14 @@ export function HealthcareComparisonCalculator() {
           </>
         )}
 
-        <ShareBar getUrl={getShareUrl} />
+        <SaveOrShareResults
+          headline="Save or share your healthcare comparison"
+          supportingText="Useful for comparing TRICARE options, reviewing costs before a PCS or separation, or discussing coverage with family."
+          usefulFor={['TRICARE comparison', 'Separation planning', 'Coverage review']}
+          getUrl={getShareUrl}
+          shareTitle="My healthcare comparison"
+          shareText="Here's my TRICARE healthcare comparison from MilPayTools."
+        />
 
         {/* Methodology note */}
         <p className="text-xs text-zinc-400 leading-relaxed">

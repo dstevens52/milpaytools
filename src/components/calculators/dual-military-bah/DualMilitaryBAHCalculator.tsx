@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
-import { ShareBar } from '@/components/calculators/shared/ShareButton';
+import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { lookupBAH, getMHACode } from '@/lib/calculations/bah';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { DUTY_STATIONS } from '@/data/duty-stations/stations';
@@ -539,7 +539,14 @@ export function DualMilitaryBAHCalculator() {
             </div>
           </Card>
 
-          <ShareBar getUrl={getShareUrl} />
+          <SaveOrShareResults
+            headline="Save or share your dual military BAH estimate"
+            supportingText="Useful for housing budget planning, comparing same-station vs. different-station BAH, or reviewing options with your spouse."
+            usefulFor={['Dual military housing', 'Budget planning', 'Spouse coordination']}
+            getUrl={getShareUrl}
+            shareTitle="My dual military BAH estimate"
+            shareText="Here's my dual military BAH estimate from MilPayTools."
+          />
 
           {/* ── Station guide links ──────────────────────────────────── */}
           {stationM1 && (

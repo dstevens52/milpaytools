@@ -18,6 +18,8 @@ import {
 } from '@/lib/calculations/guardReserve';
 import type { GuardReserveInput, TRSPlan, GuardReserveOutput } from '@/lib/calculations/guardReserve';
 import { TRICARE_RATES_2026 } from '@/data/tricare/2026/constants';
+import { parseBool } from '@/lib/urlParams';
+import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 
 // ─── Formatters ────────────────────────────────────────────────────────────────
 
@@ -217,6 +219,42 @@ export function GuardReserveCalculator() {
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('guard-reserve'), 800);
     return () => clearTimeout(_gaTimerRef.current);
   }, [output]);
+
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const r = p.get('rank');
+    const yos = p.get('yos');
+    const weekends = p.get('weekends');
+    const periods = p.get('periods');
+    const at = p.get('at');
+    const addl = p.get('addl');
+    const trs = p.get('trs') as TRSPlan | null;
+    const brs = parseBool(p.get('brs'));
+    const tsp = p.get('tsp');
+    if (r) setRank(r);
+    if (yos) { const n = parseInt(yos, 10); if (!isNaN(n) && n >= 0 && n <= 40) setYearsOfService(n); }
+    if (weekends) { const n = parseInt(weekends, 10); if (!isNaN(n) && n >= 0) setWeekendsPerYear(n); }
+    if (periods) { const n = Number(periods); if (n === 4 || n === 6 || n === 8) setPeriodsPerWeekend(n); }
+    if (at) { const n = parseInt(at, 10); if (!isNaN(n) && n >= 0) setAtDays(n); }
+    if (addl) { const n = parseInt(addl, 10); if (!isNaN(n) && n >= 0) setAdditionalDays(n); }
+    if (trs === 'none' || trs === 'member' || trs === 'family') setTrsPlan(trs);
+    if (brs !== null) setBrsEnrolled(brs);
+    if (tsp) { const n = parseInt(tsp, 10); if (!isNaN(n) && n >= 0 && n <= 100) setTspContribPct(n); }
+  }, []);
+
+  function getShareUrl() {
+    const p = new URLSearchParams();
+    p.set('rank', rank);
+    p.set('yos', String(yearsOfService));
+    p.set('weekends', String(weekendsPerYear));
+    p.set('periods', String(periodsPerWeekend));
+    p.set('at', String(atDays));
+    if (additionalDays > 0) p.set('addl', String(additionalDays));
+    p.set('trs', trsPlan);
+    p.set('brs', brsEnrolled ? 'yes' : 'no');
+    if (brsEnrolled) p.set('tsp', String(tspContribPct));
+    return `${window.location.origin}/calculators/guard-reserve?${p.toString()}`;
+  }
 
   const chartSegments = [
     { label: 'Drill pay', value: output.annualDrillPay, color: 'bg-red-700' },
@@ -451,6 +489,15 @@ export function GuardReserveCalculator() {
               )}
             </div>
           </div>
+
+          <SaveOrShareResults
+            headline="Save or share your Guard/Reserve pay estimate"
+            supportingText="Useful for reviewing drill pay, planning annual income, or comparing deployment vs. drill earnings."
+            usefulFor={['Drill pay review', 'Annual income planning', 'AT planning']}
+            getUrl={getShareUrl}
+            shareTitle="My Guard/Reserve pay estimate"
+            shareText="Here's my Guard/Reserve pay estimate from MilPayTools."
+          />
 
           {/* Proportion bar */}
           {chartSegments.length > 0 && (

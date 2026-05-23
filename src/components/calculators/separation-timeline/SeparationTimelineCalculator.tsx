@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { ShareBar } from '@/components/calculators/shared/ShareButton';
+import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { fireCalculatorEvent } from '@/lib/analytics';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -610,7 +610,14 @@ export function SeparationTimelineCalculator() {
           )}
 
           <div className="space-y-3 pt-2">
-            <ShareBar getUrl={getShareUrl} />
+            <SaveOrShareResults
+              headline="Save or share your separation timeline"
+              supportingText="Useful for tracking separation milestones, sharing your timeline with family, or coordinating with your command."
+              usefulFor={['Separation planning', 'Timeline tracking', 'Family coordination']}
+              getUrl={getShareUrl}
+              shareTitle="My separation timeline"
+              shareText="Here's my military separation timeline from MilPayTools."
+            />
             <button
               type="button"
               onClick={() => window.print()}

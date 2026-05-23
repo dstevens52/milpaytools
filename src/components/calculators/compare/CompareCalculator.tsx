@@ -6,7 +6,7 @@ import { fireCalculatorEvent } from '@/lib/analytics';
 import type { CompareResult, LocationData } from '@/lib/calculations/compare';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
-import { ShareBar } from '@/components/calculators/shared/ShareButton';
+import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { getStationPagesForZip } from '@/data/bah/2026/mhaToStationPage';
 import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
@@ -364,7 +364,14 @@ export function CompareCalculator() {
           {/* Summary */}
           <SummaryCard result={result} nameA={nameA} nameB={nameB} />
 
-          <ShareBar getUrl={getShareUrl} />
+          <SaveOrShareResults
+            headline="Save or share your duty station comparison"
+            supportingText="Useful for comparing two duty stations side by side before a PCS decision, or discussing options with family."
+            usefulFor={['Duty station comparison', 'PCS decision', 'Family discussion']}
+            getUrl={getShareUrl}
+            shareTitle="My duty station comparison"
+            shareText="Here's my duty station BAH comparison from MilPayTools."
+          />
 
           {/* Station housing guide links */}
           {(stationPagesA.length > 0 || stationPagesB.length > 0) && (

@@ -8,7 +8,7 @@ import { ActSteps } from '@/components/calculators/shared/ActStep';
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
-import { ShareBar } from '@/components/calculators/shared/ShareButton';
+import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { InfoTip } from '@/components/calculators/shared/InfoTip';
 
 // ─── Pay grade options ────────────────────────────────────────────────────────
@@ -685,7 +685,14 @@ export function DeploymentCalculator() {
               </div>
             </PhaseCard>
           </div>
-          <ShareBar getUrl={getShareUrl} />
+          <SaveOrShareResults
+            headline="Save or share your deployment pay estimate"
+            supportingText="Useful for planning deployment finances, tracking hazard pay entitlements, or reviewing your numbers with family."
+            usefulFor={['Deployment planning', 'Hazard pay', 'SDP decision']}
+            getUrl={getShareUrl}
+            shareTitle="My deployment pay estimate"
+            shareText="Here's my deployment pay estimate from MilPayTools."
+          />
 
           {/* ── CZTE notice for officers ──────────────────────────────── */}
           {result.isOfficer && isCombatZone && (

@@ -11,7 +11,7 @@ import { Select } from '@/components/ui/Select';
 import { Input } from '@/components/ui/Input';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { Card } from '@/components/ui/Card';
-import { ShareBar } from '@/components/calculators/shared/ShareButton';
+import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { DATA_YEAR } from '@/data/pay-tables/2026';
 import {
   ENLISTED_GRADES,
@@ -743,7 +743,16 @@ export function TransitionReadinessCalculator() {
               </div>
             </div>
 
-            <ShareBar getUrl={getShareUrl} className="print:hidden" />
+            <div className="print:hidden">
+              <SaveOrShareResults
+                headline="Save or share your transition estimate"
+                supportingText="Useful for job offer comparisons, planning post-service income, or discussing your numbers with family."
+                usefulFor={['Job offer comparison', 'Transition planning', 'Family discussion']}
+                getUrl={getShareUrl}
+                shareTitle="My transition readiness estimate"
+                shareText="Here's my transition readiness estimate from MilPayTools."
+              />
+            </div>
 
             {/* Side-by-side tax-normalized comparison */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

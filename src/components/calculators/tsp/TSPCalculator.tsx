@@ -22,7 +22,7 @@ import { ENLISTED_GRADES, WARRANT_GRADES, OFFICER_GRADES, PRIOR_ENLISTED_OFFICER
 import { ALLOCATION_PRESETS, TSP_CONSTANTS_2026, type FundKey } from '@/data/tsp/2026/constants';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool } from '@/lib/urlParams';
-import { ShareBar } from '@/components/calculators/shared/ShareButton';
+import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 
 // ─── Grade dropdown groups ────────────────────────────────────────────────
 
@@ -546,7 +546,14 @@ export function TSPCalculator() {
               </p>
             )}
           </Card>
-          <ShareBar getUrl={getShareUrl} />
+          <SaveOrShareResults
+            headline="Save or share your TSP projection"
+            supportingText="Useful for retirement planning, comparing contribution scenarios, or reviewing your projected balance with a financial advisor."
+            usefulFor={['Retirement planning', 'Contribution scenarios', 'Financial review']}
+            getUrl={getShareUrl}
+            shareTitle="My TSP projection"
+            shareText="Here's my TSP growth projection from MilPayTools."
+          />
 
           {/* Growth chart */}
           <Card>

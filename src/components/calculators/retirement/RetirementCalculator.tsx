@@ -32,7 +32,7 @@ import {
 } from '@/lib/calculations/retirement';
 import { DATA_YEAR } from '@/data/pay-tables/2026';
 import { parseGrade, gradeToParam } from '@/lib/urlParams';
-import { ShareBar } from '@/components/calculators/shared/ShareButton';
+import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -481,7 +481,14 @@ export function RetirementCalculator() {
           )}
         </div>
       </div>
-      <ShareBar getUrl={getShareUrl} />
+      <SaveOrShareResults
+        headline="Save or share your retirement estimate"
+        supportingText="Useful for retirement planning, comparing BRS vs. High-3 scenarios, or reviewing your projected pension with family."
+        usefulFor={['Retirement planning', 'BRS vs. High-3', 'Pension review']}
+        getUrl={getShareUrl}
+        shareTitle="My military retirement estimate"
+        shareText="Here's my military retirement estimate from MilPayTools."
+      />
 
       {/* ── Result cards grid ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

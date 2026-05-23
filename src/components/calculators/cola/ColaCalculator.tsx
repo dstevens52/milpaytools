@@ -8,6 +8,8 @@ import { fireCalculatorEvent } from '@/lib/analytics';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { DUTY_STATIONS } from '@/data/duty-stations/stations';
 import type { PayGrade } from '@/types/military';
+import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
+import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 
 const MHA_TO_STATION = new Map(
   DUTY_STATIONS
@@ -68,6 +70,24 @@ export function ColaCalculator() {
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('cola'), 800);
     return () => clearTimeout(_gaTimerRef.current);
   }, [result]);
+
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const gz = parseZip(p.get('zip'));
+    const gr = parseGrade(p.get('rank'));
+    const dep = parseBool(p.get('dependents'));
+    if (gz) setZip(gz);
+    if (gr) setPayGrade(gr);
+    if (dep !== null) setHasDependents(dep);
+  }, []);
+
+  function getShareUrl() {
+    const p = new URLSearchParams();
+    if (zip) p.set('zip', zip);
+    p.set('rank', gradeToParam(payGrade));
+    p.set('dependents', hasDependents ? 'yes' : 'no');
+    return `${window.location.origin}/calculators/cola?${p.toString()}`;
+  }
 
   return (
     <div className="bg-white rounded-lg border border-zinc-200 shadow-sm">
@@ -303,6 +323,15 @@ export function ColaCalculator() {
                 precise amount.
               </p>
             </div>
+
+            <SaveOrShareResults
+              headline="Save or share your COLA estimate"
+              supportingText="Useful for comparing cost-of-living at different duty stations or planning your housing budget before a PCS."
+              usefulFor={['Duty station comparison', 'PCS planning', 'Housing budget']}
+              getUrl={getShareUrl}
+              shareTitle="My CONUS COLA estimate"
+              shareText="Here's my CONUS COLA estimate from MilPayTools."
+            />
           </div>
         )}
         {/* Station guide link */}
