@@ -57,8 +57,8 @@ const SITUATION_CARDS = [
     id: 'career',
     category: 'Career Decisions',
     headline: 'Thinking about your next step?',
-    body: 'Compare military compensation, TSP growth, pension value, and civilian pay.',
-    cta: { label: 'Compare your options', href: '/calculators/total-compensation' },
+    body: 'Compare your military pay, benefits, TSP, pension value, and civilian equivalent salary.',
+    cta: { label: 'See your full compensation', href: '/calculators/total-compensation' },
     secondaryLink: { label: 'Retirement & pension', href: '/calculators/retirement' },
     image: '/images/roadsign.png',
     imageAlt: 'Road sign illustration',
@@ -291,14 +291,16 @@ export default function NavigatingServicePage() {
       </section>
 
       {/* ── Email Signup ───────────────────────────────────────────────────────── */}
-      <section className="bg-white py-10 sm:py-14 px-4">
-        <div className="mx-auto max-w-5xl">
-          <EmailSignup
-            variant="inline"
-            source="navigating-service"
-            headline="Get notified when 2027 pay tables and BAH rates update"
-            subtext="Updates when rates, tools, or guides change. No spam."
-          />
+      <section className="bg-zinc-50 py-10 sm:py-14 px-4">
+        <div className="mx-auto max-w-2xl">
+          <div className="rounded-2xl border border-zinc-200 bg-white px-6 py-8 shadow-sm">
+            <EmailSignup
+              variant="inline"
+              source="navigating-service"
+              headline="Stay updated when military pay changes"
+              subtext="Official pay tables, BAH rates, and major tool updates — no spam."
+            />
+          </div>
         </div>
       </section>
     </>
