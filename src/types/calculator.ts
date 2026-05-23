@@ -196,11 +196,22 @@ export interface TransitionReadinessOutput {
   militaryMonthlyBAS: number;
   militaryTaxAdvantageMonthly: number;
   militaryTotalMonthly: number;
+  // After-tax military breakdown
+  militaryFedEffectiveRate: number;
+  militaryFedTaxMonthly: number;
+  militaryFICAMonthly: number;
+  militaryTakeHomeMonthly: number;
+  // After-tax civilian breakdown
+  civilianFedEffectiveRate: number;
+  civilianFedTaxMonthly: number;
+  civilianFICAMonthly: number;
+  civilianStateTaxMonthly: number;
   netCivilianSalaryMonthly: number;
   vaCompMonthly: number;
   pensionMonthly: number;
   netSpouseMonthly: number;
   projectedCivilianMonthly: number;
+  grossedUpCivilianSalary: number;
   isRetirementEligible: boolean;
   separationYOS: number;
   healthcareCostMonthly: number;

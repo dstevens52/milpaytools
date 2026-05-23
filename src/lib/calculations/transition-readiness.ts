@@ -8,7 +8,7 @@
 import type { TransitionReadinessInput, TransitionReadinessOutput, ActionStep } from '@/types/calculator';
 import { lookupBasePay } from '@/lib/calculations/total-compensation';
 import { lookupBAH } from '@/lib/calculations/bah';
-import { BAS_RATES, LEGACY_RETIREMENT_MULTIPLIER, BRS_RETIREMENT_MULTIPLIER } from '@/data/constants';
+import { BAS_RATES, LEGACY_RETIREMENT_MULTIPLIER, BRS_RETIREMENT_MULTIPLIER, FED_TAX_BRACKETS_SINGLE, STANDARD_DEDUCTION_SINGLE } from '@/data/constants';
 import { estimateTaxAdvantage } from '@/lib/utils';
 import { ENLISTED_GRADES } from '@/types/military';
 import { vaRates } from '@/data/va-rates/2026';
@@ -20,8 +20,8 @@ const HEALTHCARE_MONTHLY_MARKETPLACE = {
 } as const;
 
 const HEALTHCARE_MONTHLY_EMPLOYER = {
-  individual: 250,  // KFF 2025 average employee share, single coverage
-  family: 600,      // KFF 2025 average employee share, family coverage
+  individual: 175,  // 2026 est. employee share, single — midpoint of $150–200/mo typical range
+  family: 575,      // 2026 est. employee share, family — midpoint of $500–650/mo typical range
 } as const;
 
 function resolveHealthcare(
@@ -43,9 +43,43 @@ function resolveHealthcare(
   };
 }
 
-// Combined civilian effective tax rate used throughout
-// 22% federal effective + 7.65% FICA + 5% state default
+// Combined civilian effective tax rate — used only for spouse income and action step guidance
+// (main civilian salary now uses per-income effective rate calculation)
 export const CIVILIAN_COMBINED_TAX_RATE = 0.3465;
+
+const FICA_RATE = 0.0765;            // 6.2% SS + 1.45% Medicare
+const CIVILIAN_STATE_TAX_RATE = 0.05; // simplified default state effective rate
+
+function estimateAnnualFederalTax(annualIncome: number): number {
+  const taxable = Math.max(0, annualIncome - STANDARD_DEDUCTION_SINGLE);
+  let tax = 0;
+  let prev = 0;
+  for (const bracket of FED_TAX_BRACKETS_SINGLE) {
+    if (taxable <= bracket.upTo) {
+      tax += (taxable - prev) * bracket.rate;
+      break;
+    }
+    tax += (bracket.upTo - prev) * bracket.rate;
+    prev = bracket.upTo;
+  }
+  return tax;
+}
+
+function estimateEffectiveFederalRate(annualIncome: number): number {
+  if (annualIncome <= 0) return 0;
+  return estimateAnnualFederalTax(annualIncome) / annualIncome;
+}
+
+// Iterative solver: find gross salary whose after-tax equals a target monthly take-home
+function computeGrossedUpSalary(militaryTakeHomeAnnual: number): number {
+  let guess = militaryTakeHomeAnnual / 0.65; // start with ~35% combined rate
+  for (let i = 0; i < 3; i++) {
+    const fedRate = estimateEffectiveFederalRate(guess);
+    const totalRate = fedRate + FICA_RATE + CIVILIAN_STATE_TAX_RATE;
+    guess = militaryTakeHomeAnnual / Math.max(0.1, 1 - totalRate);
+  }
+  return Math.round(guess / 1000) * 1000;
+}
 
 // ─── VA compensation lookup ────────────────────────────────────────────────
 
@@ -172,6 +206,13 @@ export function calculateTransitionReadiness(input: TransitionReadinessInput): T
   const taxAdvantageMonthly = estimateTaxAdvantage(basePay * 12, monthlyBAH * 12, monthlyBAS * 12) / 12;
   const militaryTotalMonthly = basePay + monthlyBAH + monthlyBAS;
 
+  // 1b. Military after-tax breakdown (only base pay is taxable; BAH and BAS are excluded)
+  const militaryAnnualFedTax = estimateAnnualFederalTax(basePay * 12);
+  const militaryFedEffectiveRate = basePay > 0 ? militaryAnnualFedTax / (basePay * 12) : 0;
+  const militaryFedTaxMonthly = militaryAnnualFedTax / 12;
+  const militaryFICAMonthly = basePay * FICA_RATE;
+  const militaryTakeHomeMonthly = (basePay - militaryFedTaxMonthly - militaryFICAMonthly) + monthlyBAH + monthlyBAS;
+
   // 2. Retirement eligibility at planned separation
   const separationYOS = input.yearsOfService + input.separationMonths / 12;
   const isRetirementEligible = separationYOS >= 20;
@@ -185,11 +226,19 @@ export function calculateTransitionReadiness(input: TransitionReadinessInput): T
   // 4. VA compensation
   const vaCompMonthly = lookupVACompMonthly(input.vaRating, input.hasDependents);
 
-  // 5. Projected civilian income (after combined tax rate)
-  const netCivilianSalaryMonthly = (input.targetCivilianSalary * (1 - CIVILIAN_COMBINED_TAX_RATE)) / 12;
+  // 5. Projected civilian income (with per-income effective tax rates)
+  const civilianFedEffectiveRate = estimateEffectiveFederalRate(input.targetCivilianSalary);
+  const civilianFedTaxMonthly = (input.targetCivilianSalary * civilianFedEffectiveRate) / 12;
+  const civilianFICAMonthly = (input.targetCivilianSalary * FICA_RATE) / 12;
+  const civilianStateTaxMonthly = (input.targetCivilianSalary * CIVILIAN_STATE_TAX_RATE) / 12;
+  const civilianCombinedRate = civilianFedEffectiveRate + FICA_RATE + CIVILIAN_STATE_TAX_RATE;
+  const netCivilianSalaryMonthly = (input.targetCivilianSalary * (1 - civilianCombinedRate)) / 12;
   const netSpouseMonthly = (input.spouseIncome * (1 - CIVILIAN_COMBINED_TAX_RATE)) / 12;
   const projectedCivilianMonthly =
     netCivilianSalaryMonthly + vaCompMonthly + pensionMonthly + netSpouseMonthly;
+
+  // Grossed-up civilian salary: annual gross that produces the same after-tax as military take-home
+  const grossedUpCivilianSalary = computeGrossedUpSalary(militaryTakeHomeMonthly * 12);
 
   // 6. Healthcare replacement cost
   const hasRetireeTricare = isRetirementEligible;
@@ -269,11 +318,20 @@ export function calculateTransitionReadiness(input: TransitionReadinessInput): T
     militaryMonthlyBAS: monthlyBAS,
     militaryTaxAdvantageMonthly: taxAdvantageMonthly,
     militaryTotalMonthly,
+    militaryFedEffectiveRate,
+    militaryFedTaxMonthly,
+    militaryFICAMonthly,
+    militaryTakeHomeMonthly,
+    civilianFedEffectiveRate,
+    civilianFedTaxMonthly,
+    civilianFICAMonthly,
+    civilianStateTaxMonthly,
     netCivilianSalaryMonthly,
     vaCompMonthly,
     pensionMonthly,
     netSpouseMonthly,
     projectedCivilianMonthly,
+    grossedUpCivilianSalary,
     isRetirementEligible,
     separationYOS,
     healthcareCostMonthly,

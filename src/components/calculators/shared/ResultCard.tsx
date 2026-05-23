@@ -1,4 +1,5 @@
 import { Card } from '@/components/ui/Card';
+import { formatCurrency } from '@/lib/utils';
 
 interface ResultRowProps {
   label: string;
@@ -12,7 +13,7 @@ function ResultRow({ label, monthly, annual, value, highlight }: ResultRowProps)
   const formatted =
     value ??
     (monthly !== undefined
-      ? `$${monthly.toLocaleString()}/mo · $${(monthly * 12).toLocaleString()}/yr`
+      ? `${formatCurrency(monthly)}/mo · ${formatCurrency(monthly * 12)}/yr`
       : '—');
 
   return (

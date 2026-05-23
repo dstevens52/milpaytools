@@ -135,7 +135,7 @@ export function TransitionReadinessCalculator() {
   const [civilianSalary, setCivilianSalary] = useState(0);
   const [spouseIncome, setSpouseIncome] = useState(0);
   const [vaRating, setVaRating] = useState(30);
-  const [healthcareAssumption, setHealthcareAssumption] = useState<'marketplace' | 'employer' | 'va' | 'not-sure'>('marketplace');
+  const [healthcareAssumption, setHealthcareAssumption] = useState<'marketplace' | 'employer' | 'va' | 'not-sure'>('employer');
 
   // Section 3: Expenses
   const [expenseMode, setExpenseMode] = useState<'quick' | 'detailed'>('quick');
@@ -745,20 +745,22 @@ export function TransitionReadinessCalculator() {
 
             <ShareBar getUrl={getShareUrl} className="print:hidden" />
 
-            {/* Side-by-side comparison */}
+            {/* Side-by-side tax-normalized comparison */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <ResultCard
-                title="Current Military Compensation"
+                title="Military Take-Home"
                 dataYear={DATA_YEAR}
                 rows={[
-                  { label: 'Basic Pay (taxable)', monthly: result.militaryMonthlyBasePay },
+                  { label: 'Base pay (taxable)', monthly: result.militaryMonthlyBasePay },
+                  { label: 'Est. federal income tax', value: `−${formatCurrency(result.militaryFedTaxMonthly)}/mo (${(result.militaryFedEffectiveRate * 100).toFixed(1)}% eff.)` },
+                  { label: 'FICA (Soc. Security & Medicare)', value: `−${formatCurrency(result.militaryFICAMonthly)}/mo (7.65%)` },
                   {
-                    label: 'BAH — Housing (tax-free)',
+                    label: 'BAH (excluded from taxable income)',
                     monthly: result.militaryMonthlyBAH > 0 ? result.militaryMonthlyBAH : undefined,
                     value: result.militaryMonthlyBAH === 0 ? 'Enter ZIP code' : undefined,
                   },
-                  { label: 'BAS — Subsistence (tax-free)', monthly: result.militaryMonthlyBAS },
-                  { label: 'Total Military Comp', monthly: result.militaryTotalMonthly, highlight: true },
+                  { label: 'BAS (excluded from taxable income)', monthly: result.militaryMonthlyBAS },
+                  { label: 'Military take-home', monthly: result.militaryTakeHomeMonthly, highlight: true },
                 ]}
               />
 
@@ -766,7 +768,10 @@ export function TransitionReadinessCalculator() {
                 title="Projected Civilian Income"
                 dataYear={DATA_YEAR}
                 rows={[
-                  { label: `Net salary (${formatCurrency(civilianSalary)}/yr gross)`, monthly: result.netCivilianSalaryMonthly },
+                  { label: `Gross salary (${formatCurrency(civilianSalary)}/yr)`, monthly: civilianSalary / 12 },
+                  { label: 'Est. federal income tax', value: `−${formatCurrency(result.civilianFedTaxMonthly)}/mo (${(result.civilianFedEffectiveRate * 100).toFixed(1)}% eff.)` },
+                  { label: 'FICA (Soc. Security & Medicare)', value: `−${formatCurrency(result.civilianFICAMonthly)}/mo (7.65%)` },
+                  { label: 'Est. state income tax', value: `−${formatCurrency(result.civilianStateTaxMonthly)}/mo (~5%)` },
                   ...(result.pensionMonthly > 0
                     ? [{ label: 'Retirement pension (tax-free)', monthly: result.pensionMonthly }]
                     : []),
@@ -778,27 +783,61 @@ export function TransitionReadinessCalculator() {
                   ...(result.netSpouseMonthly > 0
                     ? [{ label: 'Net spouse income', monthly: result.netSpouseMonthly }]
                     : []),
-                  { label: 'Total Projected Income', monthly: result.projectedCivilianMonthly, highlight: true },
+                  { label: 'Civilian take-home', monthly: result.projectedCivilianMonthly, highlight: true },
                 ]}
               />
             </div>
 
-            {/* Income delta callout */}
-            <div className={`rounded-lg border p-5 ${result.monthlyGapOrSurplus >= 0 ? 'border-blue-200 bg-blue-50' : 'border-red-200 bg-red-50'}`}>
-              <p className={`text-sm font-semibold mb-1 ${result.monthlyGapOrSurplus >= 0 ? 'text-blue-800' : 'text-red-800'}`}>
-                Military vs. civilian income comparison
+            {/* Take-home comparison */}
+            {(() => {
+              const takeHomeDiff = result.projectedCivilianMonthly - result.militaryTakeHomeMonthly;
+              const isAhead = takeHomeDiff >= 0;
+              const allowances = result.militaryMonthlyBAH + result.militaryMonthlyBAS;
+              return (
+                <div className={`rounded-lg border p-5 ${isAhead ? 'border-blue-200 bg-blue-50' : 'border-amber-200 bg-amber-50'}`}>
+                  <p className={`text-sm font-semibold mb-3 ${isAhead ? 'text-blue-800' : 'text-amber-800'}`}>
+                    After-tax take-home comparison
+                  </p>
+                  <div className="grid grid-cols-3 gap-4 mb-4">
+                    <div>
+                      <p className="text-xs text-zinc-500 mb-1">Military take-home</p>
+                      <p className="text-xl font-bold tabular-nums text-zinc-900">
+                        {formatCurrency(result.militaryTakeHomeMonthly)}/mo
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-zinc-500 mb-1">Civilian take-home</p>
+                      <p className="text-xl font-bold tabular-nums text-zinc-900">
+                        {formatCurrency(result.projectedCivilianMonthly)}/mo
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-zinc-500 mb-1">Monthly difference</p>
+                      <p className={`text-xl font-bold tabular-nums ${isAhead ? 'text-green-700' : 'text-red-700'}`}>
+                        {takeHomeDiff >= 0 ? '+' : ''}{formatCurrency(takeHomeDiff)}/mo
+                      </p>
+                    </div>
+                  </div>
+                  {allowances > 0 && (
+                    <p className={`text-xs leading-relaxed ${isAhead ? 'text-blue-700' : 'text-amber-700'}`}>
+                      Your military pay includes <span className="font-semibold">{formatCurrency(allowances)}/month in BAH and BAS excluded from federal income tax and FICA.</span> A civilian salary of {formatCurrency(civilianSalary)}/year is fully taxed — including 7.65% for Social Security and Medicare on the entire amount.
+                    </p>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* Grossed-up equivalent callout */}
+            <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-5">
+              <p className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-2">Key Insight</p>
+              <p className="text-sm text-zinc-700 mb-1">
+                To match your military take-home of <span className="font-semibold">{formatCurrency(result.militaryTakeHomeMonthly)}/month</span>, you would need a civilian salary of approximately:
               </p>
-              <p className={`text-sm leading-relaxed ${result.monthlyGapOrSurplus >= 0 ? 'text-blue-700' : 'text-red-700'}`}>
-                Your projected civilian income is{' '}
-                <span className="font-bold">
-                  {result.projectedCivilianMonthly >= result.militaryTotalMonthly
-                    ? `${formatCurrency(result.projectedCivilianMonthly - result.militaryTotalMonthly)}/month more`
-                    : `${formatCurrency(result.militaryTotalMonthly - result.projectedCivilianMonthly)}/month less`}
-                </span>{' '}
-                than your current military comp. This comparison excludes healthcare costs — see below.
+              <p className="text-3xl font-bold text-zinc-900 tabular-nums mb-2">
+                {formatCurrency(result.grossedUpCivilianSalary)}/year
               </p>
-              <p className="text-xs text-blue-600 mt-2">
-                Civilian income estimated at 65.35% take-home (22% federal + 7.65% FICA + 5% state). Actual varies by state and filing status.
+              <p className="text-xs text-zinc-500 leading-relaxed">
+                This accounts for paying full federal income tax, Social Security &amp; Medicare (7.65%), and estimated state income tax (~5%) on your entire civilian salary — taxes that military members don&apos;t pay on BAH and BAS. VA disability pay and any pension are separate income sources on top of this salary.
               </p>
             </div>
 
