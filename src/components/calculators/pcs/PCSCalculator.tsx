@@ -22,6 +22,8 @@ import type { ActionStep } from '@/types/calculator';
 import { calculatePCS, getWeightAllowance } from '@/lib/calculations/pcs';
 import type { PCSMoveType, PCSInput, PCSOutput } from '@/lib/calculations/pcs';
 import type { SearchResult } from '@/lib/stationSearch';
+import { parseBool } from '@/lib/urlParams';
+import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 
 // ─── Formatters ────────────────────────────────────────────────────────────────
 
@@ -328,6 +330,55 @@ export function PCSCalculator() {
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('pcs'), 800);
     return () => clearTimeout(_gaTimerRef.current);
   }, [output]);
+
+  // Pre-populate from URL params on mount
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const r = p.get('rank');
+    const dep = parseBool(p.get('dep'));
+    const nd = p.get('numdep');
+    const mt = p.get('movetype') as PCSMoveType | null;
+    const from = p.get('from');
+    const to = p.get('to');
+    const miles = p.get('miles');
+    const povs = p.get('povs');
+    const hhg = p.get('hhg');
+    const tleold = p.get('tleold');
+    const tlenew = p.get('tlenew');
+    const ppmexp = p.get('ppmexp');
+
+    if (r) setRank(r);
+    if (dep !== null) setHasDependents(dep);
+    if (nd) { const n = parseInt(nd, 10); if (!isNaN(n) && n >= 0 && n <= 10) setNumDependents(n); }
+    if (mt === 'gov' || mt === 'full-ppm' || mt === 'partial-ppm') setMoveType(mt);
+    if (from) setZipFrom(from);
+    if (to) setZipTo(to);
+    if (miles) { const n = parseInt(miles, 10); if (!isNaN(n) && n >= 0) { setManualMiles(n); setShowManualOverride(true); } }
+    if (povs === '2') setNumPOVs(2);
+    if (hhg) { const n = parseInt(hhg, 10); if (!isNaN(n) && n > 0) setHhgWeight(n); }
+    if (tleold) { const n = parseInt(tleold, 10); if (!isNaN(n) && n >= 0 && n <= 14) setTleOldDays(n); }
+    if (tlenew) { const n = parseInt(tlenew, 10); if (!isNaN(n) && n >= 0 && n <= 14) setTleNewDays(n); }
+    if (ppmexp) { const n = parseInt(ppmexp, 10); if (!isNaN(n) && n >= 0) setPpmExpenses(n); }
+  }, []);
+
+  function getShareUrl() {
+    const p = new URLSearchParams();
+    p.set('rank', rank);
+    p.set('dep', hasDependents ? 'yes' : 'no');
+    if (hasDependents) p.set('numdep', String(numDependents));
+    p.set('movetype', moveType);
+    if (zipFrom) p.set('from', zipFrom);
+    if (zipTo) p.set('to', zipTo);
+    if (showManualOverride || autoDistance === null) p.set('miles', String(manualMiles));
+    p.set('povs', String(numPOVs));
+    if (moveType !== 'gov') {
+      p.set('hhg', String(hhgWeight));
+      p.set('ppmexp', String(ppmExpenses));
+    }
+    if (tleOldDays > 0) p.set('tleold', String(tleOldDays));
+    if (tleNewDays > 0) p.set('tlenew', String(tleNewDays));
+    return `${window.location.origin}/calculators/pcs?${p.toString()}`;
+  }
 
   const isPPM = moveType !== 'gov';
   const tleDays = Math.min(tleOldDays + tleNewDays, 21);
@@ -677,6 +728,15 @@ export function PCSCalculator() {
               Based on 2026 rates · {output.travelDays} travel {output.travelDays === 1 ? 'day' : 'days'} · {effectiveDistance.toLocaleString()} miles
             </p>
           </div>
+
+          <SaveOrShareResults
+            headline="Save or share your PCS estimate"
+            supportingText="Useful for planning a move budget, comparing entitlements, or sending to someone helping with your move."
+            usefulFor={['Move planning', 'Entitlement review', 'Family budgeting']}
+            getUrl={getShareUrl}
+            shareTitle="My PCS move estimate"
+            shareText="Here's my PCS entitlement estimate from MilPayTools."
+          />
 
           {/* Entitlement breakdown */}
           <div className="rounded-lg border border-zinc-200 bg-white p-5">

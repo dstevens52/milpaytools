@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
-import { ShareBar } from '@/components/calculators/shared/ShareButton';
+import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { lookupBAH, getMHARates, getMHACode, isTerritory, isZipInDataset } from '@/lib/calculations/bah';
 import { ENLISTED_GRADES, WARRANT_GRADES, OFFICER_GRADES, PRIOR_ENLISTED_OFFICER_GRADES, RANK_DISPLAY } from '@/types/military';
 import type { PayGrade } from '@/types/military';
@@ -297,11 +297,15 @@ export function BAHCalculator() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const gz = parseZip(params.get('zip'));
+    const gzb = parseZip(params.get('zipb'));
     const gr = parseGrade(params.get('rank'));
     const dep = parseBool(params.get('dependents'));
+    const m = params.get('mode');
     if (gz) setZip(gz);
+    if (gzb) setZipB(gzb);
     if (gr) setGrade(gr);
     if (dep !== null) setHasDependents(dep);
+    if (m === 'single' || m === 'compare') setMode(m);
   }, []);
 
   function getShareUrl() {
@@ -309,6 +313,10 @@ export function BAHCalculator() {
     if (zip) p.set('zip', zip);
     p.set('rank', gradeToParam(grade));
     p.set('dependents', hasDependents ? 'yes' : 'no');
+    if (mode === 'compare') {
+      p.set('mode', 'compare');
+      if (zipB) p.set('zipb', zipB);
+    }
     return `${window.location.origin}/calculators/bah?${p.toString()}`;
   }
 
@@ -438,7 +446,14 @@ export function BAHCalculator() {
           )}
 
           {result && (
-            <ShareBar getUrl={getShareUrl} />
+            <SaveOrShareResults
+              headline="Save or share your BAH estimate"
+              supportingText="Useful for comparing housing budgets, talking with a spouse or roommate, or reviewing your expected allowance before signing a lease."
+              usefulFor={['Housing budget', 'Lease planning', 'Spouse or roommate']}
+              getUrl={getShareUrl}
+              shareTitle="My BAH estimate"
+              shareText="Here's my BAH estimate from MilPayTools."
+            />
           )}
 
           {/* Rate table */}
