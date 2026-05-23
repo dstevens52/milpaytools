@@ -269,12 +269,21 @@ function ProofStrip() {
 
               <Link
                 href="/calculators/total-compensation"
-                className="flex-none ml-1 transition-opacity hover:opacity-80"
+                className="hidden md:flex flex-none ml-1 transition-opacity hover:opacity-80"
                 style={{ background: '#c0392b', color: '#fff', fontSize: 11, fontWeight: 600, padding: '5px 12px', borderRadius: 6, whiteSpace: 'nowrap' }}
               >
                 View →
               </Link>
             </div>
+
+            {/* Mobile CTA — full-width, below the proof card */}
+            <Link
+              href="/calculators/total-compensation"
+              className="md:hidden block w-full text-center text-white font-semibold rounded-xl transition-opacity hover:opacity-90"
+              style={{ background: '#B91C1C', fontSize: 17, fontWeight: 600, paddingTop: 16, paddingBottom: 16, borderRadius: 12 }}
+            >
+              Calculate Your Pay →
+            </Link>
 
           </div>
         </div>
