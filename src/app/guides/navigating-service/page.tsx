@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { EmailSignup } from '@/components/EmailSignup';
 
@@ -62,6 +63,81 @@ const TOOLS = [
       'M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25',
   },
 ];
+
+const SITUATION_CARDS = [
+  {
+    id: 'pcs',
+    category: 'PCS / New Base',
+    headline: 'Moving to a new base?',
+    body: 'Compare BAH, housing costs, PCS entitlements, and cost-of-living changes before you make decisions.',
+    chips: ['BAH', 'PCS money', 'Housing'],
+    quickLinks: [
+      { label: 'Compare BAH', href: '/calculators/compare' },
+      { label: 'Estimate PCS money', href: '/calculators/pcs' },
+      { label: 'Check housing costs', href: '/bah' },
+    ],
+    cta: { label: 'Plan your move', href: '/calculators/compare' },
+    image: '/images/house.png',
+    imageAlt: 'House illustration',
+    theme: {
+      band: 'linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%)',
+      borderColor: '#bfdbfe',
+      category: '#1d4ed8',
+      chipBg: 'rgba(29,78,216,0.11)',
+      chipText: '#1d4ed8',
+      ctaBg: '#1d4ed8',
+      quickLinkHover: '#1e3a8a',
+    },
+  },
+  {
+    id: 'deployment',
+    category: 'Deployment',
+    headline: 'Deploying soon?',
+    body: 'Know what may become tax-free, which special pays apply, and how to use SDP and TSP well.',
+    chips: ['Tax-free pay', 'SDP', 'TSP'],
+    quickLinks: [
+      { label: 'Tax-free pay', href: '/calculators/deployment' },
+      { label: 'Savings Deposit Program', href: '/blog/savings-deposit-program-sdp-explained' },
+      { label: 'Combat-zone TSP', href: '/blog/roth-tsp-deployment-strategy' },
+    ],
+    cta: { label: 'Review deployment money', href: '/calculators/deployment' },
+    image: '/images/soldier-helicopter.png',
+    imageAlt: 'Soldier and helicopter illustration',
+    theme: {
+      band: 'linear-gradient(135deg,#fef3c7 0%,#fde68a 100%)',
+      borderColor: '#fde68a',
+      category: '#b45309',
+      chipBg: 'rgba(180,83,9,0.10)',
+      chipText: '#b45309',
+      ctaBg: '#b45309',
+      quickLinkHover: '#78350f',
+    },
+  },
+  {
+    id: 'career',
+    category: 'Career Decisions',
+    headline: 'Thinking about your next step?',
+    body: 'Compare military compensation, TSP growth, pension value, and what you’d need to earn as a civilian.',
+    chips: ['Total comp', 'TSP', 'Pension'],
+    quickLinks: [
+      { label: 'Total compensation', href: '/calculators/total-compensation' },
+      { label: 'TSP growth', href: '/calculators/tsp' },
+      { label: 'Pension / civilian pay', href: '/calculators/retirement' },
+    ],
+    cta: { label: 'Compare your options', href: '/calculators/total-compensation' },
+    image: '/images/roadsign.png',
+    imageAlt: 'Road sign illustration',
+    theme: {
+      band: 'linear-gradient(135deg,#f3e8ff 0%,#e9d5ff 100%)',
+      borderColor: '#e9d5ff',
+      category: '#7c3aed',
+      chipBg: 'rgba(124,58,237,0.10)',
+      chipText: '#7c3aed',
+      ctaBg: '#7c3aed',
+      quickLinkHover: '#4c1d95',
+    },
+  },
+] as const;
 
 const TIMELINE = [
   {
@@ -236,40 +312,128 @@ export default function NavigatingServicePage() {
         </div>
       </section>
 
-      {/* ── Your Next Move Timeline ──────────────────────────────────────────── */}
-      <section className="bg-white border-b border-zinc-200 py-5 sm:py-7 px-4">
+      {/* ── Situation Cards ──────────────────────────────────────────────────── */}
+      <section className="bg-zinc-50 border-b border-zinc-200 py-10 sm:py-14 px-4">
         <div className="mx-auto max-w-5xl">
 
-          <h2 className="text-base font-bold text-zinc-900 mb-0.5 tracking-tight">
-            Your next move
-          </h2>
-          <p className="text-xs text-zinc-500 mb-4">
-            Key checkpoints for PCS, deployment, and career decisions.
-          </p>
+          <div className="mb-8">
+            <h2 className="text-[22px] sm:text-[28px] font-bold text-zinc-900 mb-2 leading-tight">
+              Before your next military move, check the money.
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-500 leading-relaxed max-w-2xl">
+              PCS orders, deployment, promotion, and separation can all change your real income.{' '}
+              Start with the situation that fits you.
+            </p>
+          </div>
 
-          <div className="rounded-xl border border-zinc-200 shadow-sm overflow-hidden divide-y divide-zinc-100">
-            {TIMELINE.map(({ period, question, labelBg, labelText, items }) => (
-              <div key={period} className="flex flex-col sm:flex-row gap-3 sm:gap-0 px-4 py-3.5">
-                <div className="sm:w-44 flex-none">
-                  <span className={`inline-block text-[11px] font-bold ${labelBg} ${labelText} px-2.5 py-1 rounded-full whitespace-nowrap`}>
-                    {period}
-                  </span>
-                  <p className="text-[10px] text-zinc-400 italic mt-1.5 leading-snug">{question}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            {SITUATION_CARDS.map((card) => (
+              <div
+                key={card.id}
+                className="rounded-2xl overflow-hidden flex flex-col bg-white shadow-sm hover:shadow-md transition-shadow"
+                style={{ border: `1px solid ${card.theme.borderColor}` }}
+              >
+                {/* Image band */}
+                <div
+                  className="relative h-44 overflow-hidden"
+                  style={{ background: card.theme.band }}
+                >
+                  <div className="absolute inset-5">
+                    <Image
+                      src={card.image}
+                      alt={card.imageAlt}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 640px) 100vw, 33vw"
+                    />
+                  </div>
+                  {/* Bottom fade into card white */}
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-8 pointer-events-none"
+                    aria-hidden="true"
+                    style={{ background: 'linear-gradient(to bottom, transparent, rgba(255,255,255,0.55))' }}
+                  />
                 </div>
-                <ul className="flex-1 space-y-1.5 sm:pl-2">
-                  {items.map(({ text, href }) => (
-                    <li key={text} className="flex gap-2 items-start">
-                      <span className="w-1 h-1 rounded-full bg-zinc-300 mt-1.5 flex-none" aria-hidden="true" />
-                      {href ? (
-                        <Link href={href} className="text-[11px] text-red-700 hover:text-red-800 underline decoration-red-200 underline-offset-2 leading-snug">
-                          {text}
-                        </Link>
-                      ) : (
-                        <span className="text-[11px] text-zinc-600 leading-snug">{text}</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+
+                {/* Content */}
+                <div className="flex flex-col flex-1 p-5">
+
+                  {/* Category label */}
+                  <span
+                    className="text-[10px] font-bold uppercase tracking-[0.13em] mb-2.5"
+                    style={{ color: card.theme.category }}
+                  >
+                    {card.category}
+                  </span>
+
+                  {/* Headline */}
+                  <h3 className="text-[19px] font-bold text-zinc-900 leading-snug mb-2">
+                    {card.headline}
+                  </h3>
+
+                  {/* Body */}
+                  <p className="text-sm text-zinc-500 leading-relaxed mb-4">
+                    {card.body}
+                  </p>
+
+                  {/* Topic chips */}
+                  <div className="flex flex-wrap gap-1.5 mb-5">
+                    {card.chips.map((chip) => (
+                      <span
+                        key={chip}
+                        className="rounded-full px-2.5 py-0.5 text-[11px] font-semibold"
+                        style={{ background: card.theme.chipBg, color: card.theme.chipText }}
+                      >
+                        {chip}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Quick links */}
+                  <div className="border-t border-zinc-100 pt-3.5 mb-5">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2.5">
+                      Quick links
+                    </p>
+                    <ul className="space-y-2">
+                      {card.quickLinks.map((link) => (
+                        <li key={link.label}>
+                          <Link
+                            href={link.href}
+                            className="flex items-center justify-between text-[12px] font-medium text-zinc-600 hover:text-zinc-900 transition-colors group/ql"
+                          >
+                            {link.label}
+                            <svg
+                              className="w-3 h-3 flex-none ml-2 text-zinc-300 group-hover/ql:text-zinc-500 transition-colors"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.5"
+                              aria-hidden="true"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Spacer pushes CTA to bottom */}
+                  <div className="flex-1" />
+
+                  {/* Primary CTA */}
+                  <Link
+                    href={card.cta.href}
+                    className="flex items-center justify-center gap-2 w-full rounded-xl py-2.5 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
+                    style={{ background: card.theme.ctaBg }}
+                  >
+                    {card.cta.label}
+                    <svg className="w-3.5 h-3.5 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                  </Link>
+
+                </div>
               </div>
             ))}
           </div>
