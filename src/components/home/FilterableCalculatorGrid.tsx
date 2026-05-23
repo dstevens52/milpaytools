@@ -120,6 +120,113 @@ const CALCULATORS: CalcCard[] = [
       </svg>
     ),
   },
+  {
+    href: '/calculators/tsp',
+    name: 'TSP Growth Projector',
+    description: 'Project your TSP balance and retirement savings over time.',
+    iconBg: 'bg-indigo-600',
+    categories: ['benefits'],
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 17l4-8 4 4 4-6 4 4" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 21h18" />
+      </svg>
+    ),
+  },
+  {
+    href: '/calculators/guard-reserve',
+    name: 'Guard / Reserve Pay',
+    description: 'Calculate drill weekend and annual training pay for Guard and Reserve members.',
+    iconBg: 'bg-green-700',
+    categories: ['pay'],
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 16l2 2 4-4" />
+      </svg>
+    ),
+  },
+  {
+    href: '/calculators/education',
+    name: 'Education Benefits',
+    description: 'Compare GI Bill, tuition assistance, and education benefits by situation.',
+    iconBg: 'bg-amber-600',
+    categories: ['benefits', 'transition'],
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M22 10v6M2 10l10-5 10 5-10 5-10-5z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 12v5c3 3 9 3 12 0v-5" />
+      </svg>
+    ),
+  },
+  {
+    href: '/calculators/cola',
+    name: 'CONUS COLA',
+    description: 'See if your duty station qualifies for COLA and estimate the monthly amount.',
+    iconBg: 'bg-cyan-600',
+    categories: ['pay', 'pcs'],
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+        <circle cx="19" cy="5" r="2" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    href: '/calculators/deployment',
+    name: 'Deployment Pay',
+    description: 'Calculate tax-free pay, special pays, and SDP earnings during deployment.',
+    iconBg: 'bg-rose-700',
+    categories: ['pay'],
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l2 2" />
+      </svg>
+    ),
+  },
+  {
+    href: '/calculators/pay-charts',
+    name: 'Pay Charts',
+    description: 'Look up 2026 base pay by rank and years of service.',
+    iconBg: 'bg-zinc-600',
+    categories: ['pay'],
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6M9 16h4" />
+      </svg>
+    ),
+  },
+  {
+    href: '/calculators/dual-military-bah',
+    name: 'Dual Military BAH',
+    description: 'Calculate BAH for dual-military couples at the same or different installations.',
+    iconBg: 'bg-violet-600',
+    categories: ['pcs'],
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M23 21v-2a4 4 0 0 0-3-3.87" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </svg>
+    ),
+  },
+  {
+    href: '/calculators/separation-timeline',
+    name: 'Separation Benefits Timeline',
+    description: 'Map out your separation benefits, deadlines, and entitlements before ETS.',
+    iconBg: 'bg-slate-600',
+    categories: ['transition'],
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3" />
+        <circle cx="12" cy="12" r="9" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 3.5L21 7M7.5 3.5L3 7" />
+      </svg>
+    ),
+  },
 ];
 
 export function FilterableCalculatorGrid() {
