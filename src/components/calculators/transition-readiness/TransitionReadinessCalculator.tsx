@@ -130,7 +130,6 @@ export function TransitionReadinessCalculator() {
   const [sepMonth, setSepMonth] = useState(init.month);
   const [sepYear, setSepYear] = useState(init.year);
   const [retirementSystem, setRetirementSystem] = useState<'legacy' | 'brs'>('legacy');
-  const [tampEligible, setTampEligible] = useState<'yes' | 'no' | 'not-sure'>('not-sure');
 
   // Section 2: Post-military income
   const [civilianSalary, setCivilianSalary] = useState(0);
@@ -195,7 +194,6 @@ export function TransitionReadinessCalculator() {
     const efRaw = p.get('ef');
     const tspRaw = p.get('tsp');
     const savRaw = p.get('sav');
-    const tampRaw = p.get('tamp');
     const hcaRaw = p.get('hca');
 
     if (gr) setGrade(gr);
@@ -213,8 +211,6 @@ export function TransitionReadinessCalculator() {
     if (efRaw) { const n = parseInt(efRaw, 10); if (!isNaN(n) && n >= 0) setEmergencyFund(n); }
     if (tspRaw) { const n = parseInt(tspRaw, 10); if (!isNaN(n) && n >= 0) setTspBalance(n); }
     if (savRaw) { const n = parseInt(savRaw, 10); if (!isNaN(n) && n >= 0) setOtherSavings(n); }
-    if (tampRaw === 'yes' || tampRaw === 'no') setTampEligible(tampRaw);
-    else if (tampRaw === 'ns') setTampEligible('not-sure');
     if (hcaRaw === 'marketplace' || hcaRaw === 'employer' || hcaRaw === 'va') {
       setHealthcareAssumption(hcaRaw as 'marketplace' | 'employer' | 'va');
     } else if (hcaRaw === 'ns') {
@@ -248,7 +244,6 @@ export function TransitionReadinessCalculator() {
     p.set('ef', String(emergencyFund));
     p.set('tsp', String(tspBalance));
     p.set('sav', String(otherSavings));
-    p.set('tamp', tampEligible === 'not-sure' ? 'ns' : tampEligible);
     p.set('hca', healthcareAssumption === 'not-sure' ? 'ns' : healthcareAssumption);
     return `${window.location.origin}/calculators/transition-readiness?${p.toString()}`;
   }
@@ -458,33 +453,6 @@ export function TransitionReadinessCalculator() {
                   {result.isRetirementEligible
                     ? `You'll reach ${Math.floor(result.separationYOS)} years at separation — pension included`
                     : `${Math.floor(result.separationYOS)} years at separation — not retirement-eligible (need 20)`}
-                </p>
-              </div>
-
-              {/* TAMP eligibility toggle */}
-              <div className="flex flex-col gap-1">
-                <span className="text-sm font-medium text-zinc-700">
-                  Do you expect to qualify for TAMP (Transitional TRICARE)?
-                </span>
-                <div className="flex gap-2 mt-1">
-                  {(['yes', 'no', 'not-sure'] as const).map((v) => (
-                    <button
-                      key={v}
-                      type="button"
-                      onClick={() => setTampEligible(v)}
-                      className={[
-                        'flex-1 rounded-md border px-2 py-2 text-sm font-medium transition-colors text-center',
-                        tampEligible === v
-                          ? 'bg-red-700 border-red-700 text-white'
-                          : 'bg-white border-zinc-300 text-zinc-700 hover:border-zinc-400',
-                      ].join(' ')}
-                    >
-                      {v === 'yes' ? 'Yes' : v === 'no' ? 'No' : 'Not sure'}
-                    </button>
-                  ))}
-                </div>
-                <p className="text-xs text-zinc-500 mt-0.5">
-                  TAMP provides 180 days of TRICARE coverage after separation for eligible service members.
                 </p>
               </div>
 
@@ -841,7 +809,7 @@ export function TransitionReadinessCalculator() {
                 <p className="text-sm text-red-700 leading-relaxed">
                   <span className="font-semibold">Good news:</span> At 20+ years you keep TRICARE retiree coverage at minimal cost. This is worth thousands per year — it&apos;s a major financial advantage of retirement-eligible separation.
                 </p>
-              ) : tampEligible === 'yes' ? (
+              ) : (
                 <>
                   <p className="text-sm text-red-700 leading-relaxed">
                     <span className="font-semibold">TAMP covers your first 180 days</span> — no healthcare premium for the first 6 months after separation.
@@ -853,20 +821,6 @@ export function TransitionReadinessCalculator() {
                   </p>
                   <p className="text-xs text-red-600 mt-2 pt-2 border-t border-red-200">
                     The budget analysis uses the ongoing post-TAMP monthly cost. Confirm TAMP eligibility with your unit S1 before separation.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className="text-sm text-red-700 leading-relaxed">
-                    Active-duty families generally pay no TRICARE enrollment premium, and active-duty members have no out-of-pocket cost for covered care. Family out-of-pocket costs vary by plan and care setting. Replacing it as a civilian costs approximately{' '}
-                    <span className="font-bold">{formatCurrency(result.healthcareCostMonthly)}/month</span> based on your selection
-                    {result.healthcareCostMonthly > 0 && <> — <span className="font-bold">{formatCurrency(result.healthcareCostMonthly * 12)}/year</span></>}.
-                  </p>
-                  <p className="text-xs text-red-600 mt-2 pt-2 border-t border-red-200">
-                    Using: <span className="font-medium">{result.healthcareAssumptionLabel}</span> (2026 national averages, KFF 2025 Employer Health Benefits Survey). Actual costs vary by state, employer, and plan.
-                    {tampEligible === 'not-sure' && (
-                      <> You may qualify for 180 days of transitional TRICARE (TAMP) after separation — confirm eligibility before you sign out.</>
-                    )}
                   </p>
                 </>
               )}

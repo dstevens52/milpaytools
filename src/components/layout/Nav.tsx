@@ -284,19 +284,28 @@ export function Nav({ mobile = false, onClose }: NavProps) {
                       {group.label}
                     </p>
                     <ul>
-                      {group.links.map(({ href, label }) => (
-                        <li key={href}>
-                          <Link
-                            href={href}
-                            onClick={onClose}
-                            className={[
-                              'block px-6 py-2.5 text-sm border-b border-zinc-100 last:border-0',
-                              pathname === href ? 'text-red-700 font-semibold' : 'text-zinc-700',
-                            ].join(' ')}
-                          >
-                            {label}
-                          </Link>
-                        </li>
+                      {group.links.map(({ href, label, featured }, index) => (
+                        <Fragment key={href}>
+                          {!featured && index > 0 && group.links[index - 1].featured && (
+                            <div className="mx-4 my-1 border-t border-zinc-200" />
+                          )}
+                          <li>
+                            <Link
+                              href={href}
+                              onClick={onClose}
+                              className={[
+                                'block px-6 py-2.5 text-sm border-b border-zinc-100 last:border-0',
+                                pathname === href
+                                  ? 'text-red-700 font-semibold'
+                                  : featured
+                                  ? 'text-zinc-800 font-medium'
+                                  : 'text-zinc-600',
+                              ].join(' ')}
+                            >
+                              {label}
+                            </Link>
+                          </li>
+                        </Fragment>
                       ))}
                     </ul>
                   </li>

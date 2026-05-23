@@ -75,7 +75,7 @@ function DiffBadge({ diff, suffix = '/mo', invert = false, neutral = false }: Di
 
 interface RowProps {
   label: string;
-  sublabel?: string;
+  sublabel?: React.ReactNode;
   valA: string;
   valB: string;
   badge: React.ReactNode;
@@ -450,7 +450,12 @@ export function CompareCalculator() {
             {/* Row: State Tax */}
             <CompareRow
               label="Est. state income tax"
-              sublabel="On base pay + COLA only · many states exempt military pay"
+              sublabel={
+                <>
+                  <span className="hidden sm:inline">On base pay + COLA only · many states exempt military pay</span>
+                  <span className="sm:hidden">On base pay only</span>
+                </>
+              }
               valA={result.locA.stateInfo?.noTax
                 ? 'No state tax'
                 : result.locA.stateInfo

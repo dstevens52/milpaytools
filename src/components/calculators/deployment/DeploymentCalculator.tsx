@@ -59,12 +59,12 @@ function Toggle({
   labelOff: string;
 }) {
   return (
-    <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[36px] text-sm">
+    <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[36px] text-xs sm:text-sm">
       <button
         type="button"
         onClick={() => onChange(false)}
         className={[
-          'flex-1 font-medium transition-colors px-3',
+          'flex-1 font-medium transition-colors whitespace-nowrap px-2 sm:px-3',
           !value ? 'bg-red-700 text-white' : 'bg-white text-zinc-600 hover:bg-zinc-50',
         ].join(' ')}
       >
@@ -74,7 +74,7 @@ function Toggle({
         type="button"
         onClick={() => onChange(true)}
         className={[
-          'flex-1 font-medium border-l border-zinc-300 transition-colors px-3',
+          'flex-1 font-medium border-l border-zinc-300 transition-colors whitespace-nowrap px-2 sm:px-3',
           value ? 'bg-red-700 text-white' : 'bg-white text-zinc-600 hover:bg-zinc-50',
         ].join(' ')}
       >
@@ -374,7 +374,7 @@ export function DeploymentCalculator() {
           {/* Section 2: Deployment */}
           <div>
             <SectionHeading>Deployment details</SectionHeading>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <Label
                   htmlFor="deploy-months"
@@ -466,7 +466,7 @@ export function DeploymentCalculator() {
           {/* Section 3: Savings */}
           <div>
             <SectionHeading>Savings opportunities</SectionHeading>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <Label
                   htmlFor="tsp-pct"
