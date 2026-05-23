@@ -118,7 +118,9 @@ export function Footer() {
               About
             </p>
             <p className="text-sm leading-relaxed mb-3">
-              Built by Dan Stevens — NMLS-licensed mortgage professional and son of a 20-year Air Force veteran.
+              <a href="/about" className="hover:text-white transition-colors">
+                Built by Dan Stevens — NMLS-licensed mortgage professional and son of a 20-year Air Force veteran.
+              </a>
             </p>
             <ul className="space-y-2">
               <li>
