@@ -27,7 +27,7 @@ function ResultRow({ label, monthly, annual, value, highlight }: ResultRowProps)
     >
       <span
         className={[
-          'text-sm',
+          'text-sm min-w-0',
           highlight ? 'font-semibold text-red-700 text-base' : 'text-zinc-600',
         ].join(' ')}
       >
@@ -35,7 +35,7 @@ function ResultRow({ label, monthly, annual, value, highlight }: ResultRowProps)
       </span>
       <span
         className={[
-          'font-mono tabular-nums text-right',
+          'font-mono tabular-nums text-right whitespace-nowrap shrink-0',
           highlight ? 'font-bold text-red-700 text-lg' : 'text-zinc-800',
         ].join(' ')}
       >

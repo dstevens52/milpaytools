@@ -409,6 +409,7 @@ export function TotalCompensationCalculator() {
         {/* Breakdown */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <ResultCard
+            className="min-w-0"
             title="Pay & Allowances Breakdown"
             dataYear={DATA_YEAR}
             rows={[
@@ -431,6 +432,7 @@ export function TotalCompensationCalculator() {
           />
 
           <ResultCard
+            className="min-w-0"
             title="Full Economic Value"
             dataYear={DATA_YEAR}
             rows={[
