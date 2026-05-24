@@ -14,6 +14,8 @@ const nextConfig: NextConfig = {
       { source: '/bah/fort-cavazos', destination: '/bah/fort-hood', permanent: true },
       { source: '/bah/fort-moore', destination: '/bah/fort-benning', permanent: true },
       { source: '/bah/fort-eisenhower', destination: '/bah/fort-gordon', permanent: true },
+      { source: '/bah/fort-johnson', destination: '/bah/fort-polk', permanent: true },
+      { source: '/bah/fort-gregg-adams', destination: '/bah/fort-lee', permanent: true },
     ];
   },
 };

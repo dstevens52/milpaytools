@@ -44,7 +44,7 @@ export interface DutyStation {
   rentalContext?: string;
   nearby: string[];
   oconus?: true;
-  heroImage?: string;       // path like '/images/bases/fort-liberty.jpg'
+  heroImage?: string;       // path like '/images/bases/fort-bragg.jpg'
   heroImageCredit?: string; // e.g. 'Photo: U.S. Army / DVIDS'
   bahVsHousing?: BahVsHousing;
   localHousingTips?: LocalHousingTips;
@@ -952,18 +952,18 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
   },
   {
-    name: 'Fort Johnson',
-    slug: 'fort-johnson',
-    formerName: 'Fort Polk',
+    name: 'Fort Polk',
+    slug: 'fort-polk',
+    formerName: 'Fort Johnson (2023–2025)',
     zip: '71446',
     city: 'Leesville',
     state: 'LA',
     stateName: 'Louisiana',
     branches: ['Army'],
     description:
-      "Fort Johnson is the Army's most affordable major installation. The Leesville-DeRidder area has rock-bottom housing costs, and BAH creates a massive surplus at every pay grade. This is a station where intentional saving and investing can change your financial trajectory — if you embrace the simplicity.",
+      "Fort Polk is the Army's most affordable major installation. The Leesville-DeRidder area has rock-bottom housing costs, and BAH creates a massive surplus at every pay grade. This is a station where intentional saving and investing can change your financial trajectory — if you embrace the simplicity.",
     installationDetail:
-      "Fort Johnson (formerly Fort Polk) is the Army's Joint Readiness Training Center (JRTC) — where combat brigades from across the Army come to train before deployment.",
+      "Fort Polk is the Army's Joint Readiness Training Center (JRTC) — where combat brigades from across the Army come to train before deployment.",
     rentalNote:
       'Leesville is a small, isolated market. BAH covers local rents with a large surplus — most grades can pocket $200–$400/month extra or buy a home with a mortgage under $1,000.',
     rentalContext:
@@ -1005,7 +1005,7 @@ export const DUTY_STATIONS: DutyStation[] = [
         },
       ],
       mistakeToAvoid:
-        "Fort Johnson is one of the most isolated Army installations. Leesville and DeRidder are tiny towns with limited amenities. Lake Charles is an hour south, Alexandria an hour north. The mistake is not mentally preparing for the isolation — but the upside is your BAH goes incredibly far. An E-5 can pocket hundreds per month in surplus or buy a home with a mortgage under $1,000.",
+        "Fort Polk is one of the most isolated Army installations. Leesville and DeRidder are tiny towns with limited amenities. Lake Charles is an hour south, Alexandria an hour north. The mistake is not mentally preparing for the isolation — but the upside is your BAH goes incredibly far. An E-5 can pocket hundreds per month in surplus or buy a home with a mortgage under $1,000.",
     },
   },
   {
@@ -1962,7 +1962,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Shreveport/Bossier City is one of the most affordable markets in the country. BAH covers most rentals with significant room to spare. Haughton northeast of base has the best schools in the Barksdale corridor.',
     rentalContext:
       'the Bossier City area offers one of the best BAH-to-cost ratios in the Air Force — homeownership is realistic even on a 3-year tour.',
-    nearby: ['fort-johnson', 'joint-base-san-antonio', 'tinker-afb'],
+    nearby: ['fort-polk', 'joint-base-san-antonio', 'tinker-afb'],
     bahVsHousing: {
       medianRent: 1100,
       medianRentSource: 'Zillow / BestPlaces 2025–2026',
@@ -3565,15 +3565,15 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
   },
   {
-    name: 'Fort Gregg-Adams',
-    slug: 'fort-gregg-adams',
-    formerName: 'Fort Lee',
+    name: 'Fort Lee',
+    slug: 'fort-lee',
+    formerName: 'Fort Gregg-Adams (2023–2025)',
     zip: '23801',
     city: 'Petersburg',
     state: 'VA',
     stateName: 'Virginia',
     branches: ['Army'],
-    description: 'Fort Gregg-Adams hosts the Army Combined Arms Support Command (CASCOM) and is the service\'s sustainment hub, home to the Quartermaster, Ordnance, and Transportation Schools.',
+    description: 'Fort Lee hosts the Army Combined Arms Support Command (CASCOM) and is the service\'s sustainment hub, home to the Quartermaster, Ordnance, and Transportation Schools.',
     rentalNote: 'Petersburg and Colonial Heights offer affordable mid-Atlantic housing. Richmond (~25 miles north) provides more inventory. Rents are modest for the Virginia market.',
     nearby: ['fort-belvoir', 'fort-meade', 'joint-base-langley-eustis'],
   },

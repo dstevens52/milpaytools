@@ -21,7 +21,7 @@ export const STATION_COORDINATES: Record<string, { lat: number; lon: number }> =
   'fort-leavenworth':                  { lat: 39.36, lon: -94.92 },
   'fort-huachuca':                     { lat: 31.55, lon: -110.35 },
   'fort-wainwright':                   { lat: 64.83, lon: -147.72 },
-  'fort-johnson':                      { lat: 31.04, lon: -93.21 },
+  'fort-polk':                         { lat: 31.04, lon: -93.21 },
   'schofield-barracks':                { lat: 21.49, lon: -158.07 },
   'aberdeen-proving-ground':           { lat: 39.47, lon: -76.13 },
   'redstone-arsenal':                  { lat: 34.68, lon: -86.68 },
@@ -86,7 +86,7 @@ export const STATION_COORDINATES: Record<string, { lat: number; lon: number }> =
 
   // ── ARMY (additional) ─────────────────────────────────────────────────────
   'fort-rucker':                         { lat: 31.32, lon: -85.72 },
-  'fort-gregg-adams':                    { lat: 37.27, lon: -77.55 },
+  'fort-lee':                            { lat: 37.27, lon: -77.55 },
   'fort-leonard-wood':                   { lat: 37.72, lon: -92.14 },
   'fort-belvoir':                        { lat: 38.71, lon: -77.16 },
   'fort-mccoy':                          { lat: 43.94, lon: -90.68 },

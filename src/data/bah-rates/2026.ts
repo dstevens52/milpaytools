@@ -274,7 +274,7 @@ export const bahTable: BAHTable = {
     },
   },
 
-  // ─── Fort Bragg (formerly Fort Liberty), NC ───────────────────────────
+  // ─── Fort Bragg, NC ───────────────────────────────────────────────────
   '28307': {
     mhaName: 'Fayetteville NC',
     mhaCode: 'NC-FA001',
@@ -402,7 +402,7 @@ export const bahTable: BAHTable = {
     },
   },
 
-  // ─── Fort Benning (formerly Fort Moore), GA ───────────────────────────
+  // ─── Fort Benning, GA ─────────────────────────────────────────────────
   '31905': {
     mhaName: 'Columbus GA',
     mhaCode: 'GA-CO001',
@@ -882,7 +882,7 @@ export const bahTable: BAHTable = {
     },
   },
 
-  // ─── Fort Hood (formerly Fort Cavazos), TX ────────────────────────────
+  // ─── Fort Hood, TX ────────────────────────────────────────────────────
   '76544': {
     mhaName: 'Killeen TX',
     mhaCode: 'TX-KI001',

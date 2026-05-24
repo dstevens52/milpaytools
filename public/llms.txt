@@ -33,11 +33,11 @@
 
 - [BAH Rates by Military Installation](https://www.milpaytools.com/bah): Index page with search and filter for all duty station BAH pages. Find any installation by name, city, state, or branch.
 
-- [Fort Liberty (formerly Fort Bragg)](https://www.milpaytools.com/bah/fort-liberty): Fayetteville, NC — Army. 2026 BAH rates for the 82nd Airborne Division's home station, the largest U.S. military installation by population.
+- [Fort Bragg](https://www.milpaytools.com/bah/fort-bragg): Fayetteville, NC — Army. 2026 BAH rates for the 82nd Airborne Division's home station, the largest U.S. military installation by population.
 
 - [Fort Campbell](https://www.milpaytools.com/bah/fort-campbell): Clarksville, TN — Army. 2026 BAH rates for the home of the 101st Airborne Division (Air Assault), straddling the Kentucky-Tennessee border.
 
-- [Fort Cavazos (formerly Fort Hood)](https://www.milpaytools.com/bah/fort-cavazos): Killeen, TX — Army. 2026 BAH rates for one of the most affordable large military markets in the country, home to III Armored Corps.
+- [Fort Hood](https://www.milpaytools.com/bah/fort-hood): Killeen, TX — Army. 2026 BAH rates for one of the most affordable large military markets in the country, home to III Armored Corps.
 
 - [Joint Base Lewis-McChord (JBLM)](https://www.milpaytools.com/bah/joint-base-lewis-mcchord): Lakewood, WA — Army/Air Force. 2026 BAH rates for the largest military installation on the West Coast; CONUS COLA added for this area in 2026.
 
@@ -53,9 +53,9 @@
 
 - [Fort Riley](https://www.milpaytools.com/bah/fort-riley): Junction City, KS — Army. 2026 BAH rates for the home of the 1st Infantry Division ("Big Red One") in north-central Kansas.
 
-- [Fort Moore (formerly Fort Benning)](https://www.milpaytools.com/bah/fort-moore): Columbus, GA — Army. 2026 BAH rates for the Maneuver Center of Excellence and Ranger Training Brigade.
+- [Fort Benning](https://www.milpaytools.com/bah/fort-benning): Columbus, GA — Army. 2026 BAH rates for the Maneuver Center of Excellence and Ranger Training Brigade.
 
-- [Fort Eisenhower (formerly Fort Gordon)](https://www.milpaytools.com/bah/fort-eisenhower): Augusta, GA — Army. 2026 BAH rates for the U.S. Army Cyber Center of Excellence and Signal Corps.
+- [Fort Gordon](https://www.milpaytools.com/bah/fort-gordon): Augusta, GA — Army. 2026 BAH rates for the U.S. Army Cyber Center of Excellence and Signal Corps.
 
 - [Fort Sill](https://www.milpaytools.com/bah/fort-sill): Lawton, OK — Army. 2026 BAH rates for the home of the Field Artillery School; one of the most affordable military housing markets in the country.
 
@@ -65,7 +65,7 @@
 
 - [Fort Wainwright](https://www.milpaytools.com/bah/fort-wainwright): Fairbanks, AK — Army. 2026 BAH rates for the coldest major U.S. military installation, home to the 1st Brigade Combat Team (Stryker), 25th Infantry Division.
 
-- [Fort Johnson (formerly Fort Polk)](https://www.milpaytools.com/bah/fort-johnson): Leesville, LA — Army. 2026 BAH rates for the Joint Readiness Training Center (JRTC) installation in western Louisiana.
+- [Fort Polk](https://www.milpaytools.com/bah/fort-polk): Leesville, LA — Army. 2026 BAH rates for the Joint Readiness Training Center (JRTC) installation in western Louisiana.
 
 - [Schofield Barracks](https://www.milpaytools.com/bah/schofield-barracks): Wahiawa, HI — Army. 2026 BAH rates for the home of the 25th Infantry Division on Oahu; among the highest BAH rates in the DoD.
 
@@ -215,7 +215,7 @@
 
 - [Should I Stay to 20 Years? The Financial Math Behind the Biggest Military Career Decision](https://www.milpaytools.com/blog/should-i-stay-to-20-years-military): Full financial analysis of the stay-vs-separate decision — E-7 pension math ($3,059/month High-3, $2,447/month BRS), $2M+ lifetime pension value, zero partial vesting under High-3, healthcare replacement costs ($15,000–$25,000/year), and marginal value of years beyond 20.
 
-- [How BAH Builds Wealth (If You Don't Waste It on Rent)](https://www.milpaytools.com/blog/how-bah-builds-wealth): How the BAH surplus gap — the difference between your housing allowance and your actual housing cost — creates a tax-free wealth-building opportunity. Covers BAH arbitrage, VA loan math for moderate-cost markets, the Fort Liberty E-6 example (BAH $2,100, estimated mortgage ~$1,600, positive monthly cash flow), and the PCS-to-rental-property strategy.
+- [How BAH Builds Wealth (If You Don't Waste It on Rent)](https://www.milpaytools.com/blog/how-bah-builds-wealth): How the BAH surplus gap — the difference between your housing allowance and your actual housing cost — creates a tax-free wealth-building opportunity. Covers BAH arbitrage, VA loan math for moderate-cost markets, the Fort Bragg E-6 example (BAH $2,100, estimated mortgage ~$1,600, positive monthly cash flow), and the PCS-to-rental-property strategy.
 
 - [PCS Financial Planning: Month-by-Month Guide](https://www.milpaytools.com/blog/pcs-financial-planning-guide): Month-by-month PCS financial checklist from orders drop through final voucher settlement. Covers DLA, MALT mileage (DTOD distance vs. GPS), per diem JTR calculation, TLE (14-day max, receipts required), PPM/DITY advance and settlement, VA loan pre-approval timeline (start 6 months out), and the common mistakes that leave $1,000–$5,000 on the table.
 

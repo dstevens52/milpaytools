@@ -93,7 +93,7 @@ export default function ComparePage() {
             Fort Bragg, NC vs. Fort Hood, TX: What&apos;s the Real Financial Difference?
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-5, 8 years of service, married with dependents — comparing total monthly compensation at Fort Bragg, NC (ZIP 28310) vs. Fort Hood (formerly Fort Cavazos), TX (ZIP 76544). Same rank, same years, two very different BAH rates. 2026 data.
+            Scenario: E-5, 8 years of service, married with dependents — comparing total monthly compensation at Fort Bragg, NC (ZIP 28310) vs. Fort Hood, TX (ZIP 76544). Same rank, same years, two very different BAH rates. 2026 data.
           </p>
           <ExampleTable>
             <ExampleRow label="Base Pay (E-5, 8 yrs) — identical at both stations" value="$4,300/mo" />
