@@ -343,7 +343,10 @@ function ShareButton({ station }: { station: DutyStation }) {
   async function handleClick() {
     const url = window.location.href;
     const title = `${station.name} BAH Rates 2026 | MilPayTools`;
-    if (typeof navigator !== 'undefined' && navigator.share) {
+    const isMobile =
+      /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+      (navigator.maxTouchPoints > 0 && window.innerWidth < 768);
+    if (isMobile && navigator.share) {
       try {
         await navigator.share({ title, url });
         return;
@@ -709,7 +712,7 @@ export function StationPageClient({
                   advantages, and what a civilian would need to earn to match it.
                 </p>
                 <Link
-                  href="/calculators/total-compensation"
+                  href={`/calculators/total-compensation?rank=${selectedGrade}&zip=${station.zip}&dependents=${hasDependents ? 'yes' : 'no'}`}
                   className="inline-flex items-center gap-1.5 rounded-lg bg-red-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
                 >
                   Calculate your total compensation →
