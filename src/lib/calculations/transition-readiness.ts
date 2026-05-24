@@ -102,6 +102,7 @@ function buildActionSteps(
     emergencyFundMonths: number;
     adjustedMonthlyExpenses: number;
     totalLiquidSavings: number;
+    netSpouseAnnual: number;
     vaClaimStatus: 'green' | 'yellow' | 'na';
     timelineStatus: 'green' | 'yellow' | 'red';
     isRetirementEligible: boolean;
@@ -126,7 +127,7 @@ function buildActionSteps(
     const targetSalary =
       Math.ceil(
         ((computed.adjustedMonthlyExpenses + 500) * 12 -
-          (input.spouseIncome * (1 - CIVILIAN_COMBINED_TAX_RATE)) -
+          computed.netSpouseAnnual -
           lookupVACompMonthly(Math.max(0, input.vaRating), input.hasDependents) * 12) /
           (1 - CIVILIAN_COMBINED_TAX_RATE) /
           1000
@@ -233,7 +234,10 @@ export function calculateTransitionReadiness(input: TransitionReadinessInput): T
   const civilianStateTaxMonthly = (input.targetCivilianSalary * CIVILIAN_STATE_TAX_RATE) / 12;
   const civilianCombinedRate = civilianFedEffectiveRate + FICA_RATE + CIVILIAN_STATE_TAX_RATE;
   const netCivilianSalaryMonthly = (input.targetCivilianSalary * (1 - civilianCombinedRate)) / 12;
-  const netSpouseMonthly = (input.spouseIncome * (1 - CIVILIAN_COMBINED_TAX_RATE)) / 12;
+  const spouseFedEffectiveRate = estimateEffectiveFederalRate(input.spouseIncome);
+  const spouseCombinedRate = spouseFedEffectiveRate + FICA_RATE + CIVILIAN_STATE_TAX_RATE;
+  const netSpouseAnnual = input.spouseIncome > 0 ? input.spouseIncome * (1 - spouseCombinedRate) : 0;
+  const netSpouseMonthly = netSpouseAnnual / 12;
   const projectedCivilianMonthly =
     netCivilianSalaryMonthly + vaCompMonthly + pensionMonthly + netSpouseMonthly;
 
@@ -307,6 +311,7 @@ export function calculateTransitionReadiness(input: TransitionReadinessInput): T
     emergencyFundMonths,
     adjustedMonthlyExpenses,
     totalLiquidSavings,
+    netSpouseAnnual,
     vaClaimStatus,
     timelineStatus,
     isRetirementEligible,
