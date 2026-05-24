@@ -13,7 +13,7 @@ function ResultRow({ label, monthly, annual, value, highlight }: ResultRowProps)
   const formatted =
     value ??
     (monthly !== undefined
-      ? `${formatCurrency(monthly)}/mo · ${formatCurrency(monthly * 12)}/yr`
+      ? `${formatCurrency(monthly * 12)}/yr`
       : '—');
 
   return (

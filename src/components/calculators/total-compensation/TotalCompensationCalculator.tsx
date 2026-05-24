@@ -415,10 +415,10 @@ export function TotalCompensationCalculator() {
             rows={[
               { label: 'Basic Pay (taxable)', monthly: result.monthlyBasePay },
               govHousing
-                ? { label: 'Government Housing (in-kind benefit)', value: result.monthlyBAH > 0 ? `${formatCurrency(result.monthlyBAH)}/mo est. value` : 'Enter ZIP code' }
+                ? { label: 'Government Housing (in-kind benefit)', value: result.monthlyBAH > 0 ? `${formatCurrency(result.monthlyBAH * 12)}/yr est. value` : 'Enter ZIP code' }
                 : { label: 'BAH — Housing (tax-free)', monthly: result.monthlyBAH > 0 ? result.monthlyBAH : undefined, value: result.monthlyBAH === 0 ? 'Enter ZIP code' : undefined },
               mealCard
-                ? { label: 'Government Meals (in-kind benefit)', value: `${formatCurrency(result.monthlyBAS)}/mo est. value` }
+                ? { label: 'Government Meals (in-kind benefit)', value: `${formatCurrency(result.monthlyBAS * 12)}/yr est. value` }
                 : { label: 'BAS — Subsistence (tax-free)', monthly: result.monthlyBAS },
               {
                 label: result.inKindMonthly > 0 ? 'Total Cash (hits bank)' : 'Total Cash Compensation',
