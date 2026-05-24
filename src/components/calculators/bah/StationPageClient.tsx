@@ -475,7 +475,7 @@ export function StationPageClient({
 
       {/* Share bar — after hero, before main content */}
       <div className="bg-white border-b border-zinc-100">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-end">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-center">
           <ShareButton station={station} />
         </div>
       </div>
