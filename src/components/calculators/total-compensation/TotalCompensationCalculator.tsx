@@ -234,7 +234,7 @@ export function TotalCompensationCalculator() {
           />
 
           <BaseSearchInput
-            label="Duty Station ZIP Code"
+            label="Duty Station"
             value={zipCode}
             onZipChange={setZipCode}
             placeholder="Try 'Fort Bragg', 'San Diego', or '28310'"

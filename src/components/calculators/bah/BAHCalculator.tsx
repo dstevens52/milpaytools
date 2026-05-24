@@ -403,7 +403,7 @@ export function BAHCalculator() {
         {mode === 'single' ? (
           <div className="mt-4 max-w-sm">
             <BaseSearchInput
-              label="Duty Station ZIP Code"
+              label="Duty Station"
               value={zip}
               onZipChange={setZip}
               placeholder="Try 'Fort Bragg', 'San Diego', or '28310'"
