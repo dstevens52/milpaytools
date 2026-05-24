@@ -105,9 +105,9 @@ test.describe('Total Compensation — known answers', () => {
   });
 
   // E-5 at 6 YOS = $4,110.00 (DFAS 2026 pay table, "Over 6" column)
-  test('Total Comp: E-5 6 YOS base pay = $4,110/mo', async ({ page }) => {
-    const pay = getBasePay('E-5', 6); // $4,110.00
-    await expect(page.getByText(`$${resultCardNum(pay)}/mo`).first()).toBeVisible();
+  test('Total Comp: E-5 6 YOS base pay = $49,320/yr', async ({ page }) => {
+    const pay = getBasePay('E-5', 6); // $4,110.00 → $49,320/yr
+    await expect(page.getByText(`${formatCurrency(pay * 12)}/yr`).first()).toBeVisible();
   });
 
   // E-5 at 8 YOS = $4,299.90 (DFAS 2026 pay table, "Over 8" column)

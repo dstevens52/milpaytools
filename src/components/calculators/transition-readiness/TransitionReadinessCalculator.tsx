@@ -761,8 +761,8 @@ export function TransitionReadinessCalculator() {
                 dataYear={DATA_YEAR}
                 rows={[
                   { label: 'Base pay (taxable)', monthly: result.militaryMonthlyBasePay },
-                  { label: 'Est. federal income tax', value: `−${formatCurrency(result.militaryFedTaxMonthly)}/mo (${(result.militaryFedEffectiveRate * 100).toFixed(1)}% eff.)` },
-                  { label: 'FICA (Soc. Security & Medicare)', value: `−${formatCurrency(result.militaryFICAMonthly)}/mo (7.65%)` },
+                  { label: 'Est. federal income tax', value: `−${formatCurrency(result.militaryFedTaxMonthly * 12)}/yr (${(result.militaryFedEffectiveRate * 100).toFixed(1)}% eff.)` },
+                  { label: 'FICA (Soc. Security & Medicare)', value: `−${formatCurrency(result.militaryFICAMonthly * 12)}/yr (7.65%)` },
                   {
                     label: 'BAH (excluded from taxable income)',
                     monthly: result.militaryMonthlyBAH > 0 ? result.militaryMonthlyBAH : undefined,
@@ -778,9 +778,9 @@ export function TransitionReadinessCalculator() {
                 dataYear={DATA_YEAR}
                 rows={[
                   { label: `Gross salary (${formatCurrency(civilianSalary)}/yr)`, monthly: civilianSalary / 12 },
-                  { label: 'Est. federal income tax', value: `−${formatCurrency(result.civilianFedTaxMonthly)}/mo (${(result.civilianFedEffectiveRate * 100).toFixed(1)}% eff.)` },
-                  { label: 'FICA (Soc. Security & Medicare)', value: `−${formatCurrency(result.civilianFICAMonthly)}/mo (7.65%)` },
-                  { label: 'Est. state income tax', value: `−${formatCurrency(result.civilianStateTaxMonthly)}/mo (~5%)` },
+                  { label: 'Est. federal income tax', value: `−${formatCurrency(result.civilianFedTaxMonthly * 12)}/yr (${(result.civilianFedEffectiveRate * 100).toFixed(1)}% eff.)` },
+                  { label: 'FICA (Soc. Security & Medicare)', value: `−${formatCurrency(result.civilianFICAMonthly * 12)}/yr (7.65%)` },
+                  { label: 'Est. state income tax', value: `−${formatCurrency(result.civilianStateTaxMonthly * 12)}/yr (~5%)` },
                   ...(result.pensionMonthly > 0
                     ? [{ label: 'Retirement pension (tax-free)', monthly: result.pensionMonthly }]
                     : []),

@@ -27,6 +27,7 @@ const CALCULATOR_GROUPS = [
       { href: '/calculators/retirement', label: 'Retirement Calculator' },
       { href: '/calculators/healthcare-comparison', label: 'Healthcare Comparison' },
       { href: '/calculators/separation-timeline', label: 'Separation Timeline' },
+      { href: '/calculators/transition-readiness', label: 'Transition Readiness' },
       { href: '/calculators/education', label: 'Education Benefits' },
       { href: '/calculators/pay-charts', label: 'Pay Charts' },
     ],

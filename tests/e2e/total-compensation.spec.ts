@@ -3,9 +3,9 @@ import { getBasePay, getBAS, getBAH } from './helpers/data';
 import { resultCardNum, formatCurrency } from './helpers/format';
 
 // Total Compensation calculator uses:
-//   - ResultCard rows: `$${monthly.toLocaleString()}/mo` (preserves decimals)
+//   - ResultCard rows: formatCurrency(monthly * 12) + '/yr' (annual only, 0 decimals)
 //   - Headline / tax-free breakdown: formatCurrency (0 decimals)
-// We use resultCardNum for breakdown values and formatCurrency for headline totals.
+// We use formatCurrency for all result card assertions.
 
 test.describe('Total Compensation Calculator', () => {
   test.beforeEach(async ({ page }) => {
@@ -17,9 +17,8 @@ test.describe('Total Compensation Calculator', () => {
   });
 
   test('default values produce correct base pay (E-5, 6 YOS)', async ({ page }) => {
-    // Base pay row shows e.g. "$4,109.86/mo" via toLocaleString (preserves cents)
     const basePay = getBasePay('E-5', 6);
-    await expect(page.getByText(`$${resultCardNum(basePay)}/mo`).first()).toBeVisible();
+    await expect(page.getByText(`${formatCurrency(basePay * 12)}/yr`).first()).toBeVisible();
   });
 
   test('default values produce correct BAS', async ({ page }) => {
@@ -36,7 +35,7 @@ test.describe('Total Compensation Calculator', () => {
   test('changing grade to O-3 updates base pay', async ({ page }) => {
     await page.getByLabel('Rank / Pay Grade').selectOption('O-3');
     const basePay = getBasePay('O-3', 6);
-    await expect(page.getByText(`$${resultCardNum(basePay)}/mo`).first()).toBeVisible();
+    await expect(page.getByText(`${formatCurrency(basePay * 12)}/yr`).first()).toBeVisible();
   });
 
   test('changing grade to O-3 shows officer BAS', async ({ page }) => {
@@ -83,12 +82,12 @@ test.describe('Total Compensation Calculator', () => {
   test('O-1E prior enlisted grade is selectable', async ({ page }) => {
     await page.getByLabel('Rank / Pay Grade').selectOption('O-1E');
     const basePay = getBasePay('O-1E', 6);
-    await expect(page.getByText(`$${resultCardNum(basePay)}/mo`).first()).toBeVisible();
+    await expect(page.getByText(`${formatCurrency(basePay * 12)}/yr`).first()).toBeVisible();
   });
 
   test('changing YOS updates base pay', async ({ page }) => {
     await page.getByLabel('Years of Service').selectOption('10');
     const basePay = getBasePay('E-5', 10);
-    await expect(page.getByText(`$${resultCardNum(basePay)}/mo`).first()).toBeVisible();
+    await expect(page.getByText(`${formatCurrency(basePay * 12)}/yr`).first()).toBeVisible();
   });
 });

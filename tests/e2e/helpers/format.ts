@@ -5,12 +5,11 @@
  */
 
 // ─── ResultCard format ────────────────────────────────────────────────────────
-// ResultCard uses: `$${monthly.toLocaleString()}/mo · $${(monthly * 12).toLocaleString()}/yr`
-// `toLocaleString()` without args uses runtime locale (en-US in test browser).
-// Numbers with fractional parts preserve decimals; integers show none.
+// ResultCard uses: formatCurrency(monthly * 12) + '/yr'
+// formatCurrency uses Intl.NumberFormat with 0 decimal places.
 
 /**
- * Formats a number the same way ResultCard does.
+ * Formats a number the same way ResultCard does (toLocaleString, preserves decimals).
  * e.g. 4109.86 → "4,109.86", 1900 → "1,900"
  */
 export function resultCardNum(n: number): string {
@@ -18,10 +17,11 @@ export function resultCardNum(n: number): string {
 }
 
 /**
- * Full ResultCard row format: "$X,XXX.XX/mo · $XX,XXX.XX/yr"
+ * Full ResultCard row format (annual only): "$XX,XXX/yr"
+ * Uses formatCurrency (0 decimal places) on monthly * 12.
  */
 export function resultCardRow(monthly: number): string {
-  return `$${resultCardNum(monthly)}/mo · $${resultCardNum(monthly * 12)}/yr`;
+  return `${formatCurrency(monthly * 12)}/yr`;
 }
 
 // ─── Pay Charts format ────────────────────────────────────────────────────────
