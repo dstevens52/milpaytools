@@ -335,6 +335,61 @@ function MoneyStrip({ selectedBAH, selectedGrade, hasDependents, medianRent, med
   );
 }
 
+// ─── ShareButton sub-component ───────────────────────────────────────────────
+
+function ShareButton({ station }: { station: DutyStation }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleClick() {
+    const url = window.location.href;
+    const title = `${station.name} BAH Rates 2026 | MilPayTools`;
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share({ title, url });
+        return;
+      } catch {
+        // cancelled or not supported — fall through to copy
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    } catch {
+      // clipboard unavailable — no-op
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      className={[
+        'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold transition-colors',
+        copied
+          ? 'bg-green-50 border border-green-200 text-green-700'
+          : 'bg-red-700 text-white hover:bg-red-800',
+      ].join(' ')}
+    >
+      {copied ? (
+        <>
+          <svg className="w-3.5 h-3.5 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+          Link copied!
+        </>
+      ) : (
+        <>
+          <svg className="w-3.5 h-3.5 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
+          </svg>
+          Share {station.name} BAH rates
+        </>
+      )}
+    </button>
+  );
+}
+
 // ─── Main StationPageClient component ────────────────────────────────────────
 
 export function StationPageClient({
@@ -417,6 +472,13 @@ export function StationPageClient({
 
       {/* Hero banner */}
       <HeroBanner station={station} description={heroDescription} />
+
+      {/* Share bar — after hero, before main content */}
+      <div className="bg-white border-b border-zinc-100">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-end">
+          <ShareButton station={station} />
+        </div>
+      </div>
 
       <div className="bg-zinc-50 min-h-screen">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -629,6 +691,31 @@ export function StationPageClient({
               selectedGrade={selectedGrade}
               selectedHasDependents={hasDependents}
             />
+          )}
+
+          {/* Mid-page CTA — catches users at peak engagement after looking up their rate */}
+          {hasRates && (
+            <div className="relative overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm">
+              <span className="absolute inset-y-0 left-0 w-1 bg-red-600" />
+              <div className="p-6 pl-8">
+                <p className="text-xs font-semibold uppercase tracking-widest text-red-700 mb-2">
+                  Calculator
+                </p>
+                <h3 className="text-base font-bold text-zinc-900 mb-2">
+                  BAH is just one piece of your pay
+                </h3>
+                <p className="text-sm text-zinc-600 leading-relaxed mb-4">
+                  See your full compensation at {station.name} — including base pay, BAS, tax
+                  advantages, and what a civilian would need to earn to match it.
+                </p>
+                <Link
+                  href="/calculators/total-compensation"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-red-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
+                >
+                  Calculate your total compensation →
+                </Link>
+              </div>
+            </div>
           )}
 
           {/* No data fallback */}
