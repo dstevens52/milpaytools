@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 function HeroSection() {
   return (
     <section
-      className="relative overflow-hidden border-b border-zinc-200"
+      className="relative overflow-hidden"
       style={{ background: '#0f172a', minHeight: 'clamp(310px, 50vh, 420px)' }}
     >
       {/* Full-bleed desk background image */}
@@ -43,11 +43,16 @@ function HeroSection() {
           className="absolute inset-0 sm:hidden"
           style={{ background: 'rgba(15,23,42,0.5)' }}
         />
+        {/* Bottom fade: photo → warm cream, blends into journey section below */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-32"
+          style={{ background: 'linear-gradient(to bottom, transparent, #f5f0e8)' }}
+        />
       </div>
 
       {/* Content */}
       <div
-        className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8 sm:py-10 flex items-center"
+        className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex items-center"
         style={{ minHeight: 'inherit' }}
       >
         <div className="w-full sm:max-w-[56%]">
@@ -152,9 +157,9 @@ const JOURNEY_CARDS = [
 
 function JourneySection() {
   return (
-    <section className="bg-white border-b border-zinc-200 py-8 sm:py-10 px-4">
+    <section className="border-b border-zinc-200 py-5 sm:py-6 px-4" style={{ background: '#f5f0e8' }}>
       <div className="mx-auto max-w-4xl">
-        <h2 className="text-[22px] sm:text-[24px] font-medium text-zinc-800 text-center mb-5">
+        <h2 className="text-[22px] sm:text-[24px] font-medium text-zinc-800 text-center mb-3">
           Where are you in your military money journey?
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
