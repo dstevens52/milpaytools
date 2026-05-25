@@ -366,6 +366,20 @@ export function Nav({ mobile = false, onClose }: NavProps) {
             </Link>
           </li>
 
+          {/* Who made this */}
+          <li>
+            <Link
+              href="/about"
+              onClick={onClose}
+              className={[
+                'block px-4 py-3 text-base font-medium border-b border-zinc-100',
+                pathname === '/about' ? 'text-zinc-900' : 'text-zinc-800 hover:text-zinc-900',
+              ].join(' ')}
+            >
+              Who made this
+            </Link>
+          </li>
+
           {/* Got feedback? — warm muted, positioned at bottom of menu */}
           <li>
             <Link
@@ -415,6 +429,17 @@ export function Nav({ mobile = false, onClose }: NavProps) {
             ].join(' ')}
           >
             Blog
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/about"
+            className={[
+              'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+              pathname === '/about' ? 'text-zinc-900 bg-zinc-100' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
+            ].join(' ')}
+          >
+            Who made this
           </Link>
         </li>
       </ul>
