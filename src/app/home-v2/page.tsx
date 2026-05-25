@@ -76,7 +76,7 @@ function HeroSection() {
 
           {/* Subline */}
           <p className="text-base sm:text-lg text-white/70 leading-snug mb-5">
-            See what your service is really worth.
+            See the real value of your military pay and benefits.
           </p>
 
           {/* CTA */}
@@ -87,15 +87,40 @@ function HeroSection() {
             See your real pay →
           </Link>
 
-          {/* Compact sample result bar — single line, desktop only */}
-          <div className="hidden sm:flex items-center gap-2 mt-3.5 px-3 py-2 rounded-lg bg-white/[0.07] border border-white/[0.12] text-[11px] text-white/50">
-            <span className="font-bold text-white/40 uppercase tracking-widest text-[9px]">Sample</span>
-            <span aria-hidden="true">·</span>
-            <span>E-5 · 6 yrs · Fort Bragg</span>
-            <span aria-hidden="true">·</span>
-            <span className="font-semibold text-white/80">$72,852/yr total comp</span>
-            <span aria-hidden="true">·</span>
-            <span>≈$91K civilian equiv.</span>
+          {/* Sample output card — matches live homepage proof card format */}
+          <div
+            className="flex items-center gap-3 bg-white rounded-xl px-4 py-3 mt-3.5 w-full sm:w-auto"
+            style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}
+          >
+            <span style={{ fontSize: 9, color: '#bbb', textTransform: 'uppercase', letterSpacing: '0.08em', lineHeight: 1, whiteSpace: 'nowrap', border: '1px solid #e5e5e5', borderRadius: 4, padding: '2px 5px', flexShrink: 0 }}>
+              Sample
+            </span>
+            <div className="flex-none">
+              <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
+                E-5 · 8yrs · San Diego
+              </p>
+              <div className="flex items-baseline gap-0.5">
+                <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>$8,752</span>
+                <span style={{ fontSize: 11, color: '#999' }}>/mo</span>
+              </div>
+            </div>
+            <div className="h-[30px] w-px bg-[#e5e5e5] flex-none" aria-hidden="true" />
+            <div className="flex-none">
+              <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
+                Civilian equiv.
+              </p>
+              <div className="flex items-baseline gap-0.5">
+                <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>≈$121k</span>
+                <span style={{ fontSize: 11, color: '#999' }}>/yr</span>
+              </div>
+            </div>
+            <Link
+              href="/calculators/total-compensation"
+              className="hidden sm:flex flex-none ml-1 transition-opacity hover:opacity-80"
+              style={{ background: '#c0392b', color: '#fff', fontSize: 11, fontWeight: 600, padding: '5px 12px', borderRadius: 6, whiteSpace: 'nowrap' }}
+            >
+              View →
+            </Link>
           </div>
 
         </div>
