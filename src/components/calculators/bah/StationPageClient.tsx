@@ -486,6 +486,30 @@ export function StationPageClient({
       <div className="bg-zinc-50 min-h-screen">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
+          {/* Quick Reference accordion — Offutt AFB prototype */}
+          {station.slug === 'offutt-afb' && hasRates && (
+            <details className="rounded-lg border border-zinc-200 bg-white overflow-hidden group">
+              <summary className="px-4 py-2.5 text-xs font-medium text-zinc-500 cursor-pointer select-none flex items-center justify-between hover:bg-zinc-50 transition-colors [&::-webkit-details-marker]:hidden">
+                <span>Quick reference: 2026 BAH rates at Offutt AFB</span>
+                <svg className="w-3.5 h-3.5 text-zinc-400 flex-none transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <div className="px-4 pb-3 pt-2 border-t border-zinc-100">
+                <p className="text-xs text-zinc-600 leading-relaxed">
+                  For 2026, BAH rates at Offutt AFB (Omaha MHA) are:{' '}
+                  E-4 with dependents: <strong>{fmt(ratesW['E-4'])}/mo</strong>{' '}
+                  &middot; E-5 without dependents: <strong>{fmt(ratesWO['E-5'])}/mo</strong>{' '}
+                  &middot; E-5 with dependents: <strong>{fmt(ratesW['E-5'])}/mo</strong>{' '}
+                  &middot; E-6 with dependents: <strong>{fmt(ratesW['E-6'])}/mo</strong>{' '}
+                  &middot; E-7 with dependents: <strong>{fmt(ratesW['E-7'])}/mo</strong>{' '}
+                  &middot; O-3 with dependents: <strong>{fmt(ratesW['O-3'])}/mo</strong>.{' '}
+                  BAH is excluded from federal taxable income. Full rates for all pay grades are in the table below.
+                </p>
+              </div>
+            </details>
+          )}
+
           {/* Rank selector card (always shown) */}
           <div className="bg-white rounded-lg border border-zinc-200 p-5 space-y-5">
             <RankSelector
@@ -833,6 +857,53 @@ export function StationPageClient({
               <p className="text-xs text-slate-500 leading-relaxed">
                 Housing data is approximate and provided for informational and educational purposes only. Median rents and home prices reflect market estimates at time of publication and may not reflect current conditions. School ratings are sourced from third-party services and reflect their methodology. MilPayTools does not endorse specific neighborhoods, properties, landlords, or housing decisions. Always verify figures independently and consult with a qualified professional before making financial commitments.
               </p>
+            </div>
+          )}
+
+          {/* FAQ section — Offutt AFB prototype */}
+          {station.slug === 'offutt-afb' && hasRates && (
+            <div className="bg-white rounded-lg border border-zinc-200 p-6">
+              <h2 className="text-lg font-semibold text-zinc-900 mb-5">Frequently Asked Questions</h2>
+              <div className="space-y-5">
+                <div>
+                  <h3 className="text-sm font-semibold text-zinc-900 mb-1.5">
+                    What is the 2026 BAH rate at Offutt AFB?
+                  </h3>
+                  <p className="text-sm text-zinc-600 leading-relaxed">
+                    BAH at Offutt AFB depends on pay grade and dependent status. For 2026, Omaha MHA rates include:{' '}
+                    E-5 with dependents <strong>{fmt(ratesW['E-5'])}/mo</strong>,{' '}
+                    E-6 with dependents <strong>{fmt(ratesW['E-6'])}/mo</strong>,{' '}
+                    E-7 with dependents <strong>{fmt(ratesW['E-7'])}/mo</strong>,{' '}
+                    and O-3 with dependents <strong>{fmt(ratesW['O-3'])}/mo</strong>.{' '}
+                    E-5 without dependents is <strong>{fmt(ratesWO['E-5'])}/mo</strong>.{' '}
+                    BAH is excluded from federal taxable income.
+                  </p>
+                </div>
+                <div className="border-t border-zinc-100 pt-5">
+                  <h3 className="text-sm font-semibold text-zinc-900 mb-1.5">
+                    Is BAH at Offutt AFB taxable income?
+                  </h3>
+                  <p className="text-sm text-zinc-600 leading-relaxed">
+                    No. BAH is excluded from federal taxable income under the Military Pay Tax Exclusion. Nebraska also does not tax BAH or BAS. Service members keep 100% of their housing allowance — a civilian would need to earn significantly more gross income to take home the equivalent amount after federal and state taxes.
+                  </p>
+                </div>
+                <div className="border-t border-zinc-100 pt-5">
+                  <h3 className="text-sm font-semibold text-zinc-900 mb-1.5">
+                    What Military Housing Area (MHA) does Offutt AFB use for BAH?
+                  </h3>
+                  <p className="text-sm text-zinc-600 leading-relaxed">
+                    Offutt AFB is assigned to the Omaha/Offutt AFB, NE Military Housing Area (MHA). All service members stationed at Offutt AFB receive the same BAH rates regardless of their exact address within the metro area. Rates are published annually by the Defense Travel Management Office (DTMO) and take effect January 1 each year.
+                  </p>
+                </div>
+                <div className="border-t border-zinc-100 pt-5">
+                  <h3 className="text-sm font-semibold text-zinc-900 mb-1.5">
+                    Can I afford to buy a home near Offutt AFB using BAH?
+                  </h3>
+                  <p className="text-sm text-zinc-600 leading-relaxed">
+                    The Omaha/Bellevue area offers one of the strongest BAH-to-home-price ratios in the Air Force. Median home prices near Offutt run approximately $300,000, with estimated PITI mortgage payments of $2,050–$2,250/month. An E-6 with dependents receives <strong>{fmt(ratesW['E-6'])}/mo</strong> in BAH — enough to cover a typical mortgage payment. E-5s with dependents at <strong>{fmt(ratesW['E-5'])}/mo</strong> can also cover a significant portion of a median mortgage, particularly with a VA loan eliminating the down payment requirement.
+                  </p>
+                </div>
+              </div>
             </div>
           )}
 
