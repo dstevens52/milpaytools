@@ -185,6 +185,13 @@ function JourneySection() {
   return (
     <section className="border-b border-zinc-200 py-3 sm:py-4 px-4" style={{ background: '#f5f0e8' }}>
       <div className="mx-auto max-w-4xl">
+        <p className="text-sm text-zinc-500 text-center mb-3">
+          <span className="text-zinc-700 font-medium">①</span> Choose your situation
+          {' '}<span className="mx-1.5">&middot;</span>{' '}
+          <span className="text-zinc-700 font-medium">②</span> Run the numbers
+          {' '}<span className="mx-1.5">&middot;</span>{' '}
+          <span className="text-zinc-700 font-medium">③</span> Decide with confidence
+        </p>
         <h2 className="text-[24px] sm:text-[28px] font-medium text-zinc-800 text-center mb-3">
           Where are you in your military money journey?
         </h2>
