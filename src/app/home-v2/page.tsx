@@ -10,12 +10,9 @@ export const metadata: Metadata = {
 
 // ── Hero ──────────────────────────────────────────────────────────────────────
 //
-// Layout: full-bleed section, image bleeds from right, gradient fades it
-// toward the left so text stays legible. On mobile the image becomes a
-// lower-opacity background behind stacked text.
-//
-// Image: place your desk-scene photo at /public/images/hero-desk-v2.jpg
-// (landscape, ideally 1800×1100+, main subject toward the right third).
+// Image: /public/images/hero-desk.png
+// Desktop: covers right ~58% of section, fades left via gradient overlay.
+// Mobile: full-bleed, heavy warm overlay keeps text readable.
 
 const SAMPLE_ROWS = [
   { label: 'Base Pay', value: '$49,320' },
@@ -25,20 +22,20 @@ const SAMPLE_ROWS = [
 
 function HeroResultCard() {
   return (
-    <div className="inline-block rounded-2xl bg-white border border-zinc-200/80 shadow-xl p-5 min-w-[230px]">
-      <p className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 mb-3">
+    <div className="inline-block rounded-2xl bg-white border border-zinc-200/80 shadow-xl p-4 min-w-[220px]">
+      <p className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 mb-2">
         Sample result
       </p>
-      <p className="text-[11px] text-zinc-500 mb-2 leading-snug">
+      <p className="text-[11px] text-zinc-500 mb-1.5 leading-snug">
         E-5 · 6 yrs · Fort Bragg, NC
       </p>
-      <div className="mb-3">
-        <p className="text-[34px] font-extrabold text-zinc-900 tabular-nums leading-none tracking-tight">
+      <div className="mb-2.5">
+        <p className="text-[32px] font-extrabold text-zinc-900 tabular-nums leading-none tracking-tight">
           $72,852
         </p>
-        <p className="text-[11px] text-zinc-400 mt-0.5">total annual compensation</p>
+        <p className="text-[10px] text-zinc-400 mt-0.5">total annual compensation</p>
       </div>
-      <div className="border-t border-zinc-100 pt-3 space-y-2">
+      <div className="border-t border-zinc-100 pt-2.5 space-y-1.5">
         {SAMPLE_ROWS.map(({ label, value }) => (
           <div key={label} className="flex justify-between items-center gap-6">
             <span className="text-[11px] text-zinc-500">{label}</span>
@@ -46,7 +43,7 @@ function HeroResultCard() {
           </div>
         ))}
       </div>
-      <p className="text-[9px] text-zinc-300 mt-3 pt-3 border-t border-zinc-100">
+      <p className="text-[9px] text-zinc-300 mt-2.5 pt-2.5 border-t border-zinc-100">
         Based on 2026 DoD &amp; DTMO rates
       </p>
     </div>
@@ -54,38 +51,29 @@ function HeroResultCard() {
 }
 
 function HeroSection() {
-  // Left-side background color — warm sand
   const sandBg = '#f5ede0';
 
   return (
     <section
       className="relative overflow-hidden"
-      style={{ background: sandBg, minHeight: 'clamp(520px, 78vh, 860px)' }}
+      style={{ background: sandBg, minHeight: 'clamp(440px, 68vh, 740px)' }}
     >
-      {/* ── Right-side desk image ─────────────────────────────────────────── */}
-      {/*
-        On desktop this covers the right ~55% of the hero and fades to
-        transparent on its left edge, letting the warm sand background show
-        through behind the text. On mobile it's a dimmed full-bleed backdrop.
-      */}
-      <div
-        className="absolute inset-0 lg:left-[42%]"
-        aria-hidden="true"
-      >
+      {/* Right-side desk image */}
+      <div className="absolute inset-0 lg:left-[42%]" aria-hidden="true">
         <Image
-          src="/images/hero-desk-v2.jpg"
+          src="/images/hero-desk.png"
           alt=""
           fill
           priority
           className="object-cover object-left-top"
           sizes="(max-width: 1024px) 100vw, 58vw"
         />
-        {/* Mobile: heavy warm overlay so text is always readable */}
+        {/* Mobile: warm overlay */}
         <div
           className="absolute inset-0 lg:hidden"
-          style={{ background: 'rgba(245,237,224,0.82)' }}
+          style={{ background: 'rgba(245,237,224,0.84)' }}
         />
-        {/* Desktop: gradient from solid sand → transparent, left→right */}
+        {/* Desktop: gradient left→right, solid sand → transparent */}
         <div
           className="absolute inset-0 hidden lg:block"
           style={{
@@ -94,23 +82,24 @@ function HeroSection() {
         />
       </div>
 
-      {/* ── Content ───────────────────────────────────────────────────────── */}
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex items-center h-full"
+      {/* Content */}
+      <div
+        className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex items-center"
         style={{ minHeight: 'inherit' }}
       >
-        <div className="w-full lg:max-w-[530px] py-16 lg:py-24">
+        <div className="w-full lg:max-w-[530px] py-10 lg:py-14">
 
-          {/* Trust pill */}
-          <div className="inline-flex items-center gap-2.5 mb-6 rounded-full bg-zinc-900 px-4 py-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
-            <span className="text-[10px] font-semibold text-white uppercase tracking-wider">
-              Free · No account · Official 2026 DoD &amp; VA data
+          {/* Trust pill — full wording, responsive size */}
+          <div className="inline-flex items-center gap-2 mb-4 rounded-full bg-zinc-900 px-4 py-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none shrink-0" aria-hidden="true" />
+            <span className="text-[9px] sm:text-[11px] font-semibold text-white uppercase tracking-wide leading-snug">
+              Free Calculators · No Account · No Personal Info · Official 2026 DoD &amp; VA Data
             </span>
           </div>
 
           {/* Headline */}
           <h1
-            className="font-extrabold leading-[1.04] tracking-tight text-zinc-900 mb-4"
+            className="font-extrabold leading-[1.04] tracking-tight text-zinc-900 mb-3"
             style={{ fontSize: 'clamp(46px, 6.5vw, 76px)' }}
           >
             Know Your<br />
@@ -118,27 +107,21 @@ function HeroSection() {
           </h1>
 
           {/* Supporting line */}
-          <p className="text-lg sm:text-xl text-zinc-600 leading-relaxed mb-8 max-w-[420px]">
+          <p className="text-lg sm:text-xl text-zinc-600 leading-relaxed mb-5 max-w-[420px]">
             Free calculators and guidance to help service members make confident financial decisions.
           </p>
 
-          {/* CTAs */}
-          <div className="flex flex-wrap gap-3 mb-10">
+          {/* Single primary CTA */}
+          <div className="mb-6">
             <Link
-              href="/guides/starting-service"
-              className="rounded-lg bg-red-700 px-6 py-3 text-sm font-semibold text-white hover:bg-red-800 transition-colors shadow-sm"
+              href="/calculators/total-compensation"
+              className="inline-block rounded-lg bg-red-700 px-6 py-3 text-sm font-semibold text-white hover:bg-red-800 transition-colors shadow-sm"
             >
-              Start With Your Situation
-            </Link>
-            <Link
-              href="/calculators"
-              className="rounded-lg border border-zinc-300 bg-white/80 px-6 py-3 text-sm font-semibold text-zinc-800 hover:bg-white hover:border-zinc-400 transition-colors"
-            >
-              Explore Calculators
+              Calculate My Total Compensation
             </Link>
           </div>
 
-          {/* Floating result card */}
+          {/* Result card */}
           <HeroResultCard />
 
         </div>
