@@ -99,15 +99,17 @@ export default function AboutPage() {
 
               <div className="space-y-4 text-base text-zinc-600 leading-relaxed">
                 <p>
-                  I grew up on military bases across the world, as my dad was a 20 year veteran of
-                  the Air Force. Some of the places we lived were Lajes Field in the Azores, Eielson
-                  AFB in Alaska, before ultimately retiring at Offutt AFB, in Nebraska. One thing I
-                  noticed, even as a kid, how many families around us were basically winging it
-                  financially. Not because they were bad with money, but nobody ever sat them down
-                  and showed them the full picture.
+                  I grew up on military bases across the world, as my dad is a 20-year veteran of
+                  the Air Force. Some of the places we lived were Lajes Field in the Azores,{' '}
+                  <Link href="/bah/eielson-afb" className="text-red-700 hover:underline">Eielson
+                  AFB</Link> in Alaska, before ultimately retiring at{' '}
+                  <Link href="/bah/offutt-afb" className="text-red-700 hover:underline">Offutt AFB</Link>,
+                  in Nebraska. One thing I noticed, even as a kid, was how many families around us
+                  were basically winging it financially. Not because they were bad with money, but
+                  nobody ever sat them down and showed them the full picture.
                 </p>
                 <p>
-                  I&apos;ve spent the 20+ years of my career in finance. I&apos;ve worked with
+                  I&apos;ve spent over 20 years of my career in finance. I&apos;ve worked with
                   hundreds of military families to get VA home loans. And the same thing keeps
                   showing up, that people just need some proper help to understand the finances
                   involved with military service. It&apos;s time to do our part to help make that
