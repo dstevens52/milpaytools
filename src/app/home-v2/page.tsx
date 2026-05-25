@@ -89,7 +89,7 @@ function HeroSection() {
 
           {/* Sample output card — matches live homepage proof card format */}
           <div
-            className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 mt-3.5 w-full sm:w-auto"
+            className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 mt-3.5 w-full sm:w-fit"
             style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}
           >
             <span style={{ fontSize: 9, color: '#bbb', textTransform: 'uppercase', letterSpacing: '0.08em', lineHeight: 1, whiteSpace: 'nowrap', border: '1px solid #e5e5e5', borderRadius: 4, padding: '2px 5px', flexShrink: 0 }}>
