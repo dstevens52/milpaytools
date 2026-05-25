@@ -7,34 +7,34 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Duty Station Comparison Calculator — 2026 | MilPayTools' },
+  title: { absolute: 'Compare Your PCS Move — 2026 | MilPayTools' },
   description:
-    'Compare total compensation, BAH, and take-home pay between two CONUS duty stations side by side. See the real financial difference between PCS orders using 2026 official data.',
+    'Compare BAH, take-home pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.',
   alternates: {
     canonical: '/calculators/compare',
   },
   openGraph: {
-    title: 'Duty Station Comparison Calculator — 2026 | MilPayTools',
+    title: 'Compare Your PCS Move — 2026 | MilPayTools',
     description:
-      'Compare total compensation, BAH, and take-home pay between two CONUS duty stations side by side. See the real financial difference between PCS orders using 2026 official data.',
+      'Compare BAH, take-home pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.',
     type: 'website',
     url: '/calculators/compare',
     siteName: 'MilPayTools',
-    images: [{ url: '/api/og?type=calculator&title=Duty+Station+Comparison+Calculator+2026&v=2', width: 2400, height: 1260 }],
+    images: [{ url: '/api/og?type=calculator&title=Compare+Your+PCS+Move+2026&v=2', width: 2400, height: 1260 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Duty Station Comparison Calculator — 2026 | MilPayTools',
+    title: 'Compare Your PCS Move — 2026 | MilPayTools',
     description:
-      'Compare total compensation, BAH, and take-home pay between two CONUS duty stations side by side. See the real financial difference between PCS orders using 2026 official data.',
-    images: ['/api/og?type=calculator&title=Duty+Station+Comparison+Calculator+2026&v=2'],
+      'Compare BAH, take-home pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.',
+    images: ['/api/og?type=calculator&title=Compare+Your+PCS+Move+2026&v=2'],
   },
 };
 
 export default function ComparePage() {
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'Duty Station Comparison Calculator 2026', description: 'Compare total compensation, BAH, and take-home pay between two CONUS duty stations side by side. See the real financial difference between PCS orders using 2026 official data.', url: '/calculators/compare' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: 'Compare Your PCS Move 2026', description: 'Compare BAH, take-home pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.', url: '/calculators/compare' })} />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="border-b border-zinc-200"
@@ -49,16 +49,16 @@ export default function ComparePage() {
             </span>
           </div>
           <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
-            Duty Station Comparison
+            Compare Your PCS Move
           </h1>
           <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
-            Compare two duty stations side by side — BAH, CONUS COLA, state income tax, and estimated take-home pay.
+            Compare your current and new station side by side — BAH, CONUS COLA, state income tax, and estimated take-home pay.
           </p>
         </div>
 
         {/* ── 3-step plan strip ──────────────────────────────────────── */}
         <CalcStepStrip noBg steps={[
-          { title: 'Enter two duty stations and your rank' },
+          { title: 'Enter your current and new station, plus your rank' },
           { title: 'See side-by-side BAH, COLA, and tax differences' },
           { title: 'Make an informed PCS preference decision' },
         ]} />

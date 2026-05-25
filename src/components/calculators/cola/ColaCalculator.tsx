@@ -327,7 +327,7 @@ export function ColaCalculator() {
             <SaveOrShareResults
               headline="Save or share your COLA estimate"
               supportingText="Useful for comparing cost-of-living at different duty stations or planning your housing budget before a PCS."
-              usefulFor={['Duty station comparison', 'PCS planning', 'Housing budget']}
+              usefulFor={['PCS pay comparison', 'PCS planning', 'Housing budget']}
               getUrl={getShareUrl}
               shareTitle="My CONUS COLA estimate"
               shareText="Here's my CONUS COLA estimate from MilPayTools."

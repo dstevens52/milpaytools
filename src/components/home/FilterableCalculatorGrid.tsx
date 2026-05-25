@@ -85,7 +85,7 @@ const CALCULATORS: CalcCard[] = [
   },
   {
     href: '/calculators/compare',
-    name: 'Duty Station Comparison',
+    name: 'Compare Your PCS Move',
     description: 'Compare locations, BAH, costs, and financial tradeoffs.',
     iconBg: 'bg-orange-500',
     categories: ['pcs'],

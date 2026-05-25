@@ -86,7 +86,7 @@ const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
   retirement:           { label: 'Retirement Calculator',             href: '/calculators/retirement' },
   pcs:                  { label: 'PCS Cost Estimator',                href: '/calculators/pcs' },
   cola:                 { label: 'CONUS COLA Calculator',             href: '/calculators/cola' },
-  compare:              { label: 'Duty Station Comparison',           href: '/calculators/compare' },
+  compare:              { label: 'Compare Your PCS Move',             href: '/calculators/compare' },
   deployment:           { label: 'Deployment Pay Calculator',          href: '/calculators/deployment' },
   'pay-charts':         { label: '2026 Military Pay Charts',           href: '/calculators/pay-charts' },
   'guard-reserve':      { label: 'Guard & Reserve Pay Calculator',     href: '/calculators/guard-reserve' },

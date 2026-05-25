@@ -194,7 +194,7 @@ export default function BAHPage() {
               To compare total compensation — BAH, state income tax, CONUS COLA, and estimated
               take-home pay — between two specific duty stations, use the{' '}
               <a href="/calculators/compare" className="text-blue-700 hover:underline font-medium">
-                Duty Station Comparison Calculator
+                Compare Your PCS Move
               </a>
               .
             </p>

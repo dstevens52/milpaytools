@@ -42,8 +42,8 @@ const CALCULATOR_CONFIG = {
   },
   compare: {
     href: '/calculators/compare',
-    label: 'Duty Station Comparison Calculator',
-    defaultText: 'Compare BAH, CONUS COLA eligibility, state income tax, and estimated take-home pay between two duty stations side by side.',
+    label: 'Compare Your PCS Move',
+    defaultText: 'Compare BAH, CONUS COLA eligibility, state income tax, and estimated take-home pay between your current and new duty station.',
   },
   deployment: {
     href: '/calculators/deployment',

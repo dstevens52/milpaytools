@@ -325,9 +325,9 @@ export function CompareCalculator() {
 
         {/* Location inputs */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {/* Location A */}
+          {/* Current Station */}
           <div className="rounded-md border border-zinc-200 p-4 space-y-3">
-            <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">Location A</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">Current Station</p>
             <BaseSearchInput
               label="Base or duty station"
               value={zipA}
@@ -337,9 +337,9 @@ export function CompareCalculator() {
             />
           </div>
 
-          {/* Location B */}
+          {/* New Station */}
           <div className="rounded-md border border-zinc-200 p-4 space-y-3">
-            <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">Location B</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">New Station</p>
             <BaseSearchInput
               label="Base or duty station"
               value={zipB}
@@ -365,12 +365,12 @@ export function CompareCalculator() {
           <SummaryCard result={result} nameA={nameA} nameB={nameB} />
 
           <SaveOrShareResults
-            headline="Save or share your duty station comparison"
-            supportingText="Useful for comparing two duty stations side by side before a PCS decision, or discussing options with family."
-            usefulFor={['Duty station comparison', 'PCS decision', 'Family discussion']}
+            headline="Save or share your PCS move comparison"
+            supportingText="Useful for comparing your current and new station before finalizing a PCS decision, or discussing options with family."
+            usefulFor={['PCS move comparison', 'PCS decision', 'Family discussion']}
             getUrl={getShareUrl}
-            shareTitle="My duty station comparison"
-            shareText="Here's my duty station BAH comparison from MilPayTools."
+            shareTitle="My PCS move comparison"
+            shareText="Here's my PCS move pay comparison from MilPayTools."
           />
 
           {/* Station housing guide links */}
@@ -563,7 +563,7 @@ export function CompareCalculator() {
                   href: '/calculators/bah',
                   icon: '🏠',
                   title: 'BAH Calculator',
-                  desc: 'Look up BAH for any ZIP code and compare two duty stations.',
+                  desc: 'Look up BAH for any ZIP code and compare stations for your PCS move.',
                 },
               ].map(({ href, icon, title, desc }) => (
                 <a

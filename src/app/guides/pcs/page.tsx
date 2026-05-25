@@ -254,7 +254,7 @@ const ACCORDION = [
         </p>
         <div className="flex flex-col sm:flex-row gap-3 pt-1">
           <Link href="/calculators/compare" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
-            Compare two duty stations →
+            Compare Your PCS Move →
           </Link>
           <Link href="/blog/best-worst-bah-duty-stations-2026" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
             Best & Worst BAH stations →
@@ -555,7 +555,7 @@ export default function PcsGuidePage() {
               <div className="bg-white rounded-xl border border-zinc-200 shadow-lg overflow-hidden w-full max-w-sm">
                 <div className="bg-zinc-50 border-b border-zinc-200 px-5 py-3">
                   <p className="text-xs text-zinc-500 font-medium">E-6 · 8 years · With dependents</p>
-                  <p className="text-sm font-semibold text-zinc-800">Duty Station Comparison</p>
+                  <p className="text-sm font-semibold text-zinc-800">Compare Your PCS Move</p>
                 </div>
                 <div className="px-5 py-3 divide-y divide-zinc-100">
                   {/* Station A */}

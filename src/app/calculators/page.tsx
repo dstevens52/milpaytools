@@ -234,9 +234,9 @@ const CALCULATORS: CalculatorDetail[] = [
   {
     href: '/calculators/compare',
     icon: '⚖️',
-    name: 'Duty Station Comparison Calculator',
+    name: 'Compare Your PCS Move',
     description:
-      'Compare total compensation between two CONUS duty stations side by side. Shows BAH difference, CONUS COLA eligibility, estimated state income tax, and real take-home pay at each location — the financial answer to "Should I take these orders?"',
+      'Compare total compensation between your current and new duty station side by side. Shows BAH difference, CONUS COLA eligibility, estimated state income tax, and real take-home pay at each location — the financial answer to "Should I take these orders?"',
     features: [
       'Side-by-side BAH comparison by ZIP code',
       'State income tax impact (9 no-tax states)',

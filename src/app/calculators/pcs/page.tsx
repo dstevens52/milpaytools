@@ -218,7 +218,7 @@ export default function PCSPage() {
           <span className="font-semibold text-zinc-800">Comparing duty stations?</span>{' '}
           The{' '}
           <a href="/calculators/compare" className="text-blue-700 hover:underline font-medium">
-            Duty Station Comparison Calculator
+            Compare Your PCS Move
           </a>{' '}
           shows BAH difference, state income tax impact, CONUS COLA eligibility, and estimated
           take-home pay at each location — before you finalize which orders to accept.
