@@ -87,9 +87,9 @@ function HeroSection() {
             See your real pay →
           </Link>
 
-          {/* Sample output card — matches live homepage proof card format */}
+          {/* Sample card — inline for mobile/tablet, hidden at lg+ (replaced by floating card) */}
           <div
-            className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 mt-3.5 w-full sm:w-auto"
+            className="lg:hidden flex items-center gap-2 bg-white rounded-xl px-3 py-2 mt-3.5 w-full sm:w-auto"
             style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}
           >
             <span style={{ fontSize: 9, color: '#bbb', textTransform: 'uppercase', letterSpacing: '0.08em', lineHeight: 1, whiteSpace: 'nowrap', border: '1px solid #e5e5e5', borderRadius: 4, padding: '2px 5px', flexShrink: 0 }}>
@@ -123,6 +123,33 @@ function HeroSection() {
             </Link>
           </div>
 
+        </div>
+      </div>
+
+      {/* Desktop floating sample card — stacked layout, positioned over image area */}
+      <div className="hidden lg:block absolute z-20 bottom-10 right-[8%]">
+        <div
+          className="bg-white rounded-2xl p-4 w-[300px]"
+          style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.22)' }}
+        >
+          <span style={{ fontSize: 9, color: '#bbb', textTransform: 'uppercase', letterSpacing: '0.1em', lineHeight: 1, border: '1px solid #e5e5e5', borderRadius: 4, padding: '2px 6px', display: 'inline-block', marginBottom: 10 }}>
+            Sample Result
+          </span>
+          <p style={{ fontSize: 10, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 10 }}>
+            E-5 · 8 yrs · San Diego
+          </p>
+          <div className="flex items-baseline gap-1 mb-1">
+            <span style={{ fontSize: 30, fontWeight: 700, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>$8,752</span>
+            <span style={{ fontSize: 13, color: '#999' }}>/mo</span>
+          </div>
+          <p style={{ fontSize: 11, color: '#888', marginBottom: 14 }}>≈$121k/yr civilian equiv.</p>
+          <Link
+            href="/calculators/total-compensation"
+            className="block text-center transition-opacity hover:opacity-80"
+            style={{ background: '#c0392b', color: '#fff', fontSize: 11, fontWeight: 600, padding: '7px 0', borderRadius: 6 }}
+          >
+            See your real pay →
+          </Link>
         </div>
       </div>
     </section>
