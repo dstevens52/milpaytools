@@ -45,7 +45,7 @@ function HeroSection() {
         />
         {/* Bottom fade: photo → warm cream, blends into journey section below */}
         <div
-          className="absolute bottom-0 left-0 right-0 h-32"
+          className="absolute bottom-0 left-0 right-0 h-16"
           style={{ background: 'linear-gradient(to bottom, transparent, #f5f0e8)' }}
         />
       </div>
@@ -182,7 +182,7 @@ const JOURNEY_CARDS = [
 
 function JourneySection() {
   return (
-    <section className="border-b border-zinc-200 py-5 sm:py-6 px-4" style={{ background: '#f5f0e8' }}>
+    <section className="border-b border-zinc-200 py-3 sm:py-4 px-4" style={{ background: '#f5f0e8' }}>
       <div className="mx-auto max-w-4xl">
         <h2 className="text-[24px] sm:text-[28px] font-medium text-zinc-800 text-center mb-3">
           Where are you in your military money journey?
