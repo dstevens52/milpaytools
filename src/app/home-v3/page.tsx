@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ExpandableCalcGrid } from './ExpandableCalcGrid';
 
 export const metadata: Metadata = {
   title: 'MilPayTools — Homepage V3 (Preview)',
@@ -259,7 +260,7 @@ function CalculatorGridSection() {
         <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 text-center mb-5 tracking-tight">
           Most popular tools
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {TOP_CALCULATORS.map(({ href, title, description, icon }) => (
             <Link
               key={href}
@@ -275,11 +276,7 @@ function CalculatorGridSection() {
             </Link>
           ))}
         </div>
-        <p className="text-center">
-          <Link href="/calculators" className="text-sm font-semibold text-zinc-500 hover:text-zinc-700 transition-colors">
-            View all 16 calculators →
-          </Link>
-        </p>
+        <ExpandableCalcGrid />
       </div>
     </section>
   );
