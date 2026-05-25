@@ -89,7 +89,7 @@ function HeroSection() {
 
           {/* Sample output card — matches live homepage proof card format */}
           <div
-            className="flex items-center gap-3 bg-white rounded-xl px-4 py-3 mt-3.5 w-full sm:w-auto"
+            className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 mt-3.5 w-full sm:w-auto"
             style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}
           >
             <span style={{ fontSize: 9, color: '#bbb', textTransform: 'uppercase', letterSpacing: '0.08em', lineHeight: 1, whiteSpace: 'nowrap', border: '1px solid #e5e5e5', borderRadius: 4, padding: '2px 5px', flexShrink: 0 }}>
@@ -184,7 +184,7 @@ function JourneySection() {
   return (
     <section className="border-b border-zinc-200 py-5 sm:py-6 px-4" style={{ background: '#f5f0e8' }}>
       <div className="mx-auto max-w-4xl">
-        <h2 className="text-[22px] sm:text-[24px] font-medium text-zinc-800 text-center mb-3">
+        <h2 className="text-[24px] sm:text-[28px] font-medium text-zinc-800 text-center mb-3">
           Where are you in your military money journey?
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
