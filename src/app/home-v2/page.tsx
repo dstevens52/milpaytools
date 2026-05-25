@@ -11,8 +11,9 @@ export const metadata: Metadata = {
 // ── Hero ──────────────────────────────────────────────────────────────────────
 //
 // Image: /public/images/hero-desk.png (committed to git, served at /images/hero-desk.png)
-// Desktop: image covers right ~58% of the section; gradient fades it left so
-//          text remains readable. Result card floats over the image area.
+// Desktop: image covers right ~50% of the section (container starts at 50vw).
+//          Fast gradient fade on the left edge of the container. Result card is
+//          vertically centered and floats at ~58% from the left over the image.
 // Mobile: image hidden; warm gradient background only.
 
 const SAMPLE_ROWS = [
@@ -60,7 +61,8 @@ function HeroSection() {
       style={{ background: sandBg, minHeight: 'clamp(420px, 65vh, 700px)' }}
     >
       {/* Right-side desk image — hidden on mobile, absolute on desktop */}
-      <div className="absolute inset-0 lg:left-[42%]" aria-hidden="true">
+      {/* Container starts at 50% so the notepad/desk area sits near viewport center */}
+      <div className="absolute inset-0 lg:left-[50%]" aria-hidden="true">
         {/* Image — hidden on mobile so the warm gradient shows cleanly */}
         <div className="hidden lg:block absolute inset-0">
           <Image
@@ -69,14 +71,14 @@ function HeroSection() {
             fill
             priority
             className="object-cover object-left-top"
-            sizes="58vw"
+            sizes="50vw"
           />
         </div>
-        {/* Desktop: gradient left→right, solid sand → transparent */}
+        {/* Desktop: fast-fading gradient so the image opens quickly into view */}
         <div
           className="absolute inset-0 hidden lg:block"
           style={{
-            background: `linear-gradient(to right, ${sandBg} 0%, ${sandBg} 8%, rgba(245,237,224,0.88) 28%, rgba(245,237,224,0.4) 50%, transparent 68%)`,
+            background: `linear-gradient(to right, rgba(245,237,224,0.92) 0%, rgba(245,237,224,0.55) 10%, rgba(245,237,224,0.12) 24%, transparent 40%)`,
           }}
         />
       </div>
@@ -108,7 +110,7 @@ function HeroSection() {
             style={{ fontSize: 'clamp(46px, 6vw, 72px)' }}
           >
             Know Your<br />
-            Worth.
+            <span className="text-red-700">Worth.</span>
           </h1>
 
           {/* Supporting line */}
@@ -127,8 +129,8 @@ function HeroSection() {
         </div>
       </div>
 
-      {/* Result card — floats over image area on desktop, hidden on mobile */}
-      <div className="hidden lg:block absolute z-20 bottom-8 left-[44%]">
+      {/* Result card — vertically centered over image area on desktop, hidden on mobile */}
+      <div className="hidden lg:block absolute z-20 top-1/2 -translate-y-1/2 left-[58%]">
         <HeroResultCard />
       </div>
     </section>
