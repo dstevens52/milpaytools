@@ -35,10 +35,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Why This Exists ── */}
+      {/* ── Opening paragraphs ── */}
       <section className="bg-white border-b border-zinc-200 py-12 sm:py-16 px-4">
         <div className="mx-auto max-w-3xl">
-          <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 mb-6">Why This Exists</h2>
           <div className="space-y-5 text-base text-zinc-600 leading-relaxed">
             <p>Military pay and benefits are genuinely confusing and unnecessarily complicated.</p>
             <p>
@@ -55,6 +54,19 @@ export default function AboutPage() {
               to access to everyone.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* ── The Backstory ── */}
+      <section className="bg-zinc-50 border-b border-zinc-200 py-12 sm:py-16 px-4">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 mb-6">The Backstory</h2>
+          <p className="text-base text-zinc-600 leading-relaxed">
+            Dan and Ryan have been friends since the age of 14, including being college roommates at
+            the University of Nebraska Lincoln. While they took different career paths, the mission
+            of MilPayTools is a strong one for both. We hope that our combined experience can
+            uniquely provide something that military families have deserved for a very long time.
+          </p>
         </div>
       </section>
 
@@ -108,7 +120,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Ryan Durand ── */}
-      <section className="bg-white border-b border-zinc-200 py-12 sm:py-16 px-4">
+      <section className="bg-white py-12 sm:py-16 px-4">
         <div className="mx-auto max-w-3xl">
           <div className="flex flex-col sm:flex-row gap-8 items-start">
             {/* Photo */}
@@ -160,18 +172,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── The Backstory ── */}
-      <section className="bg-zinc-50 py-12 sm:py-16 px-4">
-        <div className="mx-auto max-w-3xl">
-          <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 mb-6">The Backstory</h2>
-          <p className="text-base text-zinc-600 leading-relaxed">
-            Dan and Ryan have been friends since the age of 14, including being college roommates at
-            the University of Nebraska Lincoln. While they took different career paths, the mission
-            of MilPayTools is a strong one for both. We hope that our combined experience can
-            uniquely provide something that military families have deserved for a very long time.
-          </p>
-        </div>
-      </section>
     </>
   );
 }
