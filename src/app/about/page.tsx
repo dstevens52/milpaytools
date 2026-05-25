@@ -3,129 +3,103 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'About MilPayTools | Free Military Pay & Benefits Calculators',
+  title: 'Why We Built This | MilPayTools',
   description:
-    'MilPayTools provides free, private military financial calculators built on official DoD and VA data. Built by Dan Stevens, NMLS-licensed financial professional and military family member.',
+    'MilPayTools was built to make military pay and benefits actually understandable. Free calculators, official data, no account required.',
   alternates: { canonical: 'https://www.milpaytools.com/about' },
 };
-
-const PRINCIPLES = [
-  {
-    icon: (
-      <svg className="w-6 h-6 text-red-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.955 11.955 0 003 10c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-      </svg>
-    ),
-    heading: 'Official data only',
-    body: 'All calculations use published rates from DFAS, DTMO, the VA, and the TSP. When rates update, the calculators update.',
-  },
-  {
-    icon: (
-      <svg className="w-6 h-6 text-red-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-      </svg>
-    ),
-    heading: 'Private by default',
-    body: 'No account required. No personal information collected. Every calculation runs in your browser and is never stored or transmitted.',
-  },
-  {
-    icon: (
-      <svg className="w-6 h-6 text-red-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
-      </svg>
-    ),
-    heading: 'Decision-focused',
-    body: "The goal isn't just a number. It's helping you understand what that number means for your next PCS, transition, VA claim, retirement, or career decision.",
-  },
-];
-
-const STATS = [
-  { value: '16', label: 'Free calculators' },
-  { value: '39', label: 'Blog posts' },
-  { value: '200+', label: 'BAH station pages' },
-  { value: '2026', label: 'Official DoD & VA data' },
-];
 
 export default function AboutPage() {
   return (
     <>
       {/* ── Breadcrumb ── */}
       <div className="bg-white border-b border-zinc-100">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-3">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-3">
           <nav aria-label="Breadcrumb">
             <ol className="flex items-center gap-1.5 text-sm text-zinc-500">
               <li><Link href="/" className="hover:text-zinc-700 transition-colors">Home</Link></li>
               <li aria-hidden="true">/</li>
-              <li className="text-zinc-800 font-medium">About</li>
+              <li className="text-zinc-800 font-medium">Why We Built This</li>
             </ol>
           </nav>
         </div>
       </div>
 
-      {/* ── Hero ── */}
-      <section className="bg-zinc-50 border-b border-zinc-200 py-14 sm:py-20 px-4">
+      {/* ── Page title ── */}
+      <section className="bg-zinc-50 border-b border-zinc-200 py-12 sm:py-16 px-4">
         <div className="mx-auto max-w-3xl">
           <div className="w-8 h-0.5 bg-red-700 rounded-full mb-6" aria-hidden="true" />
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight text-zinc-900 mb-5">
-            Built for the military community.{' '}
-            <span className="text-red-700">By someone who grew up in it.</span>
+          <h1 className="text-3xl sm:text-4xl font-extrabold leading-tight tracking-tight text-zinc-900">
+            Why We Built This
           </h1>
-          <p className="text-lg text-zinc-600 leading-relaxed max-w-2xl">
-            MilPayTools exists because military compensation is deliberately complex, and service
-            members deserve to see the full picture before they make decisions that affect their
-            family&apos;s financial future.
-          </p>
         </div>
       </section>
 
-      {/* ── About Dan ── */}
+      {/* ── Why This Exists ── */}
       <section className="bg-white border-b border-zinc-200 py-12 sm:py-16 px-4">
         <div className="mx-auto max-w-3xl">
+          <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 mb-6">Why This Exists</h2>
+          <div className="space-y-5 text-base text-zinc-600 leading-relaxed">
+            <p>Military pay and benefits are genuinely confusing and unnecessarily complicated.</p>
+            <p>
+              BAH rates across 40,000 ZIP codes. VA disability math where 50% + 30% somehow equals
+              65%. TSP rules that change based on whether you&apos;re in a combat zone. A retirement
+              system most people don&apos;t fully understand until they&apos;re five years from hitting
+              20. By then it&apos;s basically too late.
+            </p>
+            <p>
+              All of this information is technically available. It&apos;s buried across DFAS PDFs,
+              VA.gov pages, and JTR chapters that read like tax code. We just took the hard stuff and
+              made it usable. Free calculators that run on official data, no account required, no
+              personal info collected, no catch. The calculators on this website will always be free
+              to access to everyone.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Dan Stevens ── */}
+      <section className="bg-zinc-50 border-b border-zinc-200 py-12 sm:py-16 px-4">
+        <div className="mx-auto max-w-3xl">
           <div className="flex flex-col sm:flex-row gap-8 items-start">
+            {/* Photo */}
             <div className="flex-none">
               <Image
                 src="/images/dan-stevens.jpg"
                 alt="Dan Stevens"
-                width={80}
-                height={80}
-                className="w-20 h-20 rounded-full object-cover"
+                width={120}
+                height={120}
+                className="w-28 h-28 rounded-full object-cover"
               />
             </div>
 
+            {/* Content */}
             <div className="flex-1 min-w-0">
-              <div className="mb-1">
-                <p className="text-xl font-bold text-zinc-900">Dan Stevens</p>
-                <p className="text-sm text-zinc-500 font-medium">NMLS-Licensed Mortgage Professional</p>
-              </div>
+              {/* Pull quote */}
+              <blockquote className="border-l-4 border-red-700 pl-4 mb-5">
+                <p className="text-base sm:text-lg text-zinc-700 leading-relaxed italic">
+                  &ldquo;I watched families on every base we lived on make money decisions with half the information. That always stuck with me.&rdquo;
+                </p>
+              </blockquote>
 
-              <div className="mt-4 space-y-4 text-base text-zinc-600 leading-relaxed">
+              <p className="text-lg font-bold text-zinc-900 mb-0.5">Dan Stevens</p>
+              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-5">Founder</p>
+
+              <div className="space-y-4 text-base text-zinc-600 leading-relaxed">
                 <p>
-                  MilPayTools is built by Dan Stevens — an NMLS-licensed mortgage professional
-                  with 20+ years in the banking industry, much of it serving military borrowers
-                  and VA loan clients.
+                  I grew up on military bases across the world, as my dad was a 20 year veteran of
+                  the Air Force. Some of the places we lived were Lajes Field in the Azores, Eielson
+                  AFB in Alaska, before ultimately retiring at Offutt AFB, in Nebraska. One thing I
+                  noticed, even as a kid, how many families around us were basically winging it
+                  financially. Not because they were bad with money, but nobody ever sat them down
+                  and showed them the full picture.
                 </p>
                 <p>
-                  Dan grew up as a military brat on Air Force bases around the world —{' '}
-                  <Link href="/bah/offutt-afb" className="text-red-700 hover:text-red-800 underline underline-offset-2 transition-colors">Offutt</Link>,
-                  {' '}Lajes Field,{' '}
-                  <Link href="/bah/eielson-afb" className="text-red-700 hover:text-red-800 underline underline-offset-2 transition-colors">Eielson</Link>{' '}
-                  — watching his father serve 20 years in the Air Force. That experience, combined
-                  with decades of working alongside service members navigating some of the biggest
-                  financial decisions of their lives, made one thing clear: the information military
-                  families need to make smart money decisions exists, but it&apos;s scattered across
-                  dozens of government PDFs, outdated websites, and dense policy documents that
-                  nobody has time to read.
-                </p>
-                <p>
-                  MilPayTools exists to fix that. Every calculator, every BAH page, and every
-                  guide on this site pulls from official DoD and VA sources, organizes it in one
-                  place, and presents it in a way that&apos;s actually useful — no account
-                  required, no personal information collected, no cost.
-                </p>
-                <p className="text-sm text-zinc-500 border-t border-zinc-100 pt-4">
-                  MilPayTools is independently built and operated. It is not affiliated with or
-                  endorsed by the Department of Defense, the Department of Veterans Affairs, or
-                  any branch of the U.S. military.
+                  I&apos;ve spent the 20+ years of my career in finance. I&apos;ve worked with
+                  hundreds of military families to get VA home loans. And the same thing keeps
+                  showing up, that people just need some proper help to understand the finances
+                  involved with military service. It&apos;s time to do our part to help make that
+                  easier.
                 </p>
               </div>
             </div>
@@ -133,69 +107,71 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Mission ── */}
-      <section className="bg-zinc-50 border-b border-zinc-200 py-12 sm:py-16 px-4">
+      {/* ── Ryan Durand ── */}
+      <section className="bg-white border-b border-zinc-200 py-12 sm:py-16 px-4">
         <div className="mx-auto max-w-3xl">
-          <div className="w-8 h-0.5 bg-red-700 rounded-full mb-5" aria-hidden="true" />
-          <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 mb-8 tracking-tight">
-            The mission
-          </h2>
+          <div className="flex flex-col sm:flex-row gap-8 items-start">
+            {/* Photo */}
+            <div className="flex-none">
+              <Image
+                src="/images/ryan-durand.jpeg"
+                alt="Ryan Durand"
+                width={120}
+                height={120}
+                className="w-28 h-28 rounded-full object-cover"
+              />
+            </div>
 
-          <p className="text-base text-zinc-600 mb-8">
-            Every calculator on this site follows three principles:
-          </p>
+            {/* Content */}
+            <div className="flex-1 min-w-0">
+              {/* Pull quote */}
+              <blockquote className="border-l-4 border-red-700 pl-4 mb-5">
+                <p className="text-base sm:text-lg text-zinc-700 leading-relaxed italic">
+                  &ldquo;In a career where almost nothing is predictable, your pay and benefits are the exception — but only if you understand them.&rdquo;
+                </p>
+              </blockquote>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {PRINCIPLES.map(({ icon, heading, body }) => (
-              <div
-                key={heading}
-                className="bg-white rounded-xl border border-zinc-200 shadow-sm p-5 flex flex-col gap-3"
-              >
-                <div className="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center flex-none">
-                  {icon}
-                </div>
-                <p className="text-sm font-bold text-zinc-900">{heading}</p>
-                <p className="text-sm text-zinc-600 leading-relaxed">{body}</p>
+              <p className="text-lg font-bold text-zinc-900 mb-0.5">Ryan Durand</p>
+              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-5">Military Advisor</p>
+
+              <div className="space-y-4 text-base text-zinc-600 leading-relaxed">
+                <p>
+                  Ryan spent 20 years in the Air Force and Space Force. Eight PCS moves, a combat
+                  deployment, command of a $1.6 billion installation, and a retirement he had to
+                  figure out himself. Along the way he learned what most service members figure out
+                  too late — your pay and benefits actually follow clear rules. They just don&apos;t
+                  reward you unless you understand them.
+                </p>
+                <p>
+                  After retiring, Ryan kept showing up for the community. He works in the defense
+                  sector and with the Overwatch Project, a veteran suicide prevention organization
+                  that trains service members and families to have the hard conversations. That same
+                  instinct — show up, be honest, actually help — is what he brings to MilPayTools.
+                </p>
+                <p>
+                  Ryan&apos;s job here is simple: make sure everything we build actually works for
+                  the people it&apos;s meant for. That the language sounds like real military life,
+                  not a government pamphlet. That no one leaves the site more confused than when they
+                  showed up.
+                </p>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Stats ── */}
-      <section className="bg-white border-b border-zinc-200 py-10 px-4">
-        <div className="mx-auto max-w-3xl">
-          <dl className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-            {STATS.map(({ value, label }) => (
-              <div key={label} className="text-center">
-                <dt className="text-3xl font-extrabold text-red-700 tabular-nums">{value}</dt>
-                <dd className="mt-1 text-xs font-medium text-zinc-500 uppercase tracking-wide">{label}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
-
-      {/* ── Feedback & Contact ── */}
+      {/* ── The Backstory ── */}
       <section className="bg-zinc-50 py-12 sm:py-16 px-4">
         <div className="mx-auto max-w-3xl">
-          <div className="w-8 h-0.5 bg-red-700 rounded-full mb-5" aria-hidden="true" />
-          <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 mb-4 tracking-tight">
-            Feedback &amp; Contact
-          </h2>
-          <p className="text-base text-zinc-600 leading-relaxed mb-5">
-            MilPayTools is actively developed and regularly updated. If you find an error, have a
-            suggestion, or want to see a new calculator, reach out.
+          <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 mb-6">The Backstory</h2>
+          <p className="text-base text-zinc-600 leading-relaxed">
+            Dan and Ryan have been friends since the age of 14, including being college roommates at
+            the University of Nebraska Lincoln. While they took different career paths, the mission
+            of MilPayTools is a strong one for both. We hope that our combined experience can
+            uniquely provide something that military families have deserved for a very long time.
           </p>
-          <a
-            href="mailto:dan@milpaytools.com"
-            className="text-red-700 font-medium hover:text-red-800 transition-colors"
-          >
-            dan@milpaytools.com
-          </a>
         </div>
       </section>
-
     </>
   );
 }
