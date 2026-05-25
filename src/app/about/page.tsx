@@ -64,7 +64,7 @@ export default function AboutPage() {
           <p className="text-base text-zinc-600 leading-relaxed">
             Dan and Ryan have been friends since the age of 14, including being college roommates at
             the University of Nebraska Lincoln. While they took different career paths, the mission
-            of MilPayTools is a strong one for both. We hope that our combined experience can
+            behind MilPayTools is personal for both of them. We hope that our combined experience can
             uniquely provide something that military families have deserved for a very long time.
           </p>
         </div>
