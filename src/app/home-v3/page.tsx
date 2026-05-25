@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FilterableCalculatorGrid } from '@/components/home/FilterableCalculatorGrid';
 
 export const metadata: Metadata = {
   title: 'MilPayTools — Homepage V3 (Preview)',
@@ -185,7 +184,7 @@ function JourneySection() {
   return (
     <section className="border-b border-zinc-200 py-3 sm:py-4 px-4" style={{ background: '#f5f0e8' }}>
       <div className="mx-auto max-w-4xl">
-        <p className="text-sm text-zinc-500 text-center mb-3">
+        <p className="text-sm text-zinc-500 text-center mb-1.5">
           <span className="text-zinc-700 font-medium">①</span> Choose your situation
           {' '}<span className="mx-1.5">&middot;</span>{' '}
           <span className="text-zinc-700 font-medium">②</span> Run the numbers
@@ -226,22 +225,61 @@ function JourneySection() {
 
 // ── Calculator grid ───────────────────────────────────────────────────────────
 
+const TOP_CALCULATORS = [
+  {
+    href: '/calculators/total-compensation',
+    title: 'Total Compensation',
+    description: 'Base pay, BAH, BAS, tax advantages, and civilian salary equivalent — all in one view.',
+    icon: '💰',
+  },
+  {
+    href: '/calculators/bah',
+    title: 'BAH by ZIP Code',
+    description: '2026 housing allowance for any ZIP code. Compare two duty stations for PCS planning.',
+    icon: '🏠',
+  },
+  {
+    href: '/calculators/va-disability',
+    title: 'VA Disability Rating',
+    description: 'Combined rating calculator with step-by-step math and monthly compensation estimate.',
+    icon: '🎖️',
+  },
+  {
+    href: '/calculators/pcs',
+    title: 'PCS Cost Estimator',
+    description: 'DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds from one tool.',
+    icon: '📦',
+  },
+] as const;
+
 function CalculatorGridSection() {
   return (
     <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
-      <div className="mx-auto max-w-6xl">
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-4" aria-hidden="true">
-            <div className="w-8 h-0.5 bg-red-700 rounded-full" />
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-zinc-900 mb-3 tracking-tight">
-            Choose the calculator for your next decision.
-          </h2>
-          <p className="text-base text-zinc-500 max-w-xl mx-auto leading-relaxed">
-            Powerful, free tools to help you see the full picture.
-          </p>
+      <div className="mx-auto max-w-5xl">
+        <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 text-center mb-5 tracking-tight">
+          Most popular tools
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
+          {TOP_CALCULATORS.map(({ href, title, description, icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className="group flex flex-col rounded-lg border border-zinc-200 p-5 bg-white hover:shadow-md hover:border-zinc-300 transition-all duration-150"
+            >
+              <span className="text-2xl mb-3">{icon}</span>
+              <h3 className="font-bold text-zinc-900 text-sm mb-1.5 group-hover:text-red-700 transition-colors">
+                {title}
+              </h3>
+              <p className="text-xs text-zinc-500 leading-relaxed flex-1 mb-3">{description}</p>
+              <span className="text-xs font-semibold text-red-700">Try it →</span>
+            </Link>
+          ))}
         </div>
-        <FilterableCalculatorGrid />
+        <p className="text-center">
+          <Link href="/calculators" className="text-sm font-semibold text-zinc-500 hover:text-zinc-700 transition-colors">
+            View all 16 calculators →
+          </Link>
+        </p>
       </div>
     </section>
   );
