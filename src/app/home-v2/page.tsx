@@ -182,7 +182,7 @@ const JOURNEY_CARDS = [
 
 function JourneySection() {
   return (
-    <section className="border-b border-zinc-200 py-3 sm:py-4 px-4" style={{ background: '#f5f0e8' }}>
+    <section className="relative z-10 border-b border-zinc-200 pt-6 sm:pt-7 pb-4 sm:pb-5 px-4" style={{ background: '#f5f0e8', marginTop: '-40px' }}>
       <div className="mx-auto max-w-4xl">
         <h2 className="text-[24px] sm:text-[28px] font-medium text-zinc-800 text-center mb-3">
           Where are you in your military money journey?
