@@ -28,7 +28,7 @@ function HeroSection() {
           alt=""
           fill
           priority
-          className="object-cover object-center"
+          className="object-cover object-right"
           sizes="100vw"
         />
         {/* Left-to-right gradient: dark (text area) → transparent (image shows through) */}
@@ -55,7 +55,7 @@ function HeroSection() {
         className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex items-center"
         style={{ minHeight: 'inherit' }}
       >
-        <div className="w-full sm:max-w-[56%]">
+        <div className="w-full sm:max-w-[52%]">
 
           {/* Trust badge — single line, compact */}
           <div className="inline-flex items-center gap-2 mb-3 rounded-full bg-white/10 border border-white/20 px-3 py-1">
@@ -67,60 +67,61 @@ function HeroSection() {
 
           {/* Headline */}
           <h1
-            className="font-extrabold leading-[1.04] tracking-tight text-white mb-2"
+            className="whitespace-nowrap font-extrabold leading-[1.04] tracking-tight text-white mb-2"
             style={{ fontSize: 'clamp(38px, 5vw, 62px)' }}
           >
-            Know Your<br />
-            <span className="text-red-500">Worth.</span>
+            Know Your <span className="text-red-500">Worth.</span>
           </h1>
 
           {/* Subline */}
           <p className="text-base sm:text-lg text-white/70 leading-snug mb-5">
-            See the real value of your military pay and benefits.
+            Military pay is more than base pay. Calculate your full compensation in minutes.
           </p>
 
-          {/* CTA */}
-          <Link
-            href="/calculators/total-compensation"
-            className="inline-block rounded-lg bg-red-700 px-6 py-3 text-sm font-semibold text-white hover:bg-red-800 transition-colors shadow-sm w-full sm:w-auto text-center"
-          >
-            See your real pay →
-          </Link>
-
-          {/* Sample output card — matches live homepage proof card format */}
-          <div
-            className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 mt-3.5 w-full sm:w-fit"
-            style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}
-          >
-            <span style={{ fontSize: 9, color: '#bbb', textTransform: 'uppercase', letterSpacing: '0.08em', lineHeight: 1, whiteSpace: 'nowrap', border: '1px solid #e5e5e5', borderRadius: 4, padding: '2px 5px', flexShrink: 0 }}>
-              Sample
-            </span>
-            <div className="flex-none">
-              <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
-                E-5 · 8yrs · San Diego
-              </p>
-              <div className="flex items-baseline gap-0.5">
-                <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>$8,752</span>
-                <span style={{ fontSize: 11, color: '#999' }}>/mo</span>
-              </div>
-            </div>
-            <div className="h-[30px] w-px bg-[#e5e5e5] flex-none" aria-hidden="true" />
-            <div className="flex-none">
-              <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
-                Civilian equiv.
-              </p>
-              <div className="flex items-baseline gap-0.5">
-                <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>≈$121k</span>
-                <span style={{ fontSize: 11, color: '#999' }}>/yr</span>
-              </div>
-            </div>
+          {/* CTA + sample card — same row on desktop, stacked on mobile */}
+          <div className="flex flex-col md:flex-row md:items-center gap-3">
             <Link
               href="/calculators/total-compensation"
-              className="hidden sm:flex flex-none ml-1 transition-opacity hover:opacity-80"
-              style={{ background: '#c0392b', color: '#fff', fontSize: 11, fontWeight: 600, padding: '5px 12px', borderRadius: 6, whiteSpace: 'nowrap' }}
+              className="inline-block rounded-lg bg-red-700 px-6 py-3 text-sm font-semibold text-white hover:bg-red-800 transition-colors shadow-sm text-center flex-none"
             >
-              View →
+              See your real pay →
             </Link>
+
+            {/* Sample output card */}
+            <div
+              className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 w-full md:w-fit"
+              style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}
+            >
+              <span style={{ fontSize: 9, color: '#bbb', textTransform: 'uppercase', letterSpacing: '0.08em', lineHeight: 1, whiteSpace: 'nowrap', border: '1px solid #e5e5e5', borderRadius: 4, padding: '2px 5px', flexShrink: 0 }}>
+                Sample
+              </span>
+              <div className="flex-none">
+                <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
+                  E-5 · 8yrs · San Diego
+                </p>
+                <div className="flex items-baseline gap-0.5">
+                  <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>$8,752</span>
+                  <span style={{ fontSize: 11, color: '#999' }}>/mo</span>
+                </div>
+              </div>
+              <div className="h-[30px] w-px bg-[#e5e5e5] flex-none" aria-hidden="true" />
+              <div className="flex-none">
+                <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
+                  Civilian equiv.
+                </p>
+                <div className="flex items-baseline gap-0.5">
+                  <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>≈$121k</span>
+                  <span style={{ fontSize: 11, color: '#999' }}>/yr</span>
+                </div>
+              </div>
+              <Link
+                href="/calculators/total-compensation"
+                className="flex flex-none ml-1 transition-opacity hover:opacity-80"
+                style={{ background: '#c0392b', color: '#fff', fontSize: 11, fontWeight: 600, padding: '5px 12px', borderRadius: 6, whiteSpace: 'nowrap' }}
+              >
+                View →
+              </Link>
+            </div>
           </div>
 
         </div>
