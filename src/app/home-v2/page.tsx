@@ -10,9 +10,10 @@ export const metadata: Metadata = {
 
 // ── Hero ──────────────────────────────────────────────────────────────────────
 //
-// Image: /public/images/hero-desk.png
-// Desktop: covers right ~58% of section, fades left via gradient overlay.
-// Mobile: full-bleed, heavy warm overlay keeps text readable.
+// Image: /public/images/hero-desk.png (committed to git, served at /images/hero-desk.png)
+// Desktop: image covers right ~58% of the section; gradient fades it left so
+//          text remains readable. Result card floats over the image area.
+// Mobile: image hidden; warm gradient background only.
 
 const SAMPLE_ROWS = [
   { label: 'Base Pay', value: '$49,320' },
@@ -22,7 +23,7 @@ const SAMPLE_ROWS = [
 
 function HeroResultCard() {
   return (
-    <div className="inline-block rounded-2xl bg-white border border-zinc-200/80 shadow-xl p-4 min-w-[220px]">
+    <div className="rounded-2xl bg-white border border-zinc-200/80 shadow-xl p-4 w-[220px]">
       <p className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 mb-2">
         Sample result
       </p>
@@ -30,14 +31,14 @@ function HeroResultCard() {
         E-5 · 6 yrs · Fort Bragg, NC
       </p>
       <div className="mb-2.5">
-        <p className="text-[32px] font-extrabold text-zinc-900 tabular-nums leading-none tracking-tight">
+        <p className="text-[30px] font-extrabold text-zinc-900 tabular-nums leading-none tracking-tight">
           $72,852
         </p>
         <p className="text-[10px] text-zinc-400 mt-0.5">total annual compensation</p>
       </div>
       <div className="border-t border-zinc-100 pt-2.5 space-y-1.5">
         {SAMPLE_ROWS.map(({ label, value }) => (
-          <div key={label} className="flex justify-between items-center gap-6">
+          <div key={label} className="flex justify-between items-center">
             <span className="text-[11px] text-zinc-500">{label}</span>
             <span className="text-[11px] font-semibold text-zinc-800 tabular-nums">{value}</span>
           </div>
@@ -56,43 +57,47 @@ function HeroSection() {
   return (
     <section
       className="relative overflow-hidden"
-      style={{ background: sandBg, minHeight: 'clamp(440px, 68vh, 740px)' }}
+      style={{ background: sandBg, minHeight: 'clamp(420px, 65vh, 700px)' }}
     >
-      {/* Right-side desk image */}
+      {/* Right-side desk image — hidden on mobile, absolute on desktop */}
       <div className="absolute inset-0 lg:left-[42%]" aria-hidden="true">
-        <Image
-          src="/images/hero-desk.png"
-          alt=""
-          fill
-          priority
-          className="object-cover object-left-top"
-          sizes="(max-width: 1024px) 100vw, 58vw"
-        />
-        {/* Mobile: warm overlay */}
-        <div
-          className="absolute inset-0 lg:hidden"
-          style={{ background: 'rgba(245,237,224,0.84)' }}
-        />
+        {/* Image — hidden on mobile so the warm gradient shows cleanly */}
+        <div className="hidden lg:block absolute inset-0">
+          <Image
+            src="/images/hero-desk.png"
+            alt=""
+            fill
+            priority
+            className="object-cover object-left-top"
+            sizes="58vw"
+          />
+        </div>
         {/* Desktop: gradient left→right, solid sand → transparent */}
         <div
           className="absolute inset-0 hidden lg:block"
           style={{
-            background: `linear-gradient(to right, ${sandBg} 0%, ${sandBg} 12%, rgba(245,237,224,0.92) 32%, rgba(245,237,224,0.5) 52%, transparent 72%)`,
+            background: `linear-gradient(to right, ${sandBg} 0%, ${sandBg} 8%, rgba(245,237,224,0.88) 28%, rgba(245,237,224,0.4) 50%, transparent 68%)`,
           }}
         />
       </div>
 
-      {/* Content */}
+      {/* Content layer */}
       <div
         className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex items-center"
         style={{ minHeight: 'inherit' }}
       >
-        <div className="w-full lg:max-w-[530px] py-10 lg:py-14">
+        {/* Left text column */}
+        <div className="w-full lg:max-w-[500px] py-10 lg:py-12">
 
-          {/* Trust pill — full wording, responsive size */}
+          {/* Trust pill — full text on desktop, short on mobile */}
           <div className="inline-flex items-center gap-2 mb-4 rounded-full bg-zinc-900 px-4 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none shrink-0" aria-hidden="true" />
-            <span className="text-[9px] sm:text-[11px] font-semibold text-white uppercase tracking-wide leading-snug">
+            {/* Mobile: short label */}
+            <span className="sm:hidden text-[10px] font-semibold text-white uppercase tracking-wide">
+              Free · No Account · Official Data
+            </span>
+            {/* Desktop: full label */}
+            <span className="hidden sm:inline text-[11px] font-semibold text-white uppercase tracking-wide">
               Free Calculators · No Account · No Personal Info · Official 2026 DoD &amp; VA Data
             </span>
           </div>
@@ -100,31 +105,31 @@ function HeroSection() {
           {/* Headline */}
           <h1
             className="font-extrabold leading-[1.04] tracking-tight text-zinc-900 mb-3"
-            style={{ fontSize: 'clamp(46px, 6.5vw, 76px)' }}
+            style={{ fontSize: 'clamp(46px, 6vw, 72px)' }}
           >
             Know Your<br />
             Worth.
           </h1>
 
           {/* Supporting line */}
-          <p className="text-lg sm:text-xl text-zinc-600 leading-relaxed mb-5 max-w-[420px]">
+          <p className="text-lg sm:text-xl text-zinc-600 leading-relaxed mb-5 max-w-[400px]">
             Free calculators and guidance to help service members make confident financial decisions.
           </p>
 
           {/* Single primary CTA */}
-          <div className="mb-6">
-            <Link
-              href="/calculators/total-compensation"
-              className="inline-block rounded-lg bg-red-700 px-6 py-3 text-sm font-semibold text-white hover:bg-red-800 transition-colors shadow-sm"
-            >
-              Calculate My Total Compensation
-            </Link>
-          </div>
-
-          {/* Result card */}
-          <HeroResultCard />
+          <Link
+            href="/calculators/total-compensation"
+            className="inline-block rounded-lg bg-red-700 px-6 py-3 text-sm font-semibold text-white hover:bg-red-800 transition-colors shadow-sm"
+          >
+            Calculate My Total Compensation
+          </Link>
 
         </div>
+      </div>
+
+      {/* Result card — floats over image area on desktop, hidden on mobile */}
+      <div className="hidden lg:block absolute z-20 bottom-8 left-[44%]">
+        <HeroResultCard />
       </div>
     </section>
   );
