@@ -261,7 +261,7 @@ export function Nav({ mobile = false, onClose }: NavProps) {
       <nav aria-label="Mobile navigation">
         <ul className="flex flex-col">
 
-          {/* Who made this */}
+          {/* Why We Built This */}
           <li>
             <Link
               href="/about"
@@ -271,7 +271,7 @@ export function Nav({ mobile = false, onClose }: NavProps) {
                 pathname === '/about' ? 'text-zinc-900' : 'text-zinc-800 hover:text-zinc-900',
               ].join(' ')}
             >
-              Who made this
+              Why We Built This
             </Link>
           </li>
 
@@ -422,7 +422,7 @@ export function Nav({ mobile = false, onClose }: NavProps) {
               pathname === '/about' ? 'text-zinc-900 bg-zinc-100' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
             ].join(' ')}
           >
-            Who made this
+            Why We Built This
           </Link>
         </li>
         <li>
