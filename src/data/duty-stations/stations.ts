@@ -29,6 +29,12 @@ export interface LocalHousingTips {
   mistakeToAvoid: string;
 }
 
+export interface OconusContent {
+  colaNote: string;
+  financialContext: string[];
+  whatToKnow: string[];
+}
+
 export interface DutyStation {
   name: string;
   slug: string;
@@ -44,6 +50,7 @@ export interface DutyStation {
   rentalContext?: string;
   nearby: string[];
   oconus?: true;
+  oconusContent?: OconusContent;
   heroImage?: string;       // path like '/images/bases/fort-bragg.jpg'
   heroImageCredit?: string; // e.g. 'Photo: U.S. Army / DVIDS'
   bahVsHousing?: BahVsHousing;
@@ -3452,6 +3459,24 @@ export const DUTY_STATIONS: DutyStation[] = [
       'OCONUS members receive OHA, which is calculated differently than BAH. The Tokyo metro is one of the most expensive markets in the world — verify your OHA entitlement through your gaining unit\'s housing office.',
     nearby: ['kadena-air-base', 'camp-humphreys', 'joint-base-pearl-harbor-hickam'],
     oconus: true,
+    oconusContent: {
+      colaNote:
+        'Yokota members typically receive OCONUS COLA based on the Tokyo area cost index. COLA at Yokota has historically been among the higher OCONUS rates — Japan\'s cost of living, amplified by the yen-dollar exchange rate, drives the supplement. The amount varies by pay grade, dependent status, and the current yen-dollar rate; it is updated periodically and can shift meaningfully when the exchange rate moves. Verify your current entitlement at myPay or through your finance office. Note: OCONUS COLA uses a different calculation method than CONUS COLA.',
+      financialContext: [
+        'The yen-dollar exchange rate affects purchasing power off base. Historically ¥130–155 per dollar, but rates shift — a stronger yen means your dollars buy less in Japan. On-base amenities (commissary, BX, gas station) dramatically reduce exposure to exchange rate risk.',
+        'Tokyo day trips cost approximately ¥5,000–15,000 per person in transit, food, and activities. Base life in Fussa is suburban and genuinely more affordable than downtown Tokyo.',
+        'On-base commissary and BX provide significant savings over Japanese grocery stores — families who shop on base consistently report lower monthly grocery bills than CONUS.',
+        'One POV ships free via the government. A second vehicle comes entirely out of pocket (~$1,500–3,000 from CONUS). Many families buy a small Japanese kei car locally as an economical second vehicle.',
+        'SOFA status provides tax-free shopping on base, customs exemptions on authorized household goods, and discounted fuel rations — learn and use these benefits from day one to maximize take-home value.',
+      ],
+      whatToKnow: [
+        'Start PCS planning 6+ months out. Personal and no-fee military passports, medical and dental clearances, and SOFA card processing all take time — delays carry financial consequences if orders change.',
+        'Vehicle decision: shipping one POV is typically included in your PCS orders. A second vehicle ships at your expense. Many families buy a small Japanese car locally. Decide before you PCS, not after.',
+        'Power transformers: Japan runs on 100V. American appliances need step-down transformers. Budget $200–500 for transformer setup — one good universal transformer beats several cheap ones.',
+        'Set up a no-foreign-transaction-fee bank account (Charles Schwab, USAA, or similar) before leaving CONUS. Off-base ATMs dispense yen; foreign transaction fees add up fast over a 3-year tour.',
+        'Off-base Japanese leases typically include key money (礼金), deposit (敷金), and agency fees totaling 2–4 months\' rent upfront. Move-In Housing Allowance (MIHA) covers a portion of these — work through the housing referral office to understand your specific entitlement before signing anything.',
+      ],
+    },
   },
   {
     name: 'Kadena Air Base',
@@ -3467,6 +3492,24 @@ export const DUTY_STATIONS: DutyStation[] = [
       'OCONUS members at Kadena receive Overseas Housing Allowance (OHA), not BAH. Okinawa off-base housing ranges from affordable local neighborhoods to Japanese-style homes. Contact the housing referral office at your gaining unit.',
     nearby: ['yokota-air-base', 'camp-humphreys', 'joint-base-pearl-harbor-hickam'],
     oconus: true,
+    oconusContent: {
+      colaNote:
+        'Kadena members receive OCONUS COLA based on the Okinawa area cost index. Okinawa COLA is typically lower than the Tokyo/Yokota rate but still meaningful, reflecting Okinawa\'s lower cost of living compared to mainland Japan. COLA adjusts with the yen-dollar exchange rate — when the yen weakens, purchasing power off base decreases and COLA may adjust accordingly. Verify your current rate at myPay or with your unit finance office.',
+      financialContext: [
+        'Okinawa\'s cost of living is lower than mainland Japan and lower than Tokyo — but still above most CONUS locations. On-base commissary, BX, and food court keep daily expenses manageable for members who use them.',
+        'Housing choice matters: many families live off-base in Okinawan neighborhoods or in larger homes north of the base. The Kadena housing referral office maintains an active list of vetted off-base rentals at current market rates.',
+        'Vehicles on Okinawa: one POV ships free. Okinawa has specific SOFA rules for operating vehicles, and left-hand traffic requires real adjustment. Some families ship a car; others buy locally. Japanese vehicle registration is required.',
+        'Island living adds recreational spending: diving, snorkeling, and beach activities are popular but cost money. The beaches themselves are free — gear rental, guided boat trips, and inter-island flights are not.',
+        'Kadena is approximately 1,500 miles from mainland Japan. Flights to Tokyo cost approximately $200–400 round-trip and require planning. Most families treat Kadena as a self-contained assignment with weekend trips to nearby Okinawan areas.',
+      ],
+      whatToKnow: [
+        'Passport, medical, and dental clearances take time — start 6+ months before your report date. Delays cost money and limit your housing options on arrival.',
+        'Okinawan lease norms include deposits and agent fees partially covered by MIHA. Work through the housing referral office for any off-base lease — they know which landlords work with SOFA personnel and have current rates.',
+        'Typhoon preparedness is not optional — Okinawa is in the Pacific typhoon belt. During base lockdowns, families in off-base housing need supplies on hand. Budget a modest emergency preparedness fund.',
+        'Power at Kadena is 60Hz/120V (unlike mainland Japan at 50Hz) — most American appliances work without modification. Verify before shipping high-wattage items like kitchen appliances.',
+        'Set up a no-foreign-transaction-fee bank account before leaving CONUS. SOFA fuel rations and on-base shopping reduce yen spending, but you\'ll still need yen for off-base daily life.',
+      ],
+    },
   },
   {
     name: 'Camp Humphreys (K-6)',
@@ -3482,6 +3525,24 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Most servicemembers at Camp Humphreys live on base. OCONUS members receive Overseas Housing Allowance (OHA) if living off-base. The South Korean Won market and local lease norms are significantly different from U.S. practices — always work through the housing office.',
     nearby: ['yokota-air-base', 'kadena-air-base', 'joint-base-pearl-harbor-hickam'],
     oconus: true,
+    oconusContent: {
+      colaNote:
+        'Camp Humphreys members receive OCONUS COLA based on the South Korea cost index. South Korea COLA is typically more moderate than Japan assignments, reflecting Korea\'s relatively affordable cost of living. COLA fluctuates with won-dollar exchange rates (historically ₩1,200–1,400 per dollar) and periodic DoD cost-of-living surveys. Verify current amounts at myPay or with your finance office — COLA is not guaranteed long-term and adjusts based on updated surveys.',
+      financialContext: [
+        'South Korea has a relatively affordable cost of living compared to Japan and Germany. The won-dollar exchange rate has historically been favorable for off-base purchasing power, though it shifts with market conditions.',
+        'Camp Humphreys is the largest US overseas base and continues to expand rapidly — most service members live on base in modern housing. On-base dining, commissary, BX, and recreation facilities are comprehensive.',
+        'Tour type determines entitlements: command-sponsored (accompanied) tours include family travel, full SOFA benefits, DoDDS school access, and on-base housing eligibility. Unaccompanied 1-year tours come with different allowances. Know which applies to your orders before you PCS.',
+        'Korean rental agreements (전세, jeonse) use a large lump-sum deposit instead of monthly rent — a fundamentally different model from American leases. The housing office helps navigate this, but understanding it before arrival avoids expensive surprises.',
+        'One POV ships free. Korean driving requires a SOFA driver\'s license. Korean urban traffic is dense and fast-moving — allow an acclimation period before driving independently off base.',
+      ],
+      whatToKnow: [
+        'Know your tour type (accompanied vs. unaccompanied) well before arrival — it determines family travel entitlements, housing assignment, and school access. Changing a tour designation after arrival is bureaucratically complex.',
+        'Command-sponsored families get full SOFA benefits: tax-free commissary and BX access, DoDDS school enrollment, on-base recreation, and SOFA fuel rations. These benefits have real dollar value — use them from day one.',
+        'Pyeongtaek city surrounding Humphreys has developed rapidly. Translation apps (Naver is the standard in Korea) and willingness to explore pay off quickly — off-base options for dining and shopping are solid.',
+        'Currency strategy: on-base ATMs dispense both dollars and won. Keep a buffer of won for off-base expenses — mobile payment (KakaoPay, Samsung Pay) is widespread, but cash is still needed at local markets.',
+        'Medical and dental clearances are required for command-sponsored families and can delay orders. Start the process as early as possible — clearance delays have ripple effects on housing assignments and school enrollment.',
+      ],
+    },
   },
   {
     name: 'Ramstein Air Base',
@@ -3497,6 +3558,25 @@ export const DUTY_STATIONS: DutyStation[] = [
       'OCONUS members at Ramstein receive Overseas Housing Allowance (OHA). The KMC (Kaiserslautern Military Community) is a large American community with a developed off-base rental market — your gaining unit\'s housing office has current rates.',
     nearby: ['yokota-air-base', 'camp-humphreys', 'joint-base-andrews'],
     oconus: true,
+    oconusContent: {
+      colaNote:
+        'Ramstein members receive OCONUS COLA based on the Kaiserslautern area cost index. European COLA adjusts with euro-dollar exchange rates and DoD cost-of-living surveys. When the euro strengthens relative to the dollar, purchasing power off base decreases and COLA may increase to offset the difference. COLA is updated more frequently than BAH — sometimes quarterly — and can change meaningfully with exchange rate movements. Verify current rates at myPay or with your unit finance office.',
+      financialContext: [
+        'Germany\'s cost of living is moderate by Western European standards, but utility costs — particularly heating — run significantly higher than CONUS. Budget €150–300/month for heating in winter, more for older homes with oil or gas heat.',
+        'The Kaiserslautern Military Community (KMC) is one of the largest concentrations of Americans in Europe, with a well-developed off-base rental market. KMC landlords are experienced with SOFA tenants and the housing office maintains current market rates.',
+        'Euro-dollar exchange rate directly affects off-base purchasing power. Historically €1 = $1.05–1.15, but the rate moves. OHA adjusts for the exchange rate, but day-to-day off-base spending is directly affected by rate movements.',
+        'VAT (Mehrwertsteuer) at 19% is added to most German purchases — but SOFA personnel with a VAT exemption form (issued by your unit) can buy major items tax-free. On a single car or appliance purchase, this saves hundreds to thousands of dollars.',
+        'Autobahn access makes weekend travel across Europe genuinely accessible and affordable. Many families budget for European travel as one of the defining benefits of a Ramstein assignment.',
+        'TKS is the common military telephone and internet service for KMC on-base housing. Off-base internet and phone require German-language contracts — the housing office can advise on vetted providers.',
+      ],
+      whatToKnow: [
+        'Get your VAT exemption forms processed immediately on arrival. The savings on major purchases — vehicles, appliances, electronics — are significant. One car purchase alone can save $2,000–5,000 compared to a comparable CONUS purchase.',
+        'Heating type is critical in any off-base rental. Ask specifically whether the home uses gas, oil, or heat pump before signing. Oil-heated homes require a large seasonal tank fill (approximately €1,500–3,000) — clarify who pays for fuel before you sign the lease.',
+        'Power in Germany is 220V/50Hz. Most modern electronics handle dual voltage. Larger appliances — hair dryers, kitchen equipment, power tools — may need adapters or replacements. Invest in quality EU-plug adapters.',
+        'The USAREUR tax-free vehicle program allows purchasing a new European car through authorized dealers at significant savings. Research this program before PCSing — orders take time and you\'ll want the vehicle ready when you arrive.',
+        'German rental agreements (Mietvertrag) include specific terms about wall painting, restoration on departure, and notice periods that differ from American leases. Work through the housing office for your first German lease — the details matter.',
+      ],
+    },
   },
 
   // ── ARMY (additional) ─────────────────────────────────────────────────────

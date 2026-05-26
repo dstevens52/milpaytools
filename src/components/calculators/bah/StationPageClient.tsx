@@ -580,30 +580,110 @@ export function StationPageClient({
             </div>
           )}
 
-          {/* OCONUS notice */}
+          {/* OCONUS notice — OHA explanation */}
           {station.oconus && (
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-5">
-              <p className="font-semibold text-amber-800 mb-2">OCONUS Assignment — OHA, Not BAH</p>
-              <p className="text-sm text-amber-700 leading-relaxed">
+              <p className="font-semibold text-amber-800 mb-3">OCONUS Assignment — OHA, Not BAH</p>
+              <p className="text-sm text-amber-700 leading-relaxed mb-3">
                 Members assigned to {station.name} receive{' '}
-                <strong>Overseas Housing Allowance (OHA)</strong> instead of BAH. OHA is calculated
-                differently — it is based on your actual rental cost (up to a local ceiling), plus a
-                utility/recurring maintenance allowance (MIHA). BAH rates do not apply.
+                <strong>Overseas Housing Allowance (OHA)</strong> instead of BAH. OHA works
+                differently from BAH in several important ways:
               </p>
-              <p className="text-sm text-amber-700 mt-2 leading-relaxed">
-                Contact your gaining unit&apos;s housing office for current OHA ceilings and the DTMO OHA
-                calculator at{' '}
+              <ul className="space-y-2 mb-4">
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-none mt-1.5" />
+                  <p className="text-sm text-amber-700 leading-relaxed">
+                    <strong>OHA covers actual rent</strong> up to a location-specific ceiling — not a flat rate like BAH. You receive your actual rent amount, up to the authorized maximum.
+                  </p>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-none mt-1.5" />
+                  <p className="text-sm text-amber-700 leading-relaxed">
+                    A separate <strong>Utility/Recurring Maintenance Allowance (URMA)</strong> is paid on top of OHA to help offset overseas utility costs.
+                  </p>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-none mt-1.5" />
+                  <p className="text-sm text-amber-700 leading-relaxed">
+                    <strong>Move-In Housing Allowance (MIHA)</strong> is available to help cover security deposits, real estate agent fees, and certain one-time move-in costs unique to overseas markets.
+                  </p>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-none mt-1.5" />
+                  <p className="text-sm text-amber-700 leading-relaxed">
+                    OHA rates are set by location and <strong>updated more frequently than BAH</strong> — often quarterly — to account for exchange rate changes and local market shifts.
+                  </p>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-none mt-1.5" />
+                  <p className="text-sm text-amber-700 leading-relaxed">
+                    If living in <strong>government or on-base housing</strong>, OHA is forfeited — the same rule that applies to BAH.
+                  </p>
+                </li>
+              </ul>
+              <p className="text-sm text-amber-700 leading-relaxed mb-2">
+                Use the{' '}
                 <a
                   href="https://www.travel.dod.mil/Allowances/Overseas-Housing-Allowance/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline"
+                  className="underline font-medium"
                 >
-                  travel.dod.mil
-                </a>
-                .
+                  DTMO OHA calculator at travel.dod.mil
+                </a>{' '}
+                for your specific OHA ceiling. Contact your gaining unit&apos;s housing office for current local rates and MIHA entitlements.
               </p>
-              <p className="text-sm text-amber-700 mt-3 leading-relaxed italic">{station.rentalNote}</p>
+              <p className="text-sm text-amber-700 italic">{station.rentalNote}</p>
+            </div>
+          )}
+
+          {/* OCONUS COLA */}
+          {station.oconus && station.oconusContent && (
+            <div className="bg-white rounded-lg border border-zinc-200 p-6">
+              <h2 className="text-base font-semibold text-zinc-900 mb-3">OCONUS COLA</h2>
+              <p className="text-sm text-zinc-600 leading-relaxed mb-4">
+                {station.oconusContent.colaNote}
+              </p>
+              <Link
+                href="/calculators/cola"
+                className="text-sm font-semibold text-red-700 hover:underline"
+              >
+                View CONUS COLA calculator → (OCONUS uses a separate calculation method)
+              </Link>
+            </div>
+          )}
+
+          {/* Location-specific financial context */}
+          {station.oconus && station.oconusContent && (
+            <div className="bg-white rounded-lg border border-zinc-200 p-6">
+              <h2 className="text-base font-semibold text-zinc-900 mb-4">
+                Financial context for {station.name}
+              </h2>
+              <ul className="space-y-3">
+                {station.oconusContent.financialContext.map((tip, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 flex-none mt-1.5" />
+                    <p className="text-sm text-zinc-600 leading-relaxed">{tip}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* What to know before you move — OCONUS */}
+          {station.oconus && station.oconusContent && (
+            <div className="rounded-lg bg-sky-50 border border-sky-200 p-5">
+              <p className="text-sm font-semibold text-sky-900 mb-3">
+                What to know before you move to {station.name}
+              </p>
+              <ul className="space-y-3">
+                {station.oconusContent.whatToKnow.map((item, i) => (
+                  <li key={i} className="flex items-start gap-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-sky-500 flex-none mt-1.5" />
+                    <p className="text-sm text-sky-800 leading-relaxed">{item}</p>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
 
@@ -942,6 +1022,14 @@ export function StationPageClient({
               >
                 Estimate your PCS move costs →
               </Link>
+              {station.oconus && (
+                <Link
+                  href="/calculators/deployment"
+                  className="text-sm text-zinc-300 hover:text-white transition-colors"
+                >
+                  Calculate deployment pay for overseas assignments →
+                </Link>
+              )}
               <Link
                 href="/blog/how-bah-builds-wealth"
                 className="text-sm text-zinc-300 hover:text-white transition-colors"
