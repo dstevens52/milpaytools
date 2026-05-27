@@ -323,6 +323,8 @@ export default function VALoanPage() {
                 <li>Jumbo VA loan considerations (loans above the conforming loan limit)</li>
                 <li>VA renovation or construction loan specifics</li>
                 <li>Seller concession calculations or discount point analysis</li>
+                <li>Lender recommendations or comparisons — we do not recommend, endorse, or compare specific mortgage lenders. For loan quotes, contact VA-approved lenders directly.</li>
+                <li>Loan type comparisons — this calculator estimates VA loan payments only. It does not compare VA loans to conventional, FHA, or other loan types. For help deciding which loan type fits your situation, consult with a mortgage professional.</li>
               </ul>
               <p className="text-xs text-zinc-400 mt-3">
                 This calculator is designed to give you a clear estimate of your monthly payment and help you understand the funding fee. Consult a VA-approved lender for actual loan estimates.

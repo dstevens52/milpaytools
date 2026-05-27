@@ -72,6 +72,17 @@ const GRADE_GROUPS = [
 const INPUT_CLS =
   'w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500';
 
+// ─── Comma-formatted dollar helpers ───────────────────────────────────────
+function fmtDollar(n: number): string {
+  if (n === 0) return '';
+  return n.toLocaleString('en-US');
+}
+
+function parseDollar(s: string): number {
+  const stripped = s.replace(/[^0-9]/g, '');
+  return parseInt(stripped, 10) || 0;
+}
+
 // ─── Toggle button helpers ─────────────────────────────────────────────────
 function btnCls(active: boolean) {
   return [
@@ -335,11 +346,10 @@ export function VALoanCalculator() {
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">$</span>
               <input
-                type="number"
-                min={0}
-                step={1000}
-                value={homePrice}
-                onChange={(e) => handleHomePriceChange(Number(e.target.value))}
+                type="text"
+                inputMode="numeric"
+                value={fmtDollar(homePrice)}
+                onChange={(e) => handleHomePriceChange(parseDollar(e.target.value))}
                 className={INPUT_CLS + ' pl-6'}
               />
             </div>
@@ -367,18 +377,25 @@ export function VALoanCalculator() {
                   ].join(' ')}
                 >%</button>
               </div>
-              <input
-                type="number"
-                min={0}
-                step={downType === 'dollar' ? 500 : 0.5}
-                max={downType === 'dollar' ? homePrice : 100}
-                value={downType === 'dollar' ? downDollar : downPercent}
-                onChange={(e) => {
-                  if (downType === 'dollar') handleDownDollarChange(Number(e.target.value));
-                  else handleDownPercentChange(Number(e.target.value));
-                }}
-                className={INPUT_CLS + ' flex-1'}
-              />
+              {downType === 'dollar' ? (
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={fmtDollar(downDollar)}
+                  onChange={(e) => handleDownDollarChange(parseDollar(e.target.value))}
+                  className={INPUT_CLS + ' flex-1'}
+                />
+              ) : (
+                <input
+                  type="number"
+                  min={0}
+                  step={0.5}
+                  max={100}
+                  value={downPercent}
+                  onChange={(e) => handleDownPercentChange(Number(e.target.value))}
+                  className={INPUT_CLS + ' flex-1'}
+                />
+              )}
             </div>
             <p className="text-xs text-zinc-500">
               {downType === 'dollar'
@@ -426,11 +443,10 @@ export function VALoanCalculator() {
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">$</span>
               <input
-                type="number"
-                min={0}
-                step={100}
-                value={annualTax}
-                onChange={(e) => setAnnualTax(Math.max(0, Number(e.target.value)))}
+                type="text"
+                inputMode="numeric"
+                value={fmtDollar(annualTax)}
+                onChange={(e) => setAnnualTax(parseDollar(e.target.value))}
                 className={INPUT_CLS + ' pl-6 pr-8'}
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">/yr</span>
@@ -444,11 +460,10 @@ export function VALoanCalculator() {
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">$</span>
               <input
-                type="number"
-                min={0}
-                step={50}
-                value={annualIns}
-                onChange={(e) => setAnnualIns(Math.max(0, Number(e.target.value)))}
+                type="text"
+                inputMode="numeric"
+                value={fmtDollar(annualIns)}
+                onChange={(e) => setAnnualIns(parseDollar(e.target.value))}
                 className={INPUT_CLS + ' pl-6 pr-8'}
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">/yr</span>
@@ -515,7 +530,7 @@ export function VALoanCalculator() {
         <h2 className="text-lg font-semibold text-zinc-900 mb-5">VA Loan Details</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
-          {/* First / subsequent use */}
+          {/* Row 1 col 1: VA loan use — always visible */}
           <div className="flex flex-col gap-1">
             <span className="text-sm font-medium text-zinc-700">VA loan use</span>
             <div className="flex gap-3 mt-1">
@@ -527,20 +542,7 @@ export function VALoanCalculator() {
             </p>
           </div>
 
-          {/* Down payment tier — hidden when disability exempt */}
-          {!disabilityExempt && (
-            <div className="flex flex-col gap-1 justify-center">
-              <span className="text-sm font-medium text-zinc-700">Down payment tier</span>
-              <div className="mt-1 rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3">
-                <p className="text-sm font-semibold text-zinc-800">{calc.feeTier}</p>
-                <p className="text-xs text-zinc-500 mt-0.5">
-                  Funding fee rate: <span className="font-semibold text-zinc-700">{(calc.fundingFeeRate * 100).toFixed(2)}%</span>
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* VA disability */}
+          {/* Row 1 col 2: VA disability — always visible, always upper-right */}
           <div className="flex flex-col gap-1">
             <span className="text-sm font-medium text-zinc-700">VA disability rating</span>
             <div className="flex gap-3 mt-1">
@@ -562,7 +564,19 @@ export function VALoanCalculator() {
             )}
           </div>
 
-          {/* Finance funding fee */}
+          {/* Row 2: Down payment tier + finance fee — hidden when disability exempt */}
+          {!disabilityExempt && (
+            <div className="flex flex-col gap-1 justify-center">
+              <span className="text-sm font-medium text-zinc-700">Down payment tier</span>
+              <div className="mt-1 rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3">
+                <p className="text-sm font-semibold text-zinc-800">{calc.feeTier}</p>
+                <p className="text-xs text-zinc-500 mt-0.5">
+                  Funding fee rate: <span className="font-semibold text-zinc-700">{(calc.fundingFeeRate * 100).toFixed(2)}%</span>
+                </p>
+              </div>
+            </div>
+          )}
+
           {!disabilityExempt && (
             <div className="flex flex-col gap-1">
               <span className="text-sm font-medium text-zinc-700">Finance funding fee</span>
