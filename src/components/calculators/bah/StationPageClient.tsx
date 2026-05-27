@@ -410,8 +410,9 @@ export function StationPageClient({
 }: StationPageClientProps) {
   const [selectedGrade, setSelectedGrade] = useState<PayGrade>('E-5');
   const [hasDependents, setHasDependents] = useState(true);
+  const [userHasInteracted, setUserHasInteracted] = useState(false);
 
-  // Read URL params on mount
+  // Read URL params on mount — does NOT trigger a URL write
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const rankRaw = params.get('rank');
@@ -426,16 +427,24 @@ export function StationPageClient({
     }
   }, []);
 
-  // Sync URL when grade/dep changes (after initial mount)
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  // Sync URL only after the user has actively changed a selector
   useEffect(() => {
-    if (!mounted) return;
+    if (!userHasInteracted) return;
     const params = new URLSearchParams(window.location.search);
     params.set('rank', selectedGrade);
     params.set('dep', hasDependents ? 'yes' : 'no');
     window.history.replaceState(null, '', `?${params.toString()}`);
-  }, [selectedGrade, hasDependents, mounted]);
+  }, [selectedGrade, hasDependents, userHasInteracted]);
+
+  function handleGradeChange(grade: PayGrade) {
+    setUserHasInteracted(true);
+    setSelectedGrade(grade);
+  }
+
+  function handleDepChange(dep: boolean) {
+    setUserHasInteracted(true);
+    setHasDependents(dep);
+  }
 
   // Derived values
   const selectedRates = hasDependents ? ratesW : ratesWO;
@@ -518,8 +527,8 @@ export function StationPageClient({
               availableGrades={availableGrades}
               selectedGrade={selectedGrade}
               hasDependents={hasDependents}
-              onGradeChange={setSelectedGrade}
-              onDepChange={setHasDependents}
+              onGradeChange={handleGradeChange}
+              onDepChange={handleDepChange}
             />
             <p className="text-sm text-zinc-500">
               Showing{' '}
