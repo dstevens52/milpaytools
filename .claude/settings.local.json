@@ -116,7 +116,9 @@
       "Bash(sed -n '3500,3515p' src/data/duty-stations/stations.ts)",
       "Bash(curl -s http://localhost:3001/bah/fort-hood)",
       "Bash(curl -s http://localhost:3001/bah/naval-station-norfolk)",
-      "Bash(curl -s http://localhost:3001/bah/joint-base-san-antonio)"
+      "Bash(curl -s http://localhost:3001/bah/joint-base-san-antonio)",
+      "Bash(python *)",
+      "Bash(curl *)"
     ]
   }
 }
