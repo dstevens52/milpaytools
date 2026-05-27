@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { Redis } from '@upstash/redis';
 
 export const metadata: Metadata = {
-  title: 'Calculation Stats | MilPayTools',
+  title: 'Calculation Stats',
   robots: { index: false, follow: false },
 };
 

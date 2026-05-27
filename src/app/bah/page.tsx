@@ -3,11 +3,10 @@ import { DUTY_STATIONS } from '@/data/duty-stations/stations';
 import { getMHACode, getMHARates } from '@/lib/calculations/bah';
 import { StationSearch } from '@/components/bah-stations/StationSearch';
 
-const BAH_INDEX_TITLE = '2026 BAH Rates by Military Installation | MilPayTools';
+const BAH_INDEX_TITLE = '2026 BAH Rates by Military Installation';
 const BAH_INDEX_DESC =
   'Find 2026 Basic Allowance for Housing rates for 70+ U.S. military installations. Full pay grade tables with and without dependents for every major Army, Air Force, Navy, and Marine Corps base.';
 export const metadata: Metadata = {
-  // absolute bypasses the layout template to prevent "| MilPayTools | MilPayTools"
   title: { absolute: BAH_INDEX_TITLE },
   description: BAH_INDEX_DESC,
   alternates: { canonical: '/bah' },

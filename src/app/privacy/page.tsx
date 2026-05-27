@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | MilPayTools',
+  title: 'Privacy Policy',
   description: 'Privacy Policy for MilPayTools.com, operated by DPS Digital LLC. How we collect, use, and protect information when you use our military pay calculators.',
   alternates: { canonical: 'https://www.milpaytools.com/privacy' },
   robots: { index: true, follow: true },

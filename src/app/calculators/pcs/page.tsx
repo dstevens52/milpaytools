@@ -6,14 +6,14 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: { absolute: 'PCS Cost Estimator 2026 | Military Move Calculator | MilPayTools' },
+  title: { absolute: 'PCS Cost Estimator 2026 | Military Move Calculator' },
   description:
     'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds. Uses 2026 DTMO rates for all ranks.',
   alternates: {
     canonical: '/calculators/pcs',
   },
   openGraph: {
-    title: 'PCS Cost Estimator 2026 | Military Move Calculator | MilPayTools',
+    title: 'PCS Cost Estimator 2026 | Military Move Calculator',
     description:
       'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds. Uses 2026 DTMO rates for all ranks.',
     type: 'website',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PCS Cost Estimator 2026 | Military Move Calculator | MilPayTools',
+    title: 'PCS Cost Estimator 2026 | Military Move Calculator',
     description:
       'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds. Uses 2026 DTMO rates for all ranks.',
     images: ['/api/og?type=calculator&title=PCS+Cost+Estimator+2026&v=2'],

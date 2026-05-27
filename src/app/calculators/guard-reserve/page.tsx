@@ -6,14 +6,14 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Guard & Reserve Pay Calculator 2026 | Drill Pay + AT + TRS | MilPayTools' },
+  title: { absolute: 'Guard & Reserve Pay Calculator 2026 | Drill Pay + AT + TRS' },
   description:
     'Estimate total Guard and Reserve annual compensation: drill pay (MUTA), Annual Training pay, Tricare Reserve Select savings, and BRS matching. Uses 2026 DFAS pay tables.',
   alternates: {
     canonical: '/calculators/guard-reserve',
   },
   openGraph: {
-    title: 'Guard & Reserve Pay Calculator 2026 | Drill Pay + AT + TRS | MilPayTools',
+    title: 'Guard & Reserve Pay Calculator 2026 | Drill Pay + AT + TRS',
     description:
       'Estimate total Guard and Reserve annual compensation: drill pay (MUTA), Annual Training pay, Tricare Reserve Select savings, and BRS matching. Uses 2026 DFAS pay tables.',
     type: 'website',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Guard & Reserve Pay Calculator 2026 | Drill Pay + AT + TRS | MilPayTools',
+    title: 'Guard & Reserve Pay Calculator 2026 | Drill Pay + AT + TRS',
     description:
       'Estimate total Guard and Reserve annual compensation: drill pay (MUTA), Annual Training pay, Tricare Reserve Select savings, and BRS matching. Uses 2026 DFAS pay tables.',
     images: ['/api/og?type=calculator&title=Guard+%26+Reserve+Pay+Calculator+2026&v=2'],

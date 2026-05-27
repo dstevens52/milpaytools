@@ -7,14 +7,14 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Compare Your PCS Move — 2026 | MilPayTools' },
+  title: { absolute: 'Compare Your PCS Move — 2026' },
   description:
     'Compare BAH, take-home pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.',
   alternates: {
     canonical: '/calculators/compare',
   },
   openGraph: {
-    title: 'Compare Your PCS Move — 2026 | MilPayTools',
+    title: 'Compare Your PCS Move — 2026',
     description:
       'Compare BAH, take-home pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.',
     type: 'website',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Compare Your PCS Move — 2026 | MilPayTools',
+    title: 'Compare Your PCS Move — 2026',
     description:
       'Compare BAH, take-home pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.',
     images: ['/api/og?type=calculator&title=Compare+Your+PCS+Move+2026&v=2'],

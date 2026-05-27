@@ -6,14 +6,14 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: { absolute: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator | MilPayTools' },
+  title: { absolute: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator' },
   description:
     'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 contribution limits.',
   alternates: {
     canonical: '/calculators/tsp',
   },
   openGraph: {
-    title: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator | MilPayTools',
+    title: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator',
     description:
       'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 contribution limits.',
     type: 'website',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator | MilPayTools',
+    title: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator',
     description:
       'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 contribution limits.',
     images: ['/api/og?type=calculator&title=TSP+Growth+Projector+2026&v=2'],

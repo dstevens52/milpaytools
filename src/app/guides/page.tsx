@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllGuideMeta } from '@/lib/guides';
 
-const GUIDES_TITLE = 'Military Finance Guides | MilPayTools';
+const GUIDES_TITLE = 'Military Finance Guides';
 const GUIDES_DESC =
   'Comprehensive topic guides on military pay, VA disability, retirement & TSP, PCS finances, and education benefits — with calculators and plain-English explanations.';
 const GUIDES_IMAGE = '/api/og?type=guide&title=Military+Finance+Guides&v=2';

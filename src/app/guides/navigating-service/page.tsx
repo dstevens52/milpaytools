@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { EmailSignup } from '@/components/EmailSignup';
 
 export const metadata: Metadata = {
-  title: 'Navigating Service: PCS, Deployment & Duty Station Financial Tools | MilPayTools',
+  title: 'Navigating Service: PCS, Deployment & Duty Station Financial Tools',
   description:
     'PCSing, deploying, or comparing duty stations? Compare BAH, estimate move costs, see combat zone tax savings, and make every assignment work for your finances. Free 2026 tools.',
   alternates: { canonical: 'https://www.milpaytools.com/guides/navigating-service' },

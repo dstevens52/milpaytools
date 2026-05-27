@@ -7,14 +7,14 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH | MilPayTools' },
+  title: { absolute: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH' },
   description:
     'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.',
   alternates: {
     canonical: '/calculators/dual-military-bah',
   },
   openGraph: {
-    title: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH | MilPayTools',
+    title: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH',
     description:
       'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.',
     type: 'website',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH | MilPayTools',
+    title: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH',
     description:
       'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.',
     images: ['/api/og?type=calculator&title=Dual+Military+BAH+Calculator+2026&v=2'],

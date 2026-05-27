@@ -6,7 +6,7 @@ import { BAS_RATES } from '@/data/constants';
 import { EmailSignup } from '@/components/EmailSignup';
 
 export const metadata: Metadata = {
-  title: 'Starting Military Service: Understand Your Pay & Benefits | MilPayTools',
+  title: 'Starting Military Service: Understand Your Pay & Benefits',
   description:
     'New to the military? Understand your base pay, BAH, BAS, and TSP match — and make smart money decisions from day one.',
   alternates: { canonical: 'https://www.milpaytools.com/guides/starting-service' },

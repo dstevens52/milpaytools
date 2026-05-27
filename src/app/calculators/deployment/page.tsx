@@ -6,14 +6,14 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Deployment Pay Calculator 2026 | CZTE, HFP, SDP | MilPayTools' },
+  title: { absolute: 'Deployment Pay Calculator 2026 | CZTE, HFP, SDP' },
   description:
     'Calculate your deployment pay increase: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings, and Savings Deposit Program interest. All ranks, 2026 rates.',
   alternates: {
     canonical: '/calculators/deployment',
   },
   openGraph: {
-    title: 'Deployment Pay Calculator 2026 | CZTE, HFP, SDP | MilPayTools',
+    title: 'Deployment Pay Calculator 2026 | CZTE, HFP, SDP',
     description:
       'Calculate your deployment pay increase: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings, and Savings Deposit Program interest. All ranks, 2026 rates.',
     type: 'website',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Deployment Pay Calculator 2026 | CZTE, HFP, SDP | MilPayTools',
+    title: 'Deployment Pay Calculator 2026 | CZTE, HFP, SDP',
     description:
       'Calculate your deployment pay increase: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings, and Savings Deposit Program interest. All ranks, 2026 rates.',
     images: ['/api/og?type=calculator&title=Deployment+Pay+Calculator+2026&v=2'],

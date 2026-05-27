@@ -7,7 +7,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import Link from 'next/link';
 
-const TITLE = 'Military Healthcare Cost Comparison Calculator 2026 | MilPayTools';
+const TITLE = 'Military Healthcare Cost Comparison Calculator 2026';
 const DESC =
   'See exactly how much healthcare will cost after military separation — employer insurance, ACA Marketplace, VA healthcare, and TRICARE Reserve Select compared against active-duty TRICARE rates.';
 const CANONICAL = '/calculators/healthcare-comparison';

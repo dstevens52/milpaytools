@@ -109,7 +109,7 @@ export async function generateMetadata({
 
   const ogImage = `/api/og?type=blog&title=${encodeURIComponent(post.title)}&v=2`;
   return {
-    title: { absolute: `${post.title} | MilPayTools` },
+    title: { absolute: `${post.title}` },
     description: post.description,
     alternates: { canonical: `/blog/${slug}` },
     openGraph: {

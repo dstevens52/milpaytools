@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | MilPayTools',
+  title: 'Terms of Service',
   description: 'Terms of Service for MilPayTools.com, operated by DPS Digital LLC. Educational military pay calculators and financial information.',
   alternates: { canonical: 'https://www.milpaytools.com/terms' },
   robots: { index: true, follow: true },

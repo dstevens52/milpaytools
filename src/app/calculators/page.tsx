@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-const CALC_HUB_TITLE = 'Military Financial Calculators — 2026 | MilPayTools';
+const CALC_HUB_TITLE = 'Military Financial Calculators — 2026';
 const CALC_HUB_DESC =
   'Free military pay calculators using official 2026 DoD, VA, and DTMO data. Total compensation, BAH, VA disability rating, and TSP growth — no account required.';
 const CALC_HUB_IMAGE = '/api/og?type=calculator&title=Military+Financial+Calculators+2026&v=2';

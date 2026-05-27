@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Why We Built This | MilPayTools',
+  title: 'Why We Built This',
   description:
     'MilPayTools was built to make military pay and benefits actually understandable. Free calculators, official data, no account required.',
   alternates: { canonical: 'https://www.milpaytools.com/about' },

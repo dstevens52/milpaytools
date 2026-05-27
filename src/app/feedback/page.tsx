@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import { FeedbackForm } from '@/components/feedback/FeedbackForm';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Feedback | MilPayTools' },
+  title: { absolute: 'Feedback' },
   description: 'Spot an outdated number, confusing explanation, or missing topic? Send a quick note.',
   robots: { index: false },
 };

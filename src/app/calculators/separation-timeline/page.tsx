@@ -8,7 +8,7 @@ import { webApplicationSchema } from '@/lib/schema';
 import Link from 'next/link';
 
 const TITLE =
-  'Military Separation Benefits Timeline Calculator 2026 | MilPayTools';
+  'Military Separation Benefits Timeline Calculator 2026';
 const DESC =
   'See exactly when each military benefit stops, converts, or expires after your separation date. TRICARE, SGLI, TAMP, BDD filing windows, and final move deadlines — calculated from your specific date.';
 const CANONICAL = '/calculators/separation-timeline';

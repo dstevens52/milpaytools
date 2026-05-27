@@ -7,14 +7,14 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: { absolute: 'VA Disability Rating Calculator 2026 | Combined Rating | MilPayTools' },
+  title: { absolute: 'VA Disability Rating Calculator 2026 | Combined Rating' },
   description:
     'Calculate your combined VA disability rating using the official "whole person" formula (38 CFR § 4.25). Includes bilateral factor, step-by-step math, and 2026 compensation rates.',
   alternates: {
     canonical: '/calculators/va-disability',
   },
   openGraph: {
-    title: 'VA Disability Rating Calculator 2026 | Combined Rating | MilPayTools',
+    title: 'VA Disability Rating Calculator 2026 | Combined Rating',
     description:
       'Calculate your combined VA disability rating using the official "whole person" formula (38 CFR § 4.25). Includes bilateral factor, step-by-step math, and 2026 compensation rates.',
     type: 'website',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'VA Disability Rating Calculator 2026 | Combined Rating | MilPayTools',
+    title: 'VA Disability Rating Calculator 2026 | Combined Rating',
     description:
       'Calculate your combined VA disability rating using the official "whole person" formula (38 CFR § 4.25). Includes bilateral factor, step-by-step math, and 2026 compensation rates.',
     images: ['/api/og?type=calculator&title=VA+Disability+Rating+Calculator+2026&v=2'],

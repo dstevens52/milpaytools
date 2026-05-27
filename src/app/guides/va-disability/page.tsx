@@ -13,7 +13,7 @@ const DATE = '2026-04-12';
 const OG_IMAGE = '/api/og?type=guide&title=VA+Disability+Benefits+Guide+2026&v=2';
 
 export const metadata: Metadata = {
-  title: { absolute: `${TITLE} | MilPayTools` },
+  title: { absolute: `${TITLE}` },
   description: DESC,
   alternates: { canonical: `https://www.milpaytools.com${CANONICAL}` },
   openGraph: {

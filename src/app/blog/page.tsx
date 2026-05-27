@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllPostMeta, formatDate } from '@/lib/blog';
 
-const BLOG_TITLE = 'Military Finance Blog | MilPayTools';
+const BLOG_TITLE = 'Military Finance Blog';
 const BLOG_DESC =
   'Plain-language guides on military pay, BAH, VA disability, TSP, and benefits — written for active-duty service members and veterans.';
 const BLOG_IMAGE = '/api/og?type=blog&title=Military+Finance+Blog&sub=Plain-language+guides+on+military+pay+%26+benefits&v=2';

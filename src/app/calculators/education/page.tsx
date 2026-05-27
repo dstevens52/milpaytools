@@ -7,12 +7,12 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Military Education Benefits Comparison Calculator — 2026 | MilPayTools' },
+  title: { absolute: 'Military Education Benefits Comparison Calculator — 2026' },
   description:
     'Compare Post-9/11 GI Bill, VR&E (Chapter 31), Tuition Assistance, and Montgomery GI Bill side by side. See total program value by ZIP code, school type, and eligibility.',
   alternates: { canonical: '/calculators/education' },
   openGraph: {
-    title: 'Military Education Benefits Comparison Calculator — 2026 | MilPayTools',
+    title: 'Military Education Benefits Comparison Calculator — 2026',
     description:
       'Compare Post-9/11 GI Bill, VR&E (Chapter 31), Tuition Assistance, and Montgomery GI Bill side by side. See total program value by ZIP code, school type, and eligibility.',
     type: 'website',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Military Education Benefits Comparison Calculator — 2026 | MilPayTools',
+    title: 'Military Education Benefits Comparison Calculator — 2026',
     description:
       'Compare Post-9/11 GI Bill, VR&E (Chapter 31), Tuition Assistance, and Montgomery GI Bill side by side. See total program value by ZIP code, school type, and eligibility.',
     images: ['/api/og?type=calculator&title=Education+Benefits+Comparison+2026&v=2'],

@@ -7,14 +7,14 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Total Military Compensation Calculator 2026: Base Pay, BAH, BAS & Tax Advantages | MilPayTools' },
+  title: { absolute: 'Total Military Compensation Calculator 2026: Base Pay, BAH, BAS & Tax Advantages' },
   description:
     'Calculate your true total military compensation: base pay, BAH, BAS, TSP match, and tax advantage. See the civilian salary equivalent using official 2026 DoD rates.',
   alternates: {
     canonical: '/calculators/total-compensation',
   },
   openGraph: {
-    title: 'Total Military Compensation Calculator 2026: Base Pay, BAH, BAS & Tax Advantages | MilPayTools',
+    title: 'Total Military Compensation Calculator 2026: Base Pay, BAH, BAS & Tax Advantages',
     description:
       'Calculate your true total military compensation: base pay, BAH, BAS, TSP match, and tax advantage. See the civilian salary equivalent using official 2026 DoD rates.',
     type: 'website',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Total Military Compensation Calculator 2026: Base Pay, BAH, BAS & Tax Advantages | MilPayTools',
+    title: 'Total Military Compensation Calculator 2026: Base Pay, BAH, BAS & Tax Advantages',
     description:
       'Calculate your true total military compensation: base pay, BAH, BAS, TSP match, and tax advantage. See the civilian salary equivalent using official 2026 DoD rates.',
     images: ['/api/og?type=calculator&title=Total+Military+Compensation+Calculator+2026&v=2'],

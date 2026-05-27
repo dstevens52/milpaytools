@@ -6,14 +6,14 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema, faqPageSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
-  title: { absolute: '2026 Military Pay Charts | MilPayTools' },
+  title: { absolute: '2026 Military Pay Charts' },
   description:
     'Official 2026 military pay tables for all ranks E-1 through O-10 and warrant officers. 3.8% pay raise effective January 1, 2026. Monthly basic pay by grade and years of service.',
   alternates: {
     canonical: '/calculators/pay-charts',
   },
   openGraph: {
-    title: '2026 Military Pay Charts | MilPayTools',
+    title: '2026 Military Pay Charts',
     description:
       'Official 2026 military pay tables for all ranks E-1 through O-10 and warrant officers. 3.8% pay raise effective January 1, 2026. Monthly basic pay by grade and years of service.',
     type: 'website',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: '2026 Military Pay Charts | MilPayTools',
+    title: '2026 Military Pay Charts',
     description:
       'Official 2026 military pay tables for all ranks E-1 through O-10 and warrant officers. 3.8% pay raise effective January 1, 2026. Monthly basic pay by grade and years of service.',
     images: ['/api/og?type=calculator&title=2026+Military+Pay+Charts&v=2'],
