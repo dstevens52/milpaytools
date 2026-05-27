@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     const calculator = typeof body?.calculator === 'string' ? body.calculator.slice(0, 64) : null;
     if (!calculator) return new NextResponse(null, { status: 200 });
 
-    const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+    const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date());
     const dailyKey = `calc:daily:${date}`;
 
     await Promise.all([

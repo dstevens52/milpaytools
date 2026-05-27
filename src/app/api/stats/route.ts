@@ -33,7 +33,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const date = new Date().toISOString().slice(0, 10);
+  const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date());
 
   const [total, today, ...perCalc] = await Promise.all([
     redis.get<number>('calc:total'),
