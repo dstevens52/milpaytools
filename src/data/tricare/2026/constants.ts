@@ -21,6 +21,6 @@ export const TRICARE_RATES_2026 = {
   // Source: KFF Employer Health Benefits Survey — used for educational comparison only
   civilianComparison: {
     individualAnnual: 7500, // rough average total cost (employer + employee share)
-    familyAnnual: 23000, // rough average total cost (employer + employee share)
+    familyAnnual: 27000, // rough average total cost (employer + employee share) — KFF 2025 survey: $26,993
   },
 } as const;

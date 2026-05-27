@@ -79,8 +79,8 @@ export default function GuardReservePage() {
             <ExampleRow label="Total drill + AT pay" value="$8,631/yr" highlight />
             <ExampleRow label="Estimated retirement points (48 drills + 15 AT + 15 membership)" value="78 pts/yr" />
             <ExampleRow label="TRICARE Reserve Select — member + family premium" value="$286.66/mo ($3,440/yr)" />
-            <ExampleRow label="Avg. employer-sponsored family plan total premiums (KFF 2025 est.)" value="~$23,000/yr" />
-            <ExampleRow label="Est. TRS premium value vs. avg. employer plan" value="~$19,560/yr" highlight />
+            <ExampleRow label="Avg. employer-sponsored family plan total premiums (KFF 2025 est.)" value="~$27,000/yr" />
+            <ExampleRow label="Est. TRS premium value vs. avg. employer plan" value="~$23,500/yr" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
             <strong>What this means:</strong> The cash drill pay of $8,631/year understates the total value of reserve service. TRICARE Reserve Select family premiums are $3,440/year — substantially lower than typical employer-sponsored family coverage, though employee payroll cost, deductibles, and employer contributions vary widely. Retirement points accumulate toward a reserve pension payable at age 60.
@@ -131,7 +131,7 @@ export default function GuardReservePage() {
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               By comparison, average employer-sponsored family health insurance costs approximately
-              $23,000/year in combined employer and employee premiums (KFF 2025 survey). The
+              $27,000/year in combined employer and employee premiums (KFF 2025 survey). The
               difference — the TRS savings — is a significant but often overlooked component of
               Guard/Reserve compensation.{' '}
               <a href="/calculators/healthcare-comparison" className="font-medium text-red-700 hover:text-red-800 transition-colors">Compare TRS to other healthcare options →</a>
@@ -172,7 +172,7 @@ export default function GuardReservePage() {
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">Effective hourly rate</h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               The effective hourly rate divides your total compensation value by the hours committed.
-              This calculator uses 8 hours per drill weekend plus 8 hours per AT/additional duty day
+              This calculator uses 16 hours per drill weekend (two 8-hour days) plus 8 hours per AT/additional duty day
               as the time denominator — a simplified figure that helps compare Guard/Reserve service
               to civilian employment on a per-hour basis.
             </p>

@@ -50,7 +50,7 @@ export interface GuardReserveOutput {
   // Summary
   totalValue: number; // military pay + healthcare savings + gov TSP match
   perWeekendValue: number; // total value / weekendsPerYear
-  totalHours: number; // per spec: 8 hrs per drill weekend + 8 hrs per AT/additional day
+  totalHours: number; // per spec: 16 hrs per drill weekend (two 8-hr days) + 8 hrs per AT/additional day
   effectiveHourlyRate: number;
 }
 
@@ -187,9 +187,9 @@ export function calculateGuardReserve(input: GuardReserveInput): GuardReserveOut
 
   const perWeekendValue = input.weekendsPerYear > 0 ? totalValue / input.weekendsPerYear : 0;
 
-  // Per spec: 8 hours per drill weekend + 8 hours per AT/additional day
+  // Per spec: 16 hours per drill weekend (two 8-hr days) + 8 hours per AT/additional day
   const totalHours =
-    input.weekendsPerYear * 8 + (input.atDays + input.additionalDays) * 8;
+    input.weekendsPerYear * 16 + (input.atDays + input.additionalDays) * 8;
   const effectiveHourlyRate = totalHours > 0 ? totalValue / totalHours : 0;
 
   return {
