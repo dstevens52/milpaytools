@@ -84,14 +84,14 @@ export default function VALoanPage() {
                 Sample output
               </span>
               <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
-                E-5 &middot; first use &middot; $350K home &middot; 6.5% rate &middot; $0 down
+                First use &middot; $350K home &middot; 6.0% rate &middot; $0 down
               </p>
               <div className="flex items-baseline gap-4 min-w-0 flex-1">
                 <span className="text-[12px] text-zinc-500 whitespace-nowrap">Funding fee <span className="font-semibold text-zinc-700">$7,525</span></span>
                 <span className="text-[12px] text-zinc-500 whitespace-nowrap">PMI <span className="font-semibold text-zinc-700">$0</span></span>
               </div>
               <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
-                Est. payment <span className="text-[16px] font-extrabold text-red-700">$2,650/mo</span>
+                Est. payment <span className="text-[16px] font-extrabold text-red-700">$2,611/mo</span>
               </p>
             </div>
           </div>
@@ -183,7 +183,7 @@ export default function VALoanPage() {
             E-5, First Use, $350K Home — The Full Picture
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-5 buying a $350,000 home with $0 down, 6.5% rate, 30-year term, no disability exemption, funding fee financed.
+            Scenario: $350,000 home, $0 down, 6.0% rate, 30-year fixed, first use, no disability exemption, funding fee financed.
           </p>
           <ExampleTable>
             <ExampleRow label="Home price" value="$350,000" />
@@ -191,15 +191,13 @@ export default function VALoanPage() {
             <ExampleRow label="Base loan amount" value="$350,000" />
             <ExampleRow label="Funding fee (2.15% — first use, &lt;5% down)" value="$7,525" />
             <ExampleRow label="Financed loan amount" value="$357,525" highlight />
-            <ExampleRow label="Principal &amp; Interest (6.5%, 30 yr)" value="$2,261/mo" />
-            <ExampleRow label="Property tax (1.2% of home value)" value="$350/mo" />
-            <ExampleRow label="Homeowner&apos;s insurance (0.35%)" value="$102/mo" />
-            <ExampleRow label="Total estimated PITI" value="$2,713/mo" highlight />
-            <ExampleRow label="Conventional equivalent (same down, 0.5% PMI)" value="$2,580/mo + $146 PMI = $2,726/mo" />
-            <ExampleRow label="VA loan monthly advantage" value="$13/mo less (no PMI)" />
+            <ExampleRow label="Principal &amp; Interest (6.0%, 30 yr)" value="$2,144/mo" />
+            <ExampleRow label="Annual property taxes ($4,200/yr)" value="$350/mo" />
+            <ExampleRow label="Annual homeowner&apos;s insurance ($1,400/yr)" value="$117/mo" />
+            <ExampleRow label="Total estimated PITI" value="$2,611/mo" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> With $0 down and no PMI ever, the VA loan saves this E-5 the $146/month PMI cost — but the financed funding fee adds $2,261 to the P&amp;I vs. $2,214 on a conventional loan. The net result is comparable monthly payments, but the VA loan required zero cash down. A service member with a 10%+ disability rating pays no funding fee at all, making the VA loan clearly superior in that scenario.
+            <strong>What this means:</strong> With $0 down and no PMI ever, the total payment is $2,611/month. The $7,525 funding fee is rolled into the loan, adding roughly $45/month to the P&amp;I payment. A borrower with a 10%+ service-connected disability rating pays no funding fee at all — reducing the loan to $350,000 and the monthly P&amp;I to approximately $2,098, saving $46/month over the life of the loan.
           </p>
         </ExampleBox>
       </section>
