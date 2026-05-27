@@ -138,7 +138,7 @@ const PATH_CARDS: {
   {
     title: 'Pursuing SkillBridge',
     description: 'Plan your SkillBridge timeline alongside separation benefits and deadlines. Understand how SkillBridge affects pay and benefits.',
-    href: '/guides/education-benefits',
+    href: '/blog/skillbridge-program-guide',
     icon: '🔗',
   },
   {
@@ -187,7 +187,7 @@ const AFTER_SEP_ITEMS: {
     text: 'Confirm TRICARE and healthcare coverage',
     detail:
       "TRICARE typically ends at 11:59 p.m. on your last active-duty day. Some separating members qualify for 180 days of transitional coverage (TAMP), but eligibility is not automatic. Confirm your TAMP eligibility before you sign out. If you don't qualify, research alternatives: employer coverage, VA healthcare (if eligible), marketplace plans, or the Continued Health Care Benefit Program (CHCBP).",
-    href: null,
+    href: '/blog/tamp-healthcare-after-military-separation',
     external: false,
   },
   {

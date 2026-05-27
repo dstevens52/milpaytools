@@ -353,6 +353,13 @@ const RELATED = [
     description: 'Full comparison of the two retirement systems with E-7 numbers — pension value, TSP matching, and which comes out ahead.',
   },
   {
+    href: '/blog/tsp-for-beginners-what-happens-if-you-do-nothing',
+    border: 'border-l-purple-500',
+    label: 'TSP BASICS',
+    title: 'TSP for Beginners: What Happens If You Never Change Your Settings',
+    description: 'What your TSP account is doing right now — fund allocation, government match, and the gap between "decent default" and optimal.',
+  },
+  {
     href: '/blog/roth-tsp-deployment-strategy',
     border: 'border-l-emerald-500',
     label: 'TSP STRATEGY',
