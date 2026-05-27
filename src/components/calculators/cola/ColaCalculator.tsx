@@ -325,6 +325,7 @@ export function ColaCalculator() {
             </div>
 
             <SaveOrShareResults
+              pageName="cola"
               headline="Save or share your COLA estimate"
               supportingText="Useful for comparing cost-of-living at different duty stations or planning your housing budget before a PCS."
               usefulFor={['PCS pay comparison', 'PCS planning', 'Housing budget']}

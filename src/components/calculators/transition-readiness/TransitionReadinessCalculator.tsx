@@ -745,6 +745,7 @@ export function TransitionReadinessCalculator() {
 
             <div className="print:hidden">
               <SaveOrShareResults
+                pageName="transition-readiness"
                 headline="Save or share your transition estimate"
                 supportingText="Useful for job offer comparisons, planning post-service income, or discussing your numbers with family."
                 usefulFor={['Job offer comparison', 'Transition planning', 'Family discussion']}

@@ -15,6 +15,7 @@ import {
 import type { DutyStation } from '@/data/duty-stations/stations';
 import type { StateTaxInfo } from '@/data/compare/stateTax';
 import { EmailSignup } from '@/components/EmailSignup';
+import { fireShareEvent } from '@/lib/analytics';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -341,6 +342,7 @@ function ShareButton({ station }: { station: DutyStation }) {
   const [copied, setCopied] = useState(false);
 
   async function handleClick() {
+    fireShareEvent('bah-station', station.slug);
     const url = window.location.href;
     const title = `${station.name} BAH Rates 2026 | MilPayTools`;
     const isMobile =

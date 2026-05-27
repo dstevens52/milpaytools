@@ -611,6 +611,7 @@ export function SeparationTimelineCalculator() {
 
           <div className="space-y-3 pt-2">
             <SaveOrShareResults
+              pageName="separation-timeline"
               headline="Save or share your separation timeline"
               supportingText="Useful for tracking separation milestones, sharing your timeline with family, or coordinating with your command."
               usefulFor={['Separation planning', 'Timeline tracking', 'Family coordination']}

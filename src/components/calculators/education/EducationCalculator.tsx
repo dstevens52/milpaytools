@@ -534,6 +534,7 @@ export function EducationCalculator() {
       )}
 
       <SaveOrShareResults
+        pageName="education"
         headline="Save or share your education benefits estimate"
         supportingText="Useful for comparing school options, planning your post-service education, or reviewing benefits with a school counselor."
         usefulFor={['School comparison', 'GI Bill planning', 'Benefits review']}

@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { fireShareEvent } from '@/lib/analytics';
 
 export interface SaveOrShareResultsProps {
+  pageName: string;
   headline: string;
   supportingText: string;
   usefulFor?: string[];
@@ -12,6 +14,7 @@ export interface SaveOrShareResultsProps {
 }
 
 export function SaveOrShareResults({
+  pageName,
   headline,
   supportingText,
   usefulFor,
@@ -21,7 +24,7 @@ export function SaveOrShareResults({
 }: SaveOrShareResultsProps) {
   const [copied, setCopied] = useState(false);
 
-  async function handleCopy() {
+  async function copyToClipboard() {
     try {
       await navigator.clipboard.writeText(getUrl());
       setCopied(true);
@@ -31,7 +34,13 @@ export function SaveOrShareResults({
     }
   }
 
+  async function handleCopy() {
+    fireShareEvent('calculator', pageName);
+    copyToClipboard();
+  }
+
   async function handleShare() {
+    fireShareEvent('calculator', pageName);
     const url = getUrl();
     if (typeof navigator !== 'undefined' && navigator.share) {
       try {
@@ -41,7 +50,7 @@ export function SaveOrShareResults({
         // user cancelled or share failed — fall through to copy
       }
     }
-    handleCopy();
+    copyToClipboard();
   }
 
   return (

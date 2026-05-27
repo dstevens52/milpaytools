@@ -3,6 +3,17 @@
 // Per-calculator timestamp of last Redis track. Persists for the page session.
 const _lastTracked: Record<string, number> = {};
 
+export function fireShareEvent(pageType: 'bah-station' | 'calculator', pageName: string): void {
+  if (typeof window === 'undefined') return;
+  const gtag = (window as any).gtag;
+  if (typeof gtag === 'function') {
+    gtag('event', 'share_click', {
+      page_type: pageType,
+      page_name: pageName,
+    });
+  }
+}
+
 export function fireCalculatorEvent(calculatorName: string): void {
   if (typeof window === 'undefined') return;
 

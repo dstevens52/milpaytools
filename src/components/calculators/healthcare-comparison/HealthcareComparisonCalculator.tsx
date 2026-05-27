@@ -684,6 +684,7 @@ export function HealthcareComparisonCalculator() {
         )}
 
         <SaveOrShareResults
+          pageName="healthcare-comparison"
           headline="Save or share your healthcare comparison"
           supportingText="Useful for comparing TRICARE options, reviewing costs before a PCS or separation, or discussing coverage with family."
           usefulFor={['TRICARE comparison', 'Separation planning', 'Coverage review']}

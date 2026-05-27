@@ -398,6 +398,7 @@ export function TotalCompensationCalculator() {
         </div>
 
         <SaveOrShareResults
+          pageName="total-compensation"
           headline="Save or share your compensation estimate"
           supportingText="Use this when comparing civilian pay, talking with family, or saving your assumptions for later."
           usefulFor={['Civilian salary comparison', 'Family planning', 'Save for later']}

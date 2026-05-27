@@ -447,6 +447,7 @@ export function BAHCalculator() {
 
           {result && (
             <SaveOrShareResults
+              pageName="bah"
               headline="Save or share your BAH estimate"
               supportingText="Useful for comparing housing budgets, talking with a spouse or roommate, or reviewing your expected allowance before signing a lease."
               usefulFor={['Housing budget', 'Lease planning', 'Spouse or roommate']}

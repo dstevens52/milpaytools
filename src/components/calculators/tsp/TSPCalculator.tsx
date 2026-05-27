@@ -547,6 +547,7 @@ export function TSPCalculator() {
             )}
           </Card>
           <SaveOrShareResults
+            pageName="tsp"
             headline="Save or share your TSP projection"
             supportingText="Useful for retirement planning, comparing contribution scenarios, or reviewing your projected balance with a financial advisor."
             usefulFor={['Retirement planning', 'Contribution scenarios', 'Financial review']}

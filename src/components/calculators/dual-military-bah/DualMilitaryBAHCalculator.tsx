@@ -540,6 +540,7 @@ export function DualMilitaryBAHCalculator() {
           </Card>
 
           <SaveOrShareResults
+            pageName="dual-military-bah"
             headline="Save or share your dual military BAH estimate"
             supportingText="Useful for housing budget planning, comparing same-station vs. different-station BAH, or reviewing options with your spouse."
             usefulFor={['Dual military housing', 'Budget planning', 'Spouse coordination']}

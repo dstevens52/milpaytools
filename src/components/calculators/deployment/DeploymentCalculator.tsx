@@ -686,6 +686,7 @@ export function DeploymentCalculator() {
             </PhaseCard>
           </div>
           <SaveOrShareResults
+            pageName="deployment"
             headline="Save or share your deployment pay estimate"
             supportingText="Useful for planning deployment finances, tracking hazard pay entitlements, or reviewing your numbers with family."
             usefulFor={['Deployment planning', 'Hazard pay', 'SDP decision']}

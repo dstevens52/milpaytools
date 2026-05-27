@@ -365,6 +365,7 @@ export function CompareCalculator() {
           <SummaryCard result={result} nameA={nameA} nameB={nameB} />
 
           <SaveOrShareResults
+            pageName="compare"
             headline="Save or share your PCS move comparison"
             supportingText="Useful for comparing your current and new station before finalizing a PCS decision, or discussing options with family."
             usefulFor={['PCS move comparison', 'PCS decision', 'Family discussion']}

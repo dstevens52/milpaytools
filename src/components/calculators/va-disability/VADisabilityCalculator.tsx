@@ -530,6 +530,7 @@ export function VADisabilityCalculator() {
           </p>
 
           <SaveOrShareResults
+            pageName="va-disability"
             headline="Save or share your VA disability rating"
             supportingText="Useful for tracking your combined rating, discussing your claim with a VSO, or sharing your estimate with family."
             usefulFor={['VA claim tracking', 'VSO consultation', 'Combined rating']}

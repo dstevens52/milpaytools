@@ -491,6 +491,7 @@ export function GuardReserveCalculator() {
           </div>
 
           <SaveOrShareResults
+            pageName="guard-reserve"
             headline="Save or share your Guard/Reserve pay estimate"
             supportingText="Useful for reviewing drill pay, planning annual income, or comparing deployment vs. drill earnings."
             usefulFor={['Drill pay review', 'Annual income planning', 'AT planning']}
