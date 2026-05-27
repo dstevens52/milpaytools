@@ -265,6 +265,12 @@
 
 - [How to Use the VA GI Bill Comparison Tool (And What It Doesn't Tell You)](https://www.milpaytools.com/blog/va-gi-bill-comparison-tool-guide): Step-by-step walkthrough of VA.gov's GI Bill Comparison Tool — military status selection, benefit chapter selection, service month input, school search, and how to read tuition/MHA/Yellow Ribbon estimates. Key gaps: tool doesn't calculate your actual benefit percentage, doesn't show out-of-pocket gap at private schools, doesn't compare GI Bill vs. VR&E vs. Tuition Assistance, doesn't project benefits over a full degree, doesn't surface state veteran education benefits. Online vs. in-person housing allowance difference ($1,261/month flat vs. full E-5 BAH rate). Common mistakes: choosing school by MHA alone, not realizing MHA follows school ZIP not residence, overlooking VR&E with a service-connected disability.
 
+- [What Is BAH? Military Housing Allowance Explained](https://www.milpaytools.com/blog/what-is-bah-military-housing-allowance): Foundational explainer on Basic Allowance for Housing — the three factors that set your rate (duty station ZIP, pay grade, dependency status), how the 95th-percentile design works, tax-free status, rate protection rules, the BAH surplus opportunity, on-post vs. off-post housing, OHA for overseas, and common misconceptions. Covers 338 MHAs and 40,959 ZIP codes.
+
+- [How Military Retirement Works: The Basics](https://www.milpaytools.com/blog/how-military-retirement-works): Foundational overview of military retirement — the 20-year vesting cliff (no partial pension under either system), High-3 formula (2.5% × years × High-3 average = 50% at 20 years), BRS formula (2.0% × years × High-3 plus government TSP matching up to 5%), why retirement begins immediately at separation (~age 38–40 for most), annual COLA inflation protection, TRICARE retiree healthcare value ($15,000–$24,000/year vs. civilian plans), and how the pension differs structurally from a 401(k).
+
+- [TAMP: Your 180-Day Healthcare Bridge After Military Service](https://www.milpaytools.com/blog/tamp-healthcare-after-military-separation): TAMP (Transitional Assistance Management Program) provides 180 days of premium-free TRICARE coverage after qualifying separation types — primarily involuntary separations and force-shaping. Covers who qualifies (and who doesn't — routine end-of-contract separation is typically not TAMP-eligible), what coverage includes (same as active-duty TRICARE Prime at $0 premium), the Day 181 hard stop, healthcare options after TAMP (employer plan, TRICARE Reserve Select, ACA marketplace, VA), and the enrollment timing checklist to avoid a coverage gap.
+
 ## Data Sources
 
 - 2026 Military Pay Tables: Defense Finance and Accounting Service (DFAS)
@@ -276,4 +282,4 @@
 
 ## About
 
-Built by Dan Stevens — grew up on Air Force bases worldwide as the son of a 20-year Air Force veteran, now an NMLS-licensed mortgage industry professional. 16 calculators, 41 blog posts, 8 comprehensive guides, 200+ BAH station pages, a transition financial roadmap, and a printable TAP student worksheet — all multi-LLM fact-checked against official government sources and verified with a Playwright test suite.
+Built by Dan Stevens — grew up on Air Force bases worldwide as the son of a 20-year Air Force veteran, now an NMLS-licensed mortgage industry professional. 16 calculators, 42 blog posts, 8 comprehensive guides, 200+ BAH station pages, a transition financial roadmap, and a printable TAP student worksheet — all multi-LLM fact-checked against official government sources and verified with a Playwright test suite.

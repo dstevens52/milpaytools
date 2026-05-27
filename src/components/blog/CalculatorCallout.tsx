@@ -1,5 +1,5 @@
 interface CalculatorCalloutProps {
-  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah' | 'transition-readiness' | 'healthcare-comparison';
+  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah' | 'transition-readiness' | 'healthcare-comparison' | 'separation-timeline';
   text?: string;
   ctaText?: string;
 }
@@ -79,6 +79,11 @@ const CALCULATOR_CONFIG = {
     href: '/calculators/healthcare-comparison',
     label: 'Healthcare Cost Comparison Calculator',
     defaultText: 'Compare TRICARE to civilian healthcare options — employer plans, ACA marketplace, VA healthcare, and TRICARE Reserve Select — with estimated annual costs side by side.',
+  },
+  'separation-timeline': {
+    href: '/calculators/separation-timeline',
+    label: 'Separation Benefits Timeline',
+    defaultText: 'See exactly when each benefit ends after separation — SGLI, TRICARE, BAH, commissary access, and other transition deadlines mapped to a single timeline.',
   },
 };
 

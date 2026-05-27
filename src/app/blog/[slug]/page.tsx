@@ -92,6 +92,8 @@ const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
   'guard-reserve':      { label: 'Guard & Reserve Pay Calculator',     href: '/calculators/guard-reserve' },
   'dual-military-bah':      { label: 'Dual Military BAH Calculator',        href: '/calculators/dual-military-bah' },
   'transition-readiness':   { label: 'Transition Readiness Calculator',     href: '/calculators/transition-readiness' },
+  'healthcare-comparison':  { label: 'Healthcare Cost Comparison',          href: '/calculators/healthcare-comparison' },
+  'separation-timeline':    { label: 'Separation Benefits Timeline',        href: '/calculators/separation-timeline' },
 };
 
 export async function generateStaticParams() {
