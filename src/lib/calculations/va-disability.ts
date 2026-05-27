@@ -179,7 +179,7 @@ export function calculateCombinedRating(disabilities: DisabilityEntry[]): Combin
 
     steps.push({
       type: 'bilateral-factor',
-      label: `Bilateral factor (+10%)`,
+      label: `Bilateral factor: 10% of bilateral combined value`,
       detail: `${combinedBeforeFactor.toFixed(2)} + ${factorAddition.toFixed(2)} (10%) = ${combinedAfterFactor.toFixed(2)} — this value enters the final calculation`,
       value: parseFloat(combinedAfterFactor.toFixed(4)),
     });

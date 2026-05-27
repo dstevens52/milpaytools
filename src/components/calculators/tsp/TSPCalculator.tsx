@@ -525,7 +525,7 @@ export function TSPCalculator() {
                   </div>
                   {projection.totalGovContributions > 0 && (
                     <div className="flex justify-between">
-                      <span className="text-zinc-600">Gov match (BRS)</span>
+                      <span className="text-zinc-600">Gov contributions (BRS)</span>
                       <span className="font-mono tabular-nums text-green-700">{fmt(projection.totalGovContributions)}</span>
                     </div>
                   )}

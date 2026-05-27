@@ -453,7 +453,7 @@ export function VADisabilityCalculator() {
                 </p>
                 {result.bilateralApplied && (
                   <InfoTip
-                    label={`Bilateral factor applied (+${result.bilateralPairs.reduce((acc, p) => acc + p.factorAddition, 0).toFixed(1)}%)`}
+                    label={`Bilateral factor: 10% of bilateral combined value (+${result.bilateralPairs.reduce((acc, p) => acc + p.factorAddition, 0).toFixed(1)} pts)`}
                     tooltip="Under 38 CFR §4.26, disabilities affecting both sides of a paired body part (both knees, both arms, etc.) receive a 10% bonus on their combined value before merging with other ratings."
                     className="mt-1"
                   />
