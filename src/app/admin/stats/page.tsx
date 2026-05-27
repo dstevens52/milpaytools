@@ -80,6 +80,23 @@ export default async function StatsPage({
 
   const todayCount = dailyRows[0]?.count ?? 0;
 
+  // Discover share keys via SCAN
+  const shareKeys: string[] = [];
+  let cursor = 0;
+  do {
+    const [next, batch] = await redis.scan(cursor, { match: 'calc:share:*', count: 200 });
+    cursor = Number(next);
+    shareKeys.push(...(batch as string[]));
+  } while (cursor !== 0);
+
+  const shareValues = shareKeys.length > 0
+    ? await Promise.all(shareKeys.map((k) => redis.get<number>(k)))
+    : [];
+
+  const shareBreakdown = shareKeys
+    .map((key, i) => ({ name: key.replace('calc:share:', ''), count: shareValues[i] ?? 0 }))
+    .sort((a, b) => b.count - a.count);
+
   return (
     <div style={{ fontFamily: 'monospace', maxWidth: 680, margin: '48px auto', padding: '0 24px' }}>
       <h1 style={{ fontSize: 20, fontWeight: 700, marginBottom: 8 }}>MilPayTools — Calculation Stats</h1>
@@ -115,6 +132,25 @@ export default async function StatsPage({
           ))}
         </tbody>
       </table>
+
+      {/* Shares */}
+      <h2 style={{ fontSize: 14, fontWeight: 600, marginBottom: 12, color: '#444' }}>Shares</h2>
+      {shareBreakdown.length === 0 ? (
+        <p style={{ fontSize: 13, color: '#bbb', marginBottom: 48 }}>No share clicks recorded yet.</p>
+      ) : (
+        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 48 }}>
+          <tbody>
+            {shareBreakdown.map(({ name, count }) => (
+              <tr key={name} style={{ borderBottom: '1px solid #eee' }}>
+                <td style={{ padding: '8px 0', fontSize: 14 }}>{name}</td>
+                <td style={{ padding: '8px 0', fontSize: 14, fontWeight: 600, textAlign: 'right' }}>
+                  {count.toLocaleString()}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
       {/* Daily history */}
       <h2 style={{ fontSize: 14, fontWeight: 600, marginBottom: 12, color: '#444' }}>Daily (last 30 days)</h2>

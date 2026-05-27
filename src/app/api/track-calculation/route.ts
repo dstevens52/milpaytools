@@ -12,17 +12,20 @@ export async function POST(req: Request) {
     const calculator = typeof body?.calculator === 'string' ? body.calculator.slice(0, 64) : null;
     if (!calculator) return new NextResponse(null, { status: 200 });
 
-    const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date());
-    const dailyKey = `calc:daily:${date}`;
-
-    await Promise.all([
-      redis.incr('calc:total'),
-      redis.incr(`calc:${calculator}`),
-      redis.incr(dailyKey),
-    ]);
-
-    // Daily key expires after 30 days
-    await redis.expire(dailyKey, 60 * 60 * 24 * 30);
+    if (calculator.startsWith('share:')) {
+      // Share clicks: only increment the per-page share counter
+      await redis.incr(`calc:${calculator}`);
+    } else {
+      // Calculations: increment total, per-calculator, and daily counters
+      const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date());
+      const dailyKey = `calc:daily:${date}`;
+      await Promise.all([
+        redis.incr('calc:total'),
+        redis.incr(`calc:${calculator}`),
+        redis.incr(dailyKey),
+      ]);
+      await redis.expire(dailyKey, 60 * 60 * 24 * 30);
+    }
 
     return new NextResponse(null, { status: 200 });
   } catch {

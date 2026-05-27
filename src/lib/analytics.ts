@@ -5,6 +5,8 @@ const _lastTracked: Record<string, number> = {};
 
 export function fireShareEvent(pageType: 'bah-station' | 'calculator', pageName: string): void {
   if (typeof window === 'undefined') return;
+
+  // GA4 — fires every time
   const gtag = (window as any).gtag;
   if (typeof gtag === 'function') {
     gtag('event', 'share_click', {
@@ -12,6 +14,19 @@ export function fireShareEvent(pageType: 'bah-station' | 'calculator', pageName:
       page_name: pageName,
     });
   }
+
+  // Redis counter — 30-second cooldown per page to avoid over-counting
+  const trackKey = `share:${pageName}`;
+  const now = Date.now();
+  if (_lastTracked[trackKey] && now - _lastTracked[trackKey] < 30_000) return;
+  _lastTracked[trackKey] = now;
+
+  fetch('/api/track-calculation', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ calculator: trackKey }),
+    keepalive: true,
+  }).catch(() => {});
 }
 
 export function fireCalculatorEvent(calculatorName: string): void {
