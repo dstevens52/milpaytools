@@ -117,7 +117,7 @@ export default function DeploymentPage() {
             <ExampleRow label="9-month tour total benefit (allowances $4,725 + tax savings $3,115)" value="$7,840" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> This E-5 takes home $871 more per month during the deployment — and because family expenses typically drop while a spouse is deployed (one fewer car, shared housing costs), many families can bank $1,000–$2,000+ per month. Over 9 months the CZTE alone saves $3,115 in federal income taxes. Deploying under BRS is also an opportunity to increase Roth TSP contributions from already tax-free pay, potentially doubling the financial impact.
+            <strong>What this means:</strong> This E-5 takes home $871 more per month during the deployment — and because family expenses typically drop while a spouse is deployed (one fewer car, shared housing costs), many families can bank $1,000–$2,000+ per month. Over 9 months the CZTE alone saves $3,115 in federal income taxes. Combat-zone pay may be excluded from federal income tax. Roth TSP contributions from that pay can create a powerful combination: excluded from tax going in, and qualified withdrawals may also be tax-free if Roth rules are met — making deployment a significant opportunity for long-term TSP growth.
           </p>
         </ExampleBox>
       </section>

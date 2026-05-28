@@ -162,9 +162,7 @@ const ACCORDION = [
           <li>Pension: 50% × $9,200 = <strong className="text-zinc-800">$4,600/month ($55,200/year)</strong>, for life with COLA</li>
         </ul>
         <p>
-          <strong className="text-zinc-800">BRS formula:</strong> 2.0% per year (not 2.5%),
-          reaching 40% at 20 years and 60% at 30 years. The pension reduction is partially offset
-          by TSP matching over a career.
+          <strong className="text-zinc-800">BRS pension formula:</strong> 2.0% × years of service × High-3 average base pay. At 20 years, that equals 40% of the High-3 average — compared to 50% under High-3&apos;s 2.5% multiplier. BRS compensates for the lower pension with government TSP contributions over a career.
         </p>
         <Link href="/calculators/retirement" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Calculate your pension projection →
@@ -460,14 +458,6 @@ export default function RetirementTspGuidePage() {
         </div>
       </section>
 
-      {/* ── Direct answer */}
-      <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
-        <div className="mx-auto max-w-3xl">
-          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-            Military retirement provides an immediate pension beginning at separation — not at age 65 — plus access to TSP as a portable savings account. Under High-3 (for those who entered before 2018), the pension is 50% of average highest base pay at exactly 20 years; under BRS (for those who entered after 2018), it is 40%, partially offset by government TSP matching of up to 5% of base pay. Together, a 20-year retirement pension plus TSP savings represents one of the most valuable retirement packages available in any profession.
-          </p>
-        </div>
-      </section>
 {/* ── ZONE 2: Three insight cards ── */}
       <section className="bg-white border-b border-zinc-200 py-10 sm:py-14 px-4">
         <div className="mx-auto max-w-6xl">
@@ -580,6 +570,9 @@ export default function RetirementTspGuidePage() {
             <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 mb-2 tracking-tight">
               Understanding military retirement and TSP
             </h2>
+            <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-3">
+              Military retirement combines an immediate pension for those who reach retirement eligibility, TSP savings, possible BRS government contributions, TRICARE retiree healthcare coverage, and any VA disability compensation. High-3 uses a 2.5% multiplier per year of service, while BRS uses 2.0% plus government TSP contributions. The real value depends on years served, final rank, TSP behavior, healthcare value, and VA disability rating.
+            </p>
             <p className="text-base text-zinc-500">
               Expand any section to go deeper. The calculators above give you the numbers — these
               sections explain how they work.

@@ -68,7 +68,7 @@ export default function GuardReservePage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Guard and Reserve compensation extends beyond drill pay to include Annual Training pay, TRICARE Reserve Select ($57.88/month member-only or $286.66/month for family in 2026), and BRS TSP matching for enrolled members. An E-6 Guard member attending 48 UTA periods per year earns approximately $16,000–$18,000 in drill pay alone, before counting Annual Training, special pays, or healthcare savings. This calculator combines all components into a single annual compensation view using official 2026 DFAS rates.
+          Guard and Reserve compensation includes drill pay, Annual Training pay, possible active-duty periods, retirement points, TRICARE Reserve Select, and BRS TSP contributions when eligible. A standard drilling member may earn several thousand dollars per year in drill and AT pay, but the total value increases significantly when healthcare savings and retirement points are included. This calculator combines all components into a single annual compensation view using official 2026 DFAS rates.
         </p>
       </div>
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

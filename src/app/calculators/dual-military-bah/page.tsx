@@ -88,7 +88,7 @@ export default function DualMilitaryBAHPage() {
               {[
                 'Only one member can claim dependents for BAH — the claiming member gets the with-dependents rate; the other always gets the without-dependents rate.',
                 'If neither member has dependents, both receive the without-dependents rate regardless of marital status.',
-                'The higher-ranking member claiming dependents almost always produces the higher household total — the with-dependents premium scales with pay grade.',
+                'The higher-ranking member often has the larger with-dependent rate premium, but the best configuration depends on the actual rate gap at each member\'s grade and duty station — the calculator shows both scenarios.',
                 "If stationed at different locations, each member's BAH is based on their own duty station ZIP code, not their spouse's.",
                 'Each member receives their BAH independently on their own LES — the amounts are never split or shared between the two.',
               ].map((rule, i) => (
@@ -169,9 +169,7 @@ export default function DualMilitaryBAHPage() {
               pay grades. An O-5 receives a larger premium than an E-5 in the same MHA.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              This means the higher-ranking spouse claiming dependents almost always produces the
-              highest household BAH total. The calculator shows you both scenarios and the exact dollar difference,
-              so you can confirm the optimal configuration for your specific grades and location.
+              The higher-ranking member often has the larger with-dependent rate premium, but the best configuration depends on the actual rate gap at each member&apos;s grade and duty station. The calculator shows you both scenarios and the exact dollar difference, so you can confirm the optimal configuration for your specific grades and location.
             </p>
           </div>
 

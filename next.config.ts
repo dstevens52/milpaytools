@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
         destination: 'https://www.milpaytools.com/:path*',
         permanent: true,
       },
+      // Healthcare calculator canonical redirect
+      { source: '/calculators/healthcare', destination: '/calculators/healthcare-comparison', permanent: true },
       // Base name reversals — 2025 Army renaming rollback
       { source: '/bah/fort-liberty', destination: '/bah/fort-bragg', permanent: true },
       { source: '/bah/fort-cavazos', destination: '/bah/fort-hood', permanent: true },

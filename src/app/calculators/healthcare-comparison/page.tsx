@@ -100,7 +100,7 @@ export default function HealthcareComparisonPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          TRICARE Prime for active-duty members costs $0 — no premiums, no enrollment fees, and no deductibles for care at military treatment facilities. After separation, healthcare transitions to TRICARE retirement plans, employer coverage, or ACA marketplace options that typically cost $600–$2,000/month for family coverage. This calculator compares TRICARE, employer plans, and ACA marketplace costs side by side so separating service members and their families can plan for the transition.
+          Active-duty TRICARE Prime generally has $0 premiums and very low out-of-pocket costs for covered care — making it one of the highest-value components of military total compensation. After separation, healthcare transitions to TRICARE retirement plans, employer coverage, or ACA marketplace options that typically cost $600–$2,000/month for family coverage. This calculator compares TRICARE, employer plans, and ACA marketplace costs side by side so separating service members and their families can plan for the transition.
         </p>
       </div>
         <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">

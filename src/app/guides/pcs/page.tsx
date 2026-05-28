@@ -642,6 +642,9 @@ export default function PcsGuidePage() {
             <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 mb-2 tracking-tight">
               Understanding your PCS finances
             </h2>
+            <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-3">
+              A PCS move affects both one-time reimbursements and ongoing monthly compensation. DLA, MALT, per diem, TLE, and PPM proceeds may offset moving costs, while BAH, state tax exposure, CONUS COLA, and local cost of living can change the household budget for the entire assignment. The biggest mistake is treating PCS as only a moving expense instead of a full financial reset.
+            </p>
             <p className="text-base text-zinc-500">
               Expand any section to go deeper. The calculators above give you the numbers — these
               sections explain how they work.

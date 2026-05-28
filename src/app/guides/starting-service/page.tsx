@@ -417,7 +417,7 @@ export default function StartingServicePage() {
       <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
         <div className="mx-auto max-w-3xl">
           <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-            Your first military paycheck is smaller than expected because federal income tax is withheld on base pay, SGLI life insurance is deducted, and junior enlisted in the barracks typically do not receive BAH. As you progress in rank and move off-post, BAH and BAS become major components of your compensation — excluded from federal taxable income and worth significantly more than equivalent civilian wages. The most important financial action in the first pay period is setting your TSP contribution to at least 5% to capture the full government match under BRS.
+            Starting military service means understanding the difference between base pay, allowances, benefits, and deductions. Basic pay is taxable, while BAH and BAS are excluded from federal taxable income. Healthcare through TRICARE, SGLI life insurance, TSP contributions, and BRS government contributions can materially affect total compensation. Understanding these components before signing a lease, choosing TSP settings, or comparing military pay to civilian income is essential.
           </p>
         </div>
       </section>

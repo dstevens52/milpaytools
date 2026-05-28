@@ -97,12 +97,6 @@ export default function RetirementCalculatorPage() {
         </div>
 
         
-      {/* ── Direct answer ──────────────────────────────────────────────── */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
-        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Military retirement pay is an immediate pension beginning at separation, not at age 65. Under High-3, the pension is 2.5% × years of service × average of the highest 36 months of base pay — 50% of High-3 at exactly 20 years; under BRS, the multiplier is 2.0%, partially offset by government TSP matching of up to 5% of base pay over a career. This calculator projects your pension under both systems and models the lifetime value at different career lengths.
-        </p>
-      </div>
 {/* Example Calculation */}
         <section className="calc-example mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8">
           <ExampleBox>
@@ -200,7 +194,7 @@ export default function RetirementCalculatorPage() {
                   The full government contribution structure under BRS:
                 </p>
                 <ul className="mt-2 space-y-1 text-sm text-zinc-600">
-                  <li className="flex gap-2"><span className="text-red-700">•</span> 1% automatic contribution (day 1, always)</li>
+                  <li className="flex gap-2"><span className="text-red-700">•</span> 1% automatic contribution — generally begins after 60 days of service</li>
                   <li className="flex gap-2"><span className="text-red-700">•</span> Dollar-for-dollar match on your first 3% (starts month 25)</li>
                   <li className="flex gap-2"><span className="text-red-700">•</span> 50¢ per dollar match on your next 2% (starts month 25)</li>
                   <li className="flex gap-2"><span className="text-green-700 font-semibold">→</span> Contribute 5% = receive 5% total from DoD</li>

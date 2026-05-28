@@ -180,9 +180,7 @@ export default function PCSPage() {
           <div>
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">TLE: Temporary Lodging Expense</h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              TLE reimburses temporary lodging costs at your old or new duty station when your
-              household goods have been shipped or haven&apos;t arrived yet. Maximum 14 days
-              combined between both locations.
+              TLE reimburses temporary lodging and meals near your old or new duty station during a PCS. For many CONUS-to-CONUS moves, TLE may be available for up to 21 days, subject to location, receipts, daily caps, and JTR rules. OCONUS-related moves follow different limits, and TLA (Temporary Lodging Allowance) may apply overseas instead.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               This calculator uses the standard CONUS per diem rate ($179/day) as a TLE estimate.
