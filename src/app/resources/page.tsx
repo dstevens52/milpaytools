@@ -1,16 +1,17 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { JsonLdScript } from '@/components/JsonLdScript';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Free Military Financial Calculators & Guides | MilPayTools' },
+  title: { absolute: 'Free Military Finance Tools You Can Share With Confidence | MilPayTools' },
   description:
-    'Free military pay, BAH, TSP, VA loan, PCS, education, and transition calculators — all using official DoD and VA data. No accounts, no personal info, no ads.',
+    'MilPayTools helps service members, veterans, and military families understand pay, BAH, PCS costs, VA disability, education benefits, retirement, and transition — using official DoD and VA data. No account, no ads, no lead forms.',
   alternates: { canonical: 'https://www.milpaytools.com/resources' },
   openGraph: {
-    title: 'Free Military Financial Calculators & Guides | MilPayTools',
+    title: 'Free Military Finance Tools You Can Share With Confidence | MilPayTools',
     description:
-      'Free military pay, BAH, TSP, VA loan, PCS, education, and transition calculators — all using official DoD and VA data. No accounts, no personal info, no ads.',
+      'MilPayTools helps service members, veterans, and military families understand pay, BAH, PCS costs, VA disability, and transition — official data, no account, no ads.',
     url: 'https://www.milpaytools.com/resources',
     type: 'website',
     siteName: 'MilPayTools',
@@ -18,17 +19,19 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Free Military Financial Calculators & Guides | MilPayTools',
-    description: 'Free military pay, BAH, TSP, VA loan, PCS, education, and transition calculators — official data, no accounts.',
+    title: 'Free Military Finance Tools You Can Share With Confidence | MilPayTools',
+    description:
+      'Official data. No account. No ads. No lead forms. Safe to share with service members, veterans, and military families.',
     images: ['/api/og?type=home&title=MilPayTools+Resources&v=2'],
   },
 };
 
 const schema = {
   '@context': 'https://schema.org',
-  '@type': 'CollectionPage',
-  name: 'Free Military Financial Calculators & Guides',
-  description: 'Free military pay, BAH, TSP, VA loan, PCS, education, and transition calculators — all using official DoD and VA data.',
+  '@type': 'WebPage',
+  name: 'Free Military Finance Tools You Can Share With Confidence',
+  description:
+    'MilPayTools helps service members, veterans, and military families understand pay, BAH, PCS costs, VA disability, education benefits, retirement, and transition decisions using official DoD and VA data.',
   url: 'https://www.milpaytools.com/resources',
   publisher: {
     '@type': 'Organization',
@@ -37,165 +40,132 @@ const schema = {
   },
 };
 
-// ── Section data ──────────────────────────────────────────────────────────────
+// ── Flagship sections ──────────────────────────────────────────────────────────
 
-type ToolType = 'Calculator' | 'Guide' | 'Blog';
-
-interface Tool {
-  href: string;
-  name: string;
-  desc: string;
-  type: ToolType;
-}
-
-interface Section {
-  id: string;
-  title: string;
-  description: string;
-  accentBg: string;
-  tools: Tool[];
-}
-
-const SECTIONS: Section[] = [
+const FLAGSHIP_SECTIONS = [
   {
-    id: 'starting-service',
-    title: 'Starting Service',
-    description: 'Understanding your pay, benefits, and first financial decisions.',
-    accentBg: 'bg-blue-600',
+    id: 'compensation',
+    label: 'A',
+    heading: 'Understand your real military compensation',
+    body: 'Base pay alone can dramatically understate what military service is worth. BAH, BAS, tax advantages, healthcare value, and TSP contributions can add $20,000–$50,000 per year that doesn\'t show up on the LES base pay line.',
     tools: [
-      { href: '/calculators/total-compensation', name: 'Total Military Compensation', desc: 'Full pay including BAH, BAS, tax advantages, and civilian equivalent', type: 'Calculator' },
-      { href: '/calculators/pay-charts', name: '2026 Military Pay Charts', desc: 'Look up base pay by rank and years of service', type: 'Calculator' },
-      { href: '/calculators/bah', name: 'BAH Calculator', desc: 'Find your housing allowance by location, rank, and dependency status', type: 'Calculator' },
-      { href: '/blog/how-to-read-your-les', name: 'How to Read Your LES', desc: 'Every line on your military pay stub explained', type: 'Blog' },
-      { href: '/blog/tsp-for-beginners-what-happens-if-you-do-nothing', name: 'TSP for Beginners', desc: 'What happens if you never log into TSP — and what to do about it', type: 'Blog' },
-      { href: '/blog/your-first-military-paycheck-what-to-know', name: 'Your First Military Paycheck', desc: 'Why it looks different than expected and what to set up immediately', type: 'Blog' },
-      { href: '/guides/starting-service', name: 'Starting Service Guide', desc: 'Your financial foundation from day one', type: 'Guide' },
+      { href: '/calculators/total-compensation', name: 'Total Military Compensation Calculator', desc: 'Full pay breakdown including BAH, BAS, tax advantages, and civilian salary equivalent' },
+      { href: '/calculators/bah', name: 'BAH Calculator', desc: 'Housing allowance by location, rank, and dependency status — 40,000+ ZIP codes' },
+      { href: '/calculators/pay-charts', name: '2026 Military Pay Charts', desc: 'Official DFAS pay tables for all ranks and years of service' },
     ],
   },
   {
-    id: 'pay-housing',
-    title: 'Pay & Housing',
-    description: 'Understanding what you earn and where it goes.',
-    accentBg: 'bg-emerald-600',
+    id: 'pcs',
+    label: 'B',
+    heading: 'Plan a PCS move or duty station decision',
+    body: 'PCS moves create both one-time costs and long-term budget changes. Families often focus on the move itself and miss the housing, tax, and cost-of-living reset that follows.',
     tools: [
-      { href: '/calculators/bah', name: 'BAH Calculator', desc: 'Look up BAH rates for any ZIP code, any rank', type: 'Calculator' },
-      { href: '/calculators/dual-military-bah', name: 'Dual Military BAH', desc: 'Calculate combined BAH for dual-military couples', type: 'Calculator' },
-      { href: '/calculators/compare', name: 'Duty Station Comparison', desc: 'Compare pay, BAH, and take-home pay between stations', type: 'Calculator' },
-      { href: '/calculators/cola', name: 'CONUS COLA Calculator', desc: 'Cost-of-living allowance lookup by ZIP code', type: 'Calculator' },
-      { href: '/calculators/guard-reserve', name: 'Guard & Reserve Pay', desc: 'Estimate drill pay, annual training, and TRS savings', type: 'Calculator' },
-      { href: '/bah', name: 'BAH by Duty Station', desc: '200+ duty station pages with local housing context', type: 'Guide' },
-      { href: '/guides/military-pay', name: 'Military Pay Guide', desc: 'Complete guide to military compensation and allowances', type: 'Guide' },
-    ],
-  },
-  {
-    id: 'pcs-relocation',
-    title: 'PCS & Relocation',
-    description: 'Planning a move without financial surprises.',
-    accentBg: 'bg-indigo-600',
-    tools: [
-      { href: '/calculators/pcs', name: 'PCS Cost Estimator', desc: 'Estimate DLA, mileage, per diem, TLE, and PPM profit', type: 'Calculator' },
-      { href: '/calculators/compare', name: 'Duty Station Comparison', desc: 'Compare BAH, housing costs, and take-home pay at two stations', type: 'Calculator' },
-      { href: '/calculators/bah', name: 'BAH Calculator', desc: 'Look up your BAH at your new duty station before you move', type: 'Calculator' },
-      { href: '/bah', name: 'BAH by Duty Station', desc: 'Local housing context for 200+ installations', type: 'Guide' },
-      { href: '/guides/pcs', name: 'PCS & Relocation Guide', desc: 'Financial planning for your next move', type: 'Guide' },
-    ],
-  },
-  {
-    id: 'deployment',
-    title: 'Deployment',
-    description: 'Making the most of deployment pay and benefits.',
-    accentBg: 'bg-amber-600',
-    tools: [
-      { href: '/calculators/deployment', name: 'Deployment Pay Calculator', desc: 'See how HFP, FSA, CZTE, and SDP change your take-home pay', type: 'Calculator' },
-      { href: '/calculators/tsp', name: 'TSP Growth Projector', desc: 'Model Roth TSP growth including combat-zone contribution strategies', type: 'Calculator' },
-      { href: '/blog/deployment-pay-explained', name: 'Deployment Pay Explained', desc: 'Every dollar you earn downrange — CZTE, HFP, FSA, and SDP', type: 'Blog' },
-      { href: '/blog/how-deployment-pay-works', name: 'How Deployment Pay Works', desc: 'Quick-answer guide to what changes when you deploy', type: 'Blog' },
-      { href: '/blog/roth-tsp-deployment-strategy', name: 'Roth TSP Deployment Strategy', desc: 'How combat zone contributions create a triple tax advantage', type: 'Blog' },
-    ],
-  },
-  {
-    id: 'retirement-tsp',
-    title: 'Retirement & TSP',
-    description: 'Planning for 20 years and beyond.',
-    accentBg: 'bg-purple-600',
-    tools: [
-      { href: '/calculators/tsp', name: 'TSP Growth Projector', desc: 'Project your TSP balance at retirement with fund allocation modeling', type: 'Calculator' },
-      { href: '/calculators/retirement', name: 'Military Retirement Calculator', desc: 'Estimate your pension under BRS or High-3', type: 'Calculator' },
-      { href: '/blog/brs-vs-high-3-retirement', name: 'BRS vs High-3 Explained', desc: 'Which system wins — and for whom', type: 'Blog' },
-      { href: '/blog/roth-tsp-advantage-junior-enlisted', name: 'The Roth TSP Advantage', desc: 'Why junior enlisted are in the strongest position to benefit from Roth TSP', type: 'Blog' },
-      { href: '/guides/retirement-tsp', name: 'Retirement & TSP Guide', desc: 'BRS, High-3, TSP strategies, and retirement planning', type: 'Guide' },
-    ],
-  },
-  {
-    id: 'education',
-    title: 'Education & Career',
-    description: 'Maximizing GI Bill, Tuition Assistance, and education benefits.',
-    accentBg: 'bg-teal-600',
-    tools: [
-      { href: '/calculators/education', name: 'Education Benefits Calculator', desc: 'Compare GI Bill, VR&E, and Tuition Assistance side by side', type: 'Calculator' },
-      { href: '/blog/gi-bill-vs-tuition-assistance', name: 'GI Bill vs Tuition Assistance', desc: 'Which to use — and in what order on active duty', type: 'Blog' },
-      { href: '/blog/tuition-assistance-and-gi-bill-together', name: 'Can You Use TA and GI Bill Together?', desc: 'How Top-Up works and why using TA first usually wins', type: 'Blog' },
-      { href: '/blog/va-gi-bill-comparison-tool-guide', name: 'VA GI Bill Comparison Tool Guide', desc: 'How to use the official tool — and what it misses', type: 'Blog' },
-      { href: '/blog/vre-chapter-31-vs-gi-bill', name: 'VR&E vs GI Bill', desc: 'The benefit most veterans don\'t know about — and when it wins', type: 'Blog' },
-      { href: '/guides/education-benefits', name: 'Education Benefits Guide', desc: 'GI Bill, TA, VR&E, and military education benefits explained', type: 'Guide' },
-    ],
-  },
-  {
-    id: 'va-loans',
-    title: 'Buying a Home (VA Loans)',
-    description: 'Understanding the VA loan benefit before talking to a lender.',
-    accentBg: 'bg-red-600',
-    tools: [
-      { href: '/calculators/va-loan', name: 'VA Loan Payment Calculator', desc: 'Estimate your payment, funding fee, and BAH comparison', type: 'Calculator' },
-      { href: '/calculators/va-refinance', name: 'VA Refinance Calculator', desc: 'IRRRL savings, break-even, and VA net tangible benefit checks', type: 'Calculator' },
-      { href: '/calculators/va-disability', name: 'VA Disability Calculator', desc: 'A qualifying disability exemption can waive the VA funding fee entirely', type: 'Calculator' },
-      { href: '/blog/va-loan-funding-fee-explained', name: 'VA Funding Fee Explained', desc: 'Every 2026 rate, exemption, and dollar amount', type: 'Blog' },
-      { href: '/blog/can-i-use-va-loan-again', name: 'Can I Use My VA Loan Again?', desc: 'Entitlement restoration, simultaneous loans, and subsequent use explained', type: 'Blog' },
-      { href: '/blog/va-appraisal-what-to-expect', name: 'VA Appraisal: What to Expect', desc: 'MPRs, Tidewater, and what to do if value comes in low', type: 'Blog' },
-      { href: '/blog/va-loan-vs-fha-vs-conventional', name: 'VA Loan vs FHA vs Conventional', desc: 'How to actually compare them for your specific situation', type: 'Blog' },
-      { href: '/blog/va-loan-assumptions-explained', name: 'VA Loan Assumptions Explained', desc: 'How assumptions work and what happens to seller entitlement', type: 'Blog' },
-      { href: '/blog/using-bah-to-buy-a-home', name: 'Using BAH to Buy a Home', desc: 'What your housing allowance covers and when ownership makes sense', type: 'Blog' },
-      { href: '/guides/va-home-loans', name: 'VA Home Loans Guide', desc: 'Eligibility, funding fee, IRRRL, and when VA may not be best', type: 'Guide' },
-    ],
-  },
-  {
-    id: 'veterans-benefits',
-    title: 'Veterans Benefits',
-    description: 'Benefits that continue and grow after service.',
-    accentBg: 'bg-sky-600',
-    tools: [
-      { href: '/calculators/va-disability', name: 'VA Disability Calculator', desc: 'Calculate combined ratings with bilateral factor and 2026 rates', type: 'Calculator' },
-      { href: '/calculators/healthcare-comparison', name: 'Healthcare Cost Comparison', desc: 'Compare TRICARE, employer plans, and Marketplace costs', type: 'Calculator' },
-      { href: '/blog/file-va-disability-before-separation', name: 'File VA Disability Before You Separate', desc: 'Why filing on active duty produces better outcomes', type: 'Blog' },
-      { href: '/blog/sgli-vgli-private-life-insurance', name: 'SGLI vs VGLI vs Private Insurance', desc: 'Life insurance strategy before, during, and after service', type: 'Blog' },
-      { href: '/blog/va-disability-math-explained', name: 'VA Disability Math Explained', desc: 'Why 50% + 30% does not equal 80% — the whole-person formula', type: 'Blog' },
-      { href: '/guides/va-disability', name: 'VA Disability Guide', desc: 'Combined rating formula, bilateral factor, and 2026 compensation rates', type: 'Guide' },
+      { href: '/calculators/pcs', name: 'PCS Cost Estimator', desc: 'DLA, MALT mileage, per diem, TLE, and PPM net proceeds — 2026 DTMO rates' },
+      { href: '/calculators/compare', name: 'Duty Station Comparison', desc: 'Side-by-side BAH, state taxes, COLA, and take-home between current and new station' },
+      { href: '/bah', name: 'BAH Rates by Duty Station', desc: '200+ installation pages with local housing context' },
     ],
   },
   {
     id: 'transition',
-    title: 'Leaving the Military',
-    description: 'Making the transition with financial confidence.',
-    accentBg: 'bg-orange-600',
+    label: 'C',
+    heading: 'Prepare for transition',
+    body: 'Leaving the military isn\'t just changing jobs. BAH, BAS, TRICARE, SGLI, TSP contributions, and tax treatment can all change on day one. The financial gap is often larger than people expect.',
     tools: [
-      { href: '/calculators/transition-readiness', name: 'Transition Readiness Calculator', desc: 'Compare military vs civilian compensation after taxes and benefits', type: 'Calculator' },
-      { href: '/calculators/separation-timeline', name: 'Separation Benefits Timeline', desc: 'Key dates and deadlines for separating service members', type: 'Calculator' },
-      { href: '/calculators/total-compensation', name: 'Total Compensation Calculator', desc: 'Know your military comp baseline before salary negotiation', type: 'Calculator' },
-      { href: '/calculators/healthcare-comparison', name: 'Healthcare Cost Comparison', desc: 'Compare TRICARE, employer plans, and Marketplace costs after separation', type: 'Calculator' },
-      { href: '/blog/are-you-financially-ready-to-leave-the-military', name: 'Are You Financially Ready to Leave?', desc: 'The three-factor readiness test', type: 'Blog' },
-      { href: '/blog/what-happens-to-tsp-after-military', name: 'What Happens to TSP After Military', desc: 'Options for your account — roll over, leave it, or withdraw', type: 'Blog' },
-      { href: '/blog/tamp-healthcare-after-military-separation', name: 'TAMP Healthcare Bridge', desc: '180-day premium-free TRICARE after qualifying separations', type: 'Blog' },
-      { href: '/blog/skillbridge-program-guide', name: 'SkillBridge Program Guide', desc: 'Get paid military salary while training for your civilian career', type: 'Blog' },
-      { href: '/transition', name: 'Military Transition Roadmap', desc: 'Full financial arc of military separation', type: 'Guide' },
+      { href: '/calculators/transition-readiness', name: 'Transition Readiness Calculator', desc: 'Military vs. civilian compensation after taxes — is the offer actually better?' },
+      { href: '/calculators/separation-timeline', name: 'Separation Benefits Timeline', desc: 'Key dates and deadlines when SGLI, TRICARE, and move entitlements expire' },
+      { href: '/calculators/healthcare-comparison', name: 'Healthcare Cost Comparison', desc: 'TRICARE vs. employer plan vs. ACA Marketplace — what it actually costs after separation' },
+    ],
+  },
+  {
+    id: 'va',
+    label: 'D',
+    heading: 'Understand VA benefits and home loans',
+    body: 'VA benefits can be powerful, but the rules are easy to misunderstand. These tools explain the math and tradeoffs without selling a loan, capturing a lead, or steering anyone toward a provider.',
+    tools: [
+      { href: '/calculators/va-disability', name: 'VA Disability Calculator', desc: 'Combined rating using the VA whole-person formula — with bilateral factor and 2026 rates' },
+      { href: '/calculators/va-loan', name: 'VA Loan Payment Calculator', desc: 'Monthly payment, funding fee, and BAH comparison — no lender recommendation' },
+      { href: '/calculators/va-refinance', name: 'VA Refinance Calculator', desc: 'IRRRL break-even and net tangible benefit — educational only' },
+      { href: '/guides/va-home-loans', name: 'VA Home Loans Guide', desc: 'Eligibility, funding fee, IRRRL, and when VA may not be the best option' },
+    ],
+  },
+  {
+    id: 'education-retirement',
+    label: 'E',
+    heading: 'Make education and retirement decisions',
+    body: 'GI Bill, Tuition Assistance, VR&E, TSP, BRS, and High-3 decisions can be worth tens of thousands of dollars over a career. The official rules are scattered — these tools bring them together.',
+    tools: [
+      { href: '/calculators/education', name: 'Education Benefits Comparison', desc: 'GI Bill, VR&E, Tuition Assistance side-by-side — by school ZIP, eligibility tier, and tuition' },
+      { href: '/calculators/tsp', name: 'TSP Growth Projector', desc: 'Retirement savings projections with fund allocation and BRS matching' },
+      { href: '/calculators/retirement', name: 'Military Retirement Calculator', desc: 'High-3 and BRS pension projections with lifetime value and CRDP eligibility' },
     ],
   },
 ];
 
-const TYPE_STYLES: Record<ToolType, string> = {
-  Calculator: 'bg-zinc-100 text-zinc-600',
-  Guide: 'bg-zinc-100 text-zinc-600',
-  Blog: 'bg-zinc-100 text-zinc-600',
-};
+// ── All tools directory ────────────────────────────────────────────────────────
+
+const ALL_TOOLS = [
+  {
+    group: 'Pay & Compensation',
+    items: [
+      { href: '/calculators/total-compensation', name: 'Total Military Compensation Calculator' },
+      { href: '/calculators/bah', name: 'BAH Calculator' },
+      { href: '/calculators/pay-charts', name: '2026 Military Pay Charts' },
+      { href: '/calculators/dual-military-bah', name: 'Dual Military BAH Calculator' },
+      { href: '/calculators/cola', name: 'CONUS COLA Calculator' },
+      { href: '/calculators/guard-reserve', name: 'Guard & Reserve Pay Calculator' },
+      { href: '/calculators/deployment', name: 'Deployment Pay Calculator' },
+    ],
+  },
+  {
+    group: 'PCS & Duty Stations',
+    items: [
+      { href: '/calculators/pcs', name: 'PCS Cost Estimator' },
+      { href: '/calculators/compare', name: 'Duty Station Comparison' },
+      { href: '/bah', name: 'BAH Rates by Installation (200+ stations)' },
+    ],
+  },
+  {
+    group: 'Retirement & TSP',
+    items: [
+      { href: '/calculators/retirement', name: 'Military Retirement Calculator' },
+      { href: '/calculators/tsp', name: 'TSP Growth Projector' },
+    ],
+  },
+  {
+    group: 'Veterans Benefits & VA Loans',
+    items: [
+      { href: '/calculators/va-disability', name: 'VA Disability Rating Calculator' },
+      { href: '/calculators/va-loan', name: 'VA Loan Payment Calculator' },
+      { href: '/calculators/va-refinance', name: 'VA Refinance Calculator' },
+    ],
+  },
+  {
+    group: 'Education',
+    items: [
+      { href: '/calculators/education', name: 'Education Benefits Comparison' },
+    ],
+  },
+  {
+    group: 'Transition',
+    items: [
+      { href: '/calculators/transition-readiness', name: 'Transition Readiness Calculator' },
+      { href: '/calculators/separation-timeline', name: 'Separation Benefits Timeline' },
+      { href: '/calculators/healthcare-comparison', name: 'Healthcare Cost Comparison' },
+    ],
+  },
+  {
+    group: 'Guides',
+    items: [
+      { href: '/guides/military-pay', name: 'Military Pay Guide' },
+      { href: '/guides/va-home-loans', name: 'VA Home Loans Guide' },
+      { href: '/guides/va-disability', name: 'VA Disability Guide' },
+      { href: '/guides/retirement-tsp', name: 'Retirement & TSP Guide' },
+      { href: '/guides/education-benefits', name: 'Education Benefits Guide' },
+      { href: '/guides/pcs', name: 'PCS & Duty Station Guide' },
+      { href: '/transition', name: 'Military Transition Financial Roadmap' },
+    ],
+  },
+];
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
@@ -204,144 +174,277 @@ export default function ResourcesPage() {
     <>
       <JsonLdScript schema={schema} />
 
-      {/* ── Hero ── */}
-      <section className="bg-slate-900 py-14 sm:py-20 px-4">
-        <div className="mx-auto max-w-4xl text-center">
+      {/* ── 1. Hero ─────────────────────────────────────────────────────────── */}
+      <section className="bg-slate-900 py-16 sm:py-24 px-4">
+        <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 mb-6 rounded-full bg-white/10 px-4 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white/80 uppercase tracking-wide">
-              Free · No Account · No Personal Info · Official 2026 DoD &amp; VA Data
+              Free · No Account · No Personal Info · No Ads · Official DoD &amp; VA Data
             </span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4 leading-tight">
-            Free Military Financial Tools
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-5 leading-tight">
+            Free Military Finance Tools You Can Share With Confidence
           </h1>
-          <p className="text-lg text-white/70 leading-relaxed max-w-2xl mx-auto mb-3">
-            Every calculator and guide uses official DoD and VA data. No accounts. No personal information. No ads.
-          </p>
-          <p className="text-sm text-white/50">
-            Built by an NMLS-licensed mortgage professional and military family. Share freely with service members, veterans, and military families.
+          <p className="text-lg sm:text-xl text-white/70 leading-relaxed max-w-2xl mx-auto">
+            MilPayTools helps service members, veterans, and military families understand pay, BAH,
+            PCS costs, VA disability, education benefits, retirement, and transition decisions using
+            official DoD and VA data — with no account, no personal information, no ads, and no lead forms.
           </p>
         </div>
       </section>
 
-      {/* ── Who this page is for ── */}
-      <section className="bg-white border-b border-zinc-200 py-5 px-4">
-        <div className="mx-auto max-w-4xl">
-          <div className="rounded-lg bg-zinc-50 border border-zinc-200 px-5 py-4 text-sm text-zinc-700 leading-relaxed">
-            <strong className="text-zinc-900">Who this page is for:</strong>{' '}
-            Military financial counselors, transition coaches, veteran service organizations, family
-            readiness groups, and anyone who works with service members and their families. Every
-            tool below is free, requires no account or personal information, and can be shared
-            directly. No permission needed.
+      {/* ── 2. Who built this ───────────────────────────────────────────────── */}
+      <section className="bg-white border-b border-zinc-200 py-14 sm:py-18 px-4">
+        <div className="mx-auto max-w-3xl">
+          <div className="w-8 h-0.5 bg-red-700 rounded-full mb-6" aria-hidden="true" />
+          <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight mb-6">
+            Who built this — and why
+          </h2>
+          <p className="text-base text-zinc-600 leading-relaxed mb-8">
+            MilPayTools was built by <strong className="text-zinc-900">Dan Stevens</strong>, an
+            NMLS-licensed mortgage professional and the son of a 20-year Air Force veteran who grew
+            up on bases from Offutt to Eielson to Lajes Field. Military advisor{' '}
+            <strong className="text-zinc-900">Col. Ryan Durand, USAF/USSF (Ret.)</strong> provides
+            military-insider guidance and review.
+          </p>
+          <p className="text-base text-zinc-600 leading-relaxed mb-10">
+            The goal is simple: make confusing military financial decisions easier to understand
+            before they become expensive mistakes. Every tool uses official published data from
+            DFAS, VA, TSP, and DTMO. We don&apos;t sell loans, capture leads, or recommend
+            products. We just build the clearest tools we can and make them free.
+          </p>
+
+          {/* Headshots */}
+          <div className="flex flex-col sm:flex-row gap-6 mb-8">
+            <div className="flex items-center gap-4">
+              <Image
+                src="/images/dan-stevens.jpg"
+                alt="Dan Stevens"
+                width={56}
+                height={56}
+                className="w-14 h-14 rounded-full object-cover flex-none"
+              />
+              <div>
+                <p className="font-semibold text-zinc-900 text-sm">Dan Stevens</p>
+                <p className="text-xs text-zinc-500">Founder · NMLS-Licensed Mortgage Professional</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <Image
+                src="/images/ryan-durand.jpeg"
+                alt="Col. Ryan Durand"
+                width={56}
+                height={56}
+                className="w-14 h-14 rounded-full object-cover flex-none"
+              />
+              <div>
+                <p className="font-semibold text-zinc-900 text-sm">Col. Ryan Durand, USAF/USSF (Ret.)</p>
+                <p className="text-xs text-zinc-500">Military Advisor</p>
+              </div>
+            </div>
           </div>
+
+          <Link
+            href="/about"
+            className="text-sm font-semibold text-red-700 hover:text-red-800 transition-colors"
+          >
+            Learn more about us →
+          </Link>
         </div>
       </section>
 
-      {/* ── Jump nav ── */}
-      <section className="bg-white border-b border-zinc-200 py-4 px-4 sticky top-[64px] z-40">
-        <div className="mx-auto max-w-6xl overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
-          <div className="flex gap-1.5 min-w-max">
-            {SECTIONS.map((s) => (
-              <a
-                key={s.id}
-                href={`#${s.id}`}
-                className="px-3 py-1.5 rounded-full text-xs font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-colors whitespace-nowrap"
-              >
-                {s.title}
-              </a>
+      {/* ── 3. Trust block ──────────────────────────────────────────────────── */}
+      <section className="bg-emerald-50 border-b border-emerald-100 py-14 sm:py-18 px-4">
+        <div className="mx-auto max-w-3xl">
+          <div className="w-8 h-0.5 bg-emerald-600 rounded-full mb-6" aria-hidden="true" />
+          <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight mb-8">
+            Why this is safe to share
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              'Free to use — every tool, every time',
+              'No account or login required',
+              'No personal information collected for calculator use',
+              'No display ads',
+              'No lender recommendations or rate quotes',
+              'No lead forms or sales funnels',
+              'Built from official DoD, DFAS, VA, TSP, and DTMO published data',
+              'Educational only — not tax, legal, financial, or lending advice',
+              'Not affiliated with the Department of Defense or Department of Veterans Affairs',
+            ].map((item) => (
+              <div key={item} className="flex items-start gap-3 bg-white rounded-lg border border-emerald-100 px-4 py-3">
+                <svg
+                  className="w-4 h-4 text-emerald-600 flex-none mt-0.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2.5}
+                  aria-hidden="true"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-sm text-zinc-700 leading-snug">{item}</span>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Sections ── */}
-      <div className="bg-zinc-50 py-10 px-4">
-        <div className="mx-auto max-w-6xl space-y-14">
-          {SECTIONS.map((section) => (
-            <section key={section.id} id={section.id} className="scroll-mt-32">
-              {/* Section header */}
-              <div className="mb-6">
-                <div className={`w-8 h-0.5 rounded-full ${section.accentBg} mb-3`} aria-hidden="true" />
-                <h2 className="text-xl sm:text-2xl font-black text-zinc-900 tracking-tight">
-                  {section.title}
-                </h2>
-                <p className="text-sm text-zinc-500 mt-1">{section.description}</p>
-              </div>
-
-              {/* Tool cards grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {section.tools.map((tool) => (
-                  <Link
-                    key={`${section.id}-${tool.href}`}
-                    href={tool.href}
-                    className="group bg-white rounded-xl border border-zinc-200 hover:border-zinc-300 hover:shadow-md transition-all duration-200 px-4 py-4 flex flex-col gap-2"
-                  >
-                    <div className="flex items-start justify-between gap-2">
-                      <span className="text-sm font-semibold text-zinc-900 group-hover:text-red-700 transition-colors leading-snug">
-                        {tool.name}
-                      </span>
-                      <span className={`flex-none text-[10px] font-semibold px-1.5 py-0.5 rounded uppercase tracking-wide ${TYPE_STYLES[tool.type]}`}>
-                        {tool.type}
-                      </span>
-                    </div>
-                    <p className="text-xs text-zinc-500 leading-relaxed flex-1">{tool.desc}</p>
-                    <span className="text-xs font-bold text-red-700 group-hover:text-red-800 transition-colors">
-                      Open →
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
-      </div>
-
-      {/* ── About + Sharing ── */}
-      <section className="bg-white border-t border-zinc-200 py-12 sm:py-16 px-4">
+      {/* ── 4. Flagship tools by life stage ─────────────────────────────────── */}
+      <section className="bg-white border-b border-zinc-200 py-14 sm:py-20 px-4">
         <div className="mx-auto max-w-3xl">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+          <div className="w-8 h-0.5 bg-red-700 rounded-full mb-6" aria-hidden="true" />
+          <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight mb-3">
+            Flagship tools by life stage
+          </h2>
+          <p className="text-base text-zinc-500 mb-12">
+            The most-used tools, organized by when they matter most.
+          </p>
 
-            {/* About */}
-            <div>
-              <div className="w-8 h-0.5 bg-red-700 rounded-full mb-4" aria-hidden="true" />
-              <h2 className="text-lg font-black text-zinc-900 tracking-tight mb-3">About MilPayTools</h2>
-              <p className="text-sm text-zinc-600 leading-relaxed mb-3">
-                MilPayTools is a free military financial education platform built by Dan Stevens,
-                an NMLS-licensed mortgage professional and son of a 20-year Air Force veteran,
-                in partnership with Col. Ryan Durand, USAF/USSF (Ret.). Every tool uses official
-                DoD and VA data.
-              </p>
-              <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-                We are not a lender, financial advisor, or government agency — just clear tools
-                and honest education for military families.
-              </p>
+          <div className="space-y-12">
+            {FLAGSHIP_SECTIONS.map((s) => (
+              <div key={s.id} id={s.id}>
+                <div className="flex items-baseline gap-3 mb-2">
+                  <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">{s.label}</span>
+                  <h3 className="text-lg sm:text-xl font-bold text-zinc-900">{s.heading}</h3>
+                </div>
+                <p className="text-sm text-zinc-600 leading-relaxed mb-5 pl-6">{s.body}</p>
+                <ul className="space-y-2 pl-6">
+                  {s.tools.map((t) => (
+                    <li key={t.href} className="flex items-start gap-3">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-700 flex-none mt-2" aria-hidden="true" />
+                      <div>
+                        <Link
+                          href={t.href}
+                          className="text-sm font-semibold text-red-700 hover:text-red-800 transition-colors"
+                        >
+                          {t.name}
+                        </Link>
+                        <span className="text-sm text-zinc-500"> — {t.desc}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5. How to share ─────────────────────────────────────────────────── */}
+      <section className="bg-zinc-50 border-b border-zinc-200 py-14 sm:py-18 px-4">
+        <div className="mx-auto max-w-3xl">
+          <div className="w-8 h-0.5 bg-red-700 rounded-full mb-6" aria-hidden="true" />
+          <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight mb-8">
+            Ways to share these tools
+          </h2>
+          <ul className="space-y-3 mb-8">
+            {[
+              'Share this page as a general military finance resource',
+              'Share the Total Compensation Calculator with new service members and their families',
+              'Share the PCS tools before PCS season or with families receiving orders',
+              'Share the Transition Readiness Calculator with separating or retiring members',
+              'Share the VA Disability Calculator with veterans navigating the claims process',
+              'Share the VA Loan tools with eligible buyers comparing payment and funding fee impact',
+              "Add MilPayTools to your unit, installation, or organization's financial resources list",
+              'Include in TAP briefings, financial readiness sessions, or spouse group resources',
+            ].map((item) => (
+              <li key={item} className="flex items-start gap-3 text-sm text-zinc-700 leading-relaxed">
+                <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 flex-none mt-2" aria-hidden="true" />
+                {item}
+              </li>
+            ))}
+          </ul>
+          <div className="rounded-lg bg-white border border-zinc-200 px-5 py-4">
+            <p className="text-sm text-zinc-600">
+              <strong className="text-zinc-900">No permission needed.</strong>{' '}
+              These tools are free for everyone.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-3">
               <Link
-                href="/about"
-                className="text-sm font-semibold text-red-700 hover:text-red-800 transition-colors"
+                href="/"
+                className="inline-flex items-center gap-2 rounded-md bg-red-700 px-4 py-2 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
               >
-                Learn more about why we built this →
+                Open MilPayTools →
+              </Link>
+              <Link
+                href="/calculators/total-compensation"
+                className="inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors"
+              >
+                Total Compensation Calculator →
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Sharing note */}
-            <div className="rounded-xl bg-zinc-50 border border-zinc-200 px-5 py-5">
-              <h2 className="text-base font-bold text-zinc-900 mb-2">Share freely</h2>
-              <p className="text-sm text-zinc-600 leading-relaxed">
-                These tools are free for everyone. If you work with service members, veterans,
-                or military families and find these useful, you&apos;re welcome to share this
-                page or any individual tool. No permission needed.
-              </p>
-              <div className="mt-4 pt-4 border-t border-zinc-200">
-                <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-2">
-                  Share this page
-                </p>
-                <code className="text-xs font-mono text-zinc-700 bg-white border border-zinc-200 rounded px-3 py-1.5 block select-all">
-                  milpaytools.com/resources
-                </code>
-              </div>
+      {/* ── 6. Full directory (collapsed) ───────────────────────────────────── */}
+      <section className="bg-white border-b border-zinc-200 py-10 px-4">
+        <div className="mx-auto max-w-3xl">
+          <details className="group">
+            <summary className="flex items-center justify-between cursor-pointer list-none [&::-webkit-details-marker]:hidden py-2">
+              <span className="text-sm font-semibold text-zinc-700 group-open:text-red-700 transition-colors">
+                See all tools and guides
+              </span>
+              <svg
+                className="w-4 h-4 text-zinc-400 flex-none transition-transform duration-200 group-open:rotate-180"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                aria-hidden="true"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
+              </svg>
+            </summary>
+
+            <div className="pt-6 pb-2 grid grid-cols-1 sm:grid-cols-2 gap-8">
+              {ALL_TOOLS.map((group) => (
+                <div key={group.group}>
+                  <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-3">
+                    {group.group}
+                  </p>
+                  <ul className="space-y-1.5">
+                    {group.items.map((item) => (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          className="text-sm text-zinc-700 hover:text-red-700 transition-colors"
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
+          </details>
+        </div>
+      </section>
 
+      {/* ── 7. Bottom section ───────────────────────────────────────────────── */}
+      <section className="bg-zinc-50 py-12 sm:py-16 px-4">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-xs text-zinc-500 leading-relaxed mb-6 max-w-2xl">
+            MilPayTools is an independent educational platform. We are not affiliated with the
+            Department of Defense, Department of Veterans Affairs, or any government agency. All
+            tools are educational only and do not constitute tax, legal, financial, or lending advice.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 text-sm">
+            <Link
+              href="/about"
+              className="font-medium text-red-700 hover:text-red-800 transition-colors"
+            >
+              Learn more about why we built this →
+            </Link>
+            <Link
+              href="/feedback"
+              className="font-medium text-zinc-600 hover:text-zinc-900 transition-colors"
+            >
+              Questions or suggestions? We&apos;d love to hear from you →
+            </Link>
           </div>
         </div>
       </section>
