@@ -6,7 +6,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 export const metadata: Metadata = {
   title: { absolute: 'Free Military Finance Tools You Can Share With Confidence | MilPayTools' },
   description:
-    'MilPayTools helps service members, veterans, and military families understand pay, BAH, PCS costs, VA disability, education benefits, retirement, and transition — using official DoD and VA data. No account, no ads, no lead forms.',
+    'MilPayTools helps service members, veterans, and military families understand pay, BAH, PCS costs, VA disability, education benefits, retirement, and transition — using official DoD and VA data. No account required, no personal information collected.',
   alternates: { canonical: 'https://www.milpaytools.com/resources' },
   openGraph: {
     title: 'Free Military Finance Tools You Can Share With Confidence | MilPayTools',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Free Military Finance Tools You Can Share With Confidence | MilPayTools',
     description:
-      'Official data. No account. No ads. No lead forms. Safe to share with service members, veterans, and military families.',
+      'Official data. No account required. No personal information collected. Safe to share with service members, veterans, and military families.',
     images: ['/api/og?type=home&title=MilPayTools+Resources&v=2'],
   },
 };
@@ -180,7 +180,7 @@ export default function ResourcesPage() {
           <div className="inline-flex items-center gap-2 mb-6 rounded-full bg-white/10 px-4 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white/80 uppercase tracking-wide">
-              Free · No Account · No Personal Info · No Ads · Official DoD &amp; VA Data
+              Free · No Account · No Personal Info · Official DoD &amp; VA Data
             </span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-5 leading-tight">
@@ -189,7 +189,7 @@ export default function ResourcesPage() {
           <p className="text-lg sm:text-xl text-white/70 leading-relaxed max-w-2xl mx-auto">
             MilPayTools helps service members, veterans, and military families understand pay, BAH,
             PCS costs, VA disability, education benefits, retirement, and transition decisions using
-            official DoD and VA data — with no account, no personal information, no ads, and no lead forms.
+            official DoD and VA data — with no account required, no personal information collected, and no display advertising.
           </p>
         </div>
       </section>
@@ -266,12 +266,13 @@ export default function ResourcesPage() {
               'Free to use — every tool, every time',
               'No account or login required',
               'No personal information collected for calculator use',
-              'No display ads',
-              'No lender recommendations or rate quotes',
-              'No lead forms or sales funnels',
+              'No display advertising',
+              'Our calculators don\'t recommend specific lenders or provide rate quotes',
+              'No account or personal information required to use any calculator',
               'Built from official DoD, DFAS, VA, TSP, and DTMO published data',
               'Educational only — not tax, legal, financial, or lending advice',
               'Not affiliated with the Department of Defense or Department of Veterans Affairs',
+              'If we ever partner with a financial service or recommend a resource, it will be clearly labeled and separate from our calculator tools.',
             ].map((item) => (
               <div key={item} className="flex items-start gap-3 bg-white rounded-lg border border-emerald-100 px-4 py-3">
                 <svg
