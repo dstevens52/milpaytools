@@ -13,7 +13,7 @@ const FAQS = [
   },
   {
     question: 'Who is exempt from the VA funding fee?',
-    answer: 'Veterans with a service-connected disability rating of 10% or higher are exempt from the VA funding fee on every VA loan, including refinances. Purple Heart recipients on active duty and surviving spouses receiving Dependency and Indemnity Compensation (DIC) are also exempt. If you received a disability rating after closing with an effective date before closing, you may be eligible for a retroactive refund.',
+    answer: 'A qualifying VA funding fee exemption — commonly because the borrower receives or is eligible to receive VA disability compensation — waives the funding fee entirely on every VA loan, including refinances. Other exempt categories include certain pre-discharge situations, active-duty Purple Heart recipients, and eligible surviving spouses receiving DIC. If a disability rating is later awarded with an effective date before closing, a retroactive refund may be available.',
   },
   {
     question: 'When does a VA loan make more sense than a conventional loan?',
@@ -135,6 +135,9 @@ export default function VALoanPage() {
       {/* ── Next steps cards ─────────────────────────────────────────── */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="mb-6">
+          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-5">
+            A VA loan payment typically includes principal, interest, property taxes, and homeowners insurance. VA loans do not require monthly private mortgage insurance, which can save $150–$400/month compared to conventional loans with less than 20% down. Most non-exempt borrowers pay a one-time VA funding fee — 2.15% on first use with $0 down — that can be paid at closing or financed into the loan. Financing the fee lowers cash needed upfront but increases the loan balance and total interest paid over time.
+          </p>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
             Take the next step
           </h2>
@@ -228,7 +231,7 @@ export default function VALoanPage() {
             <ExampleRow label="Total estimated PITI" value="$2,611/mo" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> With $0 down and no PMI ever, the total payment is $2,611/month. The $7,525 funding fee is rolled into the loan, adding roughly $45/month to the P&amp;I payment. A borrower with a 10%+ service-connected disability rating pays no funding fee at all — reducing the loan to $350,000 and the monthly P&amp;I to approximately $2,098, saving $46/month over the life of the loan.
+            <strong>What this means:</strong> With $0 down and no PMI ever, the total payment is $2,611/month. The $7,525 funding fee is rolled into the loan, adding roughly $45/month to the P&amp;I payment. A borrower with a qualifying disability exemption pays no funding fee at all — reducing the loan to $350,000 and the monthly P&amp;I to approximately $2,098, saving $46/month over the life of the loan.
           </p>
         </ExampleBox>
       </section>
@@ -272,7 +275,7 @@ export default function VALoanPage() {
             </summary>
             <div className="px-5 pb-5 pt-3 border-t border-zinc-100 space-y-3">
               <p className="text-zinc-600 text-sm leading-relaxed">
-                Any service-connected disability rating of 10% or higher waives the VA funding fee entirely — on every VA loan you ever use. This is one of the most financially significant disability benefits, because it applies at the time of use rather than as a fixed monthly payment.
+                A qualifying VA funding fee exemption — commonly because the borrower receives or is eligible to receive VA disability compensation — waives the funding fee entirely on every VA loan. This is one of the most financially significant disability benefits, because it applies at the time of use rather than as a fixed monthly payment.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
                 On a $400,000 first-use purchase with $0 down, the standard fee is $8,600 (2.15%). With a 10%+ disability rating, you pay $0. On a subsequent-use purchase, that same home would carry a $13,200 fee (3.30%). If you have a disability rating, the waiver saves you real money every time.

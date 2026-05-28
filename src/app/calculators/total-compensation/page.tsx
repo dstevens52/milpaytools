@@ -127,6 +127,9 @@ export default function TotalCompensationPage() {
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
             Your military value goes beyond this calculator
           </h2>
+          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-3">
+            Military compensation includes more than base pay. A complete picture adds BAH (excluded from federal taxable income), BAS, federal tax advantages on allowances, BRS/TSP government contributions, and the estimated replacement value of TRICARE healthcare coverage. A civilian job offer needs to be compared against this full economic value — not just the base-pay line on the LES — to determine whether it represents a step up or a pay cut.
+          </p>
           <p className="text-zinc-600 text-sm leading-relaxed max-w-2xl">
             Total compensation is just the starting point. These benefits add thousands more in value — and each has its own calculator.
           </p>

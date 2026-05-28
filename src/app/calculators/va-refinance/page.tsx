@@ -157,7 +157,7 @@ export default function VARefinancePage() {
               Check your VA disability rating
             </p>
             <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-              A disability rating of 10% or higher waives the refinance funding fee too. Calculate your combined rating to see if you qualify.
+              Many borrowers are exempt from the funding fee, including those receiving or eligible to receive VA disability compensation. Calculate your combined rating to confirm your exemption status.
             </p>
             <span className="text-sm font-medium text-red-700">Calculate combined VA rating →</span>
           </Link>
@@ -209,7 +209,7 @@ export default function VARefinancePage() {
             <ExampleRow label="VA recoupment estimate ($2,500 closing ÷ savings)" value="9 months" />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> The rate reduction meets VA&apos;s 0.5% net tangible benefit requirement. VA recoupment estimate — closing costs only, excluding the funding fee — is 9 months, well within the 36-month guideline. Your all-in consumer break-even including the funded fee is 13 months. A borrower with a 10%+ disability rating pays no funding fee — both measures equal 8 months.
+            <strong>What this means:</strong> The rate reduction meets VA&apos;s 0.5% net tangible benefit requirement. VA recoupment estimate — closing costs only, excluding the funding fee — is 9 months, well within the 36-month guideline. Your all-in consumer break-even including the funded fee is 13 months. A borrower with a qualifying disability exemption pays no funding fee — both measures equal 8 months.
           </p>
         </ExampleBox>
       </section>

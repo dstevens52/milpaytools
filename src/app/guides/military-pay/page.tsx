@@ -7,7 +7,7 @@ import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 
 const TITLE = 'See What Your Military Pay Is Actually Worth';
 const DESC =
-  'Most service members underestimate their total compensation by $20,000–$40,000 per year. See your base pay, BAH, BAS, TSP matching, and civilian salary equivalent — instantly, with official 2026 DFAS and DTMO data.';
+  'Many service members underestimate total compensation by tens of thousands per year because BAH, BAS, tax advantages, TSP matching, and TRICARE value are not obvious from base pay alone. See your full picture with official 2026 DFAS and DTMO data.';
 const CANONICAL = '/guides/military-pay';
 const DATE = '2026-04-12';
 const OG_IMAGE = '/api/og?type=guide&title=Military+Pay+%26+Compensation+Guide+2026&v=2';
@@ -43,12 +43,12 @@ const FAQS = [
   {
     question: 'How does BAH work and why does it vary so much?',
     answer:
-      'BAH (Basic Allowance for Housing) is a tax-free monthly payment set by the Defense Travel Management Office based on your duty station ZIP code, pay grade, and dependent status. DTMO surveys local rental markets and sets rates to cover approximately 95% of median local rental costs. An E-5 with dependents can receive from $1,218/month in a low-cost area to $3,897/month in high-cost markets. At the 22% federal bracket, $2,500/month in BAH is worth $3,205/month in equivalent taxable civilian wages.',
+      'BAH (Basic Allowance for Housing) is a monthly payment excluded from federal taxable income, set by the Defense Travel Management Office based on your duty station ZIP code, pay grade, and dependent status. DTMO surveys local rental markets and sets rates to cover approximately 95% of median local rental costs. An E-5 with dependents can receive from $1,218/month in a low-cost area to $3,897/month in high-cost markets. At the 22% federal bracket, $2,500/month in BAH is worth $3,205/month in equivalent taxable civilian wages.',
   },
   {
     question: 'What are BAS, CONUS COLA, and special pays?',
     answer:
-      'BAS (Basic Allowance for Subsistence) is a flat monthly food allowance: $477.75 for enlisted, $329.82 for officers in 2026. It is tax-free and does not vary by location. CONUS COLA is a supplemental allowance for high-cost CONUS duty stations where BAH alone does not cover the full cost-of-living differential. Special and incentive pays include Hazardous Duty Pay ($150–$275/month), Special Duty Assignment Pay ($75–$675/month), Aviation Career Incentive Pay (up to $1,000/month), and Career Sea Pay ($70–$805/month).',
+      'BAS (Basic Allowance for Subsistence) is a flat monthly food allowance: $476.95 for enlisted, $328.48 for officers in 2026. It is excluded from federal taxable income and does not vary by location. CONUS COLA is a supplemental allowance for high-cost CONUS duty stations where BAH alone does not cover the full cost-of-living differential. Special and incentive pays include Hazardous Duty Pay ($150–$275/month), Special Duty Assignment Pay ($75–$675/month), Aviation Career Incentive Pay (up to $1,000/month), and Career Sea Pay ($70–$805/month).',
   },
   {
     question: 'How do I read my LES (Leave and Earnings Statement)?',
@@ -63,7 +63,7 @@ const FAQS = [
   {
     question: 'What would a civilian need to earn to match military pay?',
     answer:
-      "To calculate civilian salary equivalence, combine base pay plus the taxable equivalent of tax-free allowances. Example — E-5 with 6 years, JBLM, with dependents: base pay $4,110/month + BAH $2,991/month + BAS $477.75/month + TSP match ~$206/month = $7,785/month ($93,420/year). At the 22% federal bracket, a civilian would need roughly $110,000–$120,000/year in gross wages to match this. Most E-5s underestimate their total package by 40–60% when looking only at base pay.",
+      "To calculate civilian salary equivalence, combine base pay plus the taxable equivalent of allowances excluded from federal taxable income. Example — E-5 with 6 years, JBLM, with dependents: base pay $4,110/month + BAH $2,991/month + BAS $476.95/month + TSP match ~$206/month = $7,784/month ($93,408/year). At the 22% federal bracket, a civilian would need roughly $110,000–$120,000/year in gross wages to match this. Most E-5s underestimate their total package by 40–60% when looking only at base pay.",
   },
 ];
 
@@ -85,7 +85,7 @@ const PAY_LAYERS = [
     label: 'Layer 2',
     title: 'Housing Allowance (BAH)',
     description:
-      'A tax-free monthly payment based on your duty station ZIP code. This is where most of the hidden compensation lives.',
+      'A monthly payment excluded from federal taxable income, based on your duty station ZIP code. This is where most of the hidden compensation lives.',
     bullets: ['~$1,200/mo to $4,500+/mo by location', 'Excluded from federal taxable income', 'Not on your W-2'],
     cta: 'Look up your BAH →',
     href: '/calculators/bah',
@@ -96,7 +96,7 @@ const PAY_LAYERS = [
     title: 'Everything Else',
     description:
       'BAS, TSP matching, tax advantages, TRICARE healthcare coverage, and special pays. Combined, these add tens of thousands per year.',
-    bullets: ['BAS: $477.75/mo (enlisted)', 'TSP match: up to 5% base pay (BRS)', 'Tax advantage: $5K–$15K+/yr', 'TRICARE: $0 premiums (worth $7,200–$20,400/yr)'],
+    bullets: ['BAS: $476.95/mo (enlisted)', 'TSP match: up to 5% base pay (BRS)', 'Tax advantage: $5K–$15K+/yr', 'TRICARE: $0 premiums (worth $7,200–$20,400/yr)'],
     cta: 'See your full picture →',
     href: '/calculators/total-compensation',
     secondaryHref: '/calculators/healthcare-comparison',
@@ -155,7 +155,7 @@ const ACCORDION = [
           <li>O-5: $1,818/mo to $4,713/mo</li>
         </ul>
         <p>
-          <strong className="text-zinc-800">The tax-free multiplier:</strong> BAH is excluded from
+          <strong className="text-zinc-800">The tax exclusion advantage:</strong> BAH is excluded from
           taxable income under 26 U.S.C. § 134. An E-5 receiving $2,500/month in BAH would need
           $3,205/month in taxable civilian wages to have the same after-tax spending power at the 22%
           federal bracket. Over a career, this exclusion is worth tens of thousands of dollars.
@@ -183,8 +183,8 @@ const ACCORDION = [
         <p>
           <strong className="text-zinc-800">BAS (Basic Allowance for Subsistence)</strong> is a flat
           monthly rate that does not vary by location or number of dependents. 2026 rates:{' '}
-          <strong className="text-zinc-800">$477.75/month enlisted</strong>,{' '}
-          <strong className="text-zinc-800">$329.82/month officers</strong>. Like BAH, it is
+          <strong className="text-zinc-800">$476.95/month enlisted</strong>,{' '}
+          <strong className="text-zinc-800">$328.48/month officers</strong>. Like BAH, it is
           excluded from federal taxable income.
         </p>
         <p>
@@ -280,7 +280,7 @@ const ACCORDION = [
         <ul className="space-y-1 pl-4 list-disc">
           <li>Base pay: $4,110/month</li>
           <li>BAH (with dependents): $2,991/month</li>
-          <li>BAS: $477.75/month</li>
+          <li>BAS: $476.95/month</li>
           <li>BRS TSP matching (~5% contribution): ~$206/month</li>
           <li><strong className="text-zinc-800">Total: $7,785/month — $93,420/year</strong></li>
         </ul>
@@ -371,8 +371,8 @@ export default function MilitaryPayGuidePage() {
           </h1>
 
           <p className="text-lg text-zinc-600 leading-relaxed mb-7">
-            Most service members only look at base pay. Your real compensation — including
-            tax-free housing, food allowances, and TSP matching — is worth{' '}
+            Many service members only look at base pay. Your real compensation — including
+            housing and food allowances excluded from federal taxable income, plus TSP matching — is worth{' '}
             <strong className="text-zinc-900">significantly more than you think.</strong>
           </p>
 
@@ -380,8 +380,7 @@ export default function MilitaryPayGuidePage() {
           <div className="rounded-lg bg-red-50 border border-red-200 px-5 py-4 mb-8 flex items-start gap-3">
             <div className="w-1 self-stretch rounded-full bg-red-500 flex-none" aria-hidden="true" />
             <p className="text-base font-semibold text-red-800 leading-snug">
-              The average service member underestimates their total compensation by{' '}
-              <span className="text-red-700">$20,000–$40,000 per year.</span>
+              Many service members underestimate total compensation by tens of thousands of dollars per year because BAH, BAS, tax advantages, TSP matching, and TRICARE value are not obvious from base pay alone.
             </p>
           </div>
 
@@ -413,15 +412,6 @@ export default function MilitaryPayGuidePage() {
 
       
       {/* ── Direct answer ──────────────────────────────────────────────── */}
-      <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
-        <div className="mx-auto max-w-3xl">
-          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-            Military compensation includes base pay, BAH, BAS, and allowances — most of which are excluded from federal taxable income, making them worth more than equivalent civilian wages. An E-5 with 6 years stationed at a mid-range duty station typically receives $75,000–$90,000 in total annual compensation value, though the number varies significantly by duty station and dependency status. Understanding the full picture is essential for comparing military pay to civilian job offers or making informed financial decisions.
-          </p>
-        </div>
-      </section>
-
-      {/* ── Direct answer */}
       <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
         <div className="mx-auto max-w-3xl">
           <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
@@ -517,7 +507,7 @@ export default function MilitaryPayGuidePage() {
                   {[
                     { label: 'Base Pay', value: '$4,110.00' },
                     { label: 'BAH (w/ dependents)', value: '$2,358' },
-                    { label: 'BAS', value: '$477.75' },
+                    { label: 'BAS', value: '$476.95' },
                   ].map(({ label, value }) => (
                     <div key={label} className="flex items-center justify-between py-2.5">
                       <span className="text-sm text-zinc-600">{label}</span>

@@ -87,7 +87,7 @@ export default function BAHPage() {
             <ExampleRow label="Annual BAH Difference" value="+$26,028/yr" highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> An E-5 with dependents stationed in San Diego receives $26,028 more per year in housing allowance than the same rank at Fort Bragg — entirely tax-free. That $2,169/month gap can make a meaningful difference in savings potential, and is often the deciding factor when comparing PCS offer packages between high-cost and low-cost duty stations.
+            <strong>What this means:</strong> An E-5 with dependents stationed in San Diego receives $26,028 more per year in housing allowance than the same rank at Fort Bragg — excluded from federal taxable income. That $2,169/month gap can make a meaningful difference in savings potential, and is often the deciding factor when comparing PCS offer packages between high-cost and low-cost duty stations.
           </p>
         </ExampleBox>
       </section>
@@ -100,9 +100,7 @@ export default function BAHPage() {
           <div>
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">What is BAH?</h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              Basic Allowance for Housing (BAH) is a monthly allowance paid to service members who
-              live off-post or off-base in the United States. It is not taxable income — excluded
-              from federal income tax, FICA, and most state income taxes.
+              Basic Allowance for Housing (BAH) is a monthly housing allowance generally paid to eligible service members in the United States who are not assigned government housing. It is excluded from federal income tax, FICA, and most state income taxes.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               BAH is determined by three factors: your pay grade, your duty station&apos;s Military

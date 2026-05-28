@@ -50,7 +50,7 @@ const FAQS = [
   {
     question: 'Who is exempt from the VA funding fee?',
     answer:
-      'Many borrowers are exempt from the funding fee, including veterans receiving or eligible to receive VA compensation for a service-connected disability, certain pre-discharge claim situations, active-duty Purple Heart recipients, and eligible surviving spouses. A 10%+ VA disability rating commonly creates this exemption, but confirm exemption status on your COE and with your lender before closing. If you receive a disability rating after closing with an effective date before closing, you may be eligible for a funding fee refund.',
+      'Many borrowers are exempt from the VA funding fee, including those receiving or eligible to receive VA disability compensation, certain pre-discharge situations, active-duty Purple Heart recipients, and eligible surviving spouses. Confirm exemption status on your COE and with your lender before closing. If a disability rating is later awarded with an effective date before closing, a retroactive refund may be available.',
   },
   {
     question: 'Does no down payment mean no cash needed at closing?',
@@ -239,7 +239,7 @@ const ACCORDION = [
           <li>Eligible surviving spouses receiving Dependency and Indemnity Compensation (DIC)</li>
         </ul>
         <p>
-          A 10%+ VA disability rating commonly creates this exemption, but{' '}
+          A qualifying disability exemption — commonly because the borrower receives or is eligible to receive VA disability compensation — waives the funding fee entirely. Always{' '}
           <strong className="text-zinc-800">confirm your exemption status on your Certificate
           of Eligibility and with your lender before closing.</strong> The exemption should
           appear on your COE — do not assume it applies without verification.
@@ -785,6 +785,9 @@ export default function VAHomeLoansGuidePage() {
             <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 mb-2 tracking-tight">
               Understanding your VA home loan benefit
             </h2>
+            <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-3">
+              A VA home loan is a mortgage benefit for eligible service members, veterans, and certain surviving spouses. It can allow qualified borrowers to purchase a primary residence with no required down payment and no monthly mortgage insurance. The borrower still has to qualify with a lender, pay closing costs, satisfy VA occupancy rules, and meet appraisal and property requirements.
+            </p>
             <p className="text-base text-zinc-500">
               Expand any section to go deeper. Everything below is for reference — the calculators
               above give you the numbers for your specific situation.
