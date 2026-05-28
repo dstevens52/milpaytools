@@ -184,6 +184,146 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
       answer: 'VA loan assumptions typically take 45–90 days or longer, which is significantly more than a standard purchase closing. The servicer must review the buyer\'s creditworthiness, process entitlement substitution if applicable, and formally approve the assumption. Plan for this timeline when structuring any purchase contract.',
     },
   ],
+  'tuition-assistance-and-gi-bill-together': [
+    {
+      question: 'Can you use Tuition Assistance and the GI Bill for the same class?',
+      answer: 'Not for the same tuition cost. Tuition Assistance covers up to $250 per credit hour; GI Bill Top-Up can fill the gap above what TA covers, but this uses GI Bill entitlement months. Most active-duty members do better preserving GI Bill for after separation, when its monthly housing allowance adds real value.',
+    },
+    {
+      question: 'What is GI Bill Top-Up?',
+      answer: 'GI Bill Top-Up allows GI Bill to cover tuition costs that exceed Tuition Assistance limits ($250/credit hour, $4,500/year). Each dollar of Top-Up uses GI Bill entitlement months — the same 36-month pool that funds housing allowance after separation.',
+    },
+    {
+      question: 'Should I use Tuition Assistance or GI Bill while on active duty?',
+      answer: 'Use Tuition Assistance first. GI Bill\'s monthly housing allowance is only paid when not on active duty — spending GI Bill months while serving wastes the most valuable part of the benefit. Save GI Bill for after separation or graduate school.',
+    },
+  ],
+  'tsp-fund-options-military': [
+    {
+      question: 'What TSP fund options are available to military members?',
+      answer: 'TSP offers five individual funds: G (government bonds, safest), F (bond index), C (S&P 500 equivalent, highest historical long-term returns), S (small-cap stocks), and I (international stocks). Lifecycle (L) Funds automatically blend all five based on a target retirement date and are the default for BRS enrollees.',
+    },
+    {
+      question: 'What is the G Fund in TSP?',
+      answer: 'The G Fund holds short-term U.S. Treasury securities and cannot lose value month over month. Its tradeoff is historically modest returns that may not keep pace with inflation over long periods. Many older TSP accounts default to G Fund if the member never changed their allocation.',
+    },
+    {
+      question: 'What are Lifecycle (L) Funds in TSP?',
+      answer: 'Lifecycle Funds automatically blend the five TSP individual funds and shift from aggressive (more stocks) to conservative (more bonds and G Fund) as the target retirement year approaches. They are the default for BRS auto-enrollees and are a reasonable set-it-and-forget-it option that prevents the common mistake of leaving everything in the G Fund.',
+    },
+  ],
+  'is-sgli-enough-life-insurance': [
+    {
+      question: 'How much does SGLI cost in 2026?',
+      answer: 'SGLI costs $26/month for the maximum $500,000 of coverage in 2026. Coverage can be elected in $50,000 increments from $50,000 to $500,000 for proportionally lower premiums. All active-duty members are automatically enrolled at the maximum unless they opt down or out.',
+    },
+    {
+      question: 'Is $500,000 of SGLI enough life insurance?',
+      answer: 'It depends on your situation. A common benchmark is 10–12 times annual income — for an E-6, that suggests $570,000–$684,000, near the SGLI maximum. Single members with no dependents may need much less; a family with a mortgage, young children, and a single income may need more than $500,000.',
+    },
+    {
+      question: 'What happens to SGLI when you leave the military?',
+      answer: 'SGLI terminates 120 days after separation. Within 240 days of separation, you can convert to VGLI (Veterans Group Life Insurance) without a health exam. After 240 days, a medical exam is required. VGLI premiums increase every 5 years with age and become significantly more expensive than private term life insurance purchased while young and healthy.',
+    },
+  ],
+  'how-deployment-pay-works': [
+    {
+      question: 'What is the Combat Zone Tax Exclusion?',
+      answer: 'CZTE excludes qualifying military pay from federal income tax during eligible months in a designated combat zone. Enlisted members and warrant officers can generally exclude all qualifying pay; commissioned officers have a monthly exclusion cap tied to the E-9 maximum rate. FICA taxes still apply even during CZTE months.',
+    },
+    {
+      question: 'How much is Hostile Fire Pay in 2026?',
+      answer: 'Hostile Fire Pay and Imminent Danger Pay each pay $225/month. HFP is typically paid for the full calendar month if you qualify any day of that month; IDP is generally prorated daily. Both are tax-free during combat zone months under CZTE.',
+    },
+    {
+      question: 'What is the Savings Deposit Program during deployment?',
+      answer: 'The Savings Deposit Program pays 10% annual interest — guaranteed by the U.S. government — on up to $10,000 deposited while deployed to a qualifying combat zone for 30 or more consecutive days. Interest accrues from the date of deposit and continues for up to 90 days after leaving the combat zone.',
+    },
+  ],
+  'dual-military-bah-rules': [
+    {
+      question: 'Can both members of a dual-military couple receive BAH?',
+      answer: 'Yes. Both active-duty members receive BAH, but the rates depend on whether they have children and their respective duty stations. When co-located with children, one member receives the with-dependents rate and the other receives the without-dependents rate. Without children, both receive the without-dependents rate.',
+    },
+    {
+      question: 'Who gets the with-dependents BAH rate in a dual military couple?',
+      answer: 'Whichever member designates the children as dependents in DEERS. The financially optimal choice is the member with the larger gap between their with-dependents and without-dependents BAH rates for their specific duty station — which is not always the higher-ranking member.',
+    },
+    {
+      question: 'What happens to BAH when dual military spouses are at different duty stations?',
+      answer: 'Each member receives BAH for their own duty station. The member with children designated in DEERS receives the with-dependents rate for their station; the other receives the without-dependents rate for theirs. Combined BAH for geographically separated dual-military couples can be substantial.',
+    },
+  ],
+  'pcs-out-of-pocket-costs': [
+    {
+      question: 'Does the military pay for everything in a PCS move?',
+      answer: 'Not entirely. While the military covers travel pay, mileage, per diem, temporary lodging allowances, and household goods shipping, most service members spend $1,000–$5,000 or more out of pocket on security deposits, gap lodging beyond TLE limits, items not fully covered by per diem, and the reimbursement lag.',
+    },
+    {
+      question: 'What is DLA (Dislocation Allowance)?',
+      answer: 'DLA is a one-time payment to offset PCS moving costs — for an E-6 with dependents in 2026, it is $3,548.02. It requires no receipts and is paid regardless of actual expenses. It rarely covers all out-of-pocket PCS costs, especially in high-cost destination markets.',
+    },
+    {
+      question: 'What is a PPM or DITY PCS move?',
+      answer: 'A Personally Procured Move (PPM, formerly DITY) allows you to arrange your own move and keep the difference between what the government would have paid a moving company and your actual costs. Done strategically on longer routes, a PPM can generate $2,000–$5,000 in net proceeds.',
+    },
+  ],
+  'what-is-scra-military-protection': [
+    {
+      question: 'What is SCRA and who does it protect?',
+      answer: 'The Servicemembers Civil Relief Act protects active-duty military members with a 6% cap on pre-service debt interest, lease termination rights with qualifying military orders, protection from certain evictions, and state tax protection through preservation of legal residence.',
+    },
+    {
+      question: 'Does SCRA lower interest rates on all my debts?',
+      answer: 'Only debts incurred before entering active duty. The 6% cap does not apply to accounts opened after you began active service. To activate the reduction, submit written notice to each lender with a copy of your orders. Many major issuers voluntarily reduce rates further or waive fees beyond the SCRA minimum.',
+    },
+    {
+      question: 'Can I break my lease using SCRA?',
+      answer: 'Yes, in qualifying situations. SCRA allows early lease termination if you receive PCS orders moving you more than 50 miles from the current location, or deployment orders for 90 or more consecutive days. Written notice and a copy of orders are required; early termination penalties cannot be enforced by the landlord.',
+    },
+  ],
+  'what-happens-to-tsp-after-military': [
+    {
+      question: 'Can you keep your TSP after leaving the military?',
+      answer: 'Yes. Your TSP account stays open after separation and continues to grow based on your existing fund allocations. You can change fund allocations and make interfund transfers. You cannot make new contributions unless you return to federal service.',
+    },
+    {
+      question: 'Should you roll TSP into an IRA after military service?',
+      answer: 'Not necessarily. TSP\'s expense ratios are among the lowest available anywhere, so keeping money in TSP is a reasonable long-term choice. Rolling to an IRA gives more investment options but often comes with higher fees. If you do roll over, use a direct rollover to avoid triggering taxes and the 10% early withdrawal penalty.',
+    },
+    {
+      question: 'What happens if you withdraw TSP early after military separation?',
+      answer: 'Early withdrawal before age 59½ typically triggers ordinary income taxes plus a 10% penalty on the distribution. On a $50,000 balance, that can mean $12,500–$17,500 lost to taxes and penalties depending on your bracket. Leaving the money invested or rolling it over preserves decades of tax-advantaged compound growth.',
+    },
+  ],
+  'les-abbreviations-explained': [
+    {
+      question: 'What does FITW mean on a military LES?',
+      answer: 'FITW stands for Federal Income Tax Withholding — the amount deducted from base pay and taxable special pays each month. BAH and BAS are not subject to FITW because they are excluded from federal taxable income. If FITW seems incorrect, verify your W-4 withholding elections through myPay.',
+    },
+    {
+      question: 'Why does mid-month pay appear as a deduction on the LES?',
+      answer: 'Mid-month pay is an advance paid during the month that is reconciled at end of month. On the end-of-month LES, the full monthly entitlement appears in the Entitlements column and the mid-month advance appears as a deduction — balancing the accounting so the net pay reflects only the remaining amount due.',
+    },
+    {
+      question: 'What is AFRH on a military LES?',
+      answer: 'AFRH stands for Armed Forces Retirement Home — a $0.50/month deduction from all active-duty members\' pay, regardless of branch or years of service. It funds the retirement homes in Washington, D.C. and Gulfport, Mississippi. It is not an error and cannot be waived.',
+    },
+  ],
+  'brs-vs-high-3-difference': [
+    {
+      question: 'What is the main difference between BRS and High-3 retirement?',
+      answer: 'Under High-3, the pension is 2.5% times years of service times the High-36 average base pay — 50% at 20 years. Under BRS, the multiplier is 2.0% — 40% at 20 years — but BRS adds government TSP matching of up to 5% of base pay. BRS provides portable value even for members who separate before 20 years.',
+    },
+    {
+      question: 'Who is automatically in the Blended Retirement System?',
+      answer: 'Anyone who entered military service on or after January 1, 2018 is automatically in BRS. Those serving before that date who did not opt into BRS during the 2018 window are in High-3. The 2018 opt-in window is closed and the choice was irrevocable.',
+    },
+    {
+      question: 'Is BRS or High-3 better for a 20-year military career?',
+      answer: 'High-3 generally produces a larger pension for members who complete 20 or more years because its multiplier is higher (2.5% vs 2.0%). BRS TSP matching partially offsets the pension reduction. Whether BRS\'s TSP growth fully offsets the pension gap depends on contribution rate, investment returns, and career length.',
+    },
+  ],
 };
 
 const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
