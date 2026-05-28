@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { JsonLdScript } from '@/components/JsonLdScript';
 
 export const metadata: Metadata = {
-  title: 'Free Military Financial Calculators & Guides | MilPayTools Resources',
+  title: { absolute: 'Free Military Financial Calculators & Guides | MilPayTools' },
   description:
     'Free military pay, BAH, TSP, VA loan, PCS, education, and transition calculators — all using official DoD and VA data. No accounts, no personal info, no ads.',
   alternates: { canonical: 'https://www.milpaytools.com/resources' },

@@ -9,7 +9,7 @@ const HOME_DESC =
 const HOME_OG_IMAGE = '/api/og?type=home&title=MilPayTools&v=2';
 
 export const metadata: Metadata = {
-  title: HOME_TITLE,
+  title: { absolute: HOME_TITLE },
   description: HOME_DESC,
   alternates: { canonical: 'https://www.milpaytools.com/' },
   openGraph: {

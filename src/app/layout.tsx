@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.milpaytools.com'),
   title: {
     default: 'MilPayTools — Military Pay & Benefits Calculators',
-    template: '%s',
+    template: '%s | MilPayTools',
   },
   description:
     'Free military pay and benefits calculators for active-duty, Guard/Reserve, and veterans. Total compensation, BAH, VA disability ratings, and TSP projections using official 2026 rate tables.',
