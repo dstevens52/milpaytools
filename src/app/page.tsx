@@ -67,7 +67,7 @@ function HeroSection() {
 
       {/* Content */}
       <div
-        className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pt-4 pb-6 sm:py-8 flex items-start sm:items-center"
+        className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pt-4 pb-3 sm:py-8 flex items-start sm:items-center"
         style={{ minHeight: 'inherit' }}
       >
         <div className="w-full sm:max-w-[52%]">
@@ -198,28 +198,28 @@ const JOURNEY_CARDS = [
 
 function JourneySection() {
   return (
-    <section className="border-b border-zinc-200 py-3 sm:py-4 px-4" style={{ background: '#f5f0e8' }}>
+    <section className="border-b border-zinc-200 pt-2 pb-3 sm:py-4 px-4" style={{ background: '#f5f0e8' }}>
       <div className="mx-auto max-w-4xl">
-        <p className="text-sm text-zinc-500 text-center mb-1.5">
+        <p className="text-xs sm:text-sm text-zinc-500 text-center mb-1 sm:mb-1.5">
           <span className="text-zinc-700 font-medium">①</span> Choose your situation
           {' '}<span className="mx-1.5">&middot;</span>{' '}
           <span className="text-zinc-700 font-medium">②</span> Run the numbers
           {' '}<span className="mx-1.5">&middot;</span>{' '}
           <span className="text-zinc-700 font-medium">③</span> Decide with confidence
         </p>
-        <h2 className="text-[24px] sm:text-[28px] font-medium text-zinc-800 text-center mb-3">
+        <h2 className="text-[22px] sm:text-[28px] font-medium text-zinc-800 text-center mb-2 sm:mb-3">
           Where are you in your military money journey?
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3">
           {JOURNEY_CARDS.map(({ imgSrc, overlay, borderLeft, title, description, cta, href, icon }) => (
             <div
               key={title}
-              className={`group relative flex flex-col rounded-xl overflow-hidden border-l-[3px] ${borderLeft} shadow-lg hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 min-h-[210px]`}
+              className={`group relative flex flex-col rounded-xl overflow-hidden border-l-[3px] ${borderLeft} shadow-lg hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 min-h-[175px] md:min-h-[210px]`}
             >
               <Image src={imgSrc} alt="" fill className="object-cover object-center" sizes="(max-width: 768px) 100vw, 33vw" />
               <div className="absolute inset-0" aria-hidden="true" style={{ background: overlay }} />
               <Link href={href} className="absolute inset-0 z-10" aria-label={title} tabIndex={-1} />
-              <div className="relative z-20 flex flex-col flex-1 px-5 py-4 pointer-events-none">
+              <div className="relative z-20 flex flex-col flex-1 px-4 py-3 sm:px-5 sm:py-4 pointer-events-none">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-8 h-8 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center flex-none">
                     {icon}

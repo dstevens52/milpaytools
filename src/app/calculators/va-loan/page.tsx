@@ -74,7 +74,7 @@ export default function VALoanPage() {
           <CalcStepStrip noBg steps={[
             { title: 'Enter home price, rate & down payment' },
             { title: 'See your VA funding fee and PITI' },
-            { title: 'Compare VA vs. conventional & BAH' },
+            { title: 'See funding fee & BAH comparison' },
           ]} />
 
           {/* Sample output bar */}

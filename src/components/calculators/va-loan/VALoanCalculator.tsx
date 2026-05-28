@@ -74,7 +74,6 @@ const INPUT_CLS =
 
 // ─── Comma-formatted dollar helpers ───────────────────────────────────────
 function fmtDollar(n: number): string {
-  if (n === 0) return '';
   return n.toLocaleString('en-US');
 }
 
@@ -331,6 +330,19 @@ export function VALoanCalculator() {
   );
 
   const hasBahResult = bahActive && !!bahResult;
+
+  // BAH coverage derived values (computed only when result is available)
+  const bahCoveragePct = hasBahResult && bahResult && calc.totalPITI > 0
+    ? Math.round((bahResult.monthlyRate / calc.totalPITI) * 100)
+    : 0;
+  const bahSurplus = hasBahResult && bahResult
+    ? Math.max(0, bahResult.monthlyRate - calc.totalPITI)
+    : 0;
+  const bahRemaining = hasBahResult && bahResult
+    ? Math.max(0, calc.totalPITI - bahResult.monthlyRate)
+    : 0;
+  const bahFullyCovered = hasBahResult && !!bahResult && bahResult.monthlyRate >= calc.totalPITI;
+  const bahNearlyCovered = !bahFullyCovered && bahCoveragePct >= 90;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -640,11 +652,9 @@ export function VALoanCalculator() {
       {hasBahResult && bahResult && (
         <div className={[
           'rounded-lg border-2 p-5',
-          bahResult.monthlyRate >= calc.totalPITI
-            ? 'border-green-200 bg-green-50'
-            : 'border-amber-200 bg-amber-50',
+          bahFullyCovered ? 'border-green-200 bg-green-50' : 'border-zinc-200 bg-zinc-50',
         ].join(' ')}>
-          <p className={['text-sm font-bold uppercase tracking-wide mb-4', bahResult.monthlyRate >= calc.totalPITI ? 'text-green-800' : 'text-amber-800'].join(' ')}>
+          <p className={['text-sm font-bold uppercase tracking-wide mb-4', bahFullyCovered ? 'text-green-800' : 'text-zinc-600'].join(' ')}>
             BAH vs. Estimated Payment · {bahResult.locationName}
           </p>
           <div className="grid grid-cols-3 gap-4 text-center mb-4">
@@ -659,19 +669,19 @@ export function VALoanCalculator() {
               <p className="text-xs text-zinc-500 mt-1">/month</p>
             </div>
             <div>
-              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1">
-                {bahResult.monthlyRate >= calc.totalPITI ? 'Monthly Surplus' : 'Monthly Difference'}
+              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1">BAH Covers</p>
+              <p className={['text-3xl font-bold tabular-nums', bahFullyCovered ? 'text-green-700' : 'text-zinc-900'].join(' ')}>
+                {bahCoveragePct}%
               </p>
-              <p className={['text-3xl font-bold tabular-nums', bahResult.monthlyRate >= calc.totalPITI ? 'text-green-700' : 'text-red-700'].join(' ')}>
-                {bahResult.monthlyRate >= calc.totalPITI ? '+' : '-'}{formatCurrency(Math.abs(bahResult.monthlyRate - calc.totalPITI))}
-              </p>
-              <p className="text-xs text-zinc-500 mt-1">/month</p>
+              <p className="text-xs text-zinc-500 mt-1">of payment</p>
             </div>
           </div>
-          <p className={['text-sm leading-relaxed', bahResult.monthlyRate >= calc.totalPITI ? 'text-green-800' : 'text-amber-800'].join(' ')}>
-            {bahResult.monthlyRate >= calc.totalPITI
-              ? `Your BAH of ${formatCurrency(bahResult.monthlyRate)}/month exceeds this estimated payment by ${formatCurrency(bahResult.monthlyRate - calc.totalPITI)}/month — that surplus stays in your pocket.`
-              : `This estimated payment exceeds your BAH of ${formatCurrency(bahResult.monthlyRate)}/month by ${formatCurrency(calc.totalPITI - bahResult.monthlyRate)}/month. The difference would come from other income.`}
+          <p className={['text-sm leading-relaxed', bahFullyCovered ? 'text-green-800' : 'text-zinc-700'].join(' ')}>
+            {bahFullyCovered
+              ? `Your BAH fully covers this estimated payment — with ${formatCurrency(bahSurplus)}/month to spare. Your housing allowance exceeds this estimated payment, which can help build savings or cover other housing costs.`
+              : bahNearlyCovered
+              ? `Your BAH covers nearly all of this estimated payment (${bahCoveragePct}%). The remaining ${formatCurrency(bahRemaining)}/month would come from other income or savings.`
+              : `Your BAH covers ${bahCoveragePct}% of this estimated payment. The remaining ${formatCurrency(bahRemaining)}/month would come from other income or savings.`}
           </p>
           <p className="text-xs text-zinc-500 mt-2">
             BAH is excluded from federal taxable income but is counted as income for VA loan qualification purposes. Rates shown are 2026 rates.
