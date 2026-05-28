@@ -40,32 +40,32 @@ const FAQS = [
   {
     question: 'Who qualifies for a VA home loan?',
     answer:
-      'Active-duty service members qualify after 90 continuous days during wartime or 181 continuous days during peacetime. Veterans need the same service requirements plus an honorable or general discharge. National Guard and Reserve members qualify with 6+ years of qualifying service, or 90+ days of active duty under Title 10 federal orders. Surviving spouses of veterans who died in service or from a service-connected disability may also qualify. VA loan eligibility does not expire — it is a lifetime benefit.',
+      'Active-duty service members generally meet the minimum service requirement after 90 continuous days of service. Veterans have eligibility rules that depend on service period, length of service, and discharge character. Guard and Reserve members may qualify through six years of service, qualifying active-duty service, or certain Title 32 service — the COE process confirms eligibility. Surviving spouses of veterans who died in service or from a service-connected disability may also be eligible. The benefit does not expire and can be used multiple times with entitlement restoration.',
   },
   {
     question: 'How does the VA funding fee work?',
     answer:
-      'The VA funding fee is a one-time payment to the Department of Veterans Affairs that helps sustain the loan program. It ranges from 1.25% to 3.30% of the loan amount depending on whether it is your first or subsequent use and your down payment amount. First use with no down payment: 2.15%. Subsequent use with no down payment: 3.30%. Putting 5%–9.99% down reduces the fee to 1.50% for both groups; 10%+ down reduces it to 1.25%. The fee can be financed into the loan or paid at closing.',
+      'The VA funding fee is a one-time payment to the Department of Veterans Affairs that helps sustain the loan program. It ranges from 1.25% to 3.30% of the loan amount depending on whether it is your first or subsequent use and your down payment. First use with no down payment: 2.15%. Subsequent use with no down payment: 3.30%. Putting 5%–9.99% down reduces the fee to 1.50% for both groups; 10%+ reduces it to 1.25%. The fee can be financed into the loan or paid at closing.',
   },
   {
     question: 'Who is exempt from the VA funding fee?',
     answer:
-      'Any service-connected disability rating of 10% or higher exempts you from the funding fee entirely — on every VA loan you ever use. Purple Heart recipients on active duty are also exempt, as are surviving spouses receiving Dependency and Indemnity Compensation (DIC) for a veteran who died in service or from a service-connected disability. If you received your disability rating after closing on a VA loan and already paid the funding fee, you may be eligible for a refund from the VA.',
+      'Many borrowers are exempt from the funding fee, including veterans receiving or eligible to receive VA compensation for a service-connected disability, certain pre-discharge claim situations, active-duty Purple Heart recipients, and eligible surviving spouses. A 10%+ VA disability rating commonly creates this exemption, but confirm exemption status on your COE and with your lender before closing. If you receive a disability rating after closing with an effective date before closing, you may be eligible for a funding fee refund.',
   },
   {
-    question: 'What makes VA loans different from conventional financing?',
+    question: 'Does no down payment mean no cash needed at closing?',
     answer:
-      'VA loans offer $0 down payment for eligible borrowers, no private mortgage insurance (PMI) ever, and competitive rates — typically competitive with or better than conventional loans. PMI on a conventional loan with less than 20% down can cost $150–$400/month until you reach 20% equity, which can take 7–10 years. VA loans require the home to be your primary residence — investment properties and vacation homes are not eligible.',
+      'No. Even with $0 down, a VA purchase loan typically requires cash for earnest money, home inspection, appraisal, prepaid property taxes and insurance, lender origination and title fees, and moving costs. The funding fee can be financed, but most other closing costs cannot. Seller credits and lender credits can reduce cash needed, and VA allows sellers to contribute toward closing costs — but plan for real cash requirements before signing a purchase contract.',
   },
   {
     question: 'Can I use my VA loan benefit more than once?',
     answer:
-      'Yes. The VA loan is a lifetime benefit you can use multiple times. After paying off a previous VA loan and selling the property, you can restore your full entitlement. There is also a one-time entitlement restoration option even if you keep the property. If you use the benefit again without full entitlement restoration, you pay the higher subsequent-use funding fee (3.30% vs 2.15% with $0 down). A service-connected disability rating of 10%+ waives the fee on every use.',
+      'Yes. The VA loan can be used multiple times. After paying off a previous VA loan and selling the property, full entitlement can be restored. There is also a one-time restoration option even if you keep the property. Without full entitlement restoration, the subsequent-use funding fee is higher (3.30% vs 2.15% with $0 down). A service-connected disability exemption applies on every use. Entitlement determines the guarantee amount, not the loan limit — lenders still qualify borrowers based on income, debts, and credit.',
   },
   {
-    question: 'How does BAH factor into buying a home with a VA loan?',
+    question: 'How does BAH factor into a VA loan?',
     answer:
-      'BAH is excluded from federal taxable income but is counted as income for VA loan qualification purposes. Your BAH may cover a significant portion of a mortgage payment — at many affordable duty stations it can cover 70–100%+ of an estimated payment. BAH can change if you PCS, change dependency status, or separate from service, so plan for those scenarios when sizing a mortgage.',
+      'BAH is excluded from federal taxable income but is counted as income for VA loan qualification purposes. At many duty stations, BAH covers a meaningful portion of an estimated monthly payment. However, BAH can change if you PCS, change dependency status, or separate from service. Size the mortgage conservatively — not at the edge of what current BAH covers — and plan for the scenario where BAH decreases or stops.',
   },
 ];
 
@@ -74,49 +74,49 @@ const FAQS = [
 const VA_BENEFITS = [
   {
     accent: 'bg-blue-800',
-    label: 'Benefit 1',
-    title: '$0 Down. No PMI. Ever.',
+    label: 'Feature 1',
+    title: 'No down payment required. No monthly mortgage insurance.',
     description:
-      'The VA loan is one of the only loan types that allows 100% financing with no private mortgage insurance — at any down payment level, for the life of the loan.',
+      'Eligible borrowers can often purchase with no down payment, as long as the home appraises and the lender approves the loan. This can preserve cash for reserves, moving costs, repairs, or PCS uncertainty.',
     bullets: [
-      '$0 down payment for eligible borrowers',
+      'No minimum down payment for eligible borrowers',
       'No PMI at any down payment level',
-      'PMI on conventional: $150–$400/mo until 20% equity',
+      'Conventional PMI: roughly $150–$400/mo until 20% equity',
       'No prepayment penalty',
     ],
-    cta: 'Estimate your VA loan payment →',
+    cta: 'Estimate your payment →',
     href: '/calculators/va-loan',
   },
   {
     accent: 'bg-amber-600',
-    label: 'Benefit 2',
-    title: 'The Funding Fee — and the Waiver',
+    label: 'Feature 2',
+    title: 'Funding fee — and who\'s exempt',
     description:
-      "VA loans have a one-time funding fee instead of ongoing PMI. If you have a service-connected disability rating, you pay $0 — on every VA loan, for life.",
+      'Most borrowers pay a one-time VA funding fee, but many are exempt due to disability compensation, Purple Heart, or surviving-spouse status. The exemption can significantly change the VA-versus-conventional comparison.',
     bullets: [
-      'First use, $0 down: 2.15% of loan amount',
-      'Subsequent use, $0 down: 3.30%',
-      '10%+ disability rating: $0 fee — every use',
-      'Fee can be financed into the loan',
+      'First use, $0 down: 2.15% of loan (one-time)',
+      'Subsequent use, $0 down: 3.30% (one-time)',
+      'Many disability-rated veterans: $0 fee',
+      'Can be financed into the loan or paid at closing',
     ],
-    cta: 'Calculate your funding fee →',
+    cta: 'See your funding fee →',
     href: '/calculators/va-loan',
     secondaryHref: '/calculators/va-disability',
-    secondaryLabel: 'Check if you qualify for the waiver →',
+    secondaryLabel: 'Check your disability rating →',
   },
   {
     accent: 'bg-emerald-600',
-    label: 'Benefit 3',
-    title: 'BAH as Mortgage Power',
+    label: 'Feature 3',
+    title: 'How BAH affects affordability',
     description:
-      'For active-duty service members, BAH often covers a significant portion of a VA loan payment. At affordable duty stations, it can cover nearly all of it.',
+      'BAH excluded from federal taxable income is counted as income for VA loan qualification. At many duty stations it covers a meaningful portion of the estimated payment — but plan conservatively for PCS or separation.',
     bullets: [
-      'BAH counts as income for VA loan qualification',
-      'BAH is excluded from federal taxable income',
-      'At many stations, BAH covers 70–100%+ of PITI',
-      'Compare your BAH to any estimated payment instantly',
+      'BAH counted as qualifying income by VA lenders',
+      'BAH excluded from federal taxable income',
+      'Coverage varies widely by station and rank',
+      'BAH can change at PCS or separation',
     ],
-    cta: 'See BAH vs. your payment →',
+    cta: 'Compare BAH to your payment →',
     href: '/calculators/va-loan',
     secondaryHref: '/calculators/bah',
     secondaryLabel: 'Look up your BAH rate →',
@@ -131,19 +131,32 @@ const ACCORDION = [
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
-          VA loan eligibility is based on your service history and character of discharge.
-          General eligibility requirements:
+          <strong className="text-zinc-800">Active-duty service members</strong> generally meet
+          the minimum service requirement after 90 continuous days of service.
         </p>
-        <ul className="space-y-1 pl-4 list-disc">
-          <li><strong className="text-zinc-800">Active-duty service members:</strong> 90 consecutive days during wartime, or 181 consecutive days during peacetime</li>
-          <li><strong className="text-zinc-800">Veterans:</strong> Same service requirements, plus honorable or general discharge</li>
-          <li><strong className="text-zinc-800">National Guard &amp; Reserve:</strong> 6+ years of service, or 90+ days of active duty under Title 10 federal orders with qualifying discharge</li>
-          <li><strong className="text-zinc-800">Surviving spouses:</strong> Unmarried spouses of veterans who died in service or from a service-connected disability, or who are missing in action / POW</li>
-        </ul>
         <p>
-          <strong className="text-zinc-800">The benefit does not expire.</strong> It is a lifetime
-          benefit — there is no deadline to use it. Entitlement can be restored after selling a
-          VA-financed property and paying off the loan, and the benefit can be used again.
+          <strong className="text-zinc-800">Veterans</strong> have eligibility rules that depend
+          on service period, length of service, and discharge character. The specifics vary
+          depending on when you served.
+        </p>
+        <p>
+          <strong className="text-zinc-800">Guard and Reserve members</strong> may qualify through
+          six years of service, qualifying active-duty service, or certain Title 32 service.
+          Because the rules depend on orders and discharge status, use the COE process to confirm.
+        </p>
+        <p>
+          <strong className="text-zinc-800">Surviving spouses</strong> — an unmarried surviving
+          spouse of a veteran who died in service or from a service-connected disability may
+          be eligible.
+        </p>
+        <p>
+          <strong className="text-zinc-800">The benefit does not expire</strong> — it can be used
+          multiple times with entitlement restoration after paying off a prior VA loan.
+        </p>
+        <p>
+          <strong className="text-zinc-800">Your Certificate of Eligibility (COE) is what
+          confirms eligibility for a lender.</strong> Apply through VA.gov, your lender (many
+          can pull it electronically in minutes), or by mail.
         </p>
         <a
           href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan"
@@ -151,7 +164,7 @@ const ACCORDION = [
           rel="noopener noreferrer"
           className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors"
         >
-          Get your Certificate of Eligibility at VA.gov →
+          Apply for your COE at VA.gov →
         </a>
       </div>
     ),
@@ -162,9 +175,9 @@ const ACCORDION = [
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
           The VA funding fee is a one-time payment paid to the Department of Veterans Affairs
-          — not to the lender. It helps sustain the VA loan program for future generations of
-          veterans. It is not an insurance premium and does not accrue interest on its own
-          (though financing it adds to your loan balance).
+          — not to the lender. It helps sustain the VA loan program. It is not a monthly
+          insurance premium and does not accrue interest on its own, though financing it adds
+          to your loan balance and total interest paid.
         </p>
         <p><strong className="text-zinc-800">2026 purchase loan funding fee rates:</strong></p>
         <div className="overflow-x-auto rounded-md border border-zinc-200">
@@ -197,12 +210,13 @@ const ACCORDION = [
         </div>
         <p>
           On a $400,000 home with $0 down: first use fee = $8,600. Subsequent use fee = $13,200.
-          You can finance the fee into your loan or pay it at closing. Financing reduces
-          upfront cash needed but adds to your total interest paid over time.
+          Both are one-time costs, not monthly charges. Financing the fee reduces upfront cash
+          but increases your loan balance and total interest.
         </p>
         <p className="text-xs text-zinc-400">
           Rates effective through November 14, 2031, per the Blue Water Navy Vietnam Veterans
-          Act of 2019 (Public Law 116-23). Refinance loans (IRRRL, Cash-Out) have different rates.
+          Act of 2019 (Public Law 116-23). Refinance loan rates (IRRRL, Cash-Out) differ —
+          verify current rates at VA.gov.
         </p>
         <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Calculate your funding fee →
@@ -211,29 +225,29 @@ const ACCORDION = [
     ),
   },
   {
-    question: 'The funding fee waiver — one of the most valuable disability benefits',
+    question: 'Funding fee exemptions — who qualifies',
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
-          Any service-connected disability rating of{' '}
-          <strong className="text-zinc-800">10% or higher waives the VA funding fee entirely</strong>{' '}
-          — on every VA loan you ever use. This is one of the most financially significant disability
-          benefits, because it applies at the time of purchase rather than as a monthly payment.
+          Many borrowers are exempt from the VA funding fee, including:
+        </p>
+        <ul className="space-y-1 pl-4 list-disc">
+          <li>Veterans receiving or eligible to receive VA compensation for a service-connected disability</li>
+          <li>Veterans in a pre-discharge claim situation who are found entitled to disability compensation</li>
+          <li>Active-duty Purple Heart recipients</li>
+          <li>Eligible surviving spouses receiving Dependency and Indemnity Compensation (DIC)</li>
+        </ul>
+        <p>
+          A 10%+ VA disability rating commonly creates this exemption, but{' '}
+          <strong className="text-zinc-800">confirm your exemption status on your Certificate
+          of Eligibility and with your lender before closing.</strong> The exemption should
+          appear on your COE — do not assume it applies without verification.
         </p>
         <p>
-          On a $400,000 first-use purchase with $0 down, the standard fee is $8,600.
-          On a subsequent-use purchase, that same home carries a $13,200 fee. With a 10%+
-          disability rating, you pay $0 — every time, for life.
-        </p>
-        <p>
-          <strong className="text-zinc-800">Also exempt:</strong> Purple Heart recipients on active
-          duty, and surviving spouses receiving Dependency and Indemnity Compensation (DIC) for a
-          veteran who died in service or from a service-connected disability.
-        </p>
-        <p>
-          <strong className="text-zinc-800">Retroactive refunds:</strong> If you received your
-          service-connected disability rating after closing on a VA loan and had already paid the
-          funding fee, you may be eligible for a refund. Contact the VA or your lender to request one.
+          <strong className="text-zinc-800">If you receive a disability rating after closing</strong>{' '}
+          with an effective date before closing, you may be eligible for a funding fee refund.
+          Contact the VA or your lender to request one — this situation is more common than
+          many veterans realize.
         </p>
         <Link href="/calculators/va-disability" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Calculate your combined VA disability rating →
@@ -242,28 +256,28 @@ const ACCORDION = [
     ),
   },
   {
-    question: 'What makes VA loans different from conventional financing?',
+    question: 'VA loan vs. conventional financing — understanding the tradeoffs',
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
-        <p><strong className="text-zinc-800">Key VA loan advantages:</strong></p>
+        <p><strong className="text-zinc-800">Situations where VA often has advantages:</strong></p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li><strong className="text-zinc-800">$0 down payment</strong> — one of the only loan types that allows 100% financing for eligible borrowers</li>
-          <li><strong className="text-zinc-800">No PMI, ever</strong> — conventional loans require PMI with less than 20% down, often $150–$400/month until you reach 20% equity. VA loans never have PMI.</li>
-          <li><strong className="text-zinc-800">Competitive rates</strong> — VA-backed loans typically offer rates competitive with or better than conventional loans</li>
-          <li><strong className="text-zinc-800">No prepayment penalty</strong> — pay off early or make extra payments without fees</li>
-          <li><strong className="text-zinc-800">Lifetime benefit</strong> — can be reused after selling or paying off a previous VA-financed home</li>
+          <li>Limited cash for down payment — VA allows no down payment where conventional requires 3–20%</li>
+          <li>Low down payment scenarios — conventional PMI adds $150–$400/month until 20% equity is reached</li>
+          <li>Disability exemption applies — no funding fee means lower upfront costs than most loan types</li>
+          <li>Long hold period — the no-PMI advantage compounds over time</li>
+        </ul>
+        <p><strong className="text-zinc-800">Situations where conventional may be worth comparing:</strong></p>
+        <ul className="space-y-1 pl-4 list-disc">
+          <li>20%+ down payment — no PMI either way, and the VA funding fee adds upfront cost</li>
+          <li>Short hold period — the funding fee may not be recovered if you sell within 1–2 years</li>
+          <li>Subsequent use without exemption — the 3.30% fee versus a conventional option is worth modeling</li>
+          <li>Property condition — VA appraisal requirements may complicate purchases of distressed homes</li>
+          <li>Investment property or vacation home — VA requires primary residence occupancy</li>
         </ul>
         <p>
-          <strong className="text-zinc-800">When conventional might make more sense:</strong> If you
-          have 20%+ down payment (no PMI on conventional, and the VA funding fee adds upfront cost),
-          if you have a subsequent-use fee and no disability exemption, or if you&apos;re buying a
-          vacation home or investment property (VA loans require primary residence occupancy).
-        </p>
-        <p>
-          <strong className="text-zinc-800">The PMI math:</strong> On a $350K home with 5% down,
-          conventional PMI at ~0.5% runs about $143/month until you reach 20% equity — typically
-          7–10 years. The VA loan has no equivalent ongoing cost, which is why the VA loan is
-          usually superior for borrowers with little money down.
+          The clearest way to decide is to get Loan Estimates from VA-approved lenders and
+          conventional lenders and compare the actual numbers side by side, including total
+          upfront costs, monthly payment, and projected break-even on the funding fee.
         </p>
         <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Estimate your VA loan payment →
@@ -272,27 +286,29 @@ const ACCORDION = [
     ),
   },
   {
-    question: 'Using BAH to buy a home',
+    question: 'How BAH affects affordability',
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
-          Active-duty service members receive BAH based on duty station, rank, and dependency status.
-          BAH is excluded from federal taxable income — but it{' '}
-          <strong className="text-zinc-800">is counted as income for VA loan qualification purposes</strong>.
-          Lenders can factor your housing allowance into your qualifying income, which can help you
-          qualify for a larger loan than base pay alone would support.
+          Active-duty service members receive BAH based on duty station, rank, and dependency
+          status. BAH is excluded from federal taxable income — but it{' '}
+          <strong className="text-zinc-800">is counted as income for VA loan qualification
+          purposes</strong>. Lenders can include it in your qualifying income, which can affect
+          how much you can borrow.
         </p>
         <p>
-          Your BAH may cover a significant portion of a mortgage payment at your duty station. At
-          affordable markets, BAH often covers 70–100%+ of an estimated payment for a moderately
-          priced home. Use the VA Loan Payment Calculator&apos;s BAH comparison feature to see what
-          percentage of your estimated payment your current BAH covers.
+          At affordable duty stations, BAH often covers a meaningful portion of a mortgage
+          payment. Use the VA Loan Payment Calculator&apos;s BAH comparison feature to see
+          what percentage of your estimated payment your current BAH covers.
         </p>
         <p>
-          <strong className="text-zinc-800">Important planning consideration:</strong> BAH can change
-          if you PCS, change dependency status, or separate from service. Don&apos;t build a housing
-          budget that assumes your current BAH rate is permanent — plan for the scenario where it
-          decreases or stops entirely after separation.
+          <strong className="text-zinc-800">Budget conservatively.</strong> BAH can help
+          support a mortgage payment, but it should not be treated as a guarantee that buying
+          is the right move. PCS timing, maintenance costs, property tax increases, insurance
+          increases, vacancy risk if you rent after PCS, and selling costs can erode the
+          advantage if your timeline is short or the market is weak. Size the mortgage at what
+          you can afford without BAH, or at a meaningful cushion below BAH — not at the edge
+          of what BAH covers.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 pt-1">
           <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
@@ -306,27 +322,88 @@ const ACCORDION = [
     ),
   },
   {
-    question: 'Can I use my VA loan benefit more than once?',
+    question: 'What you still need cash for — closing costs',
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
-          Yes. The VA loan is not a one-time benefit — it can be used multiple times throughout
-          your life.
+          No down payment does not mean no cash at closing. The VA funding fee can be financed
+          into the loan, but most other closing costs on a purchase loan cannot.
+          Even with $0 down, plan for:
         </p>
-        <p><strong className="text-zinc-800">How to use it again:</strong></p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li><strong className="text-zinc-800">Entitlement restoration:</strong> After paying off a previous VA loan and selling the property, your full entitlement can be restored and used again at first-use rates.</li>
-          <li><strong className="text-zinc-800">One-time restoration:</strong> One time only, you can restore entitlement after paying off the loan even if you still own the property.</li>
-          <li><strong className="text-zinc-800">Subsequent-use fee:</strong> Without full entitlement restoration, the funding fee is higher — 3.30% vs 2.15% with $0 down. A service-connected disability rating of 10%+ waives this fee every use.</li>
+          <li>Earnest money deposit (refundable if contract falls through under most contingencies, but due at contract)</li>
+          <li>Home inspection</li>
+          <li>Appraisal fee</li>
+          <li>Prepaid property taxes and homeowner&apos;s insurance</li>
+          <li>Lender origination and title/recording fees</li>
+          <li>Optional discount points</li>
+          <li>Reserves after closing (some lenders require 2–3 months of payments in savings)</li>
+          <li>Repairs, furniture, and move-in costs</li>
         </ul>
         <p>
-          Even with the higher subsequent-use fee, VA loans often still beat conventional financing
-          because there is no PMI and no down payment required. Whether the VA loan or conventional
-          financing is better on a subsequent use depends on your loan amount, down payment, and
-          whether you have a disability rating.
+          Seller credits and lender credits can reduce cash needed at closing, and VA allows
+          sellers to contribute toward closing costs. Ask about these options when negotiating.
+          But go into the process with a realistic cash estimate — not just the down payment.
+        </p>
+      </div>
+    ),
+  },
+  {
+    question: 'Understanding VA loan entitlement',
+    content: (
+      <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
+        <p>
+          <strong className="text-zinc-800">Entitlement is not how much you can borrow.</strong>{' '}
+          It is the amount the VA will guarantee to the lender — roughly 25% of the loan
+          amount. With full entitlement (no outstanding VA loans), VA does not impose a loan
+          limit, but the lender still determines how much you can afford based on income,
+          debts, credit, and the property value.
+        </p>
+        <p>
+          <strong className="text-zinc-800">Partial entitlement</strong> occurs when you have
+          an active VA loan without full entitlement restoration. In this case, county loan
+          limits and the 25% guaranty calculation may affect whether a down payment is needed
+          on a second VA loan.
+        </p>
+        <p><strong className="text-zinc-800">Restoring entitlement:</strong></p>
+        <ul className="space-y-1 pl-4 list-disc">
+          <li><strong className="text-zinc-800">Standard restoration:</strong> Pay off the prior VA loan and sell the property — full entitlement restores automatically</li>
+          <li><strong className="text-zinc-800">One-time restoration:</strong> Pay off the loan even if you keep the property — available once</li>
+        </ul>
+        <p>
+          The subsequent-use funding fee (3.30% with $0 down) applies when using the benefit
+          again without full entitlement restoration. A disability exemption waives this fee
+          when it applies.
         </p>
         <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
-          Run the numbers on a subsequent-use VA loan →
+          Estimate payment for a subsequent-use VA loan →
+        </Link>
+      </div>
+    ),
+  },
+  {
+    question: 'When a VA loan may not be the best option',
+    content: (
+      <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
+        <p>
+          A VA loan is not automatically the right choice for every purchase. Consider
+          comparing conventional financing if:
+        </p>
+        <ul className="space-y-1 pl-4 list-disc">
+          <li>You have 20% or more for a down payment — conventional avoids PMI too, and has no funding fee</li>
+          <li>You expect to sell within 1–2 years — closing costs and the funding fee may not be recovered before you sell</li>
+          <li>Your funding fee is not waived and a conventional loan with PMI is cheaper in total over your expected hold period</li>
+          <li>The property has condition issues that may complicate VA appraisal requirements (VA appraisals have minimum property standards)</li>
+          <li>You are buying a second home or investment property — VA requires the home to be your primary residence</li>
+        </ul>
+        <p>
+          The best approach is to get actual Loan Estimates from both VA-approved and
+          conventional lenders, then compare total upfront costs, monthly payment, and
+          break-even timeline side by side. The calculator on this site gives you a baseline
+          to start from.
+        </p>
+        <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+          Estimate your VA loan payment →
         </Link>
       </div>
     ),
@@ -348,7 +425,7 @@ const RELATED_CALCULATORS = [
     border: 'border-l-purple-500',
     label: 'Calculator',
     title: 'VA Disability Rating',
-    description: 'Calculate your combined rating — 10%+ waives the funding fee entirely.',
+    description: 'Calculate your combined rating — many disability-rated veterans are exempt from the funding fee.',
   },
   {
     href: '/calculators/bah',
@@ -375,7 +452,7 @@ const RELATED_ARTICLES = [
     label: 'VA Home Loans',
     title: 'VA Home Loans Explained',
     description:
-      'What the VA loan benefit actually covers, how to get your Certificate of Eligibility, and how to use the benefit for the first time.',
+      'What the VA loan benefit covers, how to get your Certificate of Eligibility, and how to use the benefit for the first time.',
   },
 ];
 
@@ -412,25 +489,24 @@ export default function VAHomeLoansGuidePage() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight text-zinc-900 mb-5">
-            Your{' '}
-            <span className="text-red-700">VA loan benefit</span>{' '}
-            could save you tens of thousands. Most people don&apos;t know how.
+            Understand your{' '}
+            <span className="text-red-700">VA loan</span>{' '}
+            before you talk to a lender.
           </h1>
 
           <p className="text-lg text-zinc-600 leading-relaxed mb-7">
-            No down payment. No PMI. And if you have a VA disability rating, no funding fee.
-            The VA home loan is one of the most powerful financial benefits available to service
-            members and veterans — but only if you understand how to use it.
+            Estimate your payment, funding fee, and BAH coverage in one place — then decide
+            whether a VA loan fits your budget, PCS timeline, and long-term plan.
           </p>
 
-          {/* Key stat callout */}
+          {/* Informational callout */}
           <div className="rounded-lg bg-red-50 border border-red-200 px-5 py-4 mb-8 flex items-start gap-3">
             <div className="w-1 self-stretch rounded-full bg-red-500 flex-none" aria-hidden="true" />
             <p className="text-base font-semibold text-red-800 leading-snug">
-              Veterans with a 10% disability rating pay{' '}
-              <span className="text-red-700">$0 funding fee</span>{' '}
-              — saving $7,500+ on a typical $350,000 home purchase. Many eligible veterans don&apos;t
-              know they qualify.
+              Many VA borrowers are exempt from the funding fee — including veterans receiving
+              disability compensation. Confirm your exemption status on your{' '}
+              <span className="text-red-700">Certificate of Eligibility</span>{' '}
+              before closing. The exemption should appear there explicitly.
             </p>
           </div>
 
@@ -440,13 +516,13 @@ export default function VAHomeLoansGuidePage() {
               href="/calculators/va-loan"
               className="inline-flex items-center justify-center rounded-lg bg-red-700 px-7 py-3.5 text-base font-bold text-white hover:bg-red-800 transition-all duration-300 shadow-md hover:shadow-lg"
             >
-              Estimate Your VA Loan Payment →
+              Estimate my VA loan payment →
             </Link>
             <Link
               href="/calculators/va-disability"
               className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-7 py-3.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 hover:shadow-sm transition-all duration-300"
             >
-              Check Your Disability Rating →
+              Check your disability rating →
             </Link>
           </div>
 
@@ -460,7 +536,24 @@ export default function VAHomeLoansGuidePage() {
         </div>
       </section>
 
-      {/* ── ZONE 2: Three VA loan benefits ── */}
+      {/* ── Opening context ── */}
+      <section className="bg-white border-b border-zinc-200 py-8 sm:py-10 px-4">
+        <div className="mx-auto max-w-3xl prose-sm text-zinc-600 leading-relaxed space-y-4">
+          <p>
+            A VA loan can reduce the two biggest barriers to buying a home: down payment and
+            monthly mortgage insurance. But it is still a mortgage. The payment has to fit
+            your budget, the home has to appraise, closing costs still matter, and your
+            PCS timeline can change the math quickly.
+          </p>
+          <p>
+            This guide helps you estimate the payment, understand the funding fee, compare
+            the payment against your BAH, and decide what questions to ask before you talk
+            to a lender.
+          </p>
+        </div>
+      </section>
+
+      {/* ── ZONE 2: Three VA loan features ── */}
       <section className="bg-white border-b border-zinc-200 py-10 sm:py-14 px-4">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-10">
@@ -468,19 +561,19 @@ export default function VAHomeLoansGuidePage() {
               <div className="w-8 h-0.5 bg-red-700 rounded-full" />
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 mb-3 tracking-tight">
-              Three things that make the VA loan different from every other mortgage.
+              What the VA loan program actually offers
             </h2>
             <p className="text-base text-zinc-500 max-w-xl mx-auto">
-              Most eligible veterans underuse this benefit. Here&apos;s what you actually get — and what it&apos;s worth.
+              Three structural differences that affect upfront cash, monthly payment, and how you qualify.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {VA_BENEFITS.map(({ accent, label, title, description, bullets, cta, href, secondaryHref, secondaryLabel }) => (
-              <div key={title} className="bg-white rounded-xl border border-zinc-200 shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col overflow-hidden">
+              <div key={label} className="bg-white rounded-xl border border-zinc-200 shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col overflow-hidden">
                 <div className={`${accent} px-5 py-3`}>
                   <span className="text-xs font-semibold text-white/80 uppercase tracking-wide">{label}</span>
-                  <p className="text-lg font-bold text-white leading-snug mt-0.5">{title}</p>
+                  <p className="text-base font-bold text-white leading-snug mt-0.5">{title}</p>
                 </div>
                 <div className="px-5 py-4 flex flex-col flex-1">
                   <p className="text-sm text-zinc-600 leading-relaxed mb-4">{description}</p>
@@ -519,12 +612,12 @@ export default function VAHomeLoansGuidePage() {
                 <div className="w-8 h-0.5 bg-red-500 rounded-full" />
               </div>
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-4 tracking-tight leading-tight">
-                See your estimated payment before you talk to a single lender.
+                Run the numbers before you talk to a lender.
               </h2>
               <p className="text-base text-white/70 leading-relaxed mb-6">
-                Enter your home price, rate, and down payment. The calculator shows your funding fee
-                (or your exemption), estimated monthly PITI, and how your BAH compares — so you walk
-                into every lender conversation already knowing your numbers.
+                Enter your home price, rate, and down payment. The calculator shows your
+                funding fee (or your exemption), estimated monthly PITI, and how your BAH
+                compares — so you can compare lender quotes against your own estimate.
               </p>
               <Link
                 href="/calculators/va-loan"
@@ -546,16 +639,18 @@ export default function VAHomeLoansGuidePage() {
                   <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">2026 rates</span>
                 </div>
                 <div className="px-5 py-1 divide-y divide-zinc-100">
-                  {[
-                    { label: 'VA Funding Fee (2.15%)', value: '$7,525' },
-                    { label: 'Monthly P&I', value: '$2,144' },
-                    { label: 'Tax + Insurance', value: '$467' },
-                  ].map(({ label, value }) => (
-                    <div key={label} className="flex items-center justify-between py-2.5">
-                      <span className="text-sm text-zinc-600">{label}</span>
-                      <span className="text-sm font-mono tabular-nums text-zinc-800">{value}<span className="text-zinc-400">/mo</span></span>
-                    </div>
-                  ))}
+                  <div className="flex items-center justify-between py-2.5">
+                    <span className="text-sm text-zinc-600">VA Funding Fee (2.15%)</span>
+                    <span className="text-sm font-mono tabular-nums text-zinc-800">$7,525 <span className="text-zinc-400 text-xs">one-time</span></span>
+                  </div>
+                  <div className="flex items-center justify-between py-2.5">
+                    <span className="text-sm text-zinc-600">Monthly P&amp;I</span>
+                    <span className="text-sm font-mono tabular-nums text-zinc-800">$2,144<span className="text-zinc-400">/mo</span></span>
+                  </div>
+                  <div className="flex items-center justify-between py-2.5">
+                    <span className="text-sm text-zinc-600">Tax + Insurance</span>
+                    <span className="text-sm font-mono tabular-nums text-zinc-800">$467<span className="text-zinc-400">/mo</span></span>
+                  </div>
                 </div>
                 <div className="mx-5 my-3 rounded-lg bg-red-50 border border-red-200 px-4 py-3 flex items-center justify-between">
                   <div>
@@ -575,7 +670,7 @@ export default function VAHomeLoansGuidePage() {
                 </div>
               </div>
               <p className="mt-3 text-xs text-center text-white/40">
-                Sample — E-5 at Fort Bragg, NC. Your numbers update live as you enter inputs.
+                Sample only — E-5 at Fort Bragg, NC. Your numbers update live as you enter inputs.
               </p>
             </div>
           </div>
