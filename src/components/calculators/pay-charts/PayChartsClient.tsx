@@ -50,6 +50,65 @@ function formatMoney(amount: number): string {
   }).format(amount);
 }
 
+// ─── Total comp estimate helpers ──────────────────────────────────────────────
+
+// Representative BAH (with dependents) per grade: low = lower-cost station
+// (e.g., Fort Sill/Fort Leonard Wood area), high = mid-cost station
+// (e.g., Fort Bragg/Fort Hood area). 2026 approximate values.
+// NOT using San Diego/DC/Hawaii extremes — these represent typical assignments.
+const BAH_RANGES: Partial<Record<string, { low: number; high: number }>> = {
+  'E-1': { low: 1080, high: 1500 },
+  'E-2': { low: 1080, high: 1500 },
+  'E-3': { low: 1140, high: 1560 },
+  'E-4': { low: 1200, high: 1680 },
+  'E-5': { low: 1218, high: 1806 },
+  'E-6': { low: 1350, high: 2100 },
+  'E-7': { low: 1440, high: 2250 },
+  'E-8': { low: 1500, high: 2400 },
+  'E-9': { low: 1560, high: 2550 },
+  'W-1': { low: 1350, high: 2100 },
+  'W-2': { low: 1440, high: 2200 },
+  'W-3': { low: 1500, high: 2350 },
+  'W-4': { low: 1560, high: 2500 },
+  'W-5': { low: 1620, high: 2600 },
+  'O-1': { low: 1380, high: 2100 },
+  'O-1E': { low: 1380, high: 2100 },
+  'O-2': { low: 1440, high: 2200 },
+  'O-2E': { low: 1440, high: 2200 },
+  'O-3': { low: 1500, high: 2400 },
+  'O-3E': { low: 1500, high: 2400 },
+  'O-4': { low: 1620, high: 2600 },
+  'O-5': { low: 1740, high: 2850 },
+  'O-6': { low: 1800, high: 3000 },
+  'O-7': { low: 2100, high: 3300 },
+  'O-8': { low: 2100, high: 3300 },
+  'O-9': { low: 2100, high: 3300 },
+  'O-10': { low: 2100, high: 3300 },
+};
+
+const BAS_ENLISTED = 476.95;
+const BAS_OFFICER  = 328.48;
+const TAX_BRACKET  = 0.22; // federal estimate for approximate tax advantage on allowances
+
+function getTotalCompEstimate(
+  grade: PayGrade,
+  basePay: number,
+): { low: number; high: number } | null {
+  const bah = BAH_RANGES[grade];
+  if (!bah) return null;
+  const bas = grade.startsWith('E') ? BAS_ENLISTED : BAS_OFFICER;
+  const taxAdvLow  = (bah.low  + bas) * TAX_BRACKET;
+  const taxAdvHigh = (bah.high + bas) * TAX_BRACKET;
+  return {
+    low:  Math.round((basePay + bas + bah.low  + taxAdvLow)  / 100) * 100,
+    high: Math.round((basePay + bas + bah.high + taxAdvHigh) / 100) * 100,
+  };
+}
+
+function fmtRange(n: number): string {
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const YOS_COLS = [...YOS_BREAKPOINTS] as number[];
@@ -230,6 +289,10 @@ export function PayChartsClient() {
   const monthlyPay = activePay;
   const annualPay = activePay !== null ? activePay * 12 : null;
 
+  // Total comp estimate and pre-populated URL
+  const tcEstimate = monthlyPay !== null ? getTotalCompEstimate(selectedGrade, monthlyPay) : null;
+  const tcUrl = `/calculators/total-compensation?rank=${selectedGrade.replace(/-/g, '').toLowerCase()}&yos=${selectedYOS}`;
+
   // Next longevity step
   const nextBracket = monthlyPay !== null ? getNextBracket(selectedGrade, selectedYOS) : null;
   const nextStepPay = nextBracket !== null ? getPayAtBracket(selectedGrade, nextBracket) : null;
@@ -362,16 +425,37 @@ export function PayChartsClient() {
                 </div>
               )}
 
-              {/* Total compensation CTA */}
+              {/* Total compensation CTA — dynamic */}
               <div className="rounded-lg border border-zinc-200 bg-white p-4">
                 <p className="text-sm font-semibold text-zinc-900 mb-1">
                   Base pay is only the starting point.
                 </p>
-                <p className="text-sm text-zinc-600 mb-3">
-                  Add BAH, BAS, tax advantages, and TSP match to see what your military compensation is really worth.
-                </p>
+                {tcEstimate && monthlyPay !== null ? (
+                  <>
+                    <p className="text-sm text-zinc-600 mb-1">
+                      An {selectedGrade} with{' '}
+                      {selectedYOS === 0 ? 'less than 2' : selectedYOS}{' '}
+                      year{selectedYOS !== 1 ? 's' : ''} of service typically earns{' '}
+                      <strong className="text-zinc-900">
+                        {fmtRange(tcEstimate.low)}–{fmtRange(tcEstimate.high)}/month
+                      </strong>{' '}
+                      in total compensation when BAH, BAS, and tax advantages are included
+                      {' '}— not just the{' '}
+                      {fmtRange(monthlyPay)} in base pay shown above.
+                    </p>
+                    <p className="text-xs text-zinc-400 mb-3">
+                      Estimated range based on typical duty station BAH rates. Your actual total
+                      depends on location, dependency status, and special pays.
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-sm text-zinc-600 mb-3">
+                    Add BAH, BAS, tax advantages, and TSP match to see what your military
+                    compensation is really worth.
+                  </p>
+                )}
                 <Link
-                  href="/calculators/total-compensation"
+                  href={tcUrl}
                   className="inline-flex items-center gap-2 rounded-md bg-red-700 px-4 py-2 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
                 >
                   Calculate Full Compensation →
