@@ -105,8 +105,7 @@ export function VADisabilityUnlocks({
           </span>
         </div>
         <p className="text-sm text-green-800 leading-relaxed mb-3">
-          Your service-connected rating waives the VA loan funding fee on every VA loan use —
-          purchase, refinance, and subsequent use. This savings never expires.
+          A qualifying VA funding fee exemption can waive the VA loan funding fee on every VA loan use — purchase, refinance, and subsequent use. This commonly applies when a borrower receives or is eligible to receive VA disability compensation, but exemption status should be verified on the Certificate of Eligibility before closing.
         </p>
         <div className="grid grid-cols-2 gap-2 mb-3">
           <div className="bg-white rounded border border-green-100 px-3 py-2">
@@ -145,7 +144,7 @@ export function VADisabilityUnlocks({
         <BenefitCell
           label="Tax Treatment"
           title="Excluded from federal taxable income"
-          body="VA disability compensation is not reported as wages. Not subject to federal income tax or FICA."
+          body="VA disability compensation is excluded from federal taxable income. It is not reported as wages and is not subject to federal income tax or FICA."
         />
 
         <BenefitCell
@@ -158,7 +157,7 @@ export function VADisabilityUnlocks({
           <BenefitCell
             label="Dependent Allowances (30%+)"
             title="Additional pay for qualifying dependents"
-            body="At 30% or higher, VA adds allowances for a qualifying spouse, children, and dependent parents. Use the dependent inputs above to see your full amount."
+            body="At 30% or higher, VA adds allowances for a qualifying spouse, children, and dependent parents. Ratings of 10% and 20% do not include dependent allowances. Use the dependent inputs above to see your full amount."
           />
         )}
 
@@ -178,8 +177,7 @@ export function VADisabilityUnlocks({
             If Your 100% Rating Is Designated Permanent &amp; Total (P&amp;T)
           </p>
           <p className="text-sm text-amber-900 leading-relaxed">
-            P&amp;T status must appear on your VA rating decision — the calculator cannot determine it.
-            If your 100% rating is P&amp;T, additional benefits may include:
+            A 100% combined schedular rating is not automatically the same as a Permanent &amp; Total (P&amp;T) designation — P&amp;T status appears on your VA rating decision letter and requires a separate VA determination. If VA designates your 100% rating as P&amp;T, additional benefits may include:
           </p>
           <button
             type="button"
@@ -251,8 +249,7 @@ export function VADisabilityUnlocks({
           )}
           {nextThreshold === 100 && (
             <p className="text-xs text-blue-700 mt-2 pt-2 border-t border-blue-200">
-              At 100%, you reach the maximum schedular rating and may be eligible for Permanent
-              &amp; Total (P&amp;T) designation, which unlocks additional benefits for dependents.
+              At 100%, you reach the maximum schedular rating. VA may separately designate the rating as Permanent &amp; Total (P&amp;T) — P&amp;T designation requires a separate VA determination and is not automatic at 100%.
             </p>
           )}
           <p className="text-[10px] text-blue-600 mt-2">
@@ -281,11 +278,10 @@ export function VADisabilityUnlocks({
 
       {/* ── Disclaimer ───────────────────────────────────────────────── */}
       <p className="text-xs text-zinc-400 leading-relaxed">
-        Benefit eligibility depends on your specific VA determination, including whether your
-        rating is static or permanent, schedular or extraschedular, and other individual factors.
-        This is an educational overview of common threshold benefits, not a guarantee of
-        eligibility. Verify specific benefits with the VA, your state veterans affairs office,
-        or a veterans service organization.
+        These are general federal benefit thresholds based on the calculated combined rating.
+        Actual eligibility depends on your VA award details, effective date, dependent verification,
+        P&amp;T designation, discharge character, healthcare enrollment status, and state-specific
+        rules. Verify benefits with the VA or a veterans service organization.
       </p>
     </div>
   );
