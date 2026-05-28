@@ -1,7 +1,7 @@
 # MilPayTools
 > Free military pay and benefits calculators built on official 2026 DoD and VA data. No account required. No personal information collected. Calculations run in the browser.
 
-## Calculators (17)
+## Calculators (18)
 - [Total Military Compensation](/calculators/total-compensation): Full pay breakdown with BAH, BAS, tax advantages, TSP match, TRICARE healthcare value, and civilian salary equivalent — including what a civilian would need to earn to match your total package
 - [BAH Calculator](/calculators/bah): 2026 BAH rates for all 40,959 ZIP codes
 - [VA Disability Rating](/calculators/va-disability): Combined rating calculator with bilateral factor and 2026 compensation rates
@@ -19,6 +19,7 @@
 - [Separation Benefits Timeline](/calculators/separation-timeline): When each benefit stops, converts, or expires after separation
 - [Healthcare Cost Comparison](/calculators/healthcare-comparison): TRICARE vs civilian healthcare cost comparison
 - [VA Loan Payment Calculator](/calculators/va-loan): Monthly payment estimate with VA funding fee, disability exemption, VA vs conventional comparison, and optional BAH comparison
+- [VA Refinance Calculator](/calculators/va-refinance): IRRRL and cash-out refinance savings, break-even point, lifetime interest savings, and VA net tangible benefit requirement checks
 
 ## Guides (9)
 - [Starting Service: Military Pay & Benefits from Day One](/guides/starting-service): New service member guide — total compensation, BAH, TSP enrollment, LES, and first-year financial checkpoints

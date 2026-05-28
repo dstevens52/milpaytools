@@ -119,8 +119,10 @@ const VA_BENEFITS = [
       'Must result in lower payment or shorter term',
       'Available to veterans and active duty',
     ],
-    cta: 'Learn about the IRRRL →',
-    href: '#irrrl',
+    cta: 'Estimate your refinance savings →',
+    href: '/calculators/va-refinance',
+    secondaryHref: '#irrrl',
+    secondaryLabel: 'Learn about the IRRRL →',
   },
 ];
 
