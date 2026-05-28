@@ -383,20 +383,6 @@ export function Nav({ mobile = false, onClose }: NavProps) {
             </Link>
           </li>
 
-          {/* Resources */}
-          <li>
-            <Link
-              href="/resources"
-              onClick={onClose}
-              className={[
-                'block px-4 py-3 text-base font-medium border-b border-zinc-100',
-                pathname === '/resources' ? 'text-zinc-900' : 'text-zinc-800 hover:text-zinc-900',
-              ].join(' ')}
-            >
-              Resources
-            </Link>
-          </li>
-
           {/* Got feedback? — warm muted, positioned at bottom of menu */}
           <li>
             <Link
@@ -457,17 +443,6 @@ export function Nav({ mobile = false, onClose }: NavProps) {
             ].join(' ')}
           >
             Blog
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/resources"
-            className={[
-              'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
-              pathname === '/resources' ? 'text-zinc-900 bg-zinc-100' : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100',
-            ].join(' ')}
-          >
-            Resources
           </Link>
         </li>
       </ul>

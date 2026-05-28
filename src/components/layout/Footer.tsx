@@ -163,6 +163,9 @@ export function Footer() {
               any government agency.
             </p>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+              <Link href="/resources" className="text-zinc-500 hover:text-zinc-300 transition-colors">
+                Resources
+              </Link>
               <Link href="/terms" className="text-zinc-500 hover:text-zinc-300 transition-colors">
                 Terms of Service
               </Link>

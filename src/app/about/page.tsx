@@ -174,6 +174,21 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ── Resources CTA ── */}
+      <section className="bg-zinc-50 border-t border-zinc-200 py-10 px-4">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-zinc-600 text-base mb-3">
+            Every calculator and guide on this site is free, requires no account, and collects no personal information.
+          </p>
+          <Link
+            href="/resources"
+            className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors"
+          >
+            See all free tools and guides →
+          </Link>
+        </div>
+      </section>
+
     </>
   );
 }
