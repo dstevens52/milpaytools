@@ -88,12 +88,9 @@ export default function VARefinancePage() {
                 Current $300K at 7% → New 6% &middot; IRRRL
               </p>
               <div className="flex items-baseline gap-4 min-w-0 flex-1">
-                <span className="text-[12px] text-zinc-500 whitespace-nowrap">Monthly savings <span className="font-semibold text-zinc-700">$238</span></span>
-                <span className="text-[12px] text-zinc-500 whitespace-nowrap">Break-even <span className="font-semibold text-zinc-700">19 months</span></span>
+                <span className="text-[12px] text-zinc-500 whitespace-nowrap">Monthly savings <span className="font-semibold text-zinc-700">$188</span></span>
+                <span className="text-[12px] text-zinc-500 whitespace-nowrap">Break-even <span className="font-semibold text-red-700 text-[16px] font-extrabold">22 months</span></span>
               </div>
-              <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
-                Lifetime savings <span className="text-[16px] font-extrabold text-red-700">$19,289</span>
-              </p>
             </div>
           </div>
         </div>

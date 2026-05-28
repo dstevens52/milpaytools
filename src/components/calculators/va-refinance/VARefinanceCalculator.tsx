@@ -91,14 +91,13 @@ export function VARefinanceCalculator() {
   const [currentBalance, setCurrentBalance] = useState(300000);
   const [currentRate, setCurrentRate] = useState(7.0);
   const [originalTerm, setOriginalTerm] = useState(30);
-  const [yearsPaid, setYearsPaid] = useState(5);
 
   // New loan
   const [newRate, setNewRate] = useState(6.0);
   const [newTerm, setNewTerm] = useState(30);
 
   // Costs & fees
-  const [closingCosts, setClosingCosts] = useState(4500);
+  const [closingCosts, setClosingCosts] = useState(2500);
   const [exempt, setExempt] = useState(false);
   const [firstUse, setFirstUse] = useState(true); // cash-out only
 
@@ -109,7 +108,6 @@ export function VARefinanceCalculator() {
     const balanceRaw = params.get('balance');
     const currRateRaw = params.get('currRate');
     const origTermRaw = params.get('origTerm');
-    const yearsPaidRaw = params.get('yearsPaid');
     const newRateRaw = params.get('newRate');
     const newTermRaw = params.get('newTerm');
     const closingRaw = params.get('closing');
@@ -128,10 +126,6 @@ export function VARefinanceCalculator() {
     if (origTermRaw) {
       const t = parseInt(origTermRaw, 10);
       if ([15, 20, 25, 30].includes(t)) setOriginalTerm(t);
-    }
-    if (yearsPaidRaw) {
-      const y = parseInt(yearsPaidRaw, 10);
-      if (!isNaN(y) && y >= 0) setYearsPaid(y);
     }
     if (newRateRaw) {
       const r = parseFloat(newRateRaw);
@@ -156,7 +150,6 @@ export function VARefinanceCalculator() {
     p.set('balance', String(currentBalance));
     p.set('currRate', String(currentRate));
     p.set('origTerm', String(originalTerm));
-    p.set('yearsPaid', String(yearsPaid));
     p.set('newRate', String(newRate));
     p.set('newTerm', String(newTerm));
     p.set('closing', String(closingCosts));
@@ -167,9 +160,7 @@ export function VARefinanceCalculator() {
 
   // ─── Calculations ─────────────────────────────────────────────────────────────
   const calc = useMemo(() => {
-    const remainingYears = Math.max(1, originalTerm - yearsPaid);
-    const remainingMonths = remainingYears * 12;
-    const currentPayment = calcMonthlyPI(currentBalance, currentRate, remainingYears);
+    const currentPayment = calcMonthlyPI(currentBalance, currentRate, originalTerm);
 
     let fundingFeeRate = 0;
     if (!exempt) {
@@ -185,10 +176,6 @@ export function VARefinanceCalculator() {
       ? Math.ceil(totalCosts / monthlySavings)
       : Infinity;
 
-    const currentTotalInterest = Math.max(0, currentPayment * remainingMonths - currentBalance);
-    const newTotalInterest = Math.max(0, newPayment * newTerm * 12 - newLoanBalance);
-    const lifetimeInterestSavings = currentTotalInterest - newTotalInterest;
-
     const rateReduction = currentRate - newRate;
     const netTangibleBenefitPass = rateReduction >= 0.5;
     const recoupmentPass = isFinite(breakEvenMonths) && breakEvenMonths <= 36;
@@ -197,8 +184,6 @@ export function VARefinanceCalculator() {
     const standardFeeAmount = Math.round(currentBalance * (refType === 'irrrl' ? 0.005 : (firstUse ? 0.0215 : 0.033)));
 
     return {
-      remainingYears,
-      remainingMonths,
       currentPayment,
       fundingFeeRate,
       fundingFeeAmount,
@@ -207,15 +192,12 @@ export function VARefinanceCalculator() {
       monthlySavings,
       totalCosts,
       breakEvenMonths,
-      currentTotalInterest,
-      newTotalInterest,
-      lifetimeInterestSavings,
       rateReduction,
       netTangibleBenefitPass,
       recoupmentPass,
       standardFeeAmount,
     };
-  }, [refType, currentBalance, currentRate, originalTerm, yearsPaid, newRate, newTerm, closingCosts, exempt, firstUse]);
+  }, [refType, currentBalance, currentRate, originalTerm, newRate, newTerm, closingCosts, exempt, firstUse]);
 
   // ─── Analytics ────────────────────────────────────────────────────────────────
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -277,10 +259,6 @@ export function VARefinanceCalculator() {
   const bottomLine = useMemo((): string => {
     const savingsFmt = formatCurrency(Math.round(Math.abs(calc.monthlySavings)));
     const beFmt = isFinite(calc.breakEvenMonths) ? `${calc.breakEvenMonths} months` : 'a very long time';
-    const lifetimeFmt = calc.lifetimeInterestSavings >= 0
-      ? `save ${formatCurrency(Math.round(calc.lifetimeInterestSavings))} in interest`
-      : `pay ${formatCurrency(Math.round(Math.abs(calc.lifetimeInterestSavings)))} more in interest`;
-
     if (refType === 'cashout') {
       if (calc.monthlySavings > 0) {
         return `Based on these numbers, you'd save ${savingsFmt}/month and recoup total costs in ${beFmt}. A cash-out refinance also replaces your existing loan — compare quotes from multiple VA-approved lenders before proceeding.`;
@@ -291,7 +269,7 @@ export function VARefinanceCalculator() {
     const { netTangibleBenefitPass, recoupmentPass } = calc;
 
     if (netTangibleBenefitPass && recoupmentPass) {
-      return `Based on these numbers, refinancing looks like a strong move. You'd save ${savingsFmt}/month, recoup your costs in ${beFmt}, and ${lifetimeFmt} over the life of the loan.`;
+      return `Based on these numbers, refinancing looks like a strong move. You'd save ${savingsFmt}/month and recoup your costs in ${beFmt}.`;
     }
     if (netTangibleBenefitPass && !recoupmentPass) {
       return `The numbers are mixed — your rate drops ${calc.rateReduction.toFixed(2)}%, which meets the VA net tangible benefit requirement. But break-even is ${beFmt}, which exceeds the VA's 36-month recoupment guideline. Verify with your lender.`;
@@ -367,20 +345,6 @@ export function VARefinanceCalculator() {
               value={String(originalTerm)}
               onChange={(e) => setOriginalTerm(parseInt(e.target.value, 10))}
             />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-zinc-700">Years paid so far</label>
-            <input
-              type="number"
-              min={0}
-              max={originalTerm - 1}
-              step={1}
-              value={yearsPaid}
-              onChange={(e) => setYearsPaid(Math.max(0, Math.min(originalTerm - 1, Number(e.target.value))))}
-              className={INPUT_CLS}
-            />
-            <p className="text-xs text-zinc-500">{calc.remainingYears} year{calc.remainingYears !== 1 ? 's' : ''} remaining on current loan</p>
           </div>
 
         </div>
@@ -478,7 +442,7 @@ export function VARefinanceCalculator() {
       </Card>
 
       {/* ── Primary result cards ────────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
         <div className="bg-red-700 rounded-lg p-5 text-white">
           <p className="text-red-200 text-xs font-semibold uppercase tracking-wider mb-2">Monthly Savings</p>
@@ -506,16 +470,6 @@ export function VARefinanceCalculator() {
           <p className="text-slate-400 text-xs mt-1">{formatCurrency(calc.totalCosts)} total costs</p>
         </div>
 
-        <div className="bg-zinc-800 rounded-lg p-5 text-white">
-          <p className="text-zinc-400 text-xs font-semibold uppercase tracking-wider mb-2">Lifetime Interest</p>
-          <p className={['text-3xl font-bold tabular-nums', calc.lifetimeInterestSavings >= 0 ? 'text-green-400' : 'text-amber-400'].join(' ')}>
-            {calc.lifetimeInterestSavings >= 0 ? '+' : '−'}{formatCurrency(Math.abs(Math.round(calc.lifetimeInterestSavings)))}
-          </p>
-          <p className="text-zinc-400 text-xs mt-2">
-            {calc.lifetimeInterestSavings >= 0 ? 'saved over loan life' : 'more over loan life'}
-          </p>
-          <p className="text-zinc-500 text-xs mt-1">vs. keeping current loan</p>
-        </div>
 
       </div>
 
