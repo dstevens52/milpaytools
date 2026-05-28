@@ -13,6 +13,7 @@ import {
   type DependentConfig,
   type CalculationStep,
 } from '@/lib/calculations/va-disability';
+import { VADisabilityUnlocks } from './VADisabilityUnlocks';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { InfoTip } from '@/components/calculators/shared/InfoTip';
 
@@ -591,67 +592,13 @@ export function VADisabilityCalculator() {
             </Card>
           )}
 
-          {/* Action steps */}
-          <Card>
-            <h3 className="font-semibold text-zinc-900 text-base mb-3">What This Means</h3>
-            <div className="space-y-3">
-              <div className="flex gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
-                <div className="flex-1">
-                  <p className="font-semibold text-zinc-900 text-sm">VA compensation is excluded from federal taxable income</p>
-                  <p className="text-sm text-zinc-600 mt-0.5">
-                    {fmt(compensation.monthly)}/month in VA disability compensation is excluded from
-                    federal taxable income and FICA. A civilian earning the same amount would
-                    net considerably less after taxes.
-                  </p>
-                </div>
-              </div>
-
-              {result.rounded >= 30 && !anyDependents && (
-                <div className="flex gap-3 rounded-lg border border-zinc-200 bg-white p-4">
-                  <div className="flex-1">
-                    <p className="font-semibold text-zinc-900 text-sm">You qualify for dependent compensation</p>
-                    <p className="text-sm text-zinc-600 mt-0.5">
-                      At {result.rounded}%, adding a qualifying dependent increases your monthly
-                      rate. Use the dependent inputs above to see your full compensation.
-                      Children ages 18–23 attending an approved school program qualify for the
-                      higher "school child" rate.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {result.rounded >= 50 && (
-                <div className="flex gap-3 rounded-lg border border-zinc-200 bg-white p-4">
-                  <div className="flex-1">
-                    <p className="font-semibold text-zinc-900 text-sm">Additional benefits at 50%+</p>
-                    <p className="text-sm text-zinc-600 mt-0.5">
-                      At 50% or higher, you receive higher VA healthcare priority and no copays
-                      for many types of care. Additional benefits may apply depending on your
-                      situation — check your VA eligibility letter or eBenefits for specifics.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              <div className="flex gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-4">
-                <div className="flex-1">
-                  <p className="font-semibold text-zinc-900 text-sm">Verify with VA.gov</p>
-                  <p className="text-sm text-zinc-600 mt-0.5">
-                    This calculator provides an estimate of your combined rating. Actual ratings
-                    are determined by the VA based on your medical evidence and C&P exam findings.{' '}
-                    <a
-                      href="https://www.va.gov/disability/compensation-rates/veteran-rates/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-700 underline"
-                    >
-                      See official 2026 rates on VA.gov →
-                    </a>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Card>
+          {/* What Your Rating Unlocks */}
+          <VADisabilityUnlocks
+            roundedRating={result.rounded}
+            compensation={compensation}
+            deps={deps}
+            disabilities={disabilities}
+          />
         </>
       )}
     </div>
