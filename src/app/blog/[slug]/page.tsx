@@ -130,6 +130,60 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
       answer: 'Build the post-separation budget around base pay and VA disability compensation only — BAH ends at separation and the mortgage does not. If the payment is affordable without BAH, buying before separation can make sense. If the math only works with BAH included, the timing warrants careful consideration.',
     },
   ],
+  'va-appraisal-what-to-expect': [
+    {
+      question: 'What is the purpose of a VA appraisal?',
+      answer: 'A VA appraisal serves two purposes: establishing the market value of the property using comparable sales, and confirming the home meets VA Minimum Property Requirements (MPRs). Both must be satisfied for the loan to proceed. The appraisal is not a home inspection — it does not replace a thorough inspection by a licensed home inspector.',
+    },
+    {
+      question: 'What are VA Minimum Property Requirements (MPRs)?',
+      answer: 'VA MPRs are baseline safety and livability standards a property must meet. They cover roof condition (at least 2 years of remaining useful life), functional HVAC, plumbing, and electrical systems, safe water supply, adequate sewage disposal, lead paint remediation on pre-1978 homes, no active wood-destroying pest damage, and a structurally sound foundation. MPRs focus on safety and habitability — cosmetic issues like outdated finishes or deferred maintenance do not trigger MPR concerns.',
+    },
+    {
+      question: 'What happens if the VA appraisal comes in below the purchase price?',
+      answer: 'If the appraised value is less than the purchase price, you have four main options: renegotiate the price with the seller to match the appraised value, pay the difference between the appraised value and purchase price out of pocket (an appraisal gap payment), request a Reconsideration of Value (ROV) with supporting comparable sales data, or exit the contract under your appraisal contingency. A low appraisal is a negotiation opportunity — not an automatic dead deal.',
+    },
+    {
+      question: 'What is the VA Tidewater process?',
+      answer: 'Tidewater is a VA procedure that allows lenders to submit additional comparable sales or market data before the appraisal is finalized if the appraiser believes the value may come in below the purchase price. The lender has 2 business days to provide supporting data. It is an early-warning and correction opportunity — not a signal the deal is over.',
+    },
+  ],
+  'va-loan-vs-fha-vs-conventional': [
+    {
+      question: 'What is the main difference between a VA loan and a conventional loan?',
+      answer: 'VA loans allow eligible borrowers to purchase with no down payment and no private mortgage insurance (PMI). They carry a one-time VA funding fee (2.15% first use, waivable for disability-rated veterans) instead of ongoing PMI. Conventional loans require a down payment (3–20%) and PMI if the down payment is under 20%, but have no service eligibility requirement and can be used for non-primary residences.',
+    },
+    {
+      question: 'Is FHA mortgage insurance permanent?',
+      answer: 'For most FHA loans originated after June 2013 with a down payment under 10%, the annual mortgage insurance premium (MIP) remains for the life of the loan. It does not cancel when you reach 20% equity the way conventional PMI does. This is one of the most significant long-term cost differences between FHA and VA loans — VA loans have no monthly mortgage insurance at all.',
+    },
+    {
+      question: 'When does a conventional loan beat a VA loan?',
+      answer: 'Conventional financing may be more cost-effective when you have 20% or more for a down payment (no PMI either way, but no VA funding fee with conventional), when you are buying a second home or investment property (VA requires primary residence), when your conventional rate is meaningfully lower than VA rates for your credit profile, or when your expected hold period is short and the funding fee does not pencil out.',
+    },
+    {
+      question: 'How should I actually compare VA vs FHA vs conventional loans?',
+      answer: 'Generic comparisons show directional guidance — the real answer comes from actual Loan Estimates from lenders. Get quotes for VA, FHA, and conventional if you are eligible for multiple options, then compare total monthly payment, cash to close, and total cost over your expected hold period. A VA loan with a high rate and fees can be worse than a well-priced conventional loan.',
+    },
+  ],
+  'va-loan-assumptions-explained': [
+    {
+      question: 'Can a non-veteran assume a VA loan?',
+      answer: 'Yes. Both veterans and non-veterans can assume a VA loan if they qualify with the loan servicer. The buyer does not need to be VA-eligible to assume. However, if a non-veteran assumes without substituting VA entitlement, the seller\'s entitlement remains tied to the assumed loan until it is fully paid off — which can affect the seller\'s ability to use VA financing again.',
+    },
+    {
+      question: 'What happens to the seller\'s VA entitlement after a loan assumption?',
+      answer: 'It depends on whether the buyer substitutes VA entitlement. If a VA-eligible buyer formally substitutes their entitlement for the seller\'s, the seller\'s entitlement is released and restored. If a non-veteran (or a veteran who does not substitute) assumes the loan, the seller\'s entitlement remains tied to the assumed loan until it is fully paid off — potentially for decades.',
+    },
+    {
+      question: 'What is the VA funding fee for a loan assumption?',
+      answer: 'The buyer pays a VA funding fee of 0.5% of the remaining loan balance at assumption — the same rate as an IRRRL. On a $280,000 remaining balance, the assumption funding fee is $1,400. Standard disability-related exemptions may apply — confirm with the loan servicer.',
+    },
+    {
+      question: 'How long does a VA loan assumption take to close?',
+      answer: 'VA loan assumptions typically take 45–90 days or longer, which is significantly more than a standard purchase closing. The servicer must review the buyer\'s creditworthiness, process entitlement substitution if applicable, and formally approve the assumption. Plan for this timeline when structuring any purchase contract.',
+    },
+  ],
 };
 
 const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {

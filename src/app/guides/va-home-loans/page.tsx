@@ -530,6 +530,30 @@ const RELATED_ARTICLES = [
     description:
       'BAH as qualifying income, the tax-equivalent math, what BAH covers at your duty station, and the PCS and separation scenarios.',
   },
+  {
+    href: '/blog/va-appraisal-what-to-expect',
+    border: 'border-l-red-500',
+    label: 'VA Appraisal',
+    title: 'VA Appraisal: What to Expect',
+    description:
+      'What the appraiser looks for, Minimum Property Requirements, the Tidewater process, and what to do if the value comes in low.',
+  },
+  {
+    href: '/blog/va-loan-vs-fha-vs-conventional',
+    border: 'border-l-teal-500',
+    label: 'Loan Comparison',
+    title: 'VA Loan vs FHA vs Conventional',
+    description:
+      'When each loan type makes sense, what the hidden costs are, and how to compare actual Loan Estimates for your situation.',
+  },
+  {
+    href: '/blog/va-loan-assumptions-explained',
+    border: 'border-l-indigo-500',
+    label: 'Assumptions',
+    title: 'VA Loan Assumptions Explained',
+    description:
+      'How VA loan assumptions work, what happens to seller entitlement, and when a below-market-rate assumption makes sense for buyers and sellers.',
+  },
 ];
 
 // ── Page ──────────────────────────────────────────────────────────────────────
