@@ -32,6 +32,8 @@
 - [VA Home Loans Guide 2026](/guides/va-home-loans): VA loan eligibility, funding fee table, disability exemption waiver, BAH as mortgage income, and payment calculator
 - [Military Transition Financial Roadmap](/transition): Full financial arc of military separation — income, healthcare, benefits, and deadlines
 
+- [Free Military Financial Calculators & Guides | MilPayTools Resources](/resources): Central resource directory organized by military life stage — Starting Service, Pay & Housing, PCS & Relocation, Deployment, Retirement & TSP, Education & Career, VA Loans, Veterans Benefits, and Leaving the Military. Links to all 18 calculators, 8 guides, and key blog posts. Designed for sharing with service members, veterans, military families, transition coaches, and veteran organizations. No accounts, no personal info, no ads.
+
 ## BAH by Duty Station
 
 - [BAH Rates by Military Installation](https://www.milpaytools.com/bah): Index page with search and filter for all duty station BAH pages. Find any installation by name, city, state, or branch.
