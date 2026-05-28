@@ -76,12 +76,68 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
       answer: 'No. A spouse technically counts as a dependent for BAH purposes, but dual military couples without children both receive the without-dependents rate. Marriage alone does not trigger with-dependents BAH when both spouses are active duty.',
     },
   ],
+  'va-loan-funding-fee-explained': [
+    {
+      question: 'What is the VA funding fee for a first-time VA loan purchase in 2026?',
+      answer: 'For a first-use purchase loan with no down payment, the VA funding fee is 2.15% of the loan amount. On a $350,000 loan that is $7,525. The fee drops to 1.50% with 5% down or 1.25% with 10% or more down.',
+    },
+    {
+      question: 'Who is exempt from the VA funding fee?',
+      answer: 'Veterans receiving VA compensation for a service-connected disability, active-duty Purple Heart recipients, surviving spouses receiving DIC, and service members with a proposed or memorandum disability rating prior to closing are all exempt from the VA funding fee entirely.',
+    },
+    {
+      question: 'What is the VA funding fee for a subsequent use VA loan?',
+      answer: 'For a subsequent-use purchase loan with no down payment, the fee is 3.30% — $11,550 on a $350,000 loan. At 5% down or more, the rate drops to 1.50% regardless of use count, the same as first use.',
+    },
+    {
+      question: 'What is the VA IRRRL funding fee?',
+      answer: 'The IRRRL (VA Streamline Refinance) carries a 0.50% funding fee — the lowest of any VA loan type, and it applies the same for first and subsequent use. On a $300,000 loan balance, that is $1,500.',
+    },
+  ],
+  'can-i-use-va-loan-again': [
+    {
+      question: 'Can I use my VA loan benefit more than once?',
+      answer: 'Yes. The VA loan benefit has no use limit and does not expire. Entitlement is restored when you sell your home and pay off the VA loan balance, allowing you to use full entitlement again with no down payment and no loan limit.',
+    },
+    {
+      question: 'How do I restore my VA loan entitlement after selling?',
+      answer: 'When your VA loan is paid off at closing, request entitlement restoration through VA.gov, eBenefits, or your lender. There is no waiting period — you can apply for a new VA loan immediately after restoration.',
+    },
+    {
+      question: 'Can I have two VA loans at the same time?',
+      answer: 'Yes, if you have sufficient remaining entitlement. When you close on a VA loan, a portion of your entitlement is tied to that loan. If enough remains to cover 25% of a new purchase price, you can carry two VA loans simultaneously — common when PCSing before selling.',
+    },
+    {
+      question: 'Is the subsequent use VA funding fee worth it compared to conventional?',
+      answer: 'In most cases, yes. The 3.30% subsequent-use funding fee at zero down adds roughly $73/month on a $350,000 loan (financed over 30 years at 6.5%). Conventional PMI on a loan with less than 20% down typically costs $145–175/month — more than double. The VA loan still carries a monthly cost advantage for borrowers without a down payment.',
+    },
+  ],
+  'using-bah-to-buy-a-home': [
+    {
+      question: 'Does BAH count as income for a VA mortgage?',
+      answer: 'Yes. Most VA-approved lenders count BAH at 100% of its value when calculating debt-to-income ratio and maximum loan amount. Your Leave and Earnings Statement (LES) is the standard documentation.',
+    },
+    {
+      question: 'Can BAH cover a full mortgage payment?',
+      answer: 'At many moderate-cost duty stations, yes. At national median E-5 with-dependent BAH rates in 2026, the allowance can cover principal, interest, taxes, and insurance on a median-priced local home financed with a VA loan — with some margin remaining. It depends entirely on the specific station and local market.',
+    },
+    {
+      question: 'What happens to my mortgage when I PCS?',
+      answer: 'The mortgage stays when you leave. At PCS time you typically sell the home, rent it out (using BAH at the new station to cover the new mortgage), or carry both expenses from base pay. Each path has different financial and logistical requirements — plan this before you buy.',
+    },
+    {
+      question: 'Should I buy a home before separation from the military?',
+      answer: 'Build the post-separation budget around base pay and VA disability compensation only — BAH ends at separation and the mortgage does not. If the payment is affordable without BAH, buying before separation can make sense. If the math only works with BAH included, the timing warrants careful consideration.',
+    },
+  ],
 };
 
 const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
   'total-compensation': { label: 'Total Compensation Calculator',    href: '/calculators/total-compensation' },
   bah:                  { label: 'BAH Calculator',                   href: '/calculators/bah' },
   'va-disability':      { label: 'VA Disability Calculator',          href: '/calculators/va-disability' },
+  'va-loan':            { label: 'VA Loan Calculator',                href: '/calculators/va-loan' },
+  'va-refinance':       { label: 'VA Refinance Calculator',           href: '/calculators/va-refinance' },
   tsp:                  { label: 'TSP Growth Projector',              href: '/calculators/tsp' },
   retirement:           { label: 'Retirement Calculator',             href: '/calculators/retirement' },
   pcs:                  { label: 'PCS Cost Estimator',                href: '/calculators/pcs' },

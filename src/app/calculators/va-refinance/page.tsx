@@ -4,12 +4,31 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
-import { webApplicationSchema } from '@/lib/schema';
+import { webApplicationSchema, faqPageSchema } from '@/lib/schema';
+
+const FAQS = [
+  {
+    question: 'What is a VA Streamline Refinance (IRRRL)?',
+    answer: 'The IRRRL (Interest Rate Reduction Refinance Loan) is a VA refinance program for existing VA loan borrowers. It typically requires no appraisal and no income verification. The funding fee is 0.5% — much lower than purchase loans — and disability-rated veterans are exempt. The refinance must result in a lower interest rate, lower payment, or a transition from an adjustable-rate to a fixed-rate mortgage. It can only refinance an existing VA loan.',
+  },
+  {
+    question: 'What is a VA Cash-Out Refinance?',
+    answer: 'A VA Cash-Out Refinance replaces your current mortgage — VA or non-VA — with a new VA loan. Unlike the IRRRL, it can convert a conventional or FHA loan to a VA loan and can access home equity as cash. It requires full underwriting including appraisal, income verification, and credit check. Funding fee: 2.15% first use, 3.30% subsequent use — same rates as purchase loans.',
+  },
+  {
+    question: 'What is the VA net tangible benefit requirement?',
+    answer: 'For a fixed-to-fixed IRRRL, the VA requires the new interest rate to be at least 0.5% lower than the current rate. Converting from an adjustable-rate to a fixed-rate mortgage counts as a benefit in itself. The VA also uses a 36-month recoupment guideline: closing costs should be recouped through monthly savings within 36 months. Lenders must document cases where either threshold is not met.',
+  },
+  {
+    question: 'When does refinancing not make financial sense?',
+    answer: 'Refinancing may not make sense if you plan to sell before the break-even point (closing costs not yet recouped), the rate reduction is too small to justify the fees, you are restarting a long remaining term on a new 30-year loan, or you have paid down substantial principal and would restart the amortization clock with more interest-heavy early payments.',
+  },
+];
 import { VARefinanceCalculator } from '@/components/calculators/va-refinance/VARefinanceCalculator';
 
 const TITLE = 'VA Refinance Calculator 2026 | IRRRL & Cash-Out Savings, Break-Even & VA Requirements';
 const DESC =
-  'Should you refinance your VA loan? Calculate monthly savings, break-even point, lifetime interest savings, and check VA net tangible benefit requirements.';
+  'Should you refinance your VA loan? Calculate monthly savings, break-even point, and check VA net tangible benefit requirements — IRRRL and cash-out refinance.';
 const CANONICAL = '/calculators/va-refinance';
 
 export const metadata: Metadata = {
@@ -40,6 +59,7 @@ export default function VARefinancePage() {
         description: DESC,
         url: CANONICAL,
       })} />
+      <JsonLdScript schema={faqPageSchema(FAQS)} />
 
       {/* ── Hero ──────────────────────────────────────────────────────── */}
       <section
@@ -209,6 +229,11 @@ export default function VARefinancePage() {
                 <li>VA funding fee is 0.5% (much lower than the purchase fee)</li>
                 <li>Disability-rated veterans are exempt from the IRRRL funding fee as well</li>
               </ul>
+              <p className="text-sm text-zinc-600">
+                <a href="/blog/va-loan-funding-fee-explained" className="text-blue-700 hover:text-blue-800 underline">
+                  Full 2026 funding fee rates — purchase, IRRRL, and cash-out →
+                </a>
+              </p>
             </div>
           </details>
 

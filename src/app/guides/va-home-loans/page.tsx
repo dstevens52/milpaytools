@@ -121,8 +121,6 @@ const VA_BENEFITS = [
     ],
     cta: 'Estimate your refinance savings →',
     href: '/calculators/va-refinance',
-    secondaryHref: '#irrrl',
-    secondaryLabel: 'Learn about the IRRRL →',
   },
 ];
 
@@ -252,9 +250,14 @@ const ACCORDION = [
           Contact the VA or your lender to request one — this situation is more common than
           many veterans realize.
         </p>
-        <Link href="/calculators/va-disability" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
-          Calculate your combined VA disability rating →
-        </Link>
+        <div className="flex flex-col sm:flex-row gap-3 pt-1">
+          <Link href="/calculators/va-disability" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+            Calculate your combined VA disability rating →
+          </Link>
+          <Link href="/blog/va-loan-funding-fee-explained" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+            Full 2026 funding fee rates and exemptions →
+          </Link>
+        </div>
       </div>
     ),
   },
@@ -320,6 +323,9 @@ const ACCORDION = [
           <Link href="/calculators/bah" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
             Look up your BAH rate →
           </Link>
+          <Link href="/blog/using-bah-to-buy-a-home" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+            How BAH works as mortgage income →
+          </Link>
         </div>
       </div>
     ),
@@ -378,9 +384,14 @@ const ACCORDION = [
           again without full entitlement restoration. A disability exemption waives this fee
           when it applies.
         </p>
-        <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
-          Estimate payment for a subsequent-use VA loan →
-        </Link>
+        <div className="flex flex-col sm:flex-row gap-3 pt-1">
+          <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+            Estimate payment for a subsequent-use VA loan →
+          </Link>
+          <Link href="/blog/can-i-use-va-loan-again" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+            Entitlement restoration and reuse explained →
+          </Link>
+        </div>
       </div>
     ),
   },
@@ -494,6 +505,30 @@ const RELATED_ARTICLES = [
     title: 'VA Home Loans Explained',
     description:
       'What the VA loan benefit covers, how to get your Certificate of Eligibility, and how to use the benefit for the first time.',
+  },
+  {
+    href: '/blog/va-loan-funding-fee-explained',
+    border: 'border-l-green-500',
+    label: 'Funding Fee',
+    title: 'VA Loan Funding Fee Explained',
+    description:
+      'Every 2026 rate, exemption, and dollar amount — purchase, IRRRL, and cash-out. Know exactly what applies before you close.',
+  },
+  {
+    href: '/blog/can-i-use-va-loan-again',
+    border: 'border-l-amber-500',
+    label: 'Entitlement',
+    title: 'Can I Use My VA Loan Again?',
+    description:
+      'Entitlement restoration, one-time restoration, simultaneous loans, and what the subsequent use fee actually costs.',
+  },
+  {
+    href: '/blog/using-bah-to-buy-a-home',
+    border: 'border-l-purple-500',
+    label: 'BAH & Homebuying',
+    title: 'Using BAH to Buy a Home',
+    description:
+      'BAH as qualifying income, the tax-equivalent math, what BAH covers at your duty station, and the PCS and separation scenarios.',
   },
 ];
 
@@ -674,7 +709,7 @@ export default function VAHomeLoansGuidePage() {
               <div className="bg-white rounded-xl border border-zinc-200 shadow-lg overflow-hidden w-full max-w-xs">
                 <div className="bg-zinc-50 border-b border-zinc-200 px-5 py-3 flex items-center justify-between">
                   <div>
-                    <p className="text-xs text-zinc-500 font-medium">E-5 · First use · Fort Bragg, NC</p>
+                    <p className="text-xs text-zinc-500 font-medium">E-5 · First use · Fort Bragg area, NC</p>
                     <p className="text-sm font-semibold text-zinc-800">$350K home · $0 down · 6.0%</p>
                   </div>
                   <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">2026 rates</span>
@@ -711,7 +746,7 @@ export default function VAHomeLoansGuidePage() {
                 </div>
               </div>
               <p className="mt-3 text-xs text-center text-white/40">
-                Sample only — E-5 at Fort Bragg, NC. Your numbers update live as you enter inputs.
+                Sample only — E-5 at Fort Bragg area, NC. Your numbers update live as you enter inputs.
               </p>
             </div>
           </div>

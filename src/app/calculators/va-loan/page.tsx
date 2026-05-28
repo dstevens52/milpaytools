@@ -4,7 +4,30 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { VALoanCalculator } from '@/components/calculators/va-loan/VALoanCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
-import { webApplicationSchema } from '@/lib/schema';
+import { webApplicationSchema, faqPageSchema } from '@/lib/schema';
+
+const FAQS = [
+  {
+    question: 'How does the VA loan funding fee work?',
+    answer: 'The VA funding fee is a one-time payment to the Department of Veterans Affairs — not the lender. First use with $0 down: 2.15% of the loan amount. Subsequent use with $0 down: 3.30%. Putting 5%–9.99% down reduces the fee to 1.50%; 10%+ reduces it to 1.25%. You can pay it at closing or finance it into the loan. Rates are effective through November 14, 2031.',
+  },
+  {
+    question: 'Who is exempt from the VA funding fee?',
+    answer: 'Veterans with a service-connected disability rating of 10% or higher are exempt from the VA funding fee on every VA loan, including refinances. Purple Heart recipients on active duty and surviving spouses receiving Dependency and Indemnity Compensation (DIC) are also exempt. If you received a disability rating after closing with an effective date before closing, you may be eligible for a retroactive refund.',
+  },
+  {
+    question: 'When does a VA loan make more sense than a conventional loan?',
+    answer: 'VA loans offer $0 down and no monthly mortgage insurance at any loan-to-value — conventional PMI runs about $143/month on a $350K loan with 5% down. VA is usually superior for borrowers with limited down payment who plan to hold the home long-term. Conventional may make sense if you have 20%+ down (no PMI and no funding fee), expect to sell within 1–2 years, or are buying an investment property (VA requires primary residence).',
+  },
+  {
+    question: 'Who qualifies for a VA home loan?',
+    answer: 'Active-duty service members qualify after 90+ consecutive days of service. Veterans qualify based on service period, length of service, and character of discharge. Guard and Reserve members may qualify through 6+ years of service or 90+ days of qualifying active duty. Surviving spouses of veterans who died in service or from a service-connected disability may also be eligible. The Certificate of Eligibility (COE) confirms eligibility for a lender.',
+  },
+  {
+    question: 'What does this VA loan calculator not include?',
+    answer: 'This calculator provides estimates for educational purposes only. It does not provide rate quotes, closing cost estimates beyond the funding fee, debt-to-income or VA residual income analysis, loan pre-approval, jumbo VA loan specifics, or lender recommendations. Consult a VA-approved lender for actual loan estimates.',
+  },
+];
 
 export const metadata: Metadata = {
   title: { absolute: 'VA Loan Payment Calculator 2026 | Funding Fee, BAH Comparison & VA vs Conventional' },
@@ -39,6 +62,7 @@ export default function VALoanPage() {
         description: 'Estimate your VA loan monthly payment, see your funding fee (or waiver), compare VA to conventional financing, and optionally see how your payment compares to BAH.',
         url: '/calculators/va-loan',
       })} />
+      <JsonLdScript schema={faqPageSchema(FAQS)} />
 
       {/* ── Hero ──────────────────────────────────────────────────────── */}
       <section
@@ -64,7 +88,7 @@ export default function VALoanPage() {
 
               {/* Description */}
               <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-                Estimate your monthly payment, see your funding fee (or your waiver), and compare VA to conventional financing side by side.
+                Estimate your monthly payment, see your funding fee (or your waiver), and compare to your BAH.
               </p>
 
             </div>
@@ -145,17 +169,17 @@ export default function VALoanPage() {
           </a>
 
           <a
-            href="/calculators/bah"
+            href="/calculators/va-refinance"
             className="group block rounded-lg border border-zinc-200 bg-white p-5 shadow-sm hover:border-red-200 hover:shadow-md transition-all"
           >
             <p className="font-semibold text-zinc-900 mb-2 group-hover:text-red-700 transition-colors">
-              Compare duty station housing costs
+              Already have a VA loan?
             </p>
             <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-              See BAH rates and housing costs at different duty stations. Your BAH can often cover or exceed the mortgage payment at affordable markets.
+              The VA Streamline Refinance (IRRRL) lets you lower your rate with minimal paperwork and no appraisal. See if refinancing makes sense.
             </p>
             <span className="text-sm font-medium text-red-700">
-              Look up BAH rates →
+              Estimate your refinance savings →
             </span>
           </a>
 
@@ -225,6 +249,11 @@ export default function VALoanPage() {
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
                 These rates are effective through November 14, 2031, per the Blue Water Navy Vietnam Veterans Act of 2019.
+              </p>
+              <p className="text-sm text-zinc-600">
+                <a href="/blog/va-loan-funding-fee-explained" className="text-blue-700 hover:text-blue-800 underline">
+                  Full 2026 funding fee rates, exemptions, and dollar-amount examples →
+                </a>
               </p>
             </div>
           </details>
@@ -303,6 +332,11 @@ export default function VALoanPage() {
                   className="text-blue-700 hover:text-blue-800 underline"
                 >
                   VA.gov eBenefits →
+                </a>
+              </p>
+              <p className="text-sm text-zinc-600">
+                <a href="/blog/can-i-use-va-loan-again" className="text-blue-700 hover:text-blue-800 underline">
+                  Entitlement restoration, subsequent use, and using two VA loans at once →
                 </a>
               </p>
             </div>
