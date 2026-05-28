@@ -20,7 +20,7 @@
 - [Healthcare Cost Comparison](/calculators/healthcare-comparison): TRICARE vs civilian healthcare cost comparison
 - [VA Loan Payment Calculator](/calculators/va-loan): Monthly payment estimate with VA funding fee, disability exemption, VA vs conventional comparison, and optional BAH comparison
 
-## Guides (8)
+## Guides (9)
 - [Starting Service: Military Pay & Benefits from Day One](/guides/starting-service): New service member guide — total compensation, BAH, TSP enrollment, LES, and first-year financial checkpoints
 - [Navigating Service: PCS, Deployment & Duty Station Financial Tools](/guides/navigating-service): PCS orders, deployment pay, PCS pay comparison, and longer-term financial planning for active-duty service members mid-career
 - [Military Pay & Compensation Guide](/guides/military-pay): Understanding base pay, BAH, BAS, tax advantages, and total compensation
@@ -28,6 +28,7 @@
 - [VA Disability Benefits Guide](/guides/va-disability): Combined rating formula, bilateral factor, 2026 compensation rates, CRDP and CRSC
 - [Military Retirement & TSP Guide](/guides/retirement-tsp): High-3 vs BRS, TSP strategy, Roth vs Traditional, pension and retirement income
 - [Military Education Benefits Guide](/guides/education-benefits): GI Bill, VR&E, TA, and Montgomery GI Bill comparison and sequencing strategy
+- [VA Home Loans Guide 2026](/guides/va-home-loans): VA loan eligibility, funding fee table, disability exemption waiver, BAH as mortgage income, and payment calculator
 - [Military Transition Financial Roadmap](/transition): Full financial arc of military separation — income, healthcare, benefits, and deadlines
 
 ## BAH by Duty Station

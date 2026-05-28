@@ -45,6 +45,7 @@ const GUIDES_TOPICS = [
   { href: '/guides/pcs', label: 'PCS & Duty Station Guide' },
   { href: '/guides/retirement-tsp', label: 'Retirement & TSP Guide' },
   { href: '/guides/va-disability', label: 'VA Disability Guide' },
+  { href: '/guides/va-home-loans', label: 'VA Home Loans Guide' },
   { href: '/guides/education-benefits', label: 'Education Benefits Guide' },
   { href: '/transition', label: 'Military Transition Roadmap' },
 ];
