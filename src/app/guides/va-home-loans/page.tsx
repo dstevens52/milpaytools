@@ -67,6 +67,11 @@ const FAQS = [
     answer:
       'BAH is excluded from federal taxable income but is counted as income for VA loan qualification purposes. At many duty stations, BAH covers a meaningful portion of an estimated monthly payment. However, BAH can change if you PCS, change dependency status, or separate from service. Size the mortgage conservatively — not at the edge of what current BAH covers — and plan for the scenario where BAH decreases or stops.',
   },
+  {
+    question: 'What is the VA IRRRL (streamline refinance)?',
+    answer:
+      'The Interest Rate Reduction Refinance Loan (IRRRL) lets existing VA loan borrowers refinance to a lower interest rate with significantly less paperwork than a standard refinance. It typically requires no appraisal and no income verification. The VA funding fee on an IRRRL is 0.5% — much lower than the purchase fee — and disability-rated veterans are exempt from it as well. The IRRRL must result in a lower interest rate, lower payment, or a transition from an adjustable to a fixed rate. It can only be used to refinance an existing VA loan.',
+  },
 ];
 
 // ── Benefit cards (Zone 2) ────────────────────────────────────────────────────
@@ -75,13 +80,13 @@ const VA_BENEFITS = [
   {
     accent: 'bg-blue-800',
     label: 'Feature 1',
-    title: 'No down payment required. No monthly mortgage insurance.',
+    title: 'No down payment. No PMI.',
     description:
-      'Eligible borrowers can often purchase with no down payment, as long as the home appraises and the lender approves the loan. This can preserve cash for reserves, moving costs, repairs, or PCS uncertainty.',
+      'Eligible borrowers can purchase with no down payment and pay no monthly mortgage insurance — at any loan-to-value.',
     bullets: [
-      'No minimum down payment for eligible borrowers',
-      'No PMI at any down payment level',
-      'Conventional PMI: roughly $150–$400/mo until 20% equity',
+      '$0 down for eligible borrowers',
+      'No monthly mortgage insurance at any LTV',
+      'Conventional PMI runs ~$150–400/mo',
       'No prepayment penalty',
     ],
     cta: 'Estimate your payment →',
@@ -91,13 +96,12 @@ const VA_BENEFITS = [
     accent: 'bg-amber-600',
     label: 'Feature 2',
     title: 'Funding fee — and who\'s exempt',
-    description:
-      'Most borrowers pay a one-time VA funding fee, but many are exempt due to disability compensation, Purple Heart, or surviving-spouse status. The exemption can significantly change the VA-versus-conventional comparison.',
+    description: 'A one-time fee to the VA, not your lender. Many are exempt.',
     bullets: [
-      'First use, $0 down: 2.15% of loan (one-time)',
-      'Subsequent use, $0 down: 3.30% (one-time)',
-      'Many disability-rated veterans: $0 fee',
-      'Can be financed into the loan or paid at closing',
+      'First use, $0 down: 2.15% of loan',
+      'Subsequent use: 3.30% of loan',
+      'Disability-rated veterans: $0 fee',
+      'Can finance into loan or pay at closing',
     ],
     cta: 'See your funding fee →',
     href: '/calculators/va-loan',
@@ -107,19 +111,16 @@ const VA_BENEFITS = [
   {
     accent: 'bg-emerald-600',
     label: 'Feature 3',
-    title: 'How BAH affects affordability',
-    description:
-      'BAH excluded from federal taxable income is counted as income for VA loan qualification. At many duty stations it covers a meaningful portion of the estimated payment — but plan conservatively for PCS or separation.',
+    title: 'VA Streamline Refinance (IRRRL)',
+    description: 'Already have a VA loan? The IRRRL lets you lower your rate with minimal paperwork.',
     bullets: [
-      'BAH counted as qualifying income by VA lenders',
-      'BAH excluded from federal taxable income',
-      'Coverage varies widely by station and rank',
-      'BAH can change at PCS or separation',
+      'No appraisal typically required',
+      'No income verification in most cases',
+      'Must result in lower payment or shorter term',
+      'Available to veterans and active duty',
     ],
-    cta: 'Compare BAH to your payment →',
-    href: '/calculators/va-loan',
-    secondaryHref: '/calculators/bah',
-    secondaryLabel: 'Look up your BAH rate →',
+    cta: 'Learn about the IRRRL →',
+    href: '#irrrl',
   },
 ];
 
@@ -408,6 +409,44 @@ const ACCORDION = [
       </div>
     ),
   },
+  {
+    id: 'irrrl',
+    question: 'VA Streamline Refinance (IRRRL)',
+    content: (
+      <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
+        <p>
+          The Interest Rate Reduction Refinance Loan — commonly called the IRRRL or
+          &ldquo;streamline refinance&rdquo; — lets existing VA loan borrowers refinance to a lower
+          interest rate with significantly less paperwork than a standard refinance.
+        </p>
+        <p><strong className="text-zinc-800">Key features:</strong></p>
+        <ul className="space-y-1 pl-4 list-disc">
+          <li>Typically no appraisal required</li>
+          <li>No income verification or debt-to-income calculation in most cases</li>
+          <li>Closing costs can often be rolled into the new loan</li>
+          <li>Must result in a lower interest rate, lower payment, or transition from an adjustable-rate to a fixed-rate mortgage</li>
+          <li>VA funding fee on an IRRRL: 0.5% of the loan amount (much lower than a purchase fee)</li>
+          <li>Disability-rated veterans are exempt from the IRRRL funding fee as well</li>
+        </ul>
+        <p>
+          <strong className="text-zinc-800">Important:</strong> The IRRRL is only available
+          if you already have a VA loan. It cannot be used to refinance a conventional, FHA,
+          or other non-VA loan into a VA loan. For that, you would need a VA Cash-Out
+          Refinance, which has different requirements and a higher funding fee.
+        </p>
+        <p>
+          <strong className="text-zinc-800">When the IRRRL makes sense:</strong> If interest
+          rates have dropped since you got your VA loan, or if you have an adjustable-rate VA
+          loan you want to convert to a fixed rate. The low paperwork and no-appraisal process
+          makes it one of the fastest refinance options available.
+        </p>
+        <p className="text-xs text-zinc-400">
+          MilPayTools does not provide refinance quotes or lender recommendations. Contact
+          VA-approved lenders to compare IRRRL offers.
+        </p>
+      </div>
+    ),
+  },
 ];
 
 // ── Related calculators (Zone 5) ──────────────────────────────────────────────
@@ -692,8 +731,8 @@ export default function VAHomeLoansGuidePage() {
           </div>
 
           <div className="divide-y divide-zinc-200 border-t border-zinc-200">
-            {ACCORDION.map(({ question, content }) => (
-              <details key={question} className="group py-1">
+            {ACCORDION.map(({ question, content, id }) => (
+              <details key={question} id={id} className="group py-1">
                 <summary className="flex items-center justify-between py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                   <span className="text-base font-semibold text-zinc-900 group-open:text-red-700 transition-colors pr-4">
                     {question}
