@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { TSPCalculator } from '@/components/calculators/tsp/TSPCalculator';
@@ -64,6 +64,13 @@ export default function TSPPage() {
         ]} />
 
         {/* ── Proof bar ──────────────────────────────────────────────── */}
+
+      {/* ── Direct answer */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+          The Thrift Savings Plan is the military&apos;s 401(k) equivalent, with expense ratios typically under 0.06% — among the lowest of any retirement plan available. Under BRS, the government contributes 1% automatically and matches up to 4% more for members who contribute at least 5% of base pay. This calculator projects your TSP balance at retirement based on contribution rate, fund allocation, and the BRS government match.
+        </p>
+      </div>
         <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
           <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
             <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">

@@ -542,7 +542,25 @@ export default function EducationBenefitsGuidePage() {
         </div>
       </section>
 
-      {/* ── ZONE 2: Three insight cards ── */}
+      
+      {/* ── Direct answer ──────────────────────────────────────────────── */}
+      <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+            Military education benefits include four main programs that work differently and can be combined strategically: Post-9/11 GI Bill (tuition plus a monthly housing allowance based on BAH for an E-5 with dependents at the school&apos;s ZIP code), VR&amp;E Chapter 31 (tuition with no cap for veterans with service-connected disabilities, without consuming GI Bill months), Tuition Assistance (up to $4,500/year for active-duty members), and the Montgomery GI Bill. The housing allowance alone can range from $1,200 to over $3,600/month depending on school location, making school selection one of the most significant financial variables in GI Bill planning.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Direct answer */}
+      <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+            Military education benefits include four main programs that work differently and can be combined strategically: Post-9/11 GI Bill (tuition plus a monthly housing allowance based on BAH for an E-5 with dependents at the school&apos;s ZIP code), VR&amp;E Chapter 31 (tuition with no cap for veterans with service-connected disabilities, without consuming GI Bill months), Tuition Assistance (up to $4,500/year for active-duty members), and the Montgomery GI Bill. The housing allowance alone can range from $1,200 to over $3,600/month depending on school location, making school selection one of the most significant financial variables in GI Bill planning.
+          </p>
+        </div>
+      </section>
+{/* ── ZONE 2: Three insight cards ── */}
       <section className="bg-white border-b border-zinc-200 py-10 sm:py-14 px-4">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-10">

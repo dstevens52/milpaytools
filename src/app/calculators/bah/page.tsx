@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { BAHCalculator } from '@/components/calculators/bah/BAHCalculator';
@@ -64,6 +64,13 @@ export default function BAHPage() {
       <BAHCalculator />
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
+
+      {/* ── Direct answer */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+          BAH (Basic Allowance for Housing) is a monthly payment based on duty station location, pay grade, and dependency status — excluded from federal taxable income. Rates vary significantly by location: an E-5 with dependents receives $1,218/month in some markets and $3,975/month in San Diego. This calculator looks up your exact 2026 BAH rate using official DTMO data for all 40,959 ZIP codes.
+        </p>
+      </div>
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">

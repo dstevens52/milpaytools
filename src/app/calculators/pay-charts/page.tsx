@@ -70,6 +70,13 @@ export default function PayChartsPage() {
       </div>
 
       {/* ── Key Facts ─────────────────────────────────────────────────── */}
+      {/* ── Direct answer */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+          Military base pay is set by the DoD pay scale based on pay grade (E-1 through O-10) and years of service, with the 2026 rate table effective January 1, 2026 reflecting a 3.8% increase. An E-5 with 6 years of service earns $4,110/month in base pay; an O-3 with 6 years earns $7,737/month. Base pay is the taxable portion of military compensation — BAH, BAS, and most allowances are excluded from federal taxable income and are listed separately.
+        </p>
+      </div>
+
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-8">
         <hr className="border-zinc-200" />
 

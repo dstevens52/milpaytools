@@ -411,7 +411,25 @@ export default function MilitaryPayGuidePage() {
         </div>
       </section>
 
-      {/* ── ZONE 2: Three pay layers ── */}
+      
+      {/* ── Direct answer ──────────────────────────────────────────────── */}
+      <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+            Military compensation includes base pay, BAH, BAS, and allowances — most of which are excluded from federal taxable income, making them worth more than equivalent civilian wages. An E-5 with 6 years stationed at a mid-range duty station typically receives $75,000–$90,000 in total annual compensation value, though the number varies significantly by duty station and dependency status. Understanding the full picture is essential for comparing military pay to civilian job offers or making informed financial decisions.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Direct answer */}
+      <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+            Military compensation includes base pay, BAH, BAS, and allowances — most of which are excluded from federal taxable income, making them worth more than equivalent civilian wages. An E-5 with 6 years stationed at a mid-range duty station typically receives $75,000–$90,000 in total annual compensation value, though the number varies significantly by duty station and dependency status. Understanding the full picture is essential for comparing military pay to civilian job offers or making informed financial decisions.
+          </p>
+        </div>
+      </section>
+{/* ── ZONE 2: Three pay layers ── */}
       <section className="bg-white border-b border-zinc-200 py-10 sm:py-14 px-4">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-10">

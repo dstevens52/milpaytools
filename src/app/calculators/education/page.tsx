@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { EducationCalculator } from '@/components/calculators/education/EducationCalculator';
@@ -66,7 +66,21 @@ export default function EducationCalculatorPage() {
       <div className="min-h-screen bg-zinc-50">
         <EducationCalculator />
 
-        {/* Example Calculation */}
+        
+      {/* ── Direct answer ──────────────────────────────────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+          Military education benefits work very differently from each other: the Post-9/11 GI Bill covers tuition plus a monthly housing allowance equal to E-5 with-dependents BAH at the school&apos;s ZIP code (ranging from $1,200 to over $3,600/month depending on location); VR&amp;E (Chapter 31) covers tuition with no cap without consuming GI Bill months; and Tuition Assistance covers up to $4,500/year while on active duty. This calculator compares total program value side by side for your specific school, eligibility level, and situation.
+        </p>
+      </div>
+{/* Example Calculation */}
+
+      {/* ── Direct answer */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+          Military education benefits work very differently from each other: the Post-9/11 GI Bill covers tuition plus a monthly housing allowance equal to E-5 with-dependents BAH at the school&apos;s ZIP code (ranging from $1,200 to over $3,600/month depending on location); VR&amp;E (Chapter 31) covers tuition with no cap without consuming GI Bill months; and Tuition Assistance covers up to $4,500/year while on active duty. This calculator compares total program value side by side for your specific school, eligibility level, and situation.
+        </p>
+      </div>
         <section className="calc-example mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8">
           <ExampleBox>
             <h2 className="text-xl font-bold text-zinc-900 mb-2">

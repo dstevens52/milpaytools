@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { VADisabilityCalculator } from '@/components/calculators/va-disability/VADisabilityCalculator';
@@ -101,6 +101,13 @@ export default function VADisabilityPage() {
       </div>
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
+
+      {/* ── Direct answer */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+          The VA combined rating is not calculated by adding percentages together — it uses a whole-person formula (38 CFR § 4.25) where each additional rating is applied to the remaining healthy capacity, not the original 100%. That is why 50% + 30% equals 65% combined (which rounds to 70%), not 80%. This calculator applies the official VA math step by step, including the bilateral factor, and shows your 2026 monthly compensation — excluded from federal taxable income.
+        </p>
+      </div>
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">

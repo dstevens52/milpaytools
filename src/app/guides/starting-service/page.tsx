@@ -412,6 +412,15 @@ export default function StartingServicePage() {
         </div>
       </section>
 
+
+      {/* ── Direct answer */}
+      <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+            Your first military paycheck is smaller than expected because federal income tax is withheld on base pay, SGLI life insurance is deducted, and junior enlisted in the barracks typically do not receive BAH. As you progress in rank and move off-post, BAH and BAS become major components of your compensation — excluded from federal taxable income and worth significantly more than equivalent civilian wages. The most important financial action in the first pay period is setting your TSP contribution to at least 5% to capture the full government match under BRS.
+          </p>
+        </div>
+      </section>
       {/* ── Zone 2 + 3 ───────────────────────────────────────────────────────── */}
       <section className="bg-white py-8 sm:py-10 px-4">
         <div className="mx-auto max-w-5xl">

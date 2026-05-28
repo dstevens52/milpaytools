@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { HealthcareComparisonCalculator } from '@/components/calculators/healthcare-comparison/HealthcareComparisonCalculator';
@@ -96,6 +96,13 @@ export default function HealthcareComparisonPage() {
         ]} />
 
         {/* ── Proof bar ──────────────────────────────────────────────── */}
+
+      {/* ── Direct answer */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+          TRICARE Prime for active-duty members costs $0 — no premiums, no enrollment fees, and no deductibles for care at military treatment facilities. After separation, healthcare transitions to TRICARE retirement plans, employer coverage, or ACA marketplace options that typically cost $600–$2,000/month for family coverage. This calculator compares TRICARE, employer plans, and ACA marketplace costs side by side so separating service members and their families can plan for the transition.
+        </p>
+      </div>
         <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
           <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
             <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">

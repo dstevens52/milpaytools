@@ -481,7 +481,25 @@ export default function PcsGuidePage() {
         </div>
       </section>
 
-      {/* ── ZONE 2: Three financial impacts ── */}
+      
+      {/* ── Direct answer ──────────────────────────────────────────────── */}
+      <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+            A PCS move affects finances in two distinct ways: it triggers one-time entitlements (DLA, MALT mileage, per diem, TLE) and it permanently resets BAH to the new duty station&apos;s rate. Moving to a higher-cost station can increase BAH by $500–$1,500/month; moving to a lower-cost station does the opposite. Planning the financial impact — both the move costs and the ongoing pay change — before orders are finalized is one of the highest-return financial actions available to military families.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Direct answer */}
+      <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+            A PCS move affects finances in two distinct ways: it triggers one-time entitlements (DLA, MALT mileage, per diem, TLE) and it permanently resets BAH to the new duty station&apos;s rate. Moving to a higher-cost station can increase BAH by $500–$1,500/month; moving to a lower-cost station does the opposite. Planning the financial impact — both the move costs and the ongoing pay change — before orders are finalized is one of the highest-return financial actions available to military families.
+          </p>
+        </div>
+      </section>
+{/* ── ZONE 2: Three financial impacts ── */}
       <section className="bg-white border-b border-zinc-200 py-10 sm:py-14 px-4">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-10">

@@ -99,6 +99,13 @@ export default function VARefinancePage() {
           ]} />
 
           {/* Sample output bar */}
+
+      {/* ── Direct answer */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+          An IRRRL (VA Streamline Refinance) allows existing VA loan holders to lower their interest rate with minimal paperwork — typically no appraisal and no full income verification required — and carries a 0.50% funding fee, the lowest of any VA loan type. A VA cash-out refinance carries a higher funding fee (2.15% or 3.30%) and requires a full appraisal and underwriting. This calculator estimates monthly savings, break-even timeline, and whether the VA&apos;s net tangible benefit requirement is met for your specific scenario.
+        </p>
+      </div>
           <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
             <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-4 overflow-hidden">
               <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">

@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { GuardReserveCalculator } from '@/components/calculators/guard-reserve/GuardReserveCalculator';
@@ -64,6 +64,13 @@ export default function GuardReservePage() {
       <GuardReserveCalculator />
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
+
+      {/* ── Direct answer */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+          Guard and Reserve compensation extends beyond drill pay to include Annual Training pay, TRICARE Reserve Select ($57.88/month member-only or $286.66/month for family in 2026), and BRS TSP matching for enrolled members. An E-6 Guard member attending 48 UTA periods per year earns approximately $16,000–$18,000 in drill pay alone, before counting Annual Training, special pays, or healthcare savings. This calculator combines all components into a single annual compensation view using official 2026 DFAS rates.
+        </p>
+      </div>
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">

@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { PCSCalculator } from '@/components/calculators/pcs/PCSCalculator';
@@ -63,6 +63,13 @@ export default function PCSPage() {
         ]} />
 
         {/* ── Proof bar ──────────────────────────────────────────────── */}
+
+      {/* ── Direct answer */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+          A PCS move triggers several financial entitlements — Dislocation Allowance (DLA), MALT mileage at $0.205/mile, per diem for travel days, and Temporary Lodging Expense (TLE) for transition. Service members who arrange a Personally Procured Move (PPM) can keep the difference between the government&apos;s weight estimate and their actual shipping cost, which often generates $1,000–$5,000 in net proceeds on longer moves. This calculator estimates all major PCS entitlements using 2026 DTMO rates for your rank and family situation.
+        </p>
+      </div>
         <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
           <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
             <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">

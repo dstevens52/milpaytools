@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { TransitionReadinessCalculator } from '@/components/calculators/transition-readiness/TransitionReadinessCalculator';
@@ -96,6 +96,13 @@ export default function TransitionReadinessPage() {
       <TransitionReadinessCalculator />
 
       {/* ── Example Calculation ────────────────────────────────────── */}
+
+      {/* ── Direct answer */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+          Transition readiness requires replacing not just base pay, but the combined value of BAH, BAS, TRICARE, and tax advantages that disappear at separation. For an E-6 with a family, replacing TRICARE alone typically requires $15,000–$25,000/year in healthcare costs — often the most underestimated line item in any transition plan. This calculator compares military and civilian total compensation after taxes and benefits, identifying the minimum civilian offer needed to maintain financial parity.
+        </p>
+      </div>
       <section className="tr-example calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">

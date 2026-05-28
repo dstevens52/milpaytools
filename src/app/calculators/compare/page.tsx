@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { CompareCalculator } from '@/components/calculators/compare/CompareCalculator';
@@ -64,6 +64,13 @@ export default function ComparePage() {
         ]} />
 
         {/* ── Proof bar ──────────────────────────────────────────────── */}
+
+      {/* ── Direct answer */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+          Comparing two duty stations financially requires looking beyond base pay — BAH differences of $1,000–$2,000/month between assignments are common, state income tax treatment varies significantly, and CONUS COLA may apply at some stations. An E-5 with dependents stationed in San Diego receives approximately $26,000 more per year in BAH than the same rank at Fort Bragg, before factoring in state taxes and cost of living. This calculator produces a side-by-side comparison of total compensation at two stations using official 2026 DTMO and DFAS data.
+        </p>
+      </div>
         <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
           <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
             <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
@@ -86,7 +93,14 @@ export default function ComparePage() {
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-6 md:py-10 space-y-10">
         <CompareCalculator />
 
-        {/* Example Calculation */}
+        
+      {/* ── Direct answer ──────────────────────────────────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+          Comparing two duty stations financially requires looking beyond base pay — BAH differences of $1,000–$2,000/month between assignments are common, state income tax treatment varies significantly, and CONUS COLA may apply at some stations. An E-5 with dependents stationed in San Diego receives approximately $26,000 more per year in BAH than the same rank at Fort Bragg, before factoring in state taxes and cost of living. This calculator produces a side-by-side comparison of total compensation at two stations using official 2026 DTMO and DFAS data.
+        </p>
+      </div>
+{/* Example Calculation */}
         <div className="calc-example">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">

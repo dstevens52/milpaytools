@@ -450,7 +450,25 @@ export default function RetirementTspGuidePage() {
         </div>
       </section>
 
-      {/* ── ZONE 2: Three insight cards ── */}
+      
+      {/* ── Direct answer ──────────────────────────────────────────────── */}
+      <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+            Military retirement provides an immediate pension beginning at separation — not at age 65 — plus access to TSP as a portable savings account. Under High-3 (for those who entered before 2018), the pension is 50% of average highest base pay at exactly 20 years; under BRS (for those who entered after 2018), it is 40%, partially offset by government TSP matching of up to 5% of base pay. Together, a 20-year retirement pension plus TSP savings represents one of the most valuable retirement packages available in any profession.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Direct answer */}
+      <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+            Military retirement provides an immediate pension beginning at separation — not at age 65 — plus access to TSP as a portable savings account. Under High-3 (for those who entered before 2018), the pension is 50% of average highest base pay at exactly 20 years; under BRS (for those who entered after 2018), it is 40%, partially offset by government TSP matching of up to 5% of base pay. Together, a 20-year retirement pension plus TSP savings represents one of the most valuable retirement packages available in any profession.
+          </p>
+        </div>
+      </section>
+{/* ── ZONE 2: Three insight cards ── */}
       <section className="bg-white border-b border-zinc-200 py-10 sm:py-14 px-4">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-10">

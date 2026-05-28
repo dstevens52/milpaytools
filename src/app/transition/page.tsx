@@ -422,7 +422,34 @@ export default function TransitionPage() {
         </div>
       </section>
 
-      {/* ── Three things that change after separation ── */}
+      
+      {/* ── Direct answer ──────────────────────────────────────────────── */}
+      <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+            Military-to-civilian financial transition requires replacing the full value of military compensation — not just base pay — in a civilian job offer. For an E-6 with a family, BAH, BAS, TRICARE, and tax advantages typically represent $30,000–$50,000 per year in value that disappears at separation, with healthcare replacement alone running $600–$2,000/month in premiums for comparable civilian family coverage. Use the tools on this page to understand the gap before accepting any offer.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Direct answer ──────────────────────────────────────────────── */}
+      <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+            Military-to-civilian financial transition requires replacing the full value of military compensation — not just base pay — in a civilian job offer. For an E-6 with a family, BAH, BAS, TRICARE, and tax advantages typically represent $30,000–$50,000 per year in value that disappears at separation, with healthcare replacement alone running $600–$2,000/month in premiums for comparable civilian family coverage. Use the tools on this page to understand the gap before accepting any offer.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Direct answer */}
+      <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+            Military-to-civilian financial transition requires replacing the full value of military compensation — not just base pay — in a civilian job offer. For an E-6 with a family, BAH, BAS, TRICARE, and tax advantages typically represent $30,000–$50,000 per year in value that disappears at separation, with healthcare replacement alone running $600–$2,000/month in premiums for comparable civilian family coverage. Use the tools on this page to understand the gap before accepting any offer.
+          </p>
+        </div>
+      </section>
+{/* ── Three things that change after separation ── */}
       <section className="bg-zinc-50 border-b border-zinc-200 py-10 sm:py-14 px-4">
         <div className="mx-auto max-w-5xl">
 

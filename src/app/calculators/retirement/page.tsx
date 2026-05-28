@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { RetirementCalculator } from '@/components/calculators/retirement/RetirementCalculator';
@@ -63,6 +63,13 @@ export default function RetirementCalculatorPage() {
         ]} />
 
         {/* ── Proof bar ──────────────────────────────────────────────── */}
+
+      {/* ── Direct answer */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+          Military retirement pay is an immediate pension beginning at separation, not at age 65. Under High-3, the pension is 2.5% × years of service × average of the highest 36 months of base pay — 50% of High-3 at exactly 20 years; under BRS, the multiplier is 2.0%, partially offset by government TSP matching of up to 5% of base pay over a career. This calculator projects your pension under both systems and models the lifetime value at different career lengths.
+        </p>
+      </div>
         <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
           <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
             <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
@@ -89,7 +96,14 @@ export default function RetirementCalculatorPage() {
           <RetirementCalculator />
         </div>
 
-        {/* Example Calculation */}
+        
+      {/* ── Direct answer ──────────────────────────────────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
+          Military retirement pay is an immediate pension beginning at separation, not at age 65. Under High-3, the pension is 2.5% × years of service × average of the highest 36 months of base pay — 50% of High-3 at exactly 20 years; under BRS, the multiplier is 2.0%, partially offset by government TSP matching of up to 5% of base pay over a career. This calculator projects your pension under both systems and models the lifetime value at different career lengths.
+        </p>
+      </div>
+{/* Example Calculation */}
         <section className="calc-example mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8">
           <ExampleBox>
             <h2 className="text-xl font-bold text-zinc-900 mb-2">
