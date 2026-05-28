@@ -83,6 +83,23 @@ function CheckIndicator({ pass, label, detail }: { pass: boolean; label: string;
   );
 }
 
+// ─── Neutral check indicator (not calculated) ──────────────────────────────────
+function NeutralIndicator({ label, detail }: { label: string; detail: string }) {
+  return (
+    <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 flex gap-3">
+      <span className="flex-none w-5 h-5 rounded-full flex items-center justify-center mt-0.5 bg-zinc-300">
+        <svg className="w-3 h-3 text-white" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <path d="M6 4v3M6 9v.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      </span>
+      <div>
+        <p className="text-sm font-semibold text-zinc-600">{label}</p>
+        <p className="text-sm mt-0.5 leading-relaxed text-zinc-500">{detail}</p>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main component ────────────────────────────────────────────────────────────
 export function VARefinanceCalculator() {
   const [refType, setRefType] = useState<RefType>('irrrl');
@@ -90,7 +107,7 @@ export function VARefinanceCalculator() {
   // Current loan
   const [currentBalance, setCurrentBalance] = useState(300000);
   const [currentRate, setCurrentRate] = useState(7.0);
-  const [originalTerm, setOriginalTerm] = useState(30);
+  const [yearsRemaining, setYearsRemaining] = useState(25);
 
   // New loan
   const [newRate, setNewRate] = useState(6.0);
@@ -98,8 +115,12 @@ export function VARefinanceCalculator() {
 
   // Costs & fees
   const [closingCosts, setClosingCosts] = useState(2500);
+  const [lenderCredits, setLenderCredits] = useState(0);
   const [exempt, setExempt] = useState(false);
-  const [firstUse, setFirstUse] = useState(true); // cash-out only
+  const [firstUse, setFirstUse] = useState(true);
+
+  // Seasoning (IRRRL only, optional)
+  const [firstPaymentDate, setFirstPaymentDate] = useState('');
 
   // ─── URL pre-population ──────────────────────────────────────────────────────
   useEffect(() => {
@@ -107,12 +128,14 @@ export function VARefinanceCalculator() {
     const typeRaw = params.get('type');
     const balanceRaw = params.get('balance');
     const currRateRaw = params.get('currRate');
-    const origTermRaw = params.get('origTerm');
+    const yearsRemRaw = params.get('yearsRem');
     const newRateRaw = params.get('newRate');
     const newTermRaw = params.get('newTerm');
     const closingRaw = params.get('closing');
+    const creditsRaw = params.get('credits');
     const exemptRaw = parseBool(params.get('exempt'));
     const firstUseRaw = parseBool(params.get('firstUse'));
+    const firstPmtRaw = params.get('firstPmt');
 
     if (typeRaw === 'cashout') setRefType('cashout');
     if (balanceRaw) {
@@ -123,9 +146,9 @@ export function VARefinanceCalculator() {
       const r = parseFloat(currRateRaw);
       if (!isNaN(r) && r > 0 && r < 30) setCurrentRate(r);
     }
-    if (origTermRaw) {
-      const t = parseInt(origTermRaw, 10);
-      if ([15, 20, 25, 30].includes(t)) setOriginalTerm(t);
+    if (yearsRemRaw) {
+      const t = parseInt(yearsRemRaw, 10);
+      if (!isNaN(t) && t > 0 && t <= 50) setYearsRemaining(t);
     }
     if (newRateRaw) {
       const r = parseFloat(newRateRaw);
@@ -139,8 +162,13 @@ export function VARefinanceCalculator() {
       const c = parseInt(closingRaw, 10);
       if (!isNaN(c) && c >= 0) setClosingCosts(c);
     }
+    if (creditsRaw) {
+      const c = parseInt(creditsRaw, 10);
+      if (!isNaN(c) && c >= 0) setLenderCredits(c);
+    }
     if (exemptRaw !== null) setExempt(exemptRaw);
     if (firstUseRaw !== null) setFirstUse(firstUseRaw);
+    if (firstPmtRaw) setFirstPaymentDate(firstPmtRaw);
   }, []);
 
   // ─── Share URL ────────────────────────────────────────────────────────────────
@@ -149,18 +177,35 @@ export function VARefinanceCalculator() {
     p.set('type', refType);
     p.set('balance', String(currentBalance));
     p.set('currRate', String(currentRate));
-    p.set('origTerm', String(originalTerm));
+    p.set('yearsRem', String(yearsRemaining));
     p.set('newRate', String(newRate));
     p.set('newTerm', String(newTerm));
     p.set('closing', String(closingCosts));
+    if (lenderCredits > 0) p.set('credits', String(lenderCredits));
     p.set('exempt', exempt ? 'yes' : 'no');
     if (refType === 'cashout') p.set('firstUse', firstUse ? 'yes' : 'no');
+    if (firstPaymentDate) p.set('firstPmt', firstPaymentDate);
     return `${window.location.origin}/calculators/va-refinance?${p.toString()}`;
   }
 
+  // ─── Seasoning calculation ─────────────────────────────────────────────────
+  const seasoningCheck = useMemo(() => {
+    if (!firstPaymentDate || refType !== 'irrrl') return null;
+    const firstPmt = new Date(firstPaymentDate);
+    if (isNaN(firstPmt.getTime())) return null;
+    const today = new Date();
+    const daysSince = Math.floor((today.getTime() - firstPmt.getTime()) / (1000 * 60 * 60 * 24));
+    if (daysSince < 0) return null;
+    const days210Pass = daysSince >= 210;
+    const paymentsLikelyMade = Math.floor(daysSince / 30);
+    const sixPaymentsPass = paymentsLikelyMade >= 6;
+    const seasoningPass = days210Pass && sixPaymentsPass;
+    return { daysSince, days210Pass, sixPaymentsPass, paymentsLikelyMade, seasoningPass };
+  }, [firstPaymentDate, refType]);
+
   // ─── Calculations ─────────────────────────────────────────────────────────────
   const calc = useMemo(() => {
-    const currentPayment = calcMonthlyPI(currentBalance, currentRate, originalTerm);
+    const currentPayment = calcMonthlyPI(currentBalance, currentRate, yearsRemaining);
 
     let fundingFeeRate = 0;
     if (!exempt) {
@@ -170,17 +215,24 @@ export function VARefinanceCalculator() {
     const newLoanBalance = currentBalance + fundingFeeAmount;
     const newPayment = calcMonthlyPI(newLoanBalance, newRate, newTerm);
     const monthlySavings = currentPayment - newPayment;
-    const totalCosts = fundingFeeAmount + closingCosts;
 
-    const breakEvenMonths = monthlySavings > 0
-      ? Math.ceil(totalCosts / monthlySavings)
+    // Net closing costs after lender credits (floor at 0)
+    const netClosingCosts = Math.max(0, closingCosts - lenderCredits);
+    // Consumer break-even: all costs including funding fee
+    const totalConsumerCosts = fundingFeeAmount + netClosingCosts;
+    const consumerBreakEvenMonths = monthlySavings > 0
+      ? Math.ceil(totalConsumerCosts / monthlySavings)
+      : Infinity;
+    // VA statutory recoupment: closing costs only, excluding funding fee
+    const vaRecoupmentMonths = monthlySavings > 0
+      ? (netClosingCosts > 0 ? Math.ceil(netClosingCosts / monthlySavings) : 0)
       : Infinity;
 
     const rateReduction = currentRate - newRate;
     const netTangibleBenefitPass = rateReduction >= 0.5;
-    const recoupmentPass = isFinite(breakEvenMonths) && breakEvenMonths <= 36;
+    // VA recoupment check uses closing costs only (VA statutory definition)
+    const recoupmentPass = isFinite(vaRecoupmentMonths) && vaRecoupmentMonths <= 36;
 
-    // Standard fee at current balance (for exemption savings display)
     const standardFeeAmount = Math.round(currentBalance * (refType === 'irrrl' ? 0.005 : (firstUse ? 0.0215 : 0.033)));
 
     return {
@@ -190,14 +242,16 @@ export function VARefinanceCalculator() {
       newLoanBalance,
       newPayment,
       monthlySavings,
-      totalCosts,
-      breakEvenMonths,
+      netClosingCosts,
+      totalConsumerCosts,
+      consumerBreakEvenMonths,
+      vaRecoupmentMonths,
       rateReduction,
       netTangibleBenefitPass,
       recoupmentPass,
       standardFeeAmount,
     };
-  }, [refType, currentBalance, currentRate, originalTerm, newRate, newTerm, closingCosts, exempt, firstUse]);
+  }, [refType, currentBalance, currentRate, yearsRemaining, newRate, newTerm, closingCosts, lenderCredits, exempt, firstUse]);
 
   // ─── Analytics ────────────────────────────────────────────────────────────────
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -236,10 +290,10 @@ export function VARefinanceCalculator() {
       });
     }
 
-    if (refType === 'irrrl' && !calc.recoupmentPass && isFinite(calc.breakEvenMonths)) {
+    if (refType === 'irrrl' && !calc.recoupmentPass && isFinite(calc.vaRecoupmentMonths)) {
       steps.push({
-        label: "Break-even exceeds the 36-month guideline",
-        description: `Your break-even is ${calc.breakEvenMonths} months. The VA guideline is 36 months. This doesn't automatically disqualify the IRRRL, but lenders must document the benefit.`,
+        label: 'VA recoupment estimate exceeds 36-month guideline',
+        description: `VA recoupment is ${calc.vaRecoupmentMonths} months (closing costs ÷ savings, excluding funding fee). The VA guideline is 36 months. This doesn't automatically disqualify the IRRRL, but lenders must document the benefit.`,
         priority: 'medium',
       });
     }
@@ -257,27 +311,30 @@ export function VARefinanceCalculator() {
 
   // ─── Bottom line ─────────────────────────────────────────────────────────────
   const bottomLine = useMemo((): string => {
-    const savingsFmt = formatCurrency(Math.round(Math.abs(calc.monthlySavings)));
-    const beFmt = isFinite(calc.breakEvenMonths) ? `${calc.breakEvenMonths} months` : 'a very long time';
     if (refType === 'cashout') {
       if (calc.monthlySavings > 0) {
-        return `Based on these numbers, you'd save ${savingsFmt}/month and recoup total costs in ${beFmt}. A cash-out refinance also replaces your existing loan — compare quotes from multiple VA-approved lenders before proceeding.`;
+        const beFmt = isFinite(calc.consumerBreakEvenMonths) ? `${calc.consumerBreakEvenMonths} months` : 'a very long time';
+        return `Based on these inputs, the refinance appears financially favorable if you keep the loan past the ${beFmt} break-even. A cash-out refinance also replaces your existing loan — compare quotes from multiple VA-approved lenders before proceeding.`;
       }
       return `A cash-out refinance typically increases your monthly payment when you're borrowing more or extending to a longer term. Whether it makes sense depends on what you're doing with the equity and your long-term plan.`;
     }
 
-    const { netTangibleBenefitPass, recoupmentPass } = calc;
+    const { netTangibleBenefitPass, recoupmentPass, monthlySavings, rateReduction, vaRecoupmentMonths } = calc;
 
+    if (monthlySavings <= 0) {
+      return `Based on these inputs, this refinance may not recover its costs within a reasonable timeframe. The new loan terms result in no monthly savings. Consider whether rates need to drop further or closing costs can be reduced.`;
+    }
     if (netTangibleBenefitPass && recoupmentPass) {
-      return `Based on these numbers, refinancing looks like a strong move. You'd save ${savingsFmt}/month and recoup your costs in ${beFmt}.`;
+      return `Based on these inputs, the refinance appears financially favorable if you keep the loan past the break-even point. These are estimates — your actual rate, fees, and savings depend on your lender, credit profile, and current market conditions.`;
     }
     if (netTangibleBenefitPass && !recoupmentPass) {
-      return `The numbers are mixed — your rate drops ${calc.rateReduction.toFixed(2)}%, which meets the VA net tangible benefit requirement. But break-even is ${beFmt}, which exceeds the VA's 36-month recoupment guideline. Verify with your lender.`;
+      const vaFmt = isFinite(vaRecoupmentMonths) ? `${vaRecoupmentMonths} months` : 'very long';
+      return `The numbers are mixed — your rate drops ${rateReduction.toFixed(2)}%, which meets the VA net tangible benefit requirement. But VA recoupment is ${vaFmt} — above the 36-month guideline. Compare actual lender quotes to see if the refinance works for your situation.`;
     }
     if (!netTangibleBenefitPass && recoupmentPass) {
-      return `The numbers are mixed — your break-even is within 36 months. But your rate reduction of ${calc.rateReduction.toFixed(2)}% may not meet the VA's 0.5% minimum for a fixed-to-fixed IRRRL. Discuss this with a VA-approved lender.`;
+      return `The numbers are mixed — VA recoupment is within 36 months. But your rate reduction of ${rateReduction.toFixed(2)}% may not meet the VA's 0.5% minimum for a fixed-to-fixed IRRRL. Compare actual lender quotes to see if the refinance works for your situation.`;
     }
-    return `Based on these numbers, this refinance may not make sense right now. The rate reduction is ${calc.rateReduction.toFixed(2)}% — below the VA's 0.5% threshold — and break-even would take ${beFmt}.`;
+    return `Based on these inputs, this refinance may not recover its costs within a reasonable timeframe. Consider whether rates need to drop further or closing costs can be reduced.`;
   }, [calc, refType]);
 
   const feeLabel = refType === 'irrrl' ? '0.5%' : (firstUse ? '2.15%' : '3.30%');
@@ -339,12 +396,20 @@ export function VARefinanceCalculator() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <Select
-              label="Original loan term"
-              options={TERM_OPTIONS}
-              value={String(originalTerm)}
-              onChange={(e) => setOriginalTerm(parseInt(e.target.value, 10))}
+            <label className="text-sm font-medium text-zinc-700">Years remaining on current loan</label>
+            <input
+              type="number"
+              min={1}
+              max={50}
+              step={1}
+              value={yearsRemaining}
+              onChange={(e) => {
+                const v = Math.round(Number(e.target.value));
+                if (!isNaN(v) && v > 0 && v <= 50) setYearsRemaining(v);
+              }}
+              className={INPUT_CLS}
             />
+            <p className="text-xs text-zinc-500">Approximate years left on your current mortgage</p>
           </div>
 
         </div>
@@ -401,7 +466,22 @@ export function VARefinanceCalculator() {
                 className={INPUT_CLS + ' pl-6'}
               />
             </div>
-            <p className="text-xs text-zinc-500">Lender fees, title insurance, etc. (typical range: $2,000–$5,000)</p>
+            <p className="text-xs text-zinc-500">Lender fees, title insurance, etc. (typical range: $2,000–$5,000). If your quoted rate includes discount points, include the point cost here — a lower rate bought with high points may look good monthly but take longer to recoup.</p>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-zinc-700">Lender credits</label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">$</span>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={fmtDollar(lenderCredits)}
+                onChange={(e) => setLenderCredits(parseDollar(e.target.value))}
+                className={INPUT_CLS + ' pl-6'}
+              />
+            </div>
+            <p className="text-xs text-zinc-500">Credits the lender offers toward your closing costs. Found on lender quotes / Loan Estimates.</p>
           </div>
 
           <div className="flex flex-col gap-1">
@@ -415,7 +495,7 @@ export function VARefinanceCalculator() {
               />
               <div>
                 <span className="text-sm text-zinc-700 font-medium">I&apos;m exempt from the VA Funding Fee</span>
-                <p className="text-xs text-zinc-500 mt-0.5">(Service-connected disability, Purple Heart, surviving spouse)</p>
+                <p className="text-xs text-zinc-500 mt-0.5">You may be exempt if you receive or are eligible to receive VA disability compensation, have certain pre-discharge ratings, are an active-duty Purple Heart recipient, or are an eligible surviving spouse. Confirm exemption status on your COE.</p>
               </div>
             </label>
             {exempt && (
@@ -441,8 +521,31 @@ export function VARefinanceCalculator() {
         </div>
       </Card>
 
+      {/* ── IRRRL Loan Seasoning (optional) ─────────────────────────────────── */}
+      {refType === 'irrrl' && (
+        <Card variant="default">
+          <h2 className="text-lg font-semibold text-zinc-900 mb-1">
+            Loan Seasoning{' '}
+            <span className="text-zinc-400 font-normal text-sm">(optional)</span>
+          </h2>
+          <p className="text-xs text-zinc-500 mb-5">VA generally requires 210+ days from the first payment due date and six consecutive monthly payments before an IRRRL can close.</p>
+          <div className="max-w-xs">
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-zinc-700">First payment due date on your current VA loan</label>
+              <input
+                type="date"
+                value={firstPaymentDate}
+                onChange={(e) => setFirstPaymentDate(e.target.value)}
+                className={INPUT_CLS}
+              />
+              <p className="text-xs text-zinc-500">Found on your first mortgage statement or closing documents.</p>
+            </div>
+          </div>
+        </Card>
+      )}
+
       {/* ── Primary result cards ────────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className={`grid grid-cols-1 gap-4 ${refType === 'irrrl' ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}`}>
 
         <div className="bg-red-700 rounded-lg p-5 text-white">
           <p className="text-red-200 text-xs font-semibold uppercase tracking-wider mb-2">Monthly Savings</p>
@@ -458,28 +561,55 @@ export function VARefinanceCalculator() {
         </div>
 
         <div className="bg-slate-800 rounded-lg p-5 text-white">
-          <p className="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-2">Break-Even Point</p>
+          <p className="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-2">Your Break-Even</p>
           <p className="text-3xl font-bold tabular-nums">
-            {isFinite(calc.breakEvenMonths) ? `${calc.breakEvenMonths} mo` : '—'}
+            {isFinite(calc.consumerBreakEvenMonths) ? `${calc.consumerBreakEvenMonths} mo` : '—'}
           </p>
           <p className="text-slate-400 text-xs mt-2">
-            {isFinite(calc.breakEvenMonths)
-              ? `${Math.floor(calc.breakEvenMonths / 12)} yr ${calc.breakEvenMonths % 12} mo to recoup`
+            {isFinite(calc.consumerBreakEvenMonths)
+              ? `${Math.floor(calc.consumerBreakEvenMonths / 12)} yr ${calc.consumerBreakEvenMonths % 12} mo to recoup all costs`
               : calc.monthlySavings <= 0 ? 'No monthly savings' : 'Cannot calculate'}
           </p>
-          <p className="text-slate-400 text-xs mt-1">{formatCurrency(calc.totalCosts)} total costs</p>
+          <p className="text-slate-400 text-xs mt-1">{formatCurrency(calc.totalConsumerCosts)} total costs (fee + closing)</p>
         </div>
 
+        {refType === 'irrrl' && (
+          <div className="bg-zinc-700 rounded-lg p-5 text-white">
+            <p className="text-zinc-300 text-xs font-semibold uppercase tracking-wider mb-2">VA Recoupment Estimate</p>
+            <p className="text-3xl font-bold tabular-nums">
+              {isFinite(calc.vaRecoupmentMonths) ? `${calc.vaRecoupmentMonths} mo` : '—'}
+            </p>
+            <p className="text-zinc-400 text-xs mt-2">
+              {isFinite(calc.vaRecoupmentMonths)
+                ? 'Closing costs ÷ savings (excl. funding fee)'
+                : calc.monthlySavings <= 0 ? 'No monthly savings' : 'Cannot calculate'}
+            </p>
+            <p className={`text-xs mt-1 font-medium ${isFinite(calc.vaRecoupmentMonths) ? (calc.vaRecoupmentMonths <= 36 ? 'text-green-400' : 'text-amber-400') : 'text-zinc-400'}`}>
+              {isFinite(calc.vaRecoupmentMonths)
+                ? (calc.vaRecoupmentMonths <= 36 ? '✓ Within VA 36-month guideline' : '✗ Exceeds VA 36-month guideline')
+                : ''}
+            </p>
+          </div>
+        )}
 
       </div>
+
+      {/* ── Break-even explanation (IRRRL only) ────────────────────────────── */}
+      {refType === 'irrrl' && (
+        <p className="text-xs text-zinc-500 leading-relaxed -mt-4">
+          <strong className="text-zinc-600">Your break-even</strong> includes all costs (closing costs + funding fee). The <strong className="text-zinc-600">VA recoupment estimate</strong> excludes the funding fee, as VA&apos;s 36-month IRRRL guideline uses a narrower cost definition.
+        </p>
+      )}
 
       {/* ── The Bottom Line ─────────────────────────────────────────────────── */}
       <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-6">
         <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">The Bottom Line</p>
         <p className="text-base text-zinc-800 leading-relaxed">{bottomLine}</p>
-        <p className="text-sm text-zinc-500 leading-relaxed mt-3 italic">
-          These are estimates — your actual rate, fees, and savings will depend on your lender, credit profile, and current market conditions.
-        </p>
+        {refType === 'irrrl' && !(calc.netTangibleBenefitPass && calc.recoupmentPass && calc.monthlySavings > 0) && (
+          <p className="text-sm text-zinc-500 leading-relaxed mt-3 italic">
+            These are estimates — your actual rate, fees, and savings depend on your lender, credit profile, and current market conditions.
+          </p>
+        )}
       </div>
 
       {/* ── VA Requirement Checks (IRRRL only) ──────────────────────────────── */}
@@ -497,13 +627,15 @@ export function VARefinanceCalculator() {
           />
           <CheckIndicator
             pass={calc.recoupmentPass}
-            label="36-Month Recoupment"
+            label="36-Month VA Recoupment"
             detail={
-              !isFinite(calc.breakEvenMonths)
-                ? 'Cannot calculate — no monthly savings to recoup against.'
+              !isFinite(calc.vaRecoupmentMonths)
+                ? 'Cannot calculate — no monthly savings.'
+                : calc.vaRecoupmentMonths === 0
+                ? 'Lender credits cover all closing costs — VA recoupment is immediate.'
                 : calc.recoupmentPass
-                ? `You'll recoup closing costs in ${calc.breakEvenMonths} months — within the VA's 36-month guideline.`
-                : `Break-even is ${calc.breakEvenMonths} months — exceeds the VA's 36-month recoupment guideline.`
+                ? `VA recoupment estimate is ${calc.vaRecoupmentMonths} months — within the VA's 36-month guideline. Closing costs ÷ monthly savings, excluding the funding fee.`
+                : `VA recoupment estimate is ${calc.vaRecoupmentMonths} months — above the VA's 36-month guideline. Closing costs ÷ monthly savings, excluding the funding fee.`
             }
           />
           <CheckIndicator
@@ -517,6 +649,30 @@ export function VARefinanceCalculator() {
                 : `Your payment would increase by ${formatCurrency(Math.abs(Math.round(calc.monthlySavings)))}/month.`
             }
           />
+          {seasoningCheck !== null ? (
+            <CheckIndicator
+              pass={seasoningCheck.seasoningPass}
+              label="Loan Seasoning"
+              detail={
+                seasoningCheck.seasoningPass
+                  ? `Your loan appears seasoned — ${seasoningCheck.daysSince} days since first payment due date (210+ required) and approximately ${seasoningCheck.paymentsLikelyMade} payments made (6 required).`
+                  : [
+                      seasoningCheck.days210Pass
+                        ? `${seasoningCheck.daysSince} days have passed (210+ ✓).`
+                        : `Only ${seasoningCheck.daysSince} days have passed — 210 required.`,
+                      seasoningCheck.sixPaymentsPass
+                        ? `Approximately ${seasoningCheck.paymentsLikelyMade} payments likely made (6 ✓).`
+                        : `Only approximately ${seasoningCheck.paymentsLikelyMade} payment(s) likely made — 6 required.`,
+                      'VA generally requires 210+ days from the first payment due date and six consecutive payments before an IRRRL can close.',
+                    ].join(' ')
+              }
+            />
+          ) : (
+            <NeutralIndicator
+              label="Loan Seasoning"
+              detail="Not calculated — enter your first payment due date above to check VA's 210-day / 6-payment seasoning requirement."
+            />
+          )}
         </div>
       )}
 
@@ -545,9 +701,17 @@ export function VARefinanceCalculator() {
             <span className="text-sm text-zinc-600">Closing Costs</span>
             <span className="text-sm font-medium text-zinc-800 tabular-nums">{formatCurrency(closingCosts)}</span>
           </div>
+          {lenderCredits > 0 && (
+            <div className="flex items-center justify-between py-2.5">
+              <span className="text-sm text-zinc-600">Lender Credits</span>
+              <span className="text-sm font-medium text-green-700 tabular-nums">
+                −{formatCurrency(Math.min(lenderCredits, closingCosts))}
+              </span>
+            </div>
+          )}
           <div className="flex items-center justify-between py-2.5">
-            <span className="text-sm font-semibold text-zinc-900">Total Costs</span>
-            <span className="text-sm font-bold text-zinc-900 tabular-nums">{formatCurrency(calc.totalCosts)}</span>
+            <span className="text-sm font-semibold text-zinc-900">Total Consumer Costs</span>
+            <span className="text-sm font-bold text-zinc-900 tabular-nums">{formatCurrency(calc.totalConsumerCosts)}</span>
           </div>
           <div className="flex items-center justify-between py-2.5">
             <span className="text-sm text-zinc-600">New Loan Amount (balance + fee)</span>

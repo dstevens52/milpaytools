@@ -85,7 +85,7 @@ export default function VARefinancePage() {
 
               {/* Description */}
               <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-                Compare your current VA loan to a new rate. See monthly savings, break-even, lifetime interest, and whether the IRRRL meets VA requirements.
+                Compare your current VA loan to a new rate. See monthly savings, break-even, VA recoupment estimate, and whether the IRRRL meets VA requirements.
               </p>
 
             </div>
@@ -95,7 +95,7 @@ export default function VARefinancePage() {
           <CalcStepStrip noBg steps={[
             { title: 'Enter your current loan details' },
             { title: 'Set your new rate and terms' },
-            { title: 'See savings, break-even, and VA checks' },
+            { title: 'See savings, break-even, VA recoupment, and requirement checks' },
           ]} />
 
           {/* Sample output bar */}
@@ -105,11 +105,12 @@ export default function VARefinancePage() {
                 Sample output
               </span>
               <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
-                Current $300K at 7% → New 6% &middot; IRRRL
+                Current $300K at 7% → New 6% &middot; 25 yrs remaining &middot; IRRRL
               </p>
               <div className="flex items-baseline gap-4 min-w-0 flex-1">
-                <span className="text-[12px] text-zinc-500 whitespace-nowrap">Monthly savings <span className="font-semibold text-zinc-700">$188</span></span>
-                <span className="text-[12px] text-zinc-500 whitespace-nowrap">Break-even <span className="font-semibold text-red-700 text-[16px] font-extrabold">22 months</span></span>
+                <span className="text-[12px] text-zinc-500 whitespace-nowrap">Monthly savings <span className="font-semibold text-zinc-700">$312</span></span>
+                <span className="text-[12px] text-zinc-500 whitespace-nowrap">Your break-even <span className="font-semibold text-zinc-700">13 months</span></span>
+                <span className="text-[12px] text-zinc-500 whitespace-nowrap">VA recoupment <span className="font-semibold text-red-700 text-[16px] font-extrabold">9 months</span></span>
               </div>
             </div>
           </div>
@@ -189,19 +190,19 @@ export default function VARefinancePage() {
             IRRRL Example — $300K at 7% → 6%, 30-Year Fixed
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: $300,000 balance, 7.0% current rate, 30-year original term, 5 years paid. Refinancing to 6.0% on a new 30-year. Closing costs $4,500. No disability exemption.
+            Scenario: $300,000 balance, 7.0% current rate, 25 years remaining. Refinancing to 6.0% on a new 30-year. Closing costs $2,500. No disability exemption.
           </p>
           <ExampleTable>
-            <ExampleRow label="Current monthly P&I (25 years remaining)" value="$1,967" />
+            <ExampleRow label="Current monthly P&I (25 years remaining, 7.0%)" value="$2,120" />
             <ExampleRow label="VA IRRRL funding fee (0.5%)" value="$1,500" />
             <ExampleRow label="New loan balance" value="$301,500" />
-            <ExampleRow label="New monthly P&I (6.0%, 30 years)" value="$1,809" highlight />
-            <ExampleRow label="Monthly savings" value="$158/mo" />
-            <ExampleRow label="Total costs (fee + closing)" value="$6,000" />
-            <ExampleRow label="Break-even point" value="38 months" />
+            <ExampleRow label="New monthly P&I (6.0%, 30 years)" value="$1,808" highlight />
+            <ExampleRow label="Monthly savings" value="$312/mo" />
+            <ExampleRow label="Your break-even (fee + $2,500 closing ÷ savings)" value="13 months" />
+            <ExampleRow label="VA recoupment estimate ($2,500 closing ÷ savings)" value="9 months" />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> The rate reduction meets the VA&apos;s 0.5% net tangible benefit requirement. However, the 38-month break-even point slightly exceeds the VA&apos;s 36-month recoupment guideline — so a lender would need to document the net tangible benefit. A borrower with a 10%+ disability rating pays no funding fee, reducing total costs to $4,500 and break-even to 29 months — comfortably inside the guideline.
+            <strong>What this means:</strong> The rate reduction meets VA&apos;s 0.5% net tangible benefit requirement. VA recoupment estimate — closing costs only, excluding the funding fee — is 9 months, well within the 36-month guideline. Your all-in consumer break-even including the funded fee is 13 months. A borrower with a 10%+ disability rating pays no funding fee — both measures equal 8 months.
           </p>
         </ExampleBox>
       </section>
@@ -269,7 +270,10 @@ export default function VARefinancePage() {
                 VA lenders are required to document the net tangible benefit before closing. An IRRRL that fails the 0.5% threshold for a fixed-to-fixed scenario may still be lender-approved if the lender can otherwise document the benefit — but it is a yellow flag worth discussing with your lender.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
-                The 36-month recoupment guideline means your closing costs (including the funding fee) should be recouped within 36 months through monthly savings. This is a VA guideline — not a hard disqualifier — but lenders must document cases where it is not met.
+                The 36-month recoupment guideline means your closing costs should be recouped within 36 months through monthly savings. VA&apos;s calculation excludes the funding fee and escrow — so a refinance can pass the VA recoupment test even when the all-in consumer break-even (including the funded fee) exceeds 36 months. This calculator shows both numbers separately.
+              </p>
+              <p className="text-zinc-600 text-sm leading-relaxed">
+                This calculator estimates fixed-rate refinance scenarios. For ARM-to-fixed conversions, the stability of a fixed rate is generally considered a net tangible benefit by VA, even if the initial payment does not decrease. Consult with your lender for ARM-specific IRRRL guidance.
               </p>
             </div>
           </details>
@@ -283,7 +287,7 @@ export default function VARefinancePage() {
               <ul className="text-sm text-zinc-600 space-y-1.5 list-disc list-inside">
                 <li>You plan to sell within the break-even period — you won&apos;t recoup the closing costs before the sale</li>
                 <li>The rate reduction is too small to justify the fees — especially for a subsequent-use cash-out at 3.30%</li>
-                <li>You&apos;re restarting a long term — refinancing a 20-year-remaining loan to a new 30-year adds 10 years of payments and typically increases lifetime interest even if the rate is lower</li>
+                <li>You&apos;re restarting a long term — refinancing a 20-year-remaining loan to a new 30-year adds 10 years of payments; even with a lower rate, the extended amortization usually means paying more in interest overall</li>
                 <li>You&apos;ve paid down substantial principal — restarting the amortization clock means more of your early payments go to interest again</li>
               </ul>
             </div>
@@ -298,7 +302,7 @@ export default function VARefinancePage() {
             This calculator is for educational purposes only and is not a loan offer, commitment, or guarantee. Actual rates, fees, and savings will depend on your credit profile, lender, and current market conditions. MilPayTools is not a mortgage lender and does not originate, process, or fund loans. We do not provide rate quotes or lender recommendations. Consult a VA-approved lender for personalized refinance estimates.
           </p>
           <p className="text-xs text-zinc-600 leading-relaxed">
-            Monthly payment calculations are for principal and interest only and do not include taxes, insurance, or other escrow items. Lifetime interest savings calculations assume you hold both loans to full term. VA funding fee rates are 2026 rates effective through November 14, 2031 per Public Law 116-23.
+            Monthly payment calculations are for principal and interest only and do not include taxes, insurance, or other escrow items. VA funding fee rates are 2026 rates effective through November 14, 2031 per Public Law 116-23.
           </p>
         </div>
 

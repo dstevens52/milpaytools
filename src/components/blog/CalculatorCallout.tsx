@@ -1,5 +1,5 @@
 interface CalculatorCalloutProps {
-  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah' | 'transition-readiness' | 'healthcare-comparison' | 'separation-timeline';
+  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'va-loan' | 'va-refinance' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah' | 'transition-readiness' | 'healthcare-comparison' | 'separation-timeline';
   text?: string;
   ctaText?: string;
 }
@@ -19,6 +19,16 @@ const CALCULATOR_CONFIG = {
     href: '/calculators/va-disability',
     label: 'VA Disability Rating Calculator',
     defaultText: 'Calculate your combined VA disability rating using the official whole-person formula. Shows every step of the math.',
+  },
+  'va-loan': {
+    href: '/calculators/va-loan',
+    label: 'VA Loan Calculator',
+    defaultText: 'Estimate your VA loan payment — including the funding fee, down payment options, and how BAH compares to the monthly cost.',
+  },
+  'va-refinance': {
+    href: '/calculators/va-refinance',
+    label: 'VA Refinance Calculator',
+    defaultText: 'Calculate your IRRRL or cash-out refinance savings — monthly payment difference, break-even timeline, and VA 36-month recoupment check.',
   },
   tsp: {
     href: '/calculators/tsp',

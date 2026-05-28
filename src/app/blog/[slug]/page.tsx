@@ -201,7 +201,7 @@ export default async function BlogPostPage({
   const colorClass = CATEGORY_COLORS[post.category] ?? CATEGORY_COLORS['General'];
   const relatedCalcs = post.calculators
     .map((c) => CALCULATOR_LINKS[c])
-    .filter(Boolean);
+    .filter((c): c is { label: string; href: string } => Boolean(c));
   const parentGuideTitle = post.guide ? GUIDE_TITLES[post.guide] : null;
   const postFaqs = POST_FAQS[slug];
 
