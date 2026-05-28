@@ -33,14 +33,18 @@ const GUIDE_ICONS: Record<string, string> = {
   'retirement-tsp': '📈',
   pcs: '🚛',
   'education-benefits': '🎓',
+  'starting-service': '🎯',
+  'va-home-loans': '🏡',
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
   'Compensation & Pay': 'bg-red-100 text-red-700',
   'Veterans Benefits': 'bg-blue-100 text-blue-700',
   'TSP & Retirement': 'bg-purple-100 text-purple-700',
+  'Retirement & TSP': 'bg-purple-100 text-purple-700',
   'Career Transition': 'bg-amber-100 text-amber-700',
   'Education Benefits': 'bg-teal-100 text-teal-700',
+  'Housing & BAH': 'bg-green-100 text-green-700',
 };
 
 export default function GuidesIndexPage() {
@@ -104,6 +108,38 @@ export default function GuidesIndexPage() {
           );
         })}
       </div>
+
+      {/* Transition Roadmap — standalone page, listed here for completeness */}
+      <article className="bg-white border border-zinc-200 rounded-lg p-6 hover:border-zinc-300 transition-colors">
+        <div className="flex items-start gap-4">
+          <div className="flex-none w-12 h-12 rounded-lg bg-red-50 border border-red-200 flex items-center justify-center text-2xl">
+            🎖️
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
+                Career Transition
+              </span>
+              <span className="text-xs text-zinc-400">15 min read</span>
+            </div>
+            <h2 className="text-xl font-semibold text-zinc-900 mb-2 leading-snug">
+              <Link href="/transition" className="hover:text-red-700 transition-colors">
+                Military Transition Financial Roadmap
+              </Link>
+            </h2>
+            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
+              Full financial arc of military separation — income replacement, healthcare transition,
+              VA disability, TSP decisions, and the deadlines you cannot miss.
+            </p>
+            <div className="flex items-center gap-4">
+              <Link href="/transition" className="text-sm font-medium text-red-700 hover:text-red-800 transition-colors">
+                Read guide →
+              </Link>
+              <span className="text-xs text-zinc-400">5 calculators referenced</span>
+            </div>
+          </div>
+        </div>
+      </article>
 
       {/* Bottom CTA */}
       <div className="mt-12 rounded-lg bg-zinc-50 border border-zinc-200 p-6 text-center">

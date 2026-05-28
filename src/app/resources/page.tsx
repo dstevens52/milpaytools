@@ -53,8 +53,6 @@ interface Section {
   title: string;
   description: string;
   accentBg: string;
-  accentText: string;
-  badgeBg: string;
   tools: Tool[];
 }
 
@@ -64,14 +62,13 @@ const SECTIONS: Section[] = [
     title: 'Starting Service',
     description: 'Understanding your pay, benefits, and first financial decisions.',
     accentBg: 'bg-blue-600',
-    accentText: 'text-blue-700',
-    badgeBg: 'bg-blue-50 text-blue-700',
     tools: [
       { href: '/calculators/total-compensation', name: 'Total Military Compensation', desc: 'Full pay including BAH, BAS, tax advantages, and civilian equivalent', type: 'Calculator' },
       { href: '/calculators/pay-charts', name: '2026 Military Pay Charts', desc: 'Look up base pay by rank and years of service', type: 'Calculator' },
       { href: '/calculators/bah', name: 'BAH Calculator', desc: 'Find your housing allowance by location, rank, and dependency status', type: 'Calculator' },
       { href: '/blog/how-to-read-your-les', name: 'How to Read Your LES', desc: 'Every line on your military pay stub explained', type: 'Blog' },
-      { href: '/blog/tsp-for-beginners-what-happens-if-you-do-nothing', name: 'TSP for Beginners', desc: 'What happens if you never log into TSP', type: 'Blog' },
+      { href: '/blog/tsp-for-beginners-what-happens-if-you-do-nothing', name: 'TSP for Beginners', desc: 'What happens if you never log into TSP — and what to do about it', type: 'Blog' },
+      { href: '/blog/your-first-military-paycheck-what-to-know', name: 'Your First Military Paycheck', desc: 'Why it looks different than expected and what to set up immediately', type: 'Blog' },
       { href: '/guides/starting-service', name: 'Starting Service Guide', desc: 'Your financial foundation from day one', type: 'Guide' },
     ],
   },
@@ -80,8 +77,6 @@ const SECTIONS: Section[] = [
     title: 'Pay & Housing',
     description: 'Understanding what you earn and where it goes.',
     accentBg: 'bg-emerald-600',
-    accentText: 'text-emerald-700',
-    badgeBg: 'bg-emerald-50 text-emerald-700',
     tools: [
       { href: '/calculators/bah', name: 'BAH Calculator', desc: 'Look up BAH rates for any ZIP code, any rank', type: 'Calculator' },
       { href: '/calculators/dual-military-bah', name: 'Dual Military BAH', desc: 'Calculate combined BAH for dual-military couples', type: 'Calculator' },
@@ -97,11 +92,10 @@ const SECTIONS: Section[] = [
     title: 'PCS & Relocation',
     description: 'Planning a move without financial surprises.',
     accentBg: 'bg-indigo-600',
-    accentText: 'text-indigo-700',
-    badgeBg: 'bg-indigo-50 text-indigo-700',
     tools: [
       { href: '/calculators/pcs', name: 'PCS Cost Estimator', desc: 'Estimate DLA, mileage, per diem, TLE, and PPM profit', type: 'Calculator' },
       { href: '/calculators/compare', name: 'Duty Station Comparison', desc: 'Compare BAH, housing costs, and take-home pay at two stations', type: 'Calculator' },
+      { href: '/calculators/bah', name: 'BAH Calculator', desc: 'Look up your BAH at your new duty station before you move', type: 'Calculator' },
       { href: '/bah', name: 'BAH by Duty Station', desc: 'Local housing context for 200+ installations', type: 'Guide' },
       { href: '/guides/pcs', name: 'PCS & Relocation Guide', desc: 'Financial planning for your next move', type: 'Guide' },
     ],
@@ -111,12 +105,12 @@ const SECTIONS: Section[] = [
     title: 'Deployment',
     description: 'Making the most of deployment pay and benefits.',
     accentBg: 'bg-amber-600',
-    accentText: 'text-amber-700',
-    badgeBg: 'bg-amber-50 text-amber-700',
     tools: [
       { href: '/calculators/deployment', name: 'Deployment Pay Calculator', desc: 'See how HFP, FSA, CZTE, and SDP change your take-home pay', type: 'Calculator' },
       { href: '/calculators/tsp', name: 'TSP Growth Projector', desc: 'Model Roth TSP growth including combat-zone contribution strategies', type: 'Calculator' },
-      { href: '/blog/deployment-pay-explained', name: 'Deployment Pay Explained', desc: 'Every dollar you earn downrange, explained', type: 'Blog' },
+      { href: '/blog/deployment-pay-explained', name: 'Deployment Pay Explained', desc: 'Every dollar you earn downrange — CZTE, HFP, FSA, and SDP', type: 'Blog' },
+      { href: '/blog/how-deployment-pay-works', name: 'How Deployment Pay Works', desc: 'Quick-answer guide to what changes when you deploy', type: 'Blog' },
+      { href: '/blog/roth-tsp-deployment-strategy', name: 'Roth TSP Deployment Strategy', desc: 'How combat zone contributions create a triple tax advantage', type: 'Blog' },
     ],
   },
   {
@@ -124,12 +118,11 @@ const SECTIONS: Section[] = [
     title: 'Retirement & TSP',
     description: 'Planning for 20 years and beyond.',
     accentBg: 'bg-purple-600',
-    accentText: 'text-purple-700',
-    badgeBg: 'bg-purple-50 text-purple-700',
     tools: [
       { href: '/calculators/tsp', name: 'TSP Growth Projector', desc: 'Project your TSP balance at retirement with fund allocation modeling', type: 'Calculator' },
       { href: '/calculators/retirement', name: 'Military Retirement Calculator', desc: 'Estimate your pension under BRS or High-3', type: 'Calculator' },
       { href: '/blog/brs-vs-high-3-retirement', name: 'BRS vs High-3 Explained', desc: 'Which system wins — and for whom', type: 'Blog' },
+      { href: '/blog/roth-tsp-advantage-junior-enlisted', name: 'The Roth TSP Advantage', desc: 'Why junior enlisted are in the strongest position to benefit from Roth TSP', type: 'Blog' },
       { href: '/guides/retirement-tsp', name: 'Retirement & TSP Guide', desc: 'BRS, High-3, TSP strategies, and retirement planning', type: 'Guide' },
     ],
   },
@@ -138,11 +131,12 @@ const SECTIONS: Section[] = [
     title: 'Education & Career',
     description: 'Maximizing GI Bill, Tuition Assistance, and education benefits.',
     accentBg: 'bg-teal-600',
-    accentText: 'text-teal-700',
-    badgeBg: 'bg-teal-50 text-teal-700',
     tools: [
       { href: '/calculators/education', name: 'Education Benefits Calculator', desc: 'Compare GI Bill, VR&E, and Tuition Assistance side by side', type: 'Calculator' },
-      { href: '/blog/gi-bill-vs-tuition-assistance', name: 'GI Bill vs Tuition Assistance', desc: 'Which to use — and in what order', type: 'Blog' },
+      { href: '/blog/gi-bill-vs-tuition-assistance', name: 'GI Bill vs Tuition Assistance', desc: 'Which to use — and in what order on active duty', type: 'Blog' },
+      { href: '/blog/tuition-assistance-and-gi-bill-together', name: 'Can You Use TA and GI Bill Together?', desc: 'How Top-Up works and why using TA first usually wins', type: 'Blog' },
+      { href: '/blog/va-gi-bill-comparison-tool-guide', name: 'VA GI Bill Comparison Tool Guide', desc: 'How to use the official tool — and what it misses', type: 'Blog' },
+      { href: '/blog/vre-chapter-31-vs-gi-bill', name: 'VR&E vs GI Bill', desc: 'The benefit most veterans don\'t know about — and when it wins', type: 'Blog' },
       { href: '/guides/education-benefits', name: 'Education Benefits Guide', desc: 'GI Bill, TA, VR&E, and military education benefits explained', type: 'Guide' },
     ],
   },
@@ -151,13 +145,16 @@ const SECTIONS: Section[] = [
     title: 'Buying a Home (VA Loans)',
     description: 'Understanding the VA loan benefit before talking to a lender.',
     accentBg: 'bg-red-600',
-    accentText: 'text-red-700',
-    badgeBg: 'bg-red-50 text-red-700',
     tools: [
       { href: '/calculators/va-loan', name: 'VA Loan Payment Calculator', desc: 'Estimate your payment, funding fee, and BAH comparison', type: 'Calculator' },
       { href: '/calculators/va-refinance', name: 'VA Refinance Calculator', desc: 'IRRRL savings, break-even, and VA net tangible benefit checks', type: 'Calculator' },
-      { href: '/calculators/va-disability', name: 'VA Disability Calculator', desc: 'A 10%+ rating waives the VA funding fee entirely', type: 'Calculator' },
+      { href: '/calculators/va-disability', name: 'VA Disability Calculator', desc: 'A qualifying disability exemption can waive the VA funding fee entirely', type: 'Calculator' },
       { href: '/blog/va-loan-funding-fee-explained', name: 'VA Funding Fee Explained', desc: 'Every 2026 rate, exemption, and dollar amount', type: 'Blog' },
+      { href: '/blog/can-i-use-va-loan-again', name: 'Can I Use My VA Loan Again?', desc: 'Entitlement restoration, simultaneous loans, and subsequent use explained', type: 'Blog' },
+      { href: '/blog/va-appraisal-what-to-expect', name: 'VA Appraisal: What to Expect', desc: 'MPRs, Tidewater, and what to do if value comes in low', type: 'Blog' },
+      { href: '/blog/va-loan-vs-fha-vs-conventional', name: 'VA Loan vs FHA vs Conventional', desc: 'How to actually compare them for your specific situation', type: 'Blog' },
+      { href: '/blog/va-loan-assumptions-explained', name: 'VA Loan Assumptions Explained', desc: 'How assumptions work and what happens to seller entitlement', type: 'Blog' },
+      { href: '/blog/using-bah-to-buy-a-home', name: 'Using BAH to Buy a Home', desc: 'What your housing allowance covers and when ownership makes sense', type: 'Blog' },
       { href: '/guides/va-home-loans', name: 'VA Home Loans Guide', desc: 'Eligibility, funding fee, IRRRL, and when VA may not be best', type: 'Guide' },
     ],
   },
@@ -166,12 +163,12 @@ const SECTIONS: Section[] = [
     title: 'Veterans Benefits',
     description: 'Benefits that continue and grow after service.',
     accentBg: 'bg-sky-600',
-    accentText: 'text-sky-700',
-    badgeBg: 'bg-sky-50 text-sky-700',
     tools: [
       { href: '/calculators/va-disability', name: 'VA Disability Calculator', desc: 'Calculate combined ratings with bilateral factor and 2026 rates', type: 'Calculator' },
       { href: '/calculators/healthcare-comparison', name: 'Healthcare Cost Comparison', desc: 'Compare TRICARE, employer plans, and Marketplace costs', type: 'Calculator' },
       { href: '/blog/file-va-disability-before-separation', name: 'File VA Disability Before You Separate', desc: 'Why filing on active duty produces better outcomes', type: 'Blog' },
+      { href: '/blog/sgli-vgli-private-life-insurance', name: 'SGLI vs VGLI vs Private Insurance', desc: 'Life insurance strategy before, during, and after service', type: 'Blog' },
+      { href: '/blog/va-disability-math-explained', name: 'VA Disability Math Explained', desc: 'Why 50% + 30% does not equal 80% — the whole-person formula', type: 'Blog' },
       { href: '/guides/va-disability', name: 'VA Disability Guide', desc: 'Combined rating formula, bilateral factor, and 2026 compensation rates', type: 'Guide' },
     ],
   },
@@ -180,13 +177,15 @@ const SECTIONS: Section[] = [
     title: 'Leaving the Military',
     description: 'Making the transition with financial confidence.',
     accentBg: 'bg-orange-600',
-    accentText: 'text-orange-700',
-    badgeBg: 'bg-orange-50 text-orange-700',
     tools: [
       { href: '/calculators/transition-readiness', name: 'Transition Readiness Calculator', desc: 'Compare military vs civilian compensation after taxes and benefits', type: 'Calculator' },
       { href: '/calculators/separation-timeline', name: 'Separation Benefits Timeline', desc: 'Key dates and deadlines for separating service members', type: 'Calculator' },
       { href: '/calculators/total-compensation', name: 'Total Compensation Calculator', desc: 'Know your military comp baseline before salary negotiation', type: 'Calculator' },
+      { href: '/calculators/healthcare-comparison', name: 'Healthcare Cost Comparison', desc: 'Compare TRICARE, employer plans, and Marketplace costs after separation', type: 'Calculator' },
       { href: '/blog/are-you-financially-ready-to-leave-the-military', name: 'Are You Financially Ready to Leave?', desc: 'The three-factor readiness test', type: 'Blog' },
+      { href: '/blog/what-happens-to-tsp-after-military', name: 'What Happens to TSP After Military', desc: 'Options for your account — roll over, leave it, or withdraw', type: 'Blog' },
+      { href: '/blog/tamp-healthcare-after-military-separation', name: 'TAMP Healthcare Bridge', desc: '180-day premium-free TRICARE after qualifying separations', type: 'Blog' },
+      { href: '/blog/skillbridge-program-guide', name: 'SkillBridge Program Guide', desc: 'Get paid military salary while training for your civilian career', type: 'Blog' },
       { href: '/transition', name: 'Military Transition Roadmap', desc: 'Full financial arc of military separation', type: 'Guide' },
     ],
   },
@@ -226,6 +225,19 @@ export default function ResourcesPage() {
         </div>
       </section>
 
+      {/* ── Who this page is for ── */}
+      <section className="bg-white border-b border-zinc-200 py-5 px-4">
+        <div className="mx-auto max-w-4xl">
+          <div className="rounded-lg bg-zinc-50 border border-zinc-200 px-5 py-4 text-sm text-zinc-700 leading-relaxed">
+            <strong className="text-zinc-900">Who this page is for:</strong>{' '}
+            Military financial counselors, transition coaches, veteran service organizations, family
+            readiness groups, and anyone who works with service members and their families. Every
+            tool below is free, requires no account or personal information, and can be shared
+            directly. No permission needed.
+          </div>
+        </div>
+      </section>
+
       {/* ── Jump nav ── */}
       <section className="bg-white border-b border-zinc-200 py-4 px-4 sticky top-[64px] z-40">
         <div className="mx-auto max-w-6xl overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
@@ -261,7 +273,7 @@ export default function ResourcesPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {section.tools.map((tool) => (
                   <Link
-                    key={tool.href}
+                    key={`${section.id}-${tool.href}`}
                     href={tool.href}
                     className="group bg-white rounded-xl border border-zinc-200 hover:border-zinc-300 hover:shadow-md transition-all duration-200 px-4 py-4 flex flex-col gap-2"
                   >

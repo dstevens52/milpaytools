@@ -31,7 +31,7 @@ interface CalculatorDetail {
   name: string;
   description: string;
   features: string[];
-  group: 'active-duty' | 'guard-reserve' | 'veteran' | 'education' | 'allowances' | 'reference';
+  group: 'active-duty' | 'guard-reserve' | 'veteran' | 'va-loans' | 'education' | 'allowances' | 'reference';
 }
 
 const CALCULATORS: CalculatorDetail[] = [
@@ -62,6 +62,34 @@ const CALCULATORS: CalculatorDetail[] = [
       'With and without dependents',
     ],
     group: 'active-duty',
+  },
+  {
+    href: '/calculators/va-loan',
+    icon: '🏡',
+    name: 'VA Loan Payment Calculator',
+    description:
+      'Estimate your monthly VA loan payment, funding fee, and BAH comparison. Shows the funding fee waiver for disability-rated veterans and compares your estimated PITI against your BAH.',
+    features: [
+      'Monthly PITI estimate',
+      'Funding fee or disability waiver calculation',
+      'BAH coverage comparison',
+      'First vs. subsequent use rates',
+    ],
+    group: 'va-loans',
+  },
+  {
+    href: '/calculators/va-refinance',
+    icon: '🔄',
+    name: 'VA Refinance Calculator',
+    description:
+      'Calculate IRRRL (VA Streamline) and cash-out refinance savings, break-even timeline, and VA net tangible benefit check. See whether a rate reduction pays off before your next PCS.',
+    features: [
+      'IRRRL and cash-out refinance',
+      'Monthly savings and break-even',
+      'VA net tangible benefit check',
+      '0.50% IRRRL funding fee calculation',
+    ],
+    group: 'va-loans',
   },
   {
     href: '/calculators/va-disability',
@@ -252,6 +280,7 @@ export default function CalculatorsPage() {
   const guardReserve = CALCULATORS.filter((c) => c.group === 'guard-reserve');
   const allowances = CALCULATORS.filter((c) => c.group === 'allowances');
   const veteran = CALCULATORS.filter((c) => c.group === 'veteran');
+  const vaLoans = CALCULATORS.filter((c) => c.group === 'va-loans');
   const education = CALCULATORS.filter((c) => c.group === 'education');
   const reference = CALCULATORS.filter((c) => c.group === 'reference');
 
@@ -308,6 +337,18 @@ export default function CalculatorsPage() {
           </h2>
           <div className="space-y-4">
             {allowances.map((calc) => (
+              <CalculatorHubCard key={calc.href} {...calc} />
+            ))}
+          </div>
+        </section>
+
+        {/* VA Loans tools */}
+        <section>
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400 mb-5">
+            VA Loans &amp; Homebuying
+          </h2>
+          <div className="space-y-4">
+            {vaLoans.map((calc) => (
               <CalculatorHubCard key={calc.href} {...calc} />
             ))}
           </div>
