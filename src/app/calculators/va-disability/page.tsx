@@ -42,7 +42,7 @@ export default function VADisabilityPage() {
           <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight">
             VA Disability Combined Rating Calculator
           </h1>
-          <p className="text-red-700 font-semibold mt-1.5 text-base leading-snug">
+          <p className="text-red-700 font-semibold mt-1.5 mb-3 md:mb-0 text-sm sm:text-base leading-snug">
             Stop guessing your VA combined rating.
           </p>
           <p className="hidden md:block text-zinc-600 mt-1 text-sm leading-relaxed max-w-2xl mb-3">
