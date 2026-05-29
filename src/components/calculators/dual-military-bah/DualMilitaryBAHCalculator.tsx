@@ -337,10 +337,10 @@ export function DualMilitaryBAHCalculator() {
         <div className="mt-6 pt-5 border-t border-zinc-100 space-y-5">
           {/* Station mode */}
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1.5">
+            <label id="dm-station-label" className="block text-sm font-medium text-zinc-700 mb-1.5">
               Duty Station
             </label>
-            <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[42px] max-w-xs">
+            <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[42px] max-w-xs" role="group" aria-labelledby="dm-station-label">
               <button
                 type="button"
                 onClick={() => setSameStation(true)}
@@ -395,10 +395,10 @@ export function DualMilitaryBAHCalculator() {
 
           {/* Dependents toggle */}
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1.5">
+            <label id="dm-deps-label" className="block text-sm font-medium text-zinc-700 mb-1.5">
               Do you have dependents (children)?
             </label>
-            <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[42px] max-w-xs">
+            <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[42px] max-w-xs" role="group" aria-labelledby="dm-deps-label">
               <button
                 type="button"
                 onClick={() => setHasDependents(false)}
@@ -432,12 +432,12 @@ export function DualMilitaryBAHCalculator() {
           {/* Who claims / who lives with — only shown when hasDependents */}
           {hasDependents && (
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1.5">
+              <label id="dm-claims-label" className="block text-sm font-medium text-zinc-700 mb-1.5">
                 {sameStation
                   ? 'Who claims the dependents?'
                   : 'Which member do the dependents live with?'}
               </label>
-              <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[42px] max-w-xs">
+              <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[42px] max-w-xs" role="group" aria-labelledby="dm-claims-label">
                 <button
                   type="button"
                   onClick={() => setWhoClaimsDeps('member1')}

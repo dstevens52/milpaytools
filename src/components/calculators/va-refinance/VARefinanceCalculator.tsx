@@ -344,8 +344,8 @@ export function VARefinanceCalculator() {
 
       {/* ── Refinance type ─────────────────────────────────────────────────── */}
       <Card variant="default">
-        <h2 className="text-lg font-semibold text-zinc-900 mb-4">Refinance Type</h2>
-        <div className="flex gap-3">
+        <h2 id="rf-type-label" className="text-lg font-semibold text-zinc-900 mb-4">Refinance Type</h2>
+        <div className="flex gap-3" role="group" aria-labelledby="rf-type-label">
           <button type="button" onClick={() => setRefType('irrrl')} className={btnCls(refType === 'irrrl')}>
             VA Streamline (IRRRL)
           </button>
@@ -509,8 +509,8 @@ export function VARefinanceCalculator() {
 
           {refType === 'cashout' && !exempt && (
             <div className="flex flex-col gap-1 sm:col-span-2">
-              <span className="text-sm font-medium text-zinc-700">VA loan use</span>
-              <div className="flex gap-3 mt-1 max-w-xs">
+              <span id="rf-use-label" className="text-sm font-medium text-zinc-700">VA loan use</span>
+              <div className="flex gap-3 mt-1 max-w-xs" role="group" aria-labelledby="rf-use-label">
                 <button type="button" onClick={() => setFirstUse(true)} className={btnCls(firstUse)}>First use</button>
                 <button type="button" onClick={() => setFirstUse(false)} className={btnCls(!firstUse)}>Subsequent use</button>
               </div>

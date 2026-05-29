@@ -399,6 +399,7 @@ export function TransitionReadinessCalculator() {
                   <div className="flex-1">
                     <Select
                       label=""
+                      aria-label="Planned separation month"
                       id="sep-month"
                       options={SEP_MONTH_OPTIONS}
                       value={String(sepMonth)}
@@ -408,6 +409,7 @@ export function TransitionReadinessCalculator() {
                   <div className="flex-1">
                     <Select
                       label=""
+                      aria-label="Planned separation year"
                       id="sep-year"
                       options={sepYearOptions}
                       value={String(sepYear)}

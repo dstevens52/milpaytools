@@ -38,18 +38,18 @@ export const LEGACY_RETIREMENT_MULTIPLIER = 0.025;
 // BRS: 2.0% × years × average of highest 36 months base pay
 export const BRS_RETIREMENT_MULTIPLIER = 0.020;
 
-// ─── Federal Tax Brackets 2026 (Single filer, approximate) ───────────────
-// Used only for illustrating tax-advantage of BAH/BAS
-// TODO: verify final IRS 2026 bracket inflation adjustments
+// ─── Federal Tax Brackets 2026 (Single filer) ────────────────────────────
+// Used only for illustrating tax-advantage of BAH/BAS.
+// Source: IRS Rev. Proc. 2025-32 (2026 inflation adjustments).
 export const FED_TAX_BRACKETS_SINGLE = [
-  { upTo: 11_925, rate: 0.10 },
-  { upTo: 48_475, rate: 0.12 },
-  { upTo: 103_350, rate: 0.22 },
-  { upTo: 197_300, rate: 0.24 },
-  { upTo: 250_525, rate: 0.32 },
-  { upTo: 626_350, rate: 0.35 },
+  { upTo: 12_400, rate: 0.10 },
+  { upTo: 50_400, rate: 0.12 },
+  { upTo: 105_700, rate: 0.22 },
+  { upTo: 201_775, rate: 0.24 },
+  { upTo: 256_225, rate: 0.32 },
+  { upTo: 640_600, rate: 0.35 },
   { upTo: Infinity, rate: 0.37 },
 ] as const;
 
-// Standard deduction (single), approximate 2026
-export const STANDARD_DEDUCTION_SINGLE = 15_000;
+// Standard deduction (single), 2026 — IRS Rev. Proc. 2025-32
+export const STANDARD_DEDUCTION_SINGLE = 16_100;

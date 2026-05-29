@@ -242,8 +242,8 @@ export function TotalCompensationCalculator() {
           />
 
           <div className="flex flex-col gap-1">
-            <span className="text-sm font-medium text-zinc-700">Dependent Status</span>
-            <div className="flex gap-3 mt-1">
+            <span id="tc-dependents-label" className="text-sm font-medium text-zinc-700">Dependent Status</span>
+            <div className="flex gap-3 mt-1" role="group" aria-labelledby="tc-dependents-label">
               {[
                 { label: 'No dependents', value: false },
                 { label: 'With dependents', value: true },
@@ -266,8 +266,8 @@ export function TotalCompensationCalculator() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <span className="text-sm font-medium text-zinc-700">Do you live in government housing (barracks/on-post)?</span>
-            <div className="flex gap-3 mt-1">
+            <span id="tc-housing-label" className="text-sm font-medium text-zinc-700">Do you live in government housing (barracks/on-post)?</span>
+            <div className="flex gap-3 mt-1" role="group" aria-labelledby="tc-housing-label">
               {[
                 { label: 'No', value: false },
                 { label: 'Yes', value: true },
@@ -291,8 +291,8 @@ export function TotalCompensationCalculator() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <span className="text-sm font-medium text-zinc-700">Do you have a meal card (government dining facility)?</span>
-            <div className="flex gap-3 mt-1">
+            <span id="tc-meal-label" className="text-sm font-medium text-zinc-700">Do you have a meal card (government dining facility)?</span>
+            <div className="flex gap-3 mt-1" role="group" aria-labelledby="tc-meal-label">
               {[
                 { label: 'No', value: false },
                 { label: 'Yes', value: true },
@@ -316,8 +316,8 @@ export function TotalCompensationCalculator() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <span className="text-sm font-medium text-zinc-700">Retirement System</span>
-            <div className="flex gap-3 mt-1">
+            <span id="tc-retirement-label" className="text-sm font-medium text-zinc-700">Retirement System</span>
+            <div className="flex gap-3 mt-1" role="group" aria-labelledby="tc-retirement-label">
               {[
                 { label: 'BRS', value: 'brs' as const },
                 { label: 'Legacy (High-3)', value: 'legacy' as const },

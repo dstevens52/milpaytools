@@ -490,10 +490,10 @@ export function VALoanCalculator() {
       <Card variant="default">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-lg font-semibold text-zinc-900">Are you currently receiving BAH?</h2>
+            <h2 id="vl-bah-label" className="text-lg font-semibold text-zinc-900">Are you currently receiving BAH?</h2>
             <p className="text-sm text-zinc-500 mt-0.5">Compare your housing allowance to this estimated payment</p>
           </div>
-          <div className="flex gap-3 flex-none ml-4">
+          <div className="flex gap-3 flex-none ml-4" role="group" aria-labelledby="vl-bah-label">
             <button type="button" onClick={() => setBahActive(false)} className={btnCls(!bahActive)}>No</button>
             <button type="button" onClick={() => setBahActive(true)} className={btnCls(bahActive)}>Yes</button>
           </div>
@@ -544,8 +544,8 @@ export function VALoanCalculator() {
 
           {/* Row 1 col 1: VA loan use — always visible */}
           <div className="flex flex-col gap-1">
-            <span className="text-sm font-medium text-zinc-700">VA loan use</span>
-            <div className="flex gap-3 mt-1">
+            <span id="vl-use-label" className="text-sm font-medium text-zinc-700">VA loan use</span>
+            <div className="flex gap-3 mt-1" role="group" aria-labelledby="vl-use-label">
               <button type="button" onClick={() => setFirstUse(true)} className={btnCls(firstUse)}>First use</button>
               <button type="button" onClick={() => setFirstUse(false)} className={btnCls(!firstUse)}>Subsequent use</button>
             </div>
@@ -556,8 +556,8 @@ export function VALoanCalculator() {
 
           {/* Row 1 col 2: VA disability — always visible, always upper-right */}
           <div className="flex flex-col gap-1">
-            <span className="text-sm font-medium text-zinc-700">VA disability rating</span>
-            <div className="flex gap-3 mt-1">
+            <span id="vl-disability-label" className="text-sm font-medium text-zinc-700">VA disability rating</span>
+            <div className="flex gap-3 mt-1" role="group" aria-labelledby="vl-disability-label">
               <button type="button" onClick={() => setDisabilityExempt(false)} className={btnCls(!disabilityExempt)}>None</button>
               <button type="button" onClick={() => setDisabilityExempt(true)} className={btnCls(disabilityExempt)}>10%+ (exempt)</button>
             </div>
@@ -591,8 +591,8 @@ export function VALoanCalculator() {
 
           {!disabilityExempt && (
             <div className="flex flex-col gap-1">
-              <span className="text-sm font-medium text-zinc-700">Finance funding fee</span>
-              <div className="flex gap-3 mt-1">
+              <span id="vl-finance-label" className="text-sm font-medium text-zinc-700">Finance funding fee</span>
+              <div className="flex gap-3 mt-1" role="group" aria-labelledby="vl-finance-label">
                 <button type="button" onClick={() => setFinanceFee(true)} className={btnCls(financeFee)}>Yes (roll in)</button>
                 <button type="button" onClick={() => setFinanceFee(false)} className={btnCls(!financeFee)}>No (pay at closing)</button>
               </div>
