@@ -33,8 +33,8 @@ export const metadata: Metadata = {
 function HeroSection() {
   return (
     <section
-      className="relative overflow-hidden"
-      style={{ background: '#0f172a', minHeight: 'clamp(310px, 50vh, 420px)' }}
+      className="relative overflow-hidden sm:min-h-[clamp(310px,50vh,420px)]"
+      style={{ background: '#0f172a' }}
     >
       {/* Full-bleed desk background image */}
       <div className="absolute inset-0" aria-hidden="true">
@@ -198,9 +198,9 @@ const JOURNEY_CARDS = [
 
 function JourneySection() {
   return (
-    <section className="border-b border-zinc-200 pt-2 pb-3 sm:py-4 px-4" style={{ background: '#f5f0e8' }}>
+    <section className="border-b border-zinc-200 pt-1 pb-3 sm:py-4 px-4" style={{ background: '#f5f0e8' }}>
       <div className="mx-auto max-w-4xl">
-        <p className="text-xs sm:text-sm text-zinc-500 text-center mb-1 sm:mb-1.5">
+        <p className="text-xs sm:text-sm text-zinc-500 text-center mb-0.5 sm:mb-1.5">
           <span className="text-zinc-700 font-medium">①</span> Choose your situation
           {' '}<span className="mx-1.5">&middot;</span>{' '}
           <span className="text-zinc-700 font-medium">②</span> Run the numbers

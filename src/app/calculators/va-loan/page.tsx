@@ -104,7 +104,7 @@ export default function VALoanPage() {
           {/* Sample output bar */}
 
       {/* ── Direct answer */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100 hidden md:block">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
           A VA loan allows eligible service members and veterans to purchase a home with no down payment and no monthly mortgage insurance. The main VA-specific cost is the funding fee — 2.15% of the loan amount at first use with no down payment, or 3.30% at subsequent use — though veterans receiving VA disability compensation are commonly exempt. This calculator estimates your monthly PITI, shows your funding fee or exemption savings, and optionally compares the estimated payment to your BAH.
         </p>

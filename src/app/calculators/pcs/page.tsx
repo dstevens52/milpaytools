@@ -65,7 +65,7 @@ export default function PCSPage() {
         {/* ── Proof bar ──────────────────────────────────────────────── */}
 
       {/* ── Direct answer */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100 hidden md:block">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
           A PCS move triggers several financial entitlements — Dislocation Allowance (DLA), MALT mileage at $0.205/mile, per diem for travel days, and Temporary Lodging Expense (TLE) for transition. Service members who arrange a Personally Procured Move (PPM) can keep the difference between the government&apos;s weight estimate and their actual shipping cost, which often generates $1,000–$5,000 in net proceeds on longer moves. This calculator estimates all major PCS entitlements using 2026 DTMO rates for your rank and family situation.
         </p>
