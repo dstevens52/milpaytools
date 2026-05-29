@@ -281,7 +281,7 @@ export function calculateTransitionReadiness(input: TransitionReadinessInput): T
     emergencyFundMonths >= 6 ? 'green' : emergencyFundMonths >= 3 ? 'yellow' : 'red';
   const vaClaimStatus: 'green' | 'yellow' | 'na' = isRetirementEligible
     ? 'na'
-    : input.vaRating >= 0
+    : input.vaRating > 0
     ? 'green'
     : 'yellow';
   const timelineStatus: 'green' | 'yellow' | 'red' =

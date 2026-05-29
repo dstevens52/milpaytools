@@ -525,6 +525,12 @@ export function CompareCalculator() {
           <div className="rounded-lg bg-amber-50 border border-amber-200 p-4 text-sm text-amber-800 leading-relaxed">
             <p className="font-semibold mb-1">State tax estimates are approximate</p>
             <p className="mb-2">
+              State tax is estimated using the duty station&apos;s state rate. Under SCRA,
+              service members are generally taxed by their state of legal residence, not their
+              duty station. If your legal residence is a different state, your actual state tax
+              may differ from this estimate.
+            </p>
+            <p className="mb-2">
               Many states offer partial or full exemptions for active-duty military pay. For
               example, some states exempt pay earned while stationed outside the state, while
               others exempt all active duty pay regardless of duty station. The rates shown here

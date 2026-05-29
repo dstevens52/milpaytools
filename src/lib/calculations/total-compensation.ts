@@ -9,7 +9,7 @@
 
 import type { TotalCompensationInput, TotalCompensationOutput } from '@/types/calculator';
 import { payTable } from '@/data/pay-tables/2026';
-import { BAS_RATES, BRS_AUTOMATIC_CONTRIBUTION_PCT, BRS_MATCHING_MAX_PCT, SGLI_MAX_COVERAGE, SGLI_PREMIUM_PER_1000, SGLI_TSGLI_PREMIUM } from '@/data/constants';
+import { BAS_RATES, BRS_AUTOMATIC_CONTRIBUTION_PCT, SGLI_MAX_COVERAGE, SGLI_PREMIUM_PER_1000, SGLI_TSGLI_PREMIUM } from '@/data/constants';
 import { lookupBAH } from '@/lib/calculations/bah';
 import { getYOSBracket, estimateTaxAdvantage } from '@/lib/utils';
 import { HEALTHCARE_2026 } from '@/data/healthcare/2026/constants';
@@ -36,13 +36,15 @@ export function lookupBasePay(payGrade: string, yearsOfService: number): number 
 
 /**
  * Calculate BRS TSP agency match (annual).
- * DoD matches: 1% automatic + up to 4% matching = max 5% total.
+ * DoD contributes: 1% automatic + dollar-for-dollar on the first 3% of base pay
+ * contributed + 50¢ per dollar on the next 2% (3%–5%) = max 5% of base pay.
+ * `contributionPct` is the member's contribution as a percent (0–100).
  */
 function calculateBRSAgencyMatch(monthlyBasePay: number, contributionPct: number): number {
-  const automatic = monthlyBasePay * BRS_AUTOMATIC_CONTRIBUTION_PCT;
-  const matchablePct = Math.min(contributionPct / 100, BRS_MATCHING_MAX_PCT);
-  const match = monthlyBasePay * matchablePct;
-  return (automatic + match) * 12;
+  const auto = monthlyBasePay * BRS_AUTOMATIC_CONTRIBUTION_PCT;
+  const matchedAt100 = (Math.min(contributionPct, 3) / 100) * monthlyBasePay;
+  const matchedAt50 = (Math.max(0, Math.min(contributionPct, 5) - 3) / 100) * monthlyBasePay * 0.5;
+  return (auto + matchedAt100 + matchedAt50) * 12;
 }
 
 /**

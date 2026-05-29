@@ -594,6 +594,13 @@ export function VARefinanceCalculator() {
 
       </div>
 
+      {/* ── Term comparison note (all refinance types) ─────────────────────── */}
+      <p className="text-xs text-zinc-500 leading-relaxed">
+        Monthly savings reflects the payment difference between your current remaining term and
+        the new loan term. If the new term is longer than your remaining term, part of the
+        savings comes from re-amortization over a longer period, not just the rate reduction.
+      </p>
+
       {/* ── Break-even explanation (IRRRL only) ────────────────────────────── */}
       {refType === 'irrrl' && (
         <p className="text-xs text-zinc-500 leading-relaxed -mt-4">
