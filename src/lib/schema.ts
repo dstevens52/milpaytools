@@ -101,3 +101,16 @@ export function faqPageSchema(faqs: { question: string; answer: string }[]) {
     })),
   };
 }
+
+export function breadcrumbListSchema(items: { name: string; url: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map(({ name, url }, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name,
+      item: url.startsWith('http') ? url : `${BASE_URL}${url}`,
+    })),
+  };
+}

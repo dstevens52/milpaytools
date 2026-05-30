@@ -41,6 +41,14 @@ export function getMHARatesForYear(
   return hasDependents ? yearData.w : yearData.wo;
 }
 
+/**
+ * List every MHA code present in a given year's dataset. Build-time only —
+ * lets stats helpers iterate all MHAs without coupling to the data structure.
+ */
+export function listMHACodes(year: BahYear = CURRENT_BAH_YEAR): string[] {
+  return Object.keys(RATES_BY_YEAR[year] ?? {});
+}
+
 /** O-8/O-9/O-10 receive the same BAH as O-7. */
 function bahGrade(payGrade: string): string {
   const map: Record<string, string> = { 'O-8': 'O-7', 'O-9': 'O-7', 'O-10': 'O-7' };

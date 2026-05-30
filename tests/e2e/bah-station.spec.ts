@@ -100,8 +100,9 @@ test.describe('BAH Station Page — Year-over-year deltas', () => {
 
   test('direct-answer FAQ states the YoY change for E-5 with dependents', async ({ page }) => {
     await page.goto(FORT_BRAGG);
-    await expect(page.getByText(/up 1\.2% from 2025/i).first()).toBeVisible();
-    await expect(page.getByText(/\$1,785/).first()).toBeVisible();
+    // Phase-1 reworded YoY into a dedicated "How much did … change" FAQ + summary line.
+    await expect(page.getByText(/rose \$21 \(\+1\.2%\)/).first()).toBeVisible();
+    await expect(page.getByText(/from 2025.s \$1,785/).first()).toBeVisible();
   });
 
   test('no "NaN" or "undefined" leaks into the rendered page (null-safety)', async ({ page }) => {
@@ -117,5 +118,59 @@ test.describe('BAH Station Page — Year-over-year deltas', () => {
     const body = await page.locator('main').innerText();
     expect(body).not.toContain('NaN');
     expect(body).not.toContain('New for 2026'); // no false "new" label when there are simply no rates
+  });
+});
+
+test.describe('BAH Station Page — Phase 1 universal enrichment (DoD-data-only)', () => {
+  // fort-gordon is a previously-thin page (no bahVsHousing). The whole point of
+  // Phase 1 is that it now carries the full reference set, not just a rate table.
+  const THIN = '/bah/fort-gordon';
+
+  test('previously-thin page shows the national-median comparison', async ({ page }) => {
+    await page.goto(THIN);
+    await expect(page.getByText(/national median of \$[\d,]+/).first()).toBeVisible();
+  });
+
+  test('previously-thin page shows the percentile/rank sentence', async ({ page }) => {
+    await page.goto(THIN);
+    await expect(page.getByText(/tracked nationwide \(top \d+%\)/).first()).toBeVisible();
+  });
+
+  test('previously-thin page shows the MHA geography explainer', async ({ page }) => {
+    await page.goto(THIN);
+    await expect(page.getByText(/set by Military Housing Area \(MHA\), not by your specific ZIP/).first()).toBeVisible();
+  });
+
+  test('previously-thin page shows the YoY summary sentence', async ({ page }) => {
+    await page.goto(THIN);
+    await expect(page.getByText(/For 2026, the E-5 with-dependents rate at Fort Gordon/).first()).toBeVisible();
+  });
+
+  test('previously-thin page has the expanded ZIP-dependence FAQ', async ({ page }) => {
+    await page.goto(THIN);
+    await expect(page.getByRole('heading', { name: /Does Fort Gordon BAH depend on my exact ZIP code\?/ })).toBeVisible();
+  });
+
+  test('BreadcrumbList schema is present', async ({ page }) => {
+    await page.goto(THIN);
+    const ld = await page.locator('script[type="application/ld+json"]').allTextContents();
+    expect(ld.some((s) => s.includes('"BreadcrumbList"'))).toBe(true);
+  });
+
+  test('VA loan calculator link appears in "What to do next"', async ({ page }) => {
+    await page.goto(THIN);
+    await expect(page.getByRole('link', { name: /VA loan payment calculator/i })).toBeVisible();
+  });
+
+  test('same-MHA sibling callout renders where siblings exist (Norfolk)', async ({ page }) => {
+    await page.goto('/bah/naval-station-norfolk');
+    await expect(page.getByText(/shares the .* MHA with/).first()).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Naval Air Station Oceana' }).first()).toBeVisible();
+  });
+
+  test('no stale "vs. natl avg" label anywhere (standardized to median)', async ({ page }) => {
+    await page.goto(THIN);
+    await expect(page.getByText('vs. natl avg')).toHaveCount(0);
+    await expect(page.getByText('vs. national median').first()).toBeVisible();
   });
 });

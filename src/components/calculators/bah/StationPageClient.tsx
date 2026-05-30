@@ -27,6 +27,12 @@ interface NearbyStationData {
   state: string;
   oconus?: true;
   e5Rate?: number;
+  e5Delta?: number;
+}
+
+interface SiblingInstallation {
+  slug: string;
+  name: string;
 }
 
 export interface StationPageClientProps {
@@ -37,13 +43,19 @@ export interface StationPageClientProps {
   ratesWOPrev?: Record<string, number>;
   currentYear?: string;
   priorYear?: string;
-  e5YoYClause?: string;
   locationName: string;
+  mhaLabel?: string;
   taxInfo: StateTaxInfo | null;
   colaArea: { name: string; tier: string } | null;
   nearbyData: NearbyStationData[];
   hasRates: boolean;
   nationalAvgs: { w: Record<string, number>; wo: Record<string, number> };
+  // Universal enrichment (fixed E-5 with-dependents reference)
+  medianSentence?: string;
+  percentileSentence?: string;
+  yoySummary?: string;
+  siblings?: SiblingInstallation[];
+  faqs?: { question: string; answer: string }[];
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -411,13 +423,18 @@ export function StationPageClient({
   ratesWOPrev = {},
   currentYear = '2026',
   priorYear = '2025',
-  e5YoYClause = '',
   locationName,
+  mhaLabel,
   taxInfo,
   colaArea,
   nearbyData,
   hasRates,
   nationalAvgs,
+  medianSentence = '',
+  percentileSentence = '',
+  yoySummary = '',
+  siblings = [],
+  faqs = [],
 }: StationPageClientProps) {
   const [selectedGrade, setSelectedGrade] = useState<PayGrade>('E-5');
   const [hasDependents, setHasDependents] = useState(true);
@@ -778,9 +795,14 @@ export function StationPageClient({
           {selectedBAH > 0 && !station.oconus && (
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
               <h2 className="text-lg font-semibold text-zinc-900 mb-3">How This Market Compares</h2>
+              {(medianSentence || percentileSentence) && (
+                <p className="text-sm text-zinc-700 leading-relaxed mb-3">
+                  {medianSentence} {percentileSentence}
+                </p>
+              )}
               <p className="text-sm text-zinc-600 leading-relaxed mb-5">
                 {station.rentalContext
-                  ? `${station.name} BAH for ${selectedGrade} ${hasDependents ? 'with dependents' : 'without dependents'} is ${fmt(Math.abs(selectedDiff))}/mo ${selectedDiff >= 0 ? 'above' : 'below'} the national average — ${selectedDiff >= 0 ? 'and' : 'but'} ${station.rentalContext}`
+                  ? `For ${selectedGrade} ${hasDependents ? 'with dependents' : 'without dependents'}, the rate here is ${fmt(Math.abs(selectedDiff))}/mo ${selectedDiff >= 0 ? 'above' : 'below'} the national median — ${selectedDiff >= 0 ? 'and' : 'but'} ${station.rentalContext}`
                   : station.rentalNote}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-3">
@@ -808,7 +830,7 @@ export function StationPageClient({
                     selectedDiff >= 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200',
                   ].join(' ')}
                 >
-                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">vs. natl avg</p>
+                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">vs. national median</p>
                   <p
                     className={[
                       'text-2xl font-bold tabular-nums',
@@ -822,6 +844,44 @@ export function StationPageClient({
                 </div>
               </div>
             </div>
+          )}
+
+          {/* How BAH geography works (MHA explainer) + same-MHA siblings */}
+          {hasRates && (
+            <div className="bg-blue-50/50 rounded-lg border border-blue-100 p-5">
+              <h2 className="text-base font-semibold text-zinc-900 mb-1.5">How {station.name} BAH is set</h2>
+              <p className="text-sm text-zinc-600 leading-relaxed">
+                BAH is set by Military Housing Area (MHA), not by your specific ZIP code or
+                neighborhood. {station.name} falls in the <strong>{mhaLabel ?? locationName}</strong> MHA —
+                every installation and address in that MHA receives the same rate for a given pay grade
+                and dependency status, so multiple bases can share one rate.
+              </p>
+              {siblings.length > 0 && (
+                <p className="text-sm text-zinc-600 leading-relaxed mt-3">
+                  {station.name} shares the {mhaLabel ?? locationName} MHA with{' '}
+                  {siblings.map((s, i) => (
+                    <span key={s.slug}>
+                      <Link href={`/bah/${s.slug}`} className="text-red-700 hover:text-red-800 underline underline-offset-2">
+                        {s.name}
+                      </Link>
+                      {i < siblings.length - 2 ? ', ' : i === siblings.length - 2 ? (siblings.length === 2 ? ' and ' : ', and ') : ''}
+                    </span>
+                  ))}
+                  {' '}— all receive identical BAH.
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Year-over-year summary */}
+          {hasRates && yoySummary && (
+            <p className="text-sm text-zinc-500 leading-relaxed px-1">
+              {yoySummary}{' '}
+              <span className="text-zinc-400">
+                Year-over-year change reflects published table rates; individual rate protection may keep
+                your personal rate higher.
+              </span>
+            </p>
           )}
 
           {/* BAH Rate Table — collapsible */}
@@ -979,56 +1039,17 @@ export function StationPageClient({
             </div>
           )}
 
-          {/* FAQ section */}
-          {hasRates && (
+          {/* FAQ section — single source of truth shared with FAQPage schema */}
+          {hasRates && faqs.length > 0 && (
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
               <h2 className="text-lg font-semibold text-zinc-900 mb-5">Frequently Asked Questions</h2>
               <div className="space-y-5">
-                <div>
-                  <h3 className="text-sm font-semibold text-zinc-900 mb-1.5">
-                    What is the 2026 BAH rate at {station.name}?
-                  </h3>
-                  <p className="text-sm text-zinc-600 leading-relaxed">
-                    BAH at {station.name} depends on pay grade and dependent status. For 2026, {locationName} MHA rates include:{' '}
-                    E-5 with dependents <strong>{fmt(ratesW['E-5'] ?? 0)}/mo</strong>,{' '}
-                    E-6 with dependents <strong>{fmt(ratesW['E-6'] ?? 0)}/mo</strong>,{' '}
-                    E-7 with dependents <strong>{fmt(ratesW['E-7'] ?? 0)}/mo</strong>,{' '}
-                    and O-3 with dependents <strong>{fmt(ratesW['O-3'] ?? 0)}/mo</strong>.{' '}
-                    E-5 without dependents is <strong>{fmt(ratesWO['E-5'] ?? 0)}/mo</strong>.{' '}
-                    BAH is excluded from federal taxable income.{e5YoYClause}
-                  </p>
-                </div>
-                <div className="border-t border-zinc-100 pt-5">
-                  <h3 className="text-sm font-semibold text-zinc-900 mb-1.5">
-                    Is BAH at {station.name} taxable income?
-                  </h3>
-                  <p className="text-sm text-zinc-600 leading-relaxed">
-                    No. BAH is excluded from federal taxable income under the Military Pay Tax Exclusion. Most states also exempt BAH and BAS from state income tax, though treatment varies by state. Service members keep the full dollar value of their housing allowance — a significant financial advantage over taxable income of the same amount.
-                  </p>
-                </div>
-                <div className="border-t border-zinc-100 pt-5">
-                  <h3 className="text-sm font-semibold text-zinc-900 mb-1.5">
-                    What Military Housing Area (MHA) does {station.name} use for BAH?
-                  </h3>
-                  <p className="text-sm text-zinc-600 leading-relaxed">
-                    {station.name} is assigned to the {locationName} Military Housing Area (MHA). All service members stationed at {station.name} receive BAH rates set for this MHA, regardless of their exact address within the area. Rates are published annually by the Defense Travel Management Office (DTMO) and take effect January 1 each year.
-                  </p>
-                </div>
-                <div className="border-t border-zinc-100 pt-5">
-                  <h3 className="text-sm font-semibold text-zinc-900 mb-1.5">
-                    Can I afford to buy a home near {station.name} using BAH?
-                  </h3>
-                  <p className="text-sm text-zinc-600 leading-relaxed">
-                    {station.bahVsHousing
-                      ? <>
-                          Local median home prices run approximately <strong>{fmt(station.bahVsHousing.medianHomePrice)}</strong>, with estimated monthly mortgage payments (PITI) of <strong>{fmt(station.bahVsHousing.mortgageMin)}–{fmt(station.bahVsHousing.mortgageMax)}</strong>. An E-6 with dependents receives <strong>{fmt(ratesW['E-6'] ?? 0)}/mo</strong> in BAH. E-5s with dependents at <strong>{fmt(ratesW['E-5'] ?? 0)}/mo</strong> can cover a significant portion of a median mortgage, particularly with a VA loan eliminating the down payment requirement.
-                        </>
-                      : <>
-                          BAH is designed to cover local housing costs at approximately the 25th percentile of the local rental market. Whether BAH covers a mortgage depends on local home prices, interest rates, and your pay grade. VA loans — which require no down payment — can make homeownership viable on BAH alone in many markets. An E-5 with dependents receives <strong>{fmt(ratesW['E-5'] ?? 0)}/mo</strong> and an E-6 with dependents receives <strong>{fmt(ratesW['E-6'] ?? 0)}/mo</strong> in the {locationName} MHA.
-                        </>
-                    }
-                  </p>
-                </div>
+                {faqs.map((f, i) => (
+                  <div key={f.question} className={i > 0 ? 'border-t border-zinc-100 pt-5' : ''}>
+                    <h3 className="text-sm font-semibold text-zinc-900 mb-1.5">{f.question}</h3>
+                    <p className="text-sm text-zinc-600 leading-relaxed">{f.answer}</p>
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -1060,6 +1081,12 @@ export function StationPageClient({
                 className="text-sm text-zinc-300 hover:text-white transition-colors"
               >
                 Estimate your PCS move costs →
+              </Link>
+              <Link
+                href="/calculators/va-loan"
+                className="text-sm text-zinc-300 hover:text-white transition-colors"
+              >
+                VA loan payment calculator →
               </Link>
               {station.oconus && (
                 <Link
@@ -1113,6 +1140,14 @@ export function StationPageClient({
                       <p className="text-sm font-semibold text-red-700">
                         {fmt(s.e5Rate)}/mo{' '}
                         <span className="text-xs font-normal text-zinc-400">E-5 w/dep</span>
+                        {s.e5Delta !== undefined && s.e5Delta !== 0 && (
+                          <span className="block text-xs font-normal text-zinc-500 mt-0.5">
+                            {s.e5Delta > 0 ? '+' : '−'}{fmt(Math.abs(s.e5Delta))} vs here
+                          </span>
+                        )}
+                        {s.e5Delta === 0 && (
+                          <span className="block text-xs font-normal text-zinc-500 mt-0.5">same as here</span>
+                        )}
                       </p>
                     )}
                     {s.oconus && <p className="text-xs text-amber-600">OCONUS — OHA applies</p>}
