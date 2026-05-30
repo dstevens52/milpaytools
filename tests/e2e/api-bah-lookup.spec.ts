@@ -32,6 +32,12 @@ test.describe('API /api/bah/lookup — contract', () => {
     expect(body.ratesW['E-5']).toBe(1806);
   });
 
+  test('valid ZIP includes station-page guide links (28310 → Fort Bragg)', async () => {
+    const { body } = await call('zip=28310');
+    expect(Array.isArray(body.stationPages)).toBe(true);
+    expect(body.stationPages.some((p: { slug: string }) => p.slug === 'fort-bragg')).toBe(true);
+  });
+
   test('NAS San Diego 92134 → CA038, E-5 w/dep = 3975 (data-accuracy anchor)', async () => {
     const { body } = await call('zip=92134');
     expect(body.mha).toBe('CA038');

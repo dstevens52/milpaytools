@@ -21,7 +21,7 @@ test.describe('BAH Calculator', () => {
   test('valid ZIP returns correct E-5 rate without dependents', async ({ page }) => {
     const rate = getBAH('28307', 'E-5', false);
     if (!rate) test.skip();
-    await page.getByLabel('Duty Station ZIP Code').pressSequentially('28307', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially('28307', { delay: 50 });
     // Primary rate is in a <p class="text-4xl"> element
     await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(rate!) })).toBeVisible();
   });
@@ -29,7 +29,7 @@ test.describe('BAH Calculator', () => {
   test('valid ZIP returns correct E-5 rate with dependents', async ({ page }) => {
     const rate = getBAH('28307', 'E-5', true);
     if (!rate) test.skip();
-    await page.getByLabel('Duty Station ZIP Code').pressSequentially('28307', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially('28307', { delay: 50 });
     await page.getByRole('button', { name: 'With Dependents' }).click();
     await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(rate!) })).toBeVisible();
   });
@@ -37,7 +37,7 @@ test.describe('BAH Calculator', () => {
   test('location name appears after valid ZIP', async ({ page }) => {
     const name = getLocationName('28307');
     if (!name) test.skip();
-    await page.getByLabel('Duty Station ZIP Code').pressSequentially('28307', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially('28307', { delay: 50 });
     // Location name appears in the sub-text under the rate
     await expect(page.getByText(name!, { exact: false }).first()).toBeVisible();
   });
@@ -59,18 +59,18 @@ test.describe('BAH Calculator', () => {
   test('switching grade to O-5 updates displayed rate', async ({ page }) => {
     const rate = getBAH('20001', 'O-5', false);
     if (!rate) test.skip();
-    await page.getByLabel('Duty Station ZIP Code').pressSequentially('20001', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially('20001', { delay: 50 });
     await page.getByLabel('Pay Grade').selectOption('O-5');
     await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(rate!) })).toBeVisible();
   });
 
   test('grade rate table appears after valid ZIP', async ({ page }) => {
-    await page.getByLabel('Duty Station ZIP Code').pressSequentially('28307', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially('28307', { delay: 50 });
     await expect(page.getByText('All rates at this location')).toBeVisible();
   });
 
   test('invalid ZIP shows error message', async ({ page }) => {
-    await page.getByLabel('Duty Station ZIP Code').pressSequentially('00000', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially('00000', { delay: 50 });
     await expect(page.getByText('ZIP code not found in BAH dataset').first()).toBeVisible();
   });
 
@@ -90,7 +90,7 @@ test.describe('BAH Calculator', () => {
   test('W-4 warrant officer rate is selectable and shows data', async ({ page }) => {
     const rate = getBAH('28307', 'W-4', false);
     if (!rate) test.skip();
-    await page.getByLabel('Duty Station ZIP Code').pressSequentially('28307', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially('28307', { delay: 50 });
     await page.getByLabel('Pay Grade').selectOption('W-4');
     await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(rate!) })).toBeVisible();
   });
@@ -99,13 +99,13 @@ test.describe('BAH Calculator', () => {
 
   test('ZIP in a base MHA shows station housing guide link', async ({ page }) => {
     // 28310 is a Fort Bragg area ZIP → NC182 MHA → Fort Bragg station page
-    await page.getByLabel('Duty Station ZIP Code').pressSequentially('28310', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 50 });
     await expect(page.getByRole('link', { name: /Fort Bragg.*housing guide/i })).toBeVisible();
   });
 
   test('ZIP with no station page shows no housing guide link', async ({ page }) => {
     // 66062 is Olathe, KS — residential area with no military base page
-    await page.getByLabel('Duty Station ZIP Code').pressSequentially('66062', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially('66062', { delay: 50 });
     await expect(page.getByRole('link', { name: /housing guide/i })).not.toBeVisible();
   });
 

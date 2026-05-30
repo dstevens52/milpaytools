@@ -5,15 +5,19 @@ import { fireCalculatorEvent } from '@/lib/analytics';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
+import { useBahLookup, type BahLookupData } from '@/components/calculators/shared/useBahLookup';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
-import { lookupBAH, getMHARates, getMHACode, isTerritory, isZipInDataset } from '@/lib/calculations/bah';
 import { ENLISTED_GRADES, WARRANT_GRADES, OFFICER_GRADES, PRIOR_ENLISTED_OFFICER_GRADES, RANK_DISPLAY } from '@/types/military';
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
-import { getStationPagesForZip } from '@/data/bah/2026/mhaToStationPage';
 import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
+
+// BAH data resolves via /api/bah/lookup (cached, server-side) — this calculator
+// no longer ships the ~166KB dataset. Returned values are identical to the
+// former client-side lookupBAH / getMHARates.
+const DATA_YEAR = '2026';
 
 // ─── Grade select options ──────────────────────────────────────────────────
 
@@ -56,11 +60,38 @@ function diffLabel(diff: number) {
   return (diff > 0 ? '+' : '') + fmt(diff) + '/mo';
 }
 
-function zipError(zip: string): string | undefined {
+/** O-8/O-9/O-10 share the O-7 BAH rate; the dataset only carries the O-7 key. */
+function bahGrade(grade: PayGrade): string {
+  return grade === 'O-8' || grade === 'O-9' || grade === 'O-10' ? 'O-7' : grade;
+}
+
+interface DerivedResult {
+  monthlyRate: number;
+  locationName: string;
+  mhaCode: string;
+}
+
+/** Derive the rate for a grade + dependency status from a resolved lookup. */
+function deriveResult(
+  data: BahLookupData | null,
+  grade: PayGrade,
+  hasDependents: boolean,
+): DerivedResult | null {
+  if (!data || !data.valid || data.territory || !data.mha) return null;
+  const rates = hasDependents ? data.ratesW : data.ratesWO;
+  if (!rates) return null;
+  const rate = rates[bahGrade(grade)];
+  if (rate === undefined) return null;
+  return { monthlyRate: rate, locationName: data.locationName ?? '', mhaCode: data.mha };
+}
+
+/** Error/feedback message for a resolved ZIP (null while still typing/loading). */
+function zipErrorFor(zip: string, data: BahLookupData | null): string | undefined {
   if (zip.length < 5) return undefined; // still typing
   if (!/^\d{5}$/.test(zip)) return 'Enter a valid 5-digit ZIP code';
-  if (isTerritory(zip)) return 'This ZIP is a U.S. territory — BAH does not apply (OHA area)';
-  if (!isZipInDataset(zip)) return 'ZIP code not found in BAH dataset';
+  if (!data) return undefined; // still loading
+  if (data.territory) return 'This ZIP is a U.S. territory — BAH does not apply (OHA area)';
+  if (!data.valid) return 'ZIP code not found in BAH dataset';
   return undefined;
 }
 
@@ -103,20 +134,15 @@ function buildActionSteps(
 
 interface LocationResultProps {
   zip: string;
-  grade: PayGrade;
+  result: DerivedResult | null;
+  loading: boolean;
+  errorMsg?: string;
   hasDependents: boolean;
   label?: string;
   compact?: boolean;
 }
 
-function LocationResult({ zip, grade, hasDependents, label, compact }: LocationResultProps) {
-  const result = useMemo(() => {
-    if (zip.length !== 5 || !/^\d{5}$/.test(zip)) return null;
-    return lookupBAH({ zipCode: zip, payGrade: grade, hasDependents });
-  }, [zip, grade, hasDependents]);
-
-  const err = zipError(zip);
-
+function LocationResult({ zip, result, loading, errorMsg, hasDependents, label, compact }: LocationResultProps) {
   if (zip.length === 0) {
     return (
       <div className="flex items-center justify-center h-32 text-zinc-400 text-sm">
@@ -133,10 +159,18 @@ function LocationResult({ zip, grade, hasDependents, label, compact }: LocationR
     );
   }
 
-  if (err || !result) {
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-32 text-zinc-400 text-sm animate-pulse">
+        Looking up rates…
+      </div>
+    );
+  }
+
+  if (errorMsg || !result) {
     return (
       <div className="flex items-center justify-center h-24 text-zinc-500 text-sm text-center px-4">
-        {err ?? 'Rate not available for this ZIP'}
+        {errorMsg ?? 'Rate not available for this ZIP'}
       </div>
     );
   }
@@ -156,7 +190,7 @@ function LocationResult({ zip, grade, hasDependents, label, compact }: LocationR
       {!compact && (
         <p className="text-sm text-zinc-500 mt-1 tabular-nums">{fmt(annualRate)}/year</p>
       )}
-      <p className="text-xs text-zinc-400 mt-1">Based on {result.dataYear} rates · {hasDependents ? 'With' : 'Without'} dependents</p>
+      <p className="text-xs text-zinc-400 mt-1">Based on {DATA_YEAR} rates · {hasDependents ? 'With' : 'Without'} dependents</p>
     </div>
   );
 }
@@ -164,15 +198,11 @@ function LocationResult({ zip, grade, hasDependents, label, compact }: LocationR
 // ─── Grade rate table ──────────────────────────────────────────────────────
 
 interface GradeRateTableProps {
-  mhaCode: string;
-  hasDependents: boolean;
+  rates: Record<string, number>;
   highlightGrade: PayGrade;
 }
 
-function GradeRateTable({ mhaCode, hasDependents, highlightGrade }: GradeRateTableProps) {
-  const rates = useMemo(() => getMHARates(mhaCode, hasDependents), [mhaCode, hasDependents]);
-  if (!rates) return null;
-
+function GradeRateTable({ rates, highlightGrade }: GradeRateTableProps) {
   // Normalize highlight grade: O-8/9/10 → O-7
   const displayHighlight =
     highlightGrade === 'O-8' || highlightGrade === 'O-9' || highlightGrade === 'O-10'
@@ -241,22 +271,21 @@ export function BAHCalculator() {
   const [grade, setGrade] = useState<PayGrade>('E-5');
   const [hasDependents, setHasDependents] = useState(false);
 
-  // Single mode result
-  const result = useMemo(() => {
-    if (zip.length !== 5 || !/^\d{5}$/.test(zip)) return null;
-    return lookupBAH({ zipCode: zip, payGrade: grade, hasDependents });
-  }, [zip, grade, hasDependents]);
+  // Server-side resolution (cached) — one fetch per ZIP, derived per grade/dep.
+  const lookupA = useBahLookup(zip);
+  const lookupB = useBahLookup(zipB);
 
-  // Compare mode results
-  const resultA = useMemo(() => {
-    if (zip.length !== 5 || !/^\d{5}$/.test(zip)) return null;
-    return lookupBAH({ zipCode: zip, payGrade: grade, hasDependents });
-  }, [zip, grade, hasDependents]);
+  const result = useMemo(
+    () => deriveResult(lookupA.data, grade, hasDependents),
+    [lookupA.data, grade, hasDependents],
+  );
+  const resultB = useMemo(
+    () => deriveResult(lookupB.data, grade, hasDependents),
+    [lookupB.data, grade, hasDependents],
+  );
 
-  const resultB = useMemo(() => {
-    if (zipB.length !== 5 || !/^\d{5}$/.test(zipB)) return null;
-    return lookupBAH({ zipCode: zipB, payGrade: grade, hasDependents });
-  }, [zipB, grade, hasDependents]);
+  const errA = zipErrorFor(zip, lookupA.data);
+  const errB = zipErrorFor(zipB, lookupB.data);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {
@@ -266,23 +295,20 @@ export function BAHCalculator() {
     return () => clearTimeout(_gaTimerRef.current);
   }, [result]);
 
-  // MHA code for rate table (single mode)
-  const mhaCode = useMemo(() => {
-    if (zip.length !== 5) return null;
-    return getMHACode(zip);
-  }, [zip]);
+  // Rate table (single mode) — rates already reflect dependency status.
+  const mhaCode = lookupA.data?.valid && !lookupA.data.territory ? lookupA.data.mha : null;
+  const rateTableRates = useMemo(() => {
+    const d = lookupA.data;
+    if (!d || !d.valid || d.territory) return null;
+    return hasDependents ? d.ratesW : d.ratesWO;
+  }, [lookupA.data, hasDependents]);
 
-  const mhaCodeB = useMemo(() => {
-    if (zipB.length !== 5) return null;
-    return getMHACode(zipB);
-  }, [zipB]);
-
-  // Station pages for guide links — MHA-based so ZIP variants in the same area also match
-  const stationPagesSingle = useMemo(() => getStationPagesForZip(zip), [zip]);
+  // Station pages for guide links — resolved server-side (no client zipToMha).
+  const stationPagesSingle = useMemo(() => lookupA.data?.stationPages ?? [], [lookupA.data]);
   const stationPagesB = useMemo(() => {
     const slugsA = new Set(stationPagesSingle.map((p) => p.slug));
-    return getStationPagesForZip(zipB).filter((p) => !slugsA.has(p.slug));
-  }, [zipB, stationPagesSingle]);
+    return (lookupB.data?.stationPages ?? []).filter((p) => !slugsA.has(p.slug));
+  }, [lookupB.data, stationPagesSingle]);
 
   // Action steps
   const actionSteps = useMemo(() => {
@@ -291,9 +317,9 @@ export function BAHCalculator() {
   }, [result, hasDependents]);
 
   // Compare difference
-  const diff = resultA && resultB ? resultA.monthlyRate - resultB.monthlyRate : null;
+  const diff = result && resultB ? result.monthlyRate - resultB.monthlyRate : null;
 
-  // Pre-populate from URL params on mount
+  // Pre-populate from URL params on mount (the hook fetches when zip is set).
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const gz = parseZip(params.get('zip'));
@@ -434,7 +460,7 @@ export function BAHCalculator() {
         <>
           {/* Primary result */}
           <Card variant="result">
-            <LocationResult zip={zip} grade={grade} hasDependents={hasDependents} />
+            <LocationResult zip={zip} result={result} loading={lookupA.loading} errorMsg={errA} hasDependents={hasDependents} />
           </Card>
 
           {/* Station guide link */}
@@ -458,9 +484,9 @@ export function BAHCalculator() {
           )}
 
           {/* Rate table */}
-          {mhaCode && (
+          {mhaCode && rateTableRates && (
             <Card>
-              <GradeRateTable mhaCode={mhaCode} hasDependents={hasDependents} highlightGrade={grade} />
+              <GradeRateTable rates={rateTableRates} highlightGrade={grade} />
             </Card>
           )}
 
@@ -477,10 +503,10 @@ export function BAHCalculator() {
           {/* Side-by-side comparison */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Card variant="result">
-              <LocationResult zip={zip} grade={grade} hasDependents={hasDependents} label="Origin" />
+              <LocationResult zip={zip} result={result} loading={lookupA.loading} errorMsg={errA} hasDependents={hasDependents} label="Origin" />
             </Card>
             <Card variant="result">
-              <LocationResult zip={zipB} grade={grade} hasDependents={hasDependents} label="Destination" />
+              <LocationResult zip={zipB} result={resultB} loading={lookupB.loading} errorMsg={errB} hasDependents={hasDependents} label="Destination" />
             </Card>
           </div>
 

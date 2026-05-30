@@ -13,7 +13,7 @@
 
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { searchStations, type SearchResult } from '@/lib/stationSearch';
-import { getLocationName, isZipInDataset, isTerritory } from '@/lib/calculations/bah';
+import { useBahLookup } from './useBahLookup';
 
 export interface BaseSearchInputProps {
   label: string;
@@ -76,16 +76,22 @@ export function BaseSearchInput({
 
   const showDropdown = open && suggestions.length > 0;
 
-  // Feedback derived from the resolved ZIP value
-  const feedback = useMemo((): { kind: 'error' | 'location' | null; msg: string } => {
+  // Location feedback now resolves server-side (cached /api/bah/lookup) so this
+  // shared input no longer ships the BAH dataset. The autocomplete above stays
+  // fully client-side & instant; only this post-resolution feedback is async.
+  const { data: lookup, loading: lookupLoading } = useBahLookup(value);
+
+  const feedback = useMemo((): { kind: 'error' | 'location' | 'loading' | null; msg: string } => {
     if (value.length !== 5) return { kind: null, msg: '' };
-    if (isTerritory(value))
+    if (lookupLoading || !lookup) return { kind: 'loading', msg: 'Looking up…' };
+    if (lookup.territory)
       return { kind: 'error', msg: 'U.S. territory ZIP — BAH does not apply (OHA area)' };
-    if (!isZipInDataset(value))
+    if (!lookup.valid)
       return { kind: 'error', msg: 'ZIP code not found in BAH dataset' };
-    const loc = getLocationName(value);
-    return loc ? { kind: 'location', msg: `📍 ${loc}` } : { kind: null, msg: '' };
-  }, [value]);
+    return lookup.locationName
+      ? { kind: 'location', msg: `📍 ${lookup.locationName}` }
+      : { kind: null, msg: '' };
+  }, [value, lookup, lookupLoading]);
 
   function handleChange(raw: string) {
     userHasInteracted.current = true;
@@ -180,6 +186,9 @@ export function BaseSearchInput({
       />
 
       {/* Inline feedback */}
+      {feedback.kind === 'loading' && !showDropdown && (
+        <p className="text-xs text-zinc-400 mt-1">{feedback.msg}</p>
+      )}
       {feedback.kind === 'error' && (
         <p className="text-xs text-red-600 mt-1">{feedback.msg}</p>
       )}

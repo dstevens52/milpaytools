@@ -27,6 +27,7 @@ import {
   isZipInDataset,
   isTerritory,
 } from '@/lib/calculations/bah';
+import { getStationPagesForZip, MHA_TO_STATION_PAGES } from '@/data/bah/2026/mhaToStationPage';
 import { isValidZip } from '@/lib/utils';
 
 // BAH data is fixed for the calendar year → safe to cache hard at the edge.
@@ -77,6 +78,8 @@ export async function GET(request: Request): Promise<Response> {
       locationName: getLocationName(zip),
       ratesW: getMHARates(mha, true),
       ratesWO: getMHARates(mha, false),
+      // Resolved server-side so calculator clients don't import zipToMha for guide links.
+      stationPages: getStationPagesForZip(zip),
     });
   }
 
@@ -94,6 +97,7 @@ export async function GET(request: Request): Promise<Response> {
       locationName: null, // getLocationName resolves by ZIP, not MHA
       ratesW,
       ratesWO,
+      stationPages: MHA_TO_STATION_PAGES[mhaParam] ?? [],
     });
   }
 

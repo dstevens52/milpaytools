@@ -71,19 +71,19 @@ test.describe('BAH — known answers', () => {
 
   // Source: DTMO 2026 BAH rate tables
   test('BAH: E-5 with dependents at Fort Bragg (28310) = $1,806/mo', async ({ page }) => {
-    await page.getByLabel('Duty Station ZIP Code').pressSequentially('28310', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 50 });
     await page.getByRole('button', { name: 'With Dependents' }).click();
     await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(1806) })).toBeVisible();
   });
 
   test('BAH: E-5 with dependents at NAS San Diego (92134) = $3,975/mo', async ({ page }) => {
-    await page.getByLabel('Duty Station ZIP Code').pressSequentially('92134', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially('92134', { delay: 50 });
     await page.getByRole('button', { name: 'With Dependents' }).click();
     await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(3975) })).toBeVisible();
   });
 
   test('BAH: E-6 with dependents at JBLM (98433) = $2,919/mo', async ({ page }) => {
-    await page.getByLabel('Duty Station ZIP Code').pressSequentially('98433', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially('98433', { delay: 50 });
     await page.getByLabel('Pay Grade').selectOption('E-6');
     await page.getByRole('button', { name: 'With Dependents' }).click();
     await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(2919) })).toBeVisible();
@@ -92,7 +92,7 @@ test.describe('BAH — known answers', () => {
   test('BAH: E-5 without dependents at Fort Bragg (28310) shows correct 2026 rate', async ({ page }) => {
     const rate = getBAH('28310', 'E-5', false);
     if (!rate) test.skip();
-    await page.getByLabel('Duty Station ZIP Code').pressSequentially('28310', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 50 });
     await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(rate!) })).toBeVisible();
   });
 });
