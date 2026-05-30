@@ -15,6 +15,7 @@ import {
 import type { DutyStation } from '@/data/duty-stations/stations';
 import type { StateTaxInfo } from '@/data/compare/stateTax';
 import { EmailSignup } from '@/components/EmailSignup';
+import { YoYDelta } from '@/components/calculators/bah/YoYDelta';
 import { fireShareEvent } from '@/lib/analytics';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -32,6 +33,11 @@ export interface StationPageClientProps {
   station: DutyStation;
   ratesW: Record<string, number>;
   ratesWO: Record<string, number>;
+  ratesWPrev?: Record<string, number>;
+  ratesWOPrev?: Record<string, number>;
+  currentYear?: string;
+  priorYear?: string;
+  e5YoYClause?: string;
   locationName: string;
   taxInfo: StateTaxInfo | null;
   colaArea: { name: string; tier: string } | null;
@@ -401,6 +407,11 @@ export function StationPageClient({
   station,
   ratesW,
   ratesWO,
+  ratesWPrev = {},
+  ratesWOPrev = {},
+  currentYear = '2026',
+  priorYear = '2025',
+  e5YoYClause = '',
   locationName,
   taxInfo,
   colaArea,
@@ -449,6 +460,7 @@ export function StationPageClient({
   // Derived values
   const selectedRates = hasDependents ? ratesW : ratesWO;
   const selectedBAH = selectedRates[selectedGrade] ?? 0;
+  const selectedPrevBAH = (hasDependents ? ratesWPrev : ratesWOPrev)[selectedGrade];
   const natAvg = (hasDependents ? nationalAvgs.w : nationalAvgs.wo)[selectedGrade] ?? 0;
   const selectedDiff = selectedBAH - natAvg;
 
@@ -537,6 +549,18 @@ export function StationPageClient({
               </strong>{' '}
               for the <strong className="text-zinc-700">{locationName}</strong> MHA.
             </p>
+            {hasRates && selectedBAH > 0 && selectedPrevBAH !== undefined && (
+              <p className="text-sm text-zinc-500">
+                Year over year:{' '}
+                <YoYDelta
+                  curr={selectedBAH}
+                  prev={selectedPrevBAH}
+                  currentYear={currentYear}
+                  priorYear={priorYear}
+                  className="font-semibold"
+                />
+              </p>
+            )}
             {station.bahVsHousing && selectedBAH > 0 && (
               <MoneyStrip
                 selectedBAH={selectedBAH}
@@ -806,6 +830,10 @@ export function StationPageClient({
               locationName={locationName}
               ratesW={ratesW}
               ratesWO={ratesWO}
+              ratesWPrev={ratesWPrev}
+              ratesWOPrev={ratesWOPrev}
+              currentYear={currentYear}
+              priorYear={priorYear}
               selectedGrade={selectedGrade}
               selectedHasDependents={hasDependents}
             />
@@ -967,7 +995,7 @@ export function StationPageClient({
                     E-7 with dependents <strong>{fmt(ratesW['E-7'] ?? 0)}/mo</strong>,{' '}
                     and O-3 with dependents <strong>{fmt(ratesW['O-3'] ?? 0)}/mo</strong>.{' '}
                     E-5 without dependents is <strong>{fmt(ratesWO['E-5'] ?? 0)}/mo</strong>.{' '}
-                    BAH is excluded from federal taxable income.
+                    BAH is excluded from federal taxable income.{e5YoYClause}
                   </p>
                 </div>
                 <div className="border-t border-zinc-100 pt-5">

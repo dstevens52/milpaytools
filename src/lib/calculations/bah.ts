@@ -8,8 +8,38 @@
 import type { BAHInput, BAHOutput } from '@/types/calculator';
 import { zipToMha } from '@/data/bah/2026/zipToMha';
 import { mhaRates, DATA_YEAR } from '@/data/bah/2026/mhaRates';
+import { mhaRates as rates2025 } from '@/data/bah/2025/mhaRates';
 import { mhaNames } from '@/data/bah/2026/mhaNames';
 import { isValidZip } from '@/lib/utils';
+
+// ─── Year-generic rate access ────────────────────────────────────────────────
+// `mhaRates` (imported above) is the current year. Additional years register
+// here so future years drop in with no rework. Prior-year data is used only at
+// build time (server components) — it never ships to the client.
+export type BahYear = '2025' | '2026';
+
+const RATES_BY_YEAR: Record<BahYear, typeof mhaRates> = {
+  '2026': mhaRates,
+  '2025': rates2025,
+};
+
+export const CURRENT_BAH_YEAR: BahYear = '2026';
+export const PRIOR_BAH_YEAR: BahYear = '2025';
+
+/**
+ * Get all BAH rates for an MHA code, dependency status, and year.
+ * Returns null when the MHA isn't present in the requested year — this is the
+ * graceful fallback for future years where MHA codes may not align across years.
+ */
+export function getMHARatesForYear(
+  mhaCode: string,
+  hasDependents: boolean,
+  year: BahYear = CURRENT_BAH_YEAR
+): Record<string, number> | null {
+  const yearData = RATES_BY_YEAR[year]?.[mhaCode];
+  if (!yearData) return null;
+  return hasDependents ? yearData.w : yearData.wo;
+}
 
 /** O-8/O-9/O-10 receive the same BAH as O-7. */
 function bahGrade(payGrade: string): string {

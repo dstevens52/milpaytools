@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { DUTY_STATIONS, STATION_BY_SLUG } from '@/data/duty-stations/stations';
-import { getMHACode, getMHARates, getLocationName, getNationalAverages } from '@/lib/calculations/bah';
+import { getMHACode, getMHARates, getMHARatesForYear, getLocationName, getNationalAverages, CURRENT_BAH_YEAR, PRIOR_BAH_YEAR } from '@/lib/calculations/bah';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { formatCurrency } from '@/lib/utils';
@@ -59,6 +59,22 @@ export default async function StationPage({
   const ratesWO = mhaCode ? getMHARates(mhaCode, false) : null;
   const locationName = mhaCode ? getLocationName(station.zip) : null;
 
+  // Prior-year rates for year-over-year deltas — resolved at build time only.
+  // Small resolved objects (~24 grades) become props; the dataset never ships.
+  const ratesWPrev = mhaCode ? getMHARatesForYear(mhaCode, true, PRIOR_BAH_YEAR) : null;
+  const ratesWOPrev = mhaCode ? getMHARatesForYear(mhaCode, false, PRIOR_BAH_YEAR) : null;
+
+  // Fixed direct-answer YoY clause for E-5 with dependents (most-common rate).
+  // Computed once here so the visible FAQ text and the FAQ schema stay identical.
+  const e5Curr = ratesW?.['E-5'];
+  const e5Prev = ratesWPrev?.['E-5'];
+  const e5YoYClause =
+    e5Curr !== undefined && e5Prev !== undefined && e5Prev > 0 && e5Curr !== e5Prev
+      ? ` The E-5 with-dependents rate is ${e5Curr > e5Prev ? 'up' : 'down'} ${(
+          (Math.abs(e5Curr - e5Prev) / e5Prev) * 100
+        ).toFixed(1)}% from ${PRIOR_BAH_YEAR}'s ${formatCurrency(e5Prev)}/mo.`
+      : '';
+
   const taxInfo = STATE_TAX_DATA[station.state] ?? null;
   const colaAreaFull = station.oconus
     ? null
@@ -97,7 +113,7 @@ export default async function StationPage({
     ? faqPageSchema([
         {
           question: `What is the 2026 BAH rate at ${station.name}?`,
-          answer: `BAH at ${station.name} depends on pay grade and dependent status. For 2026, the ${mhaLabel} MHA rates include: E-5 with dependents ${formatCurrency(ratesW['E-5'] ?? 0)}/month, E-6 with dependents ${formatCurrency(ratesW['E-6'] ?? 0)}/month, E-7 with dependents ${formatCurrency(ratesW['E-7'] ?? 0)}/month, and O-3 with dependents ${formatCurrency(ratesW['O-3'] ?? 0)}/month. E-5 without dependents is ${formatCurrency(ratesWO['E-5'] ?? 0)}/month. BAH is excluded from federal taxable income.`,
+          answer: `BAH at ${station.name} depends on pay grade and dependent status. For 2026, the ${mhaLabel} MHA rates include: E-5 with dependents ${formatCurrency(ratesW['E-5'] ?? 0)}/month, E-6 with dependents ${formatCurrency(ratesW['E-6'] ?? 0)}/month, E-7 with dependents ${formatCurrency(ratesW['E-7'] ?? 0)}/month, and O-3 with dependents ${formatCurrency(ratesW['O-3'] ?? 0)}/month. E-5 without dependents is ${formatCurrency(ratesWO['E-5'] ?? 0)}/month. BAH is excluded from federal taxable income.${e5YoYClause}`,
         },
         {
           question: `Is BAH at ${station.name} taxable income?`,
@@ -122,6 +138,11 @@ export default async function StationPage({
         station={station}
         ratesW={ratesW ?? {}}
         ratesWO={ratesWO ?? {}}
+        ratesWPrev={ratesWPrev ?? {}}
+        ratesWOPrev={ratesWOPrev ?? {}}
+        currentYear={CURRENT_BAH_YEAR}
+        priorYear={PRIOR_BAH_YEAR}
+        e5YoYClause={e5YoYClause}
         locationName={locationName ?? station.city}
         taxInfo={taxInfo}
         colaArea={colaArea}

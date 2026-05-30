@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { formatCurrency } from '@/lib/utils';
+import { YoYDelta } from '@/components/calculators/bah/YoYDelta';
 import {
   RANK_DISPLAY,
   ENLISTED_GRADES,
@@ -15,6 +16,10 @@ interface Props {
   ratesWO: Record<string, number>;
   selectedGrade?: string;
   selectedHasDependents?: boolean;
+  ratesWPrev?: Record<string, number>;
+  ratesWOPrev?: Record<string, number>;
+  currentYear?: string;
+  priorYear?: string;
 }
 
 const fmt = (n: number) => formatCurrency(n);
@@ -28,8 +33,10 @@ const ALL_GRADES_ORDERED: string[] = [
   ...OFFICER_GRADES,
 ];
 
-export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGrade, selectedHasDependents }: Props) {
+export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGrade, selectedHasDependents, ratesWPrev, ratesWOPrev, currentYear = '2026', priorYear = '2025' }: Props) {
   const [open, setOpen] = useState(false);
+  const hasPrevW = !!ratesWPrev && Object.keys(ratesWPrev).length > 0;
+  const hasPrevWO = !!ratesWOPrev && Object.keys(ratesWOPrev).length > 0;
 
   // Available grades at this station in canonical order
   const availableOrdered = ALL_GRADES_ORDERED.filter(
@@ -64,12 +71,18 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGr
     const isSelected = selectedGrade === grade;
     return (
       <tr key={grade} className={`hover:bg-zinc-50 transition-colors ${isSelected ? 'bg-red-50' : ''}`}>
-        <td className="px-4 py-2.5 text-zinc-700 font-medium">{RANK_DISPLAY[grade as keyof typeof RANK_DISPLAY]}</td>
-        <td className={`px-4 py-2.5 text-right tabular-nums text-zinc-900 font-semibold ${isSelected && selectedHasDependents === true ? 'font-bold' : ''}`}>
-          {w !== undefined ? fmt(w) : '—'}
+        <td className="px-4 py-2.5 text-zinc-700 font-medium align-top">{RANK_DISPLAY[grade as keyof typeof RANK_DISPLAY]}</td>
+        <td className={`px-4 py-2.5 text-right tabular-nums align-top ${isSelected && selectedHasDependents === true ? 'font-bold' : ''}`}>
+          <span className="block text-zinc-900 font-semibold">{w !== undefined ? fmt(w) : '—'}</span>
+          {w !== undefined && hasPrevW && (
+            <YoYDelta curr={w} prev={ratesWPrev![grade]} currentYear={currentYear} priorYear={priorYear} compact className="block text-[11px] font-normal mt-0.5" />
+          )}
         </td>
-        <td className={`px-4 py-2.5 text-right tabular-nums text-zinc-600 ${isSelected && selectedHasDependents === false ? 'font-bold' : ''}`}>
-          {wo !== undefined ? fmt(wo) : '—'}
+        <td className={`px-4 py-2.5 text-right tabular-nums align-top ${isSelected && selectedHasDependents === false ? 'font-bold' : ''}`}>
+          <span className="block text-zinc-600">{wo !== undefined ? fmt(wo) : '—'}</span>
+          {wo !== undefined && hasPrevWO && (
+            <YoYDelta curr={wo} prev={ratesWOPrev![grade]} currentYear={currentYear} priorYear={priorYear} compact className="block text-[11px] font-normal mt-0.5" />
+          )}
         </td>
       </tr>
     );
@@ -158,6 +171,9 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGr
           <div className="px-4 py-3 border-t border-zinc-100 bg-zinc-50">
             <p className="text-xs text-zinc-400">
               O-8, O-9, and O-10 receive the same BAH as O-7. Rates effective January 1, 2026.
+              {(hasPrevW || hasPrevWO) && (
+                <> Year-over-year change reflects published BAH table rates. Individual rate protection means your personal rate may differ if you&apos;ve maintained eligibility at this location.</>
+              )}
             </p>
           </div>
         </div>

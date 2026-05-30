@@ -87,3 +87,35 @@ test.describe('BAH Station Page — Fort Hood (upgraded, rich data)', () => {
     await expect(page.getByText('Check your rate')).toBeVisible();
   });
 });
+
+test.describe('BAH Station Page — Year-over-year deltas', () => {
+  // Fort Bragg (MHA NC182) E-5 with dependents: 2025 $1,785 → 2026 $1,806 = +$21 (1.2%).
+  // Values are stable for the FY2026 dataset; they update with the annual data refresh.
+  test('selector card shows the E-5 w/dep YoY increase with correct sign + value', async ({ page }) => {
+    await page.goto(FORT_BRAGG); // ?rank=E-5&dep=yes
+    await expect(page.getByText('Year over year:', { exact: false })).toBeVisible();
+    await expect(page.getByText(/\+\$21 \(1\.2%\)/).first()).toBeVisible();
+    await expect(page.getByText(/vs 2025/).first()).toBeVisible();
+  });
+
+  test('direct-answer FAQ states the YoY change for E-5 with dependents', async ({ page }) => {
+    await page.goto(FORT_BRAGG);
+    await expect(page.getByText(/up 1\.2% from 2025/i).first()).toBeVisible();
+    await expect(page.getByText(/\$1,785/).first()).toBeVisible();
+  });
+
+  test('no "NaN" or "undefined" leaks into the rendered page (null-safety)', async ({ page }) => {
+    await page.goto(FORT_BRAGG);
+    const body = await page.locator('main').innerText();
+    expect(body).not.toContain('NaN');
+    expect(body).not.toMatch(/\$undefined|undefined%|undefined\/mo/);
+  });
+
+  test('OCONUS station (no BAH) renders no YoY indicator and stays clean', async ({ page }) => {
+    await page.goto('/bah/yokota-air-base');
+    await expect(page.getByText('Year over year:', { exact: false })).not.toBeAttached();
+    const body = await page.locator('main').innerText();
+    expect(body).not.toContain('NaN');
+    expect(body).not.toContain('New for 2026'); // no false "new" label when there are simply no rates
+  });
+});
