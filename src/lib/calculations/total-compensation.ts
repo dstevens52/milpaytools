@@ -8,31 +8,17 @@
  */
 
 import type { TotalCompensationInput, TotalCompensationOutput } from '@/types/calculator';
-import { payTable } from '@/data/pay-tables/2026';
 import { BAS_RATES, BRS_AUTOMATIC_CONTRIBUTION_PCT, SGLI_MAX_COVERAGE, SGLI_PREMIUM_PER_1000, SGLI_TSGLI_PREMIUM } from '@/data/constants';
 import { lookupBAH } from '@/lib/calculations/bah';
-import { getYOSBracket, estimateTaxAdvantage } from '@/lib/utils';
+import { lookupBasePay } from '@/lib/calculations/basePay';
+import { estimateTaxAdvantage } from '@/lib/utils';
 import { HEALTHCARE_2026 } from '@/data/healthcare/2026/constants';
 import { ENLISTED_GRADES } from '@/types/military';
 
-/**
- * Look up monthly basic pay for a grade + YOS combination.
- * Returns 0 if data is missing.
- */
-export function lookupBasePay(payGrade: string, yearsOfService: number): number {
-  const gradeTable = payTable[payGrade as keyof typeof payTable];
-  if (!gradeTable) return 0;
-
-  const yosBracket = getYOSBracket(yearsOfService);
-  // Walk down from the actual bracket to find the nearest available entry
-  const breakpoints = [40, 38, 36, 34, 32, 30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 6, 4, 3, 2, 0];
-  for (const bp of breakpoints) {
-    if (bp <= yosBracket && gradeTable[bp as keyof typeof gradeTable] !== undefined) {
-      return gradeTable[bp as keyof typeof gradeTable] as number;
-    }
-  }
-  return (gradeTable[0] as number) ?? 0;
-}
+// Re-exported so existing callers `import { lookupBasePay } from '.../total-compensation'`
+// keep working unchanged. The implementation now lives in ./basePay (pay-table only,
+// no BAH dataset) — see that module for why.
+export { lookupBasePay };
 
 /**
  * Calculate BRS TSP agency match (annual).

@@ -18,7 +18,7 @@ import type { RetirementInput, RetirementOutput } from '@/types/calculator';
 import { payTable } from '@/data/pay-tables/2026';
 import { vaRates } from '@/data/va-rates/2026';
 import { LEGACY_RETIREMENT_MULTIPLIER, BRS_RETIREMENT_MULTIPLIER } from '@/data/constants';
-import { lookupBasePay } from '@/lib/calculations/total-compensation';
+import { lookupBasePay } from '@/lib/calculations/basePay';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 

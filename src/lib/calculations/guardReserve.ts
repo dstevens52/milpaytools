@@ -3,7 +3,7 @@
  * All pure functions: no React, no side effects, independently testable.
  */
 
-import { lookupBasePay } from '@/lib/calculations/total-compensation';
+import { lookupBasePay } from '@/lib/calculations/basePay';
 import { TRICARE_RATES_2026 } from '@/data/tricare/2026/constants';
 
 export type TRSPlan = 'none' | 'member' | 'family';
