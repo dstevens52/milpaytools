@@ -9,6 +9,7 @@ const CALC_HUB_IMAGE = '/api/og?type=calculator&title=Military+Financial+Calcula
 export const metadata: Metadata = {
   title: { absolute: CALC_HUB_TITLE },
   description: CALC_HUB_DESC,
+  alternates: { canonical: 'https://www.milpaytools.com/calculators' },
   openGraph: {
     title: CALC_HUB_TITLE,
     description: CALC_HUB_DESC,

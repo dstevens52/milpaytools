@@ -7,6 +7,22 @@ export const metadata: Metadata = {
   description:
     'MilPayTools was built to make military pay and benefits actually understandable. Free calculators, official data, no account required.',
   alternates: { canonical: 'https://www.milpaytools.com/about' },
+  openGraph: {
+    title: 'Why We Built This | MilPayTools',
+    description:
+      'MilPayTools was built to make military pay and benefits actually understandable. Free calculators, official data, no account required.',
+    type: 'website',
+    url: 'https://www.milpaytools.com/about',
+    siteName: 'MilPayTools',
+    images: [{ url: '/api/og?type=home&title=Why+We+Built+This&v=2', width: 2400, height: 1260 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Why We Built This | MilPayTools',
+    description:
+      'MilPayTools was built to make military pay and benefits actually understandable. Free calculators, official data, no account required.',
+    images: ['/api/og?type=home&title=Why+We+Built+This&v=2'],
+  },
 };
 
 export default function AboutPage() {

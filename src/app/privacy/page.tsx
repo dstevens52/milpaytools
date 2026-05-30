@@ -6,6 +6,13 @@ export const metadata: Metadata = {
   description: 'Privacy Policy for MilPayTools.com, operated by DPS Digital LLC. How we collect, use, and protect information when you use our military pay calculators.',
   alternates: { canonical: 'https://www.milpaytools.com/privacy' },
   robots: { index: true, follow: true },
+  openGraph: {
+    title: 'Privacy Policy | MilPayTools',
+    description: 'Privacy Policy for MilPayTools.com, operated by DPS Digital LLC. How we collect, use, and protect information when you use our military pay calculators.',
+    type: 'website',
+    url: 'https://www.milpaytools.com/privacy',
+    siteName: 'MilPayTools',
+  },
 };
 
 export default function PrivacyPage() {

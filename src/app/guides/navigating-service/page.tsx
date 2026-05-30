@@ -8,6 +8,22 @@ export const metadata: Metadata = {
   description:
     'PCSing, deploying, or comparing duty stations? Compare BAH, estimate move costs, see combat zone tax savings, and make every assignment work for your finances. Free 2026 tools.',
   alternates: { canonical: 'https://www.milpaytools.com/guides/navigating-service' },
+  openGraph: {
+    title: 'Navigating Service: PCS, Deployment & Duty Station Financial Tools',
+    description:
+      'PCSing, deploying, or comparing duty stations? Compare BAH, estimate move costs, see combat zone tax savings, and make every assignment work for your finances. Free 2026 tools.',
+    type: 'website',
+    url: 'https://www.milpaytools.com/guides/navigating-service',
+    siteName: 'MilPayTools',
+    images: [{ url: '/api/og?type=guide&title=Navigating+Service%3A+PCS+%26+Duty+Station&v=2', width: 2400, height: 1260 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Navigating Service: PCS, Deployment & Duty Station Financial Tools',
+    description:
+      'PCSing, deploying, or comparing duty stations? Compare BAH, estimate move costs, see combat zone tax savings, and make every assignment work for your finances. Free 2026 tools.',
+    images: ['/api/og?type=guide&title=Navigating+Service%3A+PCS+%26+Duty+Station&v=2'],
+  },
 };
 
 // PCS comparison example — E-6 w/dep Fort Campbell → JBLM (hardcoded)

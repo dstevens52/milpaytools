@@ -111,6 +111,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 1.0,
     },
+    // NOTE: calculator list is hand-maintained — update this when adding new calculators.
+    {
+      url: `${BASE_URL}/calculators/deployment`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 1.0,
+    },
+    {
+      url: `${BASE_URL}/calculators/pay-charts`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 1.0,
+    },
+    {
+      url: `${BASE_URL}/calculators/va-refinance`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 1.0,
+    },
+    {
+      url: `${BASE_URL}/transition`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/about`,
+      lastModified: now,
+      changeFrequency: 'yearly',
+      priority: 0.5,
+    },
     {
       url: `${BASE_URL}/resources`,
       lastModified: now,

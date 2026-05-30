@@ -6,6 +6,13 @@ export const metadata: Metadata = {
   description: 'Terms of Service for MilPayTools.com, operated by DPS Digital LLC. Educational military pay calculators and financial information.',
   alternates: { canonical: 'https://www.milpaytools.com/terms' },
   robots: { index: true, follow: true },
+  openGraph: {
+    title: 'Terms of Service | MilPayTools',
+    description: 'Terms of Service for MilPayTools.com, operated by DPS Digital LLC. Educational military pay calculators and financial information.',
+    type: 'website',
+    url: 'https://www.milpaytools.com/terms',
+    siteName: 'MilPayTools',
+  },
 };
 
 export default function TermsPage() {

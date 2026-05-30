@@ -4,7 +4,7 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { DualMilitaryBAHCalculator } from '@/components/calculators/dual-military-bah/DualMilitaryBAHCalculator';
 import { GuidePromo } from '@/components/calculators/shared/GuidePromo';
 import { JsonLdScript } from '@/components/JsonLdScript';
-import { webApplicationSchema } from '@/lib/schema';
+import { webApplicationSchema, faqPageSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: { absolute: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH' },
@@ -35,6 +35,20 @@ export default function DualMilitaryBAHPage() {
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Dual Military BAH Calculator 2026', description: 'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.', url: '/calculators/dual-military-bah' })} />
+      <JsonLdScript schema={faqPageSchema([
+        {
+          question: 'Can we both get BAH if we live together in the same house?',
+          answer: 'Yes. Both members receive their full BAH entitlement regardless of shared housing. The military does not reduce BAH because a couple lives together. This is one of the most significant financial advantages of dual military status.',
+        },
+        {
+          question: 'What if we are at the same installation but different ZIP codes?',
+          answer: 'BAH is determined by your duty station\'s Military Housing Area (MHA), not your residential ZIP code. Multiple ZIP codes often map to the same MHA. As long as both members are in the same MHA, they receive the same base rate (adjusted for grade and dependency status). Use any ZIP code associated with your installation.',
+        },
+        {
+          question: 'We just had a child. Do we need to update our BAH?',
+          answer: 'Yes — enroll your child in DEERS, then update your dependency status with your unit\'s finance office. The member claiming dependents will have their BAH adjusted to the with-dependents rate effective the date of enrollment. BAH is not retroactively adjusted more than a limited period, so act promptly.',
+        },
+      ])} />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="border-b border-zinc-200"

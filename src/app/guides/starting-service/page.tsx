@@ -10,6 +10,22 @@ export const metadata: Metadata = {
   description:
     'New to the military? Understand your base pay, BAH, BAS, and TSP match — and make smart money decisions from day one.',
   alternates: { canonical: 'https://www.milpaytools.com/guides/starting-service' },
+  openGraph: {
+    title: 'Starting Military Service: Understand Your Pay & Benefits',
+    description:
+      'New to the military? Understand your base pay, BAH, BAS, and TSP match — and make smart money decisions from day one.',
+    type: 'website',
+    url: 'https://www.milpaytools.com/guides/starting-service',
+    siteName: 'MilPayTools',
+    images: [{ url: '/api/og?type=guide&title=Starting+Military+Service&v=2', width: 2400, height: 1260 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Starting Military Service: Understand Your Pay & Benefits',
+    description:
+      'New to the military? Understand your base pay, BAH, BAS, and TSP match — and make smart money decisions from day one.',
+    images: ['/api/og?type=guide&title=Starting+Military+Service&v=2'],
+  },
 };
 
 // Example scenario: E-3, 2 years, no dependents, Fort Bragg (ZIP 28310)
