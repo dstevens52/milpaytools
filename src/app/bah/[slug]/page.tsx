@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { DUTY_STATIONS, STATION_BY_SLUG } from '@/data/duty-stations/stations';
 import { getMHACode, getMHARates, getMHARatesForYear, getLocationName, getNationalAverages, CURRENT_BAH_YEAR, PRIOR_BAH_YEAR } from '@/lib/calculations/bah';
-import { mhaPercentile, yoyForGrade, siblingInstallations, nearbyDeltas } from '@/lib/calculations/bahStats';
+import { mhaPercentile, yoyForGrade, siblingInstallations, nearbyDeltas, hasRateDecrease, nationalIncreaseComparison } from '@/lib/calculations/bahStats';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema, breadcrumbListSchema } from '@/lib/schema';
 import { formatCurrency } from '@/lib/utils';
@@ -95,6 +95,8 @@ export default async function StationPage({
   const e5Pctile = mhaCode ? mhaPercentile(mhaCode, 'E-5', true) : null;
   const e5YoY = mhaCode ? yoyForGrade(mhaCode, 'E-5', true) : null;
   const siblings = mhaCode ? siblingInstallations(mhaCode, station.slug) : [];
+  // True if any displayed pay grade decreased 2025→2026 at this MHA.
+  const hasDecrease = mhaCode ? hasRateDecrease(mhaCode) : false;
 
   const pageUrl = `/bah/${station.slug}`;
   const schema = articleSchema({
@@ -121,13 +123,24 @@ export default async function StationPage({
     ? `That ranks the ${mhaLabel} MHA ${ordinal(e5Pctile.rankFromTop)}-highest of the ${e5Pctile.total} military housing areas tracked nationwide (top ${e5Pctile.topPercent}%) for the E-5 with-dependents rate.`
     : '';
 
-  const yoySummary = e5YoY
-    ? `For 2026, the E-5 with-dependents rate at ${station.name} ${
-        e5YoY.abs === 0
-          ? `is unchanged from ${PRIOR_BAH_YEAR}'s ${formatCurrency(e5YoY.prior)}/month`
-          : `${e5YoY.abs > 0 ? 'rose' : 'fell'} ${formatCurrency(Math.abs(e5YoY.abs))} (${e5YoY.abs > 0 ? '+' : '−'}${Math.abs(e5YoY.pct).toFixed(1)}%) from ${PRIOR_BAH_YEAR}'s ${formatCurrency(e5YoY.prior)}/month`
-      }.`
-    : '';
+  // YoY summary: monthly change + annualized impact (+ tax framing on a gain),
+  // then this base's % change vs the official DTMO national-average increase.
+  const e5YoYComparison = e5YoY ? nationalIncreaseComparison(e5YoY.pct, CURRENT_BAH_YEAR) : null;
+  let yoySummary = '';
+  if (e5YoY) {
+    const annual = formatCurrency(Math.abs(e5YoY.abs) * 12);
+    const prior = formatCurrency(e5YoY.prior);
+    if (e5YoY.abs === 0) {
+      yoySummary = `For 2026, the E-5 with-dependents rate at ${station.name} is unchanged from ${PRIOR_BAH_YEAR}'s ${prior}/month.`;
+    } else if (e5YoY.abs > 0) {
+      yoySummary = `For 2026, the E-5 with-dependents rate at ${station.name} rose ${formatCurrency(e5YoY.abs)} (+${e5YoY.pct.toFixed(1)}%) from ${PRIOR_BAH_YEAR}'s ${prior}/month — about ${annual} more over the year, excluded from federal taxable income.`;
+    } else {
+      yoySummary = `For 2026, the E-5 with-dependents rate at ${station.name} fell ${formatCurrency(Math.abs(e5YoY.abs))} (−${Math.abs(e5YoY.pct).toFixed(1)}%) from ${PRIOR_BAH_YEAR}'s ${prior}/month — about ${annual} less over the year.`;
+    }
+    if (e5YoYComparison) {
+      yoySummary += ` That's ${e5YoYComparison.relation} the national average BAH increase of ${e5YoYComparison.nationalPct}% for ${CURRENT_BAH_YEAR}.`;
+    }
+  }
 
   const buyAnswer = station.bahVsHousing
     ? `Local median home prices run approximately ${formatCurrency(station.bahVsHousing.medianHomePrice)}, with estimated monthly mortgage payments (PITI) of ${formatCurrency(station.bahVsHousing.mortgageMin)}–${formatCurrency(station.bahVsHousing.mortgageMax)}. An E-6 with dependents receives ${formatCurrency(ratesW?.['E-6'] ?? 0)}/month in BAH and an E-5 with dependents ${formatCurrency(ratesW?.['E-5'] ?? 0)}/month. Whether BAH covers a mortgage depends on home prices, rates, and pay grade.`
@@ -143,7 +156,7 @@ export default async function StationPage({
               ? `${n.name} is the same`
               : `${n.name} is ${formatCurrency(Math.abs(n.e5Delta!))}/month ${n.e5Delta! > 0 ? 'higher' : 'lower'}`,
           ),
-        )} than ${station.name}'s ${formatCurrency(e5W)}/month.`
+        )} — compared with ${station.name}'s ${formatCurrency(e5W)}/month.`
       : '';
 
   // ── Unified FAQ: single source for both the visible list and FAQPage schema ──
@@ -221,6 +234,7 @@ export default async function StationPage({
         medianSentence={medianSentence}
         percentileSentence={percentileSentence}
         yoySummary={yoySummary}
+        hasDecrease={hasDecrease}
         siblings={siblings}
         faqs={faqs}
       />

@@ -54,6 +54,7 @@ export interface StationPageClientProps {
   medianSentence?: string;
   percentileSentence?: string;
   yoySummary?: string;
+  hasDecrease?: boolean;
   siblings?: SiblingInstallation[];
   faqs?: { question: string; answer: string }[];
 }
@@ -433,6 +434,7 @@ export function StationPageClient({
   medianSentence = '',
   percentileSentence = '',
   yoySummary = '',
+  hasDecrease = false,
   siblings = [],
   faqs = [],
 }: StationPageClientProps) {
@@ -876,12 +878,30 @@ export function StationPageClient({
           {/* Year-over-year summary */}
           {hasRates && yoySummary && (
             <p className="text-sm text-zinc-500 leading-relaxed px-1">
-              {yoySummary}{' '}
-              <span className="text-zinc-400">
-                Year-over-year change reflects published table rates; individual rate protection may keep
-                your personal rate higher.
-              </span>
+              {yoySummary}
+              {!hasDecrease && (
+                <>
+                  {' '}
+                  <span className="text-zinc-400">
+                    Year-over-year change reflects published table rates; individual rate protection may
+                    keep your personal rate higher.
+                  </span>
+                </>
+              )}
             </p>
+          )}
+
+          {/* Rate-protection context — only where one or more grades decreased.
+              Supersedes the generic rate-protection footnote on those pages. */}
+          {hasRates && hasDecrease && (
+            <div className="rounded-lg bg-amber-50 border border-amber-100 p-4">
+              <p className="text-sm text-zinc-700 leading-relaxed">
+                Some pay grades at {station.name} decreased for 2026 compared with 2025. Under individual
+                rate protection, service members who have remained at this duty station with the same pay
+                grade and dependency status keep their higher prior-year rate. The lower 2026 rate applies
+                to members who arrive at this location or whose dependency status changes in 2026.
+              </p>
+            </div>
           )}
 
           {/* BAH Rate Table — collapsible */}
@@ -894,6 +914,7 @@ export function StationPageClient({
               ratesWOPrev={ratesWOPrev}
               currentYear={currentYear}
               priorYear={priorYear}
+              hasDecrease={hasDecrease}
               selectedGrade={selectedGrade}
               selectedHasDependents={hasDependents}
             />

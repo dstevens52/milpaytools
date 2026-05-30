@@ -20,6 +20,8 @@ interface Props {
   ratesWOPrev?: Record<string, number>;
   currentYear?: string;
   priorYear?: string;
+  /** When true, a dedicated decrease block above supersedes the generic note. */
+  hasDecrease?: boolean;
 }
 
 const fmt = (n: number) => formatCurrency(n);
@@ -33,7 +35,7 @@ const ALL_GRADES_ORDERED: string[] = [
   ...OFFICER_GRADES,
 ];
 
-export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGrade, selectedHasDependents, ratesWPrev, ratesWOPrev, currentYear = '2026', priorYear = '2025' }: Props) {
+export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGrade, selectedHasDependents, ratesWPrev, ratesWOPrev, currentYear = '2026', priorYear = '2025', hasDecrease = false }: Props) {
   const [open, setOpen] = useState(false);
   const hasPrevW = !!ratesWPrev && Object.keys(ratesWPrev).length > 0;
   const hasPrevWO = !!ratesWOPrev && Object.keys(ratesWOPrev).length > 0;
@@ -171,7 +173,7 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGr
           <div className="px-4 py-3 border-t border-zinc-100 bg-zinc-50">
             <p className="text-xs text-zinc-400">
               O-8, O-9, and O-10 receive the same BAH as O-7. Rates effective January 1, 2026.
-              {(hasPrevW || hasPrevWO) && (
+              {(hasPrevW || hasPrevWO) && !hasDecrease && (
                 <> Year-over-year change reflects published BAH table rates. Individual rate protection means your personal rate may differ if you&apos;ve maintained eligibility at this location.</>
               )}
             </p>

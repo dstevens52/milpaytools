@@ -174,3 +174,25 @@ test.describe('BAH Station Page — Phase 1 universal enrichment (DoD-data-only)
     await expect(page.getByText('vs. national median').first()).toBeVisible();
   });
 });
+
+test.describe('BAH Station Page — Phase 1.5 YoY framing', () => {
+  test('increase page: annualized + tax framing + above national average, no decrease block (Norfolk)', async ({ page }) => {
+    await page.goto('/bah/naval-station-norfolk');
+    await expect(page.getByText(/\$1,260 more over the year, excluded from federal taxable income/).first()).toBeVisible();
+    await expect(page.getByText(/above the national average BAH increase of 4\.2%/).first()).toBeVisible();
+    await expect(page.getByText(/Some pay grades at Naval Station Norfolk decreased/)).toHaveCount(0);
+  });
+
+  test('decrease page: decrease block + "less over the year" (no tax framing) + below national average (San Antonio)', async ({ page }) => {
+    await page.goto('/bah/joint-base-san-antonio');
+    await expect(page.getByText(/\$792 less over the year\./).first()).toBeVisible();
+    await expect(page.getByText(/Some pay grades at Joint Base San Antonio decreased for 2026 compared with 2025/).first()).toBeVisible();
+    await expect(page.getByText(/below the national average BAH increase of 4\.2%/).first()).toBeVisible();
+  });
+
+  test('mixed page: E-5 rose with tax framing AND a decrease block (Fort Bragg)', async ({ page }) => {
+    await page.goto('/bah/fort-bragg');
+    await expect(page.getByText(/\$252 more over the year, excluded from federal taxable income/).first()).toBeVisible();
+    await expect(page.getByText(/Some pay grades at Fort Bragg decreased for 2026/).first()).toBeVisible();
+  });
+});

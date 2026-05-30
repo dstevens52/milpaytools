@@ -104,3 +104,58 @@ test.describe('bahStats — nearbyDeltas', () => {
     expect(nearbyDeltas('not-a-real-station')).toEqual([]);
   });
 });
+
+// ─── Phase 1.5: YoY framing additions ───────────────────────────────────────
+import {
+  hasRateDecrease,
+  nationalIncreaseComparison,
+  NATIONAL_AVG_BAH_INCREASE,
+} from '../../src/lib/calculations/bahStats';
+
+const TX285 = getMHACode(STATION_BY_SLUG['joint-base-san-antonio'].zip)!; // E-5 w/dep fell
+
+test.describe('bahStats — hasRateDecrease', () => {
+  test('true where a grade fell (Fort Bragg NC182, San Antonio TX285)', () => {
+    expect(hasRateDecrease(NC182)).toBe(true);
+    expect(hasRateDecrease(TX285)).toBe(true);
+  });
+  test('false for a clean-increase MHA (Norfolk VA298)', () => {
+    expect(hasRateDecrease(VA298)).toBe(false);
+  });
+  test('graceful: unknown MHA and prior year → false', () => {
+    expect(hasRateDecrease('ZZ999')).toBe(false);
+    expect(hasRateDecrease(NC182, '2025')).toBe(false);
+  });
+});
+
+test.describe('bahStats — annualized YoY impact (abs × 12)', () => {
+  test('Fort Bragg E-5 w/dep increase → $252/yr', () => {
+    const y = yoyForGrade(NC182, 'E-5', true)!;
+    expect(Math.abs(y.abs) * 12).toBe(252); // +$21/mo
+  });
+  test('San Antonio E-5 w/dep decrease → $792/yr', () => {
+    const y = yoyForGrade(TX285, 'E-5', true)!;
+    expect(y.abs).toBeLessThan(0); // it fell
+    expect(Math.abs(y.abs) * 12).toBe(792); // −$66/mo
+  });
+});
+
+test.describe('bahStats — nationalIncreaseComparison (official 4.2% for 2026)', () => {
+  test('constant is the official DTMO figure', () => {
+    expect(NATIONAL_AVG_BAH_INCREASE['2026']).toBe(4.2);
+  });
+  test('above / below / in-line with ±0.3 tolerance', () => {
+    expect(nationalIncreaseComparison(4.516)!.relation).toBe('above'); // Norfolk
+    expect(nationalIncreaseComparison(1.176)!.relation).toBe('below'); // Fort Bragg
+    expect(nationalIncreaseComparison(-3.41)!.relation).toBe('below'); // a decrease
+    expect(nationalIncreaseComparison(4.3)!.relation).toBe('in line with'); // diff 0.1
+    expect(nationalIncreaseComparison(4.5)!.relation).toBe('in line with'); // diff exactly 0.3
+    expect(nationalIncreaseComparison(4.51)!.relation).toBe('above'); // diff 0.31
+    expect(nationalIncreaseComparison(3.9)!.relation).toBe('in line with'); // diff −0.3
+    expect(nationalIncreaseComparison(3.89)!.relation).toBe('below'); // diff −0.31
+  });
+  test('returns the national pct + null for years without a figure', () => {
+    expect(nationalIncreaseComparison(5, '2026')!.nationalPct).toBe(4.2);
+    expect(nationalIncreaseComparison(5, '2099')).toBeNull();
+  });
+});

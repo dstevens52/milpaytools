@@ -18,6 +18,62 @@ import {
   type BahYear,
 } from '@/lib/calculations/bah';
 
+/**
+ * Official DTMO national-average BAH increase, by year. This is the
+ * authoritative, recognizable figure DTMO publishes with each annual release —
+ * NOT a computed median change (which would not match it). Update annually.
+ * Source: DTMO 2026 BAH release.
+ */
+export const NATIONAL_AVG_BAH_INCREASE: Record<string, number> = {
+  '2026': 4.2,
+};
+
+/** Treat a base's % change within this band of the national figure as "in line". */
+const NATIONAL_INCREASE_TOLERANCE = 0.3;
+
+export type IncreaseRelation = 'above' | 'below' | 'in line with';
+
+/**
+ * Compare a base's percent change to the official national-average increase for
+ * the year. Returns null when there's no published national figure for the year.
+ */
+export function nationalIncreaseComparison(
+  pct: number,
+  year: string = CURRENT_BAH_YEAR,
+): { nationalPct: number; relation: IncreaseRelation } | null {
+  const nationalPct = NATIONAL_AVG_BAH_INCREASE[year];
+  if (nationalPct === undefined) return null;
+  const diff = pct - nationalPct;
+  // "Within ±0.3 pts" is inclusive; the epsilon keeps the boundary FP-safe.
+  const relation: IncreaseRelation =
+    Math.abs(diff) <= NATIONAL_INCREASE_TOLERANCE + 1e-9
+      ? 'in line with'
+      : diff > 0
+        ? 'above'
+        : 'below';
+  return { nationalPct, relation };
+}
+
+/**
+ * True if any pay grade (with OR without dependents) decreased from the prior
+ * year to `year` at this MHA. Returns false when prior-year data is missing.
+ */
+export function hasRateDecrease(mhaCode: string, year: BahYear = CURRENT_BAH_YEAR): boolean {
+  // Only the current year has a defined prior year in the registry.
+  if (year !== CURRENT_BAH_YEAR) return false;
+  const priorYear = PRIOR_BAH_YEAR;
+  for (const hasDependents of [true, false]) {
+    const current = getMHARatesForYear(mhaCode, hasDependents, year);
+    const prior = getMHARatesForYear(mhaCode, hasDependents, priorYear);
+    if (!current || !prior) continue;
+    for (const grade of Object.keys(current)) {
+      const p = prior[grade];
+      if (p !== undefined && current[grade] < p) return true;
+    }
+  }
+  return false;
+}
+
 /** True median (not mean) of a numeric list. Rounds the even-length midpoint. */
 function median(values: number[]): number {
   if (values.length === 0) return 0;
