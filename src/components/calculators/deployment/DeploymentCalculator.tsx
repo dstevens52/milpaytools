@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { calculateDeployment } from '@/lib/calculations/deployment';
+import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { DEPLOYMENT_RATES_2026 } from '@/data/deployment/2026/constants';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
@@ -268,13 +269,21 @@ export function DeploymentCalculator() {
   const zipDigits = zip.replace(/\D/g, '').slice(0, 5);
   const isValidZip = zipDigits.length === 5;
 
+  // BAH resolved via the cached route.
+  const { data: bahData, loading: bahLoading } = useBahLookup(zipDigits);
+  const bahRate = rateFor(bahData, payGrade, hasDependents);
+  const monthlyBAH = bahRate ?? 0;
+  const bahFound = bahRate !== null;
+
   const result = useMemo(() => {
-    if (!isValidZip) return null;
+    if (!isValidZip || !bahData) return null;
     return calculateDeployment({
       payGrade,
       yearsOfService: yos,
       hasDependents,
       zipCode: zipDigits,
+      monthlyBAH,
+      bahFound,
       deploymentMonths: deployMonths,
       isCombatZone,
       receivingHFP,
@@ -284,7 +293,7 @@ export function DeploymentCalculator() {
       usingSDP,
       sdpDeposit,
     });
-  }, [payGrade, yos, hasDependents, zipDigits, isValidZip, deployMonths, isCombatZone, receivingHFP, hdpLevel, hasFSA, tspPct, usingSDP, sdpDeposit]);
+  }, [payGrade, yos, hasDependents, zipDigits, isValidZip, bahData, monthlyBAH, bahFound, deployMonths, isCombatZone, receivingHFP, hdpLevel, hasFSA, tspPct, usingSDP, sdpDeposit]);
 
   const actionSteps = useMemo(() => {
     if (!result) return [];
@@ -538,6 +547,11 @@ export function DeploymentCalculator() {
       {!isValidZip && (
         <p className="text-sm text-zinc-500 text-center py-4">
           Enter a 5-digit home station ZIP code to calculate deployment pay.
+        </p>
+      )}
+      {isValidZip && bahLoading && !result && (
+        <p className="text-sm text-zinc-400 text-center py-4 animate-pulse">
+          Looking up BAH for ZIP {zipDigits}…
         </p>
       )}
 

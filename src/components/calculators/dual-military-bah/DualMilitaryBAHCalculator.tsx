@@ -8,9 +8,8 @@ import { Select } from '@/components/ui/Select';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
-import { lookupBAH, getMHACode } from '@/lib/calculations/bah';
+import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
-import { DUTY_STATIONS } from '@/data/duty-stations/stations';
 import {
   ENLISTED_GRADES,
   WARRANT_GRADES,
@@ -21,14 +20,7 @@ import {
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 
-const MHA_TO_STATION = new Map(
-  DUTY_STATIONS
-    .filter((s) => !s.oconus)
-    .flatMap((s) => {
-      const mha = getMHACode(s.zip);
-      return mha ? [[mha, s] as [string, typeof DUTY_STATIONS[0]]] : [];
-    })
-);
+const DATA_YEAR = '2026';
 
 const GRADE_GROUPS = [
   {
@@ -143,23 +135,28 @@ export function DualMilitaryBAHCalculator() {
 
   const zip2Effective = sameStation ? zip1 : zip2;
 
+  // Both members' BAH resolved server-side via the cached route.
+  const { data: data1 } = useBahLookup(zip1);
+  const { data: data2 } = useBahLookup(zip2Effective);
+
   const results = useMemo((): Results | null => {
     if (zip1.length !== 5 || zip2Effective.length !== 5) return null;
+    if (!data1 || !data2) return null; // resolving
 
     if (!hasDependents) {
       // No dependents — both members always receive the without-dependents rate.
       // No claiming decision exists, no comparison needed.
-      const r1 = lookupBAH({ zipCode: zip1, payGrade: grade1, hasDependents: false });
-      const r2 = lookupBAH({ zipCode: zip2Effective, payGrade: grade2, hasDependents: false });
-      if (!r1 || !r2) return null;
+      const r1 = rateFor(data1, grade1, false);
+      const r2 = rateFor(data2, grade2, false);
+      if (r1 === null || r2 === null) return null;
       return {
         hasDependents: false,
-        m1: r1.monthlyRate,
-        m2: r2.monthlyRate,
-        total: r1.monthlyRate + r2.monthlyRate,
-        loc1: r1.locationName,
-        loc2: r2.locationName,
-        dataYear: r1.dataYear,
+        m1: r1,
+        m2: r2,
+        total: r1 + r2,
+        loc1: data1.locationName ?? zip1,
+        loc2: data2.locationName ?? zip2Effective,
+        dataYear: DATA_YEAR,
         scenarioA: null,
         scenarioB: null,
         optimal: null,
@@ -169,16 +166,16 @@ export function DualMilitaryBAHCalculator() {
 
     // With dependents — compute both scenarios.
     // Scenario A: member 1 claims (with-deps rate); member 2 does not (without-deps rate).
-    const r1A = lookupBAH({ zipCode: zip1, payGrade: grade1, hasDependents: true });
-    const r2A = lookupBAH({ zipCode: zip2Effective, payGrade: grade2, hasDependents: false });
+    const r1A = rateFor(data1, grade1, true);
+    const r2A = rateFor(data2, grade2, false);
     // Scenario B: member 2 claims (with-deps rate); member 1 does not (without-deps rate).
-    const r1B = lookupBAH({ zipCode: zip1, payGrade: grade1, hasDependents: false });
-    const r2B = lookupBAH({ zipCode: zip2Effective, payGrade: grade2, hasDependents: true });
+    const r1B = rateFor(data1, grade1, false);
+    const r2B = rateFor(data2, grade2, true);
 
-    if (!r1A || !r2A || !r1B || !r2B) return null;
+    if (r1A === null || r2A === null || r1B === null || r2B === null) return null;
 
-    const totalA = r1A.monthlyRate + r2A.monthlyRate;
-    const totalB = r1B.monthlyRate + r2B.monthlyRate;
+    const totalA = r1A + r2A;
+    const totalB = r1B + r2B;
 
     // Optimal configuration is only a financial recommendation for co-located couples.
     // When stationed separately, dependents must be assigned to the member they reside with —
@@ -200,23 +197,23 @@ export function DualMilitaryBAHCalculator() {
 
     const current =
       whoClaimsDeps === 'member1'
-        ? { m1: r1A.monthlyRate, m2: r2A.monthlyRate, total: totalA }
-        : { m1: r1B.monthlyRate, m2: r2B.monthlyRate, total: totalB };
+        ? { m1: r1A, m2: r2A, total: totalA }
+        : { m1: r1B, m2: r2B, total: totalB };
 
     return {
       hasDependents: true,
       m1: current.m1,
       m2: current.m2,
       total: current.total,
-      loc1: r1A.locationName,
-      loc2: r2A.locationName,
-      dataYear: r1A.dataYear,
-      scenarioA: { m1: r1A.monthlyRate, m2: r2A.monthlyRate, total: totalA },
-      scenarioB: { m1: r1B.monthlyRate, m2: r2B.monthlyRate, total: totalB },
+      loc1: data1.locationName ?? zip1,
+      loc2: data2.locationName ?? zip2Effective,
+      dataYear: DATA_YEAR,
+      scenarioA: { m1: r1A, m2: r2A, total: totalA },
+      scenarioB: { m1: r1B, m2: r2B, total: totalB },
       optimal,
       optimalGain,
     };
-  }, [grade1, grade2, zip1, zip2Effective, hasDependents, whoClaimsDeps, sameStation]);
+  }, [grade1, grade2, zip1, zip2Effective, hasDependents, whoClaimsDeps, sameStation, data1, data2]);
 
   const actionSteps = useMemo((): ActionStep[] => {
     if (!results) return [];
@@ -270,20 +267,16 @@ export function DualMilitaryBAHCalculator() {
     return steps;
   }, [results, whoClaimsDeps]);
 
-  const stationM1 = useMemo(() => {
-    const mha = getMHACode(zip1);
-    return mha ? (MHA_TO_STATION.get(mha) ?? null) : null;
-  }, [zip1]);
-
+  // Station-page links resolved server-side (no client zipToMha). data2 covers
+  // zip2 when the members are at different stations (zip2Effective === zip2 then).
+  const stationM1 = data1?.stationPages?.[0] ?? null;
   const stationM2 = useMemo(() => {
     if (sameStation) return null;
-    const mha = getMHACode(zip2);
-    if (!mha) return null;
-    const s = MHA_TO_STATION.get(mha) ?? null;
+    const s = data2?.stationPages?.[0] ?? null;
     // suppress duplicate if same MHA as M1
     if (s && stationM1 && s.slug === stationM1.slug) return null;
     return s;
-  }, [zip2, sameStation, stationM1]);
+  }, [data2, sameStation, stationM1]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {

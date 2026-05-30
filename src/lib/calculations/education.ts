@@ -7,7 +7,6 @@
  */
 
 import { EDUCATION_RATES, GI_BILL_TIERS } from '@/data/education/2026/constants';
-import { lookupBAH, getLocationName } from '@/lib/calculations/bah';
 
 // ─── Public Types ──────────────────────────────────────────────────────────
 
@@ -22,6 +21,10 @@ export interface EducationInput {
   vaRating: number;          // 0, 10, 20, ..., 100
   schoolType: SchoolType;
   schoolZip: string;
+  // BAH (E-5 with dependents at the school ZIP) + location name, resolved via
+  // /api/bah/lookup and injected by the caller. null when unresolved/online.
+  schoolBAH: number | null;
+  schoolLocationName: string | null;
   annualTuition: number;
   programYears: number;      // 2 or 4
   enrollment: EnrollmentStatus;
@@ -70,7 +73,7 @@ function enrollmentFactor(enrollment: EnrollmentStatus): number {
  * Online-only programs: half the national average ($1,261/month for 2026–2027).
  */
 export function calculateMHA(
-  schoolZip: string,
+  schoolBAH: number | null,
   schoolType: SchoolType,
   enrollment: EnrollmentStatus,
   isActiveDuty: boolean
@@ -83,19 +86,14 @@ export function calculateMHA(
     return EDUCATION_RATES.giBill.onlineMHAMonthly * factor;
   }
 
-  const bahResult = lookupBAH({
-    zipCode: schoolZip,
-    payGrade: 'E-5',
-    hasDependents: true,
-  });
-
-  return bahResult ? bahResult.monthlyRate * factor : 0;
+  // schoolBAH = E-5 with-dependents BAH at the school ZIP (resolved server-side).
+  return schoolBAH !== null ? schoolBAH * factor : 0;
 }
 
 // ─── Post-9/11 GI Bill (Chapter 33) ───────────────────────────────────────
 
 export function calculatePostGIBill(input: EducationInput): BenefitResult {
-  const { status, serviceTier, schoolType, schoolZip, annualTuition, programYears, enrollment } = input;
+  const { status, serviceTier, schoolType, annualTuition, programYears, enrollment } = input;
   const tierPct = GI_BILL_TIERS[serviceTier] ?? 0;
   const isActiveDuty = status === 'active-duty';
   const factor = enrollmentFactor(enrollment);
@@ -134,7 +132,7 @@ export function calculatePostGIBill(input: EducationInput): BenefitResult {
   }
 
   // Monthly housing allowance
-  const monthlyMHA = calculateMHA(schoolZip, schoolType, enrollment, isActiveDuty);
+  const monthlyMHA = calculateMHA(input.schoolBAH, schoolType, enrollment, isActiveDuty);
   const annualMHA = monthlyMHA * mhaMonthsPerYear;
 
   // Books
@@ -178,7 +176,7 @@ export function calculatePostGIBill(input: EducationInput): BenefitResult {
 // ─── VR&E — Vocational Rehab & Employment (Chapter 31) ────────────────────
 
 export function calculateVRE(input: EducationInput): BenefitResult {
-  const { status, vaRating, schoolType, schoolZip, annualTuition, programYears, enrollment } = input;
+  const { status, vaRating, schoolType, annualTuition, programYears, enrollment } = input;
   const isActiveDuty = status === 'active-duty';
   const mhaMonthsPerYear = EDUCATION_RATES.giBill.mhaMonthsPerYear;
 
@@ -210,7 +208,7 @@ export function calculateVRE(input: EducationInput): BenefitResult {
   const annualTuitionCoverage = annualTuition;
 
   // MHA: same Post-9/11 rate if veteran elects the Post-9/11 subsistence allowance
-  const monthlyMHA = calculateMHA(schoolZip, schoolType, enrollment, isActiveDuty);
+  const monthlyMHA = calculateMHA(input.schoolBAH, schoolType, enrollment, isActiveDuty);
   const annualMHA = monthlyMHA * mhaMonthsPerYear;
 
   // Books: all required books and supplies covered (estimate for comparison)
@@ -423,16 +421,16 @@ export function compareAllBenefits(input: EducationInput): EducationComparisonRe
     calculateMGIB(input),
   ];
 
-  // Look up location name for display
+  // Location name for display (resolved server-side, injected via input)
   const locationName =
     input.schoolType !== 'online'
-      ? getLocationName(input.schoolZip)
+      ? input.schoolLocationName
       : null;
 
-  // Get MHA for reference display (null if online or ZIP not found)
+  // MHA reference display = E-5 with-dependents BAH at the school ZIP (injected)
   const mhaMonthly =
     input.schoolType !== 'online' && input.status !== 'active-duty'
-      ? lookupBAH({ zipCode: input.schoolZip, payGrade: 'E-5', hasDependents: true })?.monthlyRate ?? null
+      ? input.schoolBAH
       : null;
 
   // Find best eligible benefit by total program value

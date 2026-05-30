@@ -9,7 +9,6 @@
  */
 
 import { DEPLOYMENT_RATES_2026 } from '@/data/deployment/2026/constants';
-import { lookupBAH } from '@/lib/calculations/bah';
 import { lookupBasePay } from '@/lib/calculations/total-compensation';
 import { BAS_RATES, FED_TAX_BRACKETS_SINGLE, STANDARD_DEDUCTION_SINGLE } from '@/data/constants';
 import { ENLISTED_GRADES, WARRANT_GRADES } from '@/types/military';
@@ -22,6 +21,8 @@ export interface DeploymentInput {
   yearsOfService: number;
   hasDependents: boolean;
   zipCode: string;
+  monthlyBAH: number; // resolved via /api/bah/lookup
+  bahFound: boolean;
   deploymentMonths: number;
   isCombatZone: boolean;
   receivingHFP: boolean;
@@ -103,16 +104,12 @@ function calculateAnnualFederalTax(annualTaxableIncome: number): number {
 function calculatePreDeployment(
   payGrade: PayGrade,
   yearsOfService: number,
-  hasDependents: boolean,
-  zipCode: string,
+  monthlyBAH: number,
+  bahFound: boolean,
 ): PreDeploymentPay {
   const monthlyBasePay = lookupBasePay(payGrade, yearsOfService);
   const isOfficer = isOfficerGrade(payGrade);
   const monthlyBAS = isOfficer ? BAS_RATES.officer : BAS_RATES.enlisted;
-
-  const bahResult = lookupBAH({ payGrade, zipCode, hasDependents });
-  const monthlyBAH = bahResult?.monthlyRate ?? 0;
-  const bahFound = !!bahResult;
 
   const grossMonthly = monthlyBasePay + monthlyBAH + monthlyBAS;
 
@@ -255,8 +252,8 @@ export function calculateDeployment(input: DeploymentInput): DeploymentResult {
   const pre = calculatePreDeployment(
     input.payGrade,
     input.yearsOfService,
-    input.hasDependents,
-    input.zipCode,
+    input.monthlyBAH,
+    input.bahFound,
   );
 
   const during = calculateDuringDeployment(

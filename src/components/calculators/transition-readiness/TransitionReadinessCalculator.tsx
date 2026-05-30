@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { calculateTransitionReadiness } from '@/lib/calculations/transition-readiness';
+import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { formatCurrency } from '@/lib/utils';
 import { ResultCard } from '@/components/calculators/shared/ResultCard';
@@ -248,6 +249,11 @@ export function TransitionReadinessCalculator() {
     return `${window.location.origin}/calculators/transition-readiness?${p.toString()}`;
   }
 
+  // BAH resolved via the cached route; 0 until a valid ZIP resolves (matches the
+  // prior behavior where an empty/invalid ZIP contributed $0 BAH).
+  const { data: bahData } = useBahLookup(zipCode);
+  const monthlyBAH = rateFor(bahData, grade, hasDependents) ?? 0;
+
   const input: TransitionReadinessInput = {
     payGrade: grade,
     yearsOfService: yos,
@@ -275,9 +281,10 @@ export function TransitionReadinessCalculator() {
   };
 
   const result = useMemo(
-    () => calculateTransitionReadiness(input),
+    () => calculateTransitionReadiness(input, monthlyBAH),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
+      monthlyBAH,
       grade, yos, zipCode, hasDependents, separationMonths, retirementSystem,
       civilianSalary, spouseIncome, vaRating, healthcareAssumption,
       expenseMode, totalExpenses, expHousing, expCar, expInsurance,

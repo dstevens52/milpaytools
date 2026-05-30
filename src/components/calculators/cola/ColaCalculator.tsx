@@ -3,22 +3,12 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { lookupCola } from '@/lib/calculations/cola';
-import { getMHACode } from '@/lib/calculations/bah';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
-import { DUTY_STATIONS } from '@/data/duty-stations/stations';
+import { useBahLookup } from '@/components/calculators/shared/useBahLookup';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
-
-const MHA_TO_STATION = new Map(
-  DUTY_STATIONS
-    .filter((s) => !s.oconus)
-    .flatMap((s) => {
-      const mha = getMHACode(s.zip);
-      return mha ? [[mha, s] as [string, typeof DUTY_STATIONS[0]]] : [];
-    })
-);
 
 const PAY_GRADES: { group: string; grades: PayGrade[] }[] = [
   {
@@ -57,11 +47,9 @@ export function ColaCalculator() {
     return lookupCola({ zipCode: zip, payGrade, hasDependents });
   }, [zip, payGrade, hasDependents, isValidZip]);
 
-  const station = useMemo(() => {
-    if (!isValidZip) return null;
-    const mha = getMHACode(zip);
-    return mha ? (MHA_TO_STATION.get(mha) ?? null) : null;
-  }, [zip, isValidZip]);
+  // Related station-page link — resolved server-side (no client zipToMha).
+  const { data: bahData } = useBahLookup(zip);
+  const station = bahData?.stationPages?.[0] ?? null;
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {

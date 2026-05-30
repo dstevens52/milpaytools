@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
+import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { formatCurrency } from '@/lib/utils';
 import { ResultCard } from '@/components/calculators/shared/ResultCard';
@@ -183,6 +184,11 @@ export function TotalCompensationCalculator() {
     return `${window.location.origin}/calculators/total-compensation?${p.toString()}`;
   }
 
+  // BAH resolved via the cached route; 0 until a valid ZIP resolves (matches the
+  // prior behavior where an empty/invalid ZIP contributed $0 BAH).
+  const { data: bahData } = useBahLookup(zipCode);
+  const monthlyBAH = rateFor(bahData, grade, hasDependents) ?? 0;
+
   const input: TotalCompensationInput = {
     payGrade: grade,
     yearsOfService: yos,
@@ -194,8 +200,8 @@ export function TotalCompensationCalculator() {
     mealCard,
   };
 
-  const result = useMemo(() => calculateTotalCompensation(input), [
-    grade, yos, zipCode, hasDependents, retirementSystem, tspPct, govHousing, mealCard,
+  const result = useMemo(() => calculateTotalCompensation(input, monthlyBAH), [
+    grade, yos, zipCode, hasDependents, retirementSystem, tspPct, govHousing, mealCard, monthlyBAH,
   ]);
 
   const actionSteps = useMemo(() => buildActionSteps(result, input), [

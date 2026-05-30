@@ -8,7 +8,7 @@ import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
-import { getStationPagesForZip } from '@/data/bah/2026/mhaToStationPage';
+import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -223,27 +223,41 @@ export function CompareCalculator() {
 
   const bothReady = zipA.length === 5 && zipB.length === 5;
 
+  // Both locations resolved server-side via the cached route (parallel fetches).
+  const { data: dataA } = useBahLookup(zipA);
+  const { data: dataB } = useBahLookup(zipB);
+  const bahA = useMemo(() => {
+    const r = rateFor(dataA, payGrade, hasDependents);
+    return { monthlyBAH: r ?? 0, locationName: dataA?.locationName ?? zipA, bahFound: r !== null };
+  }, [dataA, payGrade, hasDependents, zipA]);
+  const bahB = useMemo(() => {
+    const r = rateFor(dataB, payGrade, hasDependents);
+    return { monthlyBAH: r ?? 0, locationName: dataB?.locationName ?? zipB, bahFound: r !== null };
+  }, [dataB, payGrade, hasDependents, zipB]);
+
   const result = useMemo(() => {
-    if (!bothReady) return null;
+    if (!bothReady || !dataA || !dataB) return null;
     return compareLocations({
       payGrade,
       yearsOfService: yos,
       hasDependents,
       zipA,
       zipB,
+      bahA,
+      bahB,
     });
-  }, [payGrade, yos, hasDependents, zipA, zipB, bothReady]);
+  }, [payGrade, yos, hasDependents, zipA, zipB, bothReady, dataA, dataB, bahA, bahB]);
 
-  // Station pages via MHA code — handles ZIP variants in same housing area, supports multiple per MHA
+  // Station pages resolved server-side (no client zipToMha).
   const stationPagesA = useMemo(
-    () => (bothReady ? getStationPagesForZip(zipA) : []),
-    [zipA, bothReady]
+    () => (bothReady ? (dataA?.stationPages ?? []) : []),
+    [dataA, bothReady]
   );
   const stationPagesB = useMemo(() => {
     if (!bothReady) return [];
     const slugsA = new Set(stationPagesA.map((p) => p.slug));
-    return getStationPagesForZip(zipB).filter((p) => !slugsA.has(p.slug));
-  }, [zipB, bothReady, stationPagesA]);
+    return (dataB?.stationPages ?? []).filter((p) => !slugsA.has(p.slug));
+  }, [dataB, bothReady, stationPagesA]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {

@@ -1,7 +1,6 @@
 // Duty station comparison calculation logic
 // Compares total compensation, BAH, CONUS COLA, and take-home pay between two CONUS duty stations.
 
-import { lookupBAH, getLocationName } from '@/lib/calculations/bah';
 import { lookupBasePay } from '@/lib/calculations/total-compensation';
 import { lookupColaArea, getGradeGroup, getApproxMonthlyRate } from '@/lib/calculations/cola';
 import { BAS_RATES, FED_TAX_BRACKETS_SINGLE, STANDARD_DEDUCTION_SINGLE } from '@/data/constants';
@@ -11,12 +10,21 @@ import type { PayGrade } from '@/types/military';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
+/** Resolved BAH for one location (from /api/bah/lookup), injected by the caller. */
+export interface LocationBah {
+  monthlyBAH: number;
+  locationName: string;
+  bahFound: boolean;
+}
+
 export interface CompareInput {
   payGrade: PayGrade;
   yearsOfService: number;
   hasDependents: boolean;
   zipA: string;
   zipB: string;
+  bahA: LocationBah;
+  bahB: LocationBah;
 }
 
 export interface LocationData {
@@ -87,13 +95,12 @@ function computeLocation(
   yearsOfService: number,
   hasDependents: boolean,
   monthlyBasePay: number,
-  monthlyBAS: number
+  monthlyBAS: number,
+  monthlyBAH: number,
+  locationName: string,
+  bahFound: boolean
 ): LocationData {
-  // BAH
-  const bahResult = lookupBAH({ payGrade, zipCode: zip, hasDependents });
-  const monthlyBAH = bahResult?.monthlyRate ?? 0;
-  const bahFound = bahResult !== null;
-  const locationName = bahResult?.locationName ?? getLocationName(zip) ?? zip;
+  // BAH — resolved via /api/bah/lookup and injected by the caller.
 
   // CONUS COLA
   const colaArea = lookupColaArea(zip);
@@ -157,8 +164,8 @@ export function compareLocations(input: CompareInput): CompareResult | null {
   const monthlyBasePay = lookupBasePay(payGrade, yearsOfService);
   const monthlyBAS = isEnlisted ? BAS_RATES.enlisted : BAS_RATES.officer;
 
-  const locA = computeLocation(zipA, payGrade, yearsOfService, hasDependents, monthlyBasePay, monthlyBAS);
-  const locB = computeLocation(zipB, payGrade, yearsOfService, hasDependents, monthlyBasePay, monthlyBAS);
+  const locA = computeLocation(zipA, payGrade, yearsOfService, hasDependents, monthlyBasePay, monthlyBAS, input.bahA.monthlyBAH, input.bahA.locationName, input.bahA.bahFound);
+  const locB = computeLocation(zipB, payGrade, yearsOfService, hasDependents, monthlyBasePay, monthlyBAS, input.bahB.monthlyBAH, input.bahB.locationName, input.bahB.bahFound);
 
   const bahDiffMonthly = locB.monthlyBAH - locA.monthlyBAH;
   const colaDiffMonthly = locB.monthlyCOLA - locA.monthlyCOLA;

@@ -6,8 +6,8 @@ import { fireCalculatorEvent } from '@/lib/analytics';
 import { Card } from '@/components/ui/Card';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
+import { useBahLookup } from '@/components/calculators/shared/useBahLookup';
 import { DUTY_STATIONS } from '@/data/duty-stations/stations';
-import { getStationPagesForZip } from '@/data/bah/2026/mhaToStationPage';
 import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
 import { STATION_COORDINATES } from '@/data/duty-stations/coordinates';
 import { INSTALLATIONS_LOOKUP } from '@/data/installations-lookup';
@@ -279,7 +279,9 @@ export function PCSCalculator() {
   const weightAllowance = useMemo(() => getWeightAllowance(rank), [rank]);
 
   // Station lookup via MHA — matches station ZIPs and any ZIP variant in the same housing area
-  const stationPagesTo = useMemo(() => getStationPagesForZip(zipTo), [zipTo]);
+  // Station-page links — resolved server-side (no client zipToMha).
+  const { data: bahDataTo } = useBahLookup(zipTo);
+  const stationPagesTo = bahDataTo?.stationPages ?? [];
 
   const routeType = useMemo((): RouteClass => {
     const hasFrom = zipFrom || fromMeta;

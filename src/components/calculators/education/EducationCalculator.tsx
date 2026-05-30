@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { Card } from '@/components/ui/Card';
 import { isValidZip } from '@/lib/utils';
+import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import {
   compareAllBenefits,
   type EducationInput,
@@ -257,16 +258,24 @@ export function EducationCalculator() {
 
   const zipValid = isValidZip(schoolZip);
 
+  // GI Bill MHA = E-5 with-dependents BAH at the school ZIP — resolved via the
+  // cached route. null until it resolves (or for online schools, which ignore it).
+  const { data: bahData } = useBahLookup(schoolZip.padStart(5, '0'));
+  const schoolBAH = rateFor(bahData, 'E-5', true);
+  const schoolLocationName = bahData?.locationName ?? null;
+
   const input: EducationInput = useMemo(() => ({
     status,
     serviceTier,
     vaRating,
     schoolType,
     schoolZip: schoolZip.padStart(5, '0'),
+    schoolBAH,
+    schoolLocationName,
     annualTuition,
     programYears,
     enrollment,
-  }), [status, serviceTier, vaRating, schoolType, schoolZip, annualTuition, programYears, enrollment]);
+  }), [status, serviceTier, vaRating, schoolType, schoolZip, schoolBAH, schoolLocationName, annualTuition, programYears, enrollment]);
 
   const result = useMemo(() => compareAllBenefits(input), [input]);
 

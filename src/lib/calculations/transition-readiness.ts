@@ -7,7 +7,6 @@
 
 import type { TransitionReadinessInput, TransitionReadinessOutput, ActionStep } from '@/types/calculator';
 import { lookupBasePay } from '@/lib/calculations/total-compensation';
-import { lookupBAH } from '@/lib/calculations/bah';
 import { BAS_RATES, LEGACY_RETIREMENT_MULTIPLIER, BRS_RETIREMENT_MULTIPLIER, FED_TAX_BRACKETS_SINGLE, STANDARD_DEDUCTION_SINGLE } from '@/data/constants';
 import { estimateTaxAdvantage } from '@/lib/utils';
 import { ENLISTED_GRADES } from '@/types/military';
@@ -193,15 +192,12 @@ function buildActionSteps(
 
 // ─── Main calculation ──────────────────────────────────────────────────────
 
-export function calculateTransitionReadiness(input: TransitionReadinessInput): TransitionReadinessOutput {
-  // 1. Current military compensation
+export function calculateTransitionReadiness(
+  input: TransitionReadinessInput,
+  monthlyBAH: number,
+): TransitionReadinessOutput {
+  // 1. Current military compensation (monthlyBAH resolved via /api/bah/lookup)
   const basePay = lookupBasePay(input.payGrade, input.yearsOfService);
-  const bahResult = lookupBAH({
-    payGrade: input.payGrade,
-    zipCode: input.zipCode,
-    hasDependents: input.hasDependents,
-  });
-  const monthlyBAH = bahResult?.monthlyRate ?? 0;
   const isEnlisted = ENLISTED_GRADES.includes(input.payGrade as typeof ENLISTED_GRADES[number]);
   const monthlyBAS = isEnlisted ? BAS_RATES.enlisted : BAS_RATES.officer;
   const taxAdvantageMonthly = estimateTaxAdvantage(basePay * 12, monthlyBAH * 12, monthlyBAS * 12) / 12;

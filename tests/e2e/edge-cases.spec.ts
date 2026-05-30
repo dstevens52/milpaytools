@@ -156,7 +156,7 @@ test.describe('Total Compensation — BRS match tiering', () => {
 
   // 1% auto + dollar-for-dollar on the first 3% = 4% of base pay.
   test('3% contribution → 4% government total (not 3%)', async ({ page }) => {
-    const out = calculateTotalCompensation({ ...baseInput, tspContributionPct: 3 });
+    const out = calculateTotalCompensation({ ...baseInput, tspContributionPct: 3 }, 0);
     expect(out.tspAgencyContribution).toBeCloseTo(annualBase * 0.04, 2);
     await page.goto('/calculators/total-compensation?tsp=3');
     await expect(page.getByText(formatCurrency(out.tspAgencyContribution)).first()).toBeVisible();
@@ -164,7 +164,7 @@ test.describe('Total Compensation — BRS match tiering', () => {
 
   // 1% auto + 3% dollar-for-dollar + 50¢ on the 4th percent = 4.5% of base pay.
   test('4% contribution → 4.5% government total', async ({ page }) => {
-    const out = calculateTotalCompensation({ ...baseInput, tspContributionPct: 4 });
+    const out = calculateTotalCompensation({ ...baseInput, tspContributionPct: 4 }, 0);
     expect(out.tspAgencyContribution).toBeCloseTo(annualBase * 0.045, 2);
     await page.goto('/calculators/total-compensation?tsp=4');
     await expect(page.getByText(formatCurrency(out.tspAgencyContribution)).first()).toBeVisible();
@@ -172,7 +172,7 @@ test.describe('Total Compensation — BRS match tiering', () => {
 
   // 1% auto + 3% + 50¢ on the 4th and 5th percent = 5% of base pay (full match).
   test('5% contribution → 5% government total', async ({ page }) => {
-    const out = calculateTotalCompensation({ ...baseInput, tspContributionPct: 5 });
+    const out = calculateTotalCompensation({ ...baseInput, tspContributionPct: 5 }, 0);
     expect(out.tspAgencyContribution).toBeCloseTo(annualBase * 0.05, 2);
     await page.goto('/calculators/total-compensation?tsp=5');
     await expect(page.getByText(formatCurrency(out.tspAgencyContribution)).first()).toBeVisible();
@@ -180,7 +180,7 @@ test.describe('Total Compensation — BRS match tiering', () => {
 
   // No member contribution → 1% automatic only.
   test('0% contribution → 1% automatic only', async ({ page }) => {
-    const out = calculateTotalCompensation({ ...baseInput, tspContributionPct: 0 });
+    const out = calculateTotalCompensation({ ...baseInput, tspContributionPct: 0 }, 0);
     expect(out.tspAgencyContribution).toBeCloseTo(annualBase * 0.01, 2);
     await page.goto('/calculators/total-compensation?tsp=0');
     await expect(page.getByText(formatCurrency(out.tspAgencyContribution)).first()).toBeVisible();

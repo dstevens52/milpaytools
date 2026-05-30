@@ -8,7 +8,7 @@ import { Select } from '@/components/ui/Select';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
-import { lookupBAH } from '@/lib/calculations/bah';
+import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import {
   ENLISTED_GRADES,
   WARRANT_GRADES,
@@ -307,11 +307,14 @@ export function VALoanCalculator() {
     };
   }, [homePrice, effectiveDownDollar, rate, termYears, annualTax, annualIns, firstUse, disabilityExempt, financeFee]);
 
-  // ─── BAH lookup ───────────────────────────────────────────────────────────
+  // ─── BAH lookup (server-side via cached route) ──────────────────────────────
+  const { data: bahData } = useBahLookup(bahActive ? bahZip : '');
   const bahResult = useMemo(() => {
-    if (!bahActive || bahZip.length !== 5) return null;
-    return lookupBAH({ zipCode: bahZip, payGrade: bahGrade, hasDependents: bahDependents });
-  }, [bahActive, bahZip, bahGrade, bahDependents]);
+    if (!bahActive) return null;
+    const monthlyRate = rateFor(bahData, bahGrade, bahDependents);
+    if (monthlyRate === null) return null;
+    return { monthlyRate, locationName: bahData?.locationName ?? '' };
+  }, [bahActive, bahData, bahGrade, bahDependents]);
 
   // ─── Analytics ────────────────────────────────────────────────────────────
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);

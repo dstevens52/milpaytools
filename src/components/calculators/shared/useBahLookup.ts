@@ -44,6 +44,24 @@ function isFiveDigitZip(zip: string): boolean {
   return /^\d{5}$/.test(zip);
 }
 
+/**
+ * Derive the BAH rate for a grade + dependency status from a resolved lookup.
+ * Mirrors the former client-side lookupBAH: O-8/O-9/O-10 map to the O-7 rate.
+ * Returns null when the ZIP is invalid, a territory, or the grade is missing.
+ */
+export function rateFor(
+  data: BahLookupData | null,
+  grade: string,
+  hasDependents: boolean,
+): number | null {
+  if (!data || !data.valid || data.territory) return null;
+  const rates = hasDependents ? data.ratesW : data.ratesWO;
+  if (!rates) return null;
+  const g = grade === 'O-8' || grade === 'O-9' || grade === 'O-10' ? 'O-7' : grade;
+  const r = rates[g];
+  return r === undefined ? null : r;
+}
+
 function normalize(json: Partial<BahLookupData> & { valid: boolean }): BahLookupData {
   return {
     valid: json.valid,

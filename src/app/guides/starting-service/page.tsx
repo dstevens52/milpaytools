@@ -46,7 +46,7 @@ const _comp = calculateTotalCompensation({
   tspContributionPct: 5,
   govHousing: false,
   mealCard: false,
-});
+}, _bah);
 const _civAnnual = Math.round(_comp.civilianEquivalent / 500) * 500;
 
 function _fmt(n: number) {

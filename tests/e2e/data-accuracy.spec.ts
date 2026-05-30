@@ -125,14 +125,14 @@ test.describe('Total Compensation — known answers', () => {
   // DTMO 2026 BAH: E-5 with dependents at Fort Bragg (28310)
   test('Total Comp: E-5 8 YOS Fort Bragg (28310) BAH with dependents = $1,806/mo', async ({ page }) => {
     await page.getByLabel('Years of Service').selectOption('8');
-    await page.getByLabel('Duty Station ZIP Code').pressSequentially('28310', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 50 });
     await page.getByRole('button', { name: 'With dependents' }).click();
     await expect(page.getByText(formatCurrency(1806)).first()).toBeVisible();
   });
 
   // DTMO 2026 BAH: E-5 with dependents at NAS San Diego (92134)
   test('Total Comp: E-5 6 YOS San Diego (92134) BAH with dependents = $3,975/mo', async ({ page }) => {
-    await page.getByLabel('Duty Station ZIP Code').pressSequentially('92134', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially('92134', { delay: 50 });
     await page.getByRole('button', { name: 'With dependents' }).click();
     await expect(page.getByText(formatCurrency(3975)).first()).toBeVisible();
   });

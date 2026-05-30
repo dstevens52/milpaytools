@@ -9,7 +9,6 @@
 
 import type { TotalCompensationInput, TotalCompensationOutput } from '@/types/calculator';
 import { BAS_RATES, BRS_AUTOMATIC_CONTRIBUTION_PCT, SGLI_MAX_COVERAGE, SGLI_PREMIUM_PER_1000, SGLI_TSGLI_PREMIUM } from '@/data/constants';
-import { lookupBAH } from '@/lib/calculations/bah';
 import { lookupBasePay } from '@/lib/calculations/basePay';
 import { estimateTaxAdvantage } from '@/lib/utils';
 import { HEALTHCARE_2026 } from '@/data/healthcare/2026/constants';
@@ -43,17 +42,14 @@ function calculateSGLIPremium(coverage: number = SGLI_MAX_COVERAGE): number {
 /**
  * Calculate total military compensation.
  */
-export function calculateTotalCompensation(input: TotalCompensationInput): TotalCompensationOutput {
+export function calculateTotalCompensation(
+  input: TotalCompensationInput,
+  monthlyBAH: number,
+): TotalCompensationOutput {
   const monthlyBasePay = lookupBasePay(input.payGrade, input.yearsOfService);
   const annualBasePay = monthlyBasePay * 12;
 
-  // BAH
-  const bahResult = lookupBAH({
-    payGrade: input.payGrade,
-    zipCode: input.zipCode,
-    hasDependents: input.hasDependents,
-  });
-  const monthlyBAH = bahResult?.monthlyRate ?? 0;
+  // BAH — resolved via /api/bah/lookup and injected by the caller.
   const annualBAH = monthlyBAH * 12;
 
   // BAS (depends on officer vs enlisted)
