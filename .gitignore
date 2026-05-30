@@ -23,6 +23,8 @@ bahwo26.txt
 mhanames26.txt
 sorted_zipmha26.txt
 2025_BAH_Rates.pdf
+# Raw HUD source spreadsheets (generated output is committed; sources kept local)
+data/sources/hud/*.xlsx
 
 # next.js
 /.next/
