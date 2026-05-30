@@ -2,28 +2,26 @@ import Link from 'next/link';
 import { EmailSignup } from '@/components/EmailSignup';
 
 const CALCULATORS = [
+  { href: '/calculators/pay-charts', label: '2026 Pay Charts' },
   { href: '/calculators/total-compensation', label: 'Total Compensation' },
   { href: '/calculators/bah', label: 'BAH Calculator' },
-  { href: '/bah', label: 'BAH by Station' },
   { href: '/calculators/va-disability', label: 'VA Disability Rating' },
+  { href: '/calculators/va-loan', label: 'VA Loan Payment' },
   { href: '/calculators/tsp', label: 'TSP Growth Projector' },
-  { href: '/calculators/separation-timeline', label: 'Separation Benefits Timeline' },
-  { href: '/calculators/healthcare-comparison', label: 'Healthcare Cost Comparison' },
-];
-
-const TOP_POSTS = [
-  { href: '/blog/how-much-does-an-e5-really-make-2026', label: 'How Much Does an E-5 Really Make?' },
-  { href: '/blog/va-disability-math-explained', label: 'VA Disability Math Explained' },
-  { href: '/blog/bah-rates-2026-complete-guide', label: '2026 BAH Rates Complete Guide' },
-  { href: '/blog/brs-vs-high-3-retirement', label: 'BRS vs High-3 Retirement' },
 ];
 
 const GUIDES = [
+  { href: '/guides/va-home-loans', label: 'VA Home Loans Guide' },
   { href: '/guides/military-pay', label: 'Military Pay Guide' },
   { href: '/guides/va-disability', label: 'VA Disability Guide' },
   { href: '/guides/retirement-tsp', label: 'Retirement & TSP Guide' },
   { href: '/guides/pcs', label: 'PCS & Duty Station Guide' },
-  { href: '/guides/education-benefits', label: 'Education Benefits Guide' },
+];
+
+const RESOURCES = [
+  { href: '/blog', label: 'Blog' },
+  { href: '/bah', label: 'BAH by Station' },
+  { href: '/resources', label: 'Free Tools for Partners' },
 ];
 
 const DATA_SOURCES = [
@@ -51,6 +49,11 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link href="/calculators" className="text-sm font-medium text-white hover:text-zinc-300 transition-colors">
+                  View all calculators →
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -67,6 +70,11 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link href="/guides" className="text-sm font-medium text-white hover:text-zinc-300 transition-colors">
+                  View all guides →
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -76,12 +84,7 @@ export function Footer() {
               Resources
             </p>
             <ul className="space-y-2">
-              <li>
-                <Link href="/blog" className="text-sm hover:text-white transition-colors">
-                  Blog
-                </Link>
-              </li>
-              {TOP_POSTS.map(({ href, label }) => (
+              {RESOURCES.map(({ href, label }) => (
                 <li key={href}>
                   <Link href={href} className="text-sm hover:text-white transition-colors">
                     {label}
@@ -118,20 +121,16 @@ export function Footer() {
               About
             </p>
             <p className="text-sm leading-relaxed mb-3">
-              <a href="/about" className="hover:text-white transition-colors">
-                Built by Dan Stevens — NMLS-licensed mortgage professional and son of a 20-year Air Force veteran.
-              </a>
+              MilPayTools is built by Dan Stevens, an NMLS-licensed mortgage professional and son of a
+              20-year Air Force veteran, alongside Lt. Col. Ryan Durand, USAF/USSF (Ret.) — two friends,
+              one who grew up in the military and one who served a full career, building the financial
+              tools they wish military families already had.
             </p>
             <ul className="space-y-2">
               <li>
-                <a
-                  href="https://varefinance.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm hover:text-white transition-colors"
-                >
-                  VARefinance.com
-                </a>
+                <Link href="/about" className="text-sm font-medium text-white hover:text-zinc-300 transition-colors">
+                  Why We Built This →
+                </Link>
               </li>
               <li>
                 <Link href="/llms.txt" className="text-sm hover:text-white transition-colors">

@@ -205,7 +205,7 @@ export default function ResourcesPage() {
             MilPayTools was built by <strong className="text-zinc-900">Dan Stevens</strong>, an
             NMLS-licensed mortgage professional and the son of a 20-year Air Force veteran who grew
             up on bases from Offutt to Eielson to Lajes Field. Military advisor{' '}
-            <strong className="text-zinc-900">Col. Ryan Durand, USAF/USSF (Ret.)</strong> provides
+            <strong className="text-zinc-900">Lt. Col. Ryan Durand, USAF/USSF (Ret.)</strong> provides
             military-insider guidance and review. Dan and Ryan have been friends since age 14 and
             college roommates — this project grew out of a shared belief that military families
             deserve clearer financial tools than what&apos;s currently available.
@@ -235,13 +235,13 @@ export default function ResourcesPage() {
             <div className="flex items-center gap-4">
               <Image
                 src="/images/ryan-durand.jpeg"
-                alt="Col. Ryan Durand"
+                alt="Lt. Col. Ryan Durand"
                 width={56}
                 height={56}
                 className="w-14 h-14 rounded-full object-cover flex-none"
               />
               <div>
-                <p className="font-semibold text-zinc-900 text-sm">Col. Ryan Durand, USAF/USSF (Ret.)</p>
+                <p className="font-semibold text-zinc-900 text-sm">Lt. Col. Ryan Durand, USAF/USSF (Ret.)</p>
                 <p className="text-xs text-zinc-500">Military Advisor</p>
               </div>
             </div>
