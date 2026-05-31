@@ -346,7 +346,9 @@ function FooterTrustBand() {
               </svg>
             </div>
             <p className="text-sm text-white/80 leading-relaxed">
-              Your data stays private. We don&apos;t collect or store personal information.
+              We don&apos;t sell your data and never store your calculator inputs. See our{' '}
+              <Link href="/privacy" className="underline underline-offset-2 hover:text-white transition-colors">Privacy Policy</Link>{' '}
+              for how our analytics work.
             </p>
           </div>
           <div className="flex items-start gap-4">

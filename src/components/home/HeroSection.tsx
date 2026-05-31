@@ -110,7 +110,7 @@ export function HeroSection() {
             <div className="flex items-start gap-2 mb-5">
               <span className="block flex-none w-6 h-0.5 bg-red-700 mt-2" />
               <span className="text-[10px] font-semibold text-red-700 uppercase tracking-normal leading-snug">
-                Free · No Account · No Personal Info Required · Official 2026 DoD Data
+                Free · No account · No personal info required · Official 2026 DoD &amp; VA data
               </span>
             </div>
 

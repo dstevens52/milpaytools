@@ -39,6 +39,7 @@ export default function PrivacyPage() {
             Privacy Policy
           </h1>
           <p className="text-sm text-zinc-500">Effective: May 2026 · DPS Digital LLC (&ldquo;we,&rdquo; &ldquo;us,&rdquo; &ldquo;our&rdquo;)</p>
+          <p className="text-sm text-zinc-400 mt-1">Last updated: May 31, 2026</p>
         </div>
       </section>
 
@@ -50,8 +51,8 @@ export default function PrivacyPage() {
           <p>
             This Privacy Policy describes how DPS Digital LLC collects, uses, and protects information when
             you use MilPayTools.com. We are committed to being transparent about our data practices. In short:
-            we collect very little information, we don&rsquo;t sell it, and your calculator inputs never leave
-            your browser.
+            we collect very little information, we don&rsquo;t sell it, and your calculator inputs are never sent to
+            or stored on our servers.
           </p>
 
           <h2>Information We Collect</h2>
@@ -126,25 +127,28 @@ export default function PrivacyPage() {
             online service.
           </p>
 
+          <h2>Your Choices and Rights</h2>
+          <p>You have control over the limited data we collect:</p>
+          <ul>
+            <li><strong>Cookies:</strong> You can block or delete cookies in your browser settings at any time. All calculators will continue to work normally.</li>
+            <li><strong>Google Analytics:</strong> You can opt out of Google Analytics on every website you visit by installing Google&rsquo;s official browser opt-out add-on.</li>
+            <li><strong>Microsoft Clarity (EEA, UK, and Switzerland):</strong> Visitors from these regions are automatically placed in a cookieless mode. Clarity does not set cookies or record full sessions for them unless consent is provided, and we do not request it.</li>
+            <li>
+              <strong>Access and deletion requests:</strong> You can email{' '}
+              <a href="mailto:dan@milpaytools.com" className="text-red-700 hover:text-red-800 transition-colors">dan@milpaytools.com</a>{' '}
+              with any privacy request, including access to or deletion of data associated with you, and we will respond. California residents (under the CCPA) and EU, EEA, and UK residents (under the GDPR) have these rights, and we honor them regardless of where you live.
+            </li>
+          </ul>
+
           <h2>Children&rsquo;s Privacy</h2>
           <p>
-            MilPayTools.com is not directed at children under 13. We do not knowingly collect personal
-            information from children under 13. If you believe we have inadvertently collected information
-            from a child, please contact us at{' '}
+            MilPayTools is intended for adults in the military community &mdash; service members, veterans, and their families.
+            The site is not directed to children under 13, and we do not knowingly collect personal information from anyone under 13.
+            If you believe a child has submitted information through our email signup or feedback form, email{' '}
             <a href="mailto:dan@milpaytools.com" className="text-red-700 hover:text-red-800 transition-colors">
               dan@milpaytools.com
             </a>{' '}
-            and we will promptly delete it.
-          </p>
-
-          <h2>Your Rights</h2>
-          <p>
-            You may unsubscribe from email communications at any time using the unsubscribe link included in
-            every email we send. To request deletion of a feedback submission or any other data you have
-            provided, contact us at{' '}
-            <a href="mailto:dan@milpaytools.com" className="text-red-700 hover:text-red-800 transition-colors">
-              dan@milpaytools.com
-            </a>.
+            and we will remove it.
           </p>
 
           <h2>Changes to This Policy</h2>
