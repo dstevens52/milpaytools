@@ -114,7 +114,7 @@ export default function PartnersPage() {
           <div className="inline-flex items-center gap-2 mb-6 rounded-full bg-white/10 px-4 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white/80 uppercase tracking-wide">
-              Free · No Account · No Personal Info · Official DoD &amp; VA Data
+              Free · No account · No personal info required · Official 2026 DoD &amp; VA data
             </span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-5 leading-tight">
