@@ -604,7 +604,7 @@ export default function RetirementTspGuidePage() {
             ))}
           </div>
 
-          <AuthorBio />
+          <AuthorBio date={DATE} />
 
           <div className="mt-8 pt-6 border-t border-zinc-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <Link href="/guides" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">

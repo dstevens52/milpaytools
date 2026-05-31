@@ -121,10 +121,7 @@ export function Footer() {
               About
             </p>
             <p className="text-sm leading-relaxed mb-3">
-              MilPayTools is built by Dan Stevens, an NMLS-licensed mortgage professional and son of a
-              20-year Air Force veteran, alongside Lt. Col. Ryan Durand, USAF/USSF (Ret.) — two friends,
-              one who grew up in the military and one who served a full career, building the financial
-              tools they wish military families already had.
+              Built by Dan Stevens (NMLS-licensed) and Lt. Col. Ryan Durand, USAF/USSF (Ret.).
             </p>
             <ul className="space-y-2">
               <li>

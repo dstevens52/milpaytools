@@ -203,7 +203,7 @@ export default async function GuidePostPage({
       </article>
 
       {/* Author bio */}
-      <AuthorBio />
+      <AuthorBio date={guide.date} />
 
       {/* Back to all guides */}
       <div className="mt-8 pt-6 border-t border-zinc-200">

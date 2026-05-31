@@ -477,7 +477,7 @@ export default async function BlogPostPage({
       </article>
 
       {/* Author bio */}
-      <AuthorBio />
+      <AuthorBio date={post.date} />
 
       {/* Feedback */}
       <div className="mt-6 pt-6 border-t border-zinc-100">
