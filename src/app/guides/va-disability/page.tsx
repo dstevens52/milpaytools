@@ -56,6 +56,11 @@ const FAQS = [
       'BDD lets you file 180 to 90 days before separation, giving VA time to review records and schedule exams while you\'re still in. If approved, compensation can generally begin as early as the day after separation, rather than being delayed by filing later. Filing through BDD may help the VA process your claim sooner.',
   },
   {
+    question: 'What if your VA rating decision seems too low?',
+    answer:
+      'An initial VA decision isn\'t final. If you believe it\'s incomplete or contains an error, the VA offers three free review options: a Supplemental Claim (VA Form 20-0995) to add new and relevant evidence, a Higher-Level Review (VA Form 20-0996) for a senior reviewer to re-examine the existing evidence, or a Board Appeal (VA Form 10182) to a Veterans Law Judge at the Board of Veterans\' Appeals. You generally have one year from the date on your decision letter to request a Higher-Level Review or Board Appeal; a Supplemental Claim can be filed anytime, but filing within one year preserves your original effective date. A VA-accredited Veterans Service Officer (VSO) can review your decision and file on your behalf at no cost.',
+  },
+  {
     question: 'What is CRDP and who qualifies?',
     answer:
       'Concurrent Retirement and Disability Pay (CRDP) allows veterans with 20+ years of qualifying service and a VA disability rating of 50% or higher to receive both full military retirement pay and full VA disability compensation with no dollar-for-dollar offset.',
@@ -279,6 +284,69 @@ const ACCORDION = [
         <Link href="/blog/file-va-disability-before-separation" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Step-by-step BDD filing guide →
         </Link>
+      </div>
+    ),
+  },
+  {
+    question: 'What if your VA rating decision seems too low?',
+    content: (
+      <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
+        <p>
+          An initial VA decision doesn&apos;t always capture every condition or apply every rating
+          correctly — and it isn&apos;t the final word. If you believe your decision is incomplete
+          or contains an error, the VA offers three formal review options, all free to request:
+        </p>
+        <ul className="space-y-2 pl-4 list-disc">
+          <li>
+            <strong className="text-zinc-800">Supplemental Claim (VA Form 20-0995)</strong> — add
+            new and relevant evidence the VA didn&apos;t already consider.
+          </li>
+          <li>
+            <strong className="text-zinc-800">Higher-Level Review (VA Form 20-0996)</strong> — ask
+            a more senior reviewer to re-examine the same evidence for errors; no new evidence.
+          </li>
+          <li>
+            <strong className="text-zinc-800">Board Appeal (VA Form 10182)</strong> — bring your
+            case to a Veterans Law Judge at the Board of Veterans&apos; Appeals.
+          </li>
+        </ul>
+        <p>
+          <strong className="text-zinc-800">The deadline that matters:</strong> you generally have
+          one year from the date on your decision letter to request a Higher-Level Review or Board
+          Appeal. A Supplemental Claim can be filed anytime, but filing within that same year
+          preserves your original effective date — and the back pay tied to it.
+        </p>
+        <p>
+          You don&apos;t have to navigate this alone or pay for help. A VA-accredited Veterans
+          Service Officer (VSO) can review your decision and file on your behalf at no cost.
+          Reviewing your decision carefully before the one-year window closes — on your own or with
+          a VSO — can be the difference between an incomplete rating and one that reflects your full
+          medical picture.
+        </p>
+        <blockquote className="rounded-lg border-l-4 border-zinc-300 bg-zinc-50 px-4 py-3 my-1">
+          <p className="italic text-zinc-600">
+            My own initial decision missed conditions I didn&apos;t know to claim. Challenging it changed the outcome.
+          </p>
+          <footer className="mt-1.5 text-xs text-zinc-500">— Lt. Col. Ryan Durand, USAF/USSF (Ret.)</footer>
+        </blockquote>
+        <div className="flex flex-col sm:flex-row gap-3 pt-1">
+          <a
+            href="https://www.va.gov/resources/choosing-a-decision-review-option/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors"
+          >
+            Compare decision review options (VA.gov) →
+          </a>
+          <a
+            href="https://www.va.gov/get-help-from-accredited-representative/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors"
+          >
+            Find a VA-accredited representative →
+          </a>
+        </div>
       </div>
     ),
   },
