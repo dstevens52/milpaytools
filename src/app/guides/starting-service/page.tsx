@@ -367,22 +367,16 @@ export default function StartingServicePage() {
                   Confirm you&apos;re contributing at least 5% so you capture the government&apos;s full match — free money that builds with every paycheck you contribute.
                 </p>
               </div>
-              {/* Outcome chip */}
-              <div className="relative z-10 my-4 rounded-lg px-3 py-2" style={{ background: 'rgba(109,40,217,0.07)', border: '1px solid rgba(109,40,217,0.12)' }}>
-                <span className="text-[13px] font-semibold" style={{ color: '#6d28d9' }}>Don&apos;t leave retirement money on the table.</span>
-              </div>
+              {/* Outcome chip — clickable link to basics article */}
+              <Link href="/blog/roth-tsp-advantage-junior-enlisted" className="relative z-10 my-4 rounded-lg px-3 py-2 flex items-center gap-1.5 hover:brightness-95 transition-all" style={{ background: 'rgba(109,40,217,0.07)', border: '1px solid rgba(109,40,217,0.12)' }}>
+                <span className="text-[13px] font-semibold inline-flex items-center gap-1.5" style={{ color: '#6d28d9' }}>New to TSP? Start with the basics <ArrowRight /></span>
+              </Link>
               {/* Primary CTA */}
               <div className="relative z-10">
                 <Link href="/calculators/tsp">
                   <span className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-[13px] font-semibold border transition-all duration-150 group-hover:bg-violet-700 group-hover:text-white group-hover:border-violet-700" style={{ background: '#ede9fe', color: '#6d28d9', borderColor: '#c4b5fd' }}>
                     Open calculator <ArrowRight />
                   </span>
-                </Link>
-              </div>
-              {/* Secondary text link */}
-              <div className="relative z-10 mt-3">
-                <Link href="/blog/roth-tsp-advantage-junior-enlisted" className="text-[12px] text-violet-400 hover:text-violet-700 transition-colors">
-                  New to TSP? Start with the basics →
                 </Link>
               </div>
             </div>
