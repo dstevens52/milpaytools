@@ -9,14 +9,14 @@ import { webApplicationSchema } from '@/lib/schema';
 export const metadata: Metadata = {
   title: { absolute: 'VA Disability Rating Calculator 2026 | Combined Rating' },
   description:
-    'Calculate your combined VA disability rating using the official "whole person" formula (38 CFR § 4.25). Includes bilateral factor, step-by-step math, and 2026 compensation rates.',
+    'Calculate your combined VA disability rating and 2026 monthly compensation — every step shown, bilateral factor automatic.',
   alternates: {
     canonical: '/calculators/va-disability',
   },
   openGraph: {
     title: 'VA Disability Rating Calculator 2026 | Combined Rating',
     description:
-      'Calculate your combined VA disability rating using the official "whole person" formula (38 CFR § 4.25). Includes bilateral factor, step-by-step math, and 2026 compensation rates.',
+      'Calculate your combined VA disability rating and 2026 monthly compensation — every step shown, bilateral factor automatic.',
     type: 'website',
     url: '/calculators/va-disability',
     siteName: 'MilPayTools',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'VA Disability Rating Calculator 2026 | Combined Rating',
     description:
-      'Calculate your combined VA disability rating using the official "whole person" formula (38 CFR § 4.25). Includes bilateral factor, step-by-step math, and 2026 compensation rates.',
+      'Calculate your combined VA disability rating and 2026 monthly compensation — every step shown, bilateral factor automatic.',
     images: ['/api/og?type=calculator&title=VA+Disability+Rating+Calculator+2026&v=2'],
   },
 };
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 export default function VADisabilityPage() {
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'VA Disability Rating Calculator 2026', description: 'Calculate your combined VA disability rating using the official "whole person" formula (38 CFR § 4.25). Includes bilateral factor, step-by-step math, and 2026 compensation rates.', url: '/calculators/va-disability' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: 'VA Disability Rating Calculator 2026', description: 'Calculate your combined VA disability rating and 2026 monthly compensation — every step shown, bilateral factor automatic.', url: '/calculators/va-disability' })} />
 
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
@@ -155,6 +155,14 @@ export default function VADisabilityPage() {
               Do not round to the nearest 10% between each condition. VA combines the ratings first,
               applies any bilateral factor when applicable, and converts the final combined value to
               the nearest 10%.
+            </p>
+            <p className="text-zinc-600 text-sm leading-relaxed mt-3">
+              For a full walkthrough with more worked examples — including 10%+10%, 70%+50%,
+              and multi-condition cases — see{' '}
+              <a href="/blog/va-disability-math-explained" className="text-blue-700 underline">
+                VA Disability Math Explained →
+              </a>
+              .
             </p>
           </div>
 
@@ -307,7 +315,7 @@ export default function VADisabilityPage() {
             Learn More
           </p>
           <div className="flex flex-wrap gap-2">
-                <a href="/guides/va-disability" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">VA Disability Benefits Guide →</a>
+                <a href="/guides/va-disability" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">VA Disability Benefits Guide: ratings, the bilateral factor &amp; 2026 rates →</a>
           </div>
         </div>
 
