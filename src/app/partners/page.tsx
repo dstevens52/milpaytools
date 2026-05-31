@@ -288,7 +288,7 @@ export default function PartnersPage() {
               Shareable link
             </p>
             <p className="text-base sm:text-lg font-bold text-zinc-900 font-mono break-all">
-              milpaytools.com/partners
+              milpaytools.com
             </p>
           </div>
 
