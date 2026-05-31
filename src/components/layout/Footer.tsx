@@ -121,7 +121,7 @@ export function Footer() {
               About
             </p>
             <p className="text-sm leading-relaxed mb-3">
-              Built by Dan Stevens (NMLS-licensed) and Lt. Col. Ryan Durand, USAF/USSF (Ret.).
+              Built by Dan Stevens, with Lt. Col. Ryan Durand, USAF/USSF (Ret.) serving as Military Advisor.
             </p>
             <ul className="space-y-2">
               <li>
