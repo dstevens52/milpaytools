@@ -143,7 +143,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5,
     },
     {
-      url: `${BASE_URL}/resources`,
+      url: `${BASE_URL}/partners`,
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.9,
