@@ -31,6 +31,13 @@ export async function generateStaticParams() {
 
 export const dynamicParams = false;
 
+// Append the richest trailing clause that keeps the meta description within
+// `max` characters. Clauses are whole sentences, tried longest-first, so the
+// tail drops cleanly on the longest base names instead of truncating mid-word.
+function fitDescription(head: string, tails: string[], max = 160): string {
+  return head + (tails.find((t) => head.length + t.length <= max) ?? '');
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -39,15 +46,61 @@ export async function generateMetadata({
   const { slug } = await params;
   const station = STATION_BY_SLUG[slug];
   if (!station) return {};
-  const title = `${station.name} BAH Rates 2026 | ${station.city}, ${station.state}`;
-  const formerNameShort = station.formerName ? station.formerName.split(' (')[0] : null;
-  const description = `2026 BAH rates for ${station.name}${formerNameShort ? ` (formerly ${formerNameShort})` : ''} in ${station.city}, ${station.stateName}. Monthly BAH for every pay grade — with and without dependents — plus local housing market insights.`;
+  // E-5 reference rates, read from the same dataset the on-page rate table uses
+  // so the snippet figures always match the table. OCONUS bases have no BAH
+  // (they receive OHA) and fall through to a rate-free description below.
+  const mhaCode = station.oconus ? null : getMHACode(station.zip);
+  const e5W = mhaCode ? getMHARates(mhaCode, true)?.['E-5'] : undefined;
+  const e5WO = mhaCode ? getMHARates(mhaCode, false)?.['E-5'] : undefined;
+
+  const formerShort = station.formerName ? station.formerName.split(' (')[0] : null;
+  // Locality comes from station.city — the MHA name often just repeats the base
+  // name (e.g. "Fort Hood, TX"), so it can't capture city queries like
+  // "bah killeen tx". Shown only when the city adds info beyond the base name.
+  const cityDistinct = !station.name.toLowerCase().includes(station.city.toLowerCase());
+  const locality = cityDistinct ? ` (${station.city})` : '';
+
+  // ── Title: former name wins the parenthetical; locality is appended only when
+  // there's no former name and "{name} BAH Rates 2026 — City, ST" fits ~60 chars.
+  // titleBase omits the site name — the root layout's title template appends
+  // " | MilPayTools". OG/Twitter don't run through that template, so they get an
+  // explicit socialTitle (with the site name) to match the rendered <title>.
+  let titleBase: string;
+  if (station.oconus) {
+    titleBase = `${station.name} BAH & OHA 2026`;
+  } else {
+    const core = formerShort
+      ? `${station.name} (${formerShort}) BAH Rates 2026`
+      : `${station.name} BAH Rates 2026`;
+    const withLocality = `${core} — ${station.city}, ${station.state}`;
+    titleBase = !formerShort && cityDistinct && withLocality.length <= 60 ? withLocality : core;
+  }
+  const socialTitle = `${titleBase} | MilPayTools`;
+
+  // ── Description: lead with the actual E-5 figures so the search snippet shows
+  // a real dollar amount. Trailing clauses drop whole-sentence on long names.
+  let description: string;
+  if (e5W !== undefined && e5WO !== undefined) {
+    const head = `2026 BAH for ${station.name}, ${station.state}${locality}: E-5 with dependents ${formatCurrency(e5W)}/mo, without ${formatCurrency(e5WO)}/mo.`;
+    description = fitDescription(head, [
+      ' All ranks and dependency statuses. Official DTMO data, no account.',
+      ' All ranks and dependency statuses.',
+    ]);
+  } else if (station.oconus) {
+    const head = `${station.name}, ${station.stateName} is an overseas duty station — members receive Overseas Housing Allowance (OHA), not BAH.`;
+    description = fitDescription(head, [
+      ' Housing pay guidance for every pay grade, no account.',
+      ' Housing pay guidance, no account.',
+    ]);
+  } else {
+    description = `2026 BAH rates for ${station.name}, ${station.stateName}${locality}. Monthly BAH for every pay grade, with and without dependents. Official DTMO data, no account.`;
+  }
   return {
-    title,
+    title: titleBase,
     description,
     alternates: { canonical: `/bah/${station.slug}` },
     openGraph: {
-      title,
+      title: socialTitle,
       description,
       type: 'website',
       url: `/bah/${station.slug}`,
@@ -55,7 +108,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: socialTitle,
       description,
     },
   };
