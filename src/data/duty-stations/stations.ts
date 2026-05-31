@@ -153,7 +153,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 10–15% below the national average',
       stateTaxNote:
-        'Tennessee has no state income tax on military pay (or any earned income). Your entire paycheck goes further here.',
+        'Tennessee has no state income tax on military pay (or any earned income).',
       neighborhoods: [
         {
           name: 'Tiny Town (near KY border)',
@@ -218,7 +218,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 8–10% below the national average',
       stateTaxNote:
-        'Texas has no state income tax on military pay, meaning your BAH, base pay, and special pays go further here than in high-tax states.',
+        'Texas has no state income tax on military pay. BAH and BAS are also excluded from federal taxable income.',
       neighborhoods: [
         {
           name: 'Harker Heights',
@@ -346,7 +346,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 12–15% above the national average',
       stateTaxNote:
-        'Colorado has a flat income tax of 4.40% on military pay. BAH and BAS remain tax-free.',
+        'Colorado has a flat income tax of 4.40% on military pay. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Fountain / Security-Widefield',
@@ -474,7 +474,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 15–18% below the national average',
       stateTaxNote:
-        'Texas has no state income tax on military pay, meaning your BAH, base pay, and special pays go further here than in high-tax states.',
+        'Texas has no state income tax on military pay. BAH and BAS are also excluded from federal taxable income.',
       neighborhoods: [
         {
           name: 'East El Paso (near base)',
@@ -538,7 +538,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 17–20% below the national average',
       stateTaxNote:
-        'Georgia taxes military pay at up to 5.75%. BAH and BAS remain tax-free at the federal and state level.',
+        'Georgia taxes military pay at up to 5.75%. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Hinesville',
@@ -602,7 +602,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 15–18% below the national average',
       stateTaxNote:
-        'Kentucky taxes military pay at a flat rate of 4.0%. BAH and BAS remain tax-free at the federal and state level.',
+        'Kentucky taxes military pay at a flat rate of 4.0%. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Radcliff',
@@ -666,7 +666,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 15–18% below the national average',
       stateTaxNote:
-        'Kansas recently exempted active-duty military pay from state income tax. BAH and BAS remain tax-free. Verify current exemption status.',
+        'Kansas recently exempted active-duty military pay from state income tax. BAH and BAS are excluded from federal taxable income; state treatment varies. Verify current exemption status.',
       neighborhoods: [
         {
           name: 'Junction City',
@@ -724,7 +724,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 20–22% below the national average',
       stateTaxNote:
-        'Georgia taxes military pay at up to 5.75%. However, active-duty pay earned outside Georgia may be partially exempt depending on domicile. BAH and BAS remain tax-free.',
+        'Georgia taxes military pay at up to 5.75%. However, active-duty pay earned outside Georgia may be partially exempt depending on domicile. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'North Columbus',
@@ -930,7 +930,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 25–30% above the national average (driven by groceries and energy)',
-      stateTaxNote: 'Alaska has no state income tax and no state sales tax. Your military pay stretches further on the tax side — but higher costs for food, fuel, and heating offset some of that advantage.',
+      stateTaxNote: 'Alaska has no state income tax and no state sales tax. Higher local costs for food, fuel, and heating offset some of that tax advantage.',
       neighborhoods: [
         {
           name: 'On-post housing (North Haven Communities)',
@@ -987,7 +987,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 20–25% below the national average',
-      stateTaxNote: 'Louisiana taxes military pay at up to 4.25%. BAH and BAS remain tax-free at the federal and state level.',
+      stateTaxNote: 'Louisiana taxes military pay at up to 4.25%. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Leesville',
@@ -1044,7 +1044,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 30–50% above the national average',
       stateTaxNote:
-        'Hawaii taxes military pay at up to 11% at the top marginal rate. BAH and BAS remain tax-free.',
+        'Hawaii taxes military pay at up to 11% at the top marginal rate. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Wahiawa',
@@ -1149,7 +1149,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 20–25% above the national average',
-      stateTaxNote: 'Maryland taxes military pay at up to 5.75%. Military retirement pay is exempt. BAH and BAS remain tax-free.',
+      stateTaxNote: 'Maryland taxes military pay at up to 5.75%. Military retirement pay is exempt. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Odenton',
@@ -1212,7 +1212,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 8–12% below the national average',
-      stateTaxNote: 'South Carolina taxes military pay at up to 6.5%. However, SC offers a partial exemption on military retirement pay. BAH and BAS remain tax-free.',
+      stateTaxNote: 'South Carolina taxes military pay at up to 6.5%. However, SC offers a partial exemption on military retirement pay. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Northeast Columbia (near gate)',
@@ -1320,7 +1320,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 8–12% below the national average',
       stateTaxNote:
-        'Texas has no state income tax on military pay, meaning your BAH, base pay, and special pays go further here than in high-tax states.',
+        'Texas has no state income tax on military pay. BAH and BAS are also excluded from federal taxable income.',
       neighborhoods: [
         {
           name: 'Converse / Live Oak (near Randolph)',
@@ -1383,7 +1383,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 20–25% above the national average',
-      stateTaxNote: 'California taxes military pay. The top marginal rate can reach 9.3%+ depending on income. BAH and BAS remain tax-free.',
+      stateTaxNote: 'California taxes military pay. The top marginal rate can reach 9.3%+ depending on income. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Fairfield',
@@ -1447,7 +1447,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 5–10% above the national average',
       stateTaxNote:
-        'Florida has no state income tax on military pay. Your entire paycheck goes further here than at duty stations in income-tax states.',
+        'Florida has no state income tax on military pay. BAH and BAS are also excluded from federal taxable income.',
       neighborhoods: [
         {
           name: 'Brandon / Riverview',
@@ -1511,7 +1511,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 5–8% above the national average (beach-area premium)',
       stateTaxNote:
-        'Florida has no state income tax on military pay. Your entire paycheck goes further here than at duty stations in income-tax states.',
+        'Florida has no state income tax on military pay. BAH and BAS are also excluded from federal taxable income.',
       neighborhoods: [
         {
           name: 'Niceville',
@@ -1575,7 +1575,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 5–8% below the national average',
       stateTaxNote:
-        'Virginia taxes military pay. The top marginal rate is 5.75%. BAH and BAS remain tax-free at the federal and state level.',
+        'Virginia taxes military pay. The top marginal rate is 5.75%. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Hampton',
@@ -1638,7 +1638,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 12–15% below the national average',
-      stateTaxNote: 'Ohio taxes military pay at up to 3.5%. BAH and BAS remain tax-free.',
+      stateTaxNote: 'Ohio taxes military pay at up to 3.5%. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Beavercreek',
@@ -1701,7 +1701,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 10–12% below the national average',
-      stateTaxNote: "Illinois has a flat income tax of 4.95% on military pay. BAH and BAS remain tax-free. Note: IL property taxes are high — factor this into buy-vs-rent decisions.",
+      stateTaxNote: "Illinois has a flat income tax of 4.95% on military pay. BAH and BAS are excluded from federal taxable income; state treatment varies. Illinois property taxes are among the highest in the nation.",
       neighborhoods: [
         {
           name: "O'Fallon, IL",
@@ -1764,7 +1764,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 5–8% above the national average',
-      stateTaxNote: 'Arizona has a flat income tax of 2.5% on military pay — one of the lowest in the country. BAH and BAS remain tax-free.',
+      stateTaxNote: 'Arizona has a flat income tax of 2.5% on military pay — one of the lowest in the country. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Surprise',
@@ -1827,7 +1827,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 3–5% below the national average',
-      stateTaxNote: 'Arizona has a flat income tax of 2.5% on military pay — one of the lowest in the country. BAH and BAS remain tax-free.',
+      stateTaxNote: 'Arizona has a flat income tax of 2.5% on military pay — one of the lowest in the country. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Rita Ranch',
@@ -1981,7 +1981,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 15–18% below the national average',
-      stateTaxNote: 'Louisiana taxes military pay at up to 4.25%. BAH and BAS remain tax-free at the federal and state level.',
+      stateTaxNote: 'Louisiana taxes military pay at up to 4.25%. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Bossier City',
@@ -2072,7 +2072,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 8–10% below the national average',
-      stateTaxNote: 'North Dakota taxes military pay at a low flat rate of 1.95%. BAH and BAS remain tax-free.',
+      stateTaxNote: 'North Dakota taxes military pay at a low flat rate of 1.95%. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'South Minot',
@@ -2191,7 +2191,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 20–25% above the national average',
-      stateTaxNote: 'Maryland taxes military pay at up to 5.75%. However, military retirement pay is exempt from Maryland income tax. BAH and BAS remain tax-free.',
+      stateTaxNote: 'Maryland taxes military pay at up to 5.75%. However, military retirement pay is exempt from Maryland income tax. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Bowie',
@@ -2254,7 +2254,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 5–8% below the national average',
-      stateTaxNote: 'New Mexico exempts active-duty military pay from state income tax. BAH and BAS are also tax-free. This makes Kirtland one of the more tax-friendly duty stations.',
+      stateTaxNote: 'New Mexico exempts active-duty military pay from state income tax. BAH and BAS are also excluded from federal taxable income; state treatment varies. This makes Kirtland one of the more tax-friendly duty stations.',
       neighborhoods: [
         {
           name: 'Four Hills / SE Albuquerque',
@@ -2318,7 +2318,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 7–10% below the national average',
       stateTaxNote:
-        'Missouri taxes military pay at up to 4.95%. Active-duty pay may qualify for partial deductions — verify with a tax professional. BAH and BAS remain tax-free.',
+        'Missouri taxes military pay at up to 4.95%. Active-duty pay may qualify for partial deductions — verify with a tax professional. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Knob Noster',
@@ -2375,7 +2375,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 5–8% below the national average',
       stateTaxNote:
-        'Nebraska taxes military pay. The top marginal rate is 6.64%, though recent legislation has been reducing rates. BAH and BAS remain tax-free.',
+        'Nebraska taxes military pay. The top marginal rate is 6.64%, though recent legislation has been reducing rates. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Bellevue',
@@ -2438,7 +2438,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 5–8% above the national average',
-      stateTaxNote: 'Florida has no state income tax on military pay. Your entire paycheck goes further here than at duty stations in income-tax states.',
+      stateTaxNote: 'Florida has no state income tax on military pay. BAH and BAS are also excluded from federal taxable income.',
       neighborhoods: [
         {
           name: 'Melbourne / Viera',
@@ -2504,7 +2504,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 6% below the national average',
       stateTaxNote:
-        'Virginia taxes military pay. The top marginal rate is 5.75%. BAH and BAS remain tax-free at the federal and state level.',
+        'Virginia taxes military pay. The top marginal rate is 5.75%. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Ghent',
@@ -2568,7 +2568,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 45–50% above the national average',
       stateTaxNote:
-        'California taxes military pay. The top marginal rate can reach 9.3%+ depending on income. BAH and BAS remain tax-free.',
+        'California taxes military pay. The top marginal rate can reach 9.3%+ depending on income. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Chula Vista / Eastlake',
@@ -2632,7 +2632,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 40–50% above the national average',
       stateTaxNote:
-        'California taxes military pay. The top marginal rate can reach 9.3%+ depending on income. BAH and BAS remain tax-free.',
+        'California taxes military pay. The top marginal rate can reach 9.3%+ depending on income. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Oceanside',
@@ -2696,7 +2696,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 10–12% below the national average',
       stateTaxNote:
-        'North Carolina taxes military base pay at approximately 4.5%. BAH and BAS remain tax-free at the federal and state level.',
+        'North Carolina taxes military base pay at approximately 4.5%. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Jacksonville',
@@ -2760,7 +2760,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 30–50% above the national average (groceries, utilities, and transportation all run significantly higher)',
       stateTaxNote:
-        'Hawaii taxes military pay at up to 11% at the top marginal rate. BAH and BAS remain tax-free. The high state tax rate eats into take-home pay more than most duty stations.',
+        'Hawaii taxes military pay at up to 11% at the top marginal rate. BAH and BAS are excluded from federal taxable income; state treatment varies. The high state tax rate eats into take-home pay more than most duty stations.',
       neighborhoods: [
         {
           name: 'Ewa Beach / Ocean Pointe',
@@ -2823,7 +2823,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 5–8% below the national average',
-      stateTaxNote: 'Florida has no state income tax on military pay. Your entire paycheck goes further here than at duty stations in income-tax states.',
+      stateTaxNote: 'Florida has no state income tax on military pay. BAH and BAS are also excluded from federal taxable income.',
       neighborhoods: [
         {
           name: 'Pensacola (east/north)',
@@ -2886,7 +2886,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 5–8% below the national average',
-      stateTaxNote: 'Florida has no state income tax on military pay. Your entire paycheck goes further here than at duty stations in income-tax states.',
+      stateTaxNote: 'Florida has no state income tax on military pay. BAH and BAS are also excluded from federal taxable income.',
       neighborhoods: [
         {
           name: 'Atlantic Beach / Neptune Beach',
@@ -2949,7 +2949,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 10–15% above the national average',
-      stateTaxNote: 'Washington has no state income tax — a significant net-pay advantage over most duty stations.',
+      stateTaxNote: 'Washington has no state income tax on military pay.',
       neighborhoods: [
         {
           name: 'Silverdale',
@@ -3008,7 +3008,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 10–12% above the national average',
-      stateTaxNote: 'Washington has no state income tax — a significant net-pay advantage over most duty stations.',
+      stateTaxNote: 'Washington has no state income tax on military pay.',
       neighborhoods: [
         {
           name: 'Oak Harbor',
@@ -3091,7 +3091,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 25–30% above the national average',
-      stateTaxNote: 'Virginia taxes military pay. The top marginal rate is 5.75%. BAH and BAS remain tax-free at the federal and state level.',
+      stateTaxNote: 'Virginia taxes military pay. The top marginal rate is 5.75%. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Stafford',
@@ -3210,7 +3210,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 10–15% above the national average (driven by NJ property taxes)',
-      stateTaxNote: 'New Jersey taxes military pay at up to 10.75% at the top marginal rate. However, active-duty military domiciled outside NJ are generally exempt. NJ property taxes are among the highest in the nation — factor this into any buy decision.',
+      stateTaxNote: 'New Jersey taxes military pay at up to 10.75% at the top marginal rate. However, active-duty military domiciled outside NJ are generally exempt. NJ property taxes are among the highest in the nation.',
       neighborhoods: [
         {
           name: 'Mount Holly / Lumberton',
@@ -3273,7 +3273,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 5–8% above the national average',
-      stateTaxNote: 'Virginia taxes military pay. The top marginal rate is 5.75%. BAH and BAS remain tax-free at the federal and state level.',
+      stateTaxNote: 'Virginia taxes military pay. The top marginal rate is 5.75%. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Kempsville / Landstown',
@@ -3394,7 +3394,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 10–15% above the national average (coastal premium)',
-      stateTaxNote: 'South Carolina taxes military pay at up to 6.5%. However, SC has one of the lowest property tax rates in the country. BAH and BAS remain tax-free.',
+      stateTaxNote: 'South Carolina taxes military pay at up to 6.5%. However, SC has one of the lowest property tax rates in the country. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Goose Creek',
@@ -3609,7 +3609,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 18–22% below the national average',
-      stateTaxNote: "Alabama taxes military pay at up to 5.0%. However, Alabama's property taxes are among the lowest in the nation. BAH and BAS remain tax-free.",
+      stateTaxNote: "Alabama taxes military pay at up to 5.0%. However, Alabama's property taxes are among the lowest in the nation. BAH and BAS are excluded from federal taxable income; state treatment varies.",
       neighborhoods: [
         {
           name: 'Daleville',
@@ -3795,7 +3795,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 5–10% above the national average',
-      stateTaxNote: 'Nevada has no state income tax — a significant advantage that puts more of your paycheck in your pocket.',
+      stateTaxNote: 'Nevada has no state income tax on military pay.',
       neighborhoods: [
         {
           name: 'North Las Vegas / Aliante',
@@ -3858,7 +3858,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 5–8% above the national average',
-      stateTaxNote: 'Utah has a flat income tax of 4.65% on military pay. BAH and BAS remain tax-free.',
+      stateTaxNote: 'Utah has a flat income tax of 4.65% on military pay. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Layton',
@@ -3921,7 +3921,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 12–15% above the national average',
-      stateTaxNote: 'Colorado has a flat income tax of 4.40% on military pay. BAH and BAS remain tax-free.',
+      stateTaxNote: 'Colorado has a flat income tax of 4.40% on military pay. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Powers Corridor (east)',
@@ -3984,7 +3984,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 12–15% above the national average',
-      stateTaxNote: 'Colorado has a flat income tax of 4.40% on military pay. BAH and BAS remain tax-free.',
+      stateTaxNote: 'Colorado has a flat income tax of 4.40% on military pay. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Falcon / Peyton',
@@ -4040,7 +4040,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 20–25% above the national average',
-      stateTaxNote: 'Colorado has a flat income tax of 4.40% on military pay. BAH and BAS remain tax-free.',
+      stateTaxNote: 'Colorado has a flat income tax of 4.40% on military pay. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Aurora (east/south)',
@@ -4099,7 +4099,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 15–18% below the national average',
-      stateTaxNote: 'New Mexico exempts active-duty military pay from state income tax. BAH and BAS are also tax-free.',
+      stateTaxNote: 'New Mexico exempts active-duty military pay from state income tax. BAH and BAS are also excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Clovis',
@@ -4150,7 +4150,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 15–18% below the national average',
-      stateTaxNote: 'Texas has no state income tax on military pay, meaning your BAH, base pay, and special pays go further here than in high-tax states.',
+      stateTaxNote: 'Texas has no state income tax on military pay. BAH and BAS are also excluded from federal taxable income.',
       neighborhoods: [
         {
           name: 'South Abilene (near base)',
@@ -4213,7 +4213,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 23% below the national average',
-      stateTaxNote: 'Texas has no state income tax on military pay, meaning your BAH, base pay, and special pays go further here than in high-tax states.',
+      stateTaxNote: 'Texas has no state income tax on military pay. BAH and BAS are also excluded from federal taxable income.',
       neighborhoods: [
         {
           name: 'Wichita Falls (southwest)',
@@ -4300,7 +4300,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 12–15% below the national average',
-      stateTaxNote: 'New Mexico exempts active-duty military pay from state income tax. BAH and BAS are also tax-free.',
+      stateTaxNote: 'New Mexico exempts active-duty military pay from state income tax. BAH and BAS are also excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Alamogordo',
@@ -4399,7 +4399,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 15–18% below the national average',
-      stateTaxNote: 'Georgia taxes military pay at up to 5.75%. BAH and BAS remain tax-free at the federal and state level.',
+      stateTaxNote: 'Georgia taxes military pay at up to 5.75%. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'North Valdosta',
@@ -4473,7 +4473,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 12–15% below the national average',
-      stateTaxNote: 'Georgia taxes military pay at up to 5.75%. BAH and BAS remain tax-free at the federal and state level.',
+      stateTaxNote: 'Georgia taxes military pay at up to 5.75%. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Bonaire',
@@ -4580,7 +4580,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 5–8% below the national average',
-      stateTaxNote: 'Washington has no state income tax — a significant net-pay advantage over most duty stations.',
+      stateTaxNote: 'Washington has no state income tax on military pay.',
       neighborhoods: [
         {
           name: 'Airway Heights',
@@ -4702,7 +4702,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 12–15% above the national average',
-      stateTaxNote: 'Colorado has a flat income tax of 4.40% on military pay. BAH and BAS remain tax-free.',
+      stateTaxNote: 'Colorado has a flat income tax of 4.40% on military pay. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Monument / Palmer Lake',
@@ -4759,7 +4759,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: 'roughly 25–30% above the national average (driven by groceries and energy)',
       stateTaxNote:
-        'Alaska has no state income tax and no state sales tax. Your military pay stretches further here on the tax side — but higher costs for food, fuel, and heating offset some of that advantage.',
+        'Alaska has no state income tax and no state sales tax. Higher local costs for food, fuel, and heating offset some of that tax advantage.',
       neighborhoods: [
         {
           name: 'North Pole',
@@ -4817,7 +4817,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 5–8% below the national average',
-      stateTaxNote: 'Florida has no state income tax on military pay. Your entire paycheck goes further here than at duty stations in income-tax states.',
+      stateTaxNote: 'Florida has no state income tax on military pay. BAH and BAS are also excluded from federal taxable income.',
       neighborhoods: [
         {
           name: 'Orange Park',
@@ -4996,7 +4996,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     },
     localHousingTips: {
       coliNote: 'roughly 30–50% above the national average',
-      stateTaxNote: 'Hawaii taxes military pay at up to 11% at the top marginal rate. BAH and BAS remain tax-free.',
+      stateTaxNote: 'Hawaii taxes military pay at up to 11% at the top marginal rate. BAH and BAS are excluded from federal taxable income; state treatment varies.',
       neighborhoods: [
         {
           name: 'Kailua',

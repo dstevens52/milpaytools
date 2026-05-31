@@ -81,3 +81,35 @@ test.describe('FMR data layer — getFMR / getFMRRange / data integrity', () => 
     expect(FMR_DATA_YEAR).toBe('2026');
   });
 });
+
+// ─── Phase 2B: BAH-vs-rent comparison clause (pure, no surplus framing) ──────
+import { bahVsRentClause } from '../../src/lib/rentCompare';
+
+test.describe('rentCompare — bahVsRentClause (3 branches, no surplus language)', () => {
+  const FMR = { p25: 1000, median: 1200, p75: 1400 };
+
+  test('BAH ≥ p75 → "above the 75th-percentile / covers across most of this area"', () => {
+    expect(bahVsRentClause(1500, FMR, 'E-5 with dependents')).toContain("above the area's 75th-percentile 2-bedroom rent");
+    expect(bahVsRentClause(1400, FMR, 'E-5 with dependents')).toContain('covers a 2-bedroom across most of this area'); // boundary: >= p75
+  });
+
+  test('p25 ≤ BAH < p75 → "falls within the area\'s 2-bedroom rent range"', () => {
+    expect(bahVsRentClause(1200, FMR, 'E-5 with dependents')).toContain("falls within the area's 2-bedroom rent range");
+    expect(bahVsRentClause(1000, FMR, 'E-5 with dependents')).toContain('falls within'); // boundary: >= p25
+    expect(bahVsRentClause(1399, FMR, 'E-5 with dependents')).toContain('falls within'); // < p75
+  });
+
+  test('BAH < p25 → "2-bedroom rent runs above the 2026 BAH"', () => {
+    expect(bahVsRentClause(900, FMR, 'E-5 with dependents')).toContain('2-bedroom rent runs above the 2026 BAH');
+    expect(bahVsRentClause(999, FMR, 'E-5 with dependents')).toContain('runs above the 2026 BAH');
+  });
+
+  test('includes the BAH dollar amount + the grade label; never surplus/you-keep', () => {
+    for (const b of [1500, 1200, 900]) {
+      const s = bahVsRentClause(b, FMR, 'E-5 with dependents');
+      expect(s).toContain('E-5 with dependents');
+      expect(s).toMatch(/\$\d/);
+      expect(s).not.toMatch(/surplus|you keep|you pocket|pocket|you'?d keep/i);
+    }
+  });
+});

@@ -12,33 +12,23 @@ test.describe('BAH Station Page — Fort Bragg (upgraded, rich data)', () => {
 
   test('3-step plan renders on page', async ({ page }) => {
     await expect(page.getByText('Check your rate')).toBeVisible();
-    await expect(page.getByText('See what it buys')).toBeVisible();
+    await expect(page.getByText('See it vs. local rent')).toBeVisible();
     await expect(page.getByText('Plan your move')).toBeVisible();
   });
 
-  test('money strip renders with BAH, median rent, and surplus cards', async ({ page }) => {
+  test('rent section shows the E-5 BAH rate; no surplus/median-rent framing', async ({ page }) => {
     const e5Rate = getBAH('28301', 'E-5', true);
     if (!e5Rate) return test.skip();
-    // BAH card shows the rate value
-    await expect(page.getByText(formatCurrency(e5Rate), { exact: false }).first()).toBeVisible();
-    // Rent and surplus labels (use .first() since similar text may appear in other sections)
-    await expect(page.getByText('Median rent').first()).toBeVisible();
-    await expect(page.getByText('Monthly surplus').first()).toBeVisible();
-  });
-
-  test('"What Your BAH Buys Here" section heading exists', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'What Your BAH Buys Here' })).toBeVisible();
-  });
-
-  test('mortgage comparison renders inside housing section', async ({ page }) => {
-    await expect(page.getByText('Median home price')).toBeVisible();
-    await expect(page.getByText(/Est\. monthly mortgage/i)).toBeVisible();
-  });
-
-  test('no duplicate rent/surplus in housing section — appears only once', async ({ page }) => {
-    // MoneyStrip has exactly "Monthly surplus"; old repeated cards had "Monthly surplus vs. median rent"
-    // exact:true ensures we only count exact matches, confirming no duplication
-    await expect(page.getByText('Monthly surplus', { exact: true })).toHaveCount(1);
+    // The rate renders in the visible rent-comparison section (scope past the
+    // collapsed Quick-reference accordion). The old MoneyStrip "Median rent"/
+    // "Monthly surplus" cards are intentionally gone.
+    const rentSection = page
+      .locator('div')
+      .filter({ has: page.getByRole('heading', { name: 'BAH vs. Local Rent' }) })
+      .last();
+    await expect(rentSection.getByText(formatCurrency(e5Rate), { exact: false }).first()).toBeVisible();
+    await expect(page.getByText('Monthly surplus')).toHaveCount(0);
+    await expect(page.getByText('Median rent', { exact: true })).toHaveCount(0);
   });
 
   test('Key Insights section is NOT present on upgraded page', async ({ page }) => {
@@ -63,12 +53,17 @@ test.describe('BAH Station Page — Fort Bragg (upgraded, rich data)', () => {
     await expect(page.getByText(/82nd Airborne/i)).toBeVisible();
   });
 
-  test('rank selector updates money strip BAH value when grade changes to E-7', async ({ page }) => {
+  test('rank selector updates the displayed BAH value when grade changes to E-7', async ({ page }) => {
     const e7Rate = getBAH('28301', 'E-7', true);
     if (!e7Rate) return test.skip();
     await page.getByRole('combobox').selectOption('E-7');
-    // The money strip BAH card is the first visible occurrence of the rate
-    await expect(page.getByText(formatCurrency(e7Rate), { exact: false }).first()).toBeVisible();
+    // The E-7 rate surfaces in the visible rent-comparison section (scope past the
+    // collapsed Quick-reference accordion, which also lists the rate but is hidden).
+    const rentSection = page
+      .locator('div')
+      .filter({ has: page.getByRole('heading', { name: 'BAH vs. Local Rent' }) })
+      .last();
+    await expect(rentSection.getByText(formatCurrency(e7Rate), { exact: false }).first()).toBeVisible();
   });
 });
 
@@ -194,5 +189,45 @@ test.describe('BAH Station Page — Phase 1.5 YoY framing', () => {
     await page.goto('/bah/fort-bragg');
     await expect(page.getByText(/\$252 more over the year, excluded from federal taxable income/).first()).toBeVisible();
     await expect(page.getByText(/Some pay grades at Fort Bragg decreased for 2026/).first()).toBeVisible();
+  });
+});
+
+test.describe('BAH Station Page — Phase 2B HUD FMR rent comparison', () => {
+  test('renders statically for the E-5 default (Fort Bragg, BAH above 2BR p75)', async ({ page }) => {
+    await page.goto('/bah/fort-bragg');
+    await expect(page.getByRole('heading', { name: 'BAH vs. Local Rent' })).toBeVisible();
+    await expect(page.getByText(/2-bedroom Fair Market Rent runs about/).first()).toBeVisible();
+    await expect(page.getByText(/above the area's 75th-percentile 2-bedroom rent/).first()).toBeVisible();
+    await expect(page.getByText(/about 95% of typical local housing costs/).first()).toBeVisible();
+    await expect(page.getByText(/HUD Small Area Fair Market Rents/).first()).toBeVisible();
+  });
+
+  test('"within range" branch renders at a high-cost base (Presidio of Monterey)', async ({ page }) => {
+    await page.goto('/bah/presidio-of-monterey');
+    await expect(page.getByText(/falls within the area's 2-bedroom rent range/).first()).toBeVisible();
+  });
+
+  test('OCONUS has NO rent section (Yokota), degrades cleanly', async ({ page }) => {
+    await page.goto('/bah/yokota-air-base');
+    await expect(page.getByRole('heading', { name: 'BAH vs. Local Rent' })).toHaveCount(0);
+    await expect(page.getByText('2-bedroom Fair Market Rent runs about')).toHaveCount(0);
+    const body = await page.locator('main').innerText();
+    expect(body).not.toContain('$undefined');
+    expect(body).not.toContain('NaN');
+  });
+
+  test('picker drives the BAH side of the rent section (grade change)', async ({ page }) => {
+    await page.goto('/bah/fort-bragg');
+    await expect(page.getByText('E-5 w/dep BAH').first()).toBeVisible();
+    await page.getByRole('combobox').selectOption('E-9');
+    await expect(page.getByText('E-9 w/dep BAH').first()).toBeVisible();
+  });
+
+  test('no surplus/"you keep" language in the rent comparison section', async ({ page }) => {
+    await page.goto('/bah/redstone-arsenal'); // thin page (no tier-1 bahVsHousing block)
+    await expect(page.getByRole('heading', { name: 'BAH vs. Local Rent' })).toBeVisible();
+    const body = await page.locator('main').innerText();
+    expect(body).not.toContain('$undefined');
+    expect(body).not.toMatch(/you keep|you pocket|Monthly surplus/i);
   });
 });

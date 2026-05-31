@@ -16,6 +16,7 @@ import type { DutyStation } from '@/data/duty-stations/stations';
 import type { StateTaxInfo } from '@/data/compare/stateTax';
 import { EmailSignup } from '@/components/EmailSignup';
 import { YoYDelta } from '@/components/calculators/bah/YoYDelta';
+import { bahVsRentClause } from '@/lib/rentCompare';
 import { fireShareEvent } from '@/lib/analytics';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -49,12 +50,16 @@ export interface StationPageClientProps {
   colaArea: { name: string; tier: string } | null;
   nearbyData: NearbyStationData[];
   hasRates: boolean;
+  /** Rich-data station (drives layout). Passed explicitly so the bahVsHousing
+   *  data object — now unused by the client — need not ship in the payload. */
+  hasRichData: boolean;
   nationalAvgs: { w: Record<string, number>; wo: Record<string, number> };
   // Universal enrichment (fixed E-5 with-dependents reference)
   medianSentence?: string;
   percentileSentence?: string;
   yoySummary?: string;
   hasDecrease?: boolean;
+  fmr2br?: { p25: number; median: number; p75: number } | null;
   siblings?: SiblingInstallation[];
   faqs?: { question: string; answer: string }[];
 }
@@ -79,10 +84,6 @@ const GRADE_GROUPS: { label: string; grades: PayGrade[] }[] = [
 ];
 
 const fmt = (n: number) => formatCurrency(n);
-
-function interpolate(template: string, vars: Record<string, string>): string {
-  return template.replace(/\{(\w+)\}/g, (_, key) => vars[key] ?? `{${key}}`);
-}
 
 // ─── URL param normalization helpers ─────────────────────────────────────────
 
@@ -138,11 +139,11 @@ function getBranchEmblem(station: DutyStation): string | null {
 
 const HERO_STEPS = [
   { title: 'Check your rate', sub: 'Select your rank and dependent status below' },
-  { title: 'See what it buys', sub: 'Compare your BAH to local rent and mortgage costs' },
+  { title: 'See it vs. local rent', sub: "Compare your BAH to the area's Fair Market Rent" },
   { title: 'Plan your move', sub: 'Compare stations or estimate PCS costs' },
 ] as const;
 
-function HeroBanner({ station, description }: { station: DutyStation; description?: string }) {
+function HeroBanner({ station }: { station: DutyStation }) {
   const subtitle = [
     `${station.city}, ${station.stateName}`,
     station.branches.join(' / '),
@@ -191,11 +192,6 @@ function HeroBanner({ station, description }: { station: DutyStation; descriptio
           <p className="text-sm text-white/60">{subtitle}</p>
           {station.installationDetail && (
             <p className="text-xs text-white/45 mt-1">{station.installationDetail}</p>
-          )}
-          {description && station.bahVsHousing && (
-            <p className="mt-3 text-sm leading-relaxed max-w-[640px]" style={{ color: 'rgba(255,255,255,0.85)' }}>
-              {description}
-            </p>
           )}
         </div>
         {/* 3-step plan strip — inside the dark hero */}
@@ -298,63 +294,6 @@ function RankSelector({ availableGrades, selectedGrade, hasDependents, onGradeCh
   );
 }
 
-// ─── MoneyStrip sub-component ─────────────────────────────────────────────────
-
-interface MoneyStripProps {
-  selectedBAH: number;
-  selectedGrade: PayGrade;
-  hasDependents: boolean;
-  medianRent: number;
-  medianRentSource: string;
-}
-
-function MoneyStrip({ selectedBAH, selectedGrade, hasDependents, medianRent, medianRentSource }: MoneyStripProps) {
-  const surplus = selectedBAH - medianRent;
-  const depLabel = hasDependents ? 'w/dep' : 'w/o dep';
-
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-      <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
-        <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">
-          {selectedGrade} {depLabel} BAH
-        </p>
-        <p className="text-2xl font-bold text-red-700 tabular-nums">
-          {fmt(selectedBAH)}
-          <span className="text-sm font-normal text-zinc-500">/mo</span>
-        </p>
-        <p className="text-xs text-zinc-400 mt-1">Tax-free housing allowance</p>
-      </div>
-      <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
-        <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Median rent</p>
-        <p className="text-2xl font-bold text-zinc-900 tabular-nums">
-          {fmt(medianRent)}
-          <span className="text-sm font-normal text-zinc-500">/mo</span>
-        </p>
-        <p className="text-xs text-zinc-400 mt-1">{medianRentSource}</p>
-      </div>
-      <div
-        className={[
-          'rounded-lg border p-4',
-          surplus >= 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200',
-        ].join(' ')}
-      >
-        <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Monthly surplus</p>
-        <p
-          className={[
-            'text-2xl font-bold tabular-nums',
-            surplus >= 0 ? 'text-green-700' : 'text-red-700',
-          ].join(' ')}
-        >
-          {surplus >= 0 ? '+' : ''}
-          {fmt(surplus)}
-          <span className="text-sm font-normal">/mo</span>
-        </p>
-        <p className="text-xs text-zinc-400 mt-1">BAH minus median rent</p>
-      </div>
-    </div>
-  );
-}
-
 // ─── ShareButton sub-component ───────────────────────────────────────────────
 
 function ShareButton({ station }: { station: DutyStation }) {
@@ -430,11 +369,13 @@ export function StationPageClient({
   colaArea,
   nearbyData,
   hasRates,
+  hasRichData,
   nationalAvgs,
   medianSentence = '',
   percentileSentence = '',
   yoySummary = '',
   hasDecrease = false,
+  fmr2br = null,
   siblings = [],
   faqs = [],
 }: StationPageClientProps) {
@@ -488,17 +429,7 @@ export function StationPageClient({
     [ratesW, ratesWO]
   );
 
-  const hasRichData = !!station.bahVsHousing;
   const depLabel = hasDependents ? 'w/dep' : 'w/o dep';
-
-  const surplus = station.bahVsHousing ? selectedBAH - station.bahVsHousing.medianRent : 0;
-  const templateVars: Record<string, string> = {
-    rank: `${selectedGrade} ${hasDependents ? 'with dependents' : 'without dependents'}`,
-    grade: selectedGrade,
-    bahAmount: fmt(selectedBAH),
-    surplus: fmt(Math.abs(surplus)),
-  };
-  const heroDescription = station.description ? interpolate(station.description, templateVars) : undefined;
 
   return (
     <>
@@ -516,7 +447,7 @@ export function StationPageClient({
       </div>
 
       {/* Hero banner */}
-      <HeroBanner station={station} description={heroDescription} />
+      <HeroBanner station={station} />
 
       {/* Share bar — after hero, before main content */}
       <div className="bg-white border-b border-zinc-100">
@@ -579,15 +510,6 @@ export function StationPageClient({
                   className="font-semibold"
                 />
               </p>
-            )}
-            {station.bahVsHousing && selectedBAH > 0 && (
-              <MoneyStrip
-                selectedBAH={selectedBAH}
-                selectedGrade={selectedGrade}
-                hasDependents={hasDependents}
-                medianRent={station.bahVsHousing.medianRent}
-                medianRentSource={station.bahVsHousing.medianRentSource}
-              />
             )}
           </div>
 
@@ -741,72 +663,15 @@ export function StationPageClient({
             </div>
           )}
 
-          {/* What Your BAH Buys Here */}
-          {!station.oconus && station.bahVsHousing && selectedBAH > 0 && (
-            <div className="bg-white rounded-lg border border-zinc-200 p-6">
-              <h2 className="text-lg font-semibold text-zinc-900 mb-1">What Your BAH Buys Here</h2>
-              <p className="text-sm text-zinc-500 mb-5">
-                {selectedBAH - station.bahVsHousing.medianRent >= 0
-                  ? `If you rent at median, you keep about ${fmt(selectedBAH - station.bahVsHousing.medianRent)}/month. But what about buying?`
-                  : `At median rent, BAH runs short by about ${fmt(station.bahVsHousing.medianRent - selectedBAH)}/month. Here's how buying compares:`
-                }
-              </p>
-
-              {/* Buying comparison row */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-                <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
-                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Median home price</p>
-                  <p className="text-2xl font-bold text-zinc-900 tabular-nums">
-                    {fmt(station.bahVsHousing.medianHomePrice)}
-                  </p>
-                  <p className="text-xs text-zinc-400 mt-1">{station.bahVsHousing.medianHomePriceSource}</p>
-                </div>
-                <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
-                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">
-                    Est. monthly mortgage (PITI)
-                  </p>
-                  <p className="text-2xl font-bold text-zinc-900 tabular-nums">
-                    {fmt(station.bahVsHousing.mortgageMin)}–{fmt(station.bahVsHousing.mortgageMax)}
-                    <span className="text-sm font-normal text-zinc-500">/mo</span>
-                  </p>
-                  <p className="text-xs text-zinc-400 mt-1">{station.bahVsHousing.mortgageAssumptions}</p>
-                </div>
-              </div>
-
-              <div className="rounded-lg bg-zinc-50 border border-zinc-200 px-4 py-3 mb-4">
-                <p className="text-sm text-zinc-700 leading-relaxed">
-                  At {fmt(selectedBAH)}/month BAH and an estimated{' '}
-                  {fmt(station.bahVsHousing.mortgageMin)}–{fmt(station.bahVsHousing.mortgageMax)}/month PITI on
-                  a median-priced home,{' '}
-                  {selectedBAH >= station.bahVsHousing.mortgageMin
-                    ? 'BAH may cover a significant portion of a typical mortgage in this market — though actual costs vary based on rate, taxes, insurance, and individual circumstances.'
-                    : 'BAH may not fully cover a typical mortgage, but it can significantly offset your monthly housing cost — though actual costs vary based on rate, taxes, insurance, and individual circumstances.'}
-                </p>
-              </div>
-
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                Housing cost estimates are approximate and based on publicly available market data. Actual
-                mortgage costs depend on interest rate, property taxes, insurance, HOA dues, maintenance,
-                credit profile, and lender requirements. This is not financial advice — use these numbers
-                as a starting point for your own research.
-              </p>
-            </div>
-          )}
-
           {/* How This Market Compares */}
           {selectedBAH > 0 && !station.oconus && (
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
               <h2 className="text-lg font-semibold text-zinc-900 mb-3">How This Market Compares</h2>
               {(medianSentence || percentileSentence) && (
-                <p className="text-sm text-zinc-700 leading-relaxed mb-3">
+                <p className="text-sm text-zinc-700 leading-relaxed mb-5">
                   {medianSentence} {percentileSentence}
                 </p>
               )}
-              <p className="text-sm text-zinc-600 leading-relaxed mb-5">
-                {station.rentalContext
-                  ? `For ${selectedGrade} ${hasDependents ? 'with dependents' : 'without dependents'}, the rate here is ${fmt(Math.abs(selectedDiff))}/mo ${selectedDiff >= 0 ? 'above' : 'below'} the national median — ${selectedDiff >= 0 ? 'and' : 'but'} ${station.rentalContext}`
-                  : station.rentalNote}
-              </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-3">
                 <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
                   <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">
@@ -845,6 +710,58 @@ export function StationPageClient({
                   </p>
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* BAH vs. local rent — HUD 2BR Fair Market Rent (all CONUS pages with FMR).
+              Static for the E-5 w/dep default (indexable); picker drives the BAH side.
+              Comparison only — no surplus/"you keep" framing. */}
+          {hasRates && fmr2br && selectedBAH > 0 && (
+            <div className="bg-white rounded-lg border border-zinc-200 p-6">
+              <h2 className="text-lg font-semibold text-zinc-900 mb-3">BAH vs. Local Rent</h2>
+              <p className="text-sm text-zinc-700 leading-relaxed mb-4">
+                Across this area, 2-bedroom Fair Market Rent runs about{' '}
+                <strong>{fmt(fmr2br.p25)}–{fmt(fmr2br.p75)}</strong> (median <strong>{fmt(fmr2br.median)}</strong>).
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
+                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">
+                    {selectedGrade} {depLabel} BAH
+                  </p>
+                  <p className="text-2xl font-bold text-zinc-900 tabular-nums">
+                    {fmt(selectedBAH)}
+                    <span className="text-sm font-normal text-zinc-500">/mo</span>
+                  </p>
+                </div>
+                <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
+                  <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">
+                    2BR rent (HUD FMR, FY2026)
+                  </p>
+                  <p className="text-2xl font-bold text-zinc-900 tabular-nums">
+                    {fmt(fmr2br.median)}
+                    <span className="text-sm font-normal text-zinc-500"> median</span>
+                  </p>
+                  <p className="text-xs text-zinc-400 mt-0.5 tabular-nums">
+                    {fmt(fmr2br.p25)}–{fmt(fmr2br.p75)} range
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm text-zinc-600 leading-relaxed mb-3">
+                {bahVsRentClause(selectedBAH, fmr2br, `${selectedGrade} ${hasDependents ? 'with dependents' : 'without dependents'}`)}
+              </p>
+              <p className="text-sm text-zinc-500 leading-relaxed mb-3">
+                BAH is designed to cover about 95% of typical local housing costs — rent plus utilities —
+                for a member&apos;s pay grade and dependency status, leaving a roughly 5% member cost share.
+              </p>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                2-bedroom Fair Market Rent (HUD, FY2026). 2-bedroom is the reference point closest to
+                junior- and mid-grade housing; larger households and senior grades typically need more
+                space. Rent figures are HUD Small Area Fair Market Rents matched to this installation&apos;s
+                Military Housing Area by ZIP code. MHA boundaries and HUD rent areas don&apos;t align
+                perfectly, so these are area-level reference figures, not a personalized rent estimate.
+                FMR is a gross-rent figure that includes tenant-paid utilities — the same basis BAH is
+                built on.
+              </p>
             </div>
           )}
 
@@ -958,39 +875,13 @@ export function StationPageClient({
             </div>
           )}
 
-          {/* Local Housing Tips */}
-          {station.localHousingTips && (
+          {/* State income tax */}
+          {station.localHousingTips?.stateTaxNote && (
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
               <p className="text-xs text-zinc-500 uppercase tracking-wide font-semibold mb-3">
-                Local cost of living context
+                State income tax
               </p>
-              <ul className="space-y-2 mb-6">
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 flex-none mt-1.5" />
-                  <p className="text-sm text-zinc-600">
-                    Overall cost of living is roughly {station.localHousingTips.coliNote}.
-                  </p>
-                </li>
-                {station.localHousingTips.groceryNote && (
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 flex-none mt-1.5" />
-                  <p className="text-sm text-zinc-600">
-                    Groceries run about {station.localHousingTips.groceryNote}.
-                  </p>
-                </li>
-                )}
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 flex-none mt-1.5" />
-                  <p className="text-sm text-zinc-600">{station.localHousingTips.stateTaxNote}</p>
-                </li>
-              </ul>
-
-              <div className="rounded-lg bg-sky-50 border border-sky-200 p-4">
-                <p className="text-sm font-semibold text-sky-900 mb-1">What to know before you move</p>
-                <p className="text-sm text-sky-700 leading-relaxed">
-                  {interpolate(station.localHousingTips.mistakeToAvoid, templateVars)}
-                </p>
-              </div>
+              <p className="text-sm text-zinc-600">{station.localHousingTips.stateTaxNote}</p>
             </div>
           )}
 
@@ -1005,8 +896,8 @@ export function StationPageClient({
                   <p className="text-sm text-zinc-600">
                     An {selectedGrade} {hasDependents ? 'with dependents' : 'without dependents'} receives{' '}
                     <strong>{fmt(selectedBAH)}/month</strong> — that&apos;s{' '}
-                    <strong>{fmt(selectedBAH * 12)}/year</strong> in tax-free housing money to cover costs
-                    in the {locationName} market.
+                    <strong>{fmt(selectedBAH * 12)}/year</strong> in housing money (excluded from federal
+                    taxable income) to cover costs in the {locationName} market.
                   </p>
                 </li>
               )}
@@ -1014,8 +905,8 @@ export function StationPageClient({
                 <li className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-700 flex-none mt-1.5" />
                   <p className="text-sm text-zinc-600">
-                    <strong>{station.stateName} has no state income tax</strong> on military pay, meaning
-                    your BAH, base pay, and special pays go further here than in high-tax states.
+                    <strong>{station.stateName} has no state income tax</strong> on military pay, so your
+                    BAH, base pay, and special pays are not reduced by state withholding here.
                   </p>
                 </li>
               )}
@@ -1024,8 +915,8 @@ export function StationPageClient({
                   <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 flex-none mt-1.5" />
                   <p className="text-sm text-zinc-600">
                     {station.stateName} taxes military base pay at approximately{' '}
-                    <strong>{(taxInfo.rate * 100).toFixed(1)}%</strong>. BAH and BAS remain tax-free at
-                    the federal and state level.
+                    <strong>{(taxInfo.rate * 100).toFixed(1)}%</strong>. BAH and BAS are excluded from
+                    federal taxable income; state treatment varies.
                   </p>
                 </li>
               )}
@@ -1042,9 +933,9 @@ export function StationPageClient({
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-red-700 flex-none mt-1.5" />
                 <p className="text-sm text-zinc-600">
-                  BAH is designed to cover median rental costs — not average or premium rents. Members
-                  living in above-median housing pay the difference out of pocket; those in below-median
-                  housing keep the surplus.
+                  BAH is benchmarked to typical local rental costs for a member&apos;s pay grade and
+                  dependency status — not premium or above-median housing. Members who choose more
+                  expensive housing pay the difference out of pocket.
                 </p>
               </li>
             </ul>
@@ -1052,10 +943,10 @@ export function StationPageClient({
           )}
 
           {/* Housing data master disclaimer */}
-          {station.bahVsHousing && (
+          {hasRichData && (
             <div className="rounded-lg bg-slate-50 border border-slate-200 p-4">
               <p className="text-xs text-slate-500 leading-relaxed">
-                Housing data is approximate and provided for informational and educational purposes only. Median rents and home prices reflect market estimates at time of publication and may not reflect current conditions. School ratings are sourced from third-party services and reflect their methodology. MilPayTools does not endorse specific neighborhoods, properties, landlords, or housing decisions. Always verify figures independently and consult with a qualified professional before making financial commitments.
+                Rent and cost figures on this page are approximate and provided for informational and educational purposes only. They reflect market estimates at time of publication and may not reflect current conditions. This is not financial, tax, or housing advice. Always verify figures independently and consult a qualified professional before making financial commitments.
               </p>
             </div>
           )}

@@ -1,8 +1,10 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { DUTY_STATIONS, STATION_BY_SLUG } from '@/data/duty-stations/stations';
+import { DUTY_STATIONS, STATION_BY_SLUG, type DutyStation } from '@/data/duty-stations/stations';
 import { getMHACode, getMHARates, getMHARatesForYear, getLocationName, getNationalAverages, CURRENT_BAH_YEAR, PRIOR_BAH_YEAR } from '@/lib/calculations/bah';
 import { mhaPercentile, yoyForGrade, siblingInstallations, nearbyDeltas, hasRateDecrease, nationalIncreaseComparison } from '@/lib/calculations/bahStats';
+import { getFMRRange } from '@/lib/calculations/fmr';
+import { bahVsRentClause } from '@/lib/rentCompare';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema, breadcrumbListSchema } from '@/lib/schema';
 import { formatCurrency } from '@/lib/utils';
@@ -97,6 +99,8 @@ export default async function StationPage({
   const siblings = mhaCode ? siblingInstallations(mhaCode, station.slug) : [];
   // True if any displayed pay grade decreased 2025→2026 at this MHA.
   const hasDecrease = mhaCode ? hasRateDecrease(mhaCode) : false;
+  // HUD 2-bedroom Fair Market Rent range for this MHA (null = OCONUS/no coverage).
+  const fmr2br = mhaCode ? getFMRRange(mhaCode, 2) : null;
 
   const pageUrl = `/bah/${station.slug}`;
   const schema = articleSchema({
@@ -142,10 +146,6 @@ export default async function StationPage({
     }
   }
 
-  const buyAnswer = station.bahVsHousing
-    ? `Local median home prices run approximately ${formatCurrency(station.bahVsHousing.medianHomePrice)}, with estimated monthly mortgage payments (PITI) of ${formatCurrency(station.bahVsHousing.mortgageMin)}–${formatCurrency(station.bahVsHousing.mortgageMax)}. An E-6 with dependents receives ${formatCurrency(ratesW?.['E-6'] ?? 0)}/month in BAH and an E-5 with dependents ${formatCurrency(ratesW?.['E-5'] ?? 0)}/month. Whether BAH covers a mortgage depends on home prices, rates, and pay grade.`
-    : '';
-
   // Nearby comparison (E-5 w/dep deltas), CONUS only, for the FAQ.
   const nearbyForFaq = nearbyData.filter((n) => !n.oconus && n.e5Delta !== undefined);
   const nearbyFaqAnswer =
@@ -186,6 +186,12 @@ export default async function StationPage({
         answer: nearbyFaqAnswer,
       });
     }
+    if (fmr2br && e5W !== undefined && e5W > 0) {
+      faqs.push({
+        question: `How does BAH at ${station.name} compare with local rent?`,
+        answer: `For 2026, an E-5 with dependents at ${station.name} receives ${formatCurrency(e5W)}/month in BAH. Across the ${mhaLabel} area, 2-bedroom Fair Market Rent (HUD, FY2026) runs about ${formatCurrency(fmr2br.p25)}–${formatCurrency(fmr2br.p75)} (median ${formatCurrency(fmr2br.median)}). ${bahVsRentClause(e5W, fmr2br, 'an E-5 with dependents')} BAH is designed to cover about 95% of typical local housing costs — rent plus utilities — for a member's pay grade and dependency status.`,
+      });
+    }
     faqs.push({
       question: `Is BAH taxable for service members stationed at ${station.name}?`,
       answer: `No. BAH is excluded from federal taxable income under the Military Pay Tax Exclusion. Most states also exempt BAH from state income tax, though treatment varies by state. Service members keep the full dollar value of their housing allowance.`,
@@ -194,12 +200,6 @@ export default async function StationPage({
       faqs.push({
         question: `Why do ${station.name} and ${siblings.length === 1 ? siblings[0].name : 'nearby installations'} have the same BAH rate?`,
         answer: `${station.name} shares the ${mhaLabel} MHA with ${listToProse(siblings.map((s) => s.name))} — all of them receive identical BAH because the rate is set per MHA, not per installation. A member at any of these locations with the same pay grade and dependency status receives the same amount.`,
-      });
-    }
-    if (buyAnswer) {
-      faqs.push({
-        question: `Can I afford to buy a home near ${station.name} using BAH?`,
-        answer: buyAnswer,
       });
     }
   }
@@ -211,13 +211,30 @@ export default async function StationPage({
     { name: station.name, url: pageUrl },
   ]);
 
+  // StationPageClient is a client component, so every field of `station` is
+  // serialized into the page's HTML payload. The page no longer renders the
+  // retired home-buying / surplus / cost-of-living / neighborhood-steering copy,
+  // so strip those fields here to keep them out of the shipped HTML entirely
+  // (only stateTaxNote, rentalNote[OCONUS], and oconusContent are still rendered).
+  const clientStation: DutyStation = {
+    ...station,
+    description: '',
+    rentalContext: undefined,
+    rentalNote: station.oconus ? station.rentalNote : '',
+    bahVsHousing: undefined,
+    localHousingTips: station.localHousingTips
+      ? { coliNote: '', stateTaxNote: station.localHousingTips.stateTaxNote, neighborhoods: [], mistakeToAvoid: '' }
+      : undefined,
+  };
+
   return (
     <>
       <JsonLdScript schema={schema} />
       <JsonLdScript schema={breadcrumbSchema} />
       {faqSchema && <JsonLdScript schema={faqSchema} />}
       <StationPageClient
-        station={station}
+        station={clientStation}
+        hasRichData={!!station.bahVsHousing}
         ratesW={ratesW ?? {}}
         ratesWO={ratesWO ?? {}}
         ratesWPrev={ratesWPrev ?? {}}
@@ -235,6 +252,7 @@ export default async function StationPage({
         percentileSentence={percentileSentence}
         yoySummary={yoySummary}
         hasDecrease={hasDecrease}
+        fmr2br={fmr2br}
         siblings={siblings}
         faqs={faqs}
       />
