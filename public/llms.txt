@@ -1,5 +1,5 @@
 # MilPayTools
-> Free military pay and benefits calculators built on official 2026 DoD and VA data. No account required. No personal information collected. Calculations run in the browser.
+> Free military pay and benefits calculators built on official 2026 DoD and VA data. No account required. No personal info needed to use the tools — calculator inputs are never sent to our servers. We use privacy-respecting analytics; see our Privacy Policy.
 
 ## Calculators (18)
 - [Total Military Compensation](/calculators/total-compensation): Full pay breakdown with BAH, BAS, tax advantages, TSP match, TRICARE healthcare value, and civilian salary equivalent — including what a civilian would need to earn to match your total package
@@ -32,7 +32,7 @@
 - [VA Home Loans Guide 2026](/guides/va-home-loans): VA loan eligibility, funding fee table, disability exemption waiver, BAH as mortgage income, and payment calculator
 - [Military Transition Financial Roadmap](/transition): Full financial arc of military separation — income, healthcare, benefits, and deadlines
 
-- [For Partners — Free Military Finance Tools to Share | MilPayTools](/partners): Partner page for sharing MilPayTools with audiences, organized by military life stage — Starting Service, Pay & Housing, PCS & Relocation, Deployment, Retirement & TSP, Education & Career, VA Loans, Veterans Benefits, and Leaving the Military. Links to all 18 calculators, 8 guides, and key blog posts. Designed for sharing with service members, veterans, military families, transition coaches, and veteran organizations. No accounts, no personal info, no ads.
+- [For Partners](/partners): Partner page for sharing MilPayTools with audiences, organized by military life stage — Starting Service, Pay & Housing, PCS & Relocation, Deployment, Retirement & TSP, Education & Career, VA Loans, Veterans Benefits, and Leaving the Military. Links to all 18 calculators, 9 guides, and key blog posts. Designed for sharing with service members, veterans, military families, transition coaches, and veteran organizations. No accounts, no personal info, no ads.
 
 ## BAH by Duty Station
 
