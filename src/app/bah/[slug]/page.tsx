@@ -11,6 +11,7 @@ import { formatCurrency } from '@/lib/utils';
 import { STATE_TAX_DATA } from '@/data/compare/stateTax';
 import { COLA_AREAS } from '@/data/cola/2026/constants';
 import { StationPageClient } from '@/components/calculators/bah/StationPageClient';
+import { OCONUS_HERO_SLUGS } from '@/lib/oconusPilot';
 
 function ordinal(n: number): string {
   const s = ['th', 'st', 'nd', 'rd'];
@@ -133,7 +134,12 @@ export default async function StationPage({
   const ratesWPrev = mhaCode ? getMHARatesForYear(mhaCode, true, PRIOR_BAH_YEAR) : null;
   const ratesWOPrev = mhaCode ? getMHARatesForYear(mhaCode, false, PRIOR_BAH_YEAR) : null;
 
-  const taxInfo = STATE_TAX_DATA[station.state] ?? null;
+  // OCONUS pilot stations: `station.state` holds a country code (e.g. 'DE' for
+  // Germany), which collides with US state codes (DE → Delaware). US military pay
+  // overseas isn't subject to host-nation income tax, so skip the lookup entirely
+  // rather than serialize a wrong rate.
+  const oconusPilot = !!station.oconus && OCONUS_HERO_SLUGS.has(station.slug);
+  const taxInfo = oconusPilot ? null : (STATE_TAX_DATA[station.state] ?? null);
   const colaAreaFull = station.oconus
     ? null
     : COLA_AREAS.find((a) => a.zipPrefixes.includes(station.zip.slice(0, 3))) ?? null;

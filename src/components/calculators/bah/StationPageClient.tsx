@@ -18,6 +18,7 @@ import { EmailSignup } from '@/components/EmailSignup';
 import { YoYDelta } from '@/components/calculators/bah/YoYDelta';
 import { bahVsRentClause } from '@/lib/rentCompare';
 import { fireShareEvent } from '@/lib/analytics';
+import { OCONUS_HERO_SLUGS, OCONUS_LOCALITY_CODE } from '@/lib/oconusPilot';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -142,18 +143,6 @@ const HERO_STEPS = [
   { title: 'See it vs. local rent', sub: "Compare your BAH to the area's Fair Market Rent" },
   { title: 'Plan your move', sub: 'Compare stations or estimate PCS costs' },
 ] as const;
-
-// ── OCONUS hero pilot ─────────────────────────────────────────────────────────
-// Reusable OCONUS treatment, gated to a slug allowlist for this pilot. To roll
-// out to all OCONUS stations, drop OCONUS_HERO_SLUGS and gate on `station.oconus`
-// directly, then add each station's verified DoD locality code below.
-const OCONUS_HERO_SLUGS = new Set<string>(['ramstein-air-base']);
-
-// Verified DoD locality codes, keyed by slug. Only add a station once its code
-// is confirmed — absence renders no locality clause (never guess a code).
-const OCONUS_LOCALITY_CODE: Record<string, string> = {
-  'ramstein-air-base': 'DE700',
-};
 
 function HeroBanner({ station, oconusHero }: { station: DutyStation; oconusHero: boolean }) {
   const subtitle = [
@@ -616,11 +605,20 @@ export function StationPageClient({
                   <p className="text-xs text-zinc-500 mb-0.5 uppercase tracking-wide">Branch</p>
                   <p className="text-sm font-medium text-zinc-800">{station.branches.join(', ')}</p>
                 </div>
-                {locationName && (
+                {oconusHero ? (
                   <div>
-                    <p className="text-xs text-zinc-500 mb-0.5 uppercase tracking-wide">MHA</p>
-                    <p className="text-sm font-medium text-zinc-800">{locationName}</p>
+                    <p className="text-xs text-zinc-500 mb-0.5 uppercase tracking-wide">Housing</p>
+                    <p className="text-sm font-medium text-zinc-800">
+                      OHA{localityCode ? ` — locality ${localityCode}` : ''}
+                    </p>
                   </div>
+                ) : (
+                  locationName && (
+                    <div>
+                      <p className="text-xs text-zinc-500 mb-0.5 uppercase tracking-wide">MHA</p>
+                      <p className="text-sm font-medium text-zinc-800">{locationName}</p>
+                    </div>
+                  )
                 )}
                 {selectedBAH > 0 && (
                   <div>
@@ -1026,6 +1024,15 @@ export function StationPageClient({
                   </p>
                 </li>
               )}
+              {oconusHero && (
+                <li className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 flex-none mt-1.5" />
+                  <p className="text-sm text-zinc-600">
+                    State income tax is set by your state of legal residence, not your duty station —
+                    being stationed overseas doesn&apos;t change that.
+                  </p>
+                </li>
+              )}
               {colaArea && (
                 <li className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-700 flex-none mt-1.5" />
@@ -1036,14 +1043,16 @@ export function StationPageClient({
                   </p>
                 </li>
               )}
-              <li className="flex items-start gap-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-700 flex-none mt-1.5" />
-                <p className="text-sm text-zinc-600">
-                  BAH is benchmarked to typical local rental costs for a member&apos;s pay grade and
-                  dependency status — not premium or above-median housing. Members who choose more
-                  expensive housing pay the difference out of pocket.
-                </p>
-              </li>
+              {!oconusHero && (
+                <li className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-700 flex-none mt-1.5" />
+                  <p className="text-sm text-zinc-600">
+                    BAH is benchmarked to typical local rental costs for a member&apos;s pay grade and
+                    dependency status — not premium or above-median housing. Members who choose more
+                    expensive housing pay the difference out of pocket.
+                  </p>
+                </li>
+              )}
             </ul>
           </div>
           )}
@@ -1076,7 +1085,7 @@ export function StationPageClient({
           <div className="bg-zinc-900 rounded-lg p-6">
             <h2 className="text-white font-semibold mb-1">What to do next</h2>
             <p className="text-zinc-400 text-sm mb-5">
-              BAH is the starting point. Here are the calculations that matter most for your PCS decision.
+              {oconusHero ? 'Your overseas pay' : 'BAH'} is the starting point. Here are the calculations that matter most for your PCS decision.
             </p>
             {/* Primary CTA */}
             <Link
@@ -1114,12 +1123,14 @@ export function StationPageClient({
                   Calculate deployment pay for overseas assignments →
                 </Link>
               )}
-              <Link
-                href="/blog/how-bah-builds-wealth"
-                className="text-sm text-zinc-300 hover:text-white transition-colors"
-              >
-                How BAH can build long-term wealth →
-              </Link>
+              {!oconusHero && (
+                <Link
+                  href="/blog/how-bah-builds-wealth"
+                  className="text-sm text-zinc-300 hover:text-white transition-colors"
+                >
+                  How BAH can build long-term wealth →
+                </Link>
+              )}
               <Link
                 href="/blog/how-much-does-an-e5-really-make-2026"
                 className="text-sm text-zinc-300 hover:text-white transition-colors"
