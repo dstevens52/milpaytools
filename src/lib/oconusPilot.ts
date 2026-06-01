@@ -5,7 +5,12 @@
 // but activation is gated to this slug allowlist for the pilot. To roll out to all
 // OCONUS stations, drop OCONUS_HERO_SLUGS and gate on `station.oconus` directly,
 // then add each station's verified DoD locality code below.
-export const OCONUS_HERO_SLUGS = new Set<string>(['ramstein-air-base']);
+export const OCONUS_HERO_SLUGS = new Set<string>([
+  'ramstein-air-base',
+  'yokota-air-base',
+  'kadena-air-base',
+  'camp-humphreys',
+]);
 
 // Verified DoD locality codes, keyed by slug. Only add a station once its code is
 // confirmed — absence renders no locality clause (never guess a code).
