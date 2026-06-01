@@ -287,7 +287,7 @@ export default function StartingServicePage() {
 
             {/* ── Card 2: PAYCHECK / LES ─────────────────────────────────── */}
             <Link
-              href="/blog/how-to-read-military-les-2026"
+              href="/blog/how-to-read-your-les"
               className="group relative overflow-hidden rounded-2xl flex flex-col transition-all duration-200 hover:-translate-y-1 shadow-sm hover:shadow-[0_12px_36px_rgba(180,83,9,0.18)]"
               style={{ background: 'linear-gradient(135deg,#fffbeb 0%,#fef3c7 100%)', border: '1px solid #fde68a', borderLeftWidth: '4px', borderLeftColor: '#b45309', padding: '24px 24px 20px 24px' }}
             >

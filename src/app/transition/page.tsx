@@ -752,7 +752,7 @@ export default function TransitionPage() {
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <ResourceCard
-                  href="/blog/how-to-read-military-les-2026"
+                  href="/blog/how-to-read-your-les"
                   title="How to Read Your Military LES"
                   description="Pull your final LES and verify everything: correct dependency status, TSP contributions hitting the right amount, state tax withholding for your future state of residence. Errors here are easier to fix while you're still in."
                 />

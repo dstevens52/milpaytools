@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
       { source: '/resources', destination: '/partners', permanent: true },
       // Healthcare calculator canonical redirect
       { source: '/calculators/healthcare', destination: '/calculators/healthcare-comparison', permanent: true },
+      // LES post consolidation — three near-duplicate posts merged into one survivor
+      { source: '/blog/how-to-read-your-military-les', destination: '/blog/how-to-read-your-les', permanent: true },
+      { source: '/blog/how-to-read-military-les-2026', destination: '/blog/how-to-read-your-les', permanent: true },
       // Base name reversals — 2025 Army renaming rollback
       { source: '/bah/fort-liberty', destination: '/bah/fort-bragg', permanent: true },
       { source: '/bah/fort-cavazos', destination: '/bah/fort-hood', permanent: true },
