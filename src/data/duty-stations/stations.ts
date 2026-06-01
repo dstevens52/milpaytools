@@ -3461,7 +3461,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     oconus: true,
     oconusContent: {
       colaNote:
-        'Yokota members typically receive OCONUS COLA based on the Tokyo area cost index. COLA at Yokota has historically been among the higher OCONUS rates — Japan\'s cost of living, amplified by the yen-dollar exchange rate, drives the supplement. The amount varies by pay grade, dependent status, and the current yen-dollar rate; it is updated periodically and can shift meaningfully when the exchange rate moves. Verify your current entitlement at myPay or through your finance office. Note: OCONUS COLA uses a different calculation method than CONUS COLA.',
+        'Yokota members typically receive OCONUS COLA based on the Tokyo area cost index. COLA at Yokota has historically been among the higher OCONUS rates — Japan\'s cost of living, amplified by the yen-dollar exchange rate, drives the supplement. The amount varies by pay grade, dependent status, and the current yen-dollar rate; it is updated periodically and can shift meaningfully when the exchange rate moves. Look up current rates with the DTMO COLA calculator (travel.dod.mil); your LES in myPay shows what you\'re actually receiving. Note: OCONUS COLA uses a different calculation method than CONUS COLA.',
       financialContext: [
         'The yen-dollar exchange rate affects purchasing power off base. Historically ¥130–155 per dollar, but rates shift — a stronger yen means your dollars buy less in Japan. On-base amenities (commissary, BX, gas station) dramatically reduce exposure to exchange rate risk.',
         'Tokyo day trips cost approximately ¥5,000–15,000 per person in transit, food, and activities. Base life in Fussa is suburban and genuinely more affordable than downtown Tokyo.',
@@ -3472,7 +3472,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       whatToKnow: [
         'Start PCS planning 6+ months out. Personal and no-fee military passports, medical and dental clearances, and SOFA card processing all take time — delays carry financial consequences if orders change.',
         'Vehicle decision: shipping one POV is typically included in your PCS orders. A second vehicle ships at your expense. Many families buy a small Japanese car locally. Decide before you PCS, not after.',
-        'Power transformers: Japan runs on 100V. American appliances need step-down transformers. Budget $200–500 for transformer setup — one good universal transformer beats several cheap ones.',
+        'Japan runs on 100V at 50Hz (the US is 120V). Most American electronics work fine on the slightly lower voltage; high-draw items like hair dryers and kitchen appliances run a bit underpowered. A step-up transformer (100V→120V) handles those few items — most families don\'t bother for everyday electronics.',
         'Set up a no-foreign-transaction-fee bank account (Charles Schwab, USAA, or similar) before leaving CONUS. Off-base ATMs dispense yen; foreign transaction fees add up fast over a 3-year tour.',
         'Off-base Japanese leases typically include key money (礼金), deposit (敷金), and agency fees totaling 2–4 months\' rent upfront. Move-In Housing Allowance (MIHA) covers a portion of these — work through the housing referral office to understand your specific entitlement before signing anything.',
       ],
@@ -3494,19 +3494,19 @@ export const DUTY_STATIONS: DutyStation[] = [
     oconus: true,
     oconusContent: {
       colaNote:
-        'Kadena members receive OCONUS COLA based on the Okinawa area cost index. Okinawa COLA is typically lower than the Tokyo/Yokota rate but still meaningful, reflecting Okinawa\'s lower cost of living compared to mainland Japan. COLA adjusts with the yen-dollar exchange rate — when the yen weakens, purchasing power off base decreases and COLA may adjust accordingly. Verify your current rate at myPay or with your unit finance office.',
+        'Kadena members receive OCONUS COLA based on the Okinawa area cost index. Okinawa COLA is typically lower than the Tokyo/Yokota rate but still meaningful, reflecting Okinawa\'s lower cost of living compared to mainland Japan. COLA adjusts with the yen-dollar exchange rate — when the yen weakens, purchasing power off base decreases and COLA may adjust accordingly. Look up current rates with the DTMO COLA calculator (travel.dod.mil); your LES in myPay shows what you\'re actually receiving.',
       financialContext: [
         'Okinawa\'s cost of living is lower than mainland Japan and lower than Tokyo — but still above most CONUS locations. On-base commissary, BX, and food court keep daily expenses manageable for members who use them.',
         'Housing choice matters: many families live off-base in Okinawan neighborhoods or in larger homes north of the base. The Kadena housing referral office maintains an active list of vetted off-base rentals at current market rates.',
         'Vehicles on Okinawa: one POV ships free. Okinawa has specific SOFA rules for operating vehicles, and left-hand traffic requires real adjustment. Some families ship a car; others buy locally. Japanese vehicle registration is required.',
         'Island living adds recreational spending: diving, snorkeling, and beach activities are popular but cost money. The beaches themselves are free — gear rental, guided boat trips, and inter-island flights are not.',
-        'Kadena is approximately 1,500 miles from mainland Japan. Flights to Tokyo cost approximately $200–400 round-trip and require planning. Most families treat Kadena as a self-contained assignment with weekend trips to nearby Okinawan areas.',
+        'Kadena is approximately 1,000 miles from Tokyo. Flights to Tokyo cost approximately $200–400 round-trip and require planning. Most families treat Kadena as a self-contained assignment with weekend trips to nearby Okinawan areas.',
       ],
       whatToKnow: [
         'Passport, medical, and dental clearances take time — start 6+ months before your report date. Delays cost money and limit your housing options on arrival.',
         'Okinawan lease norms include deposits and agent fees partially covered by MIHA. Work through the housing referral office for any off-base lease — they know which landlords work with SOFA personnel and have current rates.',
         'Typhoon preparedness is not optional — Okinawa is in the Pacific typhoon belt. During base lockdowns, families in off-base housing need supplies on hand. Budget a modest emergency preparedness fund.',
-        'Power at Kadena is 60Hz/120V (unlike mainland Japan at 50Hz) — most American appliances work without modification. Verify before shipping high-wattage items like kitchen appliances.',
+        'Okinawa runs on 100V at 60Hz (the US is 120V). Most American appliances work without modification on the slightly lower voltage; heavy-draw items run a touch underpowered, and a step-up transformer (100V→120V) fixes those if needed.',
         'Set up a no-foreign-transaction-fee bank account before leaving CONUS. SOFA fuel rations and on-base shopping reduce yen spending, but you\'ll still need yen for off-base daily life.',
       ],
     },
@@ -3527,18 +3527,19 @@ export const DUTY_STATIONS: DutyStation[] = [
     oconus: true,
     oconusContent: {
       colaNote:
-        'Camp Humphreys members receive OCONUS COLA based on the South Korea cost index. South Korea COLA is typically more moderate than Japan assignments, reflecting Korea\'s relatively affordable cost of living. COLA fluctuates with won-dollar exchange rates (historically ₩1,200–1,400 per dollar) and periodic DoD cost-of-living surveys. Verify current amounts at myPay or with your finance office — COLA is not guaranteed long-term and adjusts based on updated surveys.',
+        'Camp Humphreys members receive OCONUS COLA based on the South Korea cost index. South Korea COLA is typically more moderate than Japan assignments, reflecting Korea\'s relatively affordable cost of living. COLA fluctuates with won-dollar exchange rates (historically ₩1,200–1,400 per dollar) and periodic DoD cost-of-living surveys. Look up current rates with the DTMO COLA calculator (travel.dod.mil); your LES in myPay shows what you\'re actually receiving. COLA is not guaranteed long-term and adjusts based on updated surveys.',
       financialContext: [
         'South Korea has a relatively affordable cost of living compared to Japan and Germany. The won-dollar exchange rate has historically been favorable for off-base purchasing power, though it shifts with market conditions.',
         'Camp Humphreys is the largest US overseas base and continues to expand rapidly — most service members live on base in modern housing. On-base dining, commissary, BX, and recreation facilities are comprehensive.',
         'Tour type determines entitlements: command-sponsored (accompanied) tours include family travel, full SOFA benefits, DoDDS school access, and on-base housing eligibility. Unaccompanied 1-year tours come with different allowances. Know which applies to your orders before you PCS.',
-        'Korean rental agreements (전세, jeonse) use a large lump-sum deposit instead of monthly rent — a fundamentally different model from American leases. The housing office helps navigate this, but understanding it before arrival avoids expensive surprises.',
+        'Korean rental agreements (전세, jeonse) use a large lump-sum deposit instead of monthly rent — a fundamentally different model from American leases. The housing office helps navigate this, but understanding it before arrival avoids expensive surprises. Most service members use wolse (월세) instead — a smaller deposit plus monthly rent — which fits how OHA reimburses monthly housing costs; jeonse\'s lump-sum deposit is impractical on a typical tour.',
         'One POV ships free. Korean driving requires a SOFA driver\'s license. Korean urban traffic is dense and fast-moving — allow an acclimation period before driving independently off base.',
       ],
       whatToKnow: [
         'Know your tour type (accompanied vs. unaccompanied) well before arrival — it determines family travel entitlements, housing assignment, and school access. Changing a tour designation after arrival is bureaucratically complex.',
         'Command-sponsored families get full SOFA benefits: tax-free commissary and BX access, DoDDS school enrollment, on-base recreation, and SOFA fuel rations. These benefits have real dollar value — use them from day one.',
         'Pyeongtaek city surrounding Humphreys has developed rapidly. Translation apps (Naver is the standard in Korea) and willingness to explore pay off quickly — off-base options for dining and shopping are solid.',
+        'Korea runs on 220V/60Hz — nearly double the US 120V — with round-pin (Type C/F) plugs. On-base family housing at Humphreys is wired for standard US 110V with American outlets, so your appliances work directly. Off base, outlets are 220V (some homes have a few 110V outlets), so US appliances need a step-down transformer (220V→110V) or they\'ll be damaged — the BX sells them, and dual-voltage electronics like phones and laptops just need a plug adapter.',
         'Currency strategy: on-base ATMs dispense both dollars and won. Keep a buffer of won for off-base expenses — mobile payment (KakaoPay, Samsung Pay) is widespread, but cash is still needed at local markets.',
         'Medical and dental clearances are required for command-sponsored families and can delay orders. Start the process as early as possible — clearance delays have ripple effects on housing assignments and school enrollment.',
       ],
@@ -3560,7 +3561,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     oconus: true,
     oconusContent: {
       colaNote:
-        'Ramstein members receive OCONUS COLA based on the Kaiserslautern area cost index. European COLA adjusts with euro-dollar exchange rates and DoD cost-of-living surveys. When the euro strengthens relative to the dollar, purchasing power off base decreases and COLA may increase to offset the difference. COLA is updated more frequently than BAH — sometimes quarterly — and can change meaningfully with exchange rate movements. Verify current rates at myPay or with your unit finance office.',
+        'Ramstein members receive OCONUS COLA based on the Kaiserslautern area cost index. European COLA adjusts with euro-dollar exchange rates and DoD cost-of-living surveys. When the euro strengthens relative to the dollar, purchasing power off base decreases and COLA may increase to offset the difference. COLA is updated more frequently than BAH — sometimes quarterly — and can change meaningfully with exchange rate movements. Look up current rates with the DTMO COLA calculator (travel.dod.mil); your LES in myPay shows what you\'re actually receiving.',
       financialContext: [
         'Germany\'s cost of living is moderate by Western European standards, but utility costs — particularly heating — run significantly higher than CONUS. Budget €150–300/month for heating in winter, more for older homes with oil or gas heat.',
         'The Kaiserslautern Military Community (KMC) is one of the largest concentrations of Americans in Europe, with a well-developed off-base rental market. KMC landlords are experienced with SOFA tenants and the housing office maintains current market rates.',
