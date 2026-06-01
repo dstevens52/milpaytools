@@ -186,6 +186,13 @@ const ACCORDION = [
           <strong className="text-zinc-800">Tax note:</strong> PPM net proceeds are taxable income. The
           government will report it — plan for a tax payment in the year of the move.
         </p>
+        <p>
+          For a full worked example — an E-6 from Fort Campbell to JBLM, with the entitlements and the
+          after-tax PPM proceeds broken out — see{' '}
+          <Link href="/blog/ppm-dity-move-worth-it" className="font-semibold text-red-700 hover:text-red-800 transition-colors">
+            Is a PPM/DITY Move Worth It?
+          </Link>
+        </p>
         <Link href="/calculators/pcs" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Calculate PPM net proceeds for your move →
         </Link>
