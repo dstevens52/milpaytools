@@ -100,13 +100,6 @@ function buildActionSteps(
         priority: 'low',
       });
     }
-  } else {
-    steps.push({
-      label: 'Enter your installation ZIP code for BAH',
-      description:
-        'BAH is one of the largest components of your compensation. Enter your duty station ZIP code above to see your exact tax-free housing allowance.',
-      priority: 'high',
-    });
   }
 
   // Tax advantage step
@@ -129,6 +122,58 @@ function buildActionSteps(
   }
 
   return steps.slice(0, 3); // cap at 3 action steps
+}
+
+// ─── Station gate — shown in place of results until a CONUS station is matched ─
+
+function StationGate({ state }: { state: 'none' | 'loading' | 'territory' | 'unmatched' }) {
+  if (state === 'loading') {
+    return (
+      <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-6 text-center">
+        <p className="text-sm text-zinc-500">Looking up your duty station…</p>
+      </div>
+    );
+  }
+
+  if (state === 'territory') {
+    return (
+      <div className="rounded-lg border border-amber-200 bg-amber-50 p-6">
+        <p className="text-base font-semibold text-amber-900 mb-1">
+          We couldn&apos;t determine CONUS BAH for this location
+        </p>
+        <p className="text-sm text-amber-800 leading-relaxed">
+          It looks like a U.S. territory, which uses the Overseas Housing Allowance (OHA)
+          instead of BAH. Enter a stateside (CONUS) duty station to see your full compensation.
+        </p>
+      </div>
+    );
+  }
+
+  if (state === 'unmatched') {
+    return (
+      <div className="rounded-lg border border-amber-200 bg-amber-50 p-6">
+        <p className="text-base font-semibold text-amber-900 mb-1">
+          We couldn&apos;t match that location
+        </p>
+        <p className="text-sm text-amber-800 leading-relaxed">
+          Double-check the ZIP or installation name. If it&apos;s an overseas duty station,
+          it uses OHA, not BAH — enter a stateside (CONUS) station to see your full compensation.
+        </p>
+      </div>
+    );
+  }
+
+  // state === 'none'
+  return (
+    <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-6 text-center">
+      <p className="text-base font-semibold text-zinc-900 mb-1">
+        Enter your duty station to see your full compensation
+      </p>
+      <p className="text-sm text-zinc-600 leading-relaxed max-w-xl mx-auto">
+        BAH is usually the largest part of your pay, so we need your location for an accurate number.
+      </p>
+    </div>
+  );
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────
@@ -184,10 +229,30 @@ export function TotalCompensationCalculator() {
     return `${window.location.origin}/calculators/total-compensation?${p.toString()}`;
   }
 
-  // BAH resolved via the cached route; 0 until a valid ZIP resolves (matches the
-  // prior behavior where an empty/invalid ZIP contributed $0 BAH).
-  const { data: bahData } = useBahLookup(zipCode);
+  // BAH resolved via the cached route. The results block is gated on a matched
+  // CONUS station (valid && !territory) — NOT on the BAH value, so territories /
+  // OCONUS get a tailored message instead of a silent $0 total.
+  const { data: bahData, loading: bahLoading } = useBahLookup(zipCode);
   const monthlyBAH = rateFor(bahData, grade, hasDependents) ?? 0;
+
+  // Duty station is the required input. Derive a single state from the lookup:
+  //   none      → no/incomplete ZIP entered
+  //   loading   → complete ZIP, lookup in flight (don't flash an error)
+  //   matched   → in dataset with a CONUS BAH rate → show results
+  //   territory → U.S. territory (OHA area, no BAH)
+  //   unmatched → not in dataset (typo OR foreign OCONUS — indistinguishable)
+  const zipComplete = /^\d{5}$/.test(zipCode);
+  const stationState: 'none' | 'loading' | 'matched' | 'territory' | 'unmatched' =
+    !zipComplete
+      ? 'none'
+      : bahLoading || !bahData
+        ? 'loading'
+        : bahData.valid && !bahData.territory
+          ? 'matched'
+          : bahData.valid && bahData.territory
+            ? 'territory'
+            : 'unmatched';
+  const showResults = stationState === 'matched';
 
   const input: TotalCompensationInput = {
     payGrade: grade,
@@ -382,7 +447,8 @@ export function TotalCompensationCalculator() {
         </div>
       </Card>
 
-      {/* ── Results ────────────────────────────────────────────────────── */}
+      {/* ── Results (gated on a matched CONUS duty station) ──────────────── */}
+      {showResults ? (
       <div className="space-y-5">
 
         {/* Headline total */}
@@ -422,8 +488,8 @@ export function TotalCompensationCalculator() {
             rows={[
               { label: 'Basic Pay (taxable)', monthly: result.monthlyBasePay },
               govHousing
-                ? { label: 'Government Housing (in-kind benefit)', value: result.monthlyBAH > 0 ? `${formatCurrency(result.monthlyBAH * 12)}/yr est. value` : 'Enter ZIP code' }
-                : { label: 'BAH — Housing (tax-free)', monthly: result.monthlyBAH > 0 ? result.monthlyBAH : undefined, value: result.monthlyBAH === 0 ? 'Enter ZIP code' : undefined },
+                ? { label: 'Government Housing (in-kind benefit)', value: `${formatCurrency(result.monthlyBAH * 12)}/yr est. value` }
+                : { label: 'BAH — Housing (tax-free)', monthly: result.monthlyBAH },
               mealCard
                 ? { label: 'Government Meals (in-kind benefit)', value: `${formatCurrency(result.monthlyBAS * 12)}/yr est. value` }
                 : { label: 'BAS — Subsistence (tax-free)', monthly: result.monthlyBAS },
@@ -577,6 +643,9 @@ export function TotalCompensationCalculator() {
         <ActSteps steps={actionSteps} title="Your Next Steps" />
 
       </div>
+      ) : (
+        <StationGate state={stationState} />
+      )}
     </div>
   );
 }
