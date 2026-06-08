@@ -3,11 +3,9 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * MilPayTools end-to-end test suite.
  *
- * Runs against the live site by default:
- *   npx playwright test
- *
- * Run against localhost:
- *   BASE_URL=http://localhost:3000 npx playwright test
+ * Default (local):  npm run test:e2e       — auto-starts `next dev` on :3000
+ * Against live:      npm run test:e2e:live  — post-deploy smoke; no local server
+ * Custom target:     BASE_URL=<url> npm run test:e2e
  *
  * Run a single spec:
  *   npx playwright test tests/e2e/total-compensation.spec.ts
@@ -15,6 +13,10 @@ import { defineConfig, devices } from '@playwright/test';
  * Open HTML report after run:
  *   npx playwright show-report
  */
+
+// Resolve the target up-front so the webServer can be made conditional on it.
+const baseURL = process.env.BASE_URL ?? 'http://localhost:3000';
+const isLocal = baseURL.includes('localhost') || baseURL.includes('127.0.0.1');
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -40,9 +42,22 @@ export default defineConfig({
     ['html', { open: 'never', outputFolder: 'playwright-report' }],
   ],
 
+  // Auto-start a local dev server only when targeting localhost. For live
+  // (or any non-local BASE_URL) this is undefined so no local server is started.
+  webServer: isLocal
+    ? {
+        command: 'npm run dev',
+        url: 'http://localhost:3000',
+        reuseExistingServer: !process.env.CI,
+        timeout: 120_000,
+        stdout: 'pipe',
+        stderr: 'pipe',
+      }
+    : undefined,
+
   use: {
-    // Target: live site by default, override with BASE_URL env var
-    baseURL: process.env.BASE_URL ?? 'https://www.milpaytools.com',
+    // Target: local by default, override with BASE_URL env var
+    baseURL,
 
     // Record trace on first retry so failures are debuggable
     trace: 'on-first-retry',
