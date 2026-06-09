@@ -4,6 +4,8 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { RetirementCalculator } from '@/components/calculators/retirement/RetirementCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { calculateRetirement } from '@/lib/calculations/retirement';
+import { formatCurrency } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: { absolute: 'Military Retirement Calculator 2026' },
@@ -31,6 +33,26 @@ export const metadata: Metadata = {
 };
 
 export default function RetirementCalculatorPage() {
+  // ── Worked-example values, computed server-side from the retirement lib ───────
+  // Scenario: E-7 retiring at exactly 20 YOS in 2026. High-3 average comes from the
+  // pay table at YOS 20/19/18; BRS pension uses the 2.0% multiplier; the TSP side
+  // assumes 5% contribution throughout service at a 7% return.
+  // Assumptions not pinned down by the narrative (flagged): the lib projects TSP
+  // contributions at a single grade's pay, so this holds E-7 base pay flat across
+  // all 20 years (currentGrade E-7, currentYOS 0) with a $0 starting balance.
+  const exRet = calculateRetirement({
+    retirementSystem: 'brs',
+    currentGrade: 'E-7',
+    currentYOS: 0,
+    retirementYOS: 20,
+    retirementGrade: 'E-7',
+    tspContributionPct: 5,
+    tspCurrentBalance: 0,
+    tspAnnualReturnPct: 7,
+    vaRating: 0,
+  });
+  const exBrsAdvantageMonthly = exRet.totalBRSMonthlyIncome - exRet.high3MonthlyPension;
+
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Military Retirement Calculator 2026', description: 'Estimate your military pension under High-3 or BRS. See monthly pension, lifetime value, TSP projection, and VA disability combined income using 2026 pay tables.', url: '/calculators/retirement' })} />
@@ -107,17 +129,17 @@ export default function RetirementCalculatorPage() {
               Scenario: E-7, retiring at exactly 20 years of service in 2026. High-3 average calculated from the three years immediately preceding retirement. BRS pension assumes 5% TSP contribution throughout service.
             </p>
             <ExampleTable>
-              <ExampleRow label="High-3 average base pay (yrs 18, 19, 20 — E-7)" value="$6,141.30/mo" />
-              <ExampleRow label="High-3 pension (2.5% × 20 yrs × $6,141.30)" value="$3,071/mo" highlight />
-              <ExampleRow label="High-3 annual pension" value="$36,852/yr" />
-              <ExampleRow label="BRS pension (2.0% × 20 yrs × $6,141.30)" value="$2,457/mo" highlight />
-              <ExampleRow label="BRS TSP projected balance (5% contrib, 20 yrs, 7% return)" value="~$234,000" />
-              <ExampleRow label="BRS TSP monthly income (4% rule)" value="+$780/mo" />
-              <ExampleRow label="BRS total monthly income (pension + TSP)" value="$3,237/mo" highlight />
-              <ExampleRow label="BRS advantage over High-3" value="+$166/mo + $234K accessible" />
+              <ExampleRow label="High-3 average base pay (yrs 18, 19, 20 — E-7)" value={`${formatCurrency(exRet.high3Average, true)}/mo`} />
+              <ExampleRow label={`High-3 pension (2.5% × 20 yrs × ${formatCurrency(exRet.high3Average, true)})`} value={`${formatCurrency(exRet.high3MonthlyPension)}/mo`} highlight />
+              <ExampleRow label="High-3 annual pension" value={`${formatCurrency(exRet.high3MonthlyPension * 12)}/yr`} />
+              <ExampleRow label={`BRS pension (2.0% × 20 yrs × ${formatCurrency(exRet.high3Average, true)})`} value={`${formatCurrency(exRet.monthlyPension)}/mo`} highlight />
+              <ExampleRow label="BRS TSP projected balance (5% contrib, 20 yrs, 7% return)" value={`~${formatCurrency(exRet.tspProjectedBalance)}`} />
+              <ExampleRow label="BRS TSP monthly income (4% rule)" value={`+${formatCurrency(exRet.tspMonthlyIncome)}/mo`} />
+              <ExampleRow label="BRS total monthly income (pension + TSP)" value={`${formatCurrency(exRet.totalBRSMonthlyIncome)}/mo`} highlight />
+              <ExampleRow label="BRS advantage over High-3" value={`+${formatCurrency(exBrsAdvantageMonthly)}/mo + ${formatCurrency(exRet.tspProjectedBalance)} accessible`} />
             </ExampleTable>
             <p className="text-sm leading-relaxed text-zinc-700">
-              <strong>What this means:</strong> At 20 years, BRS produces a higher total monthly income than High-3 — but only if the member contributed consistently and captured the full government match. The BRS pension alone ($2,457) is lower than High-3 ($3,071), but the TSP adds $780/month plus leaves a $234,000 lump sum that can be passed to heirs. Members who left before 20 years under BRS still keep their TSP contributions; under High-3, they would walk away with nothing from the pension system. Retirees also keep TRICARE at a fraction of civilian cost — <a href="/calculators/healthcare-comparison" className="text-red-700 underline hover:text-red-800">see what replacing it would cost on the civilian side</a>.
+              <strong>What this means:</strong> At 20 years, BRS produces a higher total monthly income than High-3 — but only if the member contributed consistently and captured the full government match. The BRS pension alone ({formatCurrency(exRet.monthlyPension)}) is lower than High-3 ({formatCurrency(exRet.high3MonthlyPension)}), but the TSP adds {formatCurrency(exRet.tspMonthlyIncome)}/month plus leaves a {formatCurrency(exRet.tspProjectedBalance)} lump sum that can be passed to heirs. Members who left before 20 years under BRS still keep their TSP contributions; under High-3, they would walk away with nothing from the pension system. Retirees also keep TRICARE at a fraction of civilian cost — <a href="/calculators/healthcare-comparison" className="text-red-700 underline hover:text-red-800">see what replacing it would cost on the civilian side</a>.
             </p>
           </ExampleBox>
         </section>

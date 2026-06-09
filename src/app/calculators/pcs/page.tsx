@@ -4,6 +4,8 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { PCSCalculator } from '@/components/calculators/pcs/PCSCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { calculatePCS } from '@/lib/calculations/pcs';
+import { formatCurrency } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: { absolute: 'PCS Cost Estimator 2026 | Military Move Calculator' },
@@ -31,6 +33,24 @@ export const metadata: Metadata = {
 };
 
 export default function PCSPage() {
+  // ── Worked-example values, computed server-side from the PCS lib ──────────────
+  // Scenario: E-6, married + 2 dependents (3 travelers), Fort Campbell, KY → JBLM, WA
+  // (~2,200 mi), 1 authorized POV, 20 combined TLE days, full PPM of the 11,000-lb
+  // weight allowance with ~$4,500 in move costs. 2026 DTMO rates.
+  const exPpmExpenses = 4500;
+  const exPcs = calculatePCS({
+    rank: 'E-6',
+    hasDependents: true,
+    numDependents: 2,
+    moveType: 'full-ppm',
+    distance: 2200,
+    numPOVs: 1,
+    hhgWeight: 11000,
+    tleOldDays: 10,
+    tleNewDays: 10,
+    ppmExpenses: exPpmExpenses,
+  });
+
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'PCS Cost Estimator 2026', description: 'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds. Uses 2026 DTMO rates for all ranks.', url: '/calculators/pcs' })} />
@@ -105,19 +125,19 @@ export default function PCSPage() {
             Scenario: E-6, married with 2 dependents (3 total travelers), PCS from Fort Campbell, KY to Joint Base Lewis-McChord, WA — approximately 2,200 miles. Assumes 1 authorized POV, 6 travel days, and 20 days combined TLE. 2026 DTMO rates.
           </p>
           <ExampleTable>
-            <ExampleRow label="DLA — Dislocation Allowance (E-6 with dependents)" value="$3,548" />
-            <ExampleRow label="MALT mileage (2,200 mi × $0.205, 1 POV)" value="$451" />
-            <ExampleRow label="Per diem — member (6 days: 2 × $134.25 + 4 × $179)" value="$985" />
-            <ExampleRow label="Per diem — 2 dependents (75% of member rate each)" value="$1,477" />
-            <ExampleRow label="TLE — Temporary Lodging Expense (20 days × $179)" value="$3,580" />
-            <ExampleRow label="Total government move entitlement" value="$10,041" highlight />
-            <ExampleRow label="PPM — gross reimbursement (11,000 lbs ÷ 100 × $210/cwt)" value="$23,100" />
-            <ExampleRow label="PPM — estimated move costs (truck rental, fuel, supplies)" value="−$4,500" />
-            <ExampleRow label="PPM — gross proceeds" value="$18,600" />
-            <ExampleRow label="PPM — after-tax proceeds (22% tax)" value="$14,508" highlight />
+            <ExampleRow label="DLA — Dislocation Allowance (E-6 with dependents)" value={formatCurrency(exPcs.dla)} />
+            <ExampleRow label="MALT mileage (2,200 mi × $0.205, 1 POV)" value={formatCurrency(exPcs.malt)} />
+            <ExampleRow label="Per diem — member (6 days: 2 × $134.25 + 4 × $179)" value={formatCurrency(exPcs.perDiemMember)} />
+            <ExampleRow label="Per diem — 2 dependents (75% of member rate each)" value={formatCurrency(exPcs.perDiemDependents)} />
+            <ExampleRow label="TLE — Temporary Lodging Expense (20 days × $179)" value={formatCurrency(exPcs.tleTotal)} />
+            <ExampleRow label="Total government move entitlement" value={formatCurrency(exPcs.govMoveTotal)} highlight />
+            <ExampleRow label="PPM — gross reimbursement (11,000 lbs ÷ 100 × $210/cwt)" value={formatCurrency(exPcs.ppmGrossReimbursement)} />
+            <ExampleRow label="PPM — estimated move costs (truck rental, fuel, supplies)" value={`−${formatCurrency(exPpmExpenses)}`} />
+            <ExampleRow label="PPM — gross proceeds" value={formatCurrency(exPcs.ppmGrossProfit)} />
+            <ExampleRow label="PPM — after-tax proceeds (22% tax)" value={formatCurrency(exPcs.ppmAfterTaxProfit)} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> DLA, MALT, per diem, and TLE ($10,041) are paid the same way regardless of which move type you choose. With a PPM, you keep all of those entitlements AND net $14,508 after tax — bringing total PPM compensation to $24,549 vs. $10,041 for a government move. The E-6 keeps approximately $14,508 more by choosing PPM over a government move. The net proceeds come from moving efficiently under the 11,000-lb weight allowance; actual amounts depend on real moving costs and how much of the weight allowance you use.
+            <strong>What this means:</strong> DLA, MALT, per diem, and TLE ({formatCurrency(exPcs.govMoveTotal)}) are paid the same way regardless of which move type you choose. With a PPM, you keep all of those entitlements AND net {formatCurrency(exPcs.ppmAfterTaxProfit)} after tax — bringing total PPM compensation to {formatCurrency(exPcs.ppmMoveTotal)} vs. {formatCurrency(exPcs.govMoveTotal)} for a government move. The E-6 keeps approximately {formatCurrency(exPcs.ppmAfterTaxProfit)} more by choosing PPM over a government move. The net proceeds come from moving efficiently under the 11,000-lb weight allowance; actual amounts depend on real moving costs and how much of the weight allowance you use.
           </p>
         </ExampleBox>
       </section>

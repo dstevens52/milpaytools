@@ -5,6 +5,8 @@ import { VADisabilityCalculator } from '@/components/calculators/va-disability/V
 import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { calculateCombinedRating, getCompensation } from '@/lib/calculations/va-disability';
+import { formatCurrency } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: { absolute: 'VA Disability Rating Calculator 2026 | Combined Rating' },
@@ -32,6 +34,21 @@ export const metadata: Metadata = {
 };
 
 export default function VADisabilityPage() {
+  // ── Worked-example values, computed server-side from the VA combined-rating lib ──
+  // Scenario (matches the narrative below): 50% lumbar spine (non-bilateral) plus a
+  // bilateral knee pair (30% left, 20% right), veteran alone (no dependents).
+  const exRating = calculateCombinedRating([
+    { id: 'back', rating: 50, label: 'lumbar spine', side: 'none', pairKey: null },
+    { id: 'left-knee', rating: 30, label: 'left knee', side: 'left', pairKey: 'leg' },
+    { id: 'right-knee', rating: 20, label: 'right knee', side: 'right', pairKey: 'leg' },
+  ]);
+  const exComp = getCompensation(exRating.rounded, {
+    hasSpouse: false, childrenUnder18: 0, schoolChildren: 0, dependentParents: 0,
+  });
+  const exPair = exRating.bilateralPairs[0];
+  const exRemAfterBilateral = 100 - exPair.combinedAfterFactor; // capacity left after the knees
+  const exBackReduction = exRemAfterBilateral * 0.5; // 50% back applied to that remainder
+
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'VA Disability Rating Calculator 2026', description: 'Calculate your combined VA disability rating and 2026 monthly compensation — every step shown, bilateral factor automatic.', url: '/calculators/va-disability' })} />
@@ -117,16 +134,16 @@ export default function VADisabilityPage() {
             Scenario: Three service-connected conditions — 50% lumbar spine (back), 30% left knee, 20% right knee. The knees trigger the bilateral factor under 38 CFR § 4.26 because both sides of the same joint are rated.
           </p>
           <ExampleTable>
-            <ExampleRow label="Left knee (30%) + right knee (20%) combined" value="44.0% before factor" />
-            <ExampleRow label="Bilateral factor added (+10% of combined)" value="+4.4 pts → 48.4%" />
-            <ExampleRow label="50% back applied to remaining 51.6%" value="−25.8 pts" />
-            <ExampleRow label="Combined before rounding" value="74.2%" />
-            <ExampleRow label="VA rounded rating (nearest 10%)" value="70%" highlight />
-            <ExampleRow label="2026 monthly compensation — veteran alone" value="$1,808.45/mo" highlight />
-            <ExampleRow label="Annual VA compensation" value="$21,701/yr" highlight />
+            <ExampleRow label="Left knee (30%) + right knee (20%) combined" value={`${exPair.combinedBeforeFactor.toFixed(1)}% before factor`} />
+            <ExampleRow label="Bilateral factor added (+10% of combined)" value={`+${exPair.factorAddition.toFixed(1)} pts → ${exPair.combinedAfterFactor.toFixed(1)}%`} />
+            <ExampleRow label={`50% back applied to remaining ${exRemAfterBilateral.toFixed(1)}%`} value={`−${exBackReduction.toFixed(1)} pts`} />
+            <ExampleRow label="Combined before rounding" value={`${exRating.exact.toFixed(1)}%`} />
+            <ExampleRow label="VA rounded rating (nearest 10%)" value={`${exRating.rounded}%`} highlight />
+            <ExampleRow label="2026 monthly compensation — veteran alone" value={`${formatCurrency(exComp.monthly, true)}/mo`} highlight />
+            <ExampleRow label="Annual VA compensation" value={`${formatCurrency(exComp.annual)}/yr`} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> Without the bilateral factor, these three conditions combine to 72% (100 − (0.50 × 0.70 × 0.80) = 72%), which also rounds to 70% — so in this particular case the rounded result is the same either way. But the bilateral factor matters enormously in cases near a rounding threshold: a combined value of 63% without the factor becomes 67% with it, changing the rounded rating from 60% to 70% and adding hundreds of dollars per month. VA rules require the bilateral adjustment whenever both sides of a paired joint carry compensable ratings. At 70%, this veteran receives $1,808.45/month in VA disability compensation, which is excluded from federal taxable income, and may qualify for additional dependent-based increases if they have a spouse or children.
+            <strong>What this means:</strong> Without the bilateral factor, these three conditions combine to 72% (100 − (0.50 × 0.70 × 0.80) = 72%), which also rounds to 70% — so in this particular case the rounded result is the same either way. But the bilateral factor matters enormously in cases near a rounding threshold: a combined value of 63% without the factor becomes 67% with it, changing the rounded rating from 60% to 70% and adding hundreds of dollars per month. VA rules require the bilateral adjustment whenever both sides of a paired joint carry compensable ratings. At {exRating.rounded}%, this veteran receives {formatCurrency(exComp.monthly, true)}/month in VA disability compensation, which is excluded from federal taxable income, and may qualify for additional dependent-based increases if they have a spouse or children.
           </p>
         </ExampleBox>
       </section>

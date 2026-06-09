@@ -4,6 +4,10 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { TSPCalculator } from '@/components/calculators/tsp/TSPCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { projectTSP, getBasePayMonthly } from '@/lib/calculations/tspGrowth';
+import { calculateHigh3Average, calculatePension } from '@/lib/calculations/retirement';
+import { projectTSPBalance, formatCurrency, formatPercent } from '@/lib/utils';
+import { ALLOCATION_PRESETS } from '@/data/tsp/2026/constants';
 
 export const metadata: Metadata = {
   title: { absolute: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator' },
@@ -31,6 +35,34 @@ export const metadata: Metadata = {
 };
 
 export default function TSPPage() {
+  // ── Worked-example values, computed server-side from the TSP growth lib ───────
+  // Scenario: E-6 at 10 YOS, BRS, contributing 10% of base pay, $25,000 current
+  // balance, projecting 10 more years to a 20-year retirement.
+  // Assumptions not pinned down by the narrative (flagged): "aggressive growth" =
+  // the calculator's own aggressive preset (C60/S25/I15); 0% annual pay raise, which
+  // keeps the monthly contribution flat to match the table's simple FV framing.
+  const tspStartBalance = 25000;
+  const tspBasePay = getBasePayMonthly('E-6', 10);
+  const tspMember = tspBasePay * 0.1;
+  const tspProjection = projectTSP({
+    startingBalance: tspStartBalance,
+    monthlyContribution: tspMember,
+    retirementSystem: 'brs',
+    payGrade: 'E-6',
+    yearsOfService: 10,
+    allocation: { ...ALLOCATION_PRESETS.aggressive },
+    yearsToProject: 10,
+    annualPayRaisePct: 0,
+  });
+  const tspGovMatch = tspProjection.monthlyGovContribution;
+  const tspTotalMonthly = tspMember + tspGovMatch;
+  const tspReturnPct = tspProjection.blendedAnnualReturn * 100;
+  const tspFvBalance = projectTSPBalance(tspStartBalance, 0, tspReturnPct, 10);
+  const tspFvContributions = tspProjection.finalBalance - tspFvBalance;
+  const tspGovFutureValue = projectTSPBalance(0, tspGovMatch, tspReturnPct, 10); // FV of the gov-match stream
+  // E-7 / 20-year BRS pension, referenced in the closing paragraph.
+  const tspE7Pension = calculatePension('brs', 20, calculateHigh3Average('E-7', 20).average);
+
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'TSP Growth Projector 2026', description: 'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 contribution limits.', url: '/calculators/tsp' })} />
@@ -100,19 +132,19 @@ export default function TSPPage() {
             Scenario: E-6, 10 years of service, enrolled in BRS, contributing 10% of base pay to TSP in an aggressive growth allocation (approximating L2050), with $25,000 current balance — projecting 10 more years to a 20-year retirement.
           </p>
           <ExampleTable>
-            <ExampleRow label="E-6 monthly base pay (10 yrs — 2026 table)" value="$4,759.50" />
-            <ExampleRow label="Member TSP contribution (10%)" value="$475.95/mo" />
-            <ExampleRow label="BRS gov match (auto 1% + full 4% match)" value="$237.98/mo" />
-            <ExampleRow label="Total monthly TSP contribution" value="$713.93/mo" highlight />
-            <ExampleRow label="Current balance" value="$25,000" />
-            <ExampleRow label="Projected return (aggressive growth — ~9% blended)" value="9.0%/yr" />
-            <ExampleRow label="FV of current balance (10 yrs at 9%)" value="$59,185" />
-            <ExampleRow label="FV of monthly contributions (10 yrs at 9%)" value="$138,108" />
-            <ExampleRow label="Projected TSP balance at retirement" value="$197,293" highlight />
-            <ExampleRow label="Monthly retirement income (4% withdrawal rule)" value="$658/mo" highlight />
+            <ExampleRow label="E-6 monthly base pay (10 yrs — 2026 table)" value={formatCurrency(tspBasePay, true)} />
+            <ExampleRow label="Member TSP contribution (10%)" value={`${formatCurrency(tspMember, true)}/mo`} />
+            <ExampleRow label="BRS gov match (auto 1% + full 4% match)" value={`${formatCurrency(tspGovMatch, true)}/mo`} />
+            <ExampleRow label="Total monthly TSP contribution" value={`${formatCurrency(tspTotalMonthly, true)}/mo`} highlight />
+            <ExampleRow label="Current balance" value={formatCurrency(tspStartBalance)} />
+            <ExampleRow label="Projected blended return (aggressive allocation)" value={`${formatPercent(tspReturnPct)}/yr`} />
+            <ExampleRow label={`FV of current balance (10 yrs at ${formatPercent(tspReturnPct)})`} value={formatCurrency(tspFvBalance)} />
+            <ExampleRow label={`FV of monthly contributions (10 yrs at ${formatPercent(tspReturnPct)})`} value={formatCurrency(tspFvContributions)} />
+            <ExampleRow label="Projected TSP balance at retirement" value={formatCurrency(tspProjection.finalBalance)} highlight />
+            <ExampleRow label="Monthly retirement income (4% withdrawal rule)" value={`${formatCurrency(tspProjection.monthlyRetirementIncome4pct)}/mo`} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> By contributing 10% under BRS, the government adds nearly $238/month on top of the member&apos;s $476 — effectively a 50% match up to 5% of base pay. Over 10 years, that government contribution alone is worth approximately $47,000 in the account. The projected $658/month in TSP income supplements the BRS pension, which at E-7/20-year retirement adds another $2,457/month.
+            <strong>What this means:</strong> By contributing 10% under BRS, the government adds nearly {formatCurrency(tspGovMatch)}/month on top of the member&apos;s {formatCurrency(tspMember)} — effectively a 50% match up to 5% of base pay. Over 10 years, that government contribution alone is worth approximately {formatCurrency(tspGovFutureValue)} in the account. The projected {formatCurrency(tspProjection.monthlyRetirementIncome4pct)}/month in TSP income supplements the BRS pension, which at E-7/20-year retirement adds another {formatCurrency(tspE7Pension)}/month.
           </p>
         </ExampleBox>
       </section>
