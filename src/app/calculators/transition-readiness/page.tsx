@@ -5,6 +5,9 @@ import { TransitionReadinessCalculator } from '@/components/calculators/transiti
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { calculateTransitionReadiness } from '@/lib/calculations/transition-readiness';
+import { getMHACode, getMHARates } from '@/lib/calculations/bah';
+import { formatCurrency } from '@/lib/utils';
 import Link from 'next/link';
 
 const TITLE = 'Transition Readiness Calculator 2026: Am I Financially Ready to Leave the Military?';
@@ -34,6 +37,41 @@ export const metadata: Metadata = {
 };
 
 export default function TransitionReadinessPage() {
+  // ── Worked-example values; BAH resolved server-side from bah.ts ───────────────
+  // Scenario: E-6, 10 YOS, JBSA (78234), married, 14 months out, Legacy, $75k
+  // target salary, 40% VA, spouse $24k, $15k emergency fund, $45k TSP, $4,200/mo
+  // expenses, marketplace family healthcare.
+  const trMha = getMHACode('78234');
+  const trBah = (trMha && getMHARates(trMha, true)?.['E-6']) || 0;
+  const tr = calculateTransitionReadiness(
+    {
+      payGrade: 'E-6',
+      yearsOfService: 10,
+      zipCode: '78234',
+      hasDependents: true,
+      separationMonths: 14,
+      retirementSystem: 'legacy',
+      targetCivilianSalary: 75000,
+      spouseIncome: 24000,
+      vaRating: 40,
+      healthcareAssumption: 'marketplace',
+      expenseMode: 'quick',
+      totalMonthlyExpenses: 4200,
+      expenseHousing: 0,
+      expenseCar: 0,
+      expenseInsurance: 0,
+      expenseGroceries: 0,
+      expenseDebt: 0,
+      expenseChildcare: 0,
+      expenseUtilities: 0,
+      expenseOther: 0,
+      emergencyFund: 15000,
+      tspBalance: 45000,
+      otherSavings: 0,
+    },
+    trBah,
+  );
+
   return (
     <>
       <JsonLdScript
@@ -115,24 +153,24 @@ export default function TransitionReadinessPage() {
             $15,000 emergency fund, $45,000 TSP, $4,200/month in household expenses.
           </p>
           <ExampleTable>
-            <ExampleRow label="Current military base pay (E-6, 10 YOS — 2026 table)" value="$4,759/mo" />
-            <ExampleRow label="BAH — JBSA (ZIP 78234, with dependents)" value="$2,094/mo" />
-            <ExampleRow label="BAS — Enlisted" value="$477/mo" />
-            <ExampleRow label="Total military compensation (pre-tax)" value="$7,330/mo" highlight />
-            <ExampleRow label="Post-separation: $75K salary after federal + FICA + state tax" value="$4,084/mo" />
-            <ExampleRow label="VA disability — 40%, with dependents (tax-free)" value="$883/mo" />
-            <ExampleRow label="Spouse income ($24K) after tax" value="$1,307/mo" />
-            <ExampleRow label="Total projected civilian income" value="$6,274/mo" highlight />
-            <ExampleRow label="Monthly expenses" value="$4,200/mo" />
-            <ExampleRow label="Healthcare replacement (family, market rate)" value="+$1,700/mo" />
-            <ExampleRow label="Total adjusted expenses" value="$5,900/mo" highlight />
-            <ExampleRow label="Monthly surplus" value="$374/mo" />
-            <ExampleRow label="Emergency fund runway ($15K ÷ $5,900/mo)" value="2.5 months" />
+            <ExampleRow label="Current military base pay (E-6, 10 YOS — 2026 table)" value={`${formatCurrency(tr.militaryMonthlyBasePay)}/mo`} />
+            <ExampleRow label="BAH — JBSA (ZIP 78234, with dependents)" value={`${formatCurrency(tr.militaryMonthlyBAH)}/mo`} />
+            <ExampleRow label="BAS — Enlisted" value={`${formatCurrency(tr.militaryMonthlyBAS)}/mo`} />
+            <ExampleRow label="Total military compensation (pre-tax)" value={`${formatCurrency(tr.militaryTotalMonthly)}/mo`} highlight />
+            <ExampleRow label="Post-separation: $75K salary after federal + FICA + state tax" value={`${formatCurrency(tr.netCivilianSalaryMonthly)}/mo`} />
+            <ExampleRow label="VA disability — 40%, with dependents (tax-free)" value={`${formatCurrency(tr.vaCompMonthly)}/mo`} />
+            <ExampleRow label="Spouse income ($24K) after tax" value={`${formatCurrency(tr.netSpouseMonthly)}/mo`} />
+            <ExampleRow label="Total projected civilian income" value={`${formatCurrency(tr.projectedCivilianMonthly)}/mo`} highlight />
+            <ExampleRow label="Monthly expenses" value={`${formatCurrency(tr.rawMonthlyExpenses)}/mo`} />
+            <ExampleRow label="Healthcare replacement (family, market rate)" value={`+${formatCurrency(tr.healthcareCostMonthly)}/mo`} />
+            <ExampleRow label="Total adjusted expenses" value={`${formatCurrency(tr.adjustedMonthlyExpenses)}/mo`} highlight />
+            <ExampleRow label="Monthly surplus" value={`${formatCurrency(tr.monthlyGapOrSurplus)}/mo`} />
+            <ExampleRow label={`Emergency fund runway ($15K ÷ ${formatCurrency(tr.adjustedMonthlyExpenses)}/mo)`} value={`${tr.emergencyFundMonths.toFixed(1)} months`} />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>Verdict: Not yet ready.</strong> The monthly surplus is thin ($374) and the
-            emergency fund covers only 2.5 months — below the 3-month minimum for even a
-            &quot;yellow&quot; status. The healthcare cost alone ($1,700/month for a family) is the
+            <strong>Verdict: Not yet ready.</strong> Even with a healthy {formatCurrency(tr.monthlyGapOrSurplus)} monthly
+            surplus, the emergency fund covers only {tr.emergencyFundMonths.toFixed(1)} months — below the 3-month minimum
+            for even a &quot;yellow&quot; status — so this member isn&apos;t quite ready. The healthcare cost alone ({formatCurrency(tr.healthcareCostMonthly)}/month for a family) is the
             biggest surprise for most service members who&apos;ve never paid a TRICARE premium.
             With 14 months remaining, this member has time to close the gaps — the action steps
             focus on building the emergency fund to 6 months and targeting a slightly higher

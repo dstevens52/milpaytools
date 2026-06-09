@@ -5,6 +5,9 @@ import { CompareCalculator } from '@/components/calculators/compare/CompareCalcu
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { compareLocations } from '@/lib/calculations/compare';
+import { getMHACode, getMHARates, getLocationName } from '@/lib/calculations/bah';
+import { formatCurrency } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: { absolute: 'Compare Your PCS Move — 2026' },
@@ -32,6 +35,24 @@ export const metadata: Metadata = {
 };
 
 export default function ComparePage() {
+  // ── Worked-example values, BAH resolved server-side and fed into compareLocations ──
+  // Scenario: E-5, 8 yrs, with dependents — Fort Bragg, NC (28310) vs Fort Hood, TX (76544).
+  const cmpFbMha = getMHACode('28310');
+  const cmpFhMha = getMHACode('76544');
+  const cmpFbBah = (cmpFbMha && getMHARates(cmpFbMha, true)?.['E-5']) || 0;
+  const cmpFhBah = (cmpFhMha && getMHARates(cmpFhMha, true)?.['E-5']) || 0;
+  const cmp = compareLocations({
+    payGrade: 'E-5',
+    yearsOfService: 8,
+    hasDependents: true,
+    zipA: '28310',
+    zipB: '76544',
+    bahA: { monthlyBAH: cmpFbBah, locationName: getLocationName('28310') ?? 'Fort Bragg', bahFound: true },
+    bahB: { monthlyBAH: cmpFhBah, locationName: getLocationName('76544') ?? 'Fort Hood', bahFound: true },
+  })!;
+  const cmpBahAdvantage = cmp.locA.monthlyBAH - cmp.locB.monthlyBAH; // Fort Bragg over Fort Hood
+  const cmpAnnualAdvantage = (cmp.locA.grossMonthly - cmp.locB.grossMonthly) * 12;
+
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Compare Your PCS Move 2026', description: 'Compare BAH, take-home pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.', url: '/calculators/compare' })} />
@@ -101,20 +122,20 @@ export default function ComparePage() {
             Fort Bragg, NC vs. Fort Hood, TX: What&apos;s the Real Financial Difference?
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-5, 8 years of service, married with dependents — comparing total monthly compensation at Fort Bragg, NC (ZIP 28310) vs. Fort Hood, TX (ZIP 76544). Same rank, same years, two very different BAH rates. 2026 data.
+            Scenario: E-5, 8 years of service, married with dependents — comparing total monthly compensation at Fort Bragg, NC (ZIP 28310) vs. Fort Hood, TX (ZIP 76544). Same rank, same years, and a real BAH gap between two mid-cost markets. 2026 data.
           </p>
           <ExampleTable>
-            <ExampleRow label="Base Pay (E-5, 8 yrs) — identical at both stations" value="$4,300/mo" />
-            <ExampleRow label="BAS — identical at both stations" value="$477/mo" />
-            <ExampleRow label="BAH — Fort Bragg, NC (with dependents)" value="$1,806/mo" />
-            <ExampleRow label="BAH — Fort Hood, TX (with dependents)" value="$1,422/mo" />
-            <ExampleRow label="BAH difference (Fort Bragg advantage)" value="+$384/mo" highlight />
-            <ExampleRow label="Monthly gross — Fort Bragg" value="$6,583/mo" highlight />
-            <ExampleRow label="Monthly gross — Fort Hood" value="$6,199/mo" highlight />
-            <ExampleRow label="Annual advantage — Fort Bragg" value="+$4,608/yr" highlight />
+            <ExampleRow label="Base Pay (E-5, 8 yrs) — identical at both stations" value={`${formatCurrency(cmp.monthlyBasePay)}/mo`} />
+            <ExampleRow label="BAS — identical at both stations" value={`${formatCurrency(cmp.monthlyBAS)}/mo`} />
+            <ExampleRow label="BAH — Fort Bragg, NC (with dependents)" value={`${formatCurrency(cmp.locA.monthlyBAH)}/mo`} />
+            <ExampleRow label="BAH — Fort Hood, TX (with dependents)" value={`${formatCurrency(cmp.locB.monthlyBAH)}/mo`} />
+            <ExampleRow label="BAH difference (Fort Bragg advantage)" value={`+${formatCurrency(cmpBahAdvantage)}/mo`} highlight />
+            <ExampleRow label="Monthly gross — Fort Bragg" value={`${formatCurrency(cmp.locA.grossMonthly)}/mo`} highlight />
+            <ExampleRow label="Monthly gross — Fort Hood" value={`${formatCurrency(cmp.locB.grossMonthly)}/mo`} highlight />
+            <ExampleRow label="Annual advantage — Fort Bragg" value={`+${formatCurrency(cmpAnnualAdvantage)}/yr`} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> The E-5 at Fort Bragg earns $4,608 more per year than their counterpart at Fort Hood — entirely due to the higher local housing market driving a higher BAH rate. Neither location qualifies for CONUS COLA. That $384/month difference is tax-free BAH that can be directed toward savings, a home down payment, or debt reduction. When evaluating PCS orders, this difference in annual compensation should factor alongside cost of living differences in the local economy.
+            <strong>What this means:</strong> The E-5 at Fort Bragg earns {formatCurrency(cmpAnnualAdvantage)} more per year than their counterpart at Fort Hood — entirely due to the higher local housing market driving a higher BAH rate. Neither location qualifies for CONUS COLA. That {formatCurrency(cmpBahAdvantage)}/month difference is tax-free BAH that can be directed toward savings, a home down payment, or debt reduction. When evaluating PCS orders, this difference in annual compensation should factor alongside cost of living differences in the local economy.
           </p>
         </ExampleBox>
         </div>
