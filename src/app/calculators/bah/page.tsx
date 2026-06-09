@@ -5,6 +5,8 @@ import { BAHCalculator } from '@/components/calculators/bah/BAHCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { getMHACode, getMHARates } from '@/lib/calculations/bah';
+import { formatCurrency } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: { absolute: 'BAH Calculator 2026 | Military Housing Allowance' },
@@ -32,6 +34,18 @@ export const metadata: Metadata = {
 };
 
 export default function BAHPage() {
+  // ── Worked-example values, resolved server-side from the BAH dataset ──────────
+  // Calls bah.ts directly (getMHACode → getMHARates), NOT the client
+  // /api/bah/lookup hop. Scenario: E-5, Fort Bragg NC (28310) vs San Diego CA (92134).
+  const exGrade = 'E-5';
+  const exFbMha = getMHACode('28310');
+  const exSdMha = getMHACode('92134');
+  const exFbWithDep = (exFbMha && getMHARates(exFbMha, true)?.[exGrade]) || 0;
+  const exFbNoDep = (exFbMha && getMHARates(exFbMha, false)?.[exGrade]) || 0;
+  const exSdWithDep = (exSdMha && getMHARates(exSdMha, true)?.[exGrade]) || 0;
+  const exBahDiffMonthly = exSdWithDep - exFbWithDep;
+  const exBahDiffAnnual = exBahDiffMonthly * 12;
+
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'BAH Calculator 2026', description: 'Look up your 2026 BAH rate by ZIP code, pay grade, and dependency status. Covers all 40,959 ZIP codes using official DTMO data. Compare rates across duty stations.', url: '/calculators/bah' })} />
@@ -68,7 +82,7 @@ export default function BAHPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          BAH (Basic Allowance for Housing) is a monthly payment based on duty station location, pay grade, and dependency status — excluded from federal taxable income. Rates vary significantly by location: an E-5 with dependents receives $1,218/month in some markets and $3,975/month in San Diego. This calculator looks up your exact 2026 BAH rate using official DTMO data for all 40,959 ZIP codes.
+          BAH (Basic Allowance for Housing) is a monthly payment based on duty station location, pay grade, and dependency status — excluded from federal taxable income. Rates vary significantly by location: an E-5 with dependents receives $1,218/month in some markets and {formatCurrency(exSdWithDep)}/month in San Diego. This calculator looks up your exact 2026 BAH rate using official DTMO data for all 40,959 ZIP codes.
         </p>
       </div>
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -80,14 +94,14 @@ export default function BAHPage() {
             Scenario: E-5, 2026 rates — comparing Fort Bragg, NC (ZIP 28310) to NAS North Island / Naval Station San Diego, CA (ZIP 92134). Same rank, same benefits, dramatically different numbers.
           </p>
           <ExampleTable>
-            <ExampleRow label="Fort Bragg, NC (28310) — With Dependents" value="$1,806/mo" />
-            <ExampleRow label="Fort Bragg, NC (28310) — Without Dependents" value="$1,527/mo" />
-            <ExampleRow label="San Diego, CA (92134) — With Dependents" value="$3,975/mo" />
-            <ExampleRow label="Monthly BAH Difference (w/deps, SD vs. Fort Bragg)" value="+$2,169/mo" highlight />
-            <ExampleRow label="Annual BAH Difference" value="+$26,028/yr" highlight />
+            <ExampleRow label="Fort Bragg, NC (28310) — With Dependents" value={`${formatCurrency(exFbWithDep)}/mo`} />
+            <ExampleRow label="Fort Bragg, NC (28310) — Without Dependents" value={`${formatCurrency(exFbNoDep)}/mo`} />
+            <ExampleRow label="San Diego, CA (92134) — With Dependents" value={`${formatCurrency(exSdWithDep)}/mo`} />
+            <ExampleRow label="Monthly BAH Difference (w/deps, SD vs. Fort Bragg)" value={`+${formatCurrency(exBahDiffMonthly)}/mo`} highlight />
+            <ExampleRow label="Annual BAH Difference" value={`+${formatCurrency(exBahDiffAnnual)}/yr`} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> An E-5 with dependents stationed in San Diego receives $26,028 more per year in housing allowance than the same rank at Fort Bragg — excluded from federal taxable income. That $2,169/month gap can make a meaningful difference in savings potential, and is often the deciding factor when comparing PCS offer packages between high-cost and low-cost duty stations.
+            <strong>What this means:</strong> An E-5 with dependents stationed in San Diego receives {formatCurrency(exBahDiffAnnual)} more per year in housing allowance than the same rank at Fort Bragg — excluded from federal taxable income. That {formatCurrency(exBahDiffMonthly)}/month gap can make a meaningful difference in savings potential, and is often the deciding factor when comparing PCS offer packages between high-cost and low-cost duty stations.
           </p>
         </ExampleBox>
       </section>
