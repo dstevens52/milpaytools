@@ -5,6 +5,10 @@ import { DualMilitaryBAHCalculator } from '@/components/calculators/dual-militar
 import { GuidePromo } from '@/components/calculators/shared/GuidePromo';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema, faqPageSchema } from '@/lib/schema';
+import { getMHACode, getMHARates } from '@/lib/calculations/bah';
+import { lookupBasePay } from '@/lib/calculations/basePay';
+import { BAS_RATES } from '@/data/constants';
+import { formatCurrency } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: { absolute: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH' },
@@ -32,6 +36,22 @@ export const metadata: Metadata = {
 };
 
 export default function DualMilitaryBAHPage() {
+  // ── Worked-example values, BAH resolved server-side from bah.ts ───────────────
+  // Scenario: two E-5s at Fort Bragg (28310). Member A (8 yrs) claims the child
+  // (with-dependents rate); Member B (6 yrs) gets the without-dependents rate.
+  const dmMha = getMHACode('28310');
+  const dmRatesW = dmMha ? getMHARates(dmMha, true) : null;
+  const dmRatesWO = dmMha ? getMHARates(dmMha, false) : null;
+  const dmABasePay = lookupBasePay('E-5', 8);
+  const dmBBasePay = lookupBasePay('E-5', 6);
+  const dmABah = dmRatesW?.['E-5'] ?? 0; // Member A — with dependents
+  const dmBBah = dmRatesWO?.['E-5'] ?? 0; // Member B — without dependents
+  const dmHouseholdBah = dmABah + dmBBah;
+  const dmHouseholdBas = BAS_RATES.enlisted * 2;
+  const dmGrossMonthly = dmABasePay + dmBBasePay + dmHouseholdBah + dmHouseholdBas;
+  const dmGrossAnnual = dmGrossMonthly * 12;
+  const dmTaxFreeAnnual = (dmHouseholdBah + dmHouseholdBas) * 12;
+
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Dual Military BAH Calculator 2026', description: 'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.', url: '/calculators/dual-military-bah' })} />
@@ -135,17 +155,17 @@ export default function DualMilitaryBAHPage() {
             Scenario: Two E-5s stationed together at Fort Bragg, NC (ZIP 28310). Member A has 8 years of service, Member B has 6 years. They have one child — Member A claims the dependent and receives BAH with dependents; Member B receives BAH without dependents. 2026 rates.
           </p>
           <ExampleTable>
-            <ExampleRow label="Member A base pay (E-5, 8 yrs)" value="$4,300/mo" />
-            <ExampleRow label="Member B base pay (E-5, 6 yrs)" value="$4,110/mo" />
-            <ExampleRow label="Member A BAH — Fort Bragg, with dependents (claims child)" value="$1,806/mo" />
-            <ExampleRow label="Member B BAH — Fort Bragg, without dependents" value="$1,527/mo" />
-            <ExampleRow label="Household BAH total" value="$3,333/mo" highlight />
-            <ExampleRow label="Household BAS (both enlisted)" value="$954/mo" />
-            <ExampleRow label="Household gross monthly" value="$12,697/mo" highlight />
-            <ExampleRow label="Household gross annual" value="$152,364/yr" highlight />
+            <ExampleRow label="Member A base pay (E-5, 8 yrs)" value={`${formatCurrency(dmABasePay)}/mo`} />
+            <ExampleRow label="Member B base pay (E-5, 6 yrs)" value={`${formatCurrency(dmBBasePay)}/mo`} />
+            <ExampleRow label="Member A BAH — Fort Bragg, with dependents (claims child)" value={`${formatCurrency(dmABah)}/mo`} />
+            <ExampleRow label="Member B BAH — Fort Bragg, without dependents" value={`${formatCurrency(dmBBah)}/mo`} />
+            <ExampleRow label="Household BAH total" value={`${formatCurrency(dmHouseholdBah)}/mo`} highlight />
+            <ExampleRow label="Household BAS (both enlisted)" value={`${formatCurrency(dmHouseholdBas)}/mo`} />
+            <ExampleRow label="Household gross monthly" value={`${formatCurrency(dmGrossMonthly)}/mo`} highlight />
+            <ExampleRow label="Household gross annual" value={`${formatCurrency(dmGrossAnnual)}/yr`} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> This dual-military couple earns $152,364/year in gross compensation — more than twice the median U.S. household income — while $51,444 of that ($3,333 BAH + $954 BAS × 12) is excluded from federal taxable income. Because only one member can claim the dependent, choosing which spouse claims the child does not change the household total in this example, since both are E-5s with the same BAH rates.
+            <strong>What this means:</strong> This dual-military couple earns {formatCurrency(dmGrossAnnual)}/year in gross compensation — more than twice the median U.S. household income — while {formatCurrency(dmTaxFreeAnnual)} of that ({formatCurrency(dmHouseholdBah)} BAH + {formatCurrency(dmHouseholdBas)} BAS × 12) is excluded from federal taxable income. Because only one member can claim the dependent, choosing which spouse claims the child does not change the household total in this example, since both are E-5s with the same BAH rates.
           </p>
         </ExampleBox>
       </section>

@@ -4,6 +4,9 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { DeploymentCalculator } from '@/components/calculators/deployment/DeploymentCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { calculateDeployment } from '@/lib/calculations/deployment';
+import { getMHACode, getMHARates } from '@/lib/calculations/bah';
+import { formatCurrency } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: { absolute: 'Deployment Pay Calculator 2026 | CZTE, HFP, SDP' },
@@ -31,6 +34,28 @@ export const metadata: Metadata = {
 };
 
 export default function DeploymentPage() {
+  // ── Worked-example values; home-station BAH resolved server-side from bah.ts ───
+  // Scenario: E-5, 8 yrs, married (family at Fort Bragg, 28310), 9-month CZTE
+  // deployment with HFP/IDP + FSA, no HDP, no SDP.
+  const depMha = getMHACode('28310');
+  const depBah = (depMha && getMHARates(depMha, true)?.['E-5']) || 0;
+  const dep = calculateDeployment({
+    payGrade: 'E-5',
+    yearsOfService: 8,
+    hasDependents: true,
+    zipCode: '28310',
+    monthlyBAH: depBah,
+    bahFound: true,
+    deploymentMonths: 9,
+    isCombatZone: true,
+    receivingHFP: true,
+    hdpLevel: 0,
+    hasFSA: true,
+    tspContributionPct: 0,
+    usingSDP: false,
+    sdpDeposit: 0,
+  });
+
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Deployment Pay Calculator 2026', description: 'Calculate your deployment pay increase: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings, and Savings Deposit Program interest. All ranks, 2026 rates.', url: '/calculators/deployment' })} />
@@ -105,19 +130,19 @@ export default function DeploymentPage() {
             Scenario: E-5, 8 years of service, married (family at Fort Bragg, NC), deploying to a designated Combat Zone Tax Exclusion (CZTE) area for 9 months. Receives HFP/IDP and Family Separation Allowance. No Hardship Duty Pay. 2026 rates.
           </p>
           <ExampleTable>
-            <ExampleRow label="Monthly base pay (E-5, 8 yrs)" value="$4,300/mo" />
-            <ExampleRow label="BAH continues at home station (Fort Bragg, w/deps)" value="$1,806/mo" />
-            <ExampleRow label="BAS" value="$477/mo" />
-            <ExampleRow label="Hostile Fire / Imminent Danger Pay (HFP/IDP)" value="+$225/mo" />
-            <ExampleRow label="Family Separation Allowance (FSA — married 30+ days away)" value="+$300/mo" />
-            <ExampleRow label="CZTE: all base pay excluded from federal income tax" value="−$0 tax (saves ~$346/mo)" />
-            <ExampleRow label="Monthly take-home — before deployment" value="$6,237/mo" />
-            <ExampleRow label="Monthly take-home — during deployment" value="$7,108/mo" highlight />
-            <ExampleRow label="Monthly increase" value="+$871/mo (+14%)" highlight />
-            <ExampleRow label="9-month tour total benefit (allowances $4,725 + tax savings $3,115)" value="$7,840" highlight />
+            <ExampleRow label="Monthly base pay (E-5, 8 yrs)" value={`${formatCurrency(dep.pre.monthlyBasePay)}/mo`} />
+            <ExampleRow label="BAH continues at home station (Fort Bragg, w/deps)" value={`${formatCurrency(dep.pre.monthlyBAH)}/mo`} />
+            <ExampleRow label="BAS" value={`${formatCurrency(dep.pre.monthlyBAS)}/mo`} />
+            <ExampleRow label="Hostile Fire / Imminent Danger Pay (HFP/IDP)" value={`+${formatCurrency(dep.during.monthlyHFP)}/mo`} />
+            <ExampleRow label="Family Separation Allowance (FSA — married 30+ days away)" value={`+${formatCurrency(dep.during.monthlyFSA)}/mo`} />
+            <ExampleRow label="CZTE: all base pay excluded from federal income tax" value={`−$0 tax (saves ~${formatCurrency(dep.during.czteMonthlySavings)}/mo)`} />
+            <ExampleRow label="Monthly take-home — before deployment" value={`${formatCurrency(dep.pre.monthlyTakeHome)}/mo`} />
+            <ExampleRow label="Monthly take-home — during deployment" value={`${formatCurrency(dep.during.monthlyTakeHome)}/mo`} highlight />
+            <ExampleRow label="Monthly increase" value={`+${formatCurrency(dep.during.monthlyIncrease)}/mo (+${Math.round(dep.during.percentIncrease)}%)`} highlight />
+            <ExampleRow label={`9-month tour total benefit (allowances ${formatCurrency(dep.tour.totalAdditionalAllowancePay)} + tax savings ${formatCurrency(dep.tour.totalCZTESavings)})`} value={formatCurrency(dep.tour.totalTourBenefit)} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> This E-5 takes home $871 more per month during the deployment — and because family expenses typically drop while a spouse is deployed (one fewer car, shared housing costs), many families can bank $1,000–$2,000+ per month. Over 9 months the CZTE alone saves $3,115 in federal income taxes. Combat-zone pay may be excluded from federal income tax. Roth TSP contributions from that pay can create a powerful combination: excluded from tax going in, and qualified withdrawals may also be tax-free if Roth rules are met — making deployment a significant opportunity for long-term TSP growth.
+            <strong>What this means:</strong> This E-5 takes home {formatCurrency(dep.during.monthlyIncrease)} more per month during the deployment — and because family expenses typically drop while a spouse is deployed (one fewer car, shared housing costs), many families can bank $1,000–$2,000+ per month. Over 9 months the CZTE alone saves {formatCurrency(dep.tour.totalCZTESavings)} in federal income taxes. Combat-zone pay may be excluded from federal income tax. Roth TSP contributions from that pay can create a powerful combination: excluded from tax going in, and qualified withdrawals may also be tax-free if Roth rules are met — making deployment a significant opportunity for long-term TSP growth.
           </p>
         </ExampleBox>
       </section>

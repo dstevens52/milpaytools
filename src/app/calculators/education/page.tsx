@@ -5,6 +5,9 @@ import { EducationCalculator } from '@/components/calculators/education/Educatio
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { compareAllBenefits } from '@/lib/calculations/education';
+import { getMHACode, getMHARates, getLocationName } from '@/lib/calculations/bah';
+import { formatCurrency } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: { absolute: 'Military Education Benefits Comparison Calculator — 2026' },
@@ -30,6 +33,29 @@ export const metadata: Metadata = {
 };
 
 export default function EducationCalculatorPage() {
+  // ── Worked-example values, computed via the education lib ─────────────────────
+  // Scenario: E-5 veteran (100% tier = '36mo+'), in-state public in San Diego
+  // (92093), ~$15k/yr tuition, full-time, vs Montgomery GI Bill.
+  // NOTE: the GI Bill MHA is ALWAYS the E-5-with-dependents BAH at the school ZIP,
+  // regardless of the veteran's own rank — resolve it at E-5/with-dependents.
+  const eduMha = getMHACode('92093');
+  const eduSchoolBah = (eduMha && getMHARates(eduMha, true)?.['E-5']) || 0;
+  const edu = compareAllBenefits({
+    status: 'veteran',
+    serviceTier: '36mo+',
+    vaRating: 0,
+    schoolType: 'public',
+    schoolZip: '92093',
+    schoolBAH: eduSchoolBah,
+    schoolLocationName: getLocationName('92093'),
+    annualTuition: 15000,
+    programYears: 4,
+    enrollment: 'full',
+  });
+  const eduGiBill = edu.benefits.find((b) => b.id === 'gi-bill')!;
+  const eduMgib = edu.benefits.find((b) => b.id === 'mgib')!;
+  const eduAdvantage = eduGiBill.totalAnnualValue - eduMgib.totalAnnualValue;
+
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Military Education Benefits Comparison Calculator 2026', description: 'Compare Post-9/11 GI Bill, VR&E (Chapter 31), Tuition Assistance, and Montgomery GI Bill side by side. See total program value by ZIP code, school type, and eligibility.', url: '/calculators/education' })} />
@@ -90,17 +116,17 @@ export default function EducationCalculatorPage() {
               Scenario: E-5 with 36+ months of qualifying active duty service (100% eligibility), attending UC San Diego or a comparable institution in San Diego, CA (ZIP 92093), full-time. California in-state tuition approximately $15,000/yr. Compared to Montgomery GI Bill (Chapter 30).
             </p>
             <ExampleTable>
-              <ExampleRow label="Tuition &amp; fees covered (100% Post-9/11, in-state public)" value="~$15,000/yr" />
-              <ExampleRow label="Monthly Housing Allowance — San Diego (CA-038, E-5 w/dep rate)" value="$3,975/mo" />
-              <ExampleRow label="MHA × 9 academic months" value="$35,775/yr" />
-              <ExampleRow label="Books &amp; supplies stipend" value="up to $1,000/yr" />
-              <ExampleRow label="Post-9/11 GI Bill total annual value" value="~$51,775/yr" highlight />
-              <ExampleRow label="Montgomery GI Bill (Ch. 30) — full-time monthly" value="$2,518/mo" />
-              <ExampleRow label="MGIB annual value (9 months)" value="$22,662/yr" />
-              <ExampleRow label="Post-9/11 advantage over MGIB" value="+$29,113/yr" highlight />
+              <ExampleRow label="Tuition &amp; fees covered (100% Post-9/11, in-state public)" value={`~${formatCurrency(eduGiBill.annualTuitionCoverage)}/yr`} />
+              <ExampleRow label="Monthly Housing Allowance — San Diego (CA-038, E-5 w/dep rate)" value={`${formatCurrency(eduGiBill.monthlyMHA)}/mo`} />
+              <ExampleRow label="MHA × 9 academic months" value={`${formatCurrency(eduGiBill.annualMHA)}/yr`} />
+              <ExampleRow label="Books &amp; supplies stipend" value={`up to ${formatCurrency(eduGiBill.annualBooks)}/yr`} />
+              <ExampleRow label="Post-9/11 GI Bill total annual value" value={`~${formatCurrency(eduGiBill.totalAnnualValue)}/yr`} highlight />
+              <ExampleRow label="Montgomery GI Bill (Ch. 30) — full-time monthly" value={`${formatCurrency(eduMgib.monthlyMHA)}/mo`} />
+              <ExampleRow label="MGIB annual value (9 months)" value={`${formatCurrency(eduMgib.annualMHA)}/yr`} />
+              <ExampleRow label="Post-9/11 advantage over MGIB" value={`+${formatCurrency(eduAdvantage)}/yr`} highlight />
             </ExampleTable>
             <p className="text-sm leading-relaxed text-zinc-700">
-              <strong>What this means:</strong> Under this scenario, Post-9/11 GI Bill has the higher estimated dollar value — primarily because the Monthly Housing Allowance ($3,975/month) is benchmarked to the local BAH rate. In this scenario, Post-9/11 benefits may cover in-state tuition and provide a substantial housing allowance, though actual rent, fees, enrollment level, and eligibility tier will affect the result.
+              <strong>What this means:</strong> Under this scenario, Post-9/11 GI Bill has the higher estimated dollar value — primarily because the Monthly Housing Allowance ({formatCurrency(eduGiBill.monthlyMHA)}/month) is benchmarked to the local BAH rate. In this scenario, Post-9/11 benefits may cover in-state tuition and provide a substantial housing allowance, though actual rent, fees, enrollment level, and eligibility tier will affect the result.
             </p>
           </ExampleBox>
         </section>
