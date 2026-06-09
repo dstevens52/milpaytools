@@ -5,6 +5,8 @@ import { ColaCalculator } from '@/components/calculators/cola/ColaCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { lookupCola } from '@/lib/calculations/cola';
+import { formatCurrency } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: { absolute: 'CONUS COLA Calculator — 2026' },
@@ -32,6 +34,13 @@ export const metadata: Metadata = {
 };
 
 export default function ColaPage() {
+  // ── Worked-example values, computed server-side from the COLA lib ─────────────
+  // Scenario: E-5 at Monterey, CA (ZIP 93940), a high-tier CONUS COLA area.
+  const colaWithDep = lookupCola({ zipCode: '93940', payGrade: 'E-5', hasDependents: true });
+  const colaNoDep = lookupCola({ zipCode: '93940', payGrade: 'E-5', hasDependents: false });
+  // Net of the 12% federal marginal bracket cited in the copy (COLA is taxable).
+  const colaNetAnnualWithDep = (colaWithDep.approxAnnual ?? 0) * (1 - 0.12);
+
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'CONUS COLA Calculator 2026', description: 'Check whether your duty station qualifies for CONUS Cost of Living Allowance and see approximate monthly rates by grade. Uses DTMO area data for 2026.', url: '/calculators/cola' })} />
@@ -96,14 +105,14 @@ export default function ColaPage() {
             Scenario: E-5 stationed at the Naval Postgraduate School or Defense Language Institute, Monterey, CA (ZIP 93940). Monterey is one of the highest-tier CONUS COLA locations — one of the most expensive duty stations in the continental U.S.
           </p>
           <ExampleTable>
-            <ExampleRow label="E-5 CONUS COLA — Monterey, CA — with dependents" value="$430/mo" highlight />
-            <ExampleRow label="E-5 CONUS COLA — Monterey, CA — without dependents" value="$310/mo" />
-            <ExampleRow label="Annual COLA (with dependents)" value="$5,160/yr" highlight />
-            <ExampleRow label="Annual COLA (without dependents)" value="$3,720/yr" />
+            <ExampleRow label="E-5 CONUS COLA — Monterey, CA — with dependents" value={`${formatCurrency(colaWithDep.approxMonthly ?? 0)}/mo`} highlight />
+            <ExampleRow label="E-5 CONUS COLA — Monterey, CA — without dependents" value={`${formatCurrency(colaNoDep.approxMonthly ?? 0)}/mo`} />
+            <ExampleRow label="Annual COLA (with dependents)" value={`${formatCurrency(colaWithDep.approxAnnual ?? 0)}/yr`} highlight />
+            <ExampleRow label="Annual COLA (without dependents)" value={`${formatCurrency(colaNoDep.approxAnnual ?? 0)}/yr`} />
             <ExampleRow label="Tax treatment" value="Taxable income" />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> An E-5 with dependents at the Naval Postgraduate School receives $5,160/year in additional pay specifically because Monterey&apos;s cost of living far exceeds the national average — even accounting for BAH. Unlike BAH, CONUS COLA is taxable income, so the net value after federal taxes at the 12% marginal bracket is approximately $4,541/year. It is still a meaningful supplement for one of the most expensive duty stations in the country.
+            <strong>What this means:</strong> An E-5 with dependents at the Naval Postgraduate School receives {formatCurrency(colaWithDep.approxAnnual ?? 0)}/year in additional pay specifically because Monterey&apos;s cost of living far exceeds the national average — even accounting for BAH. Unlike BAH, CONUS COLA is taxable income, so the net value after federal taxes at the 12% marginal bracket is approximately {formatCurrency(colaNetAnnualWithDep)}/year. It is still a meaningful supplement for one of the most expensive duty stations in the country.
           </p>
         </ExampleBox>
         </div>

@@ -4,6 +4,8 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { GuardReserveCalculator } from '@/components/calculators/guard-reserve/GuardReserveCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { calculateGuardReserve } from '@/lib/calculations/guardReserve';
+import { formatCurrency } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: { absolute: 'Guard & Reserve Pay Calculator 2026 | Drill Pay + AT + TRS' },
@@ -31,6 +33,22 @@ export const metadata: Metadata = {
 };
 
 export default function GuardReservePage() {
+  // ── Worked-example values, computed server-side from the Guard/Reserve lib ────
+  // Scenario: E-5, 6 YOS, 12 weekend UTAs (MUTA-4 = 48 drill periods), 15-day AT,
+  // TRICARE Reserve Select family coverage, no activations.
+  const gr = calculateGuardReserve({
+    rank: 'E-5',
+    yearsOfService: 6,
+    weekendsPerYear: 12,
+    periodsPerWeekend: 4,
+    atDays: 15,
+    additionalDays: 0,
+    trsPlan: 'family',
+    brsEnrolled: false,
+    tspContribPct: 0,
+  });
+  const grTrsMonthly = gr.trsAnnualPremium / 12;
+
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Guard & Reserve Pay Calculator 2026', description: 'Estimate total Guard and Reserve annual compensation: drill pay (MUTA), Annual Training pay, Tricare Reserve Select savings, and BRS matching. Uses 2026 DFAS pay tables.', url: '/calculators/guard-reserve' })} />
@@ -80,17 +98,17 @@ export default function GuardReservePage() {
             Scenario: E-5, 6 years of service, standard drilling reservist — 12 weekend UTAs (48 drill periods), 15-day Annual Training, with TRICARE Reserve Select family coverage. No activations or mobilizations.
           </p>
           <ExampleTable>
-            <ExampleRow label="E-5 daily base pay rate (6 yrs — $4,110/mo ÷ 30)" value="$137.00/day" />
-            <ExampleRow label="Weekend drill pay (48 periods × $137)" value="$6,576/yr" />
-            <ExampleRow label="Annual Training pay (15 days × $137)" value="$2,055/yr" />
-            <ExampleRow label="Total drill + AT pay" value="$8,631/yr" highlight />
+            <ExampleRow label={`E-5 daily base pay rate (6 yrs — ${formatCurrency(gr.monthlyBasePay)}/mo ÷ 30)`} value={`${formatCurrency(gr.dailyRate, true)}/day`} />
+            <ExampleRow label={`Weekend drill pay (48 periods × ${formatCurrency(gr.dailyRate)})`} value={`${formatCurrency(gr.annualDrillPay)}/yr`} />
+            <ExampleRow label={`Annual Training pay (15 days × ${formatCurrency(gr.dailyRate)})`} value={`${formatCurrency(gr.atPay)}/yr`} />
+            <ExampleRow label="Total drill + AT pay" value={`${formatCurrency(gr.totalMilitaryPay)}/yr`} highlight />
             <ExampleRow label="Estimated retirement points (48 drills + 15 AT + 15 membership)" value="78 pts/yr" />
-            <ExampleRow label="TRICARE Reserve Select — member + family premium" value="$286.66/mo ($3,440/yr)" />
-            <ExampleRow label="Avg. employer-sponsored family plan total premiums (KFF 2025 est.)" value="~$27,000/yr" />
-            <ExampleRow label="Est. TRS premium value vs. avg. employer plan" value="~$23,500/yr" highlight />
+            <ExampleRow label="TRICARE Reserve Select — member + family premium" value={`${formatCurrency(grTrsMonthly, true)}/mo (${formatCurrency(gr.trsAnnualPremium)}/yr)`} />
+            <ExampleRow label="Avg. employer-sponsored family plan total premiums (KFF 2025 est.)" value={`~${formatCurrency(gr.trsCivilianComparable)}/yr`} />
+            <ExampleRow label="Est. TRS premium value vs. avg. employer plan" value={`~${formatCurrency(gr.trsSavings)}/yr`} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> The cash drill pay of $8,631/year understates the total value of reserve service. TRICARE Reserve Select family premiums are $3,440/year — substantially lower than typical employer-sponsored family coverage, though employee payroll cost, deductibles, and employer contributions vary widely. Retirement points accumulate toward a reserve pension payable at age 60.
+            <strong>What this means:</strong> The cash drill pay of {formatCurrency(gr.totalMilitaryPay)}/year understates the total value of reserve service. TRICARE Reserve Select family premiums are {formatCurrency(gr.trsAnnualPremium)}/year — substantially lower than typical employer-sponsored family coverage, though employee payroll cost, deductibles, and employer contributions vary widely. Retirement points accumulate toward a reserve pension payable at age 60.
           </p>
         </ExampleBox>
       </section>
