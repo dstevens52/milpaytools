@@ -169,9 +169,12 @@ export default function TransitionReadinessPage() {
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
             <strong>Verdict: Not yet ready.</strong> Even with a healthy {formatCurrency(tr.monthlyGapOrSurplus)} monthly
-            surplus, the emergency fund covers only {tr.emergencyFundMonths.toFixed(1)} months — below the 3-month minimum
-            for even a &quot;yellow&quot; status — so this member isn&apos;t quite ready. The healthcare cost alone ({formatCurrency(tr.healthcareCostMonthly)}/month for a family) is the
-            biggest surprise for most service members who&apos;ve never paid a TRICARE premium.
+            surplus, this profile still lands at &quot;Not yet ready&quot; — the tool flags the emergency fund, which covers
+            {tr.emergencyFundMonths.toFixed(1)} months of expenses against its 3-month benchmark. That is the teaching point:
+            a strong income surplus on its own doesn&apos;t signal transition-ready, because a thin cash cushion can&apos;t
+            absorb a delayed first paycheck, a slow VA claim, or relocation costs — and a brand-new surplus hasn&apos;t had
+            time to build one yet. The healthcare cost alone ({formatCurrency(tr.healthcareCostMonthly)}/month for a family)
+            is the biggest surprise for most service members who&apos;ve never paid a TRICARE premium.
             With 14 months remaining, this member has time to close the gaps — the action steps
             focus on building the emergency fund to 6 months and targeting a slightly higher
             civilian salary.

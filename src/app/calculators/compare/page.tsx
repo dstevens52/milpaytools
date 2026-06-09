@@ -36,22 +36,24 @@ export const metadata: Metadata = {
 
 export default function ComparePage() {
   // ── Worked-example values, BAH resolved server-side and fed into compareLocations ──
-  // Scenario: E-5, 8 yrs, with dependents — Fort Bragg, NC (28310) vs Fort Hood, TX (76544).
-  const cmpFbMha = getMHACode('28310');
-  const cmpFhMha = getMHACode('76544');
-  const cmpFbBah = (cmpFbMha && getMHARates(cmpFbMha, true)?.['E-5']) || 0;
-  const cmpFhBah = (cmpFhMha && getMHARates(cmpFhMha, true)?.['E-5']) || 0;
+  // High-contrast pair to show how widely BAH varies: E-5, 8 yrs, with dependents —
+  // Fort Leonard Wood, MO (65473) vs Schofield Barracks, HI (96857). Hawaii (HI408)
+  // resolves as standard BAH, not OHA.
+  const cmpFlwMha = getMHACode('65473');
+  const cmpSchMha = getMHACode('96857');
+  const cmpFlwBah = (cmpFlwMha && getMHARates(cmpFlwMha, true)?.['E-5']) || 0;
+  const cmpSchBah = (cmpSchMha && getMHARates(cmpSchMha, true)?.['E-5']) || 0;
   const cmp = compareLocations({
     payGrade: 'E-5',
     yearsOfService: 8,
     hasDependents: true,
-    zipA: '28310',
-    zipB: '76544',
-    bahA: { monthlyBAH: cmpFbBah, locationName: getLocationName('28310') ?? 'Fort Bragg', bahFound: true },
-    bahB: { monthlyBAH: cmpFhBah, locationName: getLocationName('76544') ?? 'Fort Hood', bahFound: true },
+    zipA: '65473',
+    zipB: '96857',
+    bahA: { monthlyBAH: cmpFlwBah, locationName: getLocationName('65473') ?? 'Fort Leonard Wood', bahFound: true },
+    bahB: { monthlyBAH: cmpSchBah, locationName: getLocationName('96857') ?? 'Schofield Barracks', bahFound: true },
   })!;
-  const cmpBahAdvantage = cmp.locA.monthlyBAH - cmp.locB.monthlyBAH; // Fort Bragg over Fort Hood
-  const cmpAnnualAdvantage = (cmp.locA.grossMonthly - cmp.locB.grossMonthly) * 12;
+  const cmpBahAdvantage = cmp.locB.monthlyBAH - cmp.locA.monthlyBAH; // Schofield over Fort Leonard Wood
+  const cmpAnnualAdvantage = (cmp.locB.grossMonthly - cmp.locA.grossMonthly) * 12;
 
   return (
     <>
@@ -119,23 +121,23 @@ export default function ComparePage() {
         <div className="calc-example">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
-            Fort Bragg, NC vs. Fort Hood, TX: What&apos;s the Real Financial Difference?
+            Fort Leonard Wood, MO vs. Schofield Barracks, HI: How Much Does BAH Vary by Duty Station?
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-5, 8 years of service, married with dependents — comparing total monthly compensation at Fort Bragg, NC (ZIP 28310) vs. Fort Hood, TX (ZIP 76544). Same rank, same years, and a real BAH gap between two mid-cost markets. 2026 data.
+            Scenario: E-5, 8 years of service, married with dependents — comparing total monthly compensation at Fort Leonard Wood, MO (ZIP 65473) vs. Schofield Barracks, HI (ZIP 96857). Same rank, same years, dramatically different BAH rates. 2026 data.
           </p>
           <ExampleTable>
             <ExampleRow label="Base Pay (E-5, 8 yrs) — identical at both stations" value={`${formatCurrency(cmp.monthlyBasePay)}/mo`} />
             <ExampleRow label="BAS — identical at both stations" value={`${formatCurrency(cmp.monthlyBAS)}/mo`} />
-            <ExampleRow label="BAH — Fort Bragg, NC (with dependents)" value={`${formatCurrency(cmp.locA.monthlyBAH)}/mo`} />
-            <ExampleRow label="BAH — Fort Hood, TX (with dependents)" value={`${formatCurrency(cmp.locB.monthlyBAH)}/mo`} />
-            <ExampleRow label="BAH difference (Fort Bragg advantage)" value={`+${formatCurrency(cmpBahAdvantage)}/mo`} highlight />
-            <ExampleRow label="Monthly gross — Fort Bragg" value={`${formatCurrency(cmp.locA.grossMonthly)}/mo`} highlight />
-            <ExampleRow label="Monthly gross — Fort Hood" value={`${formatCurrency(cmp.locB.grossMonthly)}/mo`} highlight />
-            <ExampleRow label="Annual advantage — Fort Bragg" value={`+${formatCurrency(cmpAnnualAdvantage)}/yr`} highlight />
+            <ExampleRow label="BAH — Fort Leonard Wood, MO (with dependents)" value={`${formatCurrency(cmp.locA.monthlyBAH)}/mo`} />
+            <ExampleRow label="BAH — Schofield Barracks, HI (with dependents)" value={`${formatCurrency(cmp.locB.monthlyBAH)}/mo`} />
+            <ExampleRow label="BAH difference (Schofield Barracks advantage)" value={`+${formatCurrency(cmpBahAdvantage)}/mo`} highlight />
+            <ExampleRow label="Monthly gross — Fort Leonard Wood" value={`${formatCurrency(cmp.locA.grossMonthly)}/mo`} highlight />
+            <ExampleRow label="Monthly gross — Schofield Barracks" value={`${formatCurrency(cmp.locB.grossMonthly)}/mo`} highlight />
+            <ExampleRow label="Annual advantage — Schofield Barracks" value={`+${formatCurrency(cmpAnnualAdvantage)}/yr`} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> The E-5 at Fort Bragg earns {formatCurrency(cmpAnnualAdvantage)} more per year than their counterpart at Fort Hood — entirely due to the higher local housing market driving a higher BAH rate. Neither location qualifies for CONUS COLA. That {formatCurrency(cmpBahAdvantage)}/month difference is tax-free BAH that can be directed toward savings, a home down payment, or debt reduction. When evaluating PCS orders, this difference in annual compensation should factor alongside cost of living differences in the local economy.
+            <strong>What this means:</strong> The E-5 at Schofield Barracks receives {formatCurrency(cmpAnnualAdvantage)} more per year in BAH than their counterpart at Fort Leonard Wood — driven almost entirely by Hawaii&apos;s far higher housing market. That {formatCurrency(cmpBahAdvantage)}/month difference is excluded from federal taxable income, but BAH tracks local housing costs, so a higher rate largely reflects higher rents rather than extra discretionary income. (Hawaii also receives a separate OCONUS Cost-of-Living Allowance (COLA) this CONUS comparison doesn&apos;t model.) When evaluating PCS orders, weigh the BAH difference alongside the actual cost of living at each location.
           </p>
         </ExampleBox>
         </div>
