@@ -5,6 +5,9 @@ import { TotalCompensationCalculator } from '@/components/calculators/total-comp
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
+import { getMHACode, getMHARates } from '@/lib/calculations/bah';
+import { formatCurrency, roundToNearest } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: { absolute: 'Total Military Compensation Calculator 2026: Base Pay, BAH, BAS & Tax Advantages' },
@@ -32,6 +35,28 @@ export const metadata: Metadata = {
 };
 
 export default function TotalCompensationPage() {
+  // ── Worked-example values, computed server-side (BAH resolved via bah.ts) ──────
+  // One scenario drives both the hero "sample output" bar and the full example:
+  // E-5, 8 yrs, Fort Bragg NC (28310), with dependents, BRS, 5% TSP.
+  const tcMha = getMHACode('28310');
+  const tcBah = (tcMha && getMHARates(tcMha, true)?.['E-5']) || 0;
+  const tc = calculateTotalCompensation(
+    {
+      payGrade: 'E-5',
+      yearsOfService: 8,
+      zipCode: '28310',
+      hasDependents: true,
+      retirementSystem: 'brs',
+      tspContributionPct: 5,
+      govHousing: false,
+      mealCard: false,
+    },
+    tcBah,
+  );
+  const tcGrossAnnual = tc.totalMonthly * 12; // Base + BAH + BAS, no match
+  const tcPctHigher = Math.round((tc.civilianEquivalent / tc.annualBasePay - 1) * 100);
+  const tcCivRounded = roundToNearest(tc.civilianEquivalent, 100); // for the "≈" / "roughly" figures
+
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Total Military Compensation Calculator 2026', description: 'Calculate your true total military compensation: base pay, BAH, BAS, TSP match, and tax advantage. See the civilian salary equivalent using official 2026 DoD rates.', url: '/calculators/total-compensation' })} />
@@ -100,11 +125,11 @@ export default function TotalCompensationPage() {
                 E-5 &middot; 8 yrs &middot; Fort Bragg &middot; w/dep
               </p>
               <div className="flex items-baseline gap-4 min-w-0 flex-1">
-                <span className="text-[12px] text-zinc-500 whitespace-nowrap">Base <span className="font-semibold text-zinc-700">$4,300</span></span>
-                <span className="text-[12px] text-zinc-500 whitespace-nowrap">BAH <span className="font-semibold text-zinc-700">$1,806</span></span>
-                <span className="text-[12px] text-zinc-500 whitespace-nowrap">BAS <span className="font-semibold text-zinc-700">$477</span></span>
+                <span className="text-[12px] text-zinc-500 whitespace-nowrap">Base <span className="font-semibold text-zinc-700">{formatCurrency(tc.monthlyBasePay)}</span></span>
+                <span className="text-[12px] text-zinc-500 whitespace-nowrap">BAH <span className="font-semibold text-zinc-700">{formatCurrency(tc.monthlyBAH)}</span></span>
+                <span className="text-[12px] text-zinc-500 whitespace-nowrap">BAS <span className="font-semibold text-zinc-700">{formatCurrency(tc.monthlyBAS)}</span></span>
               </div>
-              <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">Civilian equiv. <span className="text-[16px] font-extrabold text-red-700">&asymp;$91,700/yr</span></p>
+              <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">Civilian equiv. <span className="text-[16px] font-extrabold text-red-700">&asymp;{formatCurrency(tcCivRounded)}/yr</span></p>
             </div>
           </div>
 
@@ -227,18 +252,18 @@ export default function TotalCompensationPage() {
             Scenario: E-5 (Sergeant / Petty Officer 2nd Class), 8 years of service, stationed at Fort Bragg, NC (ZIP 28310), married with dependents, enrolled in BRS and contributing 5% to TSP.
           </p>
           <ExampleTable>
-            <ExampleRow label="Monthly Base Pay (E-5, 8 yrs — 2026 table)" value="$4,300/mo" />
-            <ExampleRow label="BAH — Fort Bragg, NC (with dependents)" value="$1,806/mo" />
-            <ExampleRow label="BAS — Enlisted" value="$477/mo" />
-            <ExampleRow label="Monthly Gross" value="$6,583/mo" highlight />
-            <ExampleRow label="Annual (Base + BAH + BAS)" value="$78,996/yr" />
-            <ExampleRow label="BRS Gov Match (auto 1% + 4% match at 5% contribution)" value="+$2,580/yr" />
-            <ExampleRow label="Tax advantage — BAH &amp; BAS excluded from income (12% marginal)" value="+$3,287/yr" />
-            <ExampleRow label="TRICARE healthcare value (family)" value="+$6,840/yr" />
-            <ExampleRow label="Civilian Salary Equivalent" value="$91,703/yr" highlight />
+            <ExampleRow label="Monthly Base Pay (E-5, 8 yrs — 2026 table)" value={`${formatCurrency(tc.monthlyBasePay)}/mo`} />
+            <ExampleRow label="BAH — Fort Bragg, NC (with dependents)" value={`${formatCurrency(tc.monthlyBAH)}/mo`} />
+            <ExampleRow label="BAS — Enlisted" value={`${formatCurrency(tc.monthlyBAS)}/mo`} />
+            <ExampleRow label="Monthly Gross" value={`${formatCurrency(tc.totalMonthly)}/mo`} highlight />
+            <ExampleRow label="Annual (Base + BAH + BAS)" value={`${formatCurrency(tcGrossAnnual)}/yr`} />
+            <ExampleRow label="BRS Gov Match (auto 1% + 4% match at 5% contribution)" value={`+${formatCurrency(tc.tspAgencyContribution)}/yr`} />
+            <ExampleRow label="Tax advantage — BAH &amp; BAS excluded from income (12% marginal)" value={`+${formatCurrency(tc.taxAdvantageValue)}/yr`} />
+            <ExampleRow label="TRICARE healthcare value (family)" value={`+${formatCurrency(tc.tricareSavings)}/yr`} />
+            <ExampleRow label="Civilian Salary Equivalent" value={`${formatCurrency(tc.civilianEquivalent)}/yr`} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> This E-5 sees $4,300 on their pay stub, but their true economic compensation is $91,703 — 78% higher than base pay alone. The gap comes from BAH and BAS being completely excluded from federal income tax, plus TRICARE family coverage that would cost a civilian roughly $6,840/year in employer-plan premiums. A civilian would need to earn roughly $91,700 before taxes to match the same financial value, and that still doesn&apos;t count commissary access or the pension.
+            <strong>What this means:</strong> This E-5 sees {formatCurrency(tc.monthlyBasePay)} on their pay stub, but their true economic compensation is {formatCurrency(tc.civilianEquivalent)} — {tcPctHigher}% higher than base pay alone. The gap comes from BAH and BAS being completely excluded from federal income tax, plus TRICARE family coverage that would cost a civilian roughly {formatCurrency(tc.tricareSavings)}/year in employer-plan premiums. A civilian would need to earn roughly {formatCurrency(tcCivRounded)}{' '}before taxes to match the same financial value, and that still doesn&apos;t count commissary access or the pension.
           </p>
         </ExampleBox>
       </section>
