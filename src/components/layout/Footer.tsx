@@ -21,6 +21,7 @@ const GUIDES = [
 const RESOURCES = [
   { href: '/blog', label: 'Blog' },
   { href: '/bah', label: 'BAH by Station' },
+  { href: '/pay', label: 'Pay by Rank' },
   { href: '/partners', label: 'For Partners' },
 ];
 

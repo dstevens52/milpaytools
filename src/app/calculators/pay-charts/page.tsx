@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PayChartsClient } from '@/components/calculators/pay-charts/PayChartsClient';
+import { PAY_PAGE_RANKS } from '@/data/pay-pages/ranks';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema, faqPageSchema } from '@/lib/schema';
@@ -239,6 +240,30 @@ export default function PayChartsPage() {
               <p className="text-sm text-zinc-600 leading-relaxed">{a}</p>
             </div>
           ))}
+        </div>
+
+        {/* Pay-by-rank links */}
+        <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 mt-6">
+          <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-2">
+            Pay by Rank
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {PAY_PAGE_RANKS.map((r) => (
+              <Link
+                key={r.slug}
+                href={`/pay/${r.slug}`}
+                className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md"
+              >
+                {r.title}
+              </Link>
+            ))}
+            <Link
+              href="/pay"
+              className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md"
+            >
+              All ranks →
+            </Link>
+          </div>
         </div>
 
         {/* Guide links */}

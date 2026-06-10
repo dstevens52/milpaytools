@@ -23,6 +23,13 @@ import type { PayTable } from '@/data/types';
 
 export const DATA_YEAR = '2026';
 
+/**
+ * E-1 with less than 4 months of active duty service — published by DFAS as a
+ * footnote to the FY2026 pay table, not a YOS column. Verified June 2026
+ * against the published DFAS 2026 table.
+ */
+export const E1_UNDER_4_MONTHS = 2225.70;
+
 export const payTable: PayTable = {
   // ─── Enlisted ─────────────────────────────────────────────────────────────
   // Keys correspond to DFAS "Over N" column thresholds. YOS key selection:
@@ -31,7 +38,7 @@ export const payTable: PayTable = {
   // Cap comment = same rate repeats for all higher YOS columns in DFAS.
 
   'E-1': {
-    // E-1 with <4 months of active duty: $2,225.70 (footnote, not a table key)
+    // E-1 with <4 months of active duty: see E1_UNDER_4_MONTHS above (footnote, not a table key)
     0: 2407.20, // Flat — same across all YOS
   },
   'E-2': {

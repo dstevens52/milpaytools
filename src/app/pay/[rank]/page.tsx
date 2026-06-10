@@ -34,15 +34,18 @@ function yosLabel(bp: number): string {
 }
 
 /** The pay table only keys YOS columns where the rate changes; DFAS publishes
- *  every column. Carry values forward so users can find their own cell. */
+ *  every column. Carry values forward so users can find their own cell.
+ *  Columns below a grade's floor (E-8 starts Over 8, E-9 Over 10) get
+ *  monthly: null and render as "—" — never $0. */
 function progressionRows(rank: PayPageRank) {
   const entry = payTable[rank.grade];
   const keys = Object.keys(entry)
     .map(Number)
     .sort((a, b) => a - b);
-  return YOS_BREAKPOINTS.filter((bp) => bp >= keys[0]).map((bp) => {
+  return YOS_BREAKPOINTS.map((bp) => {
     const validKeys = keys.filter((k) => k <= bp);
-    const monthly = entry[validKeys[validKeys.length - 1] as YearsOfService]!;
+    const monthly =
+      validKeys.length > 0 ? entry[validKeys[validKeys.length - 1] as YearsOfService]! : null;
     return { bp, label: yosLabel(bp), monthly };
   });
 }
@@ -54,6 +57,8 @@ function resolveFigures(rank: PayPageRank) {
     .sort((a, b) => a - b);
   const minPay = entry[keys[0] as YearsOfService]!;
   const maxPay = entry[keys[keys.length - 1] as YearsOfService]!;
+  // First published YOS column — 0 for most grades; 8 for E-8, 10 for E-9.
+  const floorKey = keys[0];
   // Fewer than 4 distinct values (E-1/E-2/E-3): a full 22-row grid would be
   // almost entirely repeats — render a sentence + small table instead.
   const distinctCount = new Set(Object.values(entry)).size;
@@ -78,7 +83,35 @@ function resolveFigures(rank: PayPageRank) {
     medianBAH
   );
 
-  return { minPay, maxPay, distinctCount, isEnlisted, medianBAH, comp };
+  // Prior-enlisted comparison (O-1/O-2/O-3 pages), computed from the
+  // DFAS-verified -E rows. The two scales are identical at Over 4 by design
+  // and diverge with longevity, so the section shows both points.
+  let priorEnlisted: {
+    grade: string;
+    at4: number;
+    cap: number;
+    capKey: number;
+    standardCap: number;
+    capDiff: number;
+  } | null = null;
+  if (rank.priorEnlistedGrade) {
+    const eEntry = payTable[rank.priorEnlistedGrade];
+    const eKeys = Object.keys(eEntry)
+      .map(Number)
+      .sort((a, b) => a - b);
+    const eCapKey = eKeys[eKeys.length - 1];
+    const eCap = eEntry[eCapKey as YearsOfService]!;
+    priorEnlisted = {
+      grade: rank.priorEnlistedGrade,
+      at4: eEntry[4 as YearsOfService]!,
+      cap: eCap,
+      capKey: eCapKey,
+      standardCap: maxPay,
+      capDiff: eCap - maxPay,
+    };
+  }
+
+  return { minPay, maxPay, floorKey, distinctCount, isEnlisted, medianBAH, comp, priorEnlisted };
 }
 
 // Append the richest trailing clause that keeps the meta description within
@@ -95,15 +128,20 @@ export async function generateMetadata({
   const { rank: slug } = await params;
   const rank = RANK_BY_SLUG[slug];
   if (!rank) return {};
-  const { comp } = resolveFigures(rank);
+  const { comp, minPay, maxPay } = resolveFigures(rank);
 
   // titleBase omits the site name — the root layout's title template appends
   // " | MilPayTools". OG/Twitter don't run through that template, so they get
   // an explicit socialTitle to match the rendered <title>.
-  const titleBase = `${rank.title} Pay 2026 — Basic Pay Table & Total Compensation`;
+  // Rendered <title> (titleBase + " | MilPayTools") must stay ≤60 chars for
+  // every rank — this pattern renders at 58 for all 3-character grade tokens.
+  const titleBase = `${rank.title} Pay 2026: Basic Pay & Total Compensation`;
   const socialTitle = `${titleBase} | MilPayTools`;
 
-  const head = `2026 ${rank.title} pay: ${formatCurrency(comp.monthlyBasePay, true)}/month basic pay at ${yosLabel(getYOSBracket(rank.exampleYos)).toLowerCase()} of service.`;
+  const head =
+    minPay === maxPay
+      ? `2026 ${rank.title} pay: a flat ${formatCurrency(minPay, true)}/month basic pay at every year of service.`
+      : `2026 ${rank.title} pay: ${formatCurrency(comp.monthlyBasePay, true)}/month basic pay at ${yosLabel(getYOSBracket(rank.exampleYos)).toLowerCase()} of service.`;
   const description = fitDescription(head, [
     ` Full ${rank.title} pay table by years of service, plus BAH, BAS, and total compensation.`,
     ' Full pay table, BAH, BAS, and total compensation.',
@@ -137,10 +175,12 @@ export default async function RankPayPage({
   const rank = RANK_BY_SLUG[slug];
   if (!rank) notFound();
 
-  const { minPay, maxPay, distinctCount, isEnlisted, medianBAH, comp } = resolveFigures(rank);
+  const { minPay, maxPay, floorKey, distinctCount, isEnlisted, medianBAH, comp, priorEnlisted } =
+    resolveFigures(rank);
   const rows = progressionRows(rank);
   const exampleBracket = getYOSBracket(rank.exampleYos);
   const compactTable = distinctCount < 4;
+  const isFlat = minPay === maxPay;
 
   const branchList = `${rank.branchTitles.army} in the Army, ${rank.branchTitles.marines} in the Marine Corps, ${rank.branchTitles.airForce} in the Air Force, ${rank.branchTitles.navy} in the Navy, and ${rank.branchTitles.spaceForce} in the Space Force`;
   const exampleLabel = `${rank.title}, ${yosLabel(exampleBracket).toLowerCase()}, ${rank.exampleDependents ? 'with' : 'without'} dependents`;
@@ -158,7 +198,11 @@ export default async function RankPayPage({
   const faqs: { question: string; answer: string }[] = [
     {
       question: `How much does an ${rank.title} make in 2026?`,
-      answer: `${rank.title} monthly basic pay in 2026 ranges from ${formatCurrency(minPay, true)} to ${formatCurrency(maxPay, true)}, depending on years of service. An ${rank.title} ${yosLabel(exampleBracket).toLowerCase()} of service earns ${formatCurrency(comp.monthlyBasePay, true)}/month in basic pay. Basic pay is only part of military compensation — most members also receive BAH and BAS on top of it.`,
+      answer: `${
+        minPay === maxPay
+          ? `${rank.title} monthly basic pay in 2026 is a flat ${formatCurrency(minPay, true)} — the grade has no longevity steps.`
+          : `${rank.title} monthly basic pay in 2026 ranges from ${formatCurrency(minPay, true)} to ${formatCurrency(maxPay, true)}, depending on years of service. An ${rank.title} ${yosLabel(exampleBracket).toLowerCase()} of service earns ${formatCurrency(comp.monthlyBasePay, true)}/month in basic pay.`
+      } Basic pay is only part of military compensation — most members also receive BAH and BAS on top of it.`,
     },
     {
       question: `What is ${rank.title} total compensation with BAH and BAS?`,
@@ -167,7 +211,7 @@ export default async function RankPayPage({
     ...(rank.faqExtras ?? []),
     {
       question: `Is ${rank.title} pay taxable?`,
-      answer: `Basic pay is subject to federal income tax and, in most states, state income tax. BAH and BAS are excluded from federal taxable income, which is why the real value of an ${rank.title}'s package is higher than the base-pay number alone suggests. In designated combat zones, enlisted pay is excluded from federal income tax under the Combat Zone Tax Exclusion.`,
+      answer: `Basic pay is subject to federal income tax and, in most states, state income tax. BAH and BAS are excluded from federal taxable income, which is why the real value of an ${rank.title}'s package is higher than the base-pay number alone suggests. In designated combat zones, ${isEnlisted ? 'enlisted pay is excluded from federal income tax under the Combat Zone Tax Exclusion' : 'the Combat Zone Tax Exclusion applies to officers as well, capped at the highest enlisted pay rate'}.`,
     },
   ];
 
@@ -207,7 +251,11 @@ export default async function RankPayPage({
             {`${rank.title} Pay in 2026: Basic Pay, BAH & What It All Adds Up To`}
           </h1>
           <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
-            {`The pay chart says an ${rank.title} earns ${formatCurrency(minPay, true)} to ${formatCurrency(maxPay, true)} a month — but basic pay is only the taxable slice of the package. This page shows the full 2026 ${rank.title} pay progression by years of service, then adds the parts a base-pay table hides: housing allowance, food allowance, and what they're worth because they're excluded from federal taxable income.`}
+            {`The pay chart says an ${rank.title} earns ${
+              isFlat
+                ? `${formatCurrency(minPay, true)} a month — a single flat rate`
+                : `${formatCurrency(minPay, true)} to ${formatCurrency(maxPay, true)} a month`
+            } — but basic pay is only the taxable slice of the package. This page shows the full 2026 ${rank.title} pay ${isFlat ? 'picture' : 'progression by years of service'}, then adds the parts a base-pay table hides: housing allowance, food allowance, and what they're worth because they're excluded from federal taxable income.`}
           </p>
         </div>
       </section>
@@ -223,6 +271,8 @@ export default async function RankPayPage({
             {compactTable
               ? ` ${rank.title} pay has ${distinctCount === 1 ? 'a single flat rate' : `only ${distinctCount} longevity steps`} — the table below shows ${distinctCount === 1 ? 'it' : 'each step'}.`
               : ' Find the row matching your completed years of service — rates repeat between longevity steps, exactly as DFAS publishes them.'}
+            {floorKey > 0 &&
+              ` ${rank.title} rates begin at the over-${floorKey}-years column — DFAS publishes no ${rank.title} rate below that point, so earlier rows show a dash.`}
           </p>
           <div className="overflow-x-auto rounded-lg border border-zinc-200">
             <table className="w-full text-sm">
@@ -261,10 +311,10 @@ export default async function RankPayPage({
                         )}
                       </td>
                       <td className="px-4 py-2 text-right font-medium text-zinc-900 tabular-nums">
-                        {formatCurrency(row.monthly, true)}
+                        {row.monthly !== null ? formatCurrency(row.monthly, true) : <span className="text-zinc-300">—</span>}
                       </td>
                       <td className="px-4 py-2 text-right text-zinc-600 tabular-nums">
-                        {formatCurrency(row.monthly * 12)}
+                        {row.monthly !== null ? formatCurrency(row.monthly * 12) : <span className="text-zinc-300">—</span>}
                       </td>
                     </tr>
                   );
@@ -313,6 +363,9 @@ export default async function RankPayPage({
               </span>
             </div>
           </div>
+          {rank.exampleNote && (
+            <p className="text-xs text-zinc-500 leading-relaxed mt-3">{rank.exampleNote}</p>
+          )}
           <p className="text-sm text-zinc-600 leading-relaxed mt-4">
             {`That's about ${formatCurrency(annualCash)} per year — and because BAH and BAS are excluded from federal taxable income, this package is worth roughly ${formatCurrency(comp.taxAdvantageValue)} more per year than the same dollars paid as taxable salary. Counting that tax advantage and the value of TRICARE coverage, a civilian job would need to pay about ${formatCurrency(comp.civilianEquivalent)} to match it.`}
           </p>
@@ -351,6 +404,25 @@ export default async function RankPayPage({
             ))}
           </div>
         </section>
+
+        {/* ── Prior enlisted service (O-1/O-2/O-3 only) ───────────────── */}
+        {priorEnlisted && (
+          <section className="rounded-lg border border-zinc-200 bg-white p-5">
+            <h2 className="text-lg font-semibold text-zinc-900 mb-2">
+              {`Prior enlisted service: the ${priorEnlisted.grade} pay scale`}
+            </h2>
+            <p className="text-sm text-zinc-600 leading-relaxed mb-2">
+              {`${rank.title}s with more than 4 years of creditable service — most commonly officers who served enlisted first — are paid on the ${priorEnlisted.grade} scale instead. The criterion is the four-year creditable-service mark, not a "10-year rule." At over 4 years the two scales start at the same rate (${formatCurrency(priorEnlisted.at4, true)}/month), then diverge with longevity: ${priorEnlisted.grade} keeps climbing to ${formatCurrency(priorEnlisted.cap, true)}/month at over ${priorEnlisted.capKey} years, while standard ${rank.title} tops out at ${formatCurrency(priorEnlisted.standardCap, true)}/month — a gap of ${formatCurrency(priorEnlisted.capDiff, true)}/month at the top of the scales.`}
+            </p>
+            <p className="text-sm text-zinc-600 leading-relaxed">
+              {`The full ${priorEnlisted.grade} progression is in the `}
+              <Link href="/calculators/pay-charts" className="text-blue-700 underline hover:text-blue-800">
+                2026 pay charts
+              </Link>
+              .
+            </p>
+          </section>
+        )}
 
         {/* ── FAQ ─────────────────────────────────────────────────────── */}
         <section className="space-y-4">

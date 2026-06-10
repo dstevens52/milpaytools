@@ -34,6 +34,40 @@
 
 - [For Partners](/partners): Partner page for sharing MilPayTools with audiences, organized by military life stage — Starting Service, Pay & Housing, PCS & Relocation, Deployment, Retirement & TSP, Education & Career, VA Loans, Veterans Benefits, and Leaving the Military. Links to all 18 calculators, 9 guides, and key blog posts. Designed for sharing with service members, veterans, military families, transition coaches, and veteran organizations. No accounts, no personal info, no ads.
 
+## Pay by Rank
+
+- [Military Pay by Rank](https://www.milpaytools.com/pay): Index page for per-rank pay pages — basic pay progression by years of service plus BAH, BAS, and total compensation for every enlisted and officer grade.
+
+- [E-1 Pay 2026](https://www.milpaytools.com/pay/e1): Entry pay grade. Flat basic pay rate, the under-4-months footnote rate, first-paycheck mechanics, and the in-kind housing/meals reality for new members.
+
+- [E-2 Pay 2026](https://www.milpaytools.com/pay/e2): Single flat rate with no longevity steps. Automatic-advancement timeline and how the early TSP default settings work.
+
+- [E-3 Pay 2026](https://www.milpaytools.com/pay/e3): First grade with longevity steps. BRS match vesting at two years and total compensation with BAH and BAS.
+
+- [E-4 Pay 2026](https://www.milpaytools.com/pay/e4): The cusp grade before the NCO track. Five longevity steps and the first BAH-as-cash move for many members.
+
+- [E-5 Pay 2026](https://www.milpaytools.com/pay/e5): First NCO grade in most branches. Full pay progression through 12 years, worked total-compensation example, and promotion timelines.
+
+- [E-6 Pay 2026](https://www.milpaytools.com/pay/e6): Mid-career NCO grade. Eleven longevity steps to over 18 years and the compounding TSP decade.
+
+- [E-7 Pay 2026](https://www.milpaytools.com/pay/e7): Senior NCO threshold. Pay progression to over 26 years and the 20-year pension decision zone.
+
+- [E-8 Pay 2026](https://www.milpaytools.com/pay/e8): Pay table starts at over 8 years. Longevity steps through over 30 years and High-3 pension mechanics.
+
+- [E-9 Pay 2026](https://www.milpaytools.com/pay/e9): Top enlisted grade; table starts at over 10 years with the longest enlisted longevity run.
+
+- [O-1 Pay 2026](https://www.milpaytools.com/pay/o1): Entry officer grade. Short table, the over-3 jump, and the O-1E prior-enlisted scale explained.
+
+- [O-2 Pay 2026](https://www.milpaytools.com/pay/o2): Second company-grade rank with the steepest percentage steps in the officer chart, plus the O-2E scale.
+
+- [O-3 Pay 2026](https://www.milpaytools.com/pay/o3): The workhorse officer grade. Nine longevity steps to over 14 years, stay-or-go math, and the O-3E scale.
+
+- [O-4 Pay 2026](https://www.milpaytools.com/pay/o4): First field grade. Promotion-driven raises and the table through over 18 years.
+
+- [O-5 Pay 2026](https://www.milpaytools.com/pay/o5): The command grade. Thirteen longevity steps to over 22 years and where the High-3 average typically forms.
+
+- [O-6 Pay 2026](https://www.milpaytools.com/pay/o6): Senior field grade and terminal rank for most officers. The longest officer pay table, running to over 30 years.
+
 ## BAH by Duty Station
 
 - [BAH Rates by Military Installation](https://www.milpaytools.com/bah): Index page with search and filter for all duty station BAH pages. Find any installation by name, city, state, or branch.
