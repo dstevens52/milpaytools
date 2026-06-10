@@ -462,6 +462,14 @@ export function PayChartsClient() {
                 </Link>
               </div>
             </div>
+          ) : PRIOR_ENLISTED_OFFICER_GRADES.includes(selectedGrade as 'O-1E' | 'O-2E' | 'O-3E') ? (
+            // -E grades have no rates below Over 4 (they require >4 years of
+            // creditable service) — explain rather than show $0 or a blank.
+            <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
+              <p className="text-sm text-zinc-600">
+                {`${selectedGrade} rates begin at over 4 years of service — prior-enlisted officer grades require more than 4 years of creditable service. See ${selectedGrade.slice(0, -1)} for rates below that point.`}
+              </p>
+            </div>
           ) : (
             <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
               <p className="text-sm text-zinc-500">

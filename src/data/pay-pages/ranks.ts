@@ -5,9 +5,8 @@
  * src/data/duty-stations/stations.ts: the array drives generateStaticParams,
  * the /pay index grid, and the sitemap, so they can never drift apart.
  *
- * Phase 1 populates ONLY the E-5 entry. Rollout adds E-1–E-9 and O-1–O-6.
- * NOTE: /pay/o6 is gated on manual DFAS verification of the flagged O-6
- * values in src/data/pay-tables/2026.ts before that entry is added.
+ * Phase 1 populates ONLY the E-5 entry. Rollout adds E-1–E-9 and O-1–O-6
+ * (O-6 values verified against DFAS June 2026 — no rollout gate remains).
  *
  * All dollar figures on the rendered pages are computed from the pay-table
  * and BAH libs at build time — no dollar amounts belong in this file.

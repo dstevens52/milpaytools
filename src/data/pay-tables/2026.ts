@@ -11,7 +11,10 @@
  * Enlisted E-1–E-9: transcribed from official FY2026 DFAS published table.
  * Warrant O-1 through O-5: values end in clean .00/.10/.20/.30 increments consistent
  *   with official DFAS formatting — spot-checked against verified anchor points.
- * W-5 and O-6 through O-10: values contain odd-cent amounts (.81, .59, .22, etc.)
+ * O-1E/O-2E/O-3E: verified June 2026 against the published DFAS 2026 table
+ *   (DoD FMR Vol. 7A, Ch. 1); an earlier two-column YOS shift was corrected.
+ * O-6: verified June 2026 against the published DFAS 2026 table — values correct.
+ * W-5 and O-7 through O-10: values contain odd-cent amounts (.81, .59, .22, etc.)
  *   that are consistent with ECI-formula rounding on higher-grade pay — treat as
  *   estimates pending manual verification against current DFAS tables.
  */
@@ -210,16 +213,17 @@ export const payTable: PayTable = {
     3: 5222.40, // Cap — same for Over 3 through Over 40
   },
   'O-1E': {
-    // O-1 with prior enlisted service — N/A for <2 years
-    // NOTE: All values end in clean increments — no odd-cent artifacts detected.
-    // Flag for manual DFAS verification: O-1E key 2 ($5,222.10) no longer matches
-    // the corrected O-1 Over 3 ($5,222.40) — may need updating.
-    2:  5222.10,
-    3:  5577.00,
-    4:  5783.10,
-    6:  5993.40,
-    8:  6201.30,
-    10: 6484.20, // Cap
+    // O-1 with prior enlisted service — requires more than 4 years of creditable
+    // service; N/A below Over 4. Verified June 2026 against the published DFAS
+    // 2026 table (DoD FMR Vol. 7A, Ch. 1, "Officers with more than 4 years of
+    // creditable service"). A two-column shift from the original entry was
+    // corrected at the same time.
+    4:  5222.40,
+    6:  5576.70,
+    8:  5783.10,
+    10: 5993.70,
+    12: 6200.70,
+    14: 6484.50, // Cap
   },
   'O-2': {
     0: 4782.00,
@@ -229,16 +233,15 @@ export const payTable: PayTable = {
     6: 6617.70, // Cap
   },
   'O-2E': {
-    // O-2 with prior enlisted service — N/A for <2 years
-    // NOTE: All values end in clean increments — no odd-cent artifacts detected.
-    // Flag for manual DFAS verification: O-2E key 2 ($6,484.20) no longer matches
-    // the corrected O-2 Over 4 ($6,484.50) — may need updating.
-    2:  6484.20,
-    3:  6617.70,
-    4:  6828.00,
-    6:  7183.80,
-    8:  7458.90,
-    10: 7663.50, // Cap
+    // O-2 with prior enlisted service — requires more than 4 years of creditable
+    // service; N/A below Over 4. Verified June 2026 against the published DFAS
+    // 2026 table (DoD FMR Vol. 7A, Ch. 1). Two-column shift corrected.
+    4:  6484.50,
+    6:  6617.70,
+    8:  6828.00,
+    10: 7183.80,
+    12: 7458.90,
+    14: 7663.50, // Cap
   },
   'O-3': {
     0:  5534.10,
@@ -252,18 +255,17 @@ export const payTable: PayTable = {
     14: 9004.20, // Cap
   },
   'O-3E': {
-    // O-3 with prior enlisted service — N/A for <2 years
-    // NOTE: All values end in clean increments — no odd-cent artifacts detected.
-    // Flag for manual DFAS verification: O-3E key 2 ($7,383.30) no longer matches
-    // the corrected O-3 Over 4 ($7,382.70) — may need updating.
-    2:  7383.30,
-    3:  7737.00,
-    4:  8124.90,
-    6:  8376.00,
-    8:  8788.20,
-    10: 9136.50,
-    12: 9337.20,
-    14: 9609.30, // Cap
+    // O-3 with prior enlisted service — requires more than 4 years of creditable
+    // service; N/A below Over 4. Verified June 2026 against the published DFAS
+    // 2026 table (DoD FMR Vol. 7A, Ch. 1). Two-column shift corrected.
+    4:  7382.70,
+    6:  7737.00,
+    8:  8125.50,
+    10: 8375.70,
+    12: 8788.20,
+    14: 9137.10,
+    16: 9336.90,
+    18: 9609.60, // Cap
   },
   'O-4': {
     0:  6294.60,
