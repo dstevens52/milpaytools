@@ -157,19 +157,17 @@ const ACCORDION = [
           into the main calculation.
         </p>
         <p><strong className="text-zinc-800">Example: Left knee 30% + Right knee 20% + PTSD 50%</strong></p>
-        <p>Step 1 — Combine the bilateral pair:</p>
+        <p>Step 1 — Combine the bilateral pair on the § 4.25 table:</p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li>Start: 100; Apply 30% → 70 remaining; Apply 20% to 70 → 70 × 0.80 = 56 remaining</li>
-          <li>Bilateral combined value: 100 − 56 = <strong className="text-zinc-800">44%</strong></li>
+          <li>30 &amp; 20 → <strong className="text-zinc-800">44%</strong> bilateral combined value</li>
         </ul>
         <p>Step 2 — Apply bilateral factor (+10%):</p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li>44 × 1.10 = <strong className="text-zinc-800">48.4%</strong> (replaces 44% in main calc)</li>
+          <li>10% of 44 = 4.4 → 44 + 4.4 = 48.4 → rounds to <strong className="text-zinc-800">48%</strong> (replaces the pair in the main calc)</li>
         </ul>
         <p>Step 3 — Combine with PTSD (50%):</p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li>Apply 50%: 50 remaining; Apply 48.4% to 50 → 25.8 remaining</li>
-          <li>Final: 100 − 25.8 = 74.2% → rounds to <strong className="text-zinc-800">70%</strong></li>
+          <li>48 &amp; 50 → <strong className="text-zinc-800">74%</strong> → rounds to <strong className="text-zinc-800">70%</strong></li>
         </ul>
         <p>
           Near a rounding boundary, the bilateral factor can push you across a threshold worth

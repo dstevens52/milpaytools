@@ -444,7 +444,7 @@ export function VADisabilityCalculator() {
                   <span className="text-2xl font-bold ml-1">%</span>
                 </p>
                 <p className="text-sm text-zinc-500 mt-2">
-                  Exact: {result.exact.toFixed(1)}% → rounds to {result.rounded}%
+                  Combined value: {result.exact}% → rounds to {result.rounded}%
                 </p>
                 {result.bilateralApplied && (
                   <InfoTip

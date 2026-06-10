@@ -25,7 +25,7 @@ const GUIDE_FAQS: Record<string, { question: string; answer: string }[]> = {
   'va-disability': [
     {
       question: 'How are VA disability ratings calculated when you have multiple conditions?',
-      answer: "The VA uses the 'whole person' method (38 CFR § 4.25): each rating applies to your remaining functional capacity, not the original 100%. So 50% + 30% = 65% combined, which rounds to 70%. The VA rounds once, at the very end, never between steps.",
+      answer: "The VA uses the 'whole person' method (38 CFR § 4.25): each rating applies to your remaining functional capacity, not the original 100%. So 50% + 30% = 65% combined, which rounds to 70%. The VA works down the § 4.25 combined-ratings table one condition at a time and converts to the nearest 10% only at the end — not between steps.",
     },
     {
       question: 'What is a 0% VA disability rating?',

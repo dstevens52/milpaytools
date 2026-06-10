@@ -201,4 +201,34 @@ test.describe('VA Disability Calculator', () => {
     await expect(page.locator('p.text-6xl')).toHaveText(combinedBefore!);
     await expect(page.locator('p.text-4xl').first()).toHaveText(monthlyBefore!);
   });
+
+  // §4.25 table method: 50,30,30,20,10,10 non-bilateral + bilateral lower group
+  // (20,20,10,10,10,10,0) → bilateral 58 → +5.8 → 63.8 → 64 → chain ends 95 → 100%.
+  test('Reddit case: 13 conditions with bilateral legs → 100% and walkthrough shows "rounds to 64"', async ({ page }) => {
+    async function add(rating: string, location?: string) {
+      await page.getByRole('button', { name: rating, exact: true }).click();
+      if (location) await page.getByLabel('Body Location').selectOption(location);
+      await page.getByRole('button', { name: '+ Add Rating' }).click();
+    }
+
+    // Non-bilateral: 50, 30, 30, 20, 10, 10
+    await add('50%');
+    await add('30%');
+    await add('30%');
+    await add('20%');
+    await add('10%');
+    await add('10%');
+
+    // Bilateral lower-extremity group: 20,20,10,10,10,10,0 split across both legs
+    await add('20%', 'left-leg');
+    await add('20%', 'right-leg');
+    await add('10%', 'left-leg');
+    await add('10%', 'right-leg');
+    await add('10%', 'left-leg');
+    await add('10%', 'right-leg');
+    await add('0%', 'left-leg');
+
+    await expect(page.locator('p.text-6xl')).toContainText('100');
+    await expect(page.getByText(/rounds to 64/)).toBeVisible();
+  });
 });

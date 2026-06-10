@@ -20,6 +20,7 @@
  */
 
 import { vaRates, DATA_YEAR } from '@/data/va-rates/2026';
+import { combinePair } from './va-combined-table';
 
 // ─── Public Types ──────────────────────────────────────────────────────────
 
@@ -50,11 +51,15 @@ export interface CalculationStep {
 }
 
 export interface BilateralPairResult {
-  pairKey: string;
-  leftRating: number;
-  rightRating: number;
+  /** Paired body parts that contributed to this bilateral computation (e.g. ['arm','leg']). */
+  pairKeys: string[];
+  /** Every rating folded into the bilateral computation, highest-first. */
+  members: number[];
+  /** § 4.25 combined value of the bilateral members, before the factor (integer). */
   combinedBeforeFactor: number;
+  /** 10% of combinedBeforeFactor, carried to one decimal. */
   factorAddition: number;
+  /** combinedBeforeFactor + factor, rounded to the nearest whole number per § 4.26. */
   combinedAfterFactor: number;
 }
 
@@ -94,36 +99,71 @@ export function roundVARating(exact: number): number {
 
 interface BilateralGroup {
   pairKey: string;
-  left: number | null;
-  right: number | null;
+  members: DisabilityEntry[];
+  hasLeft: boolean;   // at least one compensable (>0%) left-side member
+  hasRight: boolean;  // at least one compensable (>0%) right-side member
 }
 
+/**
+ * Group disabilities by their paired body part (pairKey). The pairing rules
+ * themselves (which locations share a pairKey) are owned by the calculator's
+ * BODY_LOCATIONS table and are intentionally unchanged here. A group holds
+ * ALL members of that pairKey, on either side — a bilateral group is not
+ * limited to one rating per side.
+ */
 function groupBilateral(disabilities: DisabilityEntry[]): BilateralGroup[] {
   const map = new Map<string, BilateralGroup>();
   for (const d of disabilities) {
     if (!d.pairKey) continue;
-    if (!map.has(d.pairKey)) map.set(d.pairKey, { pairKey: d.pairKey, left: null, right: null });
+    if (!map.has(d.pairKey)) {
+      map.set(d.pairKey, { pairKey: d.pairKey, members: [], hasLeft: false, hasRight: false });
+    }
     const g = map.get(d.pairKey)!;
-    if (d.side === 'left') g.left = d.rating;
-    if (d.side === 'right') g.right = d.rating;
+    g.members.push(d);
+    if (d.side === 'left' && d.rating > 0) g.hasLeft = true;
+    if (d.side === 'right' && d.rating > 0) g.hasRight = true;
   }
   return [...map.values()];
 }
 
-function pairLabel(pairKey: string): string {
+function pairLabel(pairKeys: string[]): string {
   const labels: Record<string, string> = {
-    arm: 'left/right arm',
-    leg: 'left/right leg',
-    eye: 'left/right eye',
+    arm: 'arms',
+    leg: 'legs',
+    eye: 'eyes',
   };
-  return labels[pairKey] ?? pairKey;
+  return pairKeys.map((k) => labels[k] ?? k).join(' + ');
+}
+
+/**
+ * Apply the § 4.26 bilateral factor: add 10% of the combined bilateral value
+ * (not combine), then round to the nearest whole number. § 4.26's own worked
+ * example mandates this rounding (30 & 10 → 37 + 3.7 = 40.7 → 41). Integer
+ * arithmetic avoids float drift on half-point subtotals.
+ */
+function applyBilateralFactor(combined: number): number {
+  // round half up of combined × 1.1  =  ⌊(combined×11 + 5) / 10⌋
+  return Math.floor((combined * 11 + 5) / 10);
 }
 
 // ─── Main Calculation ──────────────────────────────────────────────────────
 
 /**
- * Calculate the combined VA disability rating given a list of disability
- * entries. Handles the bilateral factor automatically.
+ * Calculate the combined VA disability rating for a list of disability entries,
+ * following the 38 CFR § 4.25 Combined Ratings Table and the § 4.26 bilateral
+ * factor. Every pairwise combination is an integer table value.
+ *
+ * 38 CFR § 4.26 (quoted from memory — verify verbatim against eCFR before
+ * relying on the text): "...the ratings for the disabilities of the right and
+ * left sides will be combined as usual, and 10 percent of this value will be
+ * added (i.e., not combined) before proceeding with further combinations...
+ * the rating for such disabilities including the bilateral factor... will be
+ * treated as one disability for the purpose of arranging in order of severity
+ * and for all further combinations." Per § 4.26(c) / (a) — "arms" and "legs"
+ * meaning the upper and lower extremities as a whole — when MORE THAN ONE
+ * paired group qualifies (e.g. both arms AND both legs), all qualifying
+ * bilateral members are combined together into ONE computation with a single
+ * 10% factor, not a separate factor per group.
  */
 export function calculateCombinedRating(disabilities: DisabilityEntry[]): CombinedRatingResult {
   const steps: CalculationStep[] = [];
@@ -133,119 +173,105 @@ export function calculateCombinedRating(disabilities: DisabilityEntry[]): Combin
     return { exact: 0, rounded: 0, steps: [], bilateralApplied: false, bilateralPairs: [] };
   }
 
-  // ── Identify qualifying bilateral pairs ──────────────────────────────────
+  // ── Identify qualifying bilateral groups ─────────────────────────────────
+  // A group qualifies when it has at least one compensable member on the LEFT
+  // and one on the RIGHT. Non-qualifying paired members (e.g. three left legs,
+  // nothing on the right) combine as ordinary ratings.
   const groups = groupBilateral(disabilities);
-  const qualifyingPairs = groups.filter(
-    (g) => g.left !== null && g.right !== null && g.left > 0 && g.right > 0
-  );
+  const qualifyingGroups = groups.filter((g) => g.hasLeft && g.hasRight);
+  const qualifyingPairKeys = new Set(qualifyingGroups.map((g) => g.pairKey));
 
   const bilateralIds = new Set<string>();
   for (const d of disabilities) {
-    if (d.pairKey && qualifyingPairs.some((p) => p.pairKey === d.pairKey)) {
-      bilateralIds.add(d.id);
-    }
+    if (d.pairKey && qualifyingPairKeys.has(d.pairKey)) bilateralIds.add(d.id);
   }
 
-  // ── Compute adjusted bilateral values ────────────────────────────────────
+  // ── Bilateral computation (§ 4.26(c): all qualifying groups merged into one) ─
   const effectiveRatings: number[] = [];
 
-  for (const pair of qualifyingPairs) {
-    const leftRating = pair.left!;
-    const rightRating = pair.right!;
-    const sortedPair = [leftRating, rightRating].sort((a, b) => b - a);
+  if (qualifyingGroups.length > 0) {
+    const bilateralMembers = disabilities
+      .filter((d) => bilateralIds.has(d.id))
+      .map((d) => d.rating)
+      .sort((a, b) => b - a);
+
+    const pairKeys = qualifyingGroups.map((g) => g.pairKey);
 
     steps.push({
       type: 'bilateral-header',
-      label: `Bilateral pair: ${pairLabel(pair.pairKey)} (${leftRating}% left, ${rightRating}% right)`,
-      detail: 'Both sides compensable — bilateral factor applies (38 CFR § 4.26)',
+      label: `Bilateral disabilities — ${pairLabel(pairKeys)} (${bilateralMembers.map((r) => `${r}%`).join(', ')})`,
+      detail: 'Both sides compensable — combine all bilateral ratings, then add the 10% factor (38 CFR § 4.26)',
     });
 
-    let remaining = 100;
-    for (const r of sortedPair) {
-      const prev = remaining;
-      remaining = remaining * (1 - r / 100);
+    let combined = bilateralMembers[0];
+    for (let i = 1; i < bilateralMembers.length; i++) {
+      const next = bilateralMembers[i];
+      const result = combinePair(combined, next);
       steps.push({
         type: 'bilateral-apply',
-        label: `Apply ${r}%`,
-        detail: `${prev.toFixed(2)} × ${(1 - r / 100).toFixed(2)} = ${remaining.toFixed(2)} remaining`,
-        remaining: parseFloat(remaining.toFixed(4)),
-        value: parseFloat((100 - remaining).toFixed(4)),
+        label: `${combined} & ${next} → ${result}`,
+        detail: `Combine ${combined}% with ${next}% (§ 4.25 table)`,
+        value: result,
       });
+      combined = result;
     }
 
-    const combinedBeforeFactor = 100 - remaining;
-    const factorAddition = combinedBeforeFactor * 0.10;
-    const combinedAfterFactor = combinedBeforeFactor + factorAddition;
+    const factorAddition = combined / 10;
+    const combinedAfterFactor = applyBilateralFactor(combined);
 
     steps.push({
       type: 'bilateral-factor',
-      label: `Bilateral factor: 10% of bilateral combined value`,
-      detail: `${combinedBeforeFactor.toFixed(2)} + ${factorAddition.toFixed(2)} (10%) = ${combinedAfterFactor.toFixed(2)} — this value enters the final calculation`,
-      value: parseFloat(combinedAfterFactor.toFixed(4)),
+      label: `Bilateral factor: 10% of ${combined} = ${factorAddition.toFixed(1)}`,
+      detail: `${combined} + ${factorAddition.toFixed(1)} = ${(combined + factorAddition).toFixed(1)} → rounds to ${combinedAfterFactor}`,
+      value: combinedAfterFactor,
     });
 
     bilateralPairs.push({
-      pairKey: pair.pairKey,
-      leftRating,
-      rightRating,
-      combinedBeforeFactor: parseFloat(combinedBeforeFactor.toFixed(4)),
-      factorAddition: parseFloat(factorAddition.toFixed(4)),
-      combinedAfterFactor: parseFloat(combinedAfterFactor.toFixed(4)),
+      pairKeys,
+      members: bilateralMembers,
+      combinedBeforeFactor: combined,
+      factorAddition: parseFloat(factorAddition.toFixed(1)),
+      combinedAfterFactor,
     });
 
     effectiveRatings.push(combinedAfterFactor);
   }
 
   // ── Add non-bilateral ratings ────────────────────────────────────────────
-  const nonBilateral = disabilities.filter((d) => !bilateralIds.has(d.id));
-  for (const d of nonBilateral) {
-    effectiveRatings.push(d.rating);
+  for (const d of disabilities) {
+    if (!bilateralIds.has(d.id)) effectiveRatings.push(d.rating);
   }
 
-  // ── Apply whole-person formula ───────────────────────────────────────────
+  // ── Final combination through the § 4.25 table ───────────────────────────
   const sorted = [...effectiveRatings].sort((a, b) => b - a);
 
-  const sortDesc = sorted
-    .map((r) => `${r % 1 === 0 ? r : r.toFixed(1)}%`)
-    .join(', ');
-
-  if (disabilities.length > 1 || qualifyingPairs.length > 0) {
+  if (sorted.length > 1) {
     steps.push({
       type: 'sort',
       label: 'Sorted (highest first)',
-      detail: sortDesc,
+      detail: sorted.map((r) => `${r}%`).join(', '),
     });
   }
 
-  steps.push({
-    type: 'init',
-    label: 'Start with 100% healthy',
-    detail: '100% remaining ability',
-    remaining: 100,
-  });
-
-  let remaining = 100;
-  for (const r of sorted) {
-    const prev = remaining;
-    remaining = remaining * (1 - r / 100);
-    const combined = 100 - remaining;
-    const rLabel = r % 1 === 0 ? `${r}%` : `${r.toFixed(1)}%`;
+  let exact = sorted[0];
+  for (let i = 1; i < sorted.length; i++) {
+    const next = sorted[i];
+    const result = combinePair(exact, next);
     steps.push({
       type: 'apply',
-      label: `Apply ${rLabel}`,
-      detail: `${prev.toFixed(2)} × ${(1 - r / 100).toFixed(3)} = ${remaining.toFixed(2)} remaining`,
-      remaining: parseFloat(remaining.toFixed(4)),
-      value: parseFloat(combined.toFixed(4)),
+      label: `${exact} & ${next} → ${result}`,
+      detail: `Combine ${exact}% with ${next}% (§ 4.25 table)`,
+      value: result,
     });
+    exact = result;
   }
 
-  const exact = parseFloat((100 - remaining).toFixed(4));
   const rounded = roundVARating(exact);
 
   steps.push({
     type: 'result',
-    label: 'Combined before rounding',
-    detail: `100 − ${remaining.toFixed(2)} = ${exact.toFixed(1)}%`,
+    label: 'Combined value',
+    detail: `${exact}% combined before final rounding`,
     value: exact,
   });
 
@@ -254,8 +280,8 @@ export function calculateCombinedRating(disabilities: DisabilityEntry[]): Combin
     label: 'Round to nearest 10%',
     detail:
       rounded === 100 && exact < 100
-        ? `${exact.toFixed(1)}% ≥ 95% → rounds to 100%`
-        : `${exact.toFixed(1)}% → ${rounded}%`,
+        ? `${exact}% (≥ 95%) → 100%`
+        : `${exact}% → ${rounded}%`,
     value: rounded,
   });
 
@@ -263,7 +289,7 @@ export function calculateCombinedRating(disabilities: DisabilityEntry[]): Combin
     exact,
     rounded,
     steps,
-    bilateralApplied: qualifyingPairs.length > 0,
+    bilateralApplied: qualifyingGroups.length > 0,
     bilateralPairs,
   };
 }

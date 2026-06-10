@@ -51,7 +51,7 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
     },
     {
       question: 'How does VA disability rounding work?',
-      answer: 'The final combined value rounds to the nearest 10%: values ending in 1–4 round down, values ending in 5–9 round up. This happens once, at the very end — never between calculation steps.',
+      answer: 'The final combined value rounds to the nearest 10%: values ending in 1–4 round down, values ending in 5–9 round up. The VA works down the § 4.25 table one condition at a time and applies this final rounding only at the end — not between steps.',
     },
     {
       question: 'Why does the gap between 90% and 100% VA disability matter so much?',

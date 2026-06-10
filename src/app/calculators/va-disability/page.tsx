@@ -143,7 +143,7 @@ export default function VADisabilityPage() {
             <ExampleRow label="Annual VA compensation" value={`${formatCurrency(exComp.annual)}/yr`} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> Without the bilateral factor, these three conditions combine to 72% (100 − (0.50 × 0.70 × 0.80) = 72%), which also rounds to 70% — so in this particular case the rounded result is the same either way. But the bilateral factor matters enormously in cases near a rounding threshold: a combined value of 63% without the factor becomes 67% with it, changing the rounded rating from 60% to 70% and adding hundreds of dollars per month. VA rules require the bilateral adjustment whenever both sides of a paired joint carry compensable ratings. At {exRating.rounded}%, this veteran receives {formatCurrency(exComp.monthly, true)}/month in VA disability compensation, which is excluded from federal taxable income, and may qualify for additional dependent-based increases if they have a spouse or children.
+            <strong>What this means:</strong> Without the bilateral factor, the knees would combine to 44% instead of 48%, and combining that with the 50% back still reaches 72% — which also rounds to 70%, so in this particular case the rounded result is the same either way. But the bilateral factor matters enormously in cases near a rounding threshold: a combined value of 63% without the factor becomes 67% with it, changing the rounded rating from 60% to 70% and adding hundreds of dollars per month. VA rules require the bilateral adjustment whenever both sides of a paired joint carry compensable ratings. At {exRating.rounded}%, this veteran receives {formatCurrency(exComp.monthly, true)}/month in VA disability compensation, which is excluded from federal taxable income, and may qualify for additional dependent-based increases if they have a spouse or children.
           </p>
         </ExampleBox>
       </section>
@@ -191,9 +191,10 @@ export default function VADisabilityPage() {
               10% bonus on the combined value of those bilateral disabilities.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              <strong>Example:</strong> Left knee 20% + Right knee 10%. Using VA math, these combine
-              to 28%. The bilateral factor adds 10% of 28 (= 2.8), giving 30.8%. That 30.8 is then
-              combined with your other disabilities as if it were a single rating.
+              <strong>Example:</strong> Left knee 20% + Right knee 10%. On the § 4.25 table these
+              combine to 28%. The bilateral factor adds 10% of 28 (= 2.8), giving 30.8%, which
+              rounds to 31%. That 31% is then combined with your other disabilities as if it were a
+              single rating.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               The bilateral factor only applies when <strong>both</strong> sides have a compensable
@@ -240,7 +241,7 @@ export default function VADisabilityPage() {
                 },
                 {
                   mistake: 'Rounding between steps',
-                  fix: 'VA combines all ratings first, applies any bilateral factor, then rounds once at the very end.',
+                  fix: 'VA works down the § 4.25 table one condition at a time, applies any bilateral factor, then converts to the nearest 10% only at the end — never rounding to a 10% step in between.',
                 },
                 {
                   mistake: 'Forgetting the bilateral factor',

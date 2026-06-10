@@ -22,8 +22,9 @@ test.describe('VA Disability — edge cases', () => {
     await page.goto('/calculators/va-disability');
   });
 
-  // §4.26: both sides of a paired part. 30% + 30% bilateral combine to 51, then
-  // +10% factor (5.1) = 56.1 → rounds to 60%. Without the factor, 30 + 30 = 51 → 50%.
+  // §4.26: both sides of a paired part. 30% + 30% bilateral combine to 51 (§4.25
+  // table), then +10% factor (5.1) = 56.1 → rounds to 56 → 60%. Without the factor,
+  // 30 & 30 = 51 → 50%.
   test('bilateral factor applies for left + right leg (30% + 30% → 60%)', async ({ page }) => {
     await page.getByRole('button', { name: '30%', exact: true }).click();
     await page.getByLabel('Body Location').selectOption('left-leg');
@@ -33,9 +34,9 @@ test.describe('VA Disability — edge cases', () => {
     await page.getByLabel('Body Location').selectOption('right-leg');
     await page.getByRole('button', { name: '+ Add Rating' }).click();
 
-    // Exact 56.1% only arises when the +10% factor is applied (51.0 → 56.1); proves §4.26 ran.
+    // Combined value 56 only arises when the +10% factor is applied (51 → 56.1 → 56); proves §4.26 ran.
     await expect(page.locator('p.text-6xl')).toContainText('60');
-    await expect(page.getByText(/56\.1% → rounds to 60%/)).toBeVisible();
+    await expect(page.getByText(/56% → rounds to 60%/)).toBeVisible();
   });
 
   // Two conditions on the SAME side are not a bilateral pair (§4.26 needs both sides).
@@ -46,9 +47,9 @@ test.describe('VA Disability — edge cases', () => {
       await page.getByLabel('Body Location').selectOption('left-arm');
       await page.getByRole('button', { name: '+ Add Rating' }).click();
     }
-    // Exact stays 51.0% (no +10% factor); with a bilateral pair it would be 56.1% → 60%.
+    // Combined stays 51 (no +10% factor); with a bilateral pair it would be 56 → 60%.
     await expect(page.locator('p.text-6xl')).toContainText('50');
-    await expect(page.getByText(/51\.0% → rounds to 50%/)).toBeVisible();
+    await expect(page.getByText(/51% → rounds to 50%/)).toBeVisible();
   });
 
   // A lone 18–23 school child with no under-18 children is paid at the Table B
@@ -64,10 +65,10 @@ test.describe('VA Disability — edge cases', () => {
     await expect(page.locator('p.text-4xl').filter({ hasText: vaAmount(comp.monthly) })).toBeVisible();
   });
 
-  // 50% + 10% combine to exactly 55.0 — the .5 boundary must round UP to 60%.
-  test('combined exactly on a rounding boundary (55.0% → 60%)', async ({ page }) => {
+  // 50 & 10 combine to exactly 55 on the §4.25 table — the boundary rounds UP to 60%.
+  test('combined exactly on a rounding boundary (55 → 60%)', async ({ page }) => {
     const r = combinedRating([50, 10]);
-    expect(r.exact).toBeCloseTo(55.0, 1);
+    expect(r.exact).toBe(55);
     expect(r.rounded).toBe(60);
 
     await page.getByRole('button', { name: '50%', exact: true }).click();
@@ -76,13 +77,13 @@ test.describe('VA Disability — edge cases', () => {
     await page.getByRole('button', { name: '+ Add Rating' }).click();
 
     await expect(page.locator('p.text-6xl')).toContainText('60');
-    await expect(page.getByText(/55\.0% → rounds to 60%/)).toBeVisible();
+    await expect(page.getByText(/55% → rounds to 60%/)).toBeVisible();
   });
 
-  // 90% + 50% combine to exactly 95.0 — VA rounds 95+ up to 100%.
-  test('combined 95%+ rounds to 100% (90% + 50% → 95.0 → 100%)', async ({ page }) => {
+  // 90 & 50 combine to exactly 95 — VA rounds 95+ up to 100%.
+  test('combined 95%+ rounds to 100% (90 & 50 → 95 → 100%)', async ({ page }) => {
     const r = combinedRating([90, 50]);
-    expect(r.exact).toBeCloseTo(95.0, 1);
+    expect(r.exact).toBe(95);
     expect(r.rounded).toBe(100);
 
     await page.getByRole('button', { name: '90%', exact: true }).click();
@@ -91,7 +92,7 @@ test.describe('VA Disability — edge cases', () => {
     await page.getByRole('button', { name: '+ Add Rating' }).click();
 
     await expect(page.locator('p.text-6xl')).toContainText('100');
-    await expect(page.getByText(/95\.0% → rounds to 100%/)).toBeVisible();
+    await expect(page.getByText(/95% → rounds to 100%/)).toBeVisible();
   });
 
   // No conditions → empty-state prompt, no combined-rating result rendered.
