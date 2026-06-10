@@ -38,7 +38,7 @@ const FAQS = [
   {
     question: 'How does the VA combined rating formula work?',
     answer:
-      'The VA uses "whole person" math under 38 CFR § 4.25. Each disability reduces from remaining functional capacity, not from 100%. Example: 50% + 30% — start at 100, subtract 50% (leaves 50), then subtract 30% of 50 (15), leaving 35. Combined = 65%, rounded to 70%. Rounding occurs once at the end: values ending in 1–4 round down, 5–9 round up.',
+      'The VA reads combined ratings off the § 4.25 Combined Ratings Table, combining conditions one at a time, highest first, and applying each to the capacity that remains rather than 100%. Example: on the table, 50 combined with 30 is 65, which rounds to 70%. The conversion to the nearest 10% happens once, at the end: values ending in 1–4 round down, 5–9 round up.',
   },
   {
     question: 'What is the VA bilateral factor and how does it affect my rating?',
@@ -113,27 +113,25 @@ const ACCORDION = [
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
-          The VA does not add disability ratings together. Instead, it uses the{' '}
-          <strong className="text-zinc-800">&quot;whole person&quot; method</strong> defined in 38 CFR § 4.25.
-          Your body starts at 100% functional capacity. Each disability reduces from whatever
-          capacity <em>remains</em>, not from the original 100%.
+          The VA does not add disability ratings together. Instead, it reads combined ratings off the{' '}
+          <strong className="text-zinc-800">Combined Ratings Table</strong> in 38 CFR § 4.25, built on
+          the &quot;whole person&quot; method: your body starts at 100% functional capacity, and each
+          disability is applied to whatever capacity <em>remains</em>, not the original 100%.
         </p>
         <p><strong className="text-zinc-800">Step-by-step example: 50% + 30%</strong></p>
         <ol className="space-y-1 pl-4 list-decimal">
-          <li>Start: 100% whole person</li>
-          <li>Apply highest rating first (50%): 100 − 50 = <strong className="text-zinc-800">50% remaining</strong></li>
-          <li>Apply next rating to what&apos;s left (30% of 50): 30% × 50 = 15 → remaining = <strong className="text-zinc-800">35%</strong></li>
-          <li>Combined disability: 100 − 35 = <strong className="text-zinc-800">65%</strong></li>
-          <li>Round to nearest 10%: <strong className="text-zinc-800">70%</strong></li>
+          <li>Sort highest first: <strong className="text-zinc-800">50%, 30%</strong></li>
+          <li>Combine the two on the § 4.25 table: 50 &amp; 30 → <strong className="text-zinc-800">65</strong></li>
+          <li>Convert to the nearest 10%: <strong className="text-zinc-800">70%</strong></li>
         </ol>
         <p>
-          In a standard non-bilateral calculation, VA combines the conditions first, then rounds the
+          VA combines the conditions first — every table step is a whole number — then converts the
           final combined value to the nearest 10%. Values ending in 1–4 round down; values ending in
           5–9 round up.
         </p>
         <p>
-          <strong className="text-zinc-800">Why this matters:</strong> The difference between 64.4%
-          and 65% is the difference between a 60% rating ($1,435.02/month) and a 70% rating
+          <strong className="text-zinc-800">Why this matters:</strong> The difference between 64
+          and 65 is the difference between a 60% rating ($1,435.02/month) and a 70% rating
           ($1,808.45/month) — a gap of $373.43/month or $4,481/year. Knowing your exact
           combined value tells you how close you are to the next threshold and what an additional
           condition could do.
@@ -673,7 +671,7 @@ export default function VADisabilityGuidePage() {
                   ))}
                   <div className="flex items-center justify-between py-2.5">
                     <span className="text-sm text-zinc-500">Combined (before rounding)</span>
-                    <span className="text-sm font-mono tabular-nums text-zinc-600">68.5%</span>
+                    <span className="text-sm font-mono tabular-nums text-zinc-600">69%</span>
                   </div>
                 </div>
                 <div className="mx-5 my-3 rounded-lg bg-red-50 border border-red-200 px-4 py-3">

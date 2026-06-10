@@ -43,7 +43,7 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
   'va-disability-math-explained': [
     {
       question: "Why doesn't the VA add disability percentages together?",
-      answer: "The VA uses the 'whole person' method (38 CFR § 4.25). Each rating applies to your remaining functional capacity, not the original 100%. So 50% + 30% = 65% combined, which rounds to 70% — not 80%.",
+      answer: "The VA reads combined ratings off the § 4.25 Combined Ratings Table, combining conditions one at a time, highest first, and applying each to the capacity that remains rather than the original 100%. So 50% + 30% combines to 65, which rounds to 70% — not 80%.",
     },
     {
       question: 'What is the bilateral factor in VA disability ratings?',

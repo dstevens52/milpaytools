@@ -156,15 +156,14 @@ export default function VADisabilityPage() {
           <div>
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">How VA math works</h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              The VA uses a &ldquo;whole person&rdquo; theory: you start at 100% healthy, and each
-              disability reduces your remaining capacity. A 50% disability leaves you at 50%
-              healthy. A subsequent 30% disability then reduces that remaining 50% — not the
-              original 100%.
+              The VA reads combined ratings off the &ldquo;whole person&rdquo; table in 38 CFR
+              § 4.25. The idea: you start at 100% healthy, and each disability is applied to the
+              capacity that remains — not the original 100%. A 50% disability leaves 50%; a later
+              30% disability reduces that remaining 50%, not the full 100%.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              This is why 50% + 30% does <strong>not</strong> equal 80%. After applying 50%, you
-              have 50% remaining. Applying 30% to that 50% leaves 35% (50 × 0.70 = 35). Combined
-              value: 100 − 35 = 65%, which rounds to <strong>70%</strong>.
+              This is why 50% + 30% does <strong>not</strong> equal 80%. On the § 4.25 table,
+              50 combined with 30 is 65 — which rounds to <strong>70%</strong>.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               The VA&apos;s position is that you cannot be more than 100% disabled — so each
