@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { getAllPostMeta } from '@/lib/blog';
 import { getAllGuideMeta } from '@/lib/guides';
 import { DUTY_STATIONS } from '@/data/duty-stations/stations';
+import { PAY_PAGE_RANKS } from '@/data/pay-pages/ranks';
 
 const BASE_URL = 'https://www.milpaytools.com';
 
@@ -191,5 +192,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ];
 
-  return [...staticPages, ...blogPages, ...guidePages, ...stationPages];
+  // Pay tables change each January — yearly is accurate, not optimistic.
+  const payPages: MetadataRoute.Sitemap = [
+    {
+      url: `${BASE_URL}/pay`,
+      lastModified: now,
+      changeFrequency: 'yearly',
+      priority: 0.8,
+    },
+    ...PAY_PAGE_RANKS.map((r) => ({
+      url: `${BASE_URL}/pay/${r.slug}`,
+      lastModified: now,
+      changeFrequency: 'yearly' as const,
+      priority: 0.7,
+    })),
+  ];
+
+  return [...staticPages, ...blogPages, ...guidePages, ...stationPages, ...payPages];
 }
