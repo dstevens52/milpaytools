@@ -83,7 +83,7 @@ const INSIGHT_CARDS = [
     label: 'Thing 1',
     title: 'VA math doesn\'t add up the way you think',
     description:
-      'The VA uses "whole person" math — each rating reduces from what\'s left, not from 100%. Two 50% ratings combine to 75%, not 100%. Where you land near a rounding threshold can swing your compensation by hundreds per month.',
+      'The VA reads combined ratings off the § 4.25 table — it doesn\'t add them. Each rating applies to what\'s left, not the full 100%, so two 50% ratings combine to 75, not 100. Where you land near a rounding threshold can swing your compensation by hundreds per month.',
     cta: 'See how the formula works →',
     href: '#learning',
   },
@@ -483,8 +483,9 @@ const ACCORDION = [
           </li>
         </ul>
         <p>
-          These timelines make the effective date of your original claim critically important — every
-          year of delay in filing is a year of protection you will not have for another decade.
+          These timelines run from the effective date of your original claim: the 5-, 10-, and 20-year
+          stability protections all accrue from that date, so the effective date the VA assigns is what
+          starts each clock.
         </p>
       </div>
     ),

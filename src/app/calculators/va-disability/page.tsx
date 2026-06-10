@@ -46,8 +46,6 @@ export default function VADisabilityPage() {
     hasSpouse: false, childrenUnder18: 0, schoolChildren: 0, dependentParents: 0,
   });
   const exPair = exRating.bilateralPairs[0];
-  const exRemAfterBilateral = 100 - exPair.combinedAfterFactor; // capacity left after the knees
-  const exBackReduction = exRemAfterBilateral * 0.5; // 50% back applied to that remainder
 
   return (
     <>
@@ -122,7 +120,7 @@ export default function VADisabilityPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          The VA combined rating is not calculated by adding percentages together — it uses a whole-person formula (38 CFR § 4.25) where each additional rating is applied to the remaining healthy capacity, not the original 100%. That is why 50% + 30% equals 65% combined (which rounds to 70%), not 80%. This calculator applies the official VA math step by step, including the bilateral factor, and shows your 2026 monthly compensation — excluded from federal taxable income. This calculator estimates the combined rating math — it does not determine whether VA will grant service connection or what rating VA will assign to any specific condition.
+          The VA combined rating is not calculated by adding percentages together — the VA reads it off the Combined Ratings Table in 38 CFR § 4.25, combining your conditions one at a time, highest first. The table is built on the &ldquo;whole person&rdquo; idea: each additional rating applies to the capacity that remains, not the original 100%. That is why 50% + 30% combines to 65 (which rounds to 70%), not 80%. This calculator applies the official VA math step by step, including the bilateral factor, and shows your 2026 monthly compensation — excluded from federal taxable income. This calculator estimates the combined rating math — it does not determine whether VA will grant service connection or what rating VA will assign to any specific condition.
         </p>
       </div>
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -134,16 +132,15 @@ export default function VADisabilityPage() {
             Scenario: Three service-connected conditions — 50% lumbar spine (back), 30% left knee, 20% right knee. The knees trigger the bilateral factor under 38 CFR § 4.26 because both sides of the same joint are rated.
           </p>
           <ExampleTable>
-            <ExampleRow label="Left knee (30%) + right knee (20%) combined" value={`${exPair.combinedBeforeFactor.toFixed(1)}% before factor`} />
-            <ExampleRow label="Bilateral factor added (+10% of combined)" value={`+${exPair.factorAddition.toFixed(1)} pts → ${exPair.combinedAfterFactor.toFixed(1)}%`} />
-            <ExampleRow label={`50% back applied to remaining ${exRemAfterBilateral.toFixed(1)}%`} value={`−${exBackReduction.toFixed(1)} pts`} />
-            <ExampleRow label="Combined before rounding" value={`${exRating.exact.toFixed(1)}%`} />
-            <ExampleRow label="VA rounded rating (nearest 10%)" value={`${exRating.rounded}%`} highlight />
+            <ExampleRow label="Bilateral pair on the § 4.25 table: left knee 30% & right knee 20%" value={`30 & 20 → ${exPair.combinedBeforeFactor}`} />
+            <ExampleRow label={`Bilateral factor (+10% of ${exPair.combinedBeforeFactor}, rounded to a whole number)`} value={`${exPair.combinedBeforeFactor} + ${exPair.factorAddition.toFixed(1)} → ${exPair.combinedAfterFactor}`} />
+            <ExampleRow label="Combine with the 50% back (highest first)" value={`50 & ${exPair.combinedAfterFactor} → ${exRating.exact}`} />
+            <ExampleRow label="Convert to the nearest 10%" value={`${exRating.exact} → ${exRating.rounded}%`} highlight />
             <ExampleRow label="2026 monthly compensation — veteran alone" value={`${formatCurrency(exComp.monthly, true)}/mo`} highlight />
             <ExampleRow label="Annual VA compensation" value={`${formatCurrency(exComp.annual)}/yr`} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> Without the bilateral factor, the knees would combine to 44% instead of 48%, and combining that with the 50% back still reaches 72% — which also rounds to 70%, so in this particular case the rounded result is the same either way. But the bilateral factor matters enormously in cases near a rounding threshold: a combined value of 63% without the factor becomes 67% with it, changing the rounded rating from 60% to 70% and adding hundreds of dollars per month. VA rules require the bilateral adjustment whenever both sides of a paired joint carry compensable ratings. At {exRating.rounded}%, this veteran receives {formatCurrency(exComp.monthly, true)}/month in VA disability compensation, which is excluded from federal taxable income, and may qualify for additional dependent-based increases if they have a spouse or children.
+            <strong>What this means:</strong> Without the bilateral factor, the knees would combine to 44% instead of 48%, and combining that with the 50% back still reaches 72% — which also rounds to 70%, so in this particular case the rounded result is the same either way. But the bilateral factor matters enormously in cases near a rounding threshold: a combined value of 63 without the factor becomes 69 with it, changing the rounded rating from 60% to 70% and adding hundreds of dollars per month. VA rules require the bilateral adjustment whenever both sides of a paired joint carry compensable ratings. At {exRating.rounded}%, this veteran receives {formatCurrency(exComp.monthly, true)}/month in VA disability compensation, which is excluded from federal taxable income, and may qualify for additional dependent-based increases if they have a spouse or children.
           </p>
         </ExampleBox>
       </section>
@@ -247,7 +244,7 @@ export default function VADisabilityPage() {
                 },
                 {
                   mistake: 'Filing only one side of a bilateral condition',
-                  fix: 'If symptoms affect both sides of a paired body part, make sure both sides are documented in your records. Review the filing approach with an accredited VSO or attorney before submitting.',
+                  fix: 'The bilateral factor applies only when both sides of a paired body part are separately rated above 0%, so whether the VA applies it comes down to each side being documented and claimed.',
                 },
               ].map(({ mistake, fix }) => (
                 <div key={mistake}>
