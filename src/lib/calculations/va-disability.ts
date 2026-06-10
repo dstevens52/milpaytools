@@ -12,8 +12,9 @@
  *   3. Round the final result ONCE to nearest 10% (never between steps).
  *
  * Bilateral factor (§ 4.26):
- *   Applies when BOTH sides of a paired body part (arms, legs, eyes,
- *   paired skeletal muscles) have compensable (>0%) ratings.
+ *   Applies when BOTH sides of a paired body part (arms, legs, or
+ *   paired skeletal muscles) have compensable (>0%) ratings. Eyes are
+ *   NOT a § 4.26 pair — vision is rated under §§ 4.75–4.79.
  *   1. Combine the bilateral pair using VA math.
  *   2. Add 10% of that combined value.
  *   3. Use the adjusted value as a single input to the overall calculation.
@@ -29,7 +30,7 @@ export interface DisabilityEntry {
   rating: number;    // 0, 10, 20 … 100
   label: string;     // user's note ("PTSD", "Left knee", etc.)
   side: 'left' | 'right' | 'none';
-  pairKey: string | null; // 'arm' | 'leg' | 'eye' — null for non-bilateral
+  pairKey: string | null; // 'arm' | 'leg' — null for non-bilateral
 }
 
 /** @deprecated Use DependentConfig instead */
@@ -130,7 +131,6 @@ function pairLabel(pairKeys: string[]): string {
   const labels: Record<string, string> = {
     arm: 'arms',
     leg: 'legs',
-    eye: 'eyes',
   };
   return pairKeys.map((k) => labels[k] ?? k).join(' + ');
 }

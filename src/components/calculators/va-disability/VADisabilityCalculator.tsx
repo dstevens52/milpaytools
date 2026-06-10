@@ -36,8 +36,6 @@ const BODY_LOCATIONS: Array<{
   { value: 'right-arm',  label: 'Right upper extremity',      side: 'right', pairKey: 'arm' },
   { value: 'left-leg',   label: 'Left lower extremity',       side: 'left',  pairKey: 'leg' },
   { value: 'right-leg',  label: 'Right lower extremity',      side: 'right', pairKey: 'leg' },
-  { value: 'left-eye',   label: 'Left eye',                   side: 'left',  pairKey: 'eye' },
-  { value: 'right-eye',  label: 'Right eye',                  side: 'right', pairKey: 'eye' },
 ];
 
 const WHAT_IF_RATINGS = [10, 20, 30, 40, 50];

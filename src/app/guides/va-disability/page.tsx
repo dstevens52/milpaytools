@@ -151,10 +151,9 @@ const ACCORDION = [
         <p>
           The bilateral factor under <strong className="text-zinc-800">38 CFR § 4.26</strong> works
           in your favor. If you have compensable ratings (greater than 0%) on{' '}
-          <strong className="text-zinc-800">both sides of a paired body part</strong> — both knees,
-          both hips, both shoulders, both ankles, both hands, both feet, or both eyes — the VA
-          applies a 10% increase to the combined value of those bilateral ratings before mixing them
-          into the main calculation.
+          <strong className="text-zinc-800">both sides of a paired body part</strong> — both arms,
+          both legs, or paired skeletal muscles — the VA applies a 10% increase to the combined value
+          of those bilateral ratings before mixing them into the main calculation.
         </p>
         <p><strong className="text-zinc-800">Example: Left knee 30% + Right knee 20% + PTSD 50%</strong></p>
         <p>Step 1 — Combine the bilateral pair on the § 4.25 table:</p>

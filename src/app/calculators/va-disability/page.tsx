@@ -187,7 +187,7 @@ export default function VADisabilityPage() {
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">The bilateral factor explained</h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               Under 38 CFR § 4.26, if you have compensable disabilities affecting <em>both sides</em>{' '}
-              of a paired body part — both knees, both arms, both legs, both eyes — you receive a
+              of a paired body part — both arms, both legs, or paired skeletal muscles — you receive a
               10% bonus on the combined value of those bilateral disabilities.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
@@ -203,9 +203,8 @@ export default function VADisabilityPage() {
               accredited VSO can help confirm how to file bilateral conditions.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              Note: Eye ratings can involve separate VA rating rules beyond the standard bilateral
-              factor. If your claim involves paired eye conditions, verify the calculation with an
-              accredited representative.
+              Note: Vision impairment in both eyes is rated under the VA&apos;s separate visual
+              impairment rules (38 CFR §§ 4.75–4.79) and does not receive the § 4.26 bilateral factor.
             </p>
           </div>
 

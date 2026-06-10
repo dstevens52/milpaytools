@@ -47,8 +47,9 @@ type Side = DisabilityEntry['side'];
  *   rue — Right upper extremity  (arm)
  *   lle — Left lower extremity   (leg)
  *   rle — Right lower extremity  (leg)
- *   le  — Left eye               (eye)
- *   re  — Right eye              (eye)
+ *   le/re — RETIRED. Eyes are not a § 4.26 bilateral pair. Old shared links may
+ *           still carry these codes, so they remain recognized for backward
+ *           compatibility but resolve to Other / Non-bilateral (no pair).
  */
 const LOCATION_BY_CODE: Record<string, { side: Side; pairKey: string | null }> = {
   o:   { side: 'none',  pairKey: null  },
@@ -56,8 +57,9 @@ const LOCATION_BY_CODE: Record<string, { side: Side; pairKey: string | null }> =
   rue: { side: 'right', pairKey: 'arm' },
   lle: { side: 'left',  pairKey: 'leg' },
   rle: { side: 'right', pairKey: 'leg' },
-  le:  { side: 'left',  pairKey: 'eye' },
-  re:  { side: 'right', pairKey: 'eye' },
+  // Retired eye codes — accepted for backward compatibility, mapped to non-bilateral.
+  le:  { side: 'none',  pairKey: null  },
+  re:  { side: 'none',  pairKey: null  },
 };
 
 /** Per-field clamps for dependent counts (match the UI counters). */

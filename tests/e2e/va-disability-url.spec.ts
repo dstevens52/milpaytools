@@ -5,6 +5,7 @@ import {
   DEFAULT_DEPS,
   type VADisabilityShareState,
 } from '../../src/lib/calculations/va-disability-url';
+import { calculateCombinedRating } from '../../src/lib/calculations/va-disability';
 
 /**
  * Pure serialize/parse unit tests for the VA disability share URL.
@@ -46,8 +47,6 @@ test.describe('VA disability URL — round-trip', () => {
       { rating: 20, label: '', side: 'right', pairKey: 'arm' },
       { rating: 30, label: '', side: 'left', pairKey: 'leg' },
       { rating: 40, label: '', side: 'right', pairKey: 'leg' },
-      { rating: 50, label: '', side: 'left', pairKey: 'eye' },
-      { rating: 60, label: '', side: 'right', pairKey: 'eye' },
       { rating: 70, label: '', side: 'none', pairKey: null },
     ]);
 
@@ -178,5 +177,24 @@ test.describe('VA disability URL — malformed input degrades gracefully', () =>
   test('does not throw on a malformed percent-encoded label', () => {
     const parsed = parseVADisabilityState('?r=50&l=%E0%A4%A');
     expect(parsed!.disabilities).toHaveLength(1);
+  });
+});
+
+test.describe('VA disability URL — retired eye locations (backward compat)', () => {
+  test('legacy ?r=30.le,20.re loads two non-bilateral conditions', () => {
+    const parsed = parseVADisabilityState('?r=30.le,20.re');
+    expect(parsed!.disabilities).toEqual([
+      { rating: 30, label: '', side: 'none', pairKey: null },
+      { rating: 20, label: '', side: 'none', pairKey: null },
+    ]);
+  });
+
+  test('le/re conditions receive NO bilateral factor', () => {
+    const parsed = parseVADisabilityState('?r=30.le,20.re');
+    const entries = parsed!.disabilities.map((dis, i) => ({ id: `eye${i}`, ...dis }));
+    const r = calculateCombinedRating(entries);
+    expect(r.bilateralApplied).toBe(false);
+    // Ordinary combine: 30 & 20 → 44. With the (removed) eye factor it would be ~48.
+    expect(r.exact).toBe(44);
   });
 });
