@@ -136,4 +136,69 @@ test.describe('VA Disability Calculator', () => {
     await page.getByRole('button', { name: '+ Add Rating' }).click();
     await expect(page.getByText(/What If You Add Another Condition/i)).toBeVisible();
   });
+
+  test('legacy ?ratings= link still hydrates conditions and renders a result', async ({ page }) => {
+    await page.goto('/calculators/va-disability?ratings=10,10,60');
+
+    // Three conditions hydrated (each renders a Remove button in the list).
+    await expect(page.getByRole('button', { name: 'Remove' })).toHaveCount(3);
+    // 10 + 10 + 60 combined (all non-bilateral) rounds to 70%.
+    await expect(page.locator('p.text-6xl')).toContainText('70');
+  });
+
+  test('copy result link round-trips full state (bilateral + label + dependents)', async ({ page }) => {
+    // Stub clipboard so we can capture the copied URL cross-browser without
+    // platform clipboard permissions — this still exercises the real handler.
+    await page.addInitScript(() => {
+      const w = window as unknown as { __copied?: string };
+      const nav = navigator as unknown as { clipboard?: { writeText?: (t: string) => Promise<void> } };
+      if (!nav.clipboard) nav.clipboard = {};
+      nav.clipboard.writeText = async (t: string) => { w.__copied = t; };
+    });
+    await page.goto('/calculators/va-disability');
+
+    // 10% Left upper extremity + 10% Right upper extremity → qualifying bilateral pair.
+    await page.getByRole('button', { name: '10%', exact: true }).click();
+    await page.getByLabel('Body Location').selectOption({ label: 'Left upper extremity' });
+    await page.getByRole('button', { name: '+ Add Rating' }).click();
+
+    await page.getByRole('button', { name: '10%', exact: true }).click();
+    await page.getByLabel('Body Location').selectOption({ label: 'Right upper extremity' });
+    await page.getByRole('button', { name: '+ Add Rating' }).click();
+
+    // 60% non-bilateral with a label.
+    await page.getByRole('button', { name: '60%', exact: true }).click();
+    await page.getByLabel('Condition Label (optional)').fill('ptsd');
+    await page.getByRole('button', { name: '+ Add Rating' }).click();
+
+    // Dependents: spouse + 2 children under 18.
+    await page.getByRole('button', { name: 'Yes', exact: true }).click();
+    await page.getByRole('button', { name: 'Increase Children under 18' }).click();
+    await page.getByRole('button', { name: 'Increase Children under 18' }).click();
+
+    // Record the displayed combined rating and monthly compensation.
+    await expect(page.locator('p.text-6xl')).toContainText('70');
+    const combinedBefore = (await page.locator('p.text-6xl').textContent())?.trim();
+    const monthlyBefore = (await page.locator('p.text-4xl').first().textContent())?.trim();
+    expect(combinedBefore).toBeTruthy();
+    expect(monthlyBefore).toBeTruthy();
+
+    // Copy the link and capture the serialized URL.
+    await page.getByRole('button', { name: 'Copy result link' }).click();
+    await expect(page.getByText('Copied!').first()).toBeVisible();
+    const copiedUrl = await page.evaluate(() => (window as unknown as { __copied?: string }).__copied);
+    expect(copiedUrl).toBeTruthy();
+
+    // Load the shared URL in a fresh page.
+    await page.goto(copiedUrl as string);
+
+    // Same conditions + body locations (bilateral badge proves locations survived).
+    await expect(page.getByRole('button', { name: 'Remove' })).toHaveCount(3);
+    await expect(page.getByText('bilateral').first()).toBeVisible();
+    await expect(page.getByText('ptsd')).toBeVisible();
+
+    // Exactly the same combined rating and monthly compensation.
+    await expect(page.locator('p.text-6xl')).toHaveText(combinedBefore!);
+    await expect(page.locator('p.text-4xl').first()).toHaveText(monthlyBefore!);
+  });
 });

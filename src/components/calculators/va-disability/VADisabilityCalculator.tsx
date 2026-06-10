@@ -13,6 +13,10 @@ import {
   type DependentConfig,
   type CalculationStep,
 } from '@/lib/calculations/va-disability';
+import {
+  serializeVADisabilityState,
+  parseVADisabilityState,
+} from '@/lib/calculations/va-disability-url';
 import { VADisabilityUnlocks } from './VADisabilityUnlocks';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { InfoTip } from '@/components/calculators/shared/InfoTip';
@@ -147,34 +151,24 @@ export function VADisabilityCalculator() {
   const [newLocation, setNewLocation] = useState<string>('other');
   const [newLabel, setNewLabel] = useState('');
 
-  // Pre-populate from URL params on mount (?ratings=50,30,20)
+  // Pre-populate from URL params on mount. Supports the full state schema
+  // (?r=10.lue,10.rue,60&sp=1&c=2&l=knee,knee,ptsd) and the legacy ?ratings=
+  // format for backward compatibility. Parsing never throws on bad input.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const ratingsParam = params.get('ratings');
-    if (!ratingsParam) return;
-    const parsed = ratingsParam
-      .split(',')
-      .map((s) => parseInt(s.trim(), 10))
-      .filter((n) => VA_RATINGS.includes(n));
-    if (parsed.length > 0) {
+    const parsed = parseVADisabilityState(window.location.search);
+    if (!parsed) return;
+    if (parsed.disabilities.length > 0) {
       setDisabilities(
-        parsed.map((rating, i) => ({
-          id: `url-init-${i}`,
-          rating,
-          label: '',
-          side: 'none' as const,
-          pairKey: null,
-        }))
+        parsed.disabilities.map((d, i) => ({ id: `url-init-${i}`, ...d }))
       );
     }
+    setDeps(parsed.deps);
   }, []);
 
   function getShareUrl() {
-    const p = new URLSearchParams();
-    if (disabilities.length > 0) {
-      p.set('ratings', disabilities.map((d) => d.rating).join(','));
-    }
-    return `${window.location.origin}/calculators/va-disability?${p.toString()}`;
+    const query = serializeVADisabilityState({ disabilities, deps });
+    const suffix = query ? `?${query}` : '';
+    return `${window.location.origin}/calculators/va-disability${suffix}`;
   }
 
   // ── Derived calculation ────────────────────────────────────────────────
