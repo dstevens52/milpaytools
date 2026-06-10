@@ -204,14 +204,10 @@ export default async function RankPayPage({
             </span>
           </div>
           <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
-            {rank.title} Pay in 2026: Basic Pay, BAH &amp; What It All Adds Up To
+            {`${rank.title} Pay in 2026: Basic Pay, BAH & What It All Adds Up To`}
           </h1>
           <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
-            The pay chart says an {rank.title} earns {formatCurrency(minPay, true)} to{' '}
-            {formatCurrency(maxPay, true)} a month — but basic pay is only the taxable slice of the
-            package. This page shows the full 2026 {rank.title} pay progression by years of
-            service, then adds the parts a base-pay table hides: housing allowance, food allowance,
-            and what they&apos;re worth because they&apos;re excluded from federal taxable income.
+            {`The pay chart says an ${rank.title} earns ${formatCurrency(minPay, true)} to ${formatCurrency(maxPay, true)} a month — but basic pay is only the taxable slice of the package. This page shows the full 2026 ${rank.title} pay progression by years of service, then adds the parts a base-pay table hides: housing allowance, food allowance, and what they're worth because they're excluded from federal taxable income.`}
           </p>
         </div>
       </section>
@@ -220,10 +216,10 @@ export default async function RankPayPage({
         {/* ── Pay progression table ───────────────────────────────────── */}
         <section>
           <h2 className="text-xl font-semibold text-zinc-900 mb-1">
-            2026 {rank.title} basic pay by years of service
+            {`2026 ${rank.title} basic pay by years of service`}
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-            Monthly basic pay from the 2026 DFAS pay table, effective {DATA_AS_OF} (3.8% raise).
+            {`Monthly basic pay from the 2026 DFAS pay table, effective ${DATA_AS_OF} (3.8% raise).`}
             {compactTable
               ? ` ${rank.title} pay has ${distinctCount === 1 ? 'a single flat rate' : `only ${distinctCount} longevity steps`} — the table below shows ${distinctCount === 1 ? 'it' : 'each step'}.`
               : ' Find the row matching your completed years of service — rates repeat between longevity steps, exactly as DFAS publishes them.'}
@@ -284,30 +280,28 @@ export default async function RankPayPage({
         {/* ── Worked total-comp example ───────────────────────────────── */}
         <section className="rounded-lg bg-zinc-50 border border-zinc-200 p-5 sm:p-6">
           <h2 className="text-xl font-semibold text-zinc-900 mb-1">
-            What an {rank.title} actually receives each month
+            {`What an ${rank.title} actually receives each month`}
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-            Worked example: {exampleLabel}, living off-installation. Figures use the national
-            median BAH across all 338 military housing areas — your actual BAH depends on your
-            duty station.
+            {`Worked example: ${exampleLabel}, living off-installation. Figures use the national median BAH across all 338 military housing areas — your actual BAH depends on your duty station.`}
           </p>
           <div className="rounded-lg border border-zinc-200 bg-white divide-y divide-zinc-100 text-sm">
             <div className="flex items-center justify-between px-4 py-2.5">
-              <span className="text-zinc-700">Basic pay ({yosLabel(exampleBracket).toLowerCase()})</span>
+              <span className="text-zinc-700">{`Basic pay (${yosLabel(exampleBracket).toLowerCase()})`}</span>
               <span className="font-medium text-zinc-900 tabular-nums">
                 {formatCurrency(comp.monthlyBasePay, true)}
               </span>
             </div>
             <div className="flex items-center justify-between px-4 py-2.5">
               <span className="text-zinc-700">
-                BAH (national median, {rank.exampleDependents ? 'with' : 'without'} dependents)
+                {`BAH (national median, ${rank.exampleDependents ? 'with' : 'without'} dependents)`}
               </span>
               <span className="font-medium text-zinc-900 tabular-nums">
                 {formatCurrency(comp.monthlyBAH)}
               </span>
             </div>
             <div className="flex items-center justify-between px-4 py-2.5">
-              <span className="text-zinc-700">BAS ({isEnlisted ? 'enlisted' : 'officer'} rate)</span>
+              <span className="text-zinc-700">{`BAS (${isEnlisted ? 'enlisted' : 'officer'} rate)`}</span>
               <span className="font-medium text-zinc-900 tabular-nums">
                 {formatCurrency(comp.monthlyBAS, true)}
               </span>
@@ -320,17 +314,10 @@ export default async function RankPayPage({
             </div>
           </div>
           <p className="text-sm text-zinc-600 leading-relaxed mt-4">
-            That&apos;s about {formatCurrency(annualCash)} per year — and because BAH and BAS are
-            excluded from federal taxable income, this package is worth roughly{' '}
-            {formatCurrency(comp.taxAdvantageValue)} more per year than the same dollars paid as
-            taxable salary. Counting that tax advantage and the value of TRICARE coverage, a
-            civilian job would need to pay about {formatCurrency(comp.civilianEquivalent)} to
-            match it.
+            {`That's about ${formatCurrency(annualCash)} per year — and because BAH and BAS are excluded from federal taxable income, this package is worth roughly ${formatCurrency(comp.taxAdvantageValue)} more per year than the same dollars paid as taxable salary. Counting that tax advantage and the value of TRICARE coverage, a civilian job would need to pay about ${formatCurrency(comp.civilianEquivalent)} to match it.`}
           </p>
           <p className="text-xs text-zinc-500 leading-relaxed mt-2">
-            Tax advantage estimated at a {marginalRatePct}% marginal federal rate (single filer)
-            for this base pay; your actual benefit depends on your income, filing status, and
-            state taxes.
+            {`Tax advantage estimated at a ${marginalRatePct}% marginal federal rate (single filer) for this base pay; your actual benefit depends on your income, filing status, and state taxes.`}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 mt-4">
             <Link
@@ -351,10 +338,10 @@ export default async function RankPayPage({
         {/* ── Rank context ────────────────────────────────────────────── */}
         <section>
           <h2 className="text-xl font-semibold text-zinc-900 mb-3">
-            What {rank.title} means — and what changes financially
+            {`What ${rank.title} means — and what changes financially`}
           </h2>
           <p className="text-sm text-zinc-500 mb-3">
-            {rank.title} is {branchList}.
+            {`${rank.title} is ${branchList}.`}
           </p>
           <div className="space-y-3">
             {rank.contextCopy.map((para, i) => (
@@ -411,10 +398,10 @@ export default async function RankPayPage({
             {rank.exampleStations.map((s) => (
               <li key={s.slug}>
                 <Link href={`/bah/${s.slug}`} className="text-blue-700 underline hover:text-blue-800">
-                  {s.name} BAH rates
+                  {`${s.name} BAH rates`}
                 </Link>{' '}
                 <span className="text-zinc-500">
-                  — see what an {rank.title} actually receives at {s.name}
+                  {`— see what an ${rank.title} actually receives at ${s.name}`}
                 </span>
               </li>
             ))}
@@ -426,7 +413,7 @@ export default async function RankPayPage({
         {/* ── Sources + last updated ──────────────────────────────────── */}
         <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
           <p className="text-xs text-zinc-500 leading-relaxed">
-            <strong>Sources:</strong> basic pay from the{' '}
+            <strong>Sources:</strong>{` basic pay from the `}
             <a
               href="https://militarypay.defense.gov/Pay/Military-Pay-Charts/"
               target="_blank"
@@ -435,9 +422,7 @@ export default async function RankPayPage({
             >
               2026 DFAS military pay tables
             </a>
-            , effective {DATA_AS_OF}. BAH national median computed from the official 2026 DTMO BAH
-            rate data (338 military housing areas). BAS from the 2026 DFAS published rates. Basic
-            pay is taxable income; verify your own pay on your LES via{' '}
+            {`, effective ${DATA_AS_OF}. BAH national median computed from the official 2026 DTMO BAH rate data (338 military housing areas). BAS from the 2026 DFAS published rates. Basic pay is taxable income; verify your own pay on your LES via `}
             <a
               href="https://mypay.dfas.mil"
               target="_blank"
@@ -446,7 +431,7 @@ export default async function RankPayPage({
             >
               myPay
             </a>
-            . Last updated {PAY_PAGES_LAST_UPDATED}.
+            {`. Last updated ${PAY_PAGES_LAST_UPDATED}.`}
           </p>
         </div>
       </div>

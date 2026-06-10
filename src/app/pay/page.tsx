@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { PAY_PAGE_RANKS } from '@/data/pay-pages/ranks';
 import { payTable } from '@/data/pay-tables/2026';
 import type { YearsOfService } from '@/types/military';
-import { lookupBasePay } from '@/lib/calculations/basePay';
 import { formatCurrency } from '@/lib/utils';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { breadcrumbListSchema } from '@/lib/schema';
@@ -41,7 +40,6 @@ export default function PayIndexPage() {
       ...r,
       minPay: entry[keys[0] as YearsOfService]!,
       maxPay: entry[keys[keys.length - 1] as YearsOfService]!,
-      examplePay: lookupBasePay(r.grade, r.exampleYos),
     };
   });
 
@@ -88,14 +86,13 @@ export default function PayIndexPage() {
             >
               <p className="text-lg font-bold text-zinc-900 mb-0.5">{r.title}</p>
               <p className="text-xs text-zinc-500 mb-3">
-                {r.branchTitles.army} (Army) &middot; {r.branchTitles.airForce} (Air Force) &middot;{' '}
-                {r.branchTitles.navy} (Navy)
+                {`${r.branchTitles.army} (Army) · ${r.branchTitles.airForce} (Air Force) · ${r.branchTitles.navy} (Navy)`}
               </p>
               <p className="text-sm text-zinc-600">
-                Basic pay {formatCurrency(r.minPay)}–{formatCurrency(r.maxPay)}/month
+                {`Basic pay ${formatCurrency(r.minPay)}–${formatCurrency(r.maxPay)}/month`}
               </p>
               <p className="text-sm font-medium text-red-700 mt-2">
-                See {r.title} pay &amp; total compensation →
+                {`See ${r.title} pay & total compensation →`}
               </p>
             </Link>
           ))}
