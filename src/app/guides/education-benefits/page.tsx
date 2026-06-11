@@ -4,6 +4,30 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { getMHACode, getMHARates } from '@/lib/calculations/bah';
+import { EDUCATION_RATES } from '@/data/education/2026/constants';
+
+// ── MHA example schools — one source of truth for every mirror on this page ──
+// GI Bill MHA = the E-5 with-dependents BAH rate at the school's primary-campus
+// ZIP code, resolved from the 2026 BAH dataset at build time (server-side only).
+// Academic-year totals use EDUCATION_RATES.giBill.mhaMonthsPerYear (9 months);
+// "4-year degree" = four academic years (36 months). Illustrative estimates —
+// actual MHA depends on eligibility tier, enrollment status, term dates, and proration.
+const MHA_MONTHS = EDUCATION_RATES.giBill.mhaMonthsPerYear;
+const mhaRateFor = (zip: string): number => {
+  const mha = getMHACode(zip);
+  return (mha ? getMHARates(mha, true)?.['E-5'] : 0) ?? 0;
+};
+const SDSU_MHA = mhaRateFor('92182'); // San Diego State University
+const GMU_MHA = mhaRateFor('22030'); // George Mason University
+const MIZZOU_MHA = mhaRateFor('65211'); // University of Missouri (Columbia)
+const ONLINE_MHA = EDUCATION_RATES.giBill.onlineMHAMonthly;
+const fmtUsd = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
+const perAY = (monthly: number) => monthly * MHA_MONTHS;
+const per4Yr = (monthly: number) => monthly * MHA_MONTHS * 4;
+const MHA_DIFF_MONTHLY = SDSU_MHA - MIZZOU_MHA;
+const MHA_DIFF_AY = perAY(MHA_DIFF_MONTHLY);
+const MHA_DIFF_4YR = per4Yr(MHA_DIFF_MONTHLY);
 
 const TITLE = 'Your education benefits could be worth $100,000+. Make sure you use them in the right order.';
 const DESC =
@@ -43,7 +67,7 @@ const FAQS = [
   {
     question: 'Why does my school\'s ZIP code matter for GI Bill?',
     answer:
-      'GI Bill MHA is calculated as the BAH rate for an E-5 with dependents at the school\'s primary campus ZIP code. A school in the Bay Area pays ~$3,600/month in MHA; a rural Midwest school pays ~$1,200/month. Same benefit, same enrollment status — $21,600/year difference, or $86,400 over a 4-year degree.',
+      `GI Bill MHA is calculated as the BAH rate for an E-5 with dependents at the school's primary campus ZIP code. San Diego State University (ZIP 92182) pays ${fmtUsd(SDSU_MHA)}/month in MHA; the University of Missouri in Columbia (ZIP 65211) pays ${fmtUsd(MIZZOU_MHA)}/month. Same benefit, same enrollment status — a ${fmtUsd(MHA_DIFF_AY)} difference across a 9-month academic year, or ${fmtUsd(MHA_DIFF_4YR)} over a 4-year degree (illustrative; actual MHA depends on enrollment status, term dates, and proration).`,
   },
   {
     question: 'What is VR&E Chapter 31 and who qualifies?',
@@ -83,7 +107,7 @@ const INSIGHT_CARDS = [
     label: 'Decision 1',
     title: 'Your school\'s ZIP code changes your GI Bill value',
     description:
-      'GI Bill MHA is based on BAH at your school\'s ZIP code — not where you live. A school in the Bay Area pays ~$3,600/month in housing. A rural Midwest school pays ~$1,200/month. Same benefit, $86,400 difference over 4 years.',
+      `GI Bill MHA is based on BAH at your school's ZIP code — not where you live. San Diego State (ZIP 92182) pays ${fmtUsd(SDSU_MHA)}/month in housing. The University of Missouri pays ${fmtUsd(MIZZOU_MHA)}/month. Same benefit, ${fmtUsd(MHA_DIFF_4YR)} difference over 4 years.`,
     cta: 'Compare MHA by school →',
     href: '/calculators/education',
   },
@@ -162,26 +186,34 @@ const ACCORDION = [
             </thead>
             <tbody className="divide-y divide-zinc-100">
               <tr>
-                <td className="py-1.5 pr-4 text-zinc-700">Bay Area, CA</td>
-                <td className="py-1.5 pr-4 tabular-nums text-zinc-700">~$3,600</td>
-                <td className="py-1.5 tabular-nums text-zinc-700">~$32,400</td>
+                <td className="py-1.5 pr-4 text-zinc-700">San Diego State University (ZIP 92182)</td>
+                <td className="py-1.5 pr-4 tabular-nums text-zinc-700">{fmtUsd(SDSU_MHA)}</td>
+                <td className="py-1.5 tabular-nums text-zinc-700">{fmtUsd(perAY(SDSU_MHA))}</td>
               </tr>
               <tr>
-                <td className="py-1.5 pr-4 text-zinc-700">Northern Virginia</td>
-                <td className="py-1.5 pr-4 tabular-nums text-zinc-700">~$2,700</td>
-                <td className="py-1.5 tabular-nums text-zinc-700">~$24,300</td>
+                <td className="py-1.5 pr-4 text-zinc-700">George Mason University (ZIP 22030)</td>
+                <td className="py-1.5 pr-4 tabular-nums text-zinc-700">{fmtUsd(GMU_MHA)}</td>
+                <td className="py-1.5 tabular-nums text-zinc-700">{fmtUsd(perAY(GMU_MHA))}</td>
               </tr>
               <tr>
-                <td className="py-1.5 pr-4 text-zinc-700">Rural Midwest</td>
-                <td className="py-1.5 pr-4 tabular-nums text-zinc-700">~$1,200</td>
-                <td className="py-1.5 tabular-nums text-zinc-700">~$10,800</td>
+                <td className="py-1.5 pr-4 text-zinc-700">University of Missouri (ZIP 65211)</td>
+                <td className="py-1.5 pr-4 tabular-nums text-zinc-700">{fmtUsd(MIZZOU_MHA)}</td>
+                <td className="py-1.5 tabular-nums text-zinc-700">{fmtUsd(perAY(MIZZOU_MHA))}</td>
+              </tr>
+              <tr>
+                <td className="py-1.5 pr-4 text-zinc-700">Online-only (any school)</td>
+                <td className="py-1.5 pr-4 tabular-nums text-zinc-700">{fmtUsd(ONLINE_MHA)}</td>
+                <td className="py-1.5 tabular-nums text-zinc-700">{fmtUsd(perAY(ONLINE_MHA))}</td>
               </tr>
             </tbody>
           </table>
         </div>
+        <p className="text-xs text-zinc-400 italic">
+          2026 BAH dataset, E-5 with-dependents rate at each ZIP; annual figures assume a 9-month academic year. Illustrative estimates — actual MHA depends on eligibility tier, enrollment status, term dates, and proration.
+        </p>
         <p>
-          The Bay Area school produces <strong className="text-zinc-800">$21,600 more per year</strong> in MHA — even if tuition is identical. Over a 4-year degree, that&apos;s an{' '}
-          <strong className="text-zinc-800">$86,400 difference</strong> from one ZIP code.
+          {`The San Diego State ZIP produces `}<strong className="text-zinc-800">{fmtUsd(MHA_DIFF_AY)} more per academic year</strong>{` in MHA than the Missouri ZIP — even if tuition is identical. Over a 4-year degree, that's a `}
+          <strong className="text-zinc-800">{fmtUsd(MHA_DIFF_4YR)} difference</strong>{` from one ZIP code.`}
         </p>
         <p>
           Don&apos;t choose a school just for MHA — choose a strong program with good career outcomes — but do include MHA in your real cost-of-attendance comparison.
@@ -403,7 +435,7 @@ const RELATED = [
     border: 'border-l-blue-500',
     label: 'GI BILL',
     title: 'GI Bill Housing Allowance: Why Your School ZIP Code Matters',
-    description: 'How the same GI Bill at two different schools can produce an $86,400 difference over four years — based purely on ZIP code.',
+    description: 'How the same GI Bill at two different schools can produce a five-figure annual difference in housing allowance — based purely on ZIP code.',
   },
   {
     href: '/blog/vre-chapter-31-vs-gi-bill',
@@ -465,9 +497,9 @@ export default function EducationBenefitsGuidePage() {
           <div className="rounded-lg bg-red-50 border border-red-200 px-5 py-4 mb-8 flex items-start gap-3">
             <div className="w-1 self-stretch rounded-full bg-red-500 flex-none" aria-hidden="true" />
             <p className="text-base font-semibold text-red-800 leading-snug">
-              The same GI Bill at two different schools can produce a{' '}
-              <span className="text-red-700">$21,600/year difference in housing allowance alone</span>{' '}
-              — just from the ZIP code. Over a 4-year degree, that&apos;s $86,400.
+              {`The same GI Bill at two different schools can produce a `}
+              <span className="text-red-700">{`${fmtUsd(MHA_DIFF_AY)}-per-academic-year difference in housing allowance alone`}</span>
+              {` — just from the ZIP code. Over a 4-year degree, that's ${fmtUsd(MHA_DIFF_4YR)}.`}
             </p>
           </div>
 
@@ -547,7 +579,7 @@ export default function EducationBenefitsGuidePage() {
       <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
         <div className="mx-auto max-w-3xl">
           <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-            Military education benefits include four main programs that work differently and can be combined strategically: Post-9/11 GI Bill (tuition plus a monthly housing allowance based on BAH for an E-5 with dependents at the school&apos;s ZIP code), VR&amp;E Chapter 31 (tuition with no cap for veterans with service-connected disabilities, without consuming GI Bill months), Tuition Assistance (up to $4,500/year for active-duty members), and the Montgomery GI Bill. The housing allowance alone can range from $1,200 to over $3,600/month depending on school location, making school selection one of the most significant financial variables in GI Bill planning.
+            Military education benefits include four main programs that work differently and can be combined strategically: Post-9/11 GI Bill (tuition plus a monthly housing allowance based on BAH for an E-5 with dependents at the school&apos;s ZIP code), VR&amp;E Chapter 31 (tuition with no cap for veterans with service-connected disabilities, without consuming GI Bill months), Tuition Assistance (up to $4,500/year for active-duty members), and the Montgomery GI Bill. {`The housing allowance alone can range from ${fmtUsd(MIZZOU_MHA)} to ${fmtUsd(SDSU_MHA)}/month across example schools (and higher in the most expensive markets), making school selection one of the most significant financial variables in GI Bill planning.`}
           </p>
         </div>
       </section>
@@ -622,39 +654,39 @@ export default function EducationBenefitsGuidePage() {
                 </div>
                 <div className="px-5 py-3 space-y-3">
                   <div>
-                    <p className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-1.5">Bay Area, CA ZIP</p>
+                    <p className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-1.5">San Diego State (ZIP 92182)</p>
                     <div className="space-y-1">
                       <div className="flex justify-between text-sm">
                         <span className="text-zinc-600">Monthly MHA</span>
-                        <span className="font-mono tabular-nums text-zinc-800">$3,603</span>
+                        <span className="font-mono tabular-nums text-zinc-800">{fmtUsd(SDSU_MHA)}</span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="text-zinc-600">Annual MHA (9 mo)</span>
-                        <span className="font-mono tabular-nums text-zinc-800">$32,427</span>
+                        <span className="font-mono tabular-nums text-zinc-800">{fmtUsd(perAY(SDSU_MHA))}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-zinc-600">4-year total value</span>
-                        <span className="font-semibold text-zinc-800">~$142,000</span>
+                        <span className="text-zinc-600">4-year MHA total</span>
+                        <span className="font-semibold text-zinc-800">{fmtUsd(per4Yr(SDSU_MHA))}</span>
                       </div>
                     </div>
                   </div>
                   <div className="border-t border-zinc-100 pt-3">
-                    <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-1.5">Rural Midwest ZIP</p>
+                    <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-1.5">U. of Missouri (ZIP 65211)</p>
                     <div className="space-y-1">
                       <div className="flex justify-between text-sm">
                         <span className="text-zinc-600">Monthly MHA</span>
-                        <span className="font-mono tabular-nums text-zinc-800">$1,203</span>
+                        <span className="font-mono tabular-nums text-zinc-800">{fmtUsd(MIZZOU_MHA)}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-zinc-600">4-year total value</span>
-                        <span className="font-semibold text-zinc-800">~$56,000</span>
+                        <span className="text-zinc-600">4-year MHA total</span>
+                        <span className="font-semibold text-zinc-800">{fmtUsd(per4Yr(MIZZOU_MHA))}</span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="mx-5 mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3 flex items-center justify-between">
                   <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">ZIP difference</p>
-                  <p className="text-2xl font-bold tabular-nums text-red-700">+$86,000</p>
+                  <p className="text-2xl font-bold tabular-nums text-red-700">{`+${fmtUsd(MHA_DIFF_4YR)}`}</p>
                 </div>
                 <div className="px-5 pb-4">
                   <Link href="/calculators/education" className="text-sm font-bold text-red-700 hover:text-red-800 transition-colors">
@@ -663,7 +695,7 @@ export default function EducationBenefitsGuidePage() {
                 </div>
               </div>
               <p className="mt-3 text-xs text-center text-white/40">
-                Your numbers update live as you enter inputs
+                E-5 w/dep BAH at each ZIP, 9-month academic years — illustrative; your numbers update live as you enter inputs
               </p>
             </div>
           </div>

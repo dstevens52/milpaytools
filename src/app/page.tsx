@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ExpandableCalcGrid } from './home-v3/ExpandableCalcGrid';
+import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
+import { getMHARates } from '@/lib/calculations/bah';
 
 const HOME_TITLE = 'MilPayTools — Military Pay & Benefits Calculators';
 const HOME_DESC =
@@ -29,6 +31,26 @@ export const metadata: Metadata = {
 };
 
 // ── Hero ──────────────────────────────────────────────────────────────────────
+
+// Sample-output card: E-5 · 8 yrs · San Diego (CA038) · with dependents.
+// Computed from the data layer at build time, matching the /pay/[rank] worked-example
+// convention (legacy retirement + 0% TSP keeps agency-match assumptions out of the totals).
+const SAMPLE_BAH_MONTHLY = getMHARates('CA038', true)?.['E-5'] ?? 0; // San Diego, w/dep
+const SAMPLE_COMP = calculateTotalCompensation(
+  {
+    payGrade: 'E-5',
+    yearsOfService: 8,
+    hasDependents: true,
+    zipCode: '',
+    retirementSystem: 'legacy',
+    tspContributionPct: 0,
+    govHousing: false,
+    mealCard: false,
+  },
+  SAMPLE_BAH_MONTHLY,
+);
+const SAMPLE_MONTHLY = `$${Math.round(SAMPLE_COMP.totalMonthly).toLocaleString('en-US')}`;
+const SAMPLE_CIVILIAN_K = `≈$${Math.round(SAMPLE_COMP.civilianEquivalent / 1000)}k`;
 
 function HeroSection() {
   return (
@@ -112,10 +134,10 @@ function HeroSection() {
               </span>
               <div className="flex-none">
                 <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
-                  E-5 · 8yrs · San Diego
+                  E-5 · 8yrs · San Diego · w/ dep
                 </p>
                 <div className="flex items-baseline gap-0.5">
-                  <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>$8,752</span>
+                  <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>{SAMPLE_MONTHLY}</span>
                   <span style={{ fontSize: 11, color: '#999' }}>/mo</span>
                 </div>
               </div>
@@ -125,7 +147,7 @@ function HeroSection() {
                   Civilian equiv.
                 </p>
                 <div className="flex items-baseline gap-0.5">
-                  <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>≈$121k</span>
+                  <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>{SAMPLE_CIVILIAN_K}</span>
                   <span style={{ fontSize: 11, color: '#999' }}>/yr</span>
                 </div>
               </div>

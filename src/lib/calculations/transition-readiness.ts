@@ -114,7 +114,7 @@ function buildActionSteps(
     steps.push({
       label: 'File your VA disability claim before you separate',
       description:
-        'The Benefits Delivery at Discharge (BDD) program lets the VA process your claim while you\'re still serving. File 180–90 days before separation. Even a 20% rating adds $286/month — tax-free for life.',
+        `The Benefits Delivery at Discharge (BDD) program lets the VA process your claim while you're still serving. File 180–90 days before separation. Even a 20% rating adds $${Math.round(vaRates[20].veteranAlone)}/month — tax-free for life.`,
       priority: 'high',
       href: '/calculators/va-disability',
     });

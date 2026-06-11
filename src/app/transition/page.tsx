@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema } from '@/lib/schema';
+import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
+import { getMHARates } from '@/lib/calculations/bah';
 
 const PAGE_TITLE = 'Military Transition Financial Guide 2026';
 const META_TITLE = `${PAGE_TITLE}`;
@@ -29,6 +31,29 @@ export const metadata: Metadata = {
     images: [OG_IMAGE],
   },
 };
+
+// ── Hero proof-bar example: E-6 · 10 yrs · Fort Campbell (KY106) · with dependents ──
+// Computed from the data layer at build time, matching the /pay/[rank] worked-example
+// convention (legacy retirement + 0% TSP keeps agency-match assumptions out of the totals).
+const HERO_BAH_MONTHLY = getMHARates('KY106', true)?.['E-6'] ?? 0; // Fort Campbell, w/dep
+const HERO_COMP = calculateTotalCompensation(
+  {
+    payGrade: 'E-6',
+    yearsOfService: 10,
+    hasDependents: true,
+    zipCode: '',
+    retirementSystem: 'legacy',
+    tspContributionPct: 0,
+    govHousing: false,
+    mealCard: false,
+  },
+  HERO_BAH_MONTHLY,
+);
+const fmtDollars = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
+const roundTo100 = (n: number) => Math.round(n / 100) * 100;
+const HERO_ACTIVE_MONTHLY = fmtDollars(HERO_COMP.totalMonthly); // base + BAH + BAS
+const HERO_CIVILIAN_ANNUAL = fmtDollars(roundTo100(HERO_COMP.civilianEquivalent));
+const HERO_GAP_ANNUAL = fmtDollars(roundTo100(HERO_COMP.taxAdvantageValue + HERO_COMP.tricareSavings));
 
 const TRANSITION_RISK_CARDS = [
   {
@@ -367,7 +392,7 @@ export default function TransitionPage() {
           {/* Proof bar — inside hero to give it height and reveal the soldier image */}
           <div className="bg-white rounded-2xl border border-zinc-200 shadow-md overflow-hidden">
             <div className="px-4 py-2 border-b border-zinc-100 bg-zinc-50/70">
-              <p className="text-[11px] text-zinc-400 font-medium">Example: E-6 &middot; 10 years &middot; Fort Campbell &middot; separating</p>
+              <p className="text-[11px] text-zinc-400 font-medium">Example: E-6 &middot; 10 years &middot; Fort Campbell &middot; with dependents &middot; separating</p>
             </div>
             <div className="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-zinc-100">
 
@@ -380,7 +405,7 @@ export default function TransitionPage() {
                 </div>
                 <div>
                   <p className="text-[10px] text-zinc-400 uppercase tracking-wide">Active duty value</p>
-                  <p className="text-lg font-extrabold text-zinc-900">$8,200/mo</p>
+                  <p className="text-lg font-extrabold text-zinc-900">{HERO_ACTIVE_MONTHLY}/mo</p>
                 </div>
               </div>
 
@@ -393,7 +418,7 @@ export default function TransitionPage() {
                 </div>
                 <div>
                   <p className="text-[10px] text-zinc-400 uppercase tracking-wide">Civilian salary to match</p>
-                  <p className="text-lg font-extrabold" style={{ color: '#c0392b' }}>$95,000/yr</p>
+                  <p className="text-lg font-extrabold" style={{ color: '#c0392b' }}>{HERO_CIVILIAN_ANNUAL}/yr</p>
                 </div>
               </div>
 
@@ -401,8 +426,8 @@ export default function TransitionPage() {
               <div className="flex-1 px-4 py-3 bg-red-50 flex items-center">
                 <div>
                   <p className="text-[10px] text-red-600 uppercase tracking-wide font-medium">Hidden gap</p>
-                  <p className="text-lg font-extrabold" style={{ color: '#c0392b' }}>$16,800/yr</p>
-                  <p className="text-[9px] text-red-600 mt-0.5">in tax-free allowances + healthcare</p>
+                  <p className="text-lg font-extrabold" style={{ color: '#c0392b' }}>{HERO_GAP_ANNUAL}/yr</p>
+                  <p className="text-[9px] text-red-600 mt-0.5">in tax-advantaged allowances + healthcare</p>
                 </div>
               </div>
 

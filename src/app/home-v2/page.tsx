@@ -227,9 +227,10 @@ function ProofStrip() {
               </span>
               <div className="flex-none">
                 <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
-                  E-5 · 8yrs · San Diego
+                  E-5 · 8yrs · San Diego · w/ dep
                 </p>
                 <div className="flex items-baseline gap-0.5">
+                  {/* SOURCE: calculateTotalCompensation({E-5, 8 YOS, w/dep, legacy, 0% TSP}, getMHARates('CA038', true)['E-5']).totalMonthly = 8,751.85 */}
                   <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>$8,752</span>
                   <span style={{ fontSize: 11, color: '#999' }}>/mo</span>
                 </div>
@@ -242,7 +243,8 @@ function ProofStrip() {
                   Civilian equiv.
                 </p>
                 <div className="flex items-baseline gap-0.5">
-                  <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>≈$121k</span>
+                  {/* SOURCE: same calculateTotalCompensation call, .civilianEquivalent = 118,273.01 */}
+                  <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>≈$118k</span>
                   <span style={{ fontSize: 11, color: '#999' }}>/yr</span>
                 </div>
               </div>

@@ -395,7 +395,7 @@ const RELATED = [
     href: '/blog/the-47000-gap-bah-duty-station',
     border: 'border-l-emerald-500',
     label: 'BAH DEEP DIVE',
-    title: 'The $47,000 Gap',
+    title: 'The BAH Gap',
     description: 'Why two E-5s with the same rank at different duty stations can have wildly different total compensation.',
   },
   {
