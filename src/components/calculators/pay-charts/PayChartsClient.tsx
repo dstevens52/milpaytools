@@ -140,6 +140,8 @@ interface PayTableSectionProps {
   showAnnual: boolean;
   selectedGrade: PayGrade;
   selectedYOS: number;
+  /** Grade → /pay slug for the 15 grades with rank pages; absent = no link. */
+  slugByGrade: Record<string, string>;
 }
 
 function PayTableSection({
@@ -148,6 +150,7 @@ function PayTableSection({
   showAnnual,
   selectedGrade,
   selectedYOS,
+  slugByGrade,
 }: PayTableSectionProps) {
   const activeBracket = getActiveBracket(selectedGrade, selectedYOS);
 
@@ -212,6 +215,15 @@ function PayTableSection({
                         {grade}
                         <span className="ml-1 text-zinc-400 font-normal text-[10px]">prior enl.</span>
                       </span>
+                    ) : slugByGrade[grade] ? (
+                      // Quiet text link to the grade's /pay page — inherits the
+                      // cell's color/weight so the dense table gains no noise.
+                      <Link
+                        href={`/pay/${slugByGrade[grade]}`}
+                        className="hover:underline underline-offset-2 decoration-zinc-400"
+                      >
+                        {grade}
+                      </Link>
                     ) : (
                       grade
                     )}
@@ -280,7 +292,16 @@ function getNextGrade(grade: PayGrade): PayGrade | null {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-export function PayChartsClient() {
+interface PayChartsClientProps {
+  /** Ordered {grade, slug} pairs for the grades with /pay/[rank] pages,
+   *  derived server-side from PAY_PAGE_RANKS (E-1…E-9, then O-1…O-6). */
+  payPages: { grade: string; slug: string }[];
+}
+
+export function PayChartsClient({ payPages }: PayChartsClientProps) {
+  const slugByGrade: Record<string, string> = Object.fromEntries(
+    payPages.map((p) => [p.grade, p.slug])
+  );
   const [selectedGrade, setSelectedGrade] = useState<PayGrade>('E-5');
   const [selectedYOS, setSelectedYOS] = useState<number>(6);
   const [showAnnual, setShowAnnual] = useState(false);
@@ -460,6 +481,18 @@ export function PayChartsClient() {
                 >
                   Calculate Full Compensation →
                 </Link>
+                {/* Secondary link to the rank page — only for the 15 grades
+                    that have one (no W, no O-7+, no -E substitutes). */}
+                {slugByGrade[selectedGrade] && (
+                  <p className="mt-3">
+                    <Link
+                      href={`/pay/${slugByGrade[selectedGrade]}`}
+                      className="text-sm text-blue-700 underline hover:text-blue-800"
+                    >
+                      {`See the full ${selectedGrade} pay breakdown →`}
+                    </Link>
+                  </p>
+                )}
               </div>
             </div>
           ) : PRIOR_ENLISTED_OFFICER_GRADES.includes(selectedGrade as 'O-1E' | 'O-2E' | 'O-3E') ? (
@@ -520,6 +553,7 @@ export function PayChartsClient() {
         showAnnual={showAnnual}
         selectedGrade={selectedGrade}
         selectedYOS={selectedYOS}
+        slugByGrade={slugByGrade}
       />
 
       {/* ── Warrant Officer Table ─────────────────────────────────────────── */}
@@ -529,6 +563,7 @@ export function PayChartsClient() {
         showAnnual={showAnnual}
         selectedGrade={selectedGrade}
         selectedYOS={selectedYOS}
+        slugByGrade={slugByGrade}
       />
 
       {/* ── Officer Table ─────────────────────────────────────────────────── */}
@@ -538,7 +573,46 @@ export function PayChartsClient() {
         showAnnual={showAnnual}
         selectedGrade={selectedGrade}
         selectedYOS={selectedYOS}
+        slugByGrade={slugByGrade}
       />
+
+      {/* ── Browse pay by rank ────────────────────────────────────────────── */}
+      <section className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
+        <h2 className="text-lg font-bold text-zinc-900 mb-1">Browse 2026 pay by rank</h2>
+        <p className="text-sm text-zinc-600 mb-3">
+          Each rank page covers pay progression, longevity raises, promotion math, and estimated
+          total compensation.
+        </p>
+        <div className="flex flex-wrap gap-2 mb-2">
+          {payPages
+            .filter((p) => p.grade.startsWith('E'))
+            .map((p) => (
+              <Link
+                key={p.slug}
+                href={`/pay/${p.slug}`}
+                className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md"
+              >
+                {p.grade}
+              </Link>
+            ))}
+        </div>
+        <div className="flex flex-wrap gap-2 mb-3">
+          {payPages
+            .filter((p) => p.grade.startsWith('O'))
+            .map((p) => (
+              <Link
+                key={p.slug}
+                href={`/pay/${p.slug}`}
+                className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md"
+              >
+                {p.grade}
+              </Link>
+            ))}
+        </div>
+        <Link href="/pay" className="text-sm text-blue-700 underline hover:text-blue-800">
+          View all ranks →
+        </Link>
+      </section>
 
       {/* ── Cross-links ───────────────────────────────────────────────────── */}
       <div className="rounded-lg border border-zinc-200 bg-white p-5 space-y-2">
