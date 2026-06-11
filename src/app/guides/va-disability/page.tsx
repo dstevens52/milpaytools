@@ -216,15 +216,15 @@ const ACCORDION = [
           <p className="text-sm text-blue-800 leading-relaxed">
             <strong>30% is a key compensation breakpoint.</strong> At 10% and 20%, the monthly
             payment is the same regardless of dependents. At 30% and above, spouse, child, and
-            dependent-parent additions apply and can add $60–$160+ per month depending on rating
+            dependent-parent additions apply and can add $32–$220 per month depending on rating
             and family size.
           </p>
         </div>
         <p>
           <strong className="text-zinc-800">Dependent additions</strong> apply at 30% and above only
           — veterans rated at 10% or 20% receive the flat base rate regardless of dependents.
-          Additions include approximately $60–$160/month for a spouse, $32–$96/month per child
-          under 18, and $47–$135/month per dependent parent, depending on rating tier.
+          Additions include approximately $65–$220/month for a spouse, $32–$147/month per child
+          under 18, and $52–$176/month per dependent parent, depending on rating tier.
         </p>
         <p>
           <strong className="text-zinc-800">TDIU:</strong> Veterans whose service-connected conditions

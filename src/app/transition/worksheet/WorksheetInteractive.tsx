@@ -240,7 +240,7 @@ export function WorksheetInteractive() {
             <SectionHeading>My Current Military Compensation</SectionHeading>
             <Field label="Base pay (monthly)" value={fields.basePay} onChange={set('basePay')} placeholder="$0,000" />
             <Field label="BAH — housing allowance" value={fields.bah} onChange={set('bah')} placeholder="$0,000" />
-            <Field label="BAS — subsistence allowance" value={fields.bas} onChange={set('bas')} placeholder="$477 enlisted / $316 officer" />
+            <Field label="BAS — subsistence allowance" value={fields.bas} onChange={set('bas')} placeholder="$477 enlisted / $328 officer" />
             <Field label="Tax advantage estimate" value={fields.taxAdvantage} onChange={set('taxAdvantage')} placeholder="From the calculator" />
             <Field label="Total monthly value" value={fields.totalMilitary} onChange={set('totalMilitary')} placeholder="$0,000" />
           </div>

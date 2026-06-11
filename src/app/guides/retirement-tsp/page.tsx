@@ -157,9 +157,9 @@ const ACCORDION = [
           <strong className="text-zinc-800">Example — O-5 retiring at exactly 20 years:</strong>
         </p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li>Final base pay: ~$9,660/month (2026 O-5 at 20 years)</li>
-          <li>Highest 36-month average: ~$9,200/month</li>
-          <li>Pension: 50% × $9,200 = <strong className="text-zinc-800">$4,600/month ($55,200/year)</strong>, for life with COLA</li>
+          <li>Final base pay: ~$12,033/month (2026 O-5 at 20 years)</li>
+          <li>Highest 36-month average: ~$11,820/month</li>
+          <li>Pension: 50% × $11,820 = <strong className="text-zinc-800">$5,910/month ($70,920/year)</strong>, for life with COLA</li>
         </ul>
         <p>
           <strong className="text-zinc-800">BRS pension formula:</strong> 2.0% × years of service × High-3 average base pay. At 20 years, that equals 40% of the High-3 average — compared to 50% under High-3&apos;s 2.5% multiplier. BRS compensates for the lower pension with government TSP contributions over a career.

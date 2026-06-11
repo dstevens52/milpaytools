@@ -29,9 +29,9 @@ export const metadata: Metadata = {
 // PCS comparison example — E-6 w/dep Fort Campbell → JBLM (hardcoded)
 const EX = {
   label: 'Example: E-6 · Fort Campbell → JBLM · with dependents',
-  bahFtCampbell: '$1,815/mo',
-  bahJBLM: '$2,478/mo',
-  bahDiff: '+$663/mo',
+  bahFtCampbell: '$2,100/mo',
+  bahJBLM: '$2,919/mo',
+  bahDiff: '+$819/mo',
   colDiff: '+25%',
   insight: 'Higher BAH ≠ more money',
 };

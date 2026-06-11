@@ -53,7 +53,7 @@ const FAQS = [
   {
     question: 'How do I compare two duty stations financially?',
     answer:
-      'A complete duty station financial comparison includes: BAH rate at both stations; state income tax (nine states have no income tax — AK, FL, NV, NH, SD, TN, TX, WA, WY); CONUS COLA eligibility at each station; and non-housing cost of living (groceries, transportation, childcare). For an O-3, the difference between a zero-income-tax state and California is roughly $6,700/year — often more than the BAH difference.',
+      'A complete duty station financial comparison includes: BAH rate at both stations; state income tax (nine states have no income tax — AK, FL, NV, NH, SD, TN, TX, WA, WY); CONUS COLA eligibility at each station; and non-housing cost of living (groceries, transportation, childcare). For an O-3, the difference between a zero-income-tax state and California is roughly $4,900/year — often more than the BAH difference.',
   },
   {
     question: 'Why do OCONUS allowances often produce less savings than expected?',
@@ -113,7 +113,7 @@ const IMPACT_CARDS = [
     label: 'Impact 3',
     title: 'State taxes and cost of living shift',
     description:
-      'Nine states have no income tax. Moving from Texas to California could cost an O-3 roughly $6,700/year in state taxes alone.',
+      'Nine states have no income tax. Moving from Texas to California could cost an O-3 roughly $4,900/year in state taxes alone.',
     bullets: [
       'No-tax states: AK, FL, NV, NH, SD, TN, TX, WA, WY',
       'CONUS COLA may offset some high-cost areas',
@@ -240,9 +240,9 @@ const ACCORDION = [
         <p>
           <strong className="text-zinc-800">State income tax:</strong> Nine states have no income
           tax (FL, TX, NV, WA, WY, SD, AK, TN, NH). Several others — including Virginia, Maryland,
-          and California — have rates of 5–13%. For an O-3 earning $74,000 in base pay, the
+          and California — have rates of 5–13%. For an O-3 earning $75,000 in base pay, the
           difference between a zero-tax state and California is roughly{' '}
-          <strong className="text-zinc-800">$6,700/year</strong> — often more than the BAH difference.
+          <strong className="text-zinc-800">$4,900/year</strong> — often more than the BAH difference.
         </p>
         <p>
           <strong className="text-zinc-800">CONUS COLA eligibility:</strong> A small number of
@@ -592,7 +592,7 @@ export default function PcsGuidePage() {
                     </div>
                     <div className="flex justify-between py-1">
                       <span className="text-sm text-zinc-600">State income tax</span>
-                      <span className="text-sm font-mono text-zinc-800">4.5%</span>
+                      <span className="text-sm font-mono text-zinc-800">3.99%</span>
                     </div>
                     <div className="flex justify-between py-1">
                       <span className="text-sm text-zinc-600">CONUS COLA</span>

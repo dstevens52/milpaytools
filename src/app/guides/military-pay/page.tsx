@@ -38,12 +38,12 @@ const FAQS = [
   {
     question: 'How does military base pay work?',
     answer:
-      'Base pay is your taxable monthly salary, determined by pay grade (E-1 through E-9, W-1 through W-5, O-1 through O-10) and years of service. It increased 3.8% in 2026. Selected rates: E-1 under 2 years $2,052/month; E-5 with 6 years $4,110/month; O-3 with 6 years $6,156/month. Most service members see automatic pay increases at the 2-, 3-, 4-, 6-, 8-, 10-, 12-, 14-, 16-, 18-, 20-, and 22-year marks.',
+      'Base pay is your taxable monthly salary, determined by pay grade (E-1 through E-9, W-1 through W-5, O-1 through O-10) and years of service. It increased 3.8% in 2026. Selected rates: E-1 under 2 years $2,407/month; E-5 with 6 years $4,110/month; O-3 with 6 years $7,737/month. Most service members see automatic pay increases at the 2-, 3-, 4-, 6-, 8-, 10-, 12-, 14-, 16-, 18-, 20-, and 22-year marks.',
   },
   {
     question: 'How does BAH work and why does it vary so much?',
     answer:
-      'BAH (Basic Allowance for Housing) is a monthly payment excluded from federal taxable income, set by the Defense Travel Management Office based on your duty station ZIP code, pay grade, and dependent status. DTMO surveys local rental markets and sets rates to cover approximately 95% of median local rental costs. An E-5 with dependents can receive from $1,218/month in a low-cost area to $3,897/month in high-cost markets. At the 22% federal bracket, $2,500/month in BAH is worth $3,205/month in equivalent taxable civilian wages.',
+      'BAH (Basic Allowance for Housing) is a monthly payment excluded from federal taxable income, set by the Defense Travel Management Office based on your duty station ZIP code, pay grade, and dependent status. DTMO surveys local rental markets and sets rates to cover approximately 95% of median local rental costs. An E-5 with dependents can receive from $1,185/month in a low-cost area to $5,127/month in high-cost markets. At the 22% federal bracket, $2,500/month in BAH is worth $3,205/month in equivalent taxable civilian wages.',
   },
   {
     question: 'What are BAS, CONUS COLA, and special pays?',
@@ -58,12 +58,12 @@ const FAQS = [
   {
     question: 'How is Guard and Reserve pay calculated differently from active duty?',
     answer:
-      'Guard and Reserve drill pay is calculated at 1/30th of monthly active duty base pay per drill period. A standard weekend consists of four drill periods. Example: E-6 with 8 years ($4,387/month active base pay) earns $146.23 per drill period, $584.92 per drill weekend, approximately $7,019 per year from 48 IDT periods, plus about $2,924 for 2-week Annual Training.',
+      'Guard and Reserve drill pay is calculated at 1/30th of monthly active duty base pay per drill period. A standard weekend consists of four drill periods. Example: E-6 with 8 years ($4,612.80/month active base pay) earns $153.76 per drill period, $615.04 per drill weekend, approximately $7,380 per year from 48 IDT periods, plus about $2,306 for 15-day Annual Training.',
   },
   {
     question: 'What would a civilian need to earn to match military pay?',
     answer:
-      "To calculate civilian salary equivalence, combine base pay plus the taxable equivalent of allowances excluded from federal taxable income. Example — E-5 with 6 years, JBLM, with dependents: base pay $4,110/month + BAH $2,991/month + BAS $476.95/month + TSP match ~$206/month = $7,784/month ($93,408/year). At the 22% federal bracket, a civilian would need roughly $110,000–$120,000/year in gross wages to match this. Most E-5s underestimate their total package by 40–60% when looking only at base pay.",
+      "To calculate civilian salary equivalence, combine base pay plus the taxable equivalent of allowances excluded from federal taxable income. Example — E-5 with 6 years, JBLM, with dependents: base pay $4,110/month + BAH $2,556/month + BAS $476.95/month + TSP match ~$206/month = $7,348/month ($88,176/year). At the 22% federal bracket, a civilian would need roughly $110,000–$120,000/year in gross wages to match this. Most E-5s underestimate their total package by 40–60% when looking only at base pay.",
   },
 ];
 
@@ -76,7 +76,7 @@ const PAY_LAYERS = [
     title: 'Base Pay',
     description:
       'Your taxable monthly salary, set by rank and years of service. This is the number on your W-2 — but it\'s only part of the picture.',
-    bullets: ['E-3 (2 yrs): $2,378/mo', 'E-5 (6 yrs): $3,717/mo', 'Increases every January 1st'],
+    bullets: ['E-3 (2 yrs): $3,015/mo', 'E-5 (6 yrs): $4,110/mo', 'Increases every January 1st'],
     cta: 'Look up your base pay →',
     href: '/calculators/pay-charts',
   },
@@ -86,7 +86,7 @@ const PAY_LAYERS = [
     title: 'Housing Allowance (BAH)',
     description:
       'A monthly payment excluded from federal taxable income, based on your duty station ZIP code. This is where most of the hidden compensation lives.',
-    bullets: ['~$1,200/mo to $4,500+/mo by location', 'Excluded from federal taxable income', 'Not on your W-2'],
+    bullets: ['~$1,200/mo to $5,100+/mo by location', 'Excluded from federal taxable income', 'Not on your W-2'],
     cta: 'Look up your BAH →',
     href: '/calculators/bah',
   },
@@ -119,13 +119,13 @@ const ACCORDION = [
         </p>
         <p>Pay tables are organized by grade and years of service. Selected 2026 monthly rates:</p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li><strong className="text-zinc-800">E-1 (under 2 years):</strong> $2,052</li>
-          <li><strong className="text-zinc-800">E-4 (4 years):</strong> $2,810</li>
+          <li><strong className="text-zinc-800">E-1 (under 2 years):</strong> $2,407</li>
+          <li><strong className="text-zinc-800">E-4 (4 years):</strong> $3,659</li>
           <li><strong className="text-zinc-800">E-5 (6 years):</strong> $4,110</li>
-          <li><strong className="text-zinc-800">E-7 (10 years):</strong> $4,739</li>
-          <li><strong className="text-zinc-800">O-1 (under 2 years):</strong> $3,988</li>
-          <li><strong className="text-zinc-800">O-3 (6 years):</strong> $6,156</li>
-          <li><strong className="text-zinc-800">O-5 (14 years):</strong> $9,105</li>
+          <li><strong className="text-zinc-800">E-7 (10 years):</strong> $5,300</li>
+          <li><strong className="text-zinc-800">O-1 (under 2 years):</strong> $4,150</li>
+          <li><strong className="text-zinc-800">O-3 (6 years):</strong> $7,737</li>
+          <li><strong className="text-zinc-800">O-5 (14 years):</strong> $10,715</li>
         </ul>
         <p>
           Most service members see automatic pay increases at the 2-, 3-, 4-, 6-, 8-, 10-, 12-, 14-,
@@ -150,9 +150,9 @@ const ACCORDION = [
         </p>
         <p><strong className="text-zinc-800">2026 BAH range with dependents:</strong></p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li>E-5: $1,218/mo (low-cost) to $3,897/mo (San Francisco area)</li>
-          <li>O-3: $1,590/mo to $4,437/mo</li>
-          <li>O-5: $1,818/mo to $4,713/mo</li>
+          <li>E-5: $1,185/mo (low-cost) to $5,127/mo (San Francisco area)</li>
+          <li>O-3: $1,686/mo to $6,633/mo</li>
+          <li>O-5: $1,827/mo to $8,064/mo</li>
         </ul>
         <p>
           <strong className="text-zinc-800">The tax exclusion advantage:</strong> BAH is excluded from
@@ -248,13 +248,13 @@ const ACCORDION = [
           A standard inactive duty training (IDT) weekend consists of four drill periods (typically
           Friday evening + Saturday + Sunday). Example:{' '}
           <strong className="text-zinc-800">Staff Sergeant (E-6) with 8 years service</strong>{' '}
-          ($4,387/month active base pay):
+          ($4,612.80/month active base pay):
         </p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li>Per drill period: $4,387 ÷ 30 = $146.23</li>
-          <li>Per drill weekend (4 periods): $584.92</li>
-          <li>Per year (standard 48 IDT periods): $7,019</li>
-          <li>Plus 15-day Annual Training: ~$2,193</li>
+          <li>Per drill period: $4,612.80 ÷ 30 = $153.76</li>
+          <li>Per drill weekend (4 periods): $615.04</li>
+          <li>Per year (standard 48 IDT periods): $7,380</li>
+          <li>Plus 15-day Annual Training: ~$2,306</li>
         </ul>
         <p>
           Guard and Reserve members also have access to TRICARE Reserve Select health coverage.
@@ -279,10 +279,10 @@ const ACCORDION = [
         </p>
         <ul className="space-y-1 pl-4 list-disc">
           <li>Base pay: $4,110/month</li>
-          <li>BAH (with dependents): $2,991/month</li>
+          <li>BAH (with dependents): $2,556/month</li>
           <li>BAS: $476.95/month</li>
           <li>BRS TSP matching (~5% contribution): ~$206/month</li>
-          <li><strong className="text-zinc-800">Total: $7,785/month — $93,420/year</strong></li>
+          <li><strong className="text-zinc-800">Total: $7,348/month — $88,176/year</strong></li>
         </ul>
         <p>
           At the 22% federal bracket, a civilian would need roughly{' '}
@@ -518,7 +518,7 @@ export default function MilitaryPayGuidePage() {
                 <div className="mx-5 my-3 rounded-lg bg-red-50 border border-red-200 px-4 py-3 flex items-center justify-between">
                   <div>
                     <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Total Monthly</p>
-                    <p className="text-2xl font-bold tabular-nums text-red-700">$6,946</p>
+                    <p className="text-2xl font-bold tabular-nums text-red-700">$6,945</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-zinc-500">Civilian equivalent</p>
