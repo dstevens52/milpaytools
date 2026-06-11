@@ -41,6 +41,11 @@ export interface PayPageRank {
    * branches, typical promotion window, what changes financially.
    * Educational voice — no advice, no first-person military service,
    * "excluded from federal taxable income" (never "tax-free").
+   *
+   * Supports [text](/path) markdown-style links — the only markup allowed —
+   * rendered by renderCopyLinks in the page template. Link grade mentions
+   * only to /pay pages that exist (never -E grades), at most one link per
+   * target page across the whole contextCopy body.
    */
   contextCopy: string[];
   /**
@@ -93,7 +98,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     exampleYos: 0,
     exampleDependents: false,
     contextCopy: [
-      'E-1 is the entry pay grade — Private in the Army and Marine Corps, Airman Basic in the Air Force, Seaman Recruit in the Navy, and Specialist 1 in the Space Force. Nearly everyone starts here, in basic training or just out of it, and nearly nobody stays long: advancement to E-2 typically comes within the first six months to a year, depending on branch and enlistment contract.',
+      'E-1 is the entry pay grade — Private in the Army and Marine Corps, Airman Basic in the Air Force, Seaman Recruit in the Navy, and Specialist 1 in the Space Force. Nearly everyone starts here, in basic training or just out of it, and nearly nobody stays long: advancement to [E-2](/pay/e2) typically comes within the first six months to a year, depending on branch and enlistment contract.',
       'E-1 pay is flat — there is no longevity progression, because the grade is designed to be temporary. The one wrinkle is the first four months: DFAS publishes a separate, lower E-1 rate for members with less than four months of service (noted under the table above), so the very first paychecks are calculated on a smaller base than the standard E-1 rate.',
       'The first paycheck itself is where most new service members get surprised. Military pay arrives twice a month, so a mid-month start date means the first deposit covers only part of a pay period — and it lands after deductions for taxes, SGLI life insurance, and the TSP contribution most new members are automatically enrolled in. A first check that looks smaller than the pay chart suggested is usually correct, just prorated. Reading the LES line by line is the fastest way to confirm.',
     ],
@@ -131,7 +136,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     exampleYos: 0,
     exampleDependents: false,
     contextCopy: [
-      'E-2 is the second enlisted pay grade — Private (PV2) in the Army, Private First Class in the Marine Corps, Airman in the Air Force, Seaman Apprentice in the Navy, and Specialist 2 in the Space Force. Like E-1, it is a passing-through grade: advancement from E-2 to E-3 is also largely automatic with satisfactory service, typically within another six months to a year.',
+      'E-2 is the second enlisted pay grade — Private (PV2) in the Army, Private First Class in the Marine Corps, Airman in the Air Force, Seaman Apprentice in the Navy, and Specialist 2 in the Space Force. Like [E-1](/pay/e1), it is a passing-through grade: advancement from E-2 to [E-3](/pay/e3) is also largely automatic with satisfactory service, typically within another six months to a year.',
       'E-2 pay is a single flat rate with no longevity steps — the table above is one row because that is genuinely the whole table. Raises at this stage come from advancing in grade, not from time in service.',
       'The under-2-years window is also when the TSP habit forms. Members who joined under the Blended Retirement System are automatically enrolled at 5% of basic pay into an age-appropriate Lifecycle fund, with the automatic government contribution on top. Because contributions scale with pay automatically as a career progresses, the settings chosen (or left alone) in these first months tend to follow a member for years — which is why the early habit matters more than the early dollar amounts.',
     ],
@@ -169,7 +174,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     exampleDependents: false,
     contextCopy: [
       'E-3 is where many junior enlisted members spend the longest stretch of their first enlistment — Private First Class in the Army, Lance Corporal in the Marine Corps, Airman First Class in the Air Force, Seaman in the Navy, and Specialist 3 in the Space Force. Most members reach it within their first one to two years.',
-      'E-3 is also the first grade with longevity steps: the rate rises at over 2 and again at over 3 years of service. From E-4 up, the pay table deepens further — but at E-3, advancing to the next grade still moves pay more than time does.',
+      'E-3 is also the first grade with longevity steps: the rate rises at over 2 and again at over 3 years of service. From [E-4](/pay/e4) up, the pay table deepens further — but at E-3, advancing to the next grade still moves pay more than time does.',
       'Two financial mechanics tend to land during the E-3 window. First, under the Blended Retirement System two things happen at the two-year mark: government matching contributions begin, and the automatic 1% contribution the government has been making since the first months of service becomes fully the member’s money. Second, fund allocation starts to matter as the balance grows; the default Lifecycle fund, the G fund, and the stock-index funds behave very differently over a 20-year horizon, and the difference compounds from whatever is set in these early years.',
     ],
     faqExtras: [
@@ -205,7 +210,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     exampleYos: 3,
     exampleDependents: false,
     contextCopy: [
-      'E-4 is the cusp grade — Specialist or Corporal in the Army, Corporal in the Marine Corps, Senior Airman in the Air Force, Petty Officer Third Class in the Navy, and Specialist 4 in the Space Force. In the Marine Corps and for Army Corporals it already carries NCO authority; everywhere else it is the last stop before the NCO track that begins at E-5, with promotion boards, points, or cutting scores ahead.',
+      'E-4 is the cusp grade — Specialist or Corporal in the Army, Corporal in the Marine Corps, Senior Airman in the Air Force, Petty Officer Third Class in the Navy, and Specialist 4 in the Space Force. In the Marine Corps and for Army Corporals it already carries NCO authority; everywhere else it is the last stop before the NCO track that begins at [E-5](/pay/e5), with promotion boards, points, or cutting scores ahead.',
       'Most members pin on E-4 somewhere between two and four years of service, varying by branch and career field. The E-4 pay table runs five longevity steps, topping out at over 6 years — members who stay at E-4 past that point see no further increases until promotion.',
       'Financially, E-4 is often the first grade where BAH turns from an on-paper figure into actual cash: single members increasingly become eligible to move out of government quarters, and at that point the housing allowance — excluded from federal taxable income — starts arriving in the bank account every month. How far that allowance stretches depends entirely on duty station, which is why the same grade can feel very different at different installations.',
     ],
@@ -242,7 +247,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     exampleYos: 6,
     exampleDependents: true,
     contextCopy: [
-      'E-5 is the fifth enlisted pay grade and, in most branches, the first noncommissioned officer rank — Sergeant in the Army, Marine Corps, and Space Force, Staff Sergeant in the Air Force, and Petty Officer Second Class in the Navy. The move from E-4 to E-5 usually marks the shift from junior enlisted to NCO: leading a small team, signing for equipment, and being directly responsible for other service members’ training and development.',
+      'E-5 is the fifth enlisted pay grade and, in most branches, the first noncommissioned officer rank — Sergeant in the Army, Marine Corps, and Space Force, Staff Sergeant in the Air Force, and Petty Officer Second Class in the Navy. The move from [E-4](/pay/e4) to E-5 usually marks the shift from junior enlisted to NCO: leading a small team, signing for equipment, and being directly responsible for other service members’ training and development.',
       'Most service members who stay in reach E-5 somewhere between 3 and 6 years of service, though the timeline varies widely by branch and career field. Undermanned specialties promote faster; competitive ones can take longer. Each branch uses its own mix of time-in-service and time-in-grade minimums, promotion points, boards, or cutting scores.',
       'Financially, E-5 is often the grade where the full compensation picture starts to matter. Many members move out of the barracks around this point, which converts BAH from an on-paper rate into actual monthly cash — and BAH rises with both pay grade and duty station. Base pay also keeps climbing within the grade: E-5 has longevity increases through 12 years of service, so two E-5s with the same stripes can earn meaningfully different amounts. Because BAH and BAS are excluded from federal taxable income, the gap between an E-5’s base pay and the real value of the package is larger than the pay chart alone suggests.',
     ],
@@ -416,7 +421,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     exampleDependents: false,
     contextCopy: [
       'O-1 is the entry commissioned-officer grade — Second Lieutenant in the Army, Marine Corps, Air Force, and Space Force, and Ensign in the Navy. New O-1s arrive from a service academy, ROTC, or Officer Candidate/Training School, usually straight into branch-specific technical training before their first unit.',
-      'Time at O-1 is short: promotion to O-2 typically comes around 18 to 24 months and is near-automatic with satisfactory performance. The pay table reflects that — three steps, with a sharp jump at the over-3 column that most officers reach only after pinning on O-2.',
+      'Time at O-1 is short: promotion to [O-2](/pay/o2) typically comes around 18 to 24 months and is near-automatic with satisfactory performance. The pay table reflects that — three steps, with a sharp jump at the over-3 column that most officers reach only after pinning on O-2.',
       'Financially, the officer start differs from the enlisted one in two ways worth knowing. Officers receive the lower BAS rate and generally pay for their own meals rather than using a meal card, and most are authorized to live off-installation from the start — so BAH typically arrives as cash from the first duty station, excluded from federal taxable income. The same TSP auto-enrollment mechanics that apply to enlisted members apply at commissioning.',
     ],
     faqExtras: [
@@ -452,7 +457,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     exampleDependents: true,
     contextCopy: [
       'O-2 is the second company-grade officer rank — First Lieutenant in the Army, Marine Corps, Air Force, and Space Force, and Lieutenant (Junior Grade) in the Navy. O-2s typically serve as experienced platoon leaders, division officers, or flight commanders-in-training while their year group moves toward O-3.',
-      'Promotion to O-3 generally arrives around four years of total service, near-automatic with satisfactory performance. The O-2 pay table is short but steep — the over-2 and over-3 steps are among the largest percentage jumps anywhere in the officer chart, so pay moves quickly even before the next promotion.',
+      'Promotion to [O-3](/pay/o3) generally arrives around four years of total service, near-automatic with satisfactory performance. The O-2 pay table is short but steep — the over-2 and over-3 steps are among the largest percentage jumps anywhere in the officer chart, so pay moves quickly even before the next promotion.',
       'The O-2 years are usually when officer finances settle into a pattern: BAH as cash at a first or second duty station, the lower officer BAS rate, and — for those weighing a service academy or ROTC payback against a longer career — the first realistic look at how officer longevity raises stack against civilian offers. The total-compensation framing matters here, because the taxable base-pay number understates the package by the full value of the untaxed allowances.',
     ],
     faqExtras: [
@@ -483,7 +488,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     exampleYos: 6,
     exampleDependents: true,
     contextCopy: [
-      'O-3 is the workhorse company-grade rank — Captain in the Army, Marine Corps, Air Force, and Space Force, and Lieutenant in the Navy. Company command, flight command, and department-head tours mostly happen here, and officers typically hold the grade longer than O-1 and O-2 combined.',
+      'O-3 is the workhorse company-grade rank — Captain in the Army, Marine Corps, Air Force, and Space Force, and Lieutenant in the Navy. Company command, flight command, and department-head tours mostly happen here, and officers typically hold the grade longer than [O-1](/pay/o1) and [O-2](/pay/o2) combined.',
       'Promotion to O-3 usually arrives around four years of service; the grade then runs for roughly six more. The pay table matches that span — nine longevity steps reaching to over 14 years, so an O-3’s pay keeps climbing well after the promotion itself.',
       'O-3 is also where the biggest officer career-math moment lands: initial service commitments expire during these years, and the stay-or-go comparison against civilian offers gets made for the first time with real numbers. That comparison only works on total compensation — base pay plus BAH and BAS, plus the value of their exclusion from federal taxable income — not on the base-pay figure alone, which understates the package against a civilian salary.',
     ],

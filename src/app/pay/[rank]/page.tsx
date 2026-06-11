@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
 import Link from 'next/link';
 import {
   PAY_PAGE_RANKS,
@@ -120,6 +121,41 @@ function fitDescription(head: string, tails: string[], max = 160): string {
   return head + (tails.find((t) => head.length + t.length <= max) ?? '');
 }
 
+// contextCopy paragraphs may carry [text](/path) markdown-style links — the
+// only markup the strings support. Rendered as <Link> elements here so the
+// copy stays plain strings in the data file (no JSX, no innerHTML). String
+// slices keep their own whitespace, so spacing around links survives intact.
+function renderCopyLinks(text: string): ReactNode[] {
+  const re = /\[([^\]]+)\]\((\/[^)\s]+)\)/g;
+  const parts: ReactNode[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) parts.push(text.slice(last, m.index));
+    parts.push(
+      <Link key={m.index} href={m[2]} className="text-blue-700 underline hover:text-blue-800">
+        {m[1]}
+      </Link>
+    );
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts;
+}
+
+// Adjacent-grade nav label. Crossing the enlisted/officer boundary (E-9 ↔ O-1)
+// gets an explicit track tag so the link doesn't read as promotion continuity.
+function adjacentLabel(target: PayPageRank, current: PayPageRank): string {
+  const targetEnlisted = ENLISTED_GRADES.includes(
+    target.grade as (typeof ENLISTED_GRADES)[number]
+  );
+  const currentEnlisted = ENLISTED_GRADES.includes(
+    current.grade as (typeof ENLISTED_GRADES)[number]
+  );
+  if (targetEnlisted === currentEnlisted) return `${target.title} Pay`;
+  return `${target.title} Pay (${targetEnlisted ? 'enlisted' : 'officer'})`;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -178,6 +214,13 @@ export default async function RankPayPage({
   const { minPay, maxPay, floorKey, distinctCount, isEnlisted, medianBAH, comp, priorEnlisted } =
     resolveFigures(rank);
   const rows = progressionRows(rank);
+
+  // Prev/next from PAY_PAGE_RANKS array order (E-1…E-9, O-1…O-6) — the same
+  // ordering that drives generateStaticParams and the /pay index, so the nav
+  // can never drift from the published page set.
+  const rankIdx = PAY_PAGE_RANKS.findIndex((r) => r.slug === rank.slug);
+  const prevRank = rankIdx > 0 ? PAY_PAGE_RANKS[rankIdx - 1] : null;
+  const nextRank = rankIdx < PAY_PAGE_RANKS.length - 1 ? PAY_PAGE_RANKS[rankIdx + 1] : null;
   const exampleBracket = getYOSBracket(rank.exampleYos);
   const compactTable = distinctCount < 4;
   const isFlat = minPay === maxPay;
@@ -399,7 +442,7 @@ export default async function RankPayPage({
           <div className="space-y-3">
             {rank.contextCopy.map((para, i) => (
               <p key={i} className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-                {para}
+                {renderCopyLinks(para)}
               </p>
             ))}
           </div>
@@ -434,6 +477,28 @@ export default async function RankPayPage({
             </div>
           ))}
         </section>
+
+        {/* ── Prev/next rank navigation ───────────────────────────────── */}
+        <nav aria-label="Adjacent pay grades" className="flex items-center justify-between gap-3">
+          {prevRank ? (
+            <Link
+              href={`/pay/${prevRank.slug}`}
+              className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md"
+            >
+              {`← ${adjacentLabel(prevRank, rank)}`}
+            </Link>
+          ) : (
+            <span aria-hidden="true" />
+          )}
+          {nextRank && (
+            <Link
+              href={`/pay/${nextRank.slug}`}
+              className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md"
+            >
+              {`${adjacentLabel(nextRank, rank)} →`}
+            </Link>
+          )}
+        </nav>
 
         {/* ── Internal links ──────────────────────────────────────────── */}
         <section className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
