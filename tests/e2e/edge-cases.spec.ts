@@ -307,7 +307,7 @@ test.describe('Transition Readiness — VA claim status', () => {
   // Retirement-eligible (20 YOS + planned separation) → vaClaimStatus 'na' ("TRICARE retiree").
   test('retirement-eligible (20 YOS) sets VA claim status to N/A', async ({ page }) => {
     await page.goto('/calculators/transition-readiness?va=0&yos=20&sal=80000&exp=4000');
-    await expect(page.getByText('TRICARE retiree')).toBeVisible();
+    await expect(page.getByText('TRICARE retiree', { exact: true })).toBeVisible();
     await expect(page.getByText(/File your VA disability claim/i)).toHaveCount(0);
   });
 });
