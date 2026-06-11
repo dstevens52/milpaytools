@@ -18,6 +18,9 @@
 # temp / tool artifacts
 /.tmp.driveupload
 .claude/scheduled_tasks.lock
+.claude/settings.local.json
+build.log
+SWEEP_REPORT.md
 bahw26.txt
 bahwo26.txt
 mhanames26.txt
