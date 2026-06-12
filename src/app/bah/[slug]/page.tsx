@@ -12,6 +12,7 @@ import { STATE_TAX_DATA } from '@/data/compare/stateTax';
 import { COLA_AREAS } from '@/data/cola/2026/constants';
 import { StationPageClient } from '@/components/calculators/bah/StationPageClient';
 import { OCONUS_HERO_SLUGS } from '@/lib/oconusPilot';
+import { ogImage } from '@/lib/og';
 
 function ordinal(n: number): string {
   const s = ['th', 'st', 'nd', 'rd'];
@@ -96,6 +97,15 @@ export async function generateMetadata({
   } else {
     description = `2026 BAH rates for ${station.name}, ${station.stateName}${locality}. Monthly BAH for every pay grade, with and without dependents. Official DTMO data, no account.`;
   }
+  // Card title is titleBase (no site suffix — the card's brand row owns that).
+  // Static subline: station descriptions lead with E-5 dollar figures, which the
+  // OG sublines must not carry, so they are never derived from the description.
+  const ogImages = ogImage({
+    type: 'station',
+    title: titleBase,
+    sub: 'Military housing allowance by rank and dependent status',
+  });
+
   return {
     title: titleBase,
     description,
@@ -106,11 +116,13 @@ export async function generateMetadata({
       type: 'website',
       url: `/bah/${station.slug}`,
       siteName: 'MilPayTools',
+      images: ogImages,
     },
     twitter: {
       card: 'summary_large_image',
       title: socialTitle,
       description,
+      images: ogImages,
     },
   };
 }

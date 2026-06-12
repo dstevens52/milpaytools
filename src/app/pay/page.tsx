@@ -6,10 +6,16 @@ import type { YearsOfService } from '@/types/military';
 import { formatCurrency } from '@/lib/utils';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { breadcrumbListSchema } from '@/lib/schema';
+import { ogImage } from '@/lib/og';
 
 const PAY_INDEX_TITLE = '2026 Military Pay by Rank';
 const PAY_INDEX_DESC =
   'What each rank actually earns in 2026 — basic pay by years of service, plus BAH, BAS, and total compensation. Official DFAS and DTMO data, no account.';
+const PAY_INDEX_OG = ogImage({
+  type: 'calculator',
+  title: PAY_INDEX_TITLE,
+  sub: 'Basic pay by years of service, plus BAH, BAS & total compensation',
+});
 
 export const metadata: Metadata = {
   title: { absolute: PAY_INDEX_TITLE },
@@ -21,11 +27,13 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/pay',
     siteName: 'MilPayTools',
+    images: PAY_INDEX_OG,
   },
   twitter: {
     card: 'summary_large_image',
     title: PAY_INDEX_TITLE,
     description: PAY_INDEX_DESC,
+    images: PAY_INDEX_OG,
   },
 };
 

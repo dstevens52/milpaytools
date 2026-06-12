@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { ogImage } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://www.milpaytools.com/privacy',
     siteName: 'MilPayTools',
+    images: ogImage({ type: 'default', title: 'Privacy Policy' }),
   },
 };
 

@@ -2,11 +2,20 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { FeedbackForm } from '@/components/feedback/FeedbackForm';
+import { ogImage } from '@/lib/og';
 
 export const metadata: Metadata = {
   title: { absolute: 'Feedback' },
   description: 'Spot an outdated number, confusing explanation, or missing topic? Send a quick note.',
   robots: { index: false },
+  openGraph: {
+    title: 'Feedback | MilPayTools',
+    description: 'Spot an outdated number, confusing explanation, or missing topic? Send a quick note.',
+    type: 'website',
+    url: '/feedback',
+    siteName: 'MilPayTools',
+    images: ogImage({ type: 'default', title: 'Feedback' }),
+  },
 };
 
 export default function FeedbackPage() {

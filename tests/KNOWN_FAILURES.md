@@ -61,3 +61,5 @@ in a full-suite run, re-run it in isolation before treating it as a regression.
 - `compare-async.spec.ts:15` — rapid destination ZIP change lands on the FINAL
   location (race-safe) — webkit only (failed in 2026-06-12 full run, passed
   isolated re-run)
+- `healthcare-comparison.spec.ts:77` — TAMP option hides annual gap section —
+  firefox only (failed in 2026-06-12 full run, passed isolated re-run)

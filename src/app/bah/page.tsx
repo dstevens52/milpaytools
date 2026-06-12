@@ -2,10 +2,13 @@ import type { Metadata } from 'next';
 import { DUTY_STATIONS } from '@/data/duty-stations/stations';
 import { getMHACode, getMHARates } from '@/lib/calculations/bah';
 import { StationSearch } from '@/components/bah-stations/StationSearch';
+import { ogImage } from '@/lib/og';
 
 const BAH_INDEX_TITLE = '2026 BAH Rates by Military Installation';
 const BAH_INDEX_DESC =
   'Find 2026 Basic Allowance for Housing rates for 70+ U.S. military installations. Full pay grade tables with and without dependents for every major Army, Air Force, Navy, and Marine Corps base.';
+// No sub → the station card's default subline (all ranks / dependency / DTMO).
+const BAH_INDEX_OG = ogImage({ type: 'station', title: BAH_INDEX_TITLE });
 export const metadata: Metadata = {
   title: { absolute: BAH_INDEX_TITLE },
   description: BAH_INDEX_DESC,
@@ -16,11 +19,13 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/bah',
     siteName: 'MilPayTools',
+    images: BAH_INDEX_OG,
   },
   twitter: {
     card: 'summary_large_image',
     title: BAH_INDEX_TITLE,
     description: BAH_INDEX_DESC,
+    images: BAH_INDEX_OG,
   },
 };
 

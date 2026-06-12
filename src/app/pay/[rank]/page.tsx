@@ -17,6 +17,7 @@ import { calculateTotalCompensation } from '@/lib/calculations/total-compensatio
 import { formatCurrency, getYOSBracket, estimateMarginalRate } from '@/lib/utils';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema, breadcrumbListSchema } from '@/lib/schema';
+import { ogImage } from '@/lib/og';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 
 export async function generateStaticParams() {
@@ -183,6 +184,14 @@ export async function generateMetadata({
     ' Full pay table, BAH, BAS, and total compensation.',
   ]);
 
+  // Static subline: rank descriptions lead with a $/month basic-pay figure,
+  // which OG sublines must not carry, so the sub is never description-derived.
+  const ogImages = ogImage({
+    type: 'calculator',
+    title: titleBase,
+    sub: 'Basic pay by years of service, plus BAH, BAS & total compensation',
+  });
+
   return {
     title: titleBase,
     description,
@@ -193,11 +202,13 @@ export async function generateMetadata({
       type: 'website',
       url: `/pay/${rank.slug}`,
       siteName: 'MilPayTools',
+      images: ogImages,
     },
     twitter: {
       card: 'summary_large_image',
       title: socialTitle,
       description,
+      images: ogImages,
     },
   };
 }
