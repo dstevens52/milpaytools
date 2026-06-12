@@ -44,14 +44,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/va-loan',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'VA Loan Payment Calculator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'VA Loan Payment Calculator 2026', sub: 'Monthly payment, funding fee, and VA vs conventional' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'VA Loan Payment Calculator 2026 | Funding Fee, BAH Comparison & VA vs Conventional',
     description:
       'Estimate your VA loan monthly payment, see your funding fee (or waiver), compare VA to conventional financing, and optionally see how your payment compares to BAH.',
-    images: ogImage({ type: 'calculator', title: 'VA Loan Payment Calculator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'VA Loan Payment Calculator 2026', sub: 'Monthly payment, funding fee, and VA vs conventional' }),
   },
 };
 

@@ -12,7 +12,7 @@ const TITLE = 'Military Healthcare Cost Comparison Calculator 2026';
 const DESC =
   'See exactly how much healthcare will cost after military separation — employer insurance, ACA Marketplace, VA healthcare, and TRICARE Reserve Select compared against active-duty TRICARE rates.';
 const CANONICAL = '/calculators/healthcare-comparison';
-const OG_IMAGE = ogImage({ type: 'calculator', title: 'Healthcare Cost Comparison' });
+const OG_IMAGE = ogImage({ type: 'calculator', title: 'Healthcare Cost Comparison', sub: 'What healthcare costs after separation, plan by plan' });
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },

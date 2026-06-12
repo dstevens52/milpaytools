@@ -21,14 +21,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/pay-charts',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: '2026 Military Pay Charts' }),
+    images: ogImage({ type: 'calculator', title: '2026 Military Pay Charts', sub: 'Monthly basic pay by grade and years of service, E-1 to O-10' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: '2026 Military Pay Charts',
     description:
       'Official 2026 military pay tables for all ranks E-1 through O-10 and warrant officers. 3.8% pay raise effective January 1, 2026. Monthly basic pay by grade and years of service.',
-    images: ogImage({ type: 'calculator', title: '2026 Military Pay Charts' }),
+    images: ogImage({ type: 'calculator', title: '2026 Military Pay Charts', sub: 'Monthly basic pay by grade and years of service, E-1 to O-10' }),
   },
 };
 

@@ -6,7 +6,7 @@ import { getAllGuideMeta } from '@/lib/guides';
 const GUIDES_TITLE = 'Military Finance Guides';
 const GUIDES_DESC =
   'Comprehensive topic guides on military pay, VA disability, retirement & TSP, PCS finances, and education benefits — with calculators and plain-English explanations.';
-const GUIDES_IMAGE = ogImage({ type: 'guide', title: 'Military Finance Guides' });
+const GUIDES_IMAGE = ogImage({ type: 'guide', title: 'Military Finance Guides', sub: 'Pay, VA disability, retirement, PCS, and education benefits' });
 
 export const metadata: Metadata = {
   title: { absolute: GUIDES_TITLE },

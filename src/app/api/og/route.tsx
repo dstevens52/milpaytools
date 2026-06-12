@@ -70,11 +70,14 @@ function titleFontSize(title: string): number {
   return 48;
 }
 
+// No trust-copy fallbacks for calculator/guide/blog: the bottom trust row
+// already owns that copy, so a missing `sub` renders no subline at all.
 function defaultSubtitle(type: string): string {
   switch (type) {
-    case 'calculator': return 'Free 2026 Calculator • Official DoD Data';
-    case 'blog': return 'MilPayTools.com';
-    case 'guide': return 'Comprehensive Guide • MilPayTools';
+    case 'calculator':
+    case 'blog':
+    case 'guide':
+      return '';
     case 'station': return 'All Ranks • With & Without Dependents • 2026 DTMO Rates';
     default: return 'Military Pay & Benefits';
   }
@@ -147,10 +150,12 @@ function HomeCard() {
   );
 }
 
-// ─── Other types: page title + one-line subline ──────────────────────────────
+// ─── Other types: page title + optional one-line subline ─────────────────────
+// flex:1 + justifyContent center vertically centers the block in the space
+// between the brand row and the trust row, so short titles leave no dead band.
 function PageCard({ title, sub }: { title: string; sub: string }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '28px' }}>
       <div
         style={{
           fontSize: `${titleFontSize(title)}px`,
@@ -163,9 +168,11 @@ function PageCard({ title, sub }: { title: string; sub: string }) {
       >
         {title}
       </div>
-      <div style={{ fontSize: '32px', fontWeight: 400, color: SLATE_LIGHT, maxWidth: '1060px', lineClamp: 1 }}>
-        {sub}
-      </div>
+      {sub ? (
+        <div style={{ fontSize: '32px', fontWeight: 400, color: SLATE_LIGHT, maxWidth: '1060px', lineClamp: 1 }}>
+          {sub}
+        </div>
+      ) : null}
     </div>
   );
 }

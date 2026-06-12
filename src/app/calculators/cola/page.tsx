@@ -23,14 +23,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/cola',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'CONUS COLA Calculator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'CONUS COLA Calculator 2026', sub: 'Does your duty station qualify, and what it pays by grade' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'CONUS COLA Calculator — 2026',
     description:
       'Check whether your duty station qualifies for CONUS Cost of Living Allowance and see approximate monthly rates by grade. Uses DTMO area data for 2026.',
-    images: ogImage({ type: 'calculator', title: 'CONUS COLA Calculator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'CONUS COLA Calculator 2026', sub: 'Does your duty station qualify, and what it pays by grade' }),
   },
 };
 

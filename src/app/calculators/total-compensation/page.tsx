@@ -24,14 +24,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/total-compensation',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'Total Military Compensation Calculator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'Total Military Compensation Calculator 2026', sub: 'Base pay, BAH, BAS, and tax advantage in one number' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Total Military Compensation Calculator 2026: Base Pay, BAH, BAS & Tax Advantages',
     description:
       'Calculate your true total military compensation: base pay, BAH, BAS, TSP match, and tax advantage. See the civilian salary equivalent using official 2026 DoD rates.',
-    images: ogImage({ type: 'calculator', title: 'Total Military Compensation Calculator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'Total Military Compensation Calculator 2026', sub: 'Base pay, BAH, BAS, and tax advantage in one number' }),
   },
 };
 

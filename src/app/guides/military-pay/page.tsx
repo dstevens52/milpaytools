@@ -11,7 +11,7 @@ const DESC =
   'Many service members underestimate total compensation by tens of thousands per year because BAH, BAS, tax advantages, TSP matching, and TRICARE value are not obvious from base pay alone. See your full picture with official 2026 DFAS and DTMO data.';
 const CANONICAL = '/guides/military-pay';
 const DATE = '2026-04-12';
-const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Pay & Compensation Guide 2026' });
+const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Pay & Compensation Guide 2026', sub: 'BAH, BAS, tax advantage, and TSP match beyond base pay' });
 
 export const metadata: Metadata = {
   title: { absolute: `${TITLE}` },

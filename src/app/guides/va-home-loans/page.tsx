@@ -11,7 +11,7 @@ const DESC =
   'Understand your VA home loan benefit — eligibility, funding fee, disability waiver, BAH comparison, and payment estimates. Free tools and guides for service members and veterans.';
 const CANONICAL = '/guides/va-home-loans';
 const DATE = '2026-05-27';
-const OG_IMAGE = ogImage({ type: 'guide', title: 'VA Home Loans Guide 2026' });
+const OG_IMAGE = ogImage({ type: 'guide', title: 'VA Home Loans Guide 2026', sub: 'Eligibility, funding fee, disability waiver, and payments' });
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },

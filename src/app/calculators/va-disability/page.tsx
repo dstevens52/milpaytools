@@ -23,14 +23,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/va-disability',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'VA Disability Rating Calculator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'VA Disability Rating Calculator 2026', sub: 'See your combined rating with step-by-step VA math' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'VA Disability Rating Calculator 2026 | Combined Rating',
     description:
       'Calculate your combined VA disability rating and 2026 monthly compensation — every step shown, bilateral factor automatic.',
-    images: ogImage({ type: 'calculator', title: 'VA Disability Rating Calculator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'VA Disability Rating Calculator 2026', sub: 'See your combined rating with step-by-step VA math' }),
   },
 };
 

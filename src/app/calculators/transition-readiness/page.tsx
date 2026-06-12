@@ -20,7 +20,7 @@ const TITLE = 'Transition Readiness Calculator 2026: Am I Financially Ready to L
 const DESC =
   'Find out if you can afford to leave the military. Enter your rank, duty station, VA rating, target salary, and expenses — get a readiness verdict with action steps.';
 const CANONICAL = '/calculators/transition-readiness';
-const OG_IMAGE = ogImage({ type: 'calculator', title: 'Transition Readiness Calculator 2026' });
+const OG_IMAGE = ogImage({ type: 'calculator', title: 'Transition Readiness Calculator 2026', sub: 'Find out if you can afford to leave the military' });
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },

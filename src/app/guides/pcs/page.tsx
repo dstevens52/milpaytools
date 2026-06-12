@@ -11,7 +11,7 @@ const DESC =
   'BAH changes, moving entitlements, state taxes, and cost of living can swing your finances by thousands. Compare duty stations and estimate move costs with free tools using official 2026 DTMO data.';
 const CANONICAL = '/guides/pcs';
 const DATE = '2026-04-12';
-const OG_IMAGE = ogImage({ type: 'guide', title: 'PCS & Duty Station Financial Guide 2026' });
+const OG_IMAGE = ogImage({ type: 'guide', title: 'PCS & Duty Station Financial Guide 2026', sub: 'How BAH, entitlements, and state taxes change with a move' });
 
 export const metadata: Metadata = {
   title: { absolute: `${TITLE}` },

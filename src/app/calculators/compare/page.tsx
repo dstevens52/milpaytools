@@ -24,14 +24,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/compare',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'Compare Your PCS Move 2026' }),
+    images: ogImage({ type: 'calculator', title: 'Compare Your PCS Move 2026', sub: 'BAH, take-home pay, and total comp between two duty stations' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Compare Your PCS Move — 2026',
     description:
       'Compare BAH, take-home pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.',
-    images: ogImage({ type: 'calculator', title: 'Compare Your PCS Move 2026' }),
+    images: ogImage({ type: 'calculator', title: 'Compare Your PCS Move 2026', sub: 'BAH, take-home pay, and total comp between two duty stations' }),
   },
 };
 

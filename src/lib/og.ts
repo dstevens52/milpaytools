@@ -7,7 +7,7 @@
  * design changes — Facebook/LinkedIn key their image caches on the URL.
  */
 
-export const OG_VERSION = 3;
+export const OG_VERSION = 4;
 export const OG_WIDTH = 1200;
 export const OG_HEIGHT = 630;
 
@@ -36,4 +36,20 @@ export function ogImageUrl({ type, title, sub }: OgImageParams): string {
  */
 export function ogImage(params: OgImageParams) {
   return [{ url: ogImageUrl(params), width: OG_WIDTH, height: OG_HEIGHT }];
+}
+
+/**
+ * Derive a one-line OG subline from a page/post description: trims, and
+ * truncates at a word boundary with an ellipsis so it never wraps at the
+ * card's ~32px size. Returns undefined for missing descriptions — the card
+ * renders no subline rather than substituting generic copy.
+ */
+export function ogSubFromDescription(desc: string | undefined, max = 70): string | undefined {
+  const text = desc?.trim();
+  if (!text) return undefined;
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max - 1);
+  const lastSpace = cut.lastIndexOf(' ');
+  const head = cut.slice(0, lastSpace > 0 ? lastSpace : max - 1);
+  return `${head.replace(/[\s,;:—–-]+$/, '')}…`;
 }

@@ -22,14 +22,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/retirement',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'Military Retirement Calculator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'Military Retirement Calculator 2026', sub: 'High-3 or BRS pension, lifetime value, and TSP projection' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Military Retirement Calculator 2026',
     description:
       'Estimate your military pension under High-3 or BRS. See monthly pension, lifetime value, TSP projection, and VA disability combined income using 2026 pay tables.',
-    images: ogImage({ type: 'calculator', title: 'Military Retirement Calculator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'Military Retirement Calculator 2026', sub: 'High-3 or BRS pension, lifetime value, and TSP projection' }),
   },
 };
 

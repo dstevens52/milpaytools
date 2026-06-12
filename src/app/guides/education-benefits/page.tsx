@@ -35,7 +35,7 @@ const DESC =
   'Post-9/11 GI Bill, VR&E, Tuition Assistance, and Montgomery GI Bill each work differently. The order you use them — and where you go to school — can swing the total value by tens of thousands of dollars.';
 const CANONICAL = '/guides/education-benefits';
 const DATE = '2026-04-12';
-const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Education Benefits Guide 2026' });
+const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Education Benefits Guide 2026', sub: 'The order you use your education benefits changes their value' });
 
 export const metadata: Metadata = {
   title: { absolute: `${TITLE}` },

@@ -11,7 +11,7 @@ const PAGE_TITLE = 'Military Transition Financial Guide 2026';
 const META_TITLE = `${PAGE_TITLE}`;
 const META_DESC =
   'Know what your income, healthcare, and benefits look like after the uniform. Separation changes BAH, TRICARE, taxes, and TSP on day one. Free tools using official 2026 DoD and VA data.';
-const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Transition Financial Guide 2026' });
+const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Transition Financial Guide 2026', sub: 'Income, healthcare, and benefits after the uniform' });
 
 export const metadata: Metadata = {
   title: { absolute: META_TITLE },

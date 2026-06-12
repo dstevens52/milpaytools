@@ -22,14 +22,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/pcs',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'PCS Cost Estimator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'PCS Cost Estimator 2026', sub: 'DLA, MALT, per diem, TLE, and PPM net proceeds' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'PCS Cost Estimator 2026 | Military Move Calculator',
     description:
       'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds. Uses 2026 DTMO rates for all ranks.',
-    images: ogImage({ type: 'calculator', title: 'PCS Cost Estimator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'PCS Cost Estimator 2026', sub: 'DLA, MALT, per diem, TLE, and PPM net proceeds' }),
   },
 };
 

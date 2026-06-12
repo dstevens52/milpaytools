@@ -24,14 +24,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/tsp',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'TSP Growth Projector 2026' }),
+    images: ogImage({ type: 'calculator', title: 'TSP Growth Projector 2026', sub: 'Project your balance with BRS matching and Roth comparison' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator',
     description:
       'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 contribution limits.',
-    images: ogImage({ type: 'calculator', title: 'TSP Growth Projector 2026' }),
+    images: ogImage({ type: 'calculator', title: 'TSP Growth Projector 2026', sub: 'Project your balance with BRS matching and Roth comparison' }),
   },
 };
 

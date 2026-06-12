@@ -16,14 +16,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://www.milpaytools.com/guides/navigating-service',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'guide', title: 'Navigating Service: PCS & Duty Station' }),
+    images: ogImage({ type: 'guide', title: 'Navigating Service: PCS & Duty Station', sub: 'PCS, deployment, and duty-station money decisions' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Navigating Service: PCS, Deployment & Duty Station Financial Tools',
     description:
       'PCSing, deploying, or comparing duty stations? Compare BAH, estimate move costs, see combat zone tax savings, and make every assignment work for your finances. Free 2026 tools.',
-    images: ogImage({ type: 'guide', title: 'Navigating Service: PCS & Duty Station' }),
+    images: ogImage({ type: 'guide', title: 'Navigating Service: PCS & Duty Station', sub: 'PCS, deployment, and duty-station money decisions' }),
   },
 };
 

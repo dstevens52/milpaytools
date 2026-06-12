@@ -42,13 +42,13 @@ export const metadata: Metadata = {
     type: 'website',
     url: CANONICAL,
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'VA Refinance Calculator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'VA Refinance Calculator 2026', sub: 'Monthly savings, break-even point, IRRRL or cash-out' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: TITLE,
     description: DESC,
-    images: ogImage({ type: 'calculator', title: 'VA Refinance Calculator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'VA Refinance Calculator 2026', sub: 'Monthly savings, break-even point, IRRRL or cash-out' }),
   },
 };
 

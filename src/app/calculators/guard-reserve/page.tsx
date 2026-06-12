@@ -22,14 +22,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/guard-reserve',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'Guard & Reserve Pay Calculator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'Guard & Reserve Pay Calculator 2026', sub: 'Drill pay, Annual Training, TRS savings, and BRS matching' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Guard & Reserve Pay Calculator 2026 | Drill Pay + AT + TRS',
     description:
       'Estimate total Guard and Reserve annual compensation: drill pay (MUTA), Annual Training pay, Tricare Reserve Select savings, and BRS matching. Uses 2026 DFAS pay tables.',
-    images: ogImage({ type: 'calculator', title: 'Guard & Reserve Pay Calculator 2026' }),
+    images: ogImage({ type: 'calculator', title: 'Guard & Reserve Pay Calculator 2026', sub: 'Drill pay, Annual Training, TRS savings, and BRS matching' }),
   },
 };
 

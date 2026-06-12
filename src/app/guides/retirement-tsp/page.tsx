@@ -11,7 +11,7 @@ const DESC =
   'Your pension, TSP balance, TRICARE, and VA disability all add up to a retirement package most civilians can\'t match. But only if you understand the math and make informed TSP decisions along the way.';
 const CANONICAL = '/guides/retirement-tsp';
 const DATE = '2026-04-12';
-const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Retirement & TSP Guide 2026' });
+const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Retirement & TSP Guide 2026', sub: 'Pension, TSP, TRICARE, and VA disability in one picture' });
 
 export const metadata: Metadata = {
   title: { absolute: `${TITLE}` },

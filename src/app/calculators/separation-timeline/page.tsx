@@ -13,7 +13,7 @@ const TITLE =
 const DESC =
   'See exactly when each military benefit stops, converts, or expires after your separation date. TRICARE, SGLI, TAMP, BDD filing windows, and final move deadlines — calculated from your specific date.';
 const CANONICAL = '/calculators/separation-timeline';
-const OG_IMAGE = ogImage({ type: 'calculator', title: 'Separation Benefits Timeline' });
+const OG_IMAGE = ogImage({ type: 'calculator', title: 'Separation Benefits Timeline', sub: 'When each benefit stops, converts, or expires after separation' });
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },

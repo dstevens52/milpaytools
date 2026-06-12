@@ -18,14 +18,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://www.milpaytools.com/guides/starting-service',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'guide', title: 'Starting Military Service' }),
+    images: ogImage({ type: 'guide', title: 'Starting Military Service', sub: 'Base pay, BAH, BAS, and TSP match from day one' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Starting Military Service: Understand Your Pay & Benefits',
     description:
       'New to the military? Understand your base pay, BAH, BAS, and TSP match — and make smart money decisions from day one.',
-    images: ogImage({ type: 'guide', title: 'Starting Military Service' }),
+    images: ogImage({ type: 'guide', title: 'Starting Military Service', sub: 'Base pay, BAH, BAS, and TSP match from day one' }),
   },
 };
 

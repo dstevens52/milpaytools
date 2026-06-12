@@ -10,7 +10,7 @@ import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
-import { ogImage } from '@/lib/og';
+import { ogImage, ogSubFromDescription } from '@/lib/og';
 
 // MDX components available in all posts
 const mdxComponents = {
@@ -360,7 +360,7 @@ export async function generateMetadata({
   const post = getPost(slug);
   if (!post) return {};
 
-  const ogImages = ogImage({ type: 'blog', title: post.title });
+  const ogImages = ogImage({ type: 'blog', title: post.title, sub: ogSubFromDescription(post.description) });
   return {
     title: { absolute: `${post.title}` },
     description: post.description,

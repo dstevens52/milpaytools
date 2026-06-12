@@ -11,7 +11,7 @@ const DESC =
   'VA math is confusing by design. 50% + 30% doesn\'t equal 80%. Use the free calculator to see your exact combined rating, your monthly compensation, and what adding another condition could do.';
 const CANONICAL = '/guides/va-disability';
 const DATE = '2026-04-12';
-const OG_IMAGE = ogImage({ type: 'guide', title: 'VA Disability Benefits Guide 2026' });
+const OG_IMAGE = ogImage({ type: 'guide', title: "VA Disability Benefits Guide 2026", sub: "Why 50% + 30% doesn't equal 80%" });
 
 export const metadata: Metadata = {
   title: { absolute: `${TITLE}` },

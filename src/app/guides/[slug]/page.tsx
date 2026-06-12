@@ -10,7 +10,7 @@ import { QuickAnswer, QAItem } from '@/components/blog/QuickAnswer';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
-import { ogImage } from '@/lib/og';
+import { ogImage, ogSubFromDescription } from '@/lib/og';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
 
 // MDX components available in all guides
@@ -90,7 +90,7 @@ export async function generateMetadata({
   const guide = getGuide(slug);
   if (!guide) return {};
 
-  const ogImages = ogImage({ type: 'guide', title: guide.title });
+  const ogImages = ogImage({ type: 'guide', title: guide.title, sub: ogSubFromDescription(guide.description) });
   return {
     title: { absolute: `${guide.title}` },
     description: guide.description,
