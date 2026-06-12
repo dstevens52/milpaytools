@@ -10,6 +10,7 @@ import { QuickAnswer, QAItem } from '@/components/blog/QuickAnswer';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
+import { ogImage } from '@/lib/og';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
 
 // MDX components available in all guides
@@ -89,7 +90,7 @@ export async function generateMetadata({
   const guide = getGuide(slug);
   if (!guide) return {};
 
-  const ogImage = `/api/og?type=guide&title=${encodeURIComponent(guide.title)}&v=2`;
+  const ogImages = ogImage({ type: 'guide', title: guide.title });
   return {
     title: { absolute: `${guide.title}` },
     description: guide.description,
@@ -102,13 +103,13 @@ export async function generateMetadata({
       siteName: 'MilPayTools',
       publishedTime: guide.date,
       authors: [guide.author],
-      images: [{ url: ogImage, width: 2400, height: 1260 }],
+      images: ogImages,
     },
     twitter: {
       card: 'summary_large_image',
       title: guide.title,
       description: guide.description,
-      images: [ogImage],
+      images: ogImages,
     },
   };
 }

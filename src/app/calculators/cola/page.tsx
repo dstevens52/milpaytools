@@ -1,4 +1,5 @@
 ﻿import type { Metadata } from 'next';
+import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { ColaCalculator } from '@/components/calculators/cola/ColaCalculator';
@@ -22,14 +23,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/cola',
     siteName: 'MilPayTools',
-    images: [{ url: '/api/og?type=calculator&title=CONUS+COLA+Calculator+2026&v=2', width: 2400, height: 1260 }],
+    images: ogImage({ type: 'calculator', title: 'CONUS COLA Calculator 2026' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'CONUS COLA Calculator — 2026',
     description:
       'Check whether your duty station qualifies for CONUS Cost of Living Allowance and see approximate monthly rates by grade. Uses DTMO area data for 2026.',
-    images: ['/api/og?type=calculator&title=CONUS+COLA+Calculator+2026&v=2'],
+    images: ogImage({ type: 'calculator', title: 'CONUS COLA Calculator 2026' }),
   },
 };
 

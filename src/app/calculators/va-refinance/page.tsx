@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
@@ -41,13 +42,13 @@ export const metadata: Metadata = {
     type: 'website',
     url: CANONICAL,
     siteName: 'MilPayTools',
-    images: [{ url: '/api/og?type=calculator&title=VA+Refinance+Calculator+2026&v=1', width: 2400, height: 1260 }],
+    images: ogImage({ type: 'calculator', title: 'VA Refinance Calculator 2026' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: TITLE,
     description: DESC,
-    images: ['/api/og?type=calculator&title=VA+Refinance+Calculator+2026&v=1'],
+    images: ogImage({ type: 'calculator', title: 'VA Refinance Calculator 2026' }),
   },
 };
 

@@ -1,5 +1,7 @@
+import { ogImageUrl } from '@/lib/og';
+
 const BASE_URL = 'https://www.milpaytools.com';
-const DEFAULT_IMAGE = `${BASE_URL}/og-image.png`;
+const DEFAULT_IMAGE = `${BASE_URL}${ogImageUrl({ type: 'home', title: 'MilPayTools' })}`;
 
 // Appends Central Time offset if the date string is bare (YYYY-MM-DD).
 function toISODateTime(dateStr: string): string {

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/og';
 import Image from 'next/image';
 import Link from 'next/link';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -10,7 +11,7 @@ const PAGE_TITLE = 'Military Transition Financial Guide 2026';
 const META_TITLE = `${PAGE_TITLE}`;
 const META_DESC =
   'Know what your income, healthcare, and benefits look like after the uniform. Separation changes BAH, TRICARE, taxes, and TSP on day one. Free tools using official 2026 DoD and VA data.';
-const OG_IMAGE = `/api/og?type=guide&title=${encodeURIComponent('Military Transition Financial Guide 2026')}&v=2`;
+const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Transition Financial Guide 2026' });
 
 export const metadata: Metadata = {
   title: { absolute: META_TITLE },
@@ -22,13 +23,13 @@ export const metadata: Metadata = {
     type: 'article',
     url: '/transition',
     siteName: 'MilPayTools',
-    images: [{ url: OG_IMAGE, width: 2400, height: 1260 }],
+    images: OG_IMAGE,
   },
   twitter: {
     card: 'summary_large_image',
     title: META_TITLE,
     description: META_DESC,
-    images: [OG_IMAGE],
+    images: OG_IMAGE,
   },
 };
 

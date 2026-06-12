@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
@@ -10,7 +11,7 @@ const DESC =
   'Your pension, TSP balance, TRICARE, and VA disability all add up to a retirement package most civilians can\'t match. But only if you understand the math and make informed TSP decisions along the way.';
 const CANONICAL = '/guides/retirement-tsp';
 const DATE = '2026-04-12';
-const OG_IMAGE = '/api/og?type=guide&title=Military+Retirement+%26+TSP+Guide+2026&v=2';
+const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Retirement & TSP Guide 2026' });
 
 export const metadata: Metadata = {
   title: { absolute: `${TITLE}` },
@@ -24,13 +25,13 @@ export const metadata: Metadata = {
     siteName: 'MilPayTools',
     publishedTime: DATE,
     authors: ['Dan Stevens'],
-    images: [{ url: OG_IMAGE, width: 2400, height: 1260 }],
+    images: OG_IMAGE,
   },
   twitter: {
     card: 'summary_large_image',
     title: TITLE,
     description: DESC,
-    images: [OG_IMAGE],
+    images: OG_IMAGE,
   },
 };
 

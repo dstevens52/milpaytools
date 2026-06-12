@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/og';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -14,14 +15,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://www.milpaytools.com/about',
     siteName: 'MilPayTools',
-    images: [{ url: '/api/og?type=home&title=Why+We+Built+This&v=2', width: 2400, height: 1260 }],
+    images: ogImage({ type: 'home', title: 'Why We Built This' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Why We Built This | MilPayTools',
     description:
       'MilPayTools was built to make military pay and benefits actually understandable. Free calculators, official data, no account required.',
-    images: ['/api/og?type=home&title=Why+We+Built+This&v=2'],
+    images: ogImage({ type: 'home', title: 'Why We Built This' }),
   },
 };
 

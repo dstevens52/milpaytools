@@ -1,4 +1,4 @@
-import { makeOgResponse, OG_SIZE, OG_CONTENT_TYPE } from '@/lib/og';
+import { makeOgResponse, OG_SIZE, OG_CONTENT_TYPE } from '@/lib/og-file-image';
 export const runtime = 'edge';
 export const alt = 'TSP Growth Projector 2026 | MilPayTools';
 export const size = OG_SIZE;

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { DualMilitaryBAHCalculator } from '@/components/calculators/dual-military-bah/DualMilitaryBAHCalculator';
@@ -24,14 +25,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/dual-military-bah',
     siteName: 'MilPayTools',
-    images: [{ url: '/api/og?type=calculator&title=Dual+Military+BAH+Calculator+2026&v=2', width: 2400, height: 1260 }],
+    images: ogImage({ type: 'calculator', title: 'Dual Military BAH Calculator 2026' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH',
     description:
       'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.',
-    images: ['/api/og?type=calculator&title=Dual+Military+BAH+Calculator+2026&v=2'],
+    images: ogImage({ type: 'calculator', title: 'Dual Military BAH Calculator 2026' }),
   },
 };
 

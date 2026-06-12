@@ -5,6 +5,7 @@ import { SeparationTimelineCalculator } from '@/components/calculators/separatio
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 
 const TITLE =
@@ -12,7 +13,7 @@ const TITLE =
 const DESC =
   'See exactly when each military benefit stops, converts, or expires after your separation date. TRICARE, SGLI, TAMP, BDD filing windows, and final move deadlines — calculated from your specific date.';
 const CANONICAL = '/calculators/separation-timeline';
-const OG_IMAGE = `/api/og?type=calculator&title=Separation+Benefits+Timeline&v=2`;
+const OG_IMAGE = ogImage({ type: 'calculator', title: 'Separation Benefits Timeline' });
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -24,13 +25,13 @@ export const metadata: Metadata = {
     type: 'website',
     url: CANONICAL,
     siteName: 'MilPayTools',
-    images: [{ url: OG_IMAGE, width: 2400, height: 1260 }],
+    images: OG_IMAGE,
   },
   twitter: {
     card: 'summary_large_image',
     title: TITLE,
     description: DESC,
-    images: [OG_IMAGE],
+    images: OG_IMAGE,
   },
 };
 

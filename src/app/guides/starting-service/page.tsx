@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 import { lookupBasePay, calculateTotalCompensation } from '@/lib/calculations/total-compensation';
 import { lookupBAH } from '@/lib/calculations/bah';
@@ -17,14 +18,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://www.milpaytools.com/guides/starting-service',
     siteName: 'MilPayTools',
-    images: [{ url: '/api/og?type=guide&title=Starting+Military+Service&v=2', width: 2400, height: 1260 }],
+    images: ogImage({ type: 'guide', title: 'Starting Military Service' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Starting Military Service: Understand Your Pay & Benefits',
     description:
       'New to the military? Understand your base pay, BAH, BAS, and TSP match — and make smart money decisions from day one.',
-    images: ['/api/og?type=guide&title=Starting+Military+Service&v=2'],
+    images: ogImage({ type: 'guide', title: 'Starting Military Service' }),
   },
 };
 

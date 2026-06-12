@@ -10,6 +10,7 @@ import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
+import { ogImage } from '@/lib/og';
 
 // MDX components available in all posts
 const mdxComponents = {
@@ -359,7 +360,7 @@ export async function generateMetadata({
   const post = getPost(slug);
   if (!post) return {};
 
-  const ogImage = `/api/og?type=blog&title=${encodeURIComponent(post.title)}&v=2`;
+  const ogImages = ogImage({ type: 'blog', title: post.title });
   return {
     title: { absolute: `${post.title}` },
     description: post.description,
@@ -372,13 +373,13 @@ export async function generateMetadata({
       siteName: 'MilPayTools',
       publishedTime: post.date,
       authors: [post.author],
-      images: [{ url: ogImage, width: 2400, height: 1260 }],
+      images: ogImages,
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description: post.description,
-      images: [ogImage],
+      images: ogImages,
     },
   };
 }

@@ -8,6 +8,7 @@ import { webApplicationSchema } from '@/lib/schema';
 import { calculateTransitionReadiness } from '@/lib/calculations/transition-readiness';
 import { getMHACode, getMHARates } from '@/lib/calculations/bah';
 import { formatCurrency } from '@/lib/utils';
+import { ogImage } from '@/lib/og';
 import { vaRates } from '@/data/va-rates/2026';
 import Link from 'next/link';
 
@@ -19,7 +20,7 @@ const TITLE = 'Transition Readiness Calculator 2026: Am I Financially Ready to L
 const DESC =
   'Find out if you can afford to leave the military. Enter your rank, duty station, VA rating, target salary, and expenses — get a readiness verdict with action steps.';
 const CANONICAL = '/calculators/transition-readiness';
-const OG_IMAGE = `/api/og?type=calculator&title=Transition+Readiness+Calculator+2026&v=2`;
+const OG_IMAGE = ogImage({ type: 'calculator', title: 'Transition Readiness Calculator 2026' });
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -31,13 +32,13 @@ export const metadata: Metadata = {
     type: 'website',
     url: CANONICAL,
     siteName: 'MilPayTools',
-    images: [{ url: OG_IMAGE, width: 2400, height: 1260 }],
+    images: OG_IMAGE,
   },
   twitter: {
     card: 'summary_large_image',
     title: TITLE,
     description: DESC,
-    images: [OG_IMAGE],
+    images: OG_IMAGE,
   },
 };
 

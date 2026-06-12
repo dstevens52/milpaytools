@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { GuardReserveCalculator } from '@/components/calculators/guard-reserve/GuardReserveCalculator';
@@ -21,14 +22,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/guard-reserve',
     siteName: 'MilPayTools',
-    images: [{ url: '/api/og?type=calculator&title=Guard+%26+Reserve+Pay+Calculator+2026&v=2', width: 2400, height: 1260 }],
+    images: ogImage({ type: 'calculator', title: 'Guard & Reserve Pay Calculator 2026' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Guard & Reserve Pay Calculator 2026 | Drill Pay + AT + TRS',
     description:
       'Estimate total Guard and Reserve annual compensation: drill pay (MUTA), Annual Training pay, Tricare Reserve Select savings, and BRS matching. Uses 2026 DFAS pay tables.',
-    images: ['/api/og?type=calculator&title=Guard+%26+Reserve+Pay+Calculator+2026&v=2'],
+    images: ogImage({ type: 'calculator', title: 'Guard & Reserve Pay Calculator 2026' }),
   },
 };
 

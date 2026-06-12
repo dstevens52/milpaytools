@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
@@ -10,7 +11,7 @@ const DESC =
   'Understand your VA home loan benefit — eligibility, funding fee, disability waiver, BAH comparison, and payment estimates. Free tools and guides for service members and veterans.';
 const CANONICAL = '/guides/va-home-loans';
 const DATE = '2026-05-27';
-const OG_IMAGE = '/api/og?type=guide&title=VA+Home+Loans+Guide+2026&v=1';
+const OG_IMAGE = ogImage({ type: 'guide', title: 'VA Home Loans Guide 2026' });
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -24,13 +25,13 @@ export const metadata: Metadata = {
     siteName: 'MilPayTools',
     publishedTime: DATE,
     authors: ['Dan Stevens'],
-    images: [{ url: OG_IMAGE, width: 2400, height: 1260 }],
+    images: OG_IMAGE,
   },
   twitter: {
     card: 'summary_large_image',
     title: TITLE,
     description: DESC,
-    images: [OG_IMAGE],
+    images: OG_IMAGE,
   },
 };
 

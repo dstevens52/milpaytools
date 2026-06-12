@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/og';
 import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import { AnalyticsWrapper } from '@/components/AnalyticsWrapper';
@@ -31,11 +32,11 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: 'MilPayTools',
     type: 'website',
-    images: [{ url: '/api/og?type=home&title=MilPayTools&v=2', width: 2400, height: 1260 }],
+    images: ogImage({ type: 'home', title: 'MilPayTools' }),
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['/api/og?type=home&title=MilPayTools&v=2'],
+    images: ogImage({ type: 'home', title: 'MilPayTools' }),
   },
   icons: {
     icon: [

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { EducationCalculator } from '@/components/calculators/education/EducationCalculator';
@@ -21,14 +22,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/education',
     siteName: 'MilPayTools',
-    images: [{ url: '/api/og?type=calculator&title=Education+Benefits+Comparison+2026&v=2', width: 2400, height: 1260 }],
+    images: ogImage({ type: 'calculator', title: 'Education Benefits Comparison 2026' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Military Education Benefits Comparison Calculator — 2026',
     description:
       'Compare Post-9/11 GI Bill, VR&E (Chapter 31), Tuition Assistance, and Montgomery GI Bill side by side. See total program value by ZIP code, school type, and eligibility.',
-    images: ['/api/og?type=calculator&title=Education+Benefits+Comparison+2026&v=2'],
+    images: ogImage({ type: 'calculator', title: 'Education Benefits Comparison 2026' }),
   },
 };
 

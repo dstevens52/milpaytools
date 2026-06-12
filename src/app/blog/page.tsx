@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/og';
 import { getAllPostMeta } from '@/lib/blog';
 import { BlogFilters } from './BlogFilters';
 
 const BLOG_TITLE = 'Military Finance Blog';
 const BLOG_DESC =
   'Plain-language guides on military pay, BAH, VA disability, TSP, and benefits — written for active-duty service members and veterans.';
-const BLOG_IMAGE = '/api/og?type=blog&title=Military+Finance+Blog&sub=Plain-language+guides+on+military+pay+%26+benefits&v=2';
+const BLOG_IMAGE = ogImage({ type: 'blog', title: 'Military Finance Blog', sub: 'Plain-language guides on military pay & benefits' });
 
 export const metadata: Metadata = {
   title: { absolute: BLOG_TITLE },
@@ -17,13 +18,13 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/blog',
     siteName: 'MilPayTools',
-    images: [{ url: BLOG_IMAGE, width: 2400, height: 1260 }],
+    images: BLOG_IMAGE,
   },
   twitter: {
     card: 'summary_large_image',
     title: BLOG_TITLE,
     description: BLOG_DESC,
-    images: [BLOG_IMAGE],
+    images: BLOG_IMAGE,
   },
 };
 

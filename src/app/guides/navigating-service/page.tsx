@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/og';
 import Image from 'next/image';
 import Link from 'next/link';
 import { EmailSignup } from '@/components/EmailSignup';
@@ -15,14 +16,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://www.milpaytools.com/guides/navigating-service',
     siteName: 'MilPayTools',
-    images: [{ url: '/api/og?type=guide&title=Navigating+Service%3A+PCS+%26+Duty+Station&v=2', width: 2400, height: 1260 }],
+    images: ogImage({ type: 'guide', title: 'Navigating Service: PCS & Duty Station' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Navigating Service: PCS, Deployment & Duty Station Financial Tools',
     description:
       'PCSing, deploying, or comparing duty stations? Compare BAH, estimate move costs, see combat zone tax savings, and make every assignment work for your finances. Free 2026 tools.',
-    images: ['/api/og?type=guide&title=Navigating+Service%3A+PCS+%26+Duty+Station&v=2'],
+    images: ogImage({ type: 'guide', title: 'Navigating Service: PCS & Duty Station' }),
   },
 };
 

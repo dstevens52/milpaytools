@@ -1,4 +1,4 @@
-import { makeOgResponse, OG_SIZE, OG_CONTENT_TYPE } from '@/lib/og';
+import { makeOgResponse, OG_SIZE, OG_CONTENT_TYPE } from '@/lib/og-file-image';
 import { RANK_BY_SLUG } from '@/data/pay-pages/ranks';
 
 export const runtime = 'edge';

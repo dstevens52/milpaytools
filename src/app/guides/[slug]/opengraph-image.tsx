@@ -1,4 +1,4 @@
-import { makeOgResponse, OG_SIZE, OG_CONTENT_TYPE } from '@/lib/og';
+import { makeOgResponse, OG_SIZE, OG_CONTENT_TYPE } from '@/lib/og-file-image';
 import { getGuide, getAllGuideSlugs } from '@/lib/guides';
 
 export const alt = 'MilPayTools Guide';

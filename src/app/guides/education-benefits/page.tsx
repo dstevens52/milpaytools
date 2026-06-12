@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
@@ -34,7 +35,7 @@ const DESC =
   'Post-9/11 GI Bill, VR&E, Tuition Assistance, and Montgomery GI Bill each work differently. The order you use them — and where you go to school — can swing the total value by tens of thousands of dollars.';
 const CANONICAL = '/guides/education-benefits';
 const DATE = '2026-04-12';
-const OG_IMAGE = '/api/og?type=guide&title=Military+Education+Benefits+Guide+2026&v=2';
+const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Education Benefits Guide 2026' });
 
 export const metadata: Metadata = {
   title: { absolute: `${TITLE}` },
@@ -48,13 +49,13 @@ export const metadata: Metadata = {
     siteName: 'MilPayTools',
     publishedTime: DATE,
     authors: ['Dan Stevens'],
-    images: [{ url: OG_IMAGE, width: 2400, height: 1260 }],
+    images: OG_IMAGE,
   },
   twitter: {
     card: 'summary_large_image',
     title: TITLE,
     description: DESC,
-    images: [OG_IMAGE],
+    images: OG_IMAGE,
   },
 };
 

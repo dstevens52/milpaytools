@@ -5,13 +5,14 @@ import { HealthcareComparisonCalculator } from '@/components/calculators/healthc
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
+import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 
 const TITLE = 'Military Healthcare Cost Comparison Calculator 2026';
 const DESC =
   'See exactly how much healthcare will cost after military separation — employer insurance, ACA Marketplace, VA healthcare, and TRICARE Reserve Select compared against active-duty TRICARE rates.';
 const CANONICAL = '/calculators/healthcare-comparison';
-const OG_IMAGE = `/api/og?type=calculator&title=Healthcare+Cost+Comparison&v=2`;
+const OG_IMAGE = ogImage({ type: 'calculator', title: 'Healthcare Cost Comparison' });
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },
@@ -23,13 +24,13 @@ export const metadata: Metadata = {
     type: 'website',
     url: CANONICAL,
     siteName: 'MilPayTools',
-    images: [{ url: OG_IMAGE, width: 2400, height: 1260 }],
+    images: OG_IMAGE,
   },
   twitter: {
     card: 'summary_large_image',
     title: TITLE,
     description: DESC,
-    images: [OG_IMAGE],
+    images: OG_IMAGE,
   },
 };
 

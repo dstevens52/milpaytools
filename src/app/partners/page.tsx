@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/og';
 import Image from 'next/image';
 import Link from 'next/link';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -15,14 +16,14 @@ export const metadata: Metadata = {
     url: 'https://www.milpaytools.com/partners',
     type: 'website',
     siteName: 'MilPayTools',
-    images: [{ url: '/api/og?type=home&title=MilPayTools+for+Partners&v=2', width: 2400, height: 1260 }],
+    images: ogImage({ type: 'home', title: 'MilPayTools for Partners' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'For Partners — MilPayTools',
     description:
       'Official data. No account required. No ads. Nothing to sell. Safe to share with service members, veterans, and military families.',
-    images: ['/api/og?type=home&title=MilPayTools+for+Partners&v=2'],
+    images: ogImage({ type: 'home', title: 'MilPayTools for Partners' }),
   },
 };
 
