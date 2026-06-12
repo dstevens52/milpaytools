@@ -2,11 +2,9 @@ import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
 import fs from 'node:fs';
 import path from 'node:path';
-import { lookupBAH } from '@/lib/calculations/bah';
-import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
+import { SAMPLE_SCENARIO } from '@/lib/sample-scenario';
 import { formatCurrency } from '@/lib/utils';
 import { OG_WIDTH, OG_HEIGHT } from '@/lib/og';
-import type { TotalCompensationInput } from '@/types/calculator';
 
 // Node.js runtime: lets the route import the BAH dataset (~166KB) and read the
 // committed Inter font files from disk — no network font fetches at request time.
@@ -35,32 +33,12 @@ const interBold = fs.readFileSync(
 );
 
 // ─── Sample result for type=home ─────────────────────────────────────────────
-// Computed from the same lib functions the total-compensation calculator uses,
-// with the calculator's exact default inputs for an E-5 @ 8 YOS in San Diego
-// (Naval Station San Diego ZIP 92106 → MHA CA038). Never hand-key these figures.
-const SAMPLE_INPUT: TotalCompensationInput = {
-  payGrade: 'E-5',
-  yearsOfService: 8,
-  hasDependents: true,
-  zipCode: '92106',
-  retirementSystem: 'brs',
-  tspContributionPct: 5,
-  govHousing: false,
-  mealCard: false,
+// Shared with the homepage hero via src/lib/sample-scenario.ts — one computation,
+// two consumers, so the share preview can never contradict the page it previews.
+const sampleComp = {
+  monthly: formatCurrency(SAMPLE_SCENARIO.totalMonthly),
+  civilianAnnual: formatCurrency(SAMPLE_SCENARIO.civilianEquivalent),
 };
-
-const sampleComp = (() => {
-  const bah = lookupBAH({
-    payGrade: SAMPLE_INPUT.payGrade,
-    zipCode: SAMPLE_INPUT.zipCode,
-    hasDependents: SAMPLE_INPUT.hasDependents,
-  });
-  const result = calculateTotalCompensation(SAMPLE_INPUT, bah?.monthlyRate ?? 0);
-  return {
-    monthly: formatCurrency(result.totalMonthly),
-    civilianAnnual: formatCurrency(result.civilianEquivalent),
-  };
-})();
 
 // ─── Per-type copy ───────────────────────────────────────────────────────────
 function titleFontSize(title: string): number {

@@ -50,3 +50,14 @@ post-deploy behavior rather than local code. Triage separately. **Not fixed here
 
 **Likely reason:** firefox-only (passed on chromium + webkit) → probable flake.
 Confirm on a re-run before treating as a real failure. **Not fixed here.**
+
+## Known flaky tests (not failures — excluded from the baseline count)
+
+Single-browser failures that passed an isolated re-run. If one of these shows up
+in a full-suite run, re-run it in isolation before treating it as a regression.
+
+- `pay-charts.spec.ts:79` — W-4 at 20 YOS shows correct pay — firefox only
+  (failed in 2026-06-12 full run, passed isolated re-run)
+- `compare-async.spec.ts:15` — rapid destination ZIP change lands on the FINAL
+  location (race-safe) — webkit only (failed in 2026-06-12 full run, passed
+  isolated re-run)

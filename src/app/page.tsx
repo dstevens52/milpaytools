@@ -3,8 +3,7 @@ import { ogImage } from '@/lib/og';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ExpandableCalcGrid } from './home-v3/ExpandableCalcGrid';
-import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
-import { getMHARates } from '@/lib/calculations/bah';
+import { SAMPLE_SCENARIO } from '@/lib/sample-scenario';
 
 const HOME_TITLE = 'MilPayTools — Military Pay & Benefits Calculators';
 const HOME_DESC =
@@ -33,25 +32,11 @@ export const metadata: Metadata = {
 
 // ── Hero ──────────────────────────────────────────────────────────────────────
 
-// Sample-output card: E-5 · 8 yrs · San Diego (CA038) · with dependents.
-// Computed from the data layer at build time, matching the /pay/[rank] worked-example
-// convention (legacy retirement + 0% TSP keeps agency-match assumptions out of the totals).
-const SAMPLE_BAH_MONTHLY = getMHARates('CA038', true)?.['E-5'] ?? 0; // San Diego, w/dep
-const SAMPLE_COMP = calculateTotalCompensation(
-  {
-    payGrade: 'E-5',
-    yearsOfService: 8,
-    hasDependents: true,
-    zipCode: '',
-    retirementSystem: 'legacy',
-    tspContributionPct: 0,
-    govHousing: false,
-    mealCard: false,
-  },
-  SAMPLE_BAH_MONTHLY,
-);
-const SAMPLE_MONTHLY = `$${Math.round(SAMPLE_COMP.totalMonthly).toLocaleString('en-US')}`;
-const SAMPLE_CIVILIAN_K = `≈$${Math.round(SAMPLE_COMP.civilianEquivalent / 1000)}k`;
+// Sample-output card: E-5 · 8 yrs · San Diego · with dependents, computed at build
+// time from src/lib/sample-scenario.ts — the same module the type=home OG card uses,
+// so the hero and the share preview always show identical figures.
+const SAMPLE_MONTHLY = `$${Math.round(SAMPLE_SCENARIO.totalMonthly).toLocaleString('en-US')}`;
+const SAMPLE_CIVILIAN_K = `≈$${Math.round(SAMPLE_SCENARIO.civilianEquivalent / 1000)}k`;
 
 function HeroSection() {
   return (
