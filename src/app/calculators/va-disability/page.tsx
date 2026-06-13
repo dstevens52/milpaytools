@@ -5,7 +5,7 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { VADisabilityCalculator } from '@/components/calculators/va-disability/VADisabilityCalculator';
 import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
-import { webApplicationSchema } from '@/lib/schema';
+import { webApplicationSchema, faqPageSchema } from '@/lib/schema';
 import { calculateCombinedRating, getCompensation } from '@/lib/calculations/va-disability';
 import { formatCurrency } from '@/lib/utils';
 
@@ -50,9 +50,58 @@ export default function VADisabilityPage() {
   const exRemAfterBilateral = 100 - exPair.combinedAfterFactor; // capacity left after the knees
   const exBackReduction = exRemAfterBilateral * 0.5; // 50% back applied to that remainder
 
+  // ── 2026 reference rate table — every figure read from the same lib/data the
+  //    calculator uses (getCompensation → vaRates 2026). No hand-keyed dollars. ──
+  const aloneDeps = { hasSpouse: false, childrenUnder18: 0, schoolChildren: 0, dependentParents: 0 };
+  const spouseDeps = { hasSpouse: true, childrenUnder18: 0, schoolChildren: 0, dependentParents: 0 };
+  const spouseChildDeps = { hasSpouse: true, childrenUnder18: 1, schoolChildren: 0, dependentParents: 0 };
+  const rateRows = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((rating) => ({
+    rating,
+    alone: getCompensation(rating, aloneDeps).monthly,
+    spouse: getCompensation(rating, spouseDeps).monthly,
+    spouseChild: getCompensation(rating, spouseChildDeps).monthly,
+  }));
+  const comp70Alone = getCompensation(70, aloneDeps).monthly;
+
+  // ── FAQ: single source for both the visible list and the FAQPage schema.
+  //    Dollar figures (Q4) are lib-rendered; the combined-rating arithmetic is
+  //    fixed algorithm text. ──
+  const faqs: { question: string; answer: string }[] = [
+    {
+      question: "Why doesn't 50% + 30% equal 80%?",
+      answer:
+        'VA disability ratings are never added together. The VA uses a "whole person" formula (38 CFR § 4.25): you start at 100% healthy, and each rating applies only to the capacity that remains. A 50% rating leaves 50% efficiency; a 30% rating then reduces that remaining 50% by 15 points, for a combined value of 65%. The VA rounds the final combined value to the nearest 10%, so 50% and 30% combine to a 70% rating — not 80%.',
+    },
+    {
+      question: 'How does the VA combined rating work?',
+      answer:
+        'The VA lists your ratings highest to lowest, then combines them one at a time using the 38 CFR § 4.25 table. Each rating applies to your remaining healthy capacity rather than the original 100%, so each additional condition adds less than its face value. After combining every condition — and adding the bilateral factor where it applies — the VA rounds the final value once to the nearest 10%. It never rounds between steps.',
+    },
+    {
+      question: 'What is the bilateral factor?',
+      answer:
+        'The bilateral factor (38 CFR § 4.26) is a 10% bonus the VA adds when you have compensable disabilities on both sides of a paired body part — both arms or both legs. The two sides are combined first, then 10% of that combined value is added before the result is folded into your overall rating. It applies only when both sides carry a rating above 0%, and it does not apply to vision or hearing, which are rated under separate rules (38 CFR §§ 4.75–4.79).',
+    },
+    {
+      question: 'How much is 70% VA disability in 2026?',
+      answer: `In 2026, a 70% VA disability rating pays ${formatCurrency(comp70Alone, true)}/month for a veteran with no dependents (effective December 1, 2025, after the 2.8% COLA). Veterans rated 30% or higher receive more when they have a spouse, children, or dependent parents. VA disability compensation is not subject to federal income tax.`,
+    },
+    {
+      question: 'Are VA disability benefits taxable?',
+      answer:
+        'No. VA disability compensation is not subject to federal income tax and is not reported as income on your federal return. This is different from military retired pay, which is normally taxable. State treatment can vary, but most states do not tax VA disability compensation.',
+    },
+    {
+      question: 'Can my combined rating change if I add a condition?',
+      answer:
+        'Yes. A new service-connected condition combines with your existing ratings through the same § 4.25 table, so your combined value can rise — though by less than the new condition’s face value, because it applies only to your remaining capacity. A small change near a rounding threshold can move you to the next 10% level. You can model how an added condition would change your combined rating using the calculator above.',
+    },
+  ];
+
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'VA Disability Rating Calculator 2026', description: 'Calculate your combined VA disability rating and 2026 monthly compensation — every step shown, bilateral factor automatic.', url: '/calculators/va-disability' })} />
+      <JsonLdScript schema={faqPageSchema(faqs)} />
 
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
@@ -295,6 +344,73 @@ export default function VADisabilityPage() {
             </p>
           </div>
         </div>
+
+        {/* ── 2026 reference rate table (lib-rendered) ──────────────────── */}
+        <div>
+          <h2 className="text-xl font-semibold text-zinc-900 mb-3">
+            2026 VA disability monthly compensation by rating
+          </h2>
+          <p className="text-zinc-600 text-sm leading-relaxed mb-4">
+            Monthly compensation for each combined rating, effective December 1, 2025 (2.8% COLA).
+            Dependent additions begin at 30% — at 10% and 20% the rate is the same regardless of
+            dependents.
+          </p>
+          <div className="overflow-x-auto rounded-lg border border-zinc-200">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-zinc-50 text-left">
+                  <th className="px-4 py-2.5 font-semibold text-zinc-700">Combined rating</th>
+                  <th className="px-4 py-2.5 font-semibold text-zinc-700 text-right">Veteran alone</th>
+                  <th className="px-4 py-2.5 font-semibold text-zinc-700 text-right">With spouse</th>
+                  <th className="px-4 py-2.5 font-semibold text-zinc-700 text-right">With spouse + 1 child</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rateRows.map((row) => (
+                  <tr key={row.rating} className="border-t border-zinc-100">
+                    <td className="px-4 py-2.5 font-mono font-semibold text-red-700">{row.rating}%</td>
+                    <td className="px-4 py-2.5 text-right text-zinc-700 tabular-nums">{formatCurrency(row.alone, true)}</td>
+                    <td className="px-4 py-2.5 text-right text-zinc-700 tabular-nums">{formatCurrency(row.spouse, true)}</td>
+                    <td className="px-4 py-2.5 text-right text-zinc-700 tabular-nums">{formatCurrency(row.spouseChild, true)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-zinc-400 mt-2">
+            Published VA lookup-table amounts, not computed additions. Veterans with additional
+            children, school-age children (18–23), dependent parents, or a spouse receiving Aid &amp;
+            Attendance receive more — enter your situation in the calculator above for an exact figure.
+          </p>
+        </div>
+
+        {/* ── FAQ — single source shared with the FAQPage schema ────────── */}
+        <div className="bg-white rounded-lg border border-zinc-200 p-6">
+          <h2 className="text-xl font-semibold text-zinc-900 mb-5">Frequently asked questions</h2>
+          <div className="space-y-5">
+            {faqs.map((f, i) => (
+              <div key={f.question} className={i > 0 ? 'border-t border-zinc-100 pt-5' : ''}>
+                <h3 className="text-sm font-semibold text-zinc-900 mb-1.5">{f.question}</h3>
+                <p className="text-sm text-zinc-600 leading-relaxed">{f.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Sources + last reviewed ───────────────────────────────────── */}
+        <p className="text-xs text-zinc-400 leading-relaxed">
+          Sources:{' '}
+          <a
+            href="https://www.va.gov/disability/compensation-rates/veteran-rates/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-700 underline"
+          >
+            VA.gov 2026 compensation rates
+          </a>{' '}
+          (effective December 1, 2025); combined-rating method per 38 CFR §§ 4.25–4.26.
+          Last reviewed: June 13, 2026.
+        </p>
 
         {/* Disclaimer */}
         <div className="rounded-lg bg-slate-50 border border-slate-200 p-4 text-xs text-slate-500 leading-relaxed">
