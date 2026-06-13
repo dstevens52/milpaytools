@@ -82,14 +82,15 @@ function calculate(
   switch (path) {
     case 'employer': {
       const p = HEALTHCARE_2026.employer[coverage][tier];
-      const dedUsage = Math.round(p.deductible * 0.45);
+      // Out-of-pocket spend is bounded by the plan's catastrophic cap; premiums sit outside it.
+      const oop = Math.min(Math.round(p.deductible * 0.45), p.oopMax);
       return {
         monthlyPremium: p.premium,
         annualPremium: p.premium * 12,
         deductible: p.deductible,
         oopMax: p.oopMax,
-        estimatedDeductibleUsage: dedUsage,
-        firstYearTotal: p.premium * 12 + dedUsage,
+        estimatedDeductibleUsage: oop,
+        firstYearTotal: p.premium * 12 + oop,
         notes: [],
         coversFamily: family,
         isTamp: false,
@@ -98,6 +99,7 @@ function calculate(
 
     case 'aca-no-subsidy': {
       const p = HEALTHCARE_2026.acaNoSubsidy[coverage][tier];
+      // No catastrophic cap applied: ACA OOP max isn't modeled yet (pending a verified figure).
       const dedUsage = Math.round(p.deductible * 0.45);
       return {
         monthlyPremium: p.premium,
@@ -157,14 +159,15 @@ function calculate(
 
     case 'trs': {
       const p = HEALTHCARE_2026.tricareReserveSelect[coverage];
-      const dedUsage = Math.round(p.deductible * 0.45);
+      // Out-of-pocket spend is bounded by the plan's catastrophic cap; premiums sit outside it.
+      const oop = Math.min(Math.round(p.deductible * 0.45), p.oopMax);
       return {
         monthlyPremium: p.premium,
         annualPremium: p.premium * 12,
         deductible: p.deductible,
         oopMax: p.oopMax,
-        estimatedDeductibleUsage: dedUsage,
-        firstYearTotal: p.premium * 12 + dedUsage,
+        estimatedDeductibleUsage: oop,
+        firstYearTotal: p.premium * 12 + oop,
         notes: ['Must have qualifying Reserve/Guard service and a drilling unit assignment.'],
         coversFamily: family,
         isTamp: false,
