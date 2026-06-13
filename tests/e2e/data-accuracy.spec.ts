@@ -253,7 +253,7 @@ test.describe('Duty Station Compare — known answers', () => {
     if (bahFtBragg && bahJBLM) {
       expect(bahJBLM).toBeGreaterThan(bahFtBragg);
     }
-    await expect(page.getByText(/BAH|housing/i).first()).toBeVisible();
+    await expect(page.locator('main').getByText(/BAH|housing/i).first()).toBeVisible();
   });
 });
 

@@ -134,11 +134,14 @@ function CalculatorsDropdown({ pathname }: { pathname: string }) {
         <span className={open ? '[&>svg]:rotate-180' : ''}>{CHEVRON}</span>
       </button>
 
-      {open && (
-        <div
-          role="menu"
-          className="absolute top-full left-0 mt-1.5 w-[480px] bg-white border border-zinc-200 rounded-lg shadow-lg z-50 overflow-hidden"
-        >
+      {/* Always rendered (visibility toggled via the `hidden` attribute) so the
+          links are present in the server HTML and crawlable when the menu is
+          closed; `hidden` also keeps them out of the tab order and a11y tree. */}
+      <div
+        role="menu"
+        hidden={!open}
+        className="absolute top-full left-0 mt-1.5 w-[480px] bg-white border border-zinc-200 rounded-lg shadow-lg z-50 overflow-hidden"
+      >
           <div className="grid grid-cols-2 divide-x divide-zinc-100 py-2">
             {CALCULATOR_GROUPS.map((group) => (
               <div key={group.label}>
@@ -171,7 +174,6 @@ function CalculatorsDropdown({ pathname }: { pathname: string }) {
             ))}
           </div>
         </div>
-      )}
     </div>
   );
 }
@@ -202,11 +204,14 @@ function GuidesDropdown({ pathname }: { pathname: string }) {
         <span className={open ? '[&>svg]:rotate-180' : ''}>{CHEVRON}</span>
       </button>
 
-      {open && (
-        <div
-          role="menu"
-          className="absolute top-full left-0 mt-1.5 w-64 bg-white border border-zinc-200 rounded-lg shadow-lg z-50 overflow-hidden"
-        >
+      {/* Always rendered (visibility toggled via the `hidden` attribute) so the
+          links are present in the server HTML and crawlable when the menu is
+          closed; `hidden` also keeps them out of the tab order and a11y tree. */}
+      <div
+        role="menu"
+        hidden={!open}
+        className="absolute top-full left-0 mt-1.5 w-64 bg-white border border-zinc-200 rounded-lg shadow-lg z-50 overflow-hidden"
+      >
           <div className="py-1.5">
             {GUIDES_JOURNEY.map(({ href, label }) => (
               <Link
@@ -241,7 +246,6 @@ function GuidesDropdown({ pathname }: { pathname: string }) {
             ))}
           </div>
         </div>
-      )}
     </div>
   );
 }

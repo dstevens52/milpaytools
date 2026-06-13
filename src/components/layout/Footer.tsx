@@ -8,6 +8,10 @@ const CALCULATORS = [
   { href: '/calculators/va-disability', label: 'VA Disability Rating' },
   { href: '/calculators/va-loan', label: 'VA Loan Payment' },
   { href: '/calculators/tsp', label: 'TSP Growth Projector' },
+  { href: '/calculators/retirement', label: 'Retirement Calculator' },
+  { href: '/calculators/guard-reserve', label: 'Guard & Reserve Pay' },
+  { href: '/calculators/cola', label: 'CONUS COLA' },
+  { href: '/calculators/education', label: 'Education Benefits' },
 ];
 
 const GUIDES = [

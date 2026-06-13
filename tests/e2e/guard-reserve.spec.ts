@@ -48,7 +48,7 @@ test.describe('Guard & Reserve Pay Calculator', () => {
   });
 
   test('total annual military pay row is displayed', async ({ page }) => {
-    await expect(page.getByText(/Total.*military|military.*pay|total.*annual/i).first()).toBeVisible();
+    await expect(page.locator('main').getByText(/Total.*military|military.*pay|total.*annual/i).first()).toBeVisible();
   });
 
   test('increasing AT days section is visible', async ({ page }) => {

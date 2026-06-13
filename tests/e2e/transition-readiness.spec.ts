@@ -103,7 +103,7 @@ test.describe('Transition Readiness Calculator', () => {
     const targetDate = new Date(now.getFullYear(), now.getMonth() + 3);
     await monthSelect.selectOption(String(targetDate.getMonth()));
     await yearSelect.selectOption(String(targetDate.getFullYear()));
-    await expect(page.getByText(/timeline|separation/i).first()).toBeVisible();
+    await expect(page.locator('main').getByText(/timeline|separation/i).first()).toBeVisible();
   });
 
   test('URL params pre-populate calculator inputs', async ({ page }) => {

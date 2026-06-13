@@ -23,14 +23,14 @@ test.describe('Duty Station Comparison Calculator', () => {
     await zipInputs.first().fill('28307');
     await zipInputs.nth(1).fill('92134');
     // Both location panels should appear
-    await expect(page.getByText(/Location A|Location B|BAH/i).first()).toBeVisible();
+    await expect(page.locator('main').getByText(/Location A|Location B|BAH/i).first()).toBeVisible();
   });
 
   test('BAH row appears in results after entering ZIPs', async ({ page }) => {
     const zipInputs = page.locator('input[type="text"]');
     await zipInputs.first().fill('28307');
     await zipInputs.nth(1).fill('20001');
-    await expect(page.getByText('BAH').first()).toBeVisible();
+    await expect(page.locator('main').getByText('BAH').first()).toBeVisible();
   });
 
   test('pay grade select changes results', async ({ page }) => {
@@ -40,7 +40,7 @@ test.describe('Duty Station Comparison Calculator', () => {
     const gradeSelect = page.locator('select').first();
     await gradeSelect.selectOption('O-5');
     // Results should still render
-    await expect(page.getByText(/BAH|housing/i).first()).toBeVisible();
+    await expect(page.locator('main').getByText(/BAH|housing/i).first()).toBeVisible();
   });
 
   test('same ZIP for both shows "Same" badge', async ({ page }) => {
