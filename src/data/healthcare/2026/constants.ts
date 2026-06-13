@@ -4,7 +4,7 @@
  * Sources:
  *   - Employer-sponsored plans: KFF Employer Health Benefits Survey 2025 (national averages)
  *   - ACA Marketplace rates: KFF Health Insurance Marketplace Calculator 2026 estimates
- *   - ACA Federal Poverty Levels: HHS 2026 FPL guidelines
+ *   - ACA Federal Poverty Levels: HHS 2025 FPL guidelines (used for the 2026 coverage year)
  *   - VA healthcare: VA.gov priority groups and eligibility, 2026
  *   - TRICARE Reserve Select premiums: TRICARE.mil, effective January 1, 2026
  *   - TAMP coverage: DoDI 1341.10, 10 U.S.C. § 1145
@@ -42,7 +42,7 @@ export const HEALTHCARE_2026 = {
     },
   },
 
-  // 2026 Federal Poverty Level thresholds (contiguous U.S.)
+  // 2025 Federal Poverty Level thresholds (contiguous U.S.), used for the 2026 coverage year
   fpl: {
     base1: 15650,
     increment: 5500, // per additional person above 1

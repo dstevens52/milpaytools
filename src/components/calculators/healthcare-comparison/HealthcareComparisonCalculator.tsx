@@ -481,6 +481,9 @@ export function HealthcareComparisonCalculator() {
                 <option value="10to20">10–20%</option>
                 <option value="0sc">0% (service-connected)</option>
               </select>
+              <p className="mt-1.5 text-xs text-zinc-500 leading-relaxed">
+                Your rating changes the coverage details shown in the comparison below. The modeled cost stays $0 — service-connected care has no premium at any rating.
+              </p>
             </div>
           )}
 
@@ -585,14 +588,14 @@ export function HealthcareComparisonCalculator() {
               className="rounded-lg border-2 border-red-200 bg-red-50 p-5"
             >
               <p className="text-xs font-bold uppercase tracking-widest text-red-400 mb-1">Annual healthcare cost gap</p>
-              {path === 'va' && vaRating === '50plus' ? (
+              {path === 'va' ? (
                 <p className="text-3xl font-bold text-green-700 tabular-nums">{fmt(0)}</p>
               ) : (
                 <p className="text-3xl font-bold text-red-700 tabular-nums">{fmt(annualGap)}</p>
               )}
               <p className="text-sm text-zinc-600 mt-1">
-                {path === 'va' && vaRating === '50plus'
-                  ? 'VA healthcare at 50%+ has no premium cost for service-connected conditions.'
+                {path === 'va'
+                  ? 'VA healthcare is modeled at $0 — service-connected care has no premium at any disability rating. Copays for non-service-connected care vary by priority group.'
                   : 'This estimate shows the added healthcare cost under your selected coverage assumptions.'}
               </p>
             </div>
@@ -696,6 +699,11 @@ export function HealthcareComparisonCalculator() {
         {/* Methodology note */}
         <p className="text-xs text-zinc-400 leading-relaxed">
           Employer plan estimates use national averages from the KFF Employer Health Benefits Survey. ACA estimates use Healthcare.gov benchmark pricing. Actual costs vary by state, employer, plan, and provider network.
+        </p>
+
+        {/* Tax-treatment disclosure */}
+        <p className="text-xs text-zinc-400 leading-relaxed">
+          Premiums are compared as listed, before any tax adjustment. Employer premiums are often paid pre-tax, which lowers their real cost, while ACA and TRICARE Reserve Select premiums are typically paid with after-tax dollars. This tool does not adjust for that difference — weigh it yourself when comparing options.
         </p>
 
         {/* Success outcome */}

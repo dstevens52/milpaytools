@@ -6,7 +6,13 @@ import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import { ogImage } from '@/lib/og';
+import { HEALTHCARE_2026 } from '@/data/healthcare/2026/constants';
 import Link from 'next/link';
+
+// Example uses the family-silver ACA premium straight from the data file so the
+// figure shown here can never drift from what the calculator computes.
+const ACA_FAMILY_SILVER_MONTHLY = HEALTHCARE_2026.acaNoSubsidy.family.silver.premium;
+const ACA_FAMILY_SILVER_EXAMPLE = `$${ACA_FAMILY_SILVER_MONTHLY.toLocaleString('en-US')}/mo — $${(ACA_FAMILY_SILVER_MONTHLY * 12).toLocaleString('en-US')}/yr`;
 
 const TITLE = 'Military Healthcare Cost Comparison Calculator 2026';
 const DESC =
@@ -139,7 +145,7 @@ export default function HealthcareComparisonPage() {
             <ExampleRow label="Employer plan — family (avg employee share, Silver tier)" value="$570/mo — $6,840/yr" highlight />
             <ExampleRow label="Employer plan — typical family deductible & copays" value="+$1,500–$2,500/yr" />
             <ExampleRow label="Employer plan — true first-year cost" value="~$8,340–$9,340/yr" highlight />
-            <ExampleRow label="ACA Marketplace silver plan (family, unsubsidized)" value="$1,200/mo — $14,400/yr" />
+            <ExampleRow label="ACA Marketplace silver plan (family, unsubsidized)" value={ACA_FAMILY_SILVER_EXAMPLE} />
             <ExampleRow label="VA Healthcare (member only — SC conditions, 40% rating)" value="$0 for SC care; family not covered" />
             <ExampleRow label="TRICARE Reserve Select — member + family (if joining Guard/Reserve)" value="$286.66/mo — $3,440/yr" highlight />
           </ExampleTable>
