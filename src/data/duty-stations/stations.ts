@@ -140,7 +140,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'The Clarksville housing market is among the more affordable for a post of this size. E-5 and above BAH typically covers 2-bedroom apartments in most neighborhoods, and homebuyers often find significant BAH surplus.',
     rentalContext:
       'Clarksville housing costs run roughly 10–15% below the national median — your purchasing power here is well above average.',
-    nearby: ['fort-knox', 'redstone-arsenal', 'fort-sill'],
+    nearby: ['fort-knox', 'redstone-arsenal', 'fort-sill', 'fort-leonard-wood'],
     bahVsHousing: {
       medianRent: 1400,
       medianRentSource: 'Zumper / Homes.com 2025–2026',
@@ -205,7 +205,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Killeen is one of the most affordable large military markets in the country. BAH at most grades has historically exceeded median rents, making homeownership common among the force.',
     rentalContext:
       'Killeen housing costs run roughly 8–10% below the national median — your purchasing power here stretches further than the raw BAH number suggests.',
-    nearby: ['joint-base-san-antonio', 'fort-bliss', 'fort-sill'],
+    nearby: ['joint-base-san-antonio', 'fort-bliss', 'fort-sill', 'fort-polk', 'tinker-afb'],
     bahVsHousing: {
       medianRent: 1250,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -269,7 +269,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'The Puget Sound housing market is expensive and competitive. BAH rates are high relative to CONUS averages, but the Seattle metro\'s rapidly rising rents mean some lower-grade members face a shortfall. CONUS COLA was added for this area in 2026.',
     rentalContext:
       'The Puget Sound area runs 10–15% above the national median in overall housing costs, which limits how far BAH stretches compared to CONUS averages.',
-    nearby: ['naval-base-kitsap', 'naval-air-station-whidbey-island', 'joint-base-elmendorf-richardson'],
+    nearby: ['naval-base-kitsap', 'naval-air-station-whidbey-island', 'joint-base-elmendorf-richardson', 'naval-station-everett', 'fairchild-afb'],
     bahVsHousing: {
       medianRent: 1800,
       medianRentSource: 'RentCafe / Zumper 2025–2026',
@@ -397,7 +397,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Watertown is a small city with a tight rental market driven almost entirely by military demand. BAH typically covers rents, but selection is limited. Many families choose off-post in Carthage, Adams, or Lowville.',
     rentalContext:
       'The Watertown area runs roughly 5–8% below the national median for housing, though NY property taxes can add significantly to ownership costs.',
-    nearby: ['fort-hamilton', 'joint-base-mcguire-dix-lakehurst', 'naval-submarine-base-new-london'],
+    nearby: ['fort-hamilton', 'joint-base-mcguire-dix-lakehurst', 'naval-submarine-base-new-london', 'west-point'],
     bahVsHousing: {
       medianRent: 1300,
       medianRentSource: 'BestPlaces / Zillow 2025–2026',
@@ -525,7 +525,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Hinesville is a military-dependent housing market with limited rental inventory. Many families commute from the larger Savannah metro for more options, where BAH still covers most mid-range rentals.',
     rentalContext:
       'Hinesville housing costs run roughly 17–20% below the national median — your purchasing power here is well above average for a duty station of this size.',
-    nearby: ['fort-jackson', 'marine-corps-air-station-beaufort', 'naval-air-station-pensacola'],
+    nearby: ['fort-jackson', 'marine-corps-air-station-beaufort', 'naval-air-station-pensacola', 'joint-base-charleston', 'fort-benning'],
     bahVsHousing: {
       medianRent: 1575,
       medianRentSource: 'BiggerPockets / Zillow 2025–2026',
@@ -589,7 +589,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'The Elizabethtown/Radcliff market offers affordable housing. BAH typically covers 2-bedroom apartments with room to spare at E-5 and above, and homebuyers often find strong BAH surplus in starter-home price ranges.',
     rentalContext:
       'The Radcliff-Elizabethtown area runs roughly 15–18% below the national median — your purchasing power here is well above average, and Kentucky\'s modest flat tax is manageable.',
-    nearby: ['fort-campbell', 'redstone-arsenal', 'wright-patterson-afb'],
+    nearby: ['fort-campbell', 'redstone-arsenal', 'wright-patterson-afb', 'naval-station-great-lakes'],
     bahVsHousing: {
       medianRent: 1100,
       medianRentSource: 'Zillow / BestPlaces 2025–2026',
@@ -653,7 +653,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'The Junction City/Manhattan market is affordable, and BAH is generally sufficient to cover rents at most grades. Families with housing allowances often opt to purchase in Manhattan for the Kansas State University community.',
     rentalContext:
       'Junction City housing costs run roughly 15–18% below the national median — your purchasing power here is exceptional, with strong BAH surplus at virtually every pay grade.',
-    nearby: ['fort-leavenworth', 'fort-hood', 'offutt-afb'],
+    nearby: ['fort-leavenworth', 'fort-hood', 'offutt-afb', 'mcconnell-afb', 'fort-sill'],
     bahVsHousing: {
       medianRent: 1100,
       medianRentSource: 'BestPlaces / Zillow 2025–2026',
@@ -711,7 +711,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Columbus has a large, stable military-adjacent rental market with affordable options at most grades. BAH regularly exceeds mid-range rents, and homeownership is common throughout the force.',
     rentalContext:
       'Columbus housing costs run roughly 20–22% below the national median — your BAH gives you significantly more purchasing power here than the national average.',
-    nearby: ['fort-stewart', 'fort-gordon', 'redstone-arsenal'],
+    nearby: ['fort-stewart', 'fort-gordon', 'redstone-arsenal', 'fort-rucker'],
     bahVsHousing: {
       medianRent: 1100,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -847,7 +847,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Leavenworth is a small city adjacent to the Kansas City metro. BAH aligns with the Kansas City MHA, providing solid coverage of local rents and solid purchasing power in the housing market.',
     rentalContext:
       'Leavenworth housing costs run roughly 10–12% below the national median — BAH covers rent comfortably with surplus.',
-    nearby: ['fort-riley', 'offutt-afb', 'whiteman-afb'],
+    nearby: ['fort-riley', 'offutt-afb', 'whiteman-afb', 'mcconnell-afb'],
     bahVsHousing: {
       medianRent: 1300,
       medianRentSource: 'BestPlaces / Zillow 2025–2026',
@@ -918,7 +918,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Fairbanks housing is affordable by Alaska standards, but heating costs ($400–$600/month from October through March) dramatically change the off-post math. On-post housing includes utilities and is strongly recommended for first-time Alaska families.',
     rentalContext:
       'heating costs ($400–$600/month in winter) make on-post housing the financially smarter choice for most Wainwright families.',
-    nearby: ['joint-base-elmendorf-richardson', 'minot-afb', 'ellsworth-afb'],
+    nearby: ['joint-base-elmendorf-richardson', 'minot-afb', 'ellsworth-afb', 'eielson-afb'],
     bahVsHousing: {
       medianRent: 1500,
       medianRentSource: 'PCSgrades / Zillow 2025–2026',
@@ -1031,7 +1031,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Hawaii is one of the highest-cost military markets in the country. BAH rates are among the highest in CONUS, but Oahu rents have outpaced BAH in recent years — particularly for single members and junior enlisted with dependents.',
     rentalContext:
       'Oahu housing costs run 30–50% above the national median — BAH is set to cover median rent, but Oahu\'s broader cost of living eats into every other budget category.',
-    nearby: ['joint-base-pearl-harbor-hickam', 'camp-pendleton', 'naval-station-san-diego'],
+    nearby: ['joint-base-pearl-harbor-hickam', 'camp-pendleton', 'naval-station-san-diego', 'fort-shafter', 'mcb-hawaii'],
     bahVsHousing: {
       medianRent: 3000,
       medianRentSource: 'Zillow / PCS Pay It Forward 2025–2026',
@@ -1091,7 +1091,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Aberdeen Proving Ground is the Army\'s primary research, development, and testing center, home to Army Materiel Command and the Chemical Corps, located northeast of Baltimore on the Chesapeake Bay.',
     rentalNote:
       'APG falls within the Baltimore MHA, providing competitive BAH rates. The base\'s location north of Baltimore gives servicemembers access to both the Baltimore and Philadelphia commuter belts.',
-    nearby: ['fort-meade', 'joint-base-andrews', 'joint-base-myer-henderson-hall'],
+    nearby: ['fort-meade', 'joint-base-andrews', 'joint-base-myer-henderson-hall', 'fort-detrick'],
   },
   {
     name: 'Redstone Arsenal',
@@ -1119,7 +1119,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Fort Hamilton is the only active-duty military installation in New York City, serving as a garrison command and providing Army support to the greater New York metropolitan area.',
     rentalNote:
       'NYC BAH rates are among the highest in the country, but so is rent. BAH for most grades covers a studio or modest one-bedroom in the outer boroughs; officers and senior NCOs have more flexibility.',
-    nearby: ['joint-base-mcguire-dix-lakehurst', 'naval-submarine-base-new-london', 'naval-station-newport'],
+    nearby: ['joint-base-mcguire-dix-lakehurst', 'naval-submarine-base-new-london', 'naval-station-newport', 'west-point', 'fort-drum'],
   },
   {
     name: 'Fort George G. Meade',
@@ -1137,7 +1137,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Fort Meade falls in the Baltimore MHA. The DC/Baltimore corridor is expensive, but BAH rates reflect the market — Odenton and Severn offer the best value closest to the gate. Columbia has better schools at a higher price point.',
     rentalContext:
       'the Odenton-Severn corridor closest to the gate offers the best value in the Baltimore-DC market.',
-    nearby: ['joint-base-andrews', 'aberdeen-proving-ground', 'joint-base-myer-henderson-hall'],
+    nearby: ['joint-base-andrews', 'aberdeen-proving-ground', 'joint-base-myer-henderson-hall', 'us-naval-academy', 'walter-reed-nmmc', 'fort-detrick', 'marine-corps-base-quantico', 'carlisle-barracks'],
     bahVsHousing: {
       medianRent: 2100,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -1200,7 +1200,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Columbia is a large, diversified market with affordable housing. BAH provides strong purchasing power at most grades — Northeast Columbia near the gate has the best schools, while Elgin and Lugoff offer newer construction at lower prices.',
     rentalContext:
       "Columbia's cost of living is well below the national average, and BAH creates a comfortable surplus at most pay grades.",
-    nearby: ['marine-corps-air-station-beaufort', 'fort-gordon', 'joint-base-charleston'],
+    nearby: ['marine-corps-air-station-beaufort', 'fort-gordon', 'joint-base-charleston', 'fort-stewart'],
     bahVsHousing: {
       medianRent: 1400,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -1273,7 +1273,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Fort Irwin is home to the National Training Center (NTC), the Army\'s primary large-scale combat training exercise site, located in the Mojave Desert.',
     rentalNote:
       'Barstow is an isolated desert market with minimal rental inventory. BAH rates reflect the Victorville/Hesperia area; many servicemembers choose to live on-post due to limited off-post options.',
-    nearby: ['edwards-afb', 'marine-corps-air-ground-combat-center', 'vandenberg-sfb'],
+    nearby: ['edwards-afb', 'marine-corps-air-ground-combat-center', 'vandenberg-sfb', 'nellis-afb'],
   },
   {
     name: 'United States Military Academy at West Point',
@@ -1287,7 +1287,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'West Point is the nation\'s premier military university, graduating Army officers since 1802 and located along the Hudson River 50 miles north of New York City.',
     rentalNote:
       'West Point falls in the New York City metro MHA with very high BAH rates. Officers and faculty assigned here benefit from those rates, though the area\'s high cost of living consumes much of the BAH advantage.',
-    nearby: ['fort-hamilton', 'joint-base-mcguire-dix-lakehurst', 'fort-drum'],
+    nearby: ['fort-hamilton', 'joint-base-mcguire-dix-lakehurst', 'fort-drum', 'carlisle-barracks'],
   },
 
   // ── AIR FORCE / SPACE FORCE ────────────────────────────────────────────────
@@ -1307,7 +1307,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'San Antonio is one of the most affordable large metros in the country. BAH at nearly all grades covers mid-range rentals comfortably, and homeownership is highly accessible.',
     rentalContext:
       'San Antonio housing costs run 8–12% below the national median — your BAH goes significantly further here than at most duty stations.',
-    nearby: ['fort-hood', 'fort-bliss', 'barksdale-afb'],
+    nearby: ['fort-hood', 'fort-bliss', 'barksdale-afb', 'nas-kingsville', 'nas-corpus-christi', 'dyess-afb', 'fort-polk'],
     bahVsHousing: {
       medianRent: 1400,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -1371,7 +1371,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Travis sits in Fairfield and Vacaville — more affordable than the Bay Area proper but still expensive by national standards. BAH rates are high, reflecting the Northern California market, but California income tax significantly reduces net take-home pay.',
     rentalContext:
       "Fairfield and Vacaville offer dramatically lower rents than the Bay Area or Sacramento — and that's where BAH goes the furthest for Travis families.",
-    nearby: ['naval-base-ventura-county', 'vandenberg-sfb', 'camp-pendleton'],
+    nearby: ['naval-base-ventura-county', 'vandenberg-sfb', 'camp-pendleton', 'beale-afb', 'naval-postgraduate-school', 'presidio-of-monterey', 'nas-lemoore'],
     bahVsHousing: {
       medianRent: 2200,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -1434,7 +1434,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Tampa is a rapidly growing metro with rising rents. BAH covers most mid-range apartments, but Tampa\'s popularity has outpaced BAH rates in some neighborhoods. Officers and senior NCOs have strong purchasing options.',
     rentalContext:
       'The Tampa metro runs roughly 5–10% above the national median — a growing city premium that BAH accounts for, with Florida\'s no income tax helping offset the difference.',
-    nearby: ['eglin-afb', 'naval-air-station-pensacola', 'patrick-sfb'],
+    nearby: ['eglin-afb', 'naval-air-station-pensacola', 'patrick-sfb', 'naval-station-mayport', 'nas-key-west'],
     bahVsHousing: {
       medianRent: 2100,
       medianRentSource: 'Zumper / Zillow 2025–2026',
@@ -1498,7 +1498,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'The Fort Walton Beach/Destin area is a popular coastal market. BAH rates are competitive, but coastal demand means lower-grade members may need to look inland toward Crestview or Niceville for BAH-aligned rents.',
     rentalContext:
       'The Fort Walton Beach/Niceville area runs roughly 5–8% above the national median — a beach-premium that BAH reflects, with Florida\'s no income tax softening the impact.',
-    nearby: ['macdill-afb', 'naval-air-station-pensacola', 'barksdale-afb'],
+    nearby: ['macdill-afb', 'naval-air-station-pensacola', 'barksdale-afb', 'hurlburt-field', 'nas-whiting-field', 'tyndall-afb', 'patrick-sfb'],
     bahVsHousing: {
       medianRent: 1800,
       medianRentSource: 'PCS Pay It Forward / RentCafe 2025–2026',
@@ -1562,7 +1562,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'The Hampton Roads market is one of the largest military housing markets in the country. BAH rates reflect a competitive but not extreme market — most grades can cover 2-bedroom rentals across the region.',
     rentalContext:
       'Hampton Roads housing costs run roughly 5–8% below the national median on the Peninsula side — your purchasing power is solid here compared to most East Coast metro duty stations.',
-    nearby: ['naval-station-norfolk', 'joint-base-little-creek-fort-story', 'naval-air-station-oceana'],
+    nearby: ['naval-station-norfolk', 'joint-base-little-creek-fort-story', 'naval-air-station-oceana', 'naval-medical-center-portsmouth', 'fort-lee'],
     bahVsHousing: {
       medianRent: 1500,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -1626,7 +1626,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Dayton is a highly affordable housing market. BAH provides strong purchasing power at all grades, and many servicemembers choose to purchase rather than rent. Beavercreek south of base is the top school corridor.',
     rentalContext:
       "Dayton's cost of living is well below the national average, making Wright-Patt one of the most financially favorable Air Force duty stations.",
-    nearby: ['fort-knox', 'scott-afb', 'offutt-afb'],
+    nearby: ['fort-knox', 'scott-afb', 'offutt-afb', 'naval-station-great-lakes'],
     bahVsHousing: {
       medianRent: 1200,
       medianRentSource: 'Zillow / BestPlaces 2025–2026',
@@ -1689,7 +1689,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       "The Illinois side of the St. Louis metro offers affordable housing relative to BAH. Most grades have a significant BAH surplus. Note: IL property taxes are high — compare O'Fallon IL vs. O'Fallon MO carefully before buying.",
     rentalContext:
       'the Metro East area near St. Louis offers some of the most favorable BAH-to-rent ratios of any Air Force base.',
-    nearby: ['wright-patterson-afb', 'whiteman-afb', 'offutt-afb'],
+    nearby: ['wright-patterson-afb', 'whiteman-afb', 'offutt-afb', 'fort-leonard-wood', 'little-rock-afb', 'naval-station-great-lakes', 'fort-mccoy'],
     bahVsHousing: {
       medianRent: 1200,
       medianRentSource: 'Zillow / BestPlaces 2025–2026',
@@ -1752,7 +1752,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       "West Valley rents (Surprise, Goodyear, Litchfield Park) are lower than Scottsdale or central Phoenix, giving solid BAH coverage. Phoenix's population boom has tightened supply in some areas — the West Valley still has good inventory.",
     rentalContext:
       'the Phoenix West Valley offers newer construction and solid BAH coverage — significantly more affordable than Scottsdale or central Phoenix.',
-    nearby: ['davis-monthan-afb', 'fort-huachuca', 'kirtland-afb'],
+    nearby: ['davis-monthan-afb', 'fort-huachuca', 'kirtland-afb', 'mcas-yuma', 'edwards-afb'],
     bahVsHousing: {
       medianRent: 1700,
       medianRentSource: 'Zillow / RentCafe 2025–2026',
@@ -1815,7 +1815,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       "Tucson is an affordable desert market. BAH at most grades covers mid-range rentals comfortably, with room to spare in many neighborhoods. Rita Ranch east of base has the top-rated Vail school district — the best schools in Tucson.",
     rentalContext:
       "Tucson is affordable by Arizona standards, and Arizona's 2.5% flat income tax means more of your paycheck stays in your pocket.",
-    nearby: ['luke-afb', 'fort-huachuca', 'kirtland-afb'],
+    nearby: ['luke-afb', 'fort-huachuca', 'kirtland-afb', 'mcas-yuma', 'holloman-afb'],
     bahVsHousing: {
       medianRent: 1500,
       medianRentSource: 'Zillow / PCS Pay It Forward 2025–2026',
@@ -1874,7 +1874,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Vandenberg SFB is the primary West Coast launch facility for the U.S. Space Force and the 30th Space Wing, conducting satellite launches and ICBM test flights along the California coast.',
     rentalNote:
       'Lompoc is an isolated coastal California market with limited rental inventory. BAH rates are elevated relative to the small market, but Santa Barbara — the reference MHA — has very high costs that drive up BAH.',
-    nearby: ['travis-afb', 'edwards-afb', 'naval-base-ventura-county'],
+    nearby: ['travis-afb', 'edwards-afb', 'naval-base-ventura-county', 'los-angeles-afb', 'naval-postgraduate-school', 'presidio-of-monterey', 'naws-china-lake', 'fort-irwin'],
   },
   {
     name: 'Edwards AFB',
@@ -1888,7 +1888,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Edwards AFB is the Air Force\'s primary flight test center, home to the Air Force Test Center and the Air Force Research Laboratory, located in the high desert northeast of Los Angeles.',
     rentalNote:
       'Lancaster and Palmdale offer affordable desert housing well below Los Angeles BAH levels. BAH for Edwards is calibrated to the Antelope Valley market, providing strong coverage of local rents.',
-    nearby: ['vandenberg-sfb', 'fort-irwin', 'luke-afb'],
+    nearby: ['vandenberg-sfb', 'fort-irwin', 'luke-afb', 'naws-china-lake', 'los-angeles-afb', 'nellis-afb'],
   },
   {
     name: 'Tinker AFB',
@@ -1906,7 +1906,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Oklahoma City is among the most affordable large metros in the nation. BAH at all grades provides strong purchasing power — homeownership is the norm rather than the exception. Midwest City right next to base is the most convenient option.',
     rentalContext:
       "Oklahoma City's cost of living is well below the national average and Oklahoma exempts military pay from state income tax — a rare combination.",
-    nearby: ['fort-sill', 'fort-hood', 'barksdale-afb'],
+    nearby: ['fort-sill', 'fort-hood', 'barksdale-afb', 'vance-afb', 'altus-afb', 'sheppard-afb', 'mcconnell-afb'],
     bahVsHousing: {
       medianRent: 1200,
       medianRentSource: 'Zillow / BestPlaces 2025–2026',
@@ -1969,7 +1969,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Shreveport/Bossier City is one of the most affordable markets in the country. BAH covers most rentals with significant room to spare. Haughton northeast of base has the best schools in the Barksdale corridor.',
     rentalContext:
       'the Bossier City area offers one of the best BAH-to-cost ratios in the Air Force — homeownership is realistic even on a 3-year tour.',
-    nearby: ['fort-polk', 'joint-base-san-antonio', 'tinker-afb'],
+    nearby: ['fort-polk', 'joint-base-san-antonio', 'tinker-afb', 'little-rock-afb'],
     bahVsHousing: {
       medianRent: 1100,
       medianRentSource: 'Zillow / BestPlaces 2025–2026',
@@ -2028,7 +2028,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Seymour Johnson AFB is home to the 4th Fighter Wing and its F-15E Strike Eagles, located in Goldsboro in eastern North Carolina.',
     rentalNote:
       'Goldsboro is a small market with affordable housing. BAH provides solid coverage of local rents, and the proximity to the Research Triangle provides an opportunity for buyers to look toward more dynamic markets.',
-    nearby: ['fort-bragg', 'camp-lejeune', 'marine-corps-air-station-cherry-point'],
+    nearby: ['fort-bragg', 'camp-lejeune', 'marine-corps-air-station-cherry-point', 'mcas-new-river', 'shaw-afb', 'mcrd-parris-island', 'naval-submarine-base-kings-bay'],
   },
   {
     name: 'Ellsworth AFB',
@@ -2042,7 +2042,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Ellsworth AFB is home to the 28th Bomb Wing operating the B-1B Lancer supersonic bomber, located near Rapid City and the Black Hills of South Dakota.',
     rentalNote:
       'Rapid City is an affordable Black Hills market. BAH covers most rentals easily, and buyers can find strong value in the local real estate market with no state income tax on military pay.',
-    nearby: ['minot-afb', 'offutt-afb', 'whiteman-afb'],
+    nearby: ['minot-afb', 'offutt-afb', 'whiteman-afb', 'grand-forks-afb'],
   },
   {
     name: 'Minot AFB',
@@ -2060,7 +2060,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       "Minot is one of the most affordable military markets in the country. BAH significantly exceeds local rents at most grades, and homeownership is very common. On-base housing is popular for families who want shorter commutes in brutal winter conditions.",
     rentalContext:
       "Minot's housing market is highly affordable — BAH creates a strong surplus at most grades, and homeownership is common even on short tours.",
-    nearby: ['ellsworth-afb', 'offutt-afb', 'fort-wainwright'],
+    nearby: ['ellsworth-afb', 'offutt-afb', 'fort-wainwright', 'grand-forks-afb'],
     bahVsHousing: {
       medianRent: 1000,
       medianRentSource: 'Zillow / BestPlaces 2025–2026',
@@ -2116,7 +2116,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       "Anchorage has elevated housing costs but BAH rates reflect the market. Eagle River north of the city has the best schools in the JBER corridor. Get on the on-base waitlist immediately — it fills fast.",
     rentalContext:
       "Anchorage is expensive but more manageable than Hawaii or coastal California — and Alaska's no-income-tax advantage is a real financial benefit.",
-    nearby: ['fort-wainwright', 'joint-base-lewis-mcchord', 'naval-base-kitsap'],
+    nearby: ['fort-wainwright', 'joint-base-lewis-mcchord', 'naval-base-kitsap', 'eielson-afb', 'base-kodiak'],
     bahVsHousing: {
       medianRent: 1900,
       medianRentSource: 'Zillow / PCS Pay It Forward 2025–2026',
@@ -2179,7 +2179,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       "Andrews sits in the DC metro MHA with some of the highest BAH rates in the country. Prince George's County is more affordable than Northern Virginia or Montgomery County — but school quality varies dramatically by neighborhood. Research specific school zones before signing a lease.",
     rentalContext:
       "Prince George's County is significantly more affordable than Northern Virginia or Montgomery County — and BAH covers rent comfortably in most PG County neighborhoods.",
-    nearby: ['fort-meade', 'joint-base-myer-henderson-hall', 'aberdeen-proving-ground'],
+    nearby: ['fort-meade', 'joint-base-myer-henderson-hall', 'aberdeen-proving-ground', 'joint-base-anacostia-bolling', 'fort-mcnair', 'fort-belvoir', 'walter-reed-nmmc', 'us-naval-academy'],
     bahVsHousing: {
       medianRent: 2100,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -2242,7 +2242,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       "Albuquerque is an affordable market with moderate BAH rates. Rents are generally well-covered at mid and senior grades. The east side and northeast heights are the most popular areas for Kirtland families.",
     rentalContext:
       "New Mexico exempts military pay from state income tax, and Albuquerque's affordable housing makes Kirtland one of the more financially favorable Air Force duty stations.",
-    nearby: ['fort-bliss', 'luke-afb', 'fort-huachuca'],
+    nearby: ['fort-bliss', 'luke-afb', 'fort-huachuca', 'holloman-afb', 'cannon-afb', 'fort-carson', 'davis-monthan-afb'],
     bahVsHousing: {
       medianRent: 1350,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -2305,7 +2305,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'The Warrensburg/Sedalia area is one of the most affordable markets among Air Force bases. BAH provides substantial surplus over typical rents, and many servicemembers purchase in the Kansas City suburbs.',
     rentalContext:
       'The Warrensburg/Knob Noster area runs roughly 7–10% below the national median — one of the most favorable BAH-to-cost ratios in the Air Force.',
-    nearby: ['scott-afb', 'offutt-afb', 'fort-leavenworth'],
+    nearby: ['scott-afb', 'offutt-afb', 'fort-leavenworth', 'fort-leonard-wood', 'little-rock-afb'],
     bahVsHousing: {
       medianRent: 1200,
       medianRentSource: 'PCS Pay It Forward / BestPlaces 2025–2026',
@@ -2362,7 +2362,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Bellevue and greater Omaha offer affordable, stable housing. BAH comfortably covers most rentals, and the Omaha metro\'s steady economy makes homeownership a financially sound choice for most servicemembers.',
     rentalContext:
       'The Bellevue-Omaha area runs roughly 5–8% below the national median — your BAH stretches well here, and homeownership is within reach on a single income.',
-    nearby: ['whiteman-afb', 'fort-leavenworth', 'ellsworth-afb'],
+    nearby: ['whiteman-afb', 'fort-leavenworth', 'ellsworth-afb', 'fort-riley', 'fort-mccoy', 'scott-afb'],
     bahVsHousing: {
       medianRent: 1500,
       medianRentSource: 'Zillow / PCS Pay It Forward 2025–2026',
@@ -2426,7 +2426,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Cocoa Beach and the Space Coast carry a coastal premium. BAH covers most rentals but beach-adjacent units push the limit. Melbourne and Viera are 15 minutes inland with significantly lower rents and newer construction.',
     rentalContext:
       "Melbourne and Viera offer 15-minute access to the beach with significantly lower rents than beachside communities — and Florida's no-income-tax advantage applies everywhere.",
-    nearby: ['macdill-afb', 'eglin-afb', 'naval-air-station-pensacola'],
+    nearby: ['macdill-afb', 'eglin-afb', 'naval-air-station-pensacola', 'nas-key-west'],
     bahVsHousing: {
       medianRent: 1800,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -2491,7 +2491,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Hampton Roads is a large military housing market with heavy Navy demand. BAH rates are competitive, but the sheer size of the military population creates real competition for housing in desirable Norfolk, Chesapeake, and Virginia Beach neighborhoods.',
     rentalContext:
       'Hampton Roads housing costs run roughly 6% below the national median — your BAH goes further here than in most major metro areas.',
-    nearby: ['joint-base-langley-eustis', 'joint-base-little-creek-fort-story', 'naval-air-station-oceana'],
+    nearby: ['joint-base-langley-eustis', 'joint-base-little-creek-fort-story', 'naval-air-station-oceana', 'naval-medical-center-portsmouth', 'dam-neck-annex', 'fort-lee', 'nas-patuxent-river', 'us-naval-academy'],
     bahVsHousing: {
       medianRent: 1550,
       medianRentSource: 'Zillow 2025–2026',
@@ -2555,7 +2555,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'San Diego is one of the most expensive military markets in the country. BAH rates are among the highest in CONUS, but rapidly rising rents mean junior members often struggle to find housing fully covered by BAH alone.',
     rentalContext:
       'San Diego housing costs run 45–50% above the national median — BAH is set to cover median rent, but there\'s little surplus for most enlisted members.',
-    nearby: ['camp-pendleton', 'marine-corps-air-station-miramar', 'naval-base-ventura-county'],
+    nearby: ['camp-pendleton', 'marine-corps-air-station-miramar', 'naval-base-ventura-county', 'nas-north-island', 'mcrd-san-diego', 'nab-coronado'],
     bahVsHousing: {
       medianRent: 2800,
       medianRentSource: 'Garrison Ledger / Zillow 2025–2026',
@@ -2619,7 +2619,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'The Oceanside/Fallbrook market is slightly more affordable than San Diego proper, but still a high-cost California market. BAH rates reflect the San Diego MHA, which is among the highest in CONUS.',
     rentalContext:
       'Southern California housing costs run 40–50% above the national median — BAH is set to cover median rent, leaving little room for error in this market.',
-    nearby: ['naval-station-san-diego', 'marine-corps-air-station-miramar', 'travis-afb'],
+    nearby: ['naval-station-san-diego', 'marine-corps-air-station-miramar', 'travis-afb', 'mcrd-san-diego', 'nas-north-island', 'nab-coronado', 'los-angeles-afb', 'marine-corps-air-ground-combat-center'],
     bahVsHousing: {
       medianRent: 2800,
       medianRentSource: 'RentCafe / Zillow 2025–2026',
@@ -2683,7 +2683,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Jacksonville is a military-dominated market with affordable rents. BAH provides solid coverage, but the town\'s rental supply is heavily shaped by military demand cycles. Buyers often find good value in the surrounding Onslow County area.',
     rentalContext:
       'Jacksonville housing costs run roughly 10–12% below the national median — your BAH goes further here than at most CONUS Marine Corps installations.',
-    nearby: ['fort-bragg', 'marine-corps-air-station-cherry-point', 'seymour-johnson-afb'],
+    nearby: ['fort-bragg', 'marine-corps-air-station-cherry-point', 'seymour-johnson-afb', 'mcas-new-river', 'nas-jacksonville'],
     bahVsHousing: {
       medianRent: 1400,
       medianRentSource: 'PCS Pay It Forward / MilitaryByOwner 2025–2026',
@@ -2747,7 +2747,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Honolulu is one of the most expensive housing markets in the country. BAH rates are the highest in the DoD, but Hawaii rents consistently outpace BAH — particularly for larger units. Many servicemembers live on base to manage costs.',
     rentalContext:
       'Oahu housing costs run 30–50% above the national median — BAH is set to cover median rent, but there\'s little room in the budget for error in this market.',
-    nearby: ['schofield-barracks', 'travis-afb', 'naval-station-san-diego'],
+    nearby: ['schofield-barracks', 'travis-afb', 'naval-station-san-diego', 'fort-shafter', 'mcb-hawaii'],
     bahVsHousing: {
       medianRent: 3000,
       medianRentSource: 'Zillow / PCS Pay It Forward 2025–2026',
@@ -2811,7 +2811,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Pensacola is an attractive coastal market with moderate rents relative to Florida averages. BAH covers most mid-range rentals with room to spare. Neighborhoods north of downtown and in Santa Rosa County offer the best balance of price and quality.',
     rentalContext:
       "Northwest Florida's cost of living is below the national average, and Florida's no-income-tax advantage makes Pensacola one of the better financial deals in the Navy.",
-    nearby: ['eglin-afb', 'macdill-afb', 'naval-station-mayport'],
+    nearby: ['eglin-afb', 'macdill-afb', 'naval-station-mayport', 'nas-whiting-field', 'hurlburt-field', 'tyndall-afb', 'fort-rucker', 'fort-stewart'],
     bahVsHousing: {
       medianRent: 1500,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -2874,7 +2874,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       "The Beaches area (Atlantic Beach, Neptune Beach) is walkable to Mayport but commands a coastal premium. BAH covers most rentals — but families after the best schools often commute south to St. Johns County, the top-ranked district in Florida.",
     rentalContext:
       "Florida's no-income-tax advantage and Jacksonville's below-average cost of living make Mayport one of the more financially favorable Navy assignments on the East Coast.",
-    nearby: ['naval-air-station-pensacola', 'macdill-afb', 'marine-corps-air-station-beaufort'],
+    nearby: ['naval-air-station-pensacola', 'macdill-afb', 'marine-corps-air-station-beaufort', 'nas-jacksonville', 'naval-submarine-base-kings-bay'],
     bahVsHousing: {
       medianRent: 1600,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -2937,7 +2937,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       "Bremerton is more affordable than Seattle but still part of the Puget Sound market. BAH rates are elevated to match. Note: Kitsap has two main sites — Bangor (north, submarines) and Bremerton (south, surface ships). Know which site you'll work from before house-hunting.",
     rentalContext:
       "Washington's no state income tax advantage gives Kitsap families a meaningful net-pay edge over most other duty stations.",
-    nearby: ['joint-base-lewis-mcchord', 'naval-air-station-whidbey-island', 'joint-base-elmendorf-richardson'],
+    nearby: ['joint-base-lewis-mcchord', 'naval-air-station-whidbey-island', 'joint-base-elmendorf-richardson', 'naval-station-everett'],
     bahVsHousing: {
       medianRent: 1800,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -2996,7 +2996,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     installationDetail: 'NAS Whidbey Island is home to all Navy EA-18G Growler electronic attack squadrons — the fleet\'s premier electronic warfare capability, on a scenic island in Puget Sound.',
     rentalNote: 'Oak Harbor is an island community with a constrained housing supply. BAH is tied to the Seattle market due to proximity, but island rents are lower — meaning BAH provides strong purchasing power relative to local rents.',
     rentalContext: 'Oak Harbor\'s island housing market runs tight, so starting your search 60–90 days before arrival is essential',
-    nearby: ['naval-base-kitsap', 'joint-base-lewis-mcchord', 'joint-base-elmendorf-richardson'],
+    nearby: ['naval-base-kitsap', 'joint-base-lewis-mcchord', 'joint-base-elmendorf-richardson', 'naval-station-everett', 'fairchild-afb'],
     bahVsHousing: {
       medianRent: 1600,
       medianRentSource: 'Zillow / BestPlaces 2025–2026',
@@ -3047,7 +3047,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'MCAS Miramar (formerly the Navy\'s "Top Gun" base) is home to Marine Aircraft Group 11 and several fixed-wing and helicopter squadrons, located in the northern San Diego metro.',
     rentalNote:
       'Miramar is in the San Diego MHA — one of the most expensive markets in CONUS. BAH is high, but so are rents. Many Marines opt to live farther north in Poway or Santee for better BAH coverage.',
-    nearby: ['naval-station-san-diego', 'camp-pendleton', 'naval-base-ventura-county'],
+    nearby: ['naval-station-san-diego', 'camp-pendleton', 'naval-base-ventura-county', 'marine-corps-air-ground-combat-center'],
   },
   {
     name: 'MCAS Cherry Point',
@@ -3061,7 +3061,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'MCAS Cherry Point is the largest Marine Corps air station on the East Coast, home to 2nd Marine Aircraft Wing squadrons and the Fleet Readiness Center East, located in coastal North Carolina.',
     rentalNote:
       'Havelock is a military-centric market with affordable rents. BAH provides excellent coverage, and buyers often find strong value in the adjacent New Bern area.',
-    nearby: ['camp-lejeune', 'fort-bragg', 'seymour-johnson-afb'],
+    nearby: ['camp-lejeune', 'fort-bragg', 'seymour-johnson-afb', 'mcas-new-river'],
   },
   {
     name: 'Marine Corps Base Quantico',
@@ -3079,7 +3079,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       "Quantico falls in the DC metro BAH zone with very high rates. The Northern Virginia market is expensive, but Stafford County offers the best value closest to the base. Fredericksburg is more affordable but adds I-95 commute risk.",
     rentalContext:
       'Stafford County offers the best balance of price and commute for Quantico families — Northern Virginia and DC proper will significantly exceed BAH.',
-    nearby: ['joint-base-myer-henderson-hall', 'fort-meade', 'joint-base-andrews'],
+    nearby: ['joint-base-myer-henderson-hall', 'fort-meade', 'joint-base-andrews', 'fort-belvoir', 'nas-patuxent-river'],
     bahVsHousing: {
       medianRent: 2200,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -3138,7 +3138,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Naval Station Great Lakes is the Navy\'s only boot camp and its largest training installation, producing all enlisted Navy recruits and hosting the Naval Health Sciences School.',
     rentalNote:
       'The North Chicago/Waukegan market on Lake Michigan\'s shore is moderately priced. BAH comfortably covers mid-range rentals, and the Chicago metro\'s rail access means some servicemembers commute from further south.',
-    nearby: ['wright-patterson-afb', 'scott-afb', 'fort-knox'],
+    nearby: ['wright-patterson-afb', 'scott-afb', 'fort-knox', 'fort-mccoy'],
   },
   {
     name: 'Joint Base Little Creek-Fort Story',
@@ -3152,7 +3152,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'JBLCFS is home to the Navy Expeditionary Combat Command and SEAL Team Six (DEVGRU), hosting the primary East Coast training and staging areas for amphibious and special operations.',
     rentalNote:
       'Virginia Beach is a popular coastal market with high demand. BAH is competitive for the region, and the oceanfront premium means many servicemembers choose neighborhoods further from the beach for better value.',
-    nearby: ['naval-station-norfolk', 'naval-air-station-oceana', 'joint-base-langley-eustis'],
+    nearby: ['naval-station-norfolk', 'naval-air-station-oceana', 'joint-base-langley-eustis', 'dam-neck-annex', 'naval-medical-center-portsmouth'],
   },
   {
     name: 'Naval Submarine Base New London',
@@ -3166,7 +3166,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'NSB New London is the U.S. Navy\'s primary submarine base and home to the Naval Submarine School, homeporting Virginia-class and Ohio-class submarines on the Thames River.',
     rentalNote:
       'Groton/New London is a mid-sized Connecticut market. BAH is elevated relative to national averages, reflecting Connecticut\'s high cost of living, and covers most mid-range rentals comfortably.',
-    nearby: ['naval-station-newport', 'fort-hamilton', 'joint-base-mcguire-dix-lakehurst'],
+    nearby: ['naval-station-newport', 'fort-hamilton', 'joint-base-mcguire-dix-lakehurst', 'us-coast-guard-academy', 'joint-base-cape-cod', 'hanscom-afb', 'fort-drum'],
   },
   {
     name: 'MCAS Beaufort',
@@ -3180,7 +3180,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'MCAS Beaufort is home to Marine Fighter Attack Training Squadron 501 and F-35B operational squadrons, located on Port Royal Sound in the South Carolina Lowcountry.',
     rentalNote:
       'Beaufort is a small coastal market with a charming historic district. BAH typically covers local rents, and the Lowcountry lifestyle makes the assignment popular despite the small market.',
-    nearby: ['fort-jackson', 'fort-stewart', 'naval-station-mayport'],
+    nearby: ['fort-jackson', 'fort-stewart', 'naval-station-mayport', 'mcrd-parris-island', 'joint-base-charleston', 'shaw-afb', 'fort-gordon', 'robins-afb'],
   },
   {
     name: 'Joint Base McGuire-Dix-Lakehurst',
@@ -3198,7 +3198,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       "JB MDL is in the New Jersey portion of the Philadelphia/South Jersey MHA. Burlington and Ocean counties are among NJ's more affordable markets — but NJ property taxes are brutal. Run full PITI numbers before buying.",
     rentalContext:
       'NJ property taxes ($8,000–$12,000/year on a modest home) make homeownership more expensive than it appears — rent first, learn the market.',
-    nearby: ['fort-hamilton', 'naval-submarine-base-new-london', 'joint-base-cape-cod'],
+    nearby: ['fort-hamilton', 'naval-submarine-base-new-london', 'joint-base-cape-cod', 'tracen-cape-may', 'west-point', 'carlisle-barracks', 'us-coast-guard-academy', 'naval-station-newport'],
     bahVsHousing: {
       medianRent: 1800,
       medianRentSource: 'PCSgrades / Zillow 2025–2026',
@@ -3261,7 +3261,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Virginia Beach BAH is competitive for the Hampton Roads market. The premium beach neighborhoods can strain lower-grade BAH, but the Kempsville, Great Neck, and Landstown areas offer more affordable options 10–15 minutes from the Oceana gates.',
     rentalContext:
       'the Kempsville and Landstown areas of Virginia Beach offer the best value for Oceana families — significantly more affordable than oceanfront neighborhoods while still in VB.',
-    nearby: ['naval-station-norfolk', 'joint-base-little-creek-fort-story', 'joint-base-langley-eustis'],
+    nearby: ['naval-station-norfolk', 'joint-base-little-creek-fort-story', 'joint-base-langley-eustis', 'dam-neck-annex'],
     bahVsHousing: {
       medianRent: 1800,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -3320,7 +3320,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'NBVC hosts Naval Air Station Point Mugu and Naval Construction Battalion Center Port Hueneme, supporting aircraft testing, the Pacific Seabees, and Naval Air Warfare Center Weapons Division.',
     rentalNote:
       'Port Hueneme and Oxnard are among the more affordable Ventura County communities, but Southern California BAH rates are needed to compete in this market. BAH covers most rents but leaves little surplus.',
-    nearby: ['camp-pendleton', 'naval-station-san-diego', 'travis-afb'],
+    nearby: ['camp-pendleton', 'naval-station-san-diego', 'travis-afb', 'vandenberg-sfb', 'marine-corps-air-station-miramar', 'nas-fallon'],
   },
   {
     name: 'MCAGCC Twentynine Palms',
@@ -3348,7 +3348,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Naval Station Newport is home to the Naval War College, Naval Undersea Warfare Center, and Surface Warfare Officers School, located on Aquidneck Island in Rhode Island.',
     rentalNote:
       'Newport is a high-cost New England coastal market. BAH is elevated to reflect Rhode Island\'s costs, and the historic Newport area commands premium rents — many servicemembers look to Middletown or Portsmouth for more affordable options.',
-    nearby: ['naval-submarine-base-new-london', 'joint-base-mcguire-dix-lakehurst', 'joint-base-cape-cod'],
+    nearby: ['naval-submarine-base-new-london', 'joint-base-mcguire-dix-lakehurst', 'joint-base-cape-cod', 'hanscom-afb', 'fort-hamilton', 'tracen-cape-may'],
   },
 
   // ── MULTI-BRANCH ──────────────────────────────────────────────────────────
@@ -3364,7 +3364,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'JBMHH is the Army installation adjacent to the Pentagon, home of the 3rd U.S. Infantry Regiment ("The Old Guard"), Arlington National Cemetery, and multiple senior headquarters commands.',
     rentalNote:
       'Arlington is one of the most expensive markets in the DC area. BAH is among the highest in the country for the DC MHA, but Northern Virginia rents are equally extreme — many senior members find tight coverage at lower grades.',
-    nearby: ['fort-meade', 'joint-base-andrews', 'marine-corps-base-quantico'],
+    nearby: ['fort-meade', 'joint-base-andrews', 'marine-corps-base-quantico', 'fort-mcnair', 'joint-base-anacostia-bolling', 'walter-reed-nmmc', 'fort-belvoir', 'aberdeen-proving-ground'],
   },
   {
     name: 'Joint Base Charleston',
@@ -3382,7 +3382,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       "Charleston is a growing coastal market with rising rents. BAH covers most mid-range apartments, but the city's popularity with transplants has added pricing pressure. North Charleston, Goose Creek, and Summerville are where BAH actually goes the distance.",
     rentalContext:
       'North Charleston, Goose Creek, and Summerville offer strong military communities at prices BAH can cover — downtown Charleston and Mount Pleasant will test your limits.',
-    nearby: ['marine-corps-air-station-beaufort', 'fort-jackson', 'fort-stewart'],
+    nearby: ['marine-corps-air-station-beaufort', 'fort-jackson', 'fort-stewart', 'mcrd-parris-island', 'shaw-afb'],
     bahVsHousing: {
       medianRent: 2000,
       medianRentSource: 'RentCafe / Zumper 2025–2026',
@@ -3441,7 +3441,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Joint Base Cape Cod is a multi-service installation on Cape Cod hosting the 102nd Intelligence Wing, Army Reserve, and Coast Guard, located near the Cape Cod Canal.',
     rentalNote:
       'Cape Cod BAH reflects the high cost of coastal Massachusetts. Seasonal tourism drives rental prices, and year-round options are limited. Many servicemembers commute from the Brockton or Plymouth areas for better value.',
-    nearby: ['naval-station-newport', 'naval-submarine-base-new-london', 'joint-base-mcguire-dix-lakehurst'],
+    nearby: ['naval-station-newport', 'naval-submarine-base-new-london', 'joint-base-mcguire-dix-lakehurst', 'hanscom-afb', 'us-coast-guard-academy', 'tracen-cape-may'],
   },
 
   // ── OCONUS (OHA, not BAH) ──────────────────────────────────────────────────
@@ -3680,7 +3680,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     branches: ['Army'],
     description: 'Fort Belvoir is a major National Capital Region installation hosting the Defense Intelligence Agency, National Geospatial-Intelligence Agency, and numerous other defense organizations.',
     rentalNote: 'Northern Virginia housing (Springfield, Woodbridge, Lorton, Alexandria) is expensive and competitive. BAH reflects higher NoVA costs. Many personnel commute from Fredericksburg or Stafford for more affordable rents.',
-    nearby: ['joint-base-myer-henderson-hall', 'joint-base-andrews', 'marine-corps-base-quantico'],
+    nearby: ['joint-base-myer-henderson-hall', 'joint-base-andrews', 'marine-corps-base-quantico', 'fort-lee'],
   },
   {
     name: 'Fort McCoy',
@@ -3740,7 +3740,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     branches: ['Army', 'Navy'],
     description: 'Walter Reed National Military Medical Center in Bethesda is the flagship military hospital, providing tertiary care to senior DoD officials, combat-injured servicemembers, and their families.',
     rentalNote: 'Bethesda and northern Maryland carry some of the highest rents in the National Capital Region. Silver Spring, Rockville, and Gaithersburg offer relatively more affordable options. BAH reflects the elevated DC-area market.',
-    nearby: ['joint-base-myer-henderson-hall', 'joint-base-andrews', 'fort-meade'],
+    nearby: ['joint-base-myer-henderson-hall', 'joint-base-andrews', 'fort-meade', 'fort-detrick'],
   },
   {
     name: 'Fort McNair',
@@ -3847,7 +3847,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       "Ogden, Layton, and Clearfield are the most convenient housing areas. Utah's housing market has appreciated significantly since 2020 — verify current prices before assuming affordability. Layton immediately south of base has the best Davis School District schools.",
     rentalContext:
       'the Layton-Clearfield corridor immediately adjacent to Hill offers more affordable options than Salt Lake City, with excellent Davis School District schools.',
-    nearby: ['fe-warren-afb', 'peterson-sfb', 'kirtland-afb'],
+    nearby: ['fe-warren-afb', 'peterson-sfb', 'kirtland-afb', 'mountain-home-afb'],
     bahVsHousing: {
       medianRent: 1600,
       medianRentSource: 'Zillow / BestPlaces 2025–2026',
@@ -3910,7 +3910,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Colorado Springs shares its MHA with three other major installations — competition for housing is real. The Powers Corridor east of base offers the best balance of commute time and price, but inventory moves fast. Start your search 60–90 days before PCS.',
     rentalContext:
       "Colorado Springs' cost of living is approximately 12–15% above the national average. (Cost of living data: BestPlaces 2025–2026)",
-    nearby: ['schriever-sfb', 'usaf-academy', 'buckley-sfb'],
+    nearby: ['schriever-sfb', 'usaf-academy', 'buckley-sfb', 'fort-carson', 'fe-warren-afb'],
     bahVsHousing: {
       medianRent: 1825,
       medianRentSource: 'PCS Pay It Forward / Zillow 2025–2026',
@@ -3973,7 +3973,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'The east side of Colorado Springs — Powers Corridor, Falcon, Peyton — is closest to Schriever with solid rental inventory at mid-range prices. Avoid living on the west side of the city, where commute times balloon past 30 minutes.',
     rentalContext:
       "living east of Colorado Springs (Falcon/Peyton) cuts your commute to Schriever significantly compared to the popular west-side neighborhoods.",
-    nearby: ['peterson-sfb', 'usaf-academy', 'buckley-sfb'],
+    nearby: ['peterson-sfb', 'usaf-academy', 'buckley-sfb', 'fort-carson'],
     bahVsHousing: {
       medianRent: 1825,
       medianRentSource: 'PCS Pay It Forward / Zillow 2025–2026',
@@ -4029,7 +4029,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       'Aurora and the eastern Denver suburbs are the most convenient housing areas. Denver metro rents are competitive but more manageable than coastal cities. Centennial and Parker trade a slightly longer commute for significantly better schools.',
     rentalContext:
       'Aurora and the southeast Denver suburbs offer the best balance of commute and cost in this metro — Denver proper is significantly pricier.',
-    nearby: ['peterson-sfb', 'schriever-sfb', 'fe-warren-afb'],
+    nearby: ['peterson-sfb', 'schriever-sfb', 'fe-warren-afb', 'usaf-academy'],
     bahVsHousing: {
       medianRent: 2000,
       medianRentSource: 'PCS Pay It Forward / Zillow 2025–2026',
@@ -4139,7 +4139,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     installationDetail: 'Dyess AFB is home to the 7th Bomb Wing (B-1B Lancers) and the 317th Airlift Wing (C-130J Super Hercules) — one of only two bases operating the B-1B bomber, located in Abilene, Texas.',
     rentalNote: 'Abilene has a very affordable housing market. Dyess is consistently one of the lower-cost Air Force duty stations — BAH covers most rental options comfortably.',
     rentalContext: 'Abilene is one of the most affordable Air Force markets — save the difference aggressively',
-    nearby: ['goodfellow-afb', 'sheppard-afb', 'joint-base-san-antonio'],
+    nearby: ['goodfellow-afb', 'sheppard-afb', 'joint-base-san-antonio', 'laughlin-afb'],
     bahVsHousing: {
       medianRent: 1000,
       medianRentSource: 'Zillow / BestPlaces 2025–2026',
@@ -4188,7 +4188,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     branches: ['Air Force'],
     description: 'Laughlin AFB hosts the 47th Flying Training Wing and is one of the Air Force\'s primary undergraduate pilot training bases, training U.S. and international partner nation aviators.',
     rentalNote: 'Del Rio is a small Texas border city with extremely affordable housing. BAH typically exceeds local rents — families can live comfortably near the base without financial strain.',
-    nearby: ['goodfellow-afb', 'dyess-afb', 'nas-corpus-christi'],
+    nearby: ['goodfellow-afb', 'dyess-afb', 'nas-corpus-christi', 'nas-kingsville'],
   },
   {
     name: 'Sheppard AFB',
@@ -4202,7 +4202,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     installationDetail: 'Sheppard AFB is the largest technical training base in the Air Force — training over 60,000 students annually in aircraft maintenance, medical, and logistics career fields.',
     rentalNote: 'Wichita Falls offers affordable housing with good options near the base. The rental market is modest, and BAH typically provides solid coverage of local costs.',
     rentalContext: 'Wichita Falls rents run 23% below the national average — ideal for BAH surplus savings on a training assignment',
-    nearby: ['dyess-afb', 'altus-afb', 'tinker-afb'],
+    nearby: ['dyess-afb', 'altus-afb', 'tinker-afb', 'vance-afb'],
     bahVsHousing: {
       medianRent: 1000,
       medianRentSource: 'Zillow / BestPlaces 2025–2026',
@@ -4263,7 +4263,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     branches: ['Air Force'],
     description: 'Columbus AFB hosts the 14th Flying Training Wing and trains undergraduate pilots on the T-6 Texan II and T-38 Talon — one of the Air Force\'s primary pilot production bases.',
     rentalNote: 'Columbus, MS, offers affordable housing close to the base. The local rental market is modest, and BAH consistently covers local rents with margin.',
-    nearby: ['maxwell-afb', 'keesler-afb', 'moody-afb'],
+    nearby: ['maxwell-afb', 'keesler-afb', 'moody-afb', 'nas-meridian'],
   },
   {
     name: 'Goodfellow AFB',
@@ -4338,7 +4338,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     branches: ['Air Force'],
     description: 'Hurlburt Field is the home of Air Force Special Operations Command (AFSOC) and the 1st Special Operations Wing — the primary SOF aviation hub in the United States.',
     rentalNote: 'The Eglin/Hurlburt/Fort Walton Beach area has strong military housing demand. Niceville, Navarre, and Crestview are popular at varying price points. The Emerald Coast market has risen significantly — verify current BAH coverage before signing a lease.',
-    nearby: ['eglin-afb', 'naval-air-station-pensacola', 'tyndall-afb'],
+    nearby: ['eglin-afb', 'naval-air-station-pensacola', 'tyndall-afb', 'nas-whiting-field'],
   },
   {
     name: 'Keesler AFB',
@@ -4350,7 +4350,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     branches: ['Air Force'],
     description: 'Keesler AFB hosts the 81st Training Wing, training airmen in cyber, communications, and weather. The 403rd Wing also operates C-130J aircraft here.',
     rentalNote: 'Biloxi and the Gulf Coast offer a moderate rental market. D\'Iberville, Gulfport, and Ocean Springs are alternatives. Mississippi has some of the lowest costs of living in the country.',
-    nearby: ['columbus-afb', 'maxwell-afb', 'moody-afb'],
+    nearby: ['columbus-afb', 'maxwell-afb', 'moody-afb', 'nas-meridian'],
   },
   {
     name: 'Little Rock AFB',
@@ -4388,7 +4388,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     installationDetail: 'Moody AFB is home to the 23rd Wing — the \'Flying Tigers\' — operating A-29 Super Tucanos, HH-60W Jolly Green II rescue helicopters, and HC-130J Combat King II aircraft in south Georgia.',
     rentalNote: 'Valdosta has affordable southern Georgia housing near the main gate. BAH is modest but reflects the local cost of living — most rentals in the area are within BAH range.',
     rentalContext: 'Valdosta\'s below-average cost of living means most pay grades keep a meaningful BAH surplus',
-    nearby: ['maxwell-afb', 'seymour-johnson-afb', 'marine-corps-air-station-beaufort'],
+    nearby: ['maxwell-afb', 'seymour-johnson-afb', 'marine-corps-air-station-beaufort', 'robins-afb', 'keesler-afb', 'columbus-afb'],
     bahVsHousing: {
       medianRent: 1100,
       medianRentSource: 'Zillow / BestPlaces 2025–2026',
@@ -4569,7 +4569,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     installationDetail: 'Fairchild AFB is home to the 92nd Air Refueling Wing flying KC-135 Stratotankers — the Air Force\'s aerial refueling mission in the Inland Northwest near Spokane.',
     rentalNote: 'Airway Heights, Spokane, and Medical Lake provide housing options ranging from affordable to moderate. Spokane\'s market is competitive but not extreme by national standards.',
     rentalContext: 'Spokane\'s market is accessible and growing, with plenty of options 15 minutes from the gate',
-    nearby: ['joint-base-lewis-mcchord', 'naval-air-station-whidbey-island', 'mountain-home-afb'],
+    nearby: ['joint-base-lewis-mcchord', 'naval-air-station-whidbey-island', 'mountain-home-afb', 'malmstrom-afb'],
     bahVsHousing: {
       medianRent: 1400,
       medianRentSource: 'Zillow / BestPlaces 2025–2026',
@@ -4649,7 +4649,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     branches: ['Space Force', 'Air Force'],
     description: 'Los Angeles AFB is the headquarters for Space Systems Command (SSC) and serves as the Air Force and Space Force\'s center for space systems acquisition and development.',
     rentalNote: 'The LA South Bay area (El Segundo, Torrance, Redondo Beach) is expensive. Inland alternatives offer lower rents but significant commutes. BAH reflects the elevated Los Angeles market.',
-    nearby: ['vandenberg-sfb', 'edwards-afb', 'camp-pendleton'],
+    nearby: ['vandenberg-sfb', 'edwards-afb', 'camp-pendleton', 'naws-china-lake'],
   },
   {
     name: 'Maxwell AFB',
@@ -4661,7 +4661,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     branches: ['Air Force'],
     description: 'Maxwell AFB hosts Air University, the Air Force\'s graduate education center, including the Air War College, Air Command and Staff College, and Squadron Officer School.',
     rentalNote: 'Montgomery, AL, has very affordable housing. BAH for this duty station typically exceeds local rents — one of the most financially favorable housing situations in the Air Force.',
-    nearby: ['fort-rucker', 'robins-afb', 'keesler-afb'],
+    nearby: ['fort-rucker', 'robins-afb', 'keesler-afb', 'nas-meridian', 'columbus-afb', 'moody-afb'],
   },
   {
     name: 'F.E. Warren AFB',
@@ -4673,7 +4673,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     branches: ['Air Force'],
     description: 'F.E. Warren AFB hosts the 90th Missile Wing, operating Minuteman III ICBMs across Wyoming, Colorado, and Nebraska. It is the nation\'s oldest continuously active Air Force base.',
     rentalNote: 'Cheyenne has affordable high-plains housing. The base sits on the northern edge of Cheyenne, providing easy access to city amenities. Denver (~90 miles south) is accessible but significantly more expensive.',
-    nearby: ['peterson-sfb', 'malmstrom-afb', 'hill-afb'],
+    nearby: ['peterson-sfb', 'malmstrom-afb', 'hill-afb', 'buckley-sfb'],
   },
   {
     name: 'U.S. Air Force Academy',
@@ -4806,7 +4806,7 @@ export const DUTY_STATIONS: DutyStation[] = [
       "Jacksonville has a large and diverse rental market. Orange Park and Westside Jacksonville are closest to NAS Jax — but St. Johns County to the south has the best schools in Florida and is worth the commute for families.",
     rentalContext:
       "Jacksonville's cost of living is below the national average and Florida has no income tax — a strong combination for military families.",
-    nearby: ['naval-station-mayport', 'camp-lejeune', 'nas-corpus-christi'],
+    nearby: ['naval-station-mayport', 'camp-lejeune', 'nas-corpus-christi', 'naval-submarine-base-kings-bay', 'patrick-sfb', 'nas-key-west'],
     bahVsHousing: {
       medianRent: 1600,
       medianRentSource: 'Zillow / Zumper 2025–2026',
@@ -4863,7 +4863,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     branches: ['Navy'],
     description: 'NAS Lemoore is the Navy\'s only master jet base on the West Coast, homeport for all carrier-based strike fighter aircraft (F/A-18 and F-35C).',
     rentalNote: 'Lemoore is a small San Joaquin Valley city with affordable housing. Fresno (~45 miles north) offers more options. Coastal California costs are far higher — this assignment offers relatively favorable housing economics for California.',
-    nearby: ['nas-north-island', 'travis-afb', 'nas-fallon'],
+    nearby: ['nas-north-island', 'travis-afb', 'nas-fallon', 'beale-afb'],
   },
   {
     name: 'NAS Fallon',
@@ -4875,7 +4875,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     branches: ['Navy'],
     description: 'NAS Fallon is home to the Naval Strike and Air Warfare Center (NSAWC) and hosts the Navy Fighter Weapons School (TOPGUN) — the primary tactical air warfare training base for the Navy.',
     rentalNote: 'Fallon, NV, is a small agricultural community with very affordable housing. Most personnel live on base or in Fallon\'s limited housing stock. The rental market is minimal compared to other Navy duty stations.',
-    nearby: ['nellis-afb', 'nas-lemoore', 'naval-base-ventura-county'],
+    nearby: ['nellis-afb', 'nas-lemoore', 'naval-base-ventura-county', 'beale-afb', 'mountain-home-afb', 'hill-afb'],
   },
   {
     name: 'NAS Patuxent River',
@@ -4911,7 +4911,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     branches: ['Navy'],
     description: 'NAS Corpus Christi is the Navy\'s primary helicopter pilot training installation, home to Training Air Wing Four and the Naval Air Training Command.',
     rentalNote: 'Corpus Christi has an affordable coastal Texas rental market. The base is on the south side of the bay, with housing in Corpus Christi proper, Calallen, and Portland. BAH generally covers local rents.',
-    nearby: ['nas-kingsville', 'joint-base-san-antonio', 'nas-jacksonville'],
+    nearby: ['nas-kingsville', 'joint-base-san-antonio', 'nas-jacksonville', 'laughlin-afb'],
   },
   {
     name: 'NAS Kingsville',
@@ -4947,7 +4947,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     branches: ['Navy'],
     description: 'Naval Amphibious Base Coronado is home to Naval Special Warfare Command, SEAL Team commands, and special operations support units — the heart of the Navy SEAL community.',
     rentalNote: 'Coronado is among the most expensive ZIP codes in the U.S. Most military families live in San Diego proper, Chula Vista, or El Cajon. BAH reflects the elevated San Diego market, but Coronado rentals far exceed BAH for most pay grades.',
-    nearby: ['naval-station-san-diego', 'nas-north-island', 'camp-pendleton'],
+    nearby: ['naval-station-san-diego', 'nas-north-island', 'camp-pendleton', 'mcrd-san-diego'],
   },
   {
     name: 'NAS Key West',
@@ -5053,7 +5053,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     branches: ['Navy'],
     description: 'NAS North Island is one of the oldest and largest naval air stations in the country, homeport for carrier air wings and Fleet Readiness Center Southwest — serving the Pacific Fleet.',
     rentalNote: 'San Diego North County coastal communities (Point Loma, Chula Vista, National City) serve North Island personnel. The San Diego rental market is highly competitive. BAH reflects elevated Southern California costs.',
-    nearby: ['naval-station-san-diego', 'nab-coronado', 'camp-pendleton'],
+    nearby: ['naval-station-san-diego', 'nab-coronado', 'camp-pendleton', 'mcas-yuma', 'nas-lemoore'],
   },
   {
     name: 'Naval Air Weapons Station China Lake',
@@ -5137,7 +5137,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     branches: ['Navy'],
     description: 'The United States Naval Academy in Annapolis is the four-year undergraduate commissioning program for Navy and Marine Corps officers. Permanent-party staff and faculty serve alongside midshipmen.',
     rentalNote: 'Annapolis has a premium waterfront housing market. Odenton, Glen Burnie, and Severn offer more affordable alternatives with easy access to Baltimore-Washington transit. BAH reflects the elevated DC/Annapolis area market.',
-    nearby: ['naval-station-norfolk', 'fort-meade', 'joint-base-andrews'],
+    nearby: ['naval-station-norfolk', 'fort-meade', 'joint-base-andrews', 'nas-patuxent-river'],
   },
   {
     name: 'Dam Neck Annex',
