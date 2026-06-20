@@ -16,6 +16,9 @@ const nextConfig: NextConfig = {
       // LES post consolidation — three near-duplicate posts merged into one survivor
       { source: '/blog/how-to-read-your-military-les', destination: '/blog/how-to-read-your-les', permanent: true },
       { source: '/blog/how-to-read-military-les-2026', destination: '/blog/how-to-read-your-les', permanent: true },
+      // Blog consolidation — near-duplicate posts merged into survivors (2026-06)
+      { source: '/blog/tsp-fund-options-military', destination: '/blog/tsp-fund-options-explained', permanent: true },
+      { source: '/blog/dual-military-bah-guide', destination: '/blog/dual-military-bah-rules', permanent: true },
       // Base name reversals — 2025 Army renaming rollback
       { source: '/bah/fort-liberty', destination: '/bah/fort-bragg', permanent: true },
       { source: '/bah/fort-cavazos', destination: '/bah/fort-hood', permanent: true },
