@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, Legend,
+  ResponsiveContainer, Legend, ReferenceLine,
 } from 'recharts';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
@@ -105,6 +105,7 @@ export function TSPCalculator() {
   // Military info
   const [grade, setGrade] = useState<PayGrade>('E-5');
   const [yos, setYos] = useState('6');
+  const [moreYearsToServe, setMoreYearsToServe] = useState('14'); // max(20-6, 1)
   const [retirementSystem, setRetirementSystem] = useState<RetirementSystem>('brs');
 
   // Contributions
@@ -116,13 +117,16 @@ export function TSPCalculator() {
   const [preset, setPreset] = useState<PresetKey>('aggressive');
   const [allocation, setAllocation] = useState<FundAllocation>({ ...ALLOCATION_PRESETS.aggressive });
   const [showCustom, setShowCustom] = useState(false);
-  const [annualRaise, setAnnualRaise] = useState('3.5');
+  const [annualRaise, setAnnualRaise] = useState('4.5');
 
   // Roth comparison
   const [retirementTaxRate, setRetirementTaxRate] = useState('22');
 
   // ── Derived values ────────────────────────────────────────────────────
   const yearsToProject = Math.max(1, (parseInt(targetAge) || 65) - (parseInt(currentAge) || 26));
+  const moreYearsToServeInt = Math.max(1, Math.min(parseInt(moreYearsToServe) || 1, 30));
+  const phase1Years = Math.min(moreYearsToServeInt, yearsToProject);
+  const phase2Years = Math.max(0, yearsToProject - moreYearsToServeInt);
   const basePay = useMemo(() => getBasePayMonthly(grade, parseInt(yos) || 0), [grade, yos]);
 
   const monthlyContrib = useMemo(() => {
@@ -149,9 +153,10 @@ export function TSPCalculator() {
       yearsOfService: parseInt(yos) || 0,
       allocation,
       yearsToProject,
+      moreYearsToServe: moreYearsToServeInt,
       annualPayRaisePct: parseFloat(annualRaise) || 0,
     });
-  }, [startingBalance, monthlyContrib, retirementSystem, grade, yos, allocation, yearsToProject, annualRaise, allocationValid]);
+  }, [startingBalance, monthlyContrib, retirementSystem, grade, yos, allocation, yearsToProject, moreYearsToServeInt, annualRaise, allocationValid]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {
@@ -196,6 +201,7 @@ export function TSPCalculator() {
     const roth = params.get('roth');
     const pg = parseGrade(params.get('rank'));
     const yosParam = params.get('yos');
+    const moreYearsParam = params.get('more_years');
 
     if (bal !== null) {
       const n = parseFloat(bal);
@@ -213,9 +219,19 @@ export function TSPCalculator() {
     if (roth === 'yes') setContribType('roth');
     else if (roth === 'no') setContribType('traditional');
     if (pg) setGrade(pg);
+
+    let yosFromUrl: number | null = null;
     if (yosParam !== null) {
       const n = parseInt(yosParam);
-      if (!isNaN(n) && n >= 0 && n <= 40) setYos(String(n));
+      if (!isNaN(n) && n >= 0 && n <= 40) { setYos(String(n)); yosFromUrl = n; }
+    }
+
+    // Restore explicit more_years; otherwise recompute default when YOS came from URL
+    if (moreYearsParam !== null) {
+      const n = parseInt(moreYearsParam);
+      if (!isNaN(n) && n >= 1 && n <= 30) setMoreYearsToServe(String(n));
+    } else if (yosFromUrl !== null) {
+      setMoreYearsToServe(String(Math.max(20 - yosFromUrl, 1)));
     }
   }, []);
 
@@ -228,6 +244,7 @@ export function TSPCalculator() {
     if (contribType !== 'both') params.set('roth', contribType === 'roth' ? 'yes' : 'no');
     params.set('rank', gradeToParam(grade));
     params.set('yos', yos);
+    params.set('more_years', String(moreYearsToServeInt));
     return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
   }
 
@@ -303,6 +320,25 @@ export function TSPCalculator() {
               {fmt(basePay, false)}/mo
             </div>
           </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <Input
+            label="More years you plan to serve"
+            type="number"
+            min={1}
+            max={30}
+            step={1}
+            value={moreYearsToServe}
+            onChange={(e) => setMoreYearsToServe(e.target.value)}
+            hint="TSP contributions and BRS matching are only possible while you're serving. Default assumes a 20-year career — adjust to your plans."
+          />
+          {moreYearsToServeInt >= yearsToProject && (
+            <div className="flex items-end pb-1">
+              <p className="text-xs text-zinc-500 leading-relaxed">
+                You plan to serve past your target retirement age — contributions will run the full {yearsToProject}-year projection.
+              </p>
+            </div>
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-sm font-medium text-zinc-700">Retirement System</label>
@@ -433,14 +469,14 @@ export function TSPCalculator() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
           <Input
-            label="Annual Pay Raise Assumption"
+            label="Annual pay growth (raises + promotions)"
             type="number"
             min={0}
             max={20}
             step={0.5}
             value={annualRaise}
             onChange={(e) => setAnnualRaise(e.target.value)}
-            hint="Applies annual cost-of-living and merit increases to contribution amounts"
+            hint="Assumption covering annual military pay raises plus typical promotion increases over a career. Lower it if you expect to stay at your current grade; raise it if you expect faster advancement."
           />
         </div>
       </Card>
@@ -510,6 +546,15 @@ export function TSPCalculator() {
                 <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1">Projected Balance</p>
                 <p className="text-4xl font-black text-red-700 tabular-nums leading-none">{fmtM(projection.finalBalance)}</p>
                 <p className="text-sm text-zinc-500 mt-1">at age {targetAge} ({yearsToProject} years)</p>
+                {projection.phase2Years > 0 ? (
+                  <p className="text-xs text-zinc-400 mt-2">
+                    Includes {projection.phase1Years} year{projection.phase1Years !== 1 ? 's' : ''} of contributions while serving, then {projection.phase2Years} year{projection.phase2Years !== 1 ? 's' : ''} of investment growth after separation — no new contributions modeled after you leave the military.
+                  </p>
+                ) : (
+                  <p className="text-xs text-zinc-400 mt-2">
+                    Contributions modeled for the full {projection.phase1Years}-year projection — you plan to serve through your target retirement age.
+                  </p>
+                )}
               </div>
               <div>
                 <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1">Est. Monthly Withdrawal (4% rule)</p>
@@ -553,8 +598,18 @@ export function TSPCalculator() {
             usefulFor={['Retirement planning', 'Contribution scenarios', 'Financial review']}
             getUrl={getShareUrl}
             shareTitle="My TSP projection"
-            shareText="Here's my TSP growth projection from MilPayTools."
+            shareText={`Here's my TSP projection from MilPayTools — ${projection.phase1Years} year${projection.phase1Years !== 1 ? 's' : ''} of contributions while serving, then ${projection.phase2Years} year${projection.phase2Years !== 1 ? 's' : ''} of investment growth after separation.`}
           />
+
+          {/* Post-separation callout */}
+          {projection.phase2Years > 0 && (
+            <div className="rounded-lg bg-blue-50 border border-blue-200 p-4">
+              <p className="font-semibold text-sm text-blue-800 mb-1">Your TSP keeps working after you separate</p>
+              <p className="text-sm text-blue-700 leading-relaxed">
+                You can&apos;t contribute to TSP after leaving federal service, but your balance stays invested and keeps compounding. Many people also continue saving in a civilian 401(k) or IRA after service — this projection doesn&apos;t model those contributions, so your real retirement picture may be larger.
+              </p>
+            </div>
+          )}
 
           {/* Growth chart */}
           <Card>
@@ -615,6 +670,14 @@ export function TSPCalculator() {
                     fill="url(#colorGrowth)"
                     strokeWidth={1.5}
                   />
+                  {projection.phase2Years > 0 && (
+                    <ReferenceLine
+                      x={projection.phase1Years}
+                      stroke="#d97706"
+                      strokeDasharray="4 2"
+                      label={{ value: 'Separation', position: 'insideTopRight', fontSize: 10, fill: '#d97706' }}
+                    />
+                  )}
                 </AreaChart>
               </ResponsiveContainer>
             </div>

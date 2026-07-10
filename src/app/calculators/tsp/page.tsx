@@ -6,6 +6,7 @@ import { TSPCalculator } from '@/components/calculators/tsp/TSPCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import { projectTSP, getBasePayMonthly } from '@/lib/calculations/tspGrowth';
+import { SAMPLE_BAR_SCENARIO, sampleFmt } from '@/lib/calculations/tspSampleDefaults';
 import { calculateHigh3Average, calculatePension } from '@/lib/calculations/retirement';
 import { projectTSPBalance, formatCurrency, formatPercent } from '@/lib/utils';
 import { ALLOCATION_PRESETS } from '@/data/tsp/2026/constants';
@@ -36,12 +37,17 @@ export const metadata: Metadata = {
 };
 
 export default function TSPPage() {
+  // ── Sample output bar — driven by SAMPLE_BAR_SCENARIO from tspSampleDefaults ──
+  // Both this page and the E2E test import that constant, so they share a single
+  // source of truth. Change the scenario there; both update automatically.
+  const sampleBarProjection = projectTSP(SAMPLE_BAR_SCENARIO);
+
   // ── Worked-example values, computed server-side from the TSP growth lib ───────
   // Scenario: E-6 at 10 YOS, BRS, contributing 10% of base pay, $25,000 current
   // balance, projecting 10 more years to a 20-year retirement.
-  // Assumptions not pinned down by the narrative (flagged): "aggressive growth" =
-  // the calculator's own aggressive preset (C60/S25/I15); 0% annual pay raise, which
-  // keeps the monthly contribution flat to match the table's simple FV framing.
+  // moreYearsToServe: 10 (equals yearsToProject — contributions run the full scenario,
+  // same result as before since the member retires at 20 YOS).
+  // annualPayRaisePct: 0 — keeps the monthly contribution flat for the table's simple FV framing.
   const tspStartBalance = 25000;
   const tspBasePay = getBasePayMonthly('E-6', 10);
   const tspMember = tspBasePay * 0.1;
@@ -53,6 +59,7 @@ export default function TSPPage() {
     yearsOfService: 10,
     allocation: { ...ALLOCATION_PRESETS.aggressive },
     yearsToProject: 10,
+    moreYearsToServe: 10, // 10 more years to 20-year retirement — contributions run the full projection
     annualPayRaisePct: 0,
   });
   const tspGovMatch = tspProjection.monthlyGovContribution;
@@ -114,7 +121,7 @@ export default function TSPPage() {
             </p>
             <div className="flex-1 min-w-0" />
             <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
-              Projected at 65: <span className="font-semibold text-red-700">$2.85M</span>
+              Projected at 65: <span className="font-semibold text-red-700" data-testid="sample-output-balance">{sampleFmt(sampleBarProjection.finalBalance)}</span>
             </p>
           </div>
         </div>
@@ -279,6 +286,8 @@ export default function TSPPage() {
             <li>Future rank or duty status changes — pay grade promotions, early separation, or retirement system changes all affect contributions</li>
             <li>Sequence-of-returns risk — a series of poor returns early in retirement can significantly reduce how long your balance lasts</li>
             <li>State income taxes on Traditional TSP withdrawals — most states tax these; a few exempt military retirement income</li>
+            <li>New TSP contributions after separation — TSP only accepts contributions while you&apos;re in federal service (rollovers excepted)</li>
+            <li>Civilian retirement savings after service (401(k), IRA) — many members keep building wealth after separation, but this tool models TSP only</li>
           </ul>
         </div>
 
@@ -322,7 +331,8 @@ export default function TSPPage() {
             >
               TSP.gov
             </a>{' '}
-            and the IRS.
+            and the IRS.{' '}
+            Projections assume contributions end at your planned separation date, since TSP contributions require federal service.
           </p>
         </div>
 
