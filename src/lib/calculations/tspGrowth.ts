@@ -42,7 +42,8 @@ export interface TSPProjectionInput {
   allocation: FundAllocation;     // must sum to 100
   customReturns?: Partial<FundReturns>; // overrides for advanced mode
   yearsToProject: number;         // total years until target retirement
-  annualPayRaisePct: number;      // e.g. 3.5 for 3.5%
+  annualPayRaisePct: number;      // e.g. 4.5 for 4.5%
+  moreYearsToServe: number;       // years of active service remaining; contributions and BRS match stop after this
 }
 
 export interface YearSnapshot {
@@ -65,6 +66,8 @@ export interface TSPProjectionResult {
   blendedAnnualReturn: number;        // weighted average return rate
   monthlyGovContribution: number;     // initial month BRS match (for display)
   isMaxContribLimit: boolean;         // hit annual deferral limit
+  phase1Years: number;               // years of active contributions (capped at yearsToProject)
+  phase2Years: number;               // years of growth-only after separation
 }
 
 // ─── Core Math Helpers ─────────────────────────────────────────────────────
@@ -137,7 +140,13 @@ export function projectTSP(input: TSPProjectionInput): TSPProjectionResult {
     allocation,
     yearsToProject,
     annualPayRaisePct,
+    moreYearsToServe,
   } = input;
+
+  // Phase 1: contributions + BRS match run while in service.
+  // Phase 2: growth-only after separation. Contributions are capped at yearsToProject
+  // so that the edge case of "still serving at retirement age" just runs the full projection.
+  const phase1Months = Math.min(moreYearsToServe, yearsToProject) * 12;
 
   // Merge custom returns with defaults
   const effectiveReturns: FundReturns = {
@@ -191,13 +200,17 @@ export function projectTSP(input: TSPProjectionInput): TSPProjectionResult {
       annualGovYTD = 0;
     }
 
-    // Enforce annual deferral limit
-    const remainingLimit = Math.max(0, limit - annualMemberYTD);
-    const actualMemberContrib = Math.min(memberContrib, remainingLimit);
-    if (actualMemberContrib < memberContrib) hitLimit = true;
+    const inService = month <= phase1Months;
 
-    // BRS government contribution (not subject to elective deferral limit)
-    const brs = calcBRSMatch(basePay, actualMemberContrib, retirementSystem);
+    // Enforce annual deferral limit — only applies while in service
+    const remainingLimit = inService ? Math.max(0, limit - annualMemberYTD) : 0;
+    const actualMemberContrib = inService ? Math.min(memberContrib, remainingLimit) : 0;
+    if (inService && actualMemberContrib < memberContrib) hitLimit = true;
+
+    // BRS government contribution — only while in service (not subject to elective deferral limit)
+    const brs = inService
+      ? calcBRSMatch(basePay, actualMemberContrib, retirementSystem)
+      : { auto: 0, match: 0, total: 0 };
 
     // Apply growth first, then contributions
     const growthThisMonth = balance * monthlyReturn;
@@ -235,6 +248,8 @@ export function projectTSP(input: TSPProjectionInput): TSPProjectionResult {
     blendedAnnualReturn: annualReturn,
     monthlyGovContribution: initialBRS.total,
     isMaxContribLimit: hitLimit,
+    phase1Years: Math.min(moreYearsToServe, yearsToProject),
+    phase2Years: Math.max(0, yearsToProject - moreYearsToServe),
   };
 }
 
