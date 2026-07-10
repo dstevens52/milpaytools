@@ -6,6 +6,7 @@ import { TSPCalculator } from '@/components/calculators/tsp/TSPCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import { projectTSP, getBasePayMonthly } from '@/lib/calculations/tspGrowth';
+import { SAMPLE_BAR_SCENARIO, sampleFmt } from '@/lib/calculations/tspSampleDefaults';
 import { calculateHigh3Average, calculatePension } from '@/lib/calculations/retirement';
 import { projectTSPBalance, formatCurrency, formatPercent } from '@/lib/utils';
 import { ALLOCATION_PRESETS } from '@/data/tsp/2026/constants';
@@ -35,30 +36,11 @@ export const metadata: Metadata = {
   },
 };
 
-// Format a large dollar amount as $X.XXM / $XK for compact display
-function sampleFmt(n: number): string {
-  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(2)}M`;
-  if (n >= 1_000) return `$${Math.round(n / 1_000)}K`;
-  return '$' + Math.round(n).toLocaleString('en-US');
-}
-
 export default function TSPPage() {
-  // ── Sample output bar — computed from the calculator's default two-phase scenario ──
-  // E-5, 6 YOS, BRS 5%, aggressive allocation, $0 starting balance, age 26 → 65.
-  // moreYearsToServe: 14 (default for 6 YOS: max(20−6, 1))
-  // annualPayRaisePct: 4.5 (calculator default)
-  const sampleBarBasePay = getBasePayMonthly('E-5', 6);
-  const sampleBarProjection = projectTSP({
-    startingBalance: 0,
-    monthlyContribution: sampleBarBasePay * 0.05,
-    retirementSystem: 'brs',
-    payGrade: 'E-5',
-    yearsOfService: 6,
-    allocation: { ...ALLOCATION_PRESETS.aggressive },
-    yearsToProject: 39, // 65 − 26
-    moreYearsToServe: 14, // max(20 − 6, 1)
-    annualPayRaisePct: 4.5,
-  });
+  // ── Sample output bar — driven by SAMPLE_BAR_SCENARIO from tspSampleDefaults ──
+  // Both this page and the E2E test import that constant, so they share a single
+  // source of truth. Change the scenario there; both update automatically.
+  const sampleBarProjection = projectTSP(SAMPLE_BAR_SCENARIO);
 
   // ── Worked-example values, computed server-side from the TSP growth lib ───────
   // Scenario: E-6 at 10 YOS, BRS, contributing 10% of base pay, $25,000 current
