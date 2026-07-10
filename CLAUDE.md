@@ -63,6 +63,15 @@ MilPayTools.com is a free military financial calculator and education platform f
 - The 33 `skipped` tests are expected: 30 conditional `test.skip()` data-guards (show as "did not
   run" under line reporter, "skipped" under JSON) + 3 `test.fixme` entries × 3 browsers.
 
+## Accuracy Conventions
+
+Before flagging any figure as wrong, the full lookup chain must be established and stated:
+
+- **BAH figures:** trace ZIP → MHA code (`sorted_zipmha26.txt`) → MHA name (`mhanames26.txt`) → rate (`bahw26.txt`/`bahwo26.txt`). A lib lookup alone (`mhaRates.ts`) is not sufficient — the MHA code must be confirmed against the name file before the figure can be attributed to a location. Confusing codes (e.g., CA022 = Fresno ≠ CA039 = Monterey) has caused false-positive mismatch reports.
+- **Pay/VA figures:** trace pay grade + YOS → DFAS pay table row, or VA rating → `src/data/va-rates/2026.ts`. State the exact source row alongside any claimed discrepancy.
+- **No correction without external verification:** a mismatch flagged from a lib lookup alone is a hypothesis, not a finding. Confirm against the official source (DTMO PDF/ASCII, DFAS pay table, VA.gov compensation page) before declaring a figure wrong or proposing a fix.
+- **Guardrail B hold:** if a recomputed figure differs from the displayed one and would change the story the copy tells, flag it and hold — do not silently ship the new number.
+
 ## Environment Variables (Vercel + .env.local)
 - BEEHIIV_API_KEY
 - BEEHIIV_PUBLICATION_ID
