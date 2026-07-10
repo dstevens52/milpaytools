@@ -23,10 +23,10 @@ Failures group into four clusters. Browser coverage noted per cluster.
 - `data-accuracy.spec.ts:114` — Total Comp: E-5 8 YOS base pay = $4,299.90/mo — chromium, firefox, webkit
 
 ### Total Compensation — BRS match tiering (12 = 3 browsers × 4 tests)
-- `edge-cases.spec.ts:158` — 3% contribution → 4% government total (not 3%) — chromium, firefox, webkit
-- `edge-cases.spec.ts:166` — 4% contribution → 4.5% government total — chromium, firefox, webkit
-- `edge-cases.spec.ts:174` — 5% contribution → 5% government total — chromium, firefox, webkit
-- `edge-cases.spec.ts:182` — 0% contribution → 1% automatic only — chromium, firefox, webkit
+- `edge-cases.spec.ts:159` — 3% contribution → 4% government total (not 3%) — chromium, firefox, webkit
+- `edge-cases.spec.ts:167` — 4% contribution → 4.5% government total — chromium, firefox, webkit
+- `edge-cases.spec.ts:175` — 5% contribution → 5% government total — chromium, firefox, webkit
+- `edge-cases.spec.ts:183` — 0% contribution → 1% automatic only — chromium, firefox, webkit
 
 **Likely reason (both Total Comp clusters):** recent commit `8daeede`
 ("require a matched CONUS duty station before total-comp results") now gates the
