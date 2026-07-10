@@ -49,8 +49,19 @@ MilPayTools.com is a free military financial calculator and education platform f
 
 ## Testing
 - Run `npm run test:e2e` after any changes
-- 650+ Playwright tests covering all calculators, BAH pages, and cross-browser (Chrome/Firefox/WebKit)
+- 1299+ Playwright tests covering all calculators, BAH pages, and cross-browser (Chrome/Firefox/WebKit)
 - Fort Bragg and Fort Hood are commonly used as test reference pages
+- **Baseline gate must use the JSON reporter:** `npx playwright test --reporter=json > results.json`
+  The `--reporter=line` reporter silently drops failures from its counts (verified 2026-07-10:
+  28 known failures showed as 0 failed + 30 "did not run" under line; JSON showed 28 unexpected).
+  Never use `--reporter=line` for a build gate or regression check.
+- **Every build report must paste the JSON `stats` block verbatim** — `expected`, `unexpected`,
+  `skipped`, `flaky` fields. Example from 2026-07-10 run:
+  ```json
+  { "expected": 1238, "skipped": 33, "unexpected": 28, "flaky": 0 }
+  ```
+- The 33 `skipped` tests are expected: 30 conditional `test.skip()` data-guards (show as "did not
+  run" under line reporter, "skipped" under JSON) + 3 `test.fixme` entries × 3 browsers.
 
 ## Environment Variables (Vercel + .env.local)
 - BEEHIIV_API_KEY
