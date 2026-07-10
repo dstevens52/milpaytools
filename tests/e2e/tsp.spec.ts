@@ -166,4 +166,51 @@ test.describe('TSP Growth Projector', () => {
     // Recharts renders the ReferenceLine label as an SVG <text> element.
     await expect(page.locator('svg text').filter({ hasText: 'Separation' })).toBeVisible();
   });
+
+  // ── Derived-default tests ────────────────────────────────────────────────
+
+  test('YOS change recomputes "more years to serve" when field is untouched', async ({ page }) => {
+    // Default load: E-5, 6 YOS → field = max(20-6, 1) = 14
+    const input = page.getByLabel(/more years you plan to serve/i);
+    await expect(input).toHaveValue('14');
+
+    // Change YOS to 2 → field should recompute to max(20-2, 1) = 18
+    await page.getByLabel('Years of Service').selectOption('2');
+    await expect(input).toHaveValue('18');
+  });
+
+  test('manual edit of "more years to serve" locks it against YOS changes', async ({ page }) => {
+    const input = page.getByLabel(/more years you plan to serve/i);
+
+    // Manually set to 4 → marks field dirty
+    await input.click();
+    await input.fill('4');
+    await input.press('Tab');
+    await expect(input).toHaveValue('4');
+
+    // Change YOS → field must remain 4
+    await page.getByLabel('Years of Service').selectOption('2');
+    await expect(input).toHaveValue('4');
+  });
+
+  test('explicit more_years URL param locks field against YOS changes', async ({ page }) => {
+    await page.goto('/calculators/tsp?yos=8&more_years=10');
+    const input = page.getByLabel(/more years you plan to serve/i);
+    await expect(input).toHaveValue('10');
+
+    // Change YOS in UI → field must remain 10
+    await page.getByLabel('Years of Service').selectOption('4');
+    await expect(input).toHaveValue('10');
+  });
+
+  test('URL with yos but no more_years keeps recompute active on YOS change', async ({ page }) => {
+    await page.goto('/calculators/tsp?yos=8');
+    const input = page.getByLabel(/more years you plan to serve/i);
+    // Initial recompute: max(20-8, 1) = 12
+    await expect(input).toHaveValue('12');
+
+    // Change YOS to 4 → recomputes: max(20-4, 1) = 16
+    await page.getByLabel('Years of Service').selectOption('4');
+    await expect(input).toHaveValue('16');
+  });
 });
