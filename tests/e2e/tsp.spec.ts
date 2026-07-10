@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import { projectTSP } from '@/lib/calculations/tspGrowth';
+import { SAMPLE_BAR_SCENARIO, sampleFmt } from './tspTestFixtures';
 
 test.describe('TSP Growth Projector', () => {
   test.beforeEach(async ({ page }) => {
@@ -61,14 +63,16 @@ test.describe('TSP Growth Projector', () => {
   // ── Two-phase model tests ────────────────────────────────────────────────
 
   test('sample output bar is computed and shows a dollar figure', async ({ page }) => {
-    // The sample bar figure must be computed from the engine — not the old hardcoded $2.85M.
-    // The two-phase model (14 years contributions → 25 years growth) produces a lower figure.
+    // Compute the expected text from the engine using the exact same default
+    // scenario the page uses. No dollar literal is hardcoded — this assertion
+    // survives pay table updates automatically.
+    const expectedText = sampleFmt(projectTSP(SAMPLE_BAR_SCENARIO).finalBalance);
+
     const bar = page.getByTestId('sample-output-balance');
     await expect(bar).toBeVisible();
     const text = await bar.textContent();
     expect(text).toMatch(/^\$[\d,.]+[MK]?$/);
-    // Confirm the hardcoded value is gone
-    expect(text).not.toBe('$2.85M');
+    expect(text).toBe(expectedText);
   });
 
   test('"More years you plan to serve" input renders with default value', async ({ page }) => {
@@ -82,19 +86,20 @@ test.describe('TSP Growth Projector', () => {
     const input = page.getByLabel(/more years you plan to serve/i);
     await expect(input).toBeVisible();
 
-    // Capture the initial projected balance
-    const balanceBefore = await page.getByText(/Projected Balance/i).locator('..').locator('p.text-4xl, p.text-3xl').first().textContent();
+    // Target the projected balance directly via its unique CSS classes.
+    // This locator survives React re-renders better than the chained parent/child approach.
+    const balanceLocator = page.locator('p.text-4xl.text-red-700').first();
+    const balanceBefore = await balanceLocator.textContent();
 
-    // Reduce to 5 years of service
+    // click() + press('Tab') is more reliable than fill() + blur() on webkit
+    // for triggering React's onChange on number inputs.
+    await input.click();
     await input.fill('5');
-    await input.blur();
+    await input.press('Tab');
 
-    // Wait for re-render
-    await page.waitForTimeout(300);
-
-    const balanceAfter = await page.getByText(/Projected Balance/i).locator('..').locator('p.text-4xl, p.text-3xl').first().textContent();
-
-    // Less service time = lower projected balance
+    // Wait for React re-render — assert the balance has changed rather than sleeping.
+    await expect(balanceLocator).not.toHaveText(balanceBefore ?? '');
+    const balanceAfter = await balanceLocator.textContent();
     expect(balanceAfter).not.toBe(balanceBefore);
   });
 
@@ -124,13 +129,23 @@ test.describe('TSP Growth Projector', () => {
     // Set target age to 40 (yearsToProject = 14) then moreYearsToServe = 20,
     // so separation (26+20=46) > target (40) → the engine caps at yearsToProject.
     const targetInput = page.getByLabel(/Target Retirement Age/i);
+    const balanceLocator = page.locator('p.text-4xl.text-red-700').first();
+    const balanceBefore = await balanceLocator.textContent();
+
+    await targetInput.click();
     await targetInput.fill('40');
-    await targetInput.blur();
+    await targetInput.press('Tab');
+
+    // Wait for React to recalculate with the new target age before filling
+    // moreYearsToServe. Without this, webkit processes both fills before the
+    // first re-render fires, so moreYearsToServeInt >= yearsToProject uses
+    // the stale yearsToProject=39 instead of 14.
+    await expect(balanceLocator).not.toHaveText(balanceBefore ?? '');
 
     const input = page.getByLabel(/more years you plan to serve/i);
+    await input.click();
     await input.fill('20');
-    await input.blur();
-    await page.waitForTimeout(400);
+    await input.press('Tab');
 
     // A note about serving past retirement age should appear
     await expect(page.getByText(/serve past your target retirement age|contributions will run the full/i)).toBeVisible();
