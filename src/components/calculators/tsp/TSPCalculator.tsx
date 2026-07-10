@@ -106,6 +106,7 @@ export function TSPCalculator() {
   const [grade, setGrade] = useState<PayGrade>('E-5');
   const [yos, setYos] = useState('6');
   const [moreYearsToServe, setMoreYearsToServe] = useState('14'); // max(20-6, 1)
+  const [moreYearsToServeDirty, setMoreYearsToServeDirty] = useState(false);
   const [retirementSystem, setRetirementSystem] = useState<RetirementSystem>('brs');
 
   // Contributions
@@ -157,6 +158,14 @@ export function TSPCalculator() {
       annualPayRaisePct: parseFloat(annualRaise) || 0,
     });
   }, [startingBalance, monthlyContrib, retirementSystem, grade, yos, allocation, yearsToProject, moreYearsToServeInt, annualRaise, allocationValid]);
+
+  // Recompute "more years to serve" whenever YOS changes, unless the user has
+  // manually edited the field or loaded an explicit more_years URL param.
+  useEffect(() => {
+    if (!moreYearsToServeDirty) {
+      setMoreYearsToServe(String(Math.max(20 - (parseInt(yos) || 0), 1)));
+    }
+  }, [yos, moreYearsToServeDirty]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {
@@ -226,12 +235,14 @@ export function TSPCalculator() {
       if (!isNaN(n) && n >= 0 && n <= 40) { setYos(String(n)); yosFromUrl = n; }
     }
 
-    // Restore explicit more_years; otherwise recompute default when YOS came from URL
+    // Explicit more_years = user's shared choice; lock it so YOS changes don't overwrite it.
+    // Absent more_years = recompute path stays live (the yos effect handles it).
     if (moreYearsParam !== null) {
       const n = parseInt(moreYearsParam);
-      if (!isNaN(n) && n >= 1 && n <= 30) setMoreYearsToServe(String(n));
-    } else if (yosFromUrl !== null) {
-      setMoreYearsToServe(String(Math.max(20 - yosFromUrl, 1)));
+      if (!isNaN(n) && n >= 1 && n <= 30) {
+        setMoreYearsToServe(String(n));
+        setMoreYearsToServeDirty(true);
+      }
     }
   }, []);
 
@@ -329,7 +340,7 @@ export function TSPCalculator() {
             max={30}
             step={1}
             value={moreYearsToServe}
-            onChange={(e) => setMoreYearsToServe(e.target.value)}
+            onChange={(e) => { setMoreYearsToServeDirty(true); setMoreYearsToServe(e.target.value); }}
             hint="TSP contributions and BRS matching are only possible while you're serving. Default assumes a 20-year career — adjust to your plans."
           />
           {moreYearsToServeInt >= yearsToProject && (
