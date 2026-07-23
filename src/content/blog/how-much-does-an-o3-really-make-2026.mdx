@@ -12,6 +12,50 @@ author: Dan Stevens
 guide: military-pay
 ---
 
+{/*
+  ─────────────────────────────────────────────────────────────────────────────
+  2026 FIGURES — MUST BE REVISED DURING THE JANUARY ANNUAL DATA UPDATE.
+  Every dollar figure below is INLINE (blog MDX renders as a raw string and
+  cannot import data modules). Each was traced to and matches a verified 2026
+  data-library value. On the January update, re-trace each against the new
+  source and update here. See docs/ANNUAL_DATA_UPDATE.md.
+
+  BASE PAY — source: payTable['O-3'] in src/data/pay-tables/2026.ts
+    $5,534.10 (Under 2) · $6,273.90 (Over 2) · $6,770.40 (Over 3) ·
+    $7,382.70 (Over 4) · $7,737.00 (Over 6, headline) · $8,125.50 (Over 8) ·
+    $8,375.70 (Over 10) · $8,788.20 (Over 12) · $9,004.20 (Over 14, cap)
+
+  PRIOR-ENLISTED — source: payTable['O-3E'] (same file)
+    $9,609.60 (Over 18, cap)
+
+  E-7 CONTRAST — source: payTable['E-7'][6] (same file)
+    $4,843.80 ; derived diff O-3(6)−E-7(6) = $2,893.20
+
+  BAS — source: BAS_RATES in src/data/constants.ts
+    $328.48 (officer) · $476.95 (enlisted, contrast)
+
+  BAH — O-3 with-dependents, source: mhaRates in src/data/bah/2026/mhaRates.ts
+    $2,175  ZIP 28307 → NC182 (Fort Bragg/Pope, NC)
+    $2,595  ZIP 80913 → CO046 (Colorado Springs, CO — Fort Carson)
+    $4,518  ZIP 92134 → CA038 (San Diego, CA)
+    derived diff San Diego − Fort Bragg = $2,343
+
+  DERIVED TOTALS — base(Over 6) + BAH + officer BAS:
+    monthly $10,240.48 / $10,660.48 / $12,583.48
+    annual  $122,886 / $127,926 / $151,002
+
+  BRS MATCH — base(Over 6) × BRS constants in src/data/constants.ts:
+    $77.37 (auto 1%) · $232.11 (first 3%) · $77.37 (50¢ on next 2%) ·
+    $386.85/mo · $4,642.20/yr
+
+  CIVILIAN-EQUIVALENT — ILLUSTRATION ONLY (not a library figure): flat 22%
+    applied to the allowance portion → computed ~$131,359 (Bragg) /
+    ~$167,405 (SD), shown rounded as "on the order of $131,000 / $167,000";
+    intro + QuickAnswer state the range ~$131,000–$167,000. Recompute if the
+    illustration rate or any input figure changes.
+  ─────────────────────────────────────────────────────────────────────────────
+*/}
+
 O-3 base pay for 6 years of service is $7,737.00/month in 2026, but that figure understates actual compensation significantly. Adding BAH (ranging from $2,175/month at Fort Bragg to $4,518/month in San Diego), officer BAS ($328.48/month), and the tax advantage of those allowances being excluded from federal taxable income, total compensation ranges from approximately $123,000 to $151,000 per year — equivalent to roughly $131,000–$167,000 in civilian pretax salary depending on duty station.
 
 <QuickAnswer>
@@ -98,13 +142,13 @@ BAH and BAS are **excluded from federal income tax** under 26 U.S.C. § 134. The
 
 A civilian earning the same total dollar amount would pay income tax on all of it. You pay income tax only on your base pay.
 
-Using a simplified estimate at a 22% federal rate on the allowance portion:
+As a simplified illustration — a flat 22% federal rate applied only to the allowance portion — here is one common way to think about the gap:
 
-**To net the same economic value as an O-3 at Fort Bragg ($122,886/year total), a civilian would roughly need to earn approximately $131,400/year gross** (base pay plus the pre-tax income required to replace the excluded allowances).
+**To match the economic value of an O-3 at Fort Bragg ($122,886/year total), a civilian would need to earn on the order of $131,000/year gross** — base pay plus the additional pre-tax income it would take to replace the allowances that aren't federally taxed.
 
-**For San Diego ($151,002/year total), that civilian equivalent is roughly $167,400/year** (same simplified estimate).
+**For San Diego ($151,002/year total), that illustrative equivalent is on the order of $167,000/year.**
 
-These are illustrations, not tax calculations — an O-3's income sits in the 22%–24% federal bracket range, so at higher-cost stations the true civilian equivalent runs a little higher than the flat-22% estimate shown. Either way, that's the comparison worth making against civilian job offers — not base pay vs. salary.
+These are rough illustrations, not a calculation of anyone's actual taxes. What a specific person would really owe varies by state, filing status, dependents, and duty station, and an O-3's income spans the 22%–24% federal brackets — so at higher-cost stations the real figure runs somewhat higher than a flat 22% suggests. A common way to weigh a civilian offer is to consider it against total compensation, not base pay alone — and to run the numbers for your own situation.
 
 ## What about prior-enlisted officers — the O-3E pay scale?
 
