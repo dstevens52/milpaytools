@@ -41,6 +41,28 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
+  'how-much-does-an-o3-really-make-2026': [
+    {
+      question: 'How much does an O-3 make in 2026?',
+      answer: 'O-3 base pay in 2026 is $7,737.00/month ($92,844/year) at 6 years of service, per the verified DFAS pay table. Adding BAH (roughly $2,175/month at Fort Bragg to $4,518/month in San Diego for an O-3 with dependents) and officer BAS of $328.48/month, total compensation ranges from about $123,000 to $151,000/year depending on duty station — before healthcare, retirement matching, and the tax advantage of the allowances.',
+    },
+    {
+      question: 'What is the 2026 officer BAS rate, and is it different from enlisted BAS?',
+      answer: 'The 2026 Basic Allowance for Subsistence rate for officers is $328.48/month, flat regardless of grade or location. It is lower than the enlisted BAS rate of $476.95/month — the two are set separately by statute. BAS is excluded from federal taxable income.',
+    },
+    {
+      question: 'Does an O-3 make more than an E-7?',
+      answer: 'In base pay, yes. At 6 years of service an O-3 earns $7,737.00/month versus $4,843.80/month for an E-7 — a difference of $2,893.20/month. The grades sit at different career stages, so the cleanest comparison is on total compensation at similar career points rather than base pay alone.',
+    },
+    {
+      question: 'What is O-3E prior-enlisted officer pay?',
+      answer: 'O-3E is the pay scale for O-3s with more than four years of prior active enlisted service. At 6 years of service it matches the standard O-3 rate, but the prior-enlisted advantage appears later: standard O-3 base pay caps at $9,004.20/month at over 14 years, while O-3E continues to $9,609.60/month at over 18 years.',
+    },
+    {
+      question: 'How is O-3 total compensation different from base pay?',
+      answer: 'Base pay is only one of three cash components. BAH (location-based housing allowance) and BAS (subsistence allowance) are added on top and are excluded from federal income tax, FICA, and most state income taxes. Because a civilian would pay tax on equivalent income, an O-3 with dependents is typically competitive with civilian roles paying $130,000–$170,000/year depending on duty station.',
+    },
+  ],
   'va-disability-math-explained': [
     {
       question: "Why doesn't the VA add disability percentages together?",
