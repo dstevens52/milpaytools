@@ -259,6 +259,32 @@ export default async function RankPayPage({
   const compactTable = distinctCount < 4;
   const isFlat = minPay === maxPay;
 
+  // ── Trailing-plateau collapse (non-compact tables only) ──────────────────
+  // Pay rates are non-decreasing and carried forward, so the top rate always
+  // sits in an unbroken run that reaches the last row. Collapse that run into a
+  // single "… and beyond" row when it is 3+ rows long, so the table isn't 17
+  // identical rows of padding. Interior repeats (where the rate later climbs)
+  // and short trailing runs (1–2 rows, e.g. E-9) render unchanged. Because the
+  // collapsed run is entirely the max rate — shown once in the collapsed row —
+  // and every lower rate still appears above it, no distinct rate is lost.
+  const capRate = rows[rows.length - 1].monthly;
+  const plateauStart = capRate !== null ? rows.findIndex((r) => r.monthly === capRate) : -1;
+  const collapsePlateau = !compactTable && plateauStart >= 0 && rows.length - plateauStart >= 3;
+  const collapsedBp = collapsePlateau ? rows[plateauStart].bp : null;
+  const tableRows = compactTable
+    ? rows.filter((r, i) => i === 0 || r.monthly !== rows[i - 1].monthly)
+    : collapsePlateau
+      ? rows.slice(0, plateauStart + 1)
+      : rows;
+
+  // Build-time guardrail: the collapse must never drop the top rate. maxPay is
+  // read straight from the pay lib; the last rendered row must still equal it.
+  if (collapsePlateau && tableRows[tableRows.length - 1].monthly !== maxPay) {
+    throw new Error(
+      `pay table collapse dropped the max rate for ${rank.grade}: rendered ${tableRows[tableRows.length - 1].monthly} != ${maxPay}`
+    );
+  }
+
   const branchList = `${rank.branchTitles.army} in the Army, ${rank.branchTitles.marines} in the Marine Corps, ${rank.branchTitles.airForce} in the Air Force, ${rank.branchTitles.navy} in the Navy, and ${rank.branchTitles.spaceForce} in the Space Force`;
   const exampleLabel = `${rank.title}, ${yosLabel(exampleBracket).toLowerCase()}, ${rank.exampleDependents ? 'with' : 'without'} dependents`;
   // Prose variant for mid-sentence use ("an E-5 with over 6 years of service
@@ -347,7 +373,9 @@ export default async function RankPayPage({
             {`Monthly basic pay from the 2026 DFAS pay table, effective ${DATA_AS_OF} (3.8% raise).`}
             {compactTable
               ? ` ${rank.title} pay has ${distinctCount === 1 ? 'a single flat rate' : `only ${distinctCount} longevity steps`} — the table below shows ${distinctCount === 1 ? 'it' : 'each step'}.`
-              : ' Find the row matching your completed years of service — rates repeat between longevity steps, exactly as DFAS publishes them.'}
+              : collapsePlateau
+                ? ` Find the row matching your completed years of service. ${rank.title} basic pay stops rising after the last step, so every higher column is the same rate — the final row collapses that plateau.`
+                : ' Find the row matching your completed years of service — rates repeat between longevity steps, exactly as DFAS publishes them.'}
             {floorKey > 0 &&
               ` ${rank.title} rates begin at the over-${floorKey}-years column — DFAS publishes no ${rank.title} rate below that point, so earlier rows show a dash.`}
           </p>
@@ -363,13 +391,9 @@ export default async function RankPayPage({
                 </tr>
               </thead>
               <tbody>
-                {(compactTable
-                  ? rows.filter(
-                      (r, i) => i === 0 || r.monthly !== rows[i - 1].monthly
-                    )
-                  : rows
-                ).map((row) => {
+                {tableRows.map((row) => {
                   const isExampleRow = !compactTable && row.bp === exampleBracket;
+                  const isCollapsedRow = collapsePlateau && row.bp === collapsedBp;
                   return (
                     <tr
                       key={row.bp}
@@ -380,10 +404,15 @@ export default async function RankPayPage({
                       }
                     >
                       <td className="px-4 py-2 text-zinc-700">
-                        {row.label}
+                        {isCollapsedRow ? `${row.label} and beyond` : row.label}
                         {isExampleRow && (
                           <span className="ml-2 text-[11px] font-semibold text-amber-700 uppercase tracking-wide">
                             Used in example below
+                          </span>
+                        )}
+                        {isCollapsedRow && (
+                          <span className="ml-2 text-[11px] font-medium text-zinc-500">
+                            {`${rank.title} basic pay caps at this rate`}
                           </span>
                         )}
                       </td>
