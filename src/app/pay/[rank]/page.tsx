@@ -144,6 +144,18 @@ function renderCopyLinks(text: string): ReactNode[] {
   return parts;
 }
 
+// Single rank name for the title, H1, and meta description — the Army equivalent,
+// taking the first name where the Army title is compound ("Specialist or Corporal"
+// → "Specialist") and stripping any parenthetical abbreviation ("Private (PV1)" →
+// "Private"). Sourced from branchTitles; never hand-keyed. Keeps the composed
+// <title> ≤60 chars where a full cross-branch list would blow past it.
+function primaryRankName(rank: PayPageRank): string {
+  return rank.branchTitles.army
+    .split(' or ')[0]
+    .replace(/\s*\([^)]*\)\s*/g, '')
+    .trim();
+}
+
 // Adjacent-grade nav label. Crossing the enlisted/officer boundary (E-9 ↔ O-1)
 // gets an explicit track tag so the link doesn't read as promotion continuity.
 function adjacentLabel(target: PayPageRank, current: PayPageRank): string {
@@ -166,23 +178,33 @@ export async function generateMetadata({
   const rank = RANK_BY_SLUG[slug];
   if (!rank) return {};
   const { comp, minPay, maxPay } = resolveFigures(rank);
+  const rankName = primaryRankName(rank);
 
   // titleBase omits the site name — the root layout's title template appends
   // " | MilPayTools". OG/Twitter don't run through that template, so they get
   // an explicit socialTitle to match the rendered <title>.
-  // Rendered <title> (titleBase + " | MilPayTools") must stay ≤60 chars for
-  // every rank — this pattern renders at 58 for all 3-character grade tokens.
-  const titleBase = `${rank.title} Pay 2026: Basic Pay & Total Compensation`;
+  // Title leads with the paygrade + the Army-equivalent rank name so rank-name
+  // searches ("first lieutenant pay 2026", "colonel pay") get the match signal the
+  // paygrade-only title lacked. One rank name only — the composed <title>
+  // (titleBase + " | MilPayTools") stays ≤60 chars for every rank (worst case ≤49).
+  const titleBase = `${rank.title} (${rankName}) Pay 2026`;
   const socialTitle = `${titleBase} | MilPayTools`;
 
+  // Description leads with the paygrade + rank name and stays ≤155 chars. Head
+  // drops "of service" and the tails drop the rank name (both carried above) so
+  // the added rank name never pushes the composed description past the limit.
   const head =
     minPay === maxPay
-      ? `2026 ${rank.title} pay: a flat ${formatCurrency(minPay, true)}/month basic pay at every year of service.`
-      : `2026 ${rank.title} pay: ${formatCurrency(comp.monthlyBasePay, true)}/month basic pay at ${yosLabel(getYOSBracket(rank.exampleYos)).toLowerCase()} of service.`;
-  const description = fitDescription(head, [
-    ` Full ${rank.title} pay table by years of service, plus BAH, BAS, and total compensation.`,
-    ' Full pay table, BAH, BAS, and total compensation.',
-  ]);
+      ? `2026 ${rank.title} / ${rankName} pay: a flat ${formatCurrency(minPay, true)}/month basic pay at every year of service.`
+      : `2026 ${rank.title} / ${rankName} pay: ${formatCurrency(comp.monthlyBasePay, true)}/month basic pay at ${yosLabel(getYOSBracket(rank.exampleYos)).toLowerCase()}.`;
+  const description = fitDescription(
+    head,
+    [
+      ' Full pay table by years of service, plus BAH, BAS, and total compensation.',
+      ' Full pay table, BAH, BAS, and total compensation.',
+    ],
+    155
+  );
 
   // Static subline: rank descriptions lead with a $/month basic-pay figure,
   // which OG sublines must not carry, so the sub is never description-derived.
@@ -224,6 +246,7 @@ export default async function RankPayPage({
 
   const { minPay, maxPay, floorKey, distinctCount, isEnlisted, medianBAH, comp, priorEnlisted } =
     resolveFigures(rank);
+  const rankName = primaryRankName(rank);
   const rows = progressionRows(rank);
 
   // Prev/next from PAY_PAGE_RANKS array order (E-1…E-9, O-1…O-6) — the same
@@ -235,6 +258,32 @@ export default async function RankPayPage({
   const exampleBracket = getYOSBracket(rank.exampleYos);
   const compactTable = distinctCount < 4;
   const isFlat = minPay === maxPay;
+
+  // ── Trailing-plateau collapse (non-compact tables only) ──────────────────
+  // Pay rates are non-decreasing and carried forward, so the top rate always
+  // sits in an unbroken run that reaches the last row. Collapse that run into a
+  // single "… and beyond" row when it is 3+ rows long, so the table isn't 17
+  // identical rows of padding. Interior repeats (where the rate later climbs)
+  // and short trailing runs (1–2 rows, e.g. E-9) render unchanged. Because the
+  // collapsed run is entirely the max rate — shown once in the collapsed row —
+  // and every lower rate still appears above it, no distinct rate is lost.
+  const capRate = rows[rows.length - 1].monthly;
+  const plateauStart = capRate !== null ? rows.findIndex((r) => r.monthly === capRate) : -1;
+  const collapsePlateau = !compactTable && plateauStart >= 0 && rows.length - plateauStart >= 3;
+  const collapsedBp = collapsePlateau ? rows[plateauStart].bp : null;
+  const tableRows = compactTable
+    ? rows.filter((r, i) => i === 0 || r.monthly !== rows[i - 1].monthly)
+    : collapsePlateau
+      ? rows.slice(0, plateauStart + 1)
+      : rows;
+
+  // Build-time guardrail: the collapse must never drop the top rate. maxPay is
+  // read straight from the pay lib; the last rendered row must still equal it.
+  if (collapsePlateau && tableRows[tableRows.length - 1].monthly !== maxPay) {
+    throw new Error(
+      `pay table collapse dropped the max rate for ${rank.grade}: rendered ${tableRows[tableRows.length - 1].monthly} != ${maxPay}`
+    );
+  }
 
   const branchList = `${rank.branchTitles.army} in the Army, ${rank.branchTitles.marines} in the Marine Corps, ${rank.branchTitles.airForce} in the Air Force, ${rank.branchTitles.navy} in the Navy, and ${rank.branchTitles.spaceForce} in the Space Force`;
   const exampleLabel = `${rank.title}, ${yosLabel(exampleBracket).toLowerCase()}, ${rank.exampleDependents ? 'with' : 'without'} dependents`;
@@ -302,10 +351,10 @@ export default async function RankPayPage({
             </span>
           </div>
           <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
-            {`${rank.title} Pay in 2026: Basic Pay, BAH & What It All Adds Up To`}
+            {`${rank.title} (${rankName}) Pay in 2026: Basic Pay, BAH & What It All Adds Up To`}
           </h1>
           <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
-            {`The pay chart says an ${rank.title} earns ${
+            {`An ${rank.title} is ${branchList}. The pay chart says an ${rank.title} earns ${
               isFlat
                 ? `${formatCurrency(minPay, true)} a month — a single flat rate`
                 : `${formatCurrency(minPay, true)} to ${formatCurrency(maxPay, true)} a month`
@@ -324,7 +373,9 @@ export default async function RankPayPage({
             {`Monthly basic pay from the 2026 DFAS pay table, effective ${DATA_AS_OF} (3.8% raise).`}
             {compactTable
               ? ` ${rank.title} pay has ${distinctCount === 1 ? 'a single flat rate' : `only ${distinctCount} longevity steps`} — the table below shows ${distinctCount === 1 ? 'it' : 'each step'}.`
-              : ' Find the row matching your completed years of service — rates repeat between longevity steps, exactly as DFAS publishes them.'}
+              : collapsePlateau
+                ? ` Find the row matching your completed years of service. ${rank.title} basic pay stops rising after the last step, so every higher column is the same rate — the final row collapses that plateau.`
+                : ' Find the row matching your completed years of service — rates repeat between longevity steps, exactly as DFAS publishes them.'}
             {floorKey > 0 &&
               ` ${rank.title} rates begin at the over-${floorKey}-years column — DFAS publishes no ${rank.title} rate below that point, so earlier rows show a dash.`}
           </p>
@@ -340,13 +391,9 @@ export default async function RankPayPage({
                 </tr>
               </thead>
               <tbody>
-                {(compactTable
-                  ? rows.filter(
-                      (r, i) => i === 0 || r.monthly !== rows[i - 1].monthly
-                    )
-                  : rows
-                ).map((row) => {
+                {tableRows.map((row) => {
                   const isExampleRow = !compactTable && row.bp === exampleBracket;
+                  const isCollapsedRow = collapsePlateau && row.bp === collapsedBp;
                   return (
                     <tr
                       key={row.bp}
@@ -357,10 +404,15 @@ export default async function RankPayPage({
                       }
                     >
                       <td className="px-4 py-2 text-zinc-700">
-                        {row.label}
+                        {isCollapsedRow ? `${row.label} and beyond` : row.label}
                         {isExampleRow && (
                           <span className="ml-2 text-[11px] font-semibold text-amber-700 uppercase tracking-wide">
                             Used in example below
+                          </span>
+                        )}
+                        {isCollapsedRow && (
+                          <span className="ml-2 text-[11px] font-medium text-zinc-500">
+                            {`${rank.title} basic pay caps at this rate`}
                           </span>
                         )}
                       </td>
