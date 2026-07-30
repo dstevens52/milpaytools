@@ -374,8 +374,8 @@ export default async function RankPayPage({
             {compactTable
               ? ` ${rank.title} pay has ${distinctCount === 1 ? 'a single flat rate' : `only ${distinctCount} longevity steps`} — the table below shows ${distinctCount === 1 ? 'it' : 'each step'}.`
               : collapsePlateau
-                ? ` Find the row matching your completed years of service. ${rank.title} basic pay stops rising after the last step, so every higher column is the same rate — the final row collapses that plateau.`
-                : ' Find the row matching your completed years of service — rates repeat between longevity steps, exactly as DFAS publishes them.'}
+                ? ` Find the row matching your completed years of service. ${rank.title} basic pay stops rising after the last step, so every higher row is the same rate — the final row collapses that plateau.`
+                : ' Find the row matching your completed years of service.'}
             {floorKey > 0 &&
               ` ${rank.title} rates begin at the over-${floorKey}-years column — DFAS publishes no ${rank.title} rate below that point, so earlier rows show a dash.`}
           </p>
@@ -499,9 +499,6 @@ export default async function RankPayPage({
           <h2 className="text-xl font-semibold text-zinc-900 mb-3">
             {`What ${rank.title} means — and what changes financially`}
           </h2>
-          <p className="text-sm text-zinc-500 mb-3">
-            {`${rank.title} is ${branchList}.`}
-          </p>
           <div className="space-y-3">
             {rank.contextCopy.map((para, i) => (
               <p key={i} className="text-sm sm:text-base text-zinc-600 leading-relaxed">
