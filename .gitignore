@@ -20,10 +20,7 @@
 .claude/scheduled_tasks.lock
 .claude/settings.local.json
 build.log
-SWEEP_REPORT.md
-FLAG_RESOLUTION_REPORT.md
-PAY_CHARTS_LINKING_REPORT.md
-DUPE_RECON_REPORT.md
+*_REPORT.md
 bahw26.txt
 bahwo26.txt
 mhanames26.txt
