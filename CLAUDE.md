@@ -63,6 +63,27 @@ MilPayTools.com is a free military financial calculator and education platform f
 - The 33 `skipped` tests are expected: 30 conditional `test.skip()` data-guards (show as "did not
   run" under line reporter, "skipped" under JSON) + 3 `test.fixme` entries × 3 browsers.
 
+## Verification Conventions
+
+- **Any diff or comparison step must print the line count of both inputs before comparing.**
+  A zero-length input is a failure, not a match. `diff a b` on two empty files exits 0 and reports
+  nothing — indistinguishable from a real "no change" result unless the counts are shown.
+  This applies to every comparison: sitemap URL lists, build route tables, grep result sets,
+  before/after metadata dumps.
+
+  ```bash
+  echo "before: $(wc -l < a.txt)  after: $(wc -l < b.txt)"   # required, before the diff
+  diff a.txt b.txt && echo "IDENTICAL"
+  ```
+
+  Verified 2026-09-18: a route-table comparison reported "IDENTICAL — no route lost" while both
+  extractions were empty because the parsing regex had failed. The same build had exited 1. The
+  line counts would have caught it immediately; the diff alone hid it.
+
+- The rule generalizes: **an empty result is evidence of nothing.** A grep that returns no hits,
+  a manifest lookup that finds no entries, a test filter that matches no tests — confirm the
+  command actually ran and the input was non-empty before reporting the absence as a finding.
+
 ## Accuracy Conventions
 
 Before flagging any figure as wrong, the full lookup chain must be established and stated:
