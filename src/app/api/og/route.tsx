@@ -210,5 +210,10 @@ export async function GET(request: NextRequest) {
     'Cache-Control',
     'public, immutable, no-transform, s-maxage=86400, max-age=86400',
   );
+  // These URLs are share-card artwork, not pages. Search Console was reporting
+  // them as indexed URLs. noindex here rather than a robots.txt disallow: a
+  // blocked URL can never be crawled to discover the directive, which would
+  // freeze the already-indexed ones in place. Crawling stays allowed on purpose.
+  image.headers.set('X-Robots-Tag', 'noindex');
   return image;
 }

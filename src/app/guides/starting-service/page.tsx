@@ -7,14 +7,14 @@ import { BAS_RATES } from '@/data/constants';
 import { EmailSignup } from '@/components/EmailSignup';
 
 export const metadata: Metadata = {
-  title: 'Starting Military Service: Understand Your Pay & Benefits',
+  title: 'New to the Military: First-Year Pay Guide',
   description:
-    'New to the military? Understand your base pay, BAH, BAS, and TSP match — and make smart money decisions from day one.',
+    'Your first year in the military explained: base pay, BAH, BAS, the TSP match, and reading your LES. Start with the right money habits. No account required.',
   alternates: { canonical: 'https://www.milpaytools.com/guides/starting-service' },
   openGraph: {
-    title: 'Starting Military Service: Understand Your Pay & Benefits',
+    title: 'New to the Military: First-Year Pay Guide',
     description:
-      'New to the military? Understand your base pay, BAH, BAS, and TSP match — and make smart money decisions from day one.',
+      'Your first year in the military explained: base pay, BAH, BAS, the TSP match, and reading your LES. Start with the right money habits. No account required.',
     type: 'website',
     url: 'https://www.milpaytools.com/guides/starting-service',
     siteName: 'MilPayTools',
@@ -22,9 +22,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Starting Military Service: Understand Your Pay & Benefits',
+    title: 'New to the Military: First-Year Pay Guide',
     description:
-      'New to the military? Understand your base pay, BAH, BAS, and TSP match — and make smart money decisions from day one.',
+      'Your first year in the military explained: base pay, BAH, BAS, the TSP match, and reading your LES. Start with the right money habits. No account required.',
     images: ogImage({ type: 'guide', title: 'Starting Military Service', sub: 'Base pay, BAH, BAS, and TSP match from day one' }),
   },
 };
@@ -232,7 +232,7 @@ export default function StartingServicePage() {
               <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-red-600">First Month Checklist</span>
             </div>
             <h2 className="text-[22px] sm:text-[26px] font-bold text-zinc-900 mb-1">
-              5 things to do your first month
+              5 money moves for your first month in the military
             </h2>
             <p className="text-sm text-zinc-500">Each one takes less than 2 minutes.</p>
           </div>

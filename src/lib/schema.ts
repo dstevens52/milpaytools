@@ -1,7 +1,4 @@
-import { ogImageUrl } from '@/lib/og';
-
 const BASE_URL = 'https://www.milpaytools.com';
-const DEFAULT_IMAGE = `${BASE_URL}${ogImageUrl({ type: 'home', title: 'MilPayTools' })}`;
 
 // Appends Central Time offset if the date string is bare (YYYY-MM-DD).
 function toISODateTime(dateStr: string): string {
@@ -38,7 +35,10 @@ export function articleSchema({
     '@type': 'Article',
     headline: title,
     description,
-    image: DEFAULT_IMAGE,
+    // No `image`: it is optional on Article, and the only candidate the repo
+    // has is the /api/og share card — a social preview, not a content image
+    // representing the article. Pointing at it made every Article block emit a
+    // crawlable /api/og URL, which is how those URLs entered the index.
     author: AUTHOR,
     publisher: PUBLISHER,
     datePublished: isoDate,

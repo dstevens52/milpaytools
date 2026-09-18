@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { getAllPostMeta } from '@/lib/blog';
-import { getAllGuideMeta } from '@/lib/guides';
+import { GUIDE_PAGES } from '@/data/guides/pages';
 import { DUTY_STATIONS } from '@/data/duty-stations/stations';
 import { PAY_PAGE_RANKS } from '@/data/pay-pages/ranks';
 
@@ -143,6 +143,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'yearly',
       priority: 0.5,
     },
+    // Both set robots index:true,follow:true in their own metadata but were
+    // absent from the sitemap — the only two indexable routes with that gap.
+    {
+      url: `${BASE_URL}/privacy`,
+      lastModified: now,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${BASE_URL}/terms`,
+      lastModified: now,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
     {
       url: `${BASE_URL}/partners`,
       lastModified: now,
@@ -170,7 +184,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  const guidePages: MetadataRoute.Sitemap = getAllGuideMeta().map((guide) => ({
+  // Derived from the routed guide pages, not from MDX filenames — the MDX scan
+  // used to drop /guides/navigating-service, which has a route but no MDX file.
+  const guidePages: MetadataRoute.Sitemap = GUIDE_PAGES.map((guide) => ({
     url: `${BASE_URL}/guides/${guide.slug}`,
     lastModified: new Date(guide.date),
     changeFrequency: 'monthly',

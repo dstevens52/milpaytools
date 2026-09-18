@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
 import { ogImage } from '@/lib/og';
 import Link from 'next/link';
-import { getAllGuideMeta } from '@/lib/guides';
+import { GUIDE_PAGES } from '@/data/guides/pages';
 
-const GUIDES_TITLE = 'Military Finance Guides';
+const GUIDES_TITLE = 'Military Money Guides: Pay, PCS & VA Benefits';
 const GUIDES_DESC =
-  'Comprehensive topic guides on military pay, VA disability, retirement & TSP, PCS finances, and education benefits — with calculators and plain-English explanations.';
+  'In-depth guides to military pay, PCS moves, TSP and retirement, VA disability, and education benefits — each linked to the calculators behind them.';
 const GUIDES_IMAGE = ogImage({ type: 'guide', title: 'Military Finance Guides', sub: 'Pay, VA disability, retirement, PCS, and education benefits' });
 
 export const metadata: Metadata = {
-  title: { absolute: GUIDES_TITLE },
+  title: GUIDES_TITLE,
   description: GUIDES_DESC,
   alternates: { canonical: '/guides' },
   openGraph: {
@@ -35,6 +35,7 @@ const GUIDE_ICONS: Record<string, string> = {
   pcs: '🚛',
   'education-benefits': '🎓',
   'starting-service': '🎯',
+  'navigating-service': '🧭',
   'va-home-loans': '🏡',
 };
 
@@ -49,7 +50,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 export default function GuidesIndexPage() {
-  const guides = getAllGuideMeta();
+  const guides = GUIDE_PAGES;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

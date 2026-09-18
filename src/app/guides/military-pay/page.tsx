@@ -6,15 +6,15 @@ import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 
-const TITLE = 'See What Your Military Pay Is Actually Worth';
+const TITLE = 'Military Pay Guide 2026: Base Pay, BAH & BAS';
 const DESC =
-  'Many service members underestimate total compensation by tens of thousands per year because BAH, BAS, tax advantages, TSP matching, and TRICARE value are not obvious from base pay alone. See your full picture with official 2026 DFAS and DTMO data.';
+  'How base pay, BAH, BAS, tax advantages, and TSP matching add up to your real military compensation. Official 2026 DFAS and DTMO data. No account required.';
 const CANONICAL = '/guides/military-pay';
 const DATE = '2026-04-12';
 const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Pay & Compensation Guide 2026', sub: 'BAH, BAS, tax advantage, and TSP match beyond base pay' });
 
 export const metadata: Metadata = {
-  title: { absolute: `${TITLE}` },
+  title: TITLE,
   description: DESC,
   alternates: { canonical: `https://www.milpaytools.com${CANONICAL}` },
   openGraph: {
@@ -479,7 +479,7 @@ export default function MilitaryPayGuidePage() {
                 <div className="w-8 h-0.5 bg-red-500 rounded-full" />
               </div>
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-4 tracking-tight leading-tight">
-                Ready to see your full number?
+                Ready to see your full military compensation?
               </h2>
               <p className="text-base text-white/70 leading-relaxed mb-6">
                 Enter your rank, location, and years of service. Your total compensation — including
@@ -610,7 +610,7 @@ export default function MilitaryPayGuidePage() {
         <div className="mx-auto max-w-6xl">
           <div className="mb-8">
             <div className="w-8 h-0.5 bg-red-700 rounded-full mb-4" aria-hidden="true" />
-            <h2 className="text-xl font-black text-zinc-900 tracking-tight">Keep exploring</h2>
+            <h2 className="text-xl font-black text-zinc-900 tracking-tight">Keep exploring military pay topics</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {RELATED.map(({ href, border, label, title, description }) => (
