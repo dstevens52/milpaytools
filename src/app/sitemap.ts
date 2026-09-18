@@ -186,7 +186,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${BASE_URL}/bah`,
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.9,
+      priority: 1.0,
     },
     ...DUTY_STATIONS.map((s) => ({
       url: `${BASE_URL}/bah/${s.slug}`,
@@ -196,13 +196,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ];
 
-  // Pay tables change each January — yearly is accurate, not optimistic.
+  // /pay is the pay-charts calculator hub, so it matches the calculator entries.
+  // Rank pages: pay tables change each January — yearly is accurate, not optimistic.
   const payPages: MetadataRoute.Sitemap = [
     {
       url: `${BASE_URL}/pay`,
       lastModified: now,
-      changeFrequency: 'yearly',
-      priority: 0.8,
+      changeFrequency: 'monthly',
+      priority: 1.0,
     },
     ...PAY_PAGE_RANKS.map((r) => ({
       url: `${BASE_URL}/pay/${r.slug}`,
