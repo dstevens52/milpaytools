@@ -576,44 +576,6 @@ export function PayChartsClient({ payPages }: PayChartsClientProps) {
         slugByGrade={slugByGrade}
       />
 
-      {/* ── Browse pay by rank ────────────────────────────────────────────── */}
-      <section className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
-        <h2 className="text-lg font-bold text-zinc-900 mb-1">Browse 2026 pay by rank</h2>
-        <p className="text-sm text-zinc-600 mb-3">
-          Each rank page covers pay progression, longevity raises, promotion math, and estimated
-          total compensation.
-        </p>
-        <div className="flex flex-wrap gap-2 mb-2">
-          {payPages
-            .filter((p) => p.grade.startsWith('E'))
-            .map((p) => (
-              <Link
-                key={p.slug}
-                href={`/pay/${p.slug}`}
-                className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md"
-              >
-                {p.grade}
-              </Link>
-            ))}
-        </div>
-        <div className="flex flex-wrap gap-2 mb-3">
-          {payPages
-            .filter((p) => p.grade.startsWith('O'))
-            .map((p) => (
-              <Link
-                key={p.slug}
-                href={`/pay/${p.slug}`}
-                className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md"
-              >
-                {p.grade}
-              </Link>
-            ))}
-        </div>
-        <Link href="/pay" className="text-sm text-blue-700 underline hover:text-blue-800">
-          View all ranks →
-        </Link>
-      </section>
-
       {/* ── Cross-links ───────────────────────────────────────────────────── */}
       <div className="rounded-lg border border-zinc-200 bg-white p-5 space-y-2">
         <p className="text-sm font-semibold text-zinc-800">See also</p>
