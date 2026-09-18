@@ -80,6 +80,22 @@ MilPayTools.com is a free military financial calculator and education platform f
   extractions were empty because the parsing regex had failed. The same build had exited 1. The
   line counts would have caught it immediately; the diff alone hid it.
 
+- **Retired URLs (zero-reference rule).** `/calculators/bah` and `/calculators/pay-charts` were
+  consolidated into `/bah` and `/pay` (B2, 2026-09-18) and 308-redirect there. They must appear
+  **only** in these allowlisted files — any other hit is a stale link to fix:
+  - `next.config.ts` — the redirect rules
+  - `tests/e2e/redirects.spec.ts` — the redirect test (intentional, not stale)
+
+  Check with a control, and with `MSYS_NO_PATHCONV=1` (Git Bash rewrites leading-`/` arguments
+  into Windows paths, which silently empties the grep):
+  ```bash
+  export MSYS_NO_PATHCONV=1
+  echo "control: $(git grep -n '/calculators/' | wc -l)"   # must be non-zero
+  git grep -nE "calculators/(bah|pay-charts)" \
+    | grep -vE "@/components/calculators/(bah|pay-charts)/" \
+    | grep -vE "^(next\.config\.ts|tests/e2e/redirects\.spec\.ts):"   # must print nothing
+  ```
+
 - The rule generalizes: **an empty result is evidence of nothing.** A grep that returns no hits,
   a manifest lookup that finds no entries, a test filter that matches no tests — confirm the
   command actually ran and the input was non-empty before reporting the absence as a finding.
@@ -92,6 +108,25 @@ Before flagging any figure as wrong, the full lookup chain must be established a
 - **Pay/VA figures:** trace pay grade + YOS → DFAS pay table row, or VA rating → `src/data/va-rates/2026.ts`. State the exact source row alongside any claimed discrepancy.
 - **No correction without external verification:** a mismatch flagged from a lib lookup alone is a hypothesis, not a finding. Confirm against the official source (DTMO PDF/ASCII, DFAS pay table, VA.gov compensation page) before declaring a figure wrong or proposing a fix.
 - **Guardrail B hold:** if a recomputed figure differs from the displayed one and would change the story the copy tells, flag it and hold — do not silently ship the new number.
+
+## Git Worktrees
+
+- **Git worktrees in this repo must not share or symlink `node_modules`.** No junctions, symlinks,
+  or `mklink /J` pointing at the main checkout's `node_modules`. Removing such a worktree
+  (`git worktree remove --force`, or a recursive delete) follows the link and deletes the **real**
+  `node_modules`. Verified 2026-09-18: it emptied `node_modules/.bin` and broke `tsc`/`eslint`
+  until `npm ci`.
+- Give a worktree its own install (`npm ci` inside it), or lint/build old code another way
+  (e.g. `git show <ref>:<path>` into a scratch file).
+- **Verify before removing any worktree:** list reparse points/symlinks inside it first and
+  confirm none point outside the worktree:
+  ```powershell
+  Get-ChildItem <worktree> -Recurse -Force -Attributes ReparsePoint -ErrorAction SilentlyContinue
+  ```
+  If any exist, remove each link alone (`cmd /c rmdir "<link>"` deletes only the link), re-run the
+  check until it returns nothing, then remove the worktree.
+- Recovery if it happens: `npm ci` restores `node_modules` from `package-lock.json` without
+  modifying either package file.
 
 ## Environment Variables (Vercel + .env.local)
 - BEEHIIV_API_KEY
