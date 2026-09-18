@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { ogImage } from '@/lib/og';
 import Link from 'next/link';
-import { getAllGuideMeta } from '@/lib/guides';
+import { GUIDE_PAGES } from '@/data/guides/pages';
 
 const GUIDES_TITLE = 'Military Money Guides: Pay, PCS & VA Benefits';
 const GUIDES_DESC =
@@ -35,6 +35,7 @@ const GUIDE_ICONS: Record<string, string> = {
   pcs: '🚛',
   'education-benefits': '🎓',
   'starting-service': '🎯',
+  'navigating-service': '🧭',
   'va-home-loans': '🏡',
 };
 
@@ -49,7 +50,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 export default function GuidesIndexPage() {
-  const guides = getAllGuideMeta();
+  const guides = GUIDE_PAGES;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
