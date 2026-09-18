@@ -85,6 +85,7 @@ MilPayTools.com is a free military financial calculator and education platform f
   **only** in these allowlisted files — any other hit is a stale link to fix:
   - `next.config.ts` — the redirect rules
   - `tests/e2e/redirects.spec.ts` — the redirect test (intentional, not stale)
+  - `CLAUDE.md` — this rule's own definition
 
   Check with a control, and with `MSYS_NO_PATHCONV=1` (Git Bash rewrites leading-`/` arguments
   into Windows paths, which silently empties the grep):
@@ -93,7 +94,7 @@ MilPayTools.com is a free military financial calculator and education platform f
   echo "control: $(git grep -n '/calculators/' | wc -l)"   # must be non-zero
   git grep -nE "calculators/(bah|pay-charts)" \
     | grep -vE "@/components/calculators/(bah|pay-charts)/" \
-    | grep -vE "^(next\.config\.ts|tests/e2e/redirects\.spec\.ts):"   # must print nothing
+    | grep -vE "^(next\.config\.ts|tests/e2e/redirects\.spec\.ts|CLAUDE\.md):"   # must print nothing
   ```
 
 - The rule generalizes: **an empty result is evidence of nothing.** A grep that returns no hits,
