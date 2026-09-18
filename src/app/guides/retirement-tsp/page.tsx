@@ -6,15 +6,15 @@ import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 
-const TITLE = 'Know what your military retirement is actually worth — before you decide to stay or go.';
+const TITLE = 'Military Retirement & TSP Guide: BRS vs High-3';
 const DESC =
-  'Your pension, TSP balance, TRICARE, and VA disability all add up to a retirement package most civilians can\'t match. But only if you understand the math and make informed TSP decisions along the way.';
+  'How BRS and High-3 differ, what your pension is worth, and how TSP choices compound over a career. Plain-English guide, free calculators. No account.';
 const CANONICAL = '/guides/retirement-tsp';
 const DATE = '2026-04-12';
 const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Retirement & TSP Guide 2026', sub: 'Pension, TSP, TRICARE, and VA disability in one picture' });
 
 export const metadata: Metadata = {
-  title: { absolute: `${TITLE}` },
+  title: TITLE,
   description: DESC,
   alternates: { canonical: `https://www.milpaytools.com${CANONICAL}` },
   openGraph: {
@@ -635,7 +635,7 @@ export default function RetirementTspGuidePage() {
         <div className="mx-auto max-w-6xl">
           <div className="mb-8">
             <div className="w-8 h-0.5 bg-red-700 rounded-full mb-4" aria-hidden="true" />
-            <h2 className="text-xl font-black text-zinc-900 tracking-tight">Keep exploring</h2>
+            <h2 className="text-xl font-black text-zinc-900 tracking-tight">Keep exploring retirement and TSP topics</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {RELATED.map(({ href, border, label, title, description }) => (

@@ -6,15 +6,15 @@ import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 
-const TITLE = 'Know What Your PCS Move Really Costs — Before Orders Drop';
+const TITLE = 'Military PCS Guide: Entitlements & Move Costs';
 const DESC =
-  'BAH changes, moving entitlements, state taxes, and cost of living can swing your finances by thousands. Compare duty stations and estimate move costs with free tools using official 2026 DTMO data.';
+  'What a PCS move actually costs: DLA, MALT, per diem, TLE, and PPM entitlements, plus how BAH and state taxes change. Official 2026 DTMO data. No account.';
 const CANONICAL = '/guides/pcs';
 const DATE = '2026-04-12';
 const OG_IMAGE = ogImage({ type: 'guide', title: 'PCS & Duty Station Financial Guide 2026', sub: 'How BAH, entitlements, and state taxes change with a move' });
 
 export const metadata: Metadata = {
-  title: { absolute: `${TITLE}` },
+  title: TITLE,
   description: DESC,
   alternates: { canonical: `https://www.milpaytools.com${CANONICAL}` },
   openGraph: {
@@ -561,7 +561,7 @@ export default function PcsGuidePage() {
                 <div className="w-8 h-0.5 bg-red-500 rounded-full" />
               </div>
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-4 tracking-tight leading-tight">
-                See the full financial picture before you sign your housing lease.
+                See your full PCS financial picture before you sign a housing lease.
               </h2>
               <p className="text-base text-white/70 leading-relaxed mb-6">
                 Enter your current and gaining duty stations. Compare BAH, state taxes, CONUS COLA,
@@ -714,7 +714,7 @@ export default function PcsGuidePage() {
         <div className="mx-auto max-w-6xl">
           <div className="mb-8">
             <div className="w-8 h-0.5 bg-red-700 rounded-full mb-4" aria-hidden="true" />
-            <h2 className="text-xl font-black text-zinc-900 tracking-tight">Keep exploring</h2>
+            <h2 className="text-xl font-black text-zinc-900 tracking-tight">Keep exploring PCS topics</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {RELATED.map(({ href, border, label, title, description }) => (

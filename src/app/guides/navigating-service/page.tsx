@@ -5,14 +5,14 @@ import Link from 'next/link';
 import { EmailSignup } from '@/components/EmailSignup';
 
 export const metadata: Metadata = {
-  title: 'Navigating Service: PCS, Deployment & Duty Station Financial Tools',
+  title: 'Mid-Career Military Money: PCS & Deployment',
   description:
-    'PCSing, deploying, or comparing duty stations? Compare BAH, estimate move costs, see combat zone tax savings, and make every assignment work for your finances. Free 2026 tools.',
+    'Mid-career military money decisions: comparing duty stations, PCS move costs, and deployment pay. Run the numbers before orders drop. Official 2026 data.',
   alternates: { canonical: 'https://www.milpaytools.com/guides/navigating-service' },
   openGraph: {
-    title: 'Navigating Service: PCS, Deployment & Duty Station Financial Tools',
+    title: 'Mid-Career Military Money: PCS & Deployment',
     description:
-      'PCSing, deploying, or comparing duty stations? Compare BAH, estimate move costs, see combat zone tax savings, and make every assignment work for your finances. Free 2026 tools.',
+      'Mid-career military money decisions: comparing duty stations, PCS move costs, and deployment pay. Run the numbers before orders drop. Official 2026 data.',
     type: 'website',
     url: 'https://www.milpaytools.com/guides/navigating-service',
     siteName: 'MilPayTools',
@@ -20,9 +20,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Navigating Service: PCS, Deployment & Duty Station Financial Tools',
+    title: 'Mid-Career Military Money: PCS & Deployment',
     description:
-      'PCSing, deploying, or comparing duty stations? Compare BAH, estimate move costs, see combat zone tax savings, and make every assignment work for your finances. Free 2026 tools.',
+      'Mid-career military money decisions: comparing duty stations, PCS move costs, and deployment pay. Run the numbers before orders drop. Official 2026 data.',
     images: ogImage({ type: 'guide', title: 'Navigating Service: PCS & Duty Station', sub: 'PCS, deployment, and duty-station money decisions' }),
   },
 };
@@ -220,7 +220,7 @@ export default function NavigatingServicePage() {
 
           <div className="mb-8 mx-auto max-w-3xl text-center">
             <h2 className="text-[22px] sm:text-[28px] font-bold text-zinc-900 mb-2 leading-tight">
-              Before your next military move, check the money.
+              Before your next PCS or deployment, check the money.
             </h2>
             <p className="text-sm sm:text-base text-zinc-500 leading-relaxed">
               PCS orders, deployment, promotion, and separation can all change your real income.{' '}

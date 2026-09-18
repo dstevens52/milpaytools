@@ -6,15 +6,15 @@ import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 
-const TITLE = 'VA Home Loans Guide 2026 | Funding Fee, Eligibility & Payment Calculator';
+const TITLE = 'VA Home Loan Guide: Eligibility & Funding Fee';
 const DESC =
-  'Understand your VA home loan benefit — eligibility, funding fee, disability waiver, BAH comparison, and payment estimates. Free tools and guides for service members and veterans.';
+  'VA home loan eligibility, the funding fee and its disability exemption, entitlement and reuse, and how BAH factors into affordability. No account required.';
 const CANONICAL = '/guides/va-home-loans';
 const DATE = '2026-05-27';
 const OG_IMAGE = ogImage({ type: 'guide', title: 'VA Home Loans Guide 2026', sub: 'Eligibility, funding fee, disability waiver, and payments' });
 
 export const metadata: Metadata = {
-  title: { absolute: TITLE },
+  title: TITLE,
   description: DESC,
   alternates: { canonical: `https://www.milpaytools.com${CANONICAL}` },
   openGraph: {
@@ -713,7 +713,7 @@ export default function VAHomeLoansGuidePage() {
                 <div className="w-8 h-0.5 bg-red-500 rounded-full" />
               </div>
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-4 tracking-tight leading-tight">
-                Run the numbers before you talk to a lender.
+                Run your VA loan numbers before you talk to a lender.
               </h2>
               <p className="text-base text-white/70 leading-relaxed mb-6">
                 Enter your home price, rate, and down payment. The calculator shows your
@@ -869,7 +869,7 @@ export default function VAHomeLoansGuidePage() {
           <div className="mb-10">
             <div className="mb-6">
               <div className="w-8 h-0.5 bg-red-700 rounded-full mb-4" aria-hidden="true" />
-              <h2 className="text-xl font-black text-zinc-900 tracking-tight">Start with these calculators</h2>
+              <h2 className="text-xl font-black text-zinc-900 tracking-tight">Start with these VA loan calculators</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {RELATED_CALCULATORS.map(({ href, border, label, title, description }) => (
@@ -895,7 +895,7 @@ export default function VAHomeLoansGuidePage() {
           {RELATED_ARTICLES.length > 0 && (
             <div>
               <div className="mb-6">
-                <h2 className="text-xl font-black text-zinc-900 tracking-tight">Keep reading</h2>
+                <h2 className="text-xl font-black text-zinc-900 tracking-tight">Keep reading about VA home loans</h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl">
                 {RELATED_ARTICLES.map(({ href, border, label, title, description }) => (

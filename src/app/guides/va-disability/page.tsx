@@ -6,15 +6,15 @@ import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 
-const TITLE = 'Stop guessing your VA combined rating — and what it\'s worth.';
+const TITLE = 'VA Disability Guide: Ratings, VA Math & Rates';
 const DESC =
-  'VA math is confusing by design. 50% + 30% doesn\'t equal 80%. Use the free calculator to see your exact combined rating, your monthly compensation, and what adding another condition could do.';
+  'How the VA combines ratings, why they never simply add up, what the bilateral factor does, and how ratings map to pay. Official VA data. No account.';
 const CANONICAL = '/guides/va-disability';
 const DATE = '2026-04-12';
 const OG_IMAGE = ogImage({ type: 'guide', title: "VA Disability Benefits Guide 2026", sub: "Why 50% + 30% doesn't equal 80%" });
 
 export const metadata: Metadata = {
-  title: { absolute: `${TITLE}` },
+  title: TITLE,
   description: DESC,
   alternates: { canonical: `https://www.milpaytools.com${CANONICAL}` },
   openGraph: {
@@ -599,7 +599,7 @@ export default function VADisabilityGuidePage() {
               <div className="w-8 h-0.5 bg-red-700 rounded-full" />
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 mb-3 tracking-tight">
-              Three things about VA disability that catch veterans off guard.
+              Three VA disability rules that catch veterans off guard.
             </h2>
             <p className="text-base text-zinc-500 max-w-xl mx-auto">
               The system is complex. These are the parts that cost people money.
@@ -780,7 +780,7 @@ export default function VADisabilityGuidePage() {
         <div className="mx-auto max-w-6xl">
           <div className="mb-8">
             <div className="w-8 h-0.5 bg-red-700 rounded-full mb-4" aria-hidden="true" />
-            <h2 className="text-xl font-black text-zinc-900 tracking-tight">Keep exploring</h2>
+            <h2 className="text-xl font-black text-zinc-900 tracking-tight">Keep exploring VA disability topics</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {RELATED.map(({ href, border, label, title, description }) => (

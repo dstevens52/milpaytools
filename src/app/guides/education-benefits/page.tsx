@@ -30,15 +30,15 @@ const MHA_DIFF_MONTHLY = SDSU_MHA - MIZZOU_MHA;
 const MHA_DIFF_AY = perAY(MHA_DIFF_MONTHLY);
 const MHA_DIFF_4YR = per4Yr(MHA_DIFF_MONTHLY);
 
-const TITLE = 'Your education benefits could be worth $100,000+. Make sure you use them in the right order.';
+const TITLE = 'Military Education Benefits: GI Bill, TA, VR&E';
 const DESC =
-  'Post-9/11 GI Bill, VR&E, Tuition Assistance, and Montgomery GI Bill each work differently. The order you use them — and where you go to school — can swing the total value by tens of thousands of dollars.';
+  'Post-9/11 GI Bill, Tuition Assistance, VR&E, and the Montgomery GI Bill compared — what each covers and the order to use them in. Free tools, no account.';
 const CANONICAL = '/guides/education-benefits';
 const DATE = '2026-04-12';
 const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Education Benefits Guide 2026', sub: 'The order you use your education benefits changes their value' });
 
 export const metadata: Metadata = {
-  title: { absolute: `${TITLE}` },
+  title: TITLE,
   description: DESC,
   alternates: { canonical: `https://www.milpaytools.com${CANONICAL}` },
   openGraph: {
@@ -532,7 +532,7 @@ export default function EducationBenefitsGuidePage() {
       {/* ── Which benefit first: Decision table ── */}
       <section className="bg-white border-b border-zinc-200 py-8 sm:py-10 px-4">
         <div className="mx-auto max-w-3xl">
-          <h2 className="text-xl font-black text-zinc-900 mb-1 tracking-tight">Which benefit should you look at first?</h2>
+          <h2 className="text-xl font-black text-zinc-900 mb-1 tracking-tight">Which education benefit should you use first?</h2>
           <div className="overflow-x-auto mt-4">
             <table className="w-full text-sm border-collapse">
               <thead>
@@ -772,7 +772,7 @@ export default function EducationBenefitsGuidePage() {
         <div className="mx-auto max-w-6xl">
           <div className="mb-8">
             <div className="w-8 h-0.5 bg-red-700 rounded-full mb-4" aria-hidden="true" />
-            <h2 className="text-xl font-black text-zinc-900 tracking-tight">Keep exploring</h2>
+            <h2 className="text-xl font-black text-zinc-900 tracking-tight">Keep exploring education benefit topics</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {RELATED.map(({ href, border, label, title, description }) => (
