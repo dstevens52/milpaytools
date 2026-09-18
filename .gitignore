@@ -21,6 +21,7 @@
 .claude/settings.local.json
 build.log
 *_REPORT.md
+results.json
 bahw26.txt
 bahwo26.txt
 mhanames26.txt
