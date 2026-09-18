@@ -11,7 +11,7 @@ import { PayChartsClient } from '@/components/calculators/pay-charts/PayChartsCl
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 
 // Hub for both pay intents: the interactive pay charts and the by-rank pages.
-// Absorbed /calculators/pay-charts (now a 308 → /pay in next.config.ts).
+// Absorbed the former standalone pay-charts route (308 → /pay, see next.config.ts).
 const PAY_TITLE = '2026 Military Pay Charts by Rank';
 const PAY_DESC =
   'Official 2026 military pay charts for all ranks E-1 through O-10 and warrant officers, plus what each rank actually earns with BAH, BAS, and total compensation.';
@@ -239,7 +239,7 @@ export default function PayHubPage() {
               Calculate my total compensation →
             </Link>
             <Link
-              href="/calculators/bah"
+              href="/bah"
               className="inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors"
             >
               Look up BAH for my duty station →

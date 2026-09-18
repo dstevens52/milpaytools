@@ -581,7 +581,7 @@ export function CompareCalculator() {
                   desc: 'Full breakdown of base pay, allowances, tax advantages, and TSP.',
                 },
                 {
-                  href: '/calculators/bah',
+                  href: '/bah',
                   icon: '🏠',
                   title: 'BAH Calculator',
                   desc: 'Look up BAH for any ZIP code and compare stations for your PCS move.',

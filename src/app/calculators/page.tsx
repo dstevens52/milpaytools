@@ -52,7 +52,7 @@ const CALCULATORS: CalculatorDetail[] = [
     group: 'active-duty',
   },
   {
-    href: '/calculators/bah',
+    href: '/bah',
     icon: '🏠',
     name: 'BAH Calculator',
     description:
@@ -234,7 +234,7 @@ const CALCULATORS: CalculatorDetail[] = [
     group: 'active-duty',
   },
   {
-    href: '/calculators/pay-charts',
+    href: '/pay',
     icon: '📋',
     name: '2026 Military Pay Charts',
     description:

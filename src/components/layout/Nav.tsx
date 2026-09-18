@@ -9,9 +9,8 @@ const CALCULATOR_GROUPS = [
     label: 'Top Calculators',
     links: [
       { href: '/calculators/total-compensation', label: 'Total Military Compensation', featured: true },
-      { href: '/calculators/bah', label: 'BAH Calculator', featured: true },
+      { href: '/bah', label: 'BAH Calculator', featured: true },
       { href: '/calculators/va-disability', label: 'VA Disability Rating', featured: true },
-      { href: '/bah', label: 'BAH by Duty Station' },
       { href: '/calculators/compare', label: 'Compare Your PCS Move' },
       { href: '/calculators/pcs', label: 'PCS Cost Estimator' },
       { href: '/calculators/tsp', label: 'TSP Growth Projector' },
@@ -31,7 +30,7 @@ const CALCULATOR_GROUPS = [
       { href: '/calculators/separation-timeline', label: 'Separation Timeline' },
       { href: '/calculators/transition-readiness', label: 'Transition Readiness' },
       { href: '/calculators/education', label: 'Education Benefits' },
-      { href: '/calculators/pay-charts', label: 'Pay Charts' },
+      { href: '/pay', label: 'Pay Charts' },
     ],
   },
 ];

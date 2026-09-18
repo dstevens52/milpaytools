@@ -263,7 +263,7 @@ const TOP_CALCULATORS = [
     ),
   },
   {
-    href: '/calculators/bah',
+    href: '/bah',
     title: 'BAH by ZIP Code',
     description: '2026 housing allowance for any ZIP code. Compare two duty stations for PCS planning.',
     icon: (

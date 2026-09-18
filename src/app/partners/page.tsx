@@ -51,8 +51,8 @@ const FLAGSHIP_SECTIONS = [
     body: 'Base pay alone can dramatically understate what military service is worth. BAH, BAS, tax advantages, healthcare value, and TSP contributions can add $20,000–$50,000 per year that doesn\'t show up on the LES base pay line.',
     tools: [
       { href: '/calculators/total-compensation', name: 'Total Military Compensation Calculator', desc: 'Full pay breakdown including BAH, BAS, tax advantages, and civilian salary equivalent' },
-      { href: '/calculators/bah', name: 'BAH Calculator', desc: 'Housing allowance by location, rank, and dependency status — 40,000+ ZIP codes' },
-      { href: '/calculators/pay-charts', name: '2026 Military Pay Charts', desc: 'Official DFAS pay tables for all ranks and years of service' },
+      { href: '/bah', name: 'BAH Calculator', desc: 'Housing allowance by location, rank, and dependency status — 40,000+ ZIP codes' },
+      { href: '/pay', name: '2026 Military Pay Charts', desc: 'Official DFAS pay tables for all ranks and years of service' },
     ],
   },
   {
@@ -63,7 +63,6 @@ const FLAGSHIP_SECTIONS = [
     tools: [
       { href: '/calculators/pcs', name: 'PCS Cost Estimator', desc: 'DLA, MALT mileage, per diem, TLE, and PPM net proceeds — 2026 DTMO rates' },
       { href: '/calculators/compare', name: 'Duty Station Comparison', desc: 'Side-by-side BAH, state taxes, COLA, and take-home between current and new station' },
-      { href: '/bah', name: 'BAH Rates by Duty Station', desc: '200+ installation pages with local housing context' },
     ],
   },
   {

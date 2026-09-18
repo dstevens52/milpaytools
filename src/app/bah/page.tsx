@@ -11,7 +11,7 @@ import { webApplicationSchema } from '@/lib/schema';
 import { formatCurrency } from '@/lib/utils';
 
 // Hub for both BAH intents: the ZIP calculator and the by-installation browse.
-// Absorbed /calculators/bah (now a 308 → /bah in next.config.ts).
+// Absorbed the former standalone BAH calculator route (308 → /bah, see next.config.ts).
 const BAH_TITLE = 'BAH Calculator 2026: Rates by Duty Station';
 const BAH_DESC =
   'Look up your 2026 BAH rate by ZIP code, pay grade, and dependency status, or browse rates by military installation. Official DTMO data for all 40,959 ZIP codes.';

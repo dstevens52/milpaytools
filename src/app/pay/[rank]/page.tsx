@@ -486,7 +486,7 @@ export default async function RankPayPage({
               Run your own numbers →
             </Link>
             <Link
-              href="/calculators/bah"
+              href="/bah"
               className="inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors"
             >
               Look up BAH for your duty station →
@@ -519,7 +519,7 @@ export default async function RankPayPage({
             </p>
             <p className="text-sm text-zinc-600 leading-relaxed">
               {`The full ${priorEnlisted.grade} progression is in the `}
-              <Link href="/calculators/pay-charts" className="text-blue-700 underline hover:text-blue-800">
+              <Link href="/pay" className="text-blue-700 underline hover:text-blue-800">
                 2026 pay charts
               </Link>
               .
@@ -573,13 +573,13 @@ export default async function RankPayPage({
               <span className="text-zinc-500">— your full package with your actual BAH and TSP match</span>
             </li>
             <li>
-              <Link href="/calculators/pay-charts" className="text-blue-700 underline hover:text-blue-800">
+              <Link href="/pay" className="text-blue-700 underline hover:text-blue-800">
                 2026 Military Pay Charts
               </Link>{' '}
               <span className="text-zinc-500">— interactive tables for every grade and year of service</span>
             </li>
             <li>
-              <Link href="/calculators/bah" className="text-blue-700 underline hover:text-blue-800">
+              <Link href="/bah" className="text-blue-700 underline hover:text-blue-800">
                 BAH Calculator
               </Link>{' '}
               <span className="text-zinc-500">— 2026 rates for all 40,959 ZIP codes</span>

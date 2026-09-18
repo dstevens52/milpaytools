@@ -113,7 +113,7 @@ const EXTRA_CALCULATORS = [
     ),
   },
   {
-    href: '/calculators/pay-charts',
+    href: '/pay',
     title: 'Pay Charts',
     description: 'Look up 2026 base pay by rank and years of service.',
     icon: (

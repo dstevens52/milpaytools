@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ogImage } from '@/lib/og';
+import Link from 'next/link';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { TotalCompensationCalculator } from '@/components/calculators/total-compensation/TotalCompensationCalculator';
@@ -370,9 +371,9 @@ export default function TotalCompensationPage() {
             <div className="px-5 pb-5 pt-3 border-t border-zinc-100">
               <p className="text-sm text-zinc-600 mb-3">
                 Want to see where your basic pay falls across all ranks?{' '}
-                <a href="/calculators/pay-charts" className="underline text-blue-700 hover:text-blue-800">
+                <Link href="/pay" className="underline text-blue-700 hover:text-blue-800">
                   View the full 2026 military pay charts →
-                </a>
+                </Link>
               </p>
               <ul className="text-sm text-zinc-600 space-y-1.5 list-disc list-inside">
                 <li>Special pay: flight pay, hazardous duty pay, combat zone tax exclusion, sea pay, etc.</li>
@@ -407,7 +408,7 @@ export default function TotalCompensationPage() {
             Related Calculators
           </p>
           <div className="flex flex-wrap gap-2">
-            <a href="/calculators/bah" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">BAH Calculator →</a>
+            <Link href="/bah" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">BAH Calculator →</Link>
             <a href="/calculators/deployment" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Deployment Pay Calculator →</a>
             <a href="/calculators/tsp" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">TSP Growth Projector →</a>
             <a href="/calculators/retirement" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Retirement Calculator →</a>

@@ -3,7 +3,7 @@
 
 ## Calculators (18)
 - [Total Military Compensation](/calculators/total-compensation): Full pay breakdown with BAH, BAS, tax advantages, TSP match, TRICARE healthcare value, and civilian salary equivalent — including what a civilian would need to earn to match your total package
-- [BAH Calculator](/calculators/bah): 2026 BAH rates for all 40,959 ZIP codes
+- [BAH Calculator](/bah): 2026 BAH rates for all 40,959 ZIP codes, plus search and filter for all duty station BAH pages
 - [VA Disability Rating](/calculators/va-disability): Combined rating calculator with bilateral factor and 2026 compensation rates
 - [TSP Growth Projector](/calculators/tsp): Retirement savings projections with fund allocation
 - [Military Retirement](/calculators/retirement): High-3 and BRS pension projections with lifetime value
@@ -13,7 +13,7 @@
 - [CONUS COLA](/calculators/cola): Cost of living allowance lookup by ZIP
 - [Compare Your PCS Move](/calculators/compare): Side-by-side BAH, taxes, COLA, and take-home between current and new station
 - [Deployment Pay](/calculators/deployment): Combat zone tax exclusion and special pays
-- [2026 Pay Charts](/calculators/pay-charts): Full pay tables for all ranks and years of service
+- [2026 Pay Charts](/pay): Full pay tables for all ranks and years of service, plus the index of per-rank pay pages
 - [Dual Military BAH](/calculators/dual-military-bah): BAH scenarios for military couples
 - [Transition Readiness](/calculators/transition-readiness): Am I financially ready to leave the military?
 - [Separation Benefits Timeline](/calculators/separation-timeline): When each benefit stops, converts, or expires after separation
@@ -35,8 +35,6 @@
 - [For Partners](/partners): Partner page for sharing MilPayTools with audiences, organized by military life stage — Starting Service, Pay & Housing, PCS & Relocation, Deployment, Retirement & TSP, Education & Career, VA Loans, Veterans Benefits, and Leaving the Military. Links to all 18 calculators, 9 guides, and key blog posts. Designed for sharing with service members, veterans, military families, transition coaches, and veteran organizations. No accounts, no personal info, no ads.
 
 ## Pay by Rank
-
-- [Military Pay by Rank](https://www.milpaytools.com/pay): Index page for per-rank pay pages — basic pay progression by years of service plus BAH, BAS, and total compensation for every enlisted and officer grade.
 
 - [E-1 Pay 2026](https://www.milpaytools.com/pay/e1): Entry pay grade. Flat basic pay rate, the under-4-months footnote rate, first-paycheck mechanics, and the in-kind housing/meals reality for new members.
 
@@ -69,8 +67,6 @@
 - [O-6 Pay 2026](https://www.milpaytools.com/pay/o6): Senior field grade and terminal rank for most officers. The longest officer pay table, running to over 30 years.
 
 ## BAH by Duty Station
-
-- [BAH Rates by Military Installation](https://www.milpaytools.com/bah): Index page with search and filter for all duty station BAH pages. Find any installation by name, city, state, or branch.
 
 - [Fort Bragg](https://www.milpaytools.com/bah/fort-bragg): Fayetteville, NC — Army. 2026 BAH rates for the 82nd Airborne Division's home station, the largest U.S. military installation by population.
 

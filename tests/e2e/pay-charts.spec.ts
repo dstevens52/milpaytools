@@ -8,7 +8,7 @@ import { payChartsAmount } from './helpers/format';
 
 test.describe('Pay Charts', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/calculators/pay-charts');
+    await page.goto('/pay');
   });
 
   test('page loads with correct title', async ({ page }) => {

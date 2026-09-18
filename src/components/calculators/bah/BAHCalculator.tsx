@@ -343,7 +343,7 @@ export function BAHCalculator() {
       p.set('mode', 'compare');
       if (zipB) p.set('zipb', zipB);
     }
-    return `${window.location.origin}/calculators/bah?${p.toString()}`;
+    return `${window.location.origin}/bah?${p.toString()}`;
   }
 
   return (

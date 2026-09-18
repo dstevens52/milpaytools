@@ -29,12 +29,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     {
-      url: `${BASE_URL}/calculators/bah`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 1.0,
-    },
-    {
       url: `${BASE_URL}/calculators/va-disability`,
       lastModified: now,
       changeFrequency: 'monthly',
@@ -115,12 +109,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // NOTE: calculator list is hand-maintained — update this when adding new calculators.
     {
       url: `${BASE_URL}/calculators/deployment`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 1.0,
-    },
-    {
-      url: `${BASE_URL}/calculators/pay-charts`,
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 1.0,

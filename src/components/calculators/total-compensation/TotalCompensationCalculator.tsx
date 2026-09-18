@@ -91,7 +91,7 @@ function buildActionSteps(
         label: 'Using BAH for housing?',
         description: `Your BAH is ${formatCurrency(output.monthlyBAH)}/month. If you're considering buying near a duty station, learn how BAH, VA loan eligibility, and monthly affordability fit together.`,
         priority: 'medium',
-        href: '/calculators/bah',
+        href: '/bah',
       });
     } else {
       steps.push({

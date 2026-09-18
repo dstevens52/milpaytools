@@ -79,7 +79,7 @@ const PAY_LAYERS = [
       'Your taxable monthly salary, set by rank and years of service. This is the number on your W-2 — but it\'s only part of the picture.',
     bullets: ['E-3 (2 yrs): $3,015/mo', 'E-5 (6 yrs): $4,110/mo', 'Increases every January 1st'],
     cta: 'Look up your base pay →',
-    href: '/calculators/pay-charts',
+    href: '/pay',
   },
   {
     accent: 'bg-blue-800',
@@ -89,7 +89,7 @@ const PAY_LAYERS = [
       'A monthly payment excluded from federal taxable income, based on your duty station ZIP code. This is where most of the hidden compensation lives.',
     bullets: ['~$1,200/mo to $5,100+/mo by location', 'Excluded from federal taxable income', 'Not on your W-2'],
     cta: 'Look up your BAH →',
-    href: '/calculators/bah',
+    href: '/bah',
   },
   {
     accent: 'bg-emerald-600',
@@ -132,7 +132,7 @@ const ACCORDION = [
           Most service members see automatic pay increases at the 2-, 3-, 4-, 6-, 8-, 10-, 12-, 14-,
           16-, 18-, 20-, and 22-year marks.
         </p>
-        <Link href="/calculators/pay-charts" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+        <Link href="/pay" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Browse the complete 2026 pay charts →
         </Link>
       </div>
@@ -167,7 +167,7 @@ const ACCORDION = [
           status don&apos;t change. This grandfathering resets when you PCS.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 pt-1">
-          <Link href="/calculators/bah" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+          <Link href="/bah" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
             Look up BAH for any ZIP code →
           </Link>
           <Link href="/blog/bah-rates-2026-complete-guide" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
@@ -394,7 +394,7 @@ export default function MilitaryPayGuidePage() {
               See My Total Compensation →
             </Link>
             <Link
-              href="/calculators/pay-charts"
+              href="/pay"
               className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-7 py-3.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 hover:shadow-sm transition-all duration-300"
             >
               Browse 2026 Pay Tables →

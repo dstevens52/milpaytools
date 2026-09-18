@@ -587,7 +587,7 @@ export function PayChartsClient({ payPages }: PayChartsClientProps) {
             {' '}— add BAH, BAS, and tax-free allowances to your base pay
           </li>
           <li>
-            <Link href="/calculators/bah" className="text-blue-700 underline hover:text-blue-800">
+            <Link href="/bah" className="text-blue-700 underline hover:text-blue-800">
               BAH Calculator
             </Link>
             {' '}— look up housing allowance for any duty station ZIP code

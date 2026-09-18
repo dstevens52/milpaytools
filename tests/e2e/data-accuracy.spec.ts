@@ -66,7 +66,7 @@ test.describe('VA Disability — known answers', () => {
 
 test.describe('BAH — known answers', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/calculators/bah');
+    await page.goto('/bah');
   });
 
   // Source: DTMO 2026 BAH rate tables
@@ -317,7 +317,7 @@ test.describe('CONUS COLA — known answers', () => {
 
 test.describe('Pay Charts — known answers', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/calculators/pay-charts');
+    await page.goto('/pay');
   });
 
   // E-5 at 8 YOS = $4,299.90 (DFAS 2026, "Over 8" column, verified FY2026 rate)

@@ -730,7 +730,7 @@ export function DeploymentCalculator() {
               {[
                 { href: '/calculators/total-compensation', icon: '💰', title: 'Total Compensation', desc: 'See your full pay picture — base, allowances, tax advantages, and civilian equivalent.' },
                 { href: '/calculators/tsp', icon: '📈', title: 'TSP Growth Projector', desc: 'Model what your combat zone Roth TSP contributions grow to at retirement.' },
-                { href: '/calculators/bah', icon: '🏠', title: 'BAH Calculator', desc: 'Look up your home station BAH — the rate that continues during deployment.' },
+                { href: '/bah', icon: '🏠', title: 'BAH Calculator', desc: 'Look up your home station BAH — the rate that continues during deployment.' },
               ].map(({ href, icon, title, desc }) => (
                 <a
                   key={href}

@@ -12,7 +12,7 @@ const CATEGORY_LINKS = [
   },
   {
     label: 'BAH by ZIP',
-    href: '/calculators/bah',
+    href: '/bah',
     icon: (
       <svg className="w-4 h-4 flex-none" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 9.5L10 3l7 6.5V17a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5zM8 18v-6h4v6" />

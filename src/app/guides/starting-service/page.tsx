@@ -384,7 +384,7 @@ export default function StartingServicePage() {
 
             {/* ── Card 4: HOUSING / BAH ──────────────────────────────────── */}
             <Link
-              href="/calculators/bah"
+              href="/bah"
               className="group relative overflow-hidden rounded-2xl flex flex-col transition-all duration-200 hover:-translate-y-1 shadow-sm hover:shadow-[0_12px_36px_rgba(29,78,216,0.18)]"
               style={{ background: 'linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%)', border: '1px solid #bfdbfe', borderLeftWidth: '4px', borderLeftColor: '#1d4ed8', padding: '24px 24px 20px 24px' }}
             >
