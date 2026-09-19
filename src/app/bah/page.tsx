@@ -161,7 +161,7 @@ export default function BahHubPage() {
           <div>
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">How BAH rates are set</h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              BAH is designed to cover approximately 95% of average housing costs for your pay grade,
+              BAH is designed to cover approximately 95% of median rent plus average utilities for your pay grade,
               with a 5% out-of-pocket cost-sharing element built into the program. Rates are calculated
               by Military Housing Area, pay grade, and dependency status using local rental and utility
               data. The Defense Travel Management Office (DTMO) surveys local rental markets each year
