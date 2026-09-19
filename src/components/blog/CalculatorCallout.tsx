@@ -1,5 +1,5 @@
 interface CalculatorCalloutProps {
-  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'va-loan' | 'va-refinance' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah' | 'transition-readiness' | 'healthcare-comparison' | 'separation-timeline';
+  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'va-loan' | 'va-refinance' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah' | 'transition-readiness' | 'healthcare-comparison' | 'separation-timeline' | 'les';
   text?: string;
   ctaText?: string;
 }
@@ -89,6 +89,11 @@ const CALCULATOR_CONFIG = {
     href: '/calculators/healthcare-comparison',
     label: 'Healthcare Cost Comparison Calculator',
     defaultText: 'Compare TRICARE to civilian healthcare options — employer plans, ACA marketplace, VA healthcare, and TRICARE Reserve Select — with estimated annual costs side by side.',
+  },
+  les: {
+    href: '/calculators/les',
+    label: 'LES Pay Checker',
+    defaultText: 'Check the base pay, BAH, and BAS on your LES against the official 2026 rates. No upload — just your grade, station, and three numbers.',
   },
   'separation-timeline': {
     href: '/calculators/separation-timeline',

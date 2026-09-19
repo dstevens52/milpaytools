@@ -349,6 +349,7 @@ const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
   'transition-readiness':   { label: 'Transition Readiness Calculator',     href: '/calculators/transition-readiness' },
   'healthcare-comparison':  { label: 'Healthcare Cost Comparison',          href: '/calculators/healthcare-comparison' },
   'separation-timeline':    { label: 'Separation Benefits Timeline',        href: '/calculators/separation-timeline' },
+  les:                      { label: 'LES Pay Checker',                     href: '/calculators/les' },
 };
 
 export async function generateStaticParams() {

@@ -173,6 +173,19 @@ const CALCULATORS: CalcCard[] = [
     ),
   },
   {
+    href: '/calculators/les',
+    name: 'LES Pay Checker',
+    description: 'Check the base pay, BAH, and BAS on your LES against 2026 rates.',
+    iconBg: 'bg-emerald-700',
+    categories: ['pay'],
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7 3h10a2 2 0 0 1 2 2v16l-3-2-2 2-2-2-2 2-2-2-3 2V5a2 2 0 0 1 2-2z" />
+      </svg>
+    ),
+  },
+  {
     href: '/calculators/deployment',
     name: 'Deployment Pay',
     description: 'Calculate tax-free pay, special pays, and SDP earnings during deployment.',

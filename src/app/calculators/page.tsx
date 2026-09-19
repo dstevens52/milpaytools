@@ -248,6 +248,20 @@ const CALCULATORS: CalculatorDetail[] = [
     group: 'reference',
   },
   {
+    href: '/calculators/les',
+    icon: '🧾',
+    name: 'LES Pay Checker',
+    description:
+      'Check the base pay, BAH, and BAS on your Leave and Earnings Statement against official 2026 rates. Enter your grade, years of service, duty station, and dependents, then three numbers from your LES — no upload, nothing stored.',
+    features: [
+      'Base pay, BAH, and BAS side by side',
+      'Flags rate protection and partial months',
+      'Who to contact if a line is off',
+      'Runs in your browser — no upload',
+    ],
+    group: 'allowances',
+  },
+  {
     href: '/calculators/dual-military-bah',
     icon: '👫',
     name: 'Dual Military BAH Calculator',

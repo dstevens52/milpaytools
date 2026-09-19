@@ -108,6 +108,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     // NOTE: calculator list is hand-maintained — update this when adding new calculators.
     {
+      url: `${BASE_URL}/calculators/les`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 1.0,
+    },
+    {
       url: `${BASE_URL}/calculators/deployment`,
       lastModified: now,
       changeFrequency: 'monthly',

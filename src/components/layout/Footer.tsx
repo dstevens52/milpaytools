@@ -5,6 +5,7 @@ const CALCULATORS = [
   { href: '/pay', label: '2026 Pay Charts' },
   { href: '/calculators/total-compensation', label: 'Total Compensation' },
   { href: '/bah', label: 'BAH Calculator' },
+  { href: '/calculators/les', label: 'LES Pay Checker' },
   { href: '/calculators/va-disability', label: 'VA Disability Rating' },
   { href: '/calculators/va-loan', label: 'VA Loan Payment' },
   { href: '/calculators/tsp', label: 'TSP Growth Projector' },

@@ -229,9 +229,14 @@ const ACCORDION = [
           entitlements because BAH and BAS are not included in taxable wages on your W-2. This is
           correct — it doesn&apos;t mean you&apos;re missing pay.
         </p>
-        <Link href="/blog/how-to-read-your-les" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
-          Complete LES walkthrough →
-        </Link>
+        <div className="flex flex-wrap gap-x-5 gap-y-1">
+          <Link href="/calculators/les" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+            Check your LES against 2026 rates →
+          </Link>
+          <Link href="/blog/how-to-read-your-les" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+            Complete LES walkthrough →
+          </Link>
+        </div>
       </div>
     ),
   },

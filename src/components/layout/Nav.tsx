@@ -10,6 +10,7 @@ const CALCULATOR_GROUPS = [
     links: [
       { href: '/calculators/total-compensation', label: 'Total Military Compensation', featured: true },
       { href: '/bah', label: 'BAH Calculator', featured: true },
+      { href: '/calculators/les', label: 'LES Pay Checker' },
       { href: '/calculators/va-disability', label: 'VA Disability Rating', featured: true },
       { href: '/calculators/compare', label: 'Compare Your PCS Move' },
       { href: '/calculators/pcs', label: 'PCS Cost Estimator' },

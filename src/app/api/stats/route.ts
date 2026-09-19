@@ -23,6 +23,7 @@ const CALCULATOR_NAMES = [
   'transition-readiness',
   'separation-timeline',
   'healthcare-comparison',
+  'les',
 ];
 
 export async function GET(req: Request) {

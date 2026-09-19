@@ -26,6 +26,7 @@ const CALCULATOR_NAMES = [
   'transition-readiness',
   'separation-timeline',
   'healthcare-comparison',
+  'les',
 ];
 
 const TRACKING_SINCE = '2026-05-26';
