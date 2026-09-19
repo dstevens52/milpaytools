@@ -50,7 +50,7 @@ const CALCULATORS: CalculatorCardProps[] = [
     featured: true,
   },
   {
-    href: '/calculators/bah',
+    href: '/bah',
     title: 'BAH Calculator',
     description:
       '2026 housing allowance for any ZIP code. Compare two duty stations side by side for PCS planning.',

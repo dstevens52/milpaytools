@@ -193,7 +193,7 @@ const POPULAR_CALCS = [
     ),
   },
   {
-    href: '/calculators/bah',
+    href: '/bah',
     name: 'BAH Calculator',
     description: '2026 housing allowance for any ZIP code.',
     icon: (

@@ -7,7 +7,7 @@ import { bahAmount } from './helpers/format';
 
 test.describe('BAH Calculator', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/calculators/bah');
+    await page.goto('/bah');
   });
 
   test('page loads with correct title', async ({ page }) => {

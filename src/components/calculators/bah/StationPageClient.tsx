@@ -971,7 +971,7 @@ export function StationPageClient({
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
               <p className="text-zinc-600 text-sm">
                 BAH rate data for this ZIP code could not be loaded. Use the{' '}
-                <Link href="/calculators/bah" className="text-red-700 hover:text-red-800 underline">
+                <Link href="/bah" className="text-red-700 hover:text-red-800 underline">
                   BAH calculator
                 </Link>{' '}
                 and enter the ZIP code manually for exact rates.

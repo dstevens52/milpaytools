@@ -93,7 +93,7 @@ const IMPACT_CARDS = [
       'Biggest ongoing financial impact of any PCS',
     ],
     cta: 'Compare BAH at two stations →',
-    href: '/calculators/bah',
+    href: '/bah',
   },
   {
     accent: 'bg-emerald-600',
@@ -225,7 +225,7 @@ const ACCORDION = [
           accepting orders. A $1,500/month BAH drop you didn't budget for will hurt far more than
           the move itself.
         </p>
-        <Link href="/calculators/bah" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+        <Link href="/bah" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Compare BAH at both duty stations →
         </Link>
       </div>

@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from 'next';
 import { ogImage } from '@/lib/og';
+import Link from 'next/link';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { ColaCalculator } from '@/components/calculators/cola/ColaCalculator';
@@ -227,9 +228,9 @@ export default function ColaPage() {
                 — See your full compensation package including BAH, BAS, and tax advantages
               </li>
               <li>
-                <a href="/calculators/bah" className="text-blue-700 hover:text-blue-800 underline">
+                <Link href="/bah" className="text-blue-700 hover:text-blue-800 underline">
                   BAH Calculator
-                </a>{' '}
+                </Link>{' '}
                 — Look up your Basic Allowance for Housing by ZIP code and pay grade
               </li>
               <li>

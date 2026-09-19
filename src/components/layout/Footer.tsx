@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { EmailSignup } from '@/components/EmailSignup';
 
 const CALCULATORS = [
-  { href: '/calculators/pay-charts', label: '2026 Pay Charts' },
+  { href: '/pay', label: '2026 Pay Charts' },
   { href: '/calculators/total-compensation', label: 'Total Compensation' },
-  { href: '/calculators/bah', label: 'BAH Calculator' },
+  { href: '/bah', label: 'BAH Calculator' },
   { href: '/calculators/va-disability', label: 'VA Disability Rating' },
   { href: '/calculators/va-loan', label: 'VA Loan Payment' },
   { href: '/calculators/tsp', label: 'TSP Growth Projector' },
@@ -24,8 +24,6 @@ const GUIDES = [
 
 const RESOURCES = [
   { href: '/blog', label: 'Blog' },
-  { href: '/bah', label: 'BAH by Station' },
-  { href: '/pay', label: 'Pay by Rank' },
   { href: '/partners', label: 'For Partners' },
 ];
 

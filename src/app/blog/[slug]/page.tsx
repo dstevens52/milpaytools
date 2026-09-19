@@ -333,7 +333,7 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
 
 const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
   'total-compensation': { label: 'Total Compensation Calculator',    href: '/calculators/total-compensation' },
-  bah:                  { label: 'BAH Calculator',                   href: '/calculators/bah' },
+  bah:                  { label: 'BAH Calculator',                   href: '/bah' },
   'va-disability':      { label: 'VA Disability Calculator',          href: '/calculators/va-disability' },
   'va-loan':            { label: 'VA Loan Calculator',                href: '/calculators/va-loan' },
   'va-refinance':       { label: 'VA Refinance Calculator',           href: '/calculators/va-refinance' },
@@ -343,7 +343,7 @@ const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
   cola:                 { label: 'CONUS COLA Calculator',             href: '/calculators/cola' },
   compare:              { label: 'Compare Your PCS Move',             href: '/calculators/compare' },
   deployment:           { label: 'Deployment Pay Calculator',          href: '/calculators/deployment' },
-  'pay-charts':         { label: '2026 Military Pay Charts',           href: '/calculators/pay-charts' },
+  'pay-charts':         { label: '2026 Military Pay Charts',           href: '/pay' },
   'guard-reserve':      { label: 'Guard & Reserve Pay Calculator',     href: '/calculators/guard-reserve' },
   'dual-military-bah':      { label: 'Dual Military BAH Calculator',        href: '/calculators/dual-military-bah' },
   'transition-readiness':   { label: 'Transition Readiness Calculator',     href: '/calculators/transition-readiness' },

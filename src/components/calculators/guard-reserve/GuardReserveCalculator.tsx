@@ -53,7 +53,7 @@ function buildActionSteps(output: GuardReserveOutput, input: GuardReserveInput):
   steps.push({
     label: 'Check BAH rates during Annual Training',
     description: `During AT, you may be eligible for BAH at your training location. Look up the E-5 with/without dependents BAH rate for your AT duty station ZIP code.`,
-    href: '/calculators/bah',
+    href: '/bah',
     priority: 'high',
   });
 
@@ -699,7 +699,7 @@ export function GuardReserveCalculator() {
               <Link href="/calculators/total-compensation" className="text-sm text-blue-700 hover:underline font-medium">
                 Total Compensation Calculator → See full active duty pay for same rank
               </Link>
-              <Link href="/calculators/bah" className="text-sm text-blue-700 hover:underline font-medium">
+              <Link href="/bah" className="text-sm text-blue-700 hover:underline font-medium">
                 BAH Calculator → Look up housing allowance during Annual Training
               </Link>
             </div>

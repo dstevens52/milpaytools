@@ -208,7 +208,7 @@ export function ColaCalculator() {
                 Related calculator
               </p>
               <a
-                href="/calculators/bah"
+                href="/bah"
                 className="text-sm text-blue-700 hover:text-blue-800 underline"
               >
                 Look up your BAH rate for this ZIP code →

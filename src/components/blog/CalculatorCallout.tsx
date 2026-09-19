@@ -11,7 +11,7 @@ const CALCULATOR_CONFIG = {
     defaultText: 'See your exact total military compensation — base pay, BAH, BAS, TSP match, and the civilian salary equivalent.',
   },
   bah: {
-    href: '/calculators/bah',
+    href: '/bah',
     label: 'BAH Calculator',
     defaultText: 'Look up BAH for any ZIP code in the country — all 40,959 ZIP codes with official 2026 DTMO data.',
   },
@@ -61,7 +61,7 @@ const CALCULATOR_CONFIG = {
     defaultText: 'See your deployment pay increase — HFP/IDP, CZTE tax savings, Hardship Duty Pay, FSA, and SDP interest. Before vs. during vs. tour total.',
   },
   'pay-charts': {
-    href: '/calculators/pay-charts',
+    href: '/pay',
     label: '2026 Military Pay Charts',
     defaultText: 'Browse the complete 2026 DFAS pay tables for all ranks — E-1 through O-10 and warrant officers — with quick lookup by grade and years of service.',
   },

@@ -12,7 +12,7 @@ test.describe('BAH Calculator — async route migration', () => {
       await new Promise((r) => setTimeout(r, 600));
       await route.continue();
     });
-    await page.goto('/calculators/bah');
+    await page.goto('/bah');
     await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 30 });
     await expect(page.getByText('Looking up rates…')).toBeVisible();
     // Fort Bragg E-5 without dependents (default) resolves after the fetch.
@@ -20,13 +20,13 @@ test.describe('BAH Calculator — async route migration', () => {
   });
 
   test('deep-link (?zip=28310&rank=E-5&dependents=yes) resolves on mount', async ({ page }) => {
-    await page.goto('/calculators/bah?zip=28310&rank=E-5&dependents=yes');
+    await page.goto('/bah?zip=28310&rank=E-5&dependents=yes');
     // E-5 with dependents at Fort Bragg = $1,806/mo, fetched on mount.
     await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(1806) })).toBeVisible();
   });
 
   test('rapid ZIP change lands on the FINAL ZIP, not a stale one (race-safe)', async ({ page }) => {
-    await page.goto('/calculators/bah');
+    await page.goto('/bah');
     const input = page.getByLabel('Duty Station');
     await input.fill('28310'); // Fort Bragg → 1806 (w/dep) — but we leave dep off
     await input.fill('92134'); // San Diego → final
@@ -38,7 +38,7 @@ test.describe('BAH Calculator — async route migration', () => {
   });
 
   test('out-of-dataset ZIP shows not-found feedback — no crash, no undefined/NaN', async ({ page }) => {
-    await page.goto('/calculators/bah');
+    await page.goto('/bah');
     await page.getByLabel('Duty Station').pressSequentially('00000', { delay: 30 });
     await expect(page.getByText('ZIP code not found in BAH dataset').first()).toBeVisible();
     const body = await page.locator('main').innerText();
@@ -47,7 +47,7 @@ test.describe('BAH Calculator — async route migration', () => {
   });
 
   test('territory ZIP (00601) shows the OHA message, no rate', async ({ page }) => {
-    await page.goto('/calculators/bah');
+    await page.goto('/bah');
     await page.getByLabel('Duty Station').pressSequentially('00601', { delay: 30 });
     await expect(page.getByText(/U\.S\. territory/i).first()).toBeVisible();
     await expect(page.locator('p.text-4xl')).toHaveCount(0);

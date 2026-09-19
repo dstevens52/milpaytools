@@ -177,7 +177,7 @@ export default function VARefinancePage() {
           </Link>
 
           <Link
-            href="/calculators/bah"
+            href="/bah"
             className="group block rounded-lg border border-zinc-200 bg-white p-5 shadow-sm hover:border-red-200 hover:shadow-md transition-all"
           >
             <p className="font-semibold text-zinc-900 mb-2 group-hover:text-red-700 transition-colors">
@@ -320,7 +320,7 @@ export default function VARefinancePage() {
           <div className="flex flex-wrap gap-2">
             <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">VA Loan Calculator →</Link>
             <Link href="/calculators/va-disability" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">VA Disability Rating →</Link>
-            <Link href="/calculators/bah" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">BAH Calculator →</Link>
+            <Link href="/bah" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">BAH Calculator →</Link>
             <Link href="/calculators/total-compensation" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Total Compensation →</Link>
             <Link href="/guides/va-home-loans" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">VA Home Loans Guide →</Link>
           </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ogImage } from '@/lib/og';
+import Link from 'next/link';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { DeploymentCalculator } from '@/components/calculators/deployment/DeploymentCalculator';
@@ -276,9 +277,9 @@ export default function DeploymentPage() {
           <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 text-sm text-zinc-600">
             <span className="font-semibold text-zinc-800">Leaving dependents behind?</span>{' '}
             The{' '}
-            <a href="/calculators/bah" className="text-blue-700 hover:underline font-medium">
+            <Link href="/bah" className="text-blue-700 hover:underline font-medium">
               BAH Calculator
-            </a>{' '}
+            </Link>{' '}
             can help your family understand the housing allowance that continues during deployment —
             BAH does not stop when you deploy.
           </div>

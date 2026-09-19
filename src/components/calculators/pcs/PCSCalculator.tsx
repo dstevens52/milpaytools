@@ -175,7 +175,7 @@ function buildActionSteps(input: PCSInput, output: PCSOutput): ActionStep[] {
   steps.push({
     label: 'Check your BAH at the gaining station',
     description: `Your housing allowance changes with every PCS. Look up the E-5 with/without dependents BAH rate at your new duty station ZIP code before making housing decisions.`,
-    href: '/calculators/bah',
+    href: '/bah',
     priority: 'high',
   });
 
@@ -907,7 +907,7 @@ export function PCSCalculator() {
           <div className="rounded-lg bg-blue-50 border border-blue-200 p-4">
             <p className="text-sm font-semibold text-zinc-800 mb-2">PCS planning tools</p>
             <div className="flex flex-col gap-2">
-              <Link href="/calculators/bah" className="text-sm text-blue-700 hover:underline font-medium">
+              <Link href="/bah" className="text-sm text-blue-700 hover:underline font-medium">
                 BAH Calculator → Look up housing allowance at your new duty station
               </Link>
               <Link href="/calculators/total-compensation" className="text-sm text-blue-700 hover:underline font-medium">

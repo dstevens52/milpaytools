@@ -7,7 +7,7 @@ const QUESTIONS = [
   },
   {
     question: "What's my BAH at a new duty station?",
-    href: '/calculators/bah',
+    href: '/bah',
   },
   {
     question: "What's my VA combined rating?",

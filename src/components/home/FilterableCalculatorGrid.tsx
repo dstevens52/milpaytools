@@ -36,7 +36,7 @@ const CALCULATORS: CalcCard[] = [
     ),
   },
   {
-    href: '/calculators/bah',
+    href: '/bah',
     name: 'BAH by ZIP',
     description: 'Find your housing allowance by ZIP code or installation.',
     iconBg: 'bg-blue-800',
@@ -186,7 +186,7 @@ const CALCULATORS: CalcCard[] = [
     ),
   },
   {
-    href: '/calculators/pay-charts',
+    href: '/pay',
     name: 'Pay Charts',
     description: 'Look up 2026 base pay by rank and years of service.',
     iconBg: 'bg-zinc-600',

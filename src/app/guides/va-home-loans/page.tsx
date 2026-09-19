@@ -321,7 +321,7 @@ const ACCORDION = [
           <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
             Compare BAH to your estimated payment →
           </Link>
-          <Link href="/calculators/bah" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+          <Link href="/bah" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
             Look up your BAH rate →
           </Link>
           <Link href="/blog/using-bah-to-buy-a-home" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
@@ -481,7 +481,7 @@ const RELATED_CALCULATORS = [
     description: 'Calculate your combined rating — many disability-rated veterans are exempt from the funding fee.',
   },
   {
-    href: '/calculators/bah',
+    href: '/bah',
     border: 'border-l-blue-500',
     label: 'Calculator',
     title: 'BAH Calculator',

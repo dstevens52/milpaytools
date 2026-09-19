@@ -557,7 +557,7 @@ export function EducationCalculator() {
         <h3 className="font-semibold text-zinc-900 text-base mb-3">Related Tools &amp; Guides</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Link
-            href="/calculators/bah"
+            href="/bah"
             className="flex items-start gap-3 rounded-lg border border-zinc-200 p-3 hover:border-zinc-300 hover:shadow-sm transition-all"
           >
             <span className="text-xl flex-none">🏠</span>
