@@ -187,7 +187,9 @@ export default function ComparePage() {
               </li>
               <li>
                 <strong>State income tax</strong> — Approximate effective rate on taxable income
-                (base pay + CONUS COLA) — BAH and BAS are always federal and state tax-free
+                (base pay + CONUS COLA) — BAH and BAS are excluded from federal taxable income. Most
+                states also exclude them, but state treatment varies — verify with your state tax
+                guidance.
               </li>
               <li>
                 <strong>Federal income tax</strong> — Simplified progressive calculation using 2026

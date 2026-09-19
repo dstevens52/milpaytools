@@ -89,7 +89,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     localHousingTips: {
       coliNote: '6–10% below the national average',
       groceryNote: '5–8% below national average',
-      stateTaxNote: 'For North Carolina residents, military base pay is generally subject to NC income tax. BAH and BAS are not taxable income at the federal or state level. Domicile and residency rules may affect your state tax situation.',
+      stateTaxNote: 'For North Carolina residents, military base pay is generally subject to NC income tax. BAH and BAS are excluded from federal taxable income; state treatment varies. Domicile and residency rules may affect your state tax situation.',
       neighborhoods: [
         {
           name: 'Hope Mills',
