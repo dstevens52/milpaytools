@@ -9,6 +9,7 @@
  */
 
 import { DEPLOYMENT_RATES_2026 } from '@/data/deployment/2026/constants';
+import type { HDPLevel } from '@/data/deployment/2026/constants';
 import { lookupBasePay } from '@/lib/calculations/total-compensation';
 import { BAS_RATES, FED_TAX_BRACKETS_SINGLE, STANDARD_DEDUCTION_SINGLE } from '@/data/constants';
 import { ENLISTED_GRADES, WARRANT_GRADES } from '@/types/military';
@@ -25,8 +26,8 @@ export interface DeploymentInput {
   bahFound: boolean;
   deploymentMonths: number;
   isCombatZone: boolean;
-  receivingHFP: boolean;
-  hdpLevel: 0 | 50 | 100 | 150;
+  receivingIDP: boolean; // full months of IDP; HFP and daily proration not modeled yet
+  hdpLevel: HDPLevel;
   hasFSA: boolean;
   tspContributionPct: number; // 0–100
   usingSDP: boolean;
@@ -47,7 +48,7 @@ export interface DeploymentPay {
   monthlyBasePay: number;
   monthlyBAH: number;
   monthlyBAS: number;
-  monthlyHFP: number;
+  monthlyIDP: number;
   monthlyHDP: number;
   monthlyFSA: number;
   grossMonthly: number;
@@ -59,7 +60,7 @@ export interface DeploymentPay {
 }
 
 export interface TourTotal {
-  totalAdditionalAllowancePay: number; // (HFP + HDP + FSA) × months
+  totalAdditionalAllowancePay: number; // (IDP + HDP + FSA) × months
   totalCZTESavings: number;            // tax savings × months (0 if non-combat)
   sdpInterestEarned: number;           // deposit × rate × (months/12)
   tspContributedTotal: number;         // monthly TSP × months (capped at annual limit)
@@ -136,23 +137,24 @@ function calculateDuringDeployment(
   pre: PreDeploymentPay,
   isOfficer: boolean,
   isCombatZone: boolean,
-  receivingHFP: boolean,
-  hdpLevel: 0 | 50 | 100 | 150,
+  receivingIDP: boolean,
+  hdpLevel: HDPLevel,
   hasFSA: boolean,
 ): DeploymentPay {
   const { monthlyBasePay, monthlyBAH, monthlyBAS, monthlyFederalTax: preTax } = pre;
 
   // Special pays
-  const monthlyHFP = receivingHFP ? DEPLOYMENT_RATES_2026.hfpIdp : 0;
+  // IDP at the full monthly rate. HFP ($450) is not offered as a separate choice yet, and the
+  // two can never be paid for the same period, so only one special pay is ever added.
+  const monthlyIDP = receivingIDP ? DEPLOYMENT_RATES_2026.idp : 0;
 
-  // HDP capped at $100 if also receiving HFP/IDP
-  const hdpCap = receivingHFP ? DEPLOYMENT_RATES_2026.hdpCapWithHFP : 150;
-  const monthlyHDP = Math.min(hdpLevel, hdpCap);
+  // Highest HDP-L tier is now $100, so the old $100 cap with HFP/IDP no longer applies
+  const monthlyHDP = hdpLevel;
 
   const monthlyFSA = hasFSA ? DEPLOYMENT_RATES_2026.fsa : 0;
 
   const grossMonthly =
-    monthlyBasePay + monthlyBAH + monthlyBAS + monthlyHFP + monthlyHDP + monthlyFSA;
+    monthlyBasePay + monthlyBAH + monthlyBAS + monthlyIDP + monthlyHDP + monthlyFSA;
 
   // ── CZTE savings ──────────────────────────────────────────────────────────
   let monthlyFederalTax: number;
@@ -187,7 +189,7 @@ function calculateDuringDeployment(
     monthlyBasePay,
     monthlyBAH,
     monthlyBAS,
-    monthlyHFP,
+    monthlyIDP,
     monthlyHDP,
     monthlyFSA,
     grossMonthly,
@@ -210,7 +212,7 @@ function calculateTourTotal(
   tspContributionPct: number,
   monthlyBasePay: number,
 ): TourTotal {
-  const additionalPerMonth = during.monthlyHFP + during.monthlyHDP + during.monthlyFSA;
+  const additionalPerMonth = during.monthlyIDP + during.monthlyHDP + during.monthlyFSA;
   const totalAdditionalAllowancePay = additionalPerMonth * deploymentMonths;
   const totalCZTESavings = during.czteMonthlySavings * deploymentMonths;
 
@@ -260,7 +262,7 @@ export function calculateDeployment(input: DeploymentInput): DeploymentResult {
     pre,
     isOfficer,
     input.isCombatZone,
-    input.receivingHFP,
+    input.receivingIDP,
     input.hdpLevel,
     input.hasFSA,
   );

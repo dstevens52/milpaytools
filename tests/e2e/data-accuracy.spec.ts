@@ -206,9 +206,13 @@ test.describe('Deployment Pay — known answers', () => {
     await page.goto('/calculators/deployment');
   });
 
-  // HFP/IDP = $225/month (37 U.S.C. § 310, DoD FMR Vol. 7A Ch. 10)
-  test('Deployment: HFP/IDP = $225/mo', async ({ page }) => {
-    await expect(page.getByText('$225').first()).toBeVisible();
+  // HFP $450/mo, IDP $275/mo, effective Oct 1, 2026 (ASW(M&RA) memo, docs/sources/hostile-pay-memo.pdf)
+  test('Deployment: IDP = $275/mo toggle', async ({ page }) => {
+    await expect(page.getByRole('button', { name: 'Yes — $275/mo' })).toBeVisible();
+  });
+
+  test('Deployment: HFP = $450/mo in rate-change note', async ({ page }) => {
+    await expect(page.getByText(/Hostile Fire Pay rose to \$450\/month/).first()).toBeVisible();
   });
 
   // FSA = $300/month (FY2026 NDAA — first increase since 2002, up from $250)
