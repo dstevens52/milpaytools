@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 // Deployment Pay Calculator has a default ZIP (28310 — Fort Bragg, NC)
-// and defaults to: E-6 / 10 YOS / combat zone / HFP on / FSA on / 9 months.
+// and defaults to: E-6 / 10 YOS / combat zone / IDP on / FSA on / HDP $100 / 9 months.
 // Results always show since the ZIP is pre-filled. PhaseCard titles are
 // uppercase-tracking-widest text rendered inside card headers.
 
@@ -29,9 +29,35 @@ test.describe('Deployment Pay Calculator', () => {
     await expect(page.getByText('Tax-free (CZTE)').first()).toBeVisible();
   });
 
-  test('HFP / IDP row is shown when enabled', async ({ page }) => {
-    // HFP is on by default
-    await expect(page.getByText('HFP / IDP').first()).toBeVisible();
+  test('Imminent Danger Pay row shows the full monthly $275 when enabled', async ({ page }) => {
+    // IDP is on by default; rates effective Oct 1, 2026
+    const row = page.getByText('Imminent Danger Pay', { exact: true }).locator('xpath=../..');
+    await expect(row).toContainText('+$275');
+  });
+
+  test('turning IDP off removes the row; HFP is never added alongside it', async ({ page }) => {
+    await expect(page.getByText('Imminent Danger Pay', { exact: true })).toBeVisible();
+    // Only one special pay is ever modeled — no separate Hostile Fire Pay row
+    await expect(page.getByText(/^(HFP|Hostile Fire Pay)( \/ IDP)?$/)).toHaveCount(0);
+    await page.getByRole('button', { name: 'Yes — $275/mo' }).locator('..').getByRole('button', { name: 'No' }).click();
+    await expect(page.getByText('Imminent Danger Pay', { exact: true })).toHaveCount(0);
+  });
+
+  test('HDP-L tiers are None / $50 / $100 — no $150 tier', async ({ page }) => {
+    await expect(page.locator('#hdp option')).toHaveText(['None', '$50/month', '$100/month']);
+  });
+
+  test('HDP-L $100 is paid in full alongside IDP (no cap)', async ({ page }) => {
+    await page.locator('#hdp').selectOption('100');
+    const row = page.locator('p', { hasText: /^Hardship Duty Pay$/ }).locator('xpath=../..');
+    await expect(row).toContainText('+$100');
+    await expect(row).not.toContainText('Capped');
+  });
+
+  test('no superseded HFP/IDP rate appears on the page', async ({ page }) => {
+    const body = await page.locator('body').innerText();
+    expect(body).not.toMatch(/\$225(?![\d,])/);
+    expect(body).not.toContain('$7.50');
   });
 
   test('Family Separation row is shown when enabled', async ({ page }) => {
