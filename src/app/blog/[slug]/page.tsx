@@ -231,6 +231,32 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
       answer: 'SGLI terminates 120 days after separation. Within 240 days of separation, you can convert to VGLI (Veterans Group Life Insurance) without a health exam. After 240 days, a medical exam is required. VGLI premiums increase every 5 years with age and become significantly more expensive than private term life insurance purchased while young and healthy.',
     },
   ],
+  'hfp-idp-hdpl-rate-changes-october-2026': [
+    {
+      question: 'What is hostile fire pay in 2026?',
+      answer: 'Effective October 1, 2026, Hostile Fire Pay is $450/month, up from $225. It is paid as the full monthly amount, not prorated, for a month in which you qualify.',
+    },
+    {
+      question: 'Did imminent danger pay go up?',
+      answer: 'Yes. Effective October 1, 2026, Imminent Danger Pay is up to $275/month, up from $225. It is prorated at $9.16 per day in a designated imminent danger area, up to the $275 monthly maximum.',
+    },
+    {
+      question: 'Why did hardship duty pay go down?',
+      answer: 'The memo that raised HFP and IDP also reduced the top Hardship Duty Pay–Location rate from $150 to $100/month. It gives the reason as consistency with the maximum allowed for combined payment of HDP-L with HFP, and of HDP-L with IDP. Members at top-tier locations who draw neither HFP nor IDP now receive $50/month less. For members who draw both: before October 1, the pay regulation (FMR Volume 7A, Chapter 17, paragraph 3.1) limited HDP-L to $100 and the combined total to $325 a month. That chapter has not been updated for the new rates, so how the limit applies now is not yet published — check your LES and your finance office.',
+    },
+    {
+      question: 'Can you get both HFP and IDP?',
+      answer: 'No. The memo directs the services and DFAS to make sure members do not receive HFP and IDP for the same period of service. FMR Volume 7A, Chapter 10 applies this month by month: in a month when HFP is paid, it covers that entire month, and IDP is paid only for other periods. Either one can be drawn alongside Hardship Duty Pay–Location.',
+    },
+    {
+      question: 'When did the new rates take effect?',
+      answer: 'October 1, 2026. The memo was signed July 14, 2026. Periods of service before October 1 are paid at the prior rates.',
+    },
+    {
+      question: 'Does everyone on HDP-L get less now?',
+      answer: 'No. The $50 and $100 HDP-L rates did not change; only the top rate dropped from $150 to $100. Members at top-tier locations without HFP or IDP receive $50/month less. For members who also draw HFP or IDP: before October 1, the pay regulation (FMR Volume 7A, Chapter 17, paragraph 3.1) limited HDP-L to $100 and the combined total to $325 a month. That chapter has not been updated for the new rates, so how the limit applies now is not yet published — check your LES and your finance office.',
+    },
+  ],
   'how-deployment-pay-works': [
     {
       question: 'What is the Combat Zone Tax Exclusion?',
