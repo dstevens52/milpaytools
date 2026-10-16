@@ -9,6 +9,10 @@ import { webApplicationSchema } from '@/lib/schema';
 import { calculateDeployment } from '@/lib/calculations/deployment';
 import { getMHACode, getMHARates } from '@/lib/calculations/bah';
 import { formatCurrency } from '@/lib/utils';
+import { DEPLOYMENT_RATES_2026 } from '@/data/deployment/2026/constants';
+
+const DEPLOYMENT_LAST_REVIEWED = 'October 15, 2026';
+const R = DEPLOYMENT_RATES_2026;
 
 export const metadata: Metadata = {
   title: { absolute: 'Deployment Pay Calculator 2026 | CZTE, HFP, SDP' },
@@ -38,7 +42,7 @@ export const metadata: Metadata = {
 export default function DeploymentPage() {
   // ── Worked-example values; home-station BAH resolved server-side from bah.ts ───
   // Scenario: E-5, 8 yrs, married (family at Fort Bragg, 28310), 9-month CZTE
-  // deployment with HFP/IDP + FSA, no HDP, no SDP.
+  // deployment with IDP + FSA, no HDP, no SDP.
   const depMha = getMHACode('28310');
   const depBah = (depMha && getMHARates(depMha, true)?.['E-5']) || 0;
   const dep = calculateDeployment({
@@ -50,12 +54,30 @@ export default function DeploymentPage() {
     bahFound: true,
     deploymentMonths: 9,
     isCombatZone: true,
-    receivingHFP: true,
+    receivingIDP: true,
     hdpLevel: 0,
     hasFSA: true,
     tspContributionPct: 0,
     usingSDP: false,
     sdpDeposit: 0,
+  });
+
+  // Hero sample strip: E-5, 6 yrs, 6-month combat zone, with dependents, IDP + FSA, $10,000 SDP.
+  const sample = calculateDeployment({
+    payGrade: 'E-5',
+    yearsOfService: 6,
+    hasDependents: true,
+    zipCode: '28310',
+    monthlyBAH: depBah,
+    bahFound: true,
+    deploymentMonths: 6,
+    isCombatZone: true,
+    receivingIDP: true,
+    hdpLevel: 0,
+    hasFSA: true,
+    tspContributionPct: 0,
+    usingSDP: true,
+    sdpDeposit: R.sdpMaxDeposit,
   });
 
   return (
@@ -94,7 +116,7 @@ export default function DeploymentPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100 hidden md:block">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Deployment to a qualifying combat zone activates several pay changes: Hostile Fire Pay or Imminent Danger Pay ($225/month), Family Separation Allowance ($300/month for qualifying members with dependents for 30+ days), and the Combat Zone Tax Exclusion, which eliminates federal income tax on all enlisted base pay in eligible months. The Savings Deposit Program additionally pays 10% guaranteed annual interest on up to $10,000 deposited during a combat zone deployment. This calculator shows your full pay picture before, during, and after deployment — including estimated CZTE tax savings and Roth TSP opportunities.
+          Deployment to a qualifying combat zone activates several pay changes: Imminent Danger Pay ({formatCurrency(R.idp)}/month) or Hostile Fire Pay ({formatCurrency(R.hfp)}/month) — never both for the same period — at rates effective {R.ratesEffectiveDate}, Family Separation Allowance ($300/month for qualifying members with dependents for 30+ days), and the Combat Zone Tax Exclusion, which eliminates federal income tax on all enlisted base pay in eligible months. The Savings Deposit Program additionally pays 10% guaranteed annual interest on up to $10,000 deposited during a combat zone deployment. This calculator shows your full pay picture before, during, and after deployment — including estimated CZTE tax savings and Roth TSP opportunities.
         </p>
       </div>
         <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
@@ -106,16 +128,34 @@ export default function DeploymentPage() {
               E-5 &middot; 6 yrs &middot; 6-mo combat zone &middot; w/dep
             </p>
             <div className="flex items-baseline gap-3 min-w-0 flex-1 overflow-hidden">
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">HFP <span className="font-semibold text-zinc-700">$225/mo</span></span>
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">Tax savings <span className="font-semibold text-zinc-700">$1,940</span></span>
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">SDP <span className="font-semibold text-zinc-700">$500</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">IDP <span className="font-semibold text-zinc-700">{formatCurrency(sample.during.monthlyIDP)}/mo</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">Tax savings <span className="font-semibold text-zinc-700">{formatCurrency(sample.tour.totalCZTESavings)}</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">SDP <span className="font-semibold text-zinc-700">{formatCurrency(sample.tour.sdpInterestEarned)}</span></span>
             </div>
             <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
-              Total impact: <span className="font-semibold text-red-700">$5,590</span>
+              Total impact: <span className="font-semibold text-red-700">{formatCurrency(sample.tour.totalTourBenefit)}</span>
             </p>
           </div>
         </div>
       </section>
+
+      {/* ── What changed (October 1, 2026 rate change) ─────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-5">
+        <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-zinc-700 leading-relaxed">
+          <p>
+            <span className="font-semibold text-zinc-900">What changed on {R.ratesEffectiveDate}:</span>{' '}
+            Hostile Fire Pay rose to {formatCurrency(R.hfp)}/month and Imminent Danger Pay to{' '}
+            {formatCurrency(R.idp)}/month (prorated at {formatCurrency(R.idpDaily, true)}/day). To keep the
+            combined payment with HFP or IDP within its maximum, the top Hardship Duty Pay–Location rate
+            dropped from {formatCurrency(R.hdpLTopRatePrior)} to {formatCurrency(Math.max(...R.hdpLevels))}/month. Earlier periods used
+            the prior rates — this calculator uses the new ones.
+          </p>
+          <p className="mt-1 text-xs text-zinc-500">
+            Source: Assistant Secretary of War (Manpower &amp; Reserve Affairs) memorandum signed July 14,
+            2026, under DoWI 1340.09; DoW 7000.14-R, Volume 7a, Chapters 10 and 17.
+          </p>
+        </div>
+      </div>
 
       {/* ── Calculator ─────────────────────────────────────────────────── */}
       <div className="bg-zinc-50">
@@ -129,13 +169,13 @@ export default function DeploymentPage() {
             How Much More Does an E-5 Take Home on a 9-Month Combat Zone Deployment?
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-5, 8 years of service, married (family at Fort Bragg, NC), deploying to a designated Combat Zone Tax Exclusion (CZTE) area for 9 months. Receives HFP/IDP and Family Separation Allowance. No Hardship Duty Pay. 2026 rates.
+            Scenario: E-5, 8 years of service, married (family at Fort Bragg, NC), deploying to a designated Combat Zone Tax Exclusion (CZTE) area for 9 months. Receives Imminent Danger Pay for full months and Family Separation Allowance. No Hardship Duty Pay. 2026 rates.
           </p>
           <ExampleTable>
             <ExampleRow label="Monthly base pay (E-5, 8 yrs)" value={`${formatCurrency(dep.pre.monthlyBasePay)}/mo`} />
             <ExampleRow label="BAH continues at home station (Fort Bragg, w/deps)" value={`${formatCurrency(dep.pre.monthlyBAH)}/mo`} />
             <ExampleRow label="BAS" value={`${formatCurrency(dep.pre.monthlyBAS)}/mo`} />
-            <ExampleRow label="Hostile Fire / Imminent Danger Pay (HFP/IDP)" value={`+${formatCurrency(dep.during.monthlyHFP)}/mo`} />
+            <ExampleRow label="Imminent Danger Pay (IDP)" value={`+${formatCurrency(dep.during.monthlyIDP)}/mo`} />
             <ExampleRow label="Family Separation Allowance (FSA — married 30+ days away)" value={`+${formatCurrency(dep.during.monthlyFSA)}/mo`} />
             <ExampleRow label="CZTE: all base pay excluded from federal income tax" value={`−$0 tax (saves ~${formatCurrency(dep.during.czteMonthlySavings)}/mo)`} />
             <ExampleRow label="Monthly take-home — before deployment" value={`${formatCurrency(dep.pre.monthlyTakeHome)}/mo`} />
@@ -194,15 +234,16 @@ export default function DeploymentPage() {
               Hostile Fire Pay / Imminent Danger Pay
             </h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              HFP and IDP are both authorized under 37 U.S.C. § 310 at the same rate — $225/month
-              in 2026. HFP is typically paid as a flat monthly rate for members engaged with or under
-              threat of hostile fire. IDP may be prorated on a daily basis depending on the type of
-              deployment and qualifying conditions — verify with your finance office how your specific
-              deployment is categorized.
+              Effective {R.ratesEffectiveDate}, Hostile Fire Pay is {formatCurrency(R.hfp)}/month and
+              Imminent Danger Pay is {formatCurrency(R.idp)}/month. HFP is typically paid as a flat
+              monthly rate for members engaged with or under threat of hostile fire. IDP is prorated at{' '}
+              {formatCurrency(R.idpDaily, true)} per day based on actual time in a designated imminent
+              danger area — verify with your finance office how your specific deployment is categorized.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              When receiving HFP or IDP, Hardship Duty Pay is capped at $100/month (down from
-              $150/month maximum) per DoD FMR Volume 7A, Chapter 17.
+              You cannot receive both HFP and IDP for the same period of service. This calculator models
+              IDP for full months; it does not yet prorate partial months or model HFP separately.
+              Periods before {R.ratesEffectiveDate} were paid at the prior rates.
             </p>
           </div>
 
@@ -248,14 +289,15 @@ export default function DeploymentPage() {
             </h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               HDP-L is a tiered allowance authorized under 37 U.S.C. § 305 for service in locations
-              designated as hardship duty areas. The four tiers are $50, $100, $150, and $0 (no
-              HDP). The level is determined by the specific deployment location designation, not by
-              personal election.
+              designated as hardship duty areas. The level is determined by the specific deployment
+              location designation, not by personal election.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              HDP-L is capped at $100/month when also receiving HFP or IDP. If your deployment
-              location is designated at the $150 tier but you are also receiving HFP, you receive
-              $100 HDP-L — not $150.
+              Effective {R.ratesEffectiveDate}, the top HDP-L rate dropped from {formatCurrency(R.hdpLTopRatePrior)} to{' '}
+              {formatCurrency(Math.max(...R.hdpLevels))}/month (DoW 7000.14-R, Volume 7a, Chapter 17),
+              so the tiers are now{' '}
+              {R.hdpLevels.filter((l) => l > 0).map((l) => formatCurrency(l)).join(' and ')}, or $0 for
+              locations without a designation.
             </p>
           </div>
         </div>
@@ -291,7 +333,9 @@ export default function DeploymentPage() {
           <p>
             This calculator provides estimates based on published 2026 DoD and IRS rates. Actual
             entitlements depend on your deployment orders, official combat zone designation, DFAS
-            processing, and individual tax situation. HFP/IDP rate: $225/month (37 U.S.C. § 310).
+            processing, and individual tax situation. HFP {formatCurrency(R.hfp)}/month, IDP {formatCurrency(R.idp)}/month
+            ({formatCurrency(R.idpDaily, true)}/day), HDP-L up to {formatCurrency(Math.max(...R.hdpLevels))}/month,
+            effective {R.ratesEffectiveDate} (DoWI 1340.09; DoW 7000.14-R, Volume 7a, Chapters 10 and 17).
             FSA: $300/month (37 U.S.C. § 427, FY2026 NDAA). CZTE: 26 U.S.C. § 112 and IRS
             Publication 3. SDP: 10 U.S.C. § 1035. TSP: IRC § 415(c) total additions limit $72,000
             in combat zones; Roth TSP elective deferral (IRC § 402(g)) remains capped at $24,500.
@@ -299,6 +343,7 @@ export default function DeploymentPage() {
             single filers; actual taxes will vary based on filing status, deductions, and state tax
             law. Always verify your specific entitlements with your finance office and DFAS.
           </p>
+          <p className="mt-2">Last reviewed: {DEPLOYMENT_LAST_REVIEWED}.</p>
         </div>
 
         {/* Guide links */}

@@ -5,12 +5,12 @@ import { calculateDeployment } from '@/lib/calculations/deployment';
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { DEPLOYMENT_RATES_2026 } from '@/data/deployment/2026/constants';
+import type { HDPLevel } from '@/data/deployment/2026/constants';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
-import { InfoTip } from '@/components/calculators/shared/InfoTip';
 
 // ─── Pay grade options ────────────────────────────────────────────────────────
 
@@ -224,8 +224,8 @@ export function DeploymentCalculator() {
   // ── Inputs: Section 2 — Deployment Details ──
   const [deployMonths, setDeployMonths] = useState(9);
   const [isCombatZone, setIsCombatZone] = useState(true);
-  const [receivingHFP, setReceivingHFP] = useState(true);
-  const [hdpLevel, setHdpLevel] = useState<0 | 50 | 100 | 150>(100);
+  const [receivingIDP, setReceivingIDP] = useState(true);
+  const [hdpLevel, setHdpLevel] = useState<HDPLevel>(100);
   const [hasFSA, setHasFSA] = useState(true);
 
   // ── Inputs: Section 3 — Savings Opportunities ──
@@ -286,14 +286,14 @@ export function DeploymentCalculator() {
       bahFound,
       deploymentMonths: deployMonths,
       isCombatZone,
-      receivingHFP,
+      receivingIDP,
       hdpLevel,
       hasFSA,
       tspContributionPct: tspPct,
       usingSDP,
       sdpDeposit,
     });
-  }, [payGrade, yos, hasDependents, zipDigits, isValidZip, bahData, monthlyBAH, bahFound, deployMonths, isCombatZone, receivingHFP, hdpLevel, hasFSA, tspPct, usingSDP, sdpDeposit]);
+  }, [payGrade, yos, hasDependents, zipDigits, isValidZip, bahData, monthlyBAH, bahFound, deployMonths, isCombatZone, receivingIDP, hdpLevel, hasFSA, tspPct, usingSDP, sdpDeposit]);
 
   const actionSteps = useMemo(() => {
     if (!result) return [];
@@ -307,9 +307,6 @@ export function DeploymentCalculator() {
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('deployment'), 800);
     return () => clearTimeout(_gaTimerRef.current);
   }, [result]);
-
-  // Effective HDP (capped if receiving HFP)
-  const effectiveHDP = receivingHFP ? Math.min(hdpLevel, DEPLOYMENT_RATES_2026.hdpCapWithHFP) : hdpLevel;
 
   return (
     <div className="space-y-6">
@@ -423,39 +420,31 @@ export function DeploymentCalculator() {
               </div>
 
               <div>
-                <Label hint={receivingHFP && hdpLevel > 100 ? 'Capped at $100 because you are receiving HFP/IDP' : undefined}>
-                  Hostile Fire / IDP?
+                <Label hint={`Prorates at ${fmtDec(DEPLOYMENT_RATES_2026.idpDaily)}/day; this calculator assumes full months. Hostile Fire Pay (${fmt(DEPLOYMENT_RATES_2026.hfp)}/mo) is paid instead of IDP, never with it, and isn't modeled here yet.`}>
+                  Imminent Danger Pay?
                 </Label>
                 <Toggle
-                  value={receivingHFP}
-                  onChange={setReceivingHFP}
-                  labelOn="Yes — $225/mo"
+                  value={receivingIDP}
+                  onChange={setReceivingIDP}
+                  labelOn={`Yes — ${fmt(DEPLOYMENT_RATES_2026.idp)}/mo`}
                   labelOff="No"
                 />
               </div>
 
               <div>
-                <Label htmlFor="hdp" hint="HDP capped at $100/month if also receiving HFP/IDP">
+                <Label htmlFor="hdp" hint={`Set by your location's designation. Rates effective ${DEPLOYMENT_RATES_2026.ratesEffectiveDate}.`}>
                   Hardship Duty Pay
                 </Label>
                 <select
                   id="hdp"
                   value={hdpLevel}
-                  onChange={(e) => setHdpLevel(parseInt(e.target.value) as 0 | 50 | 100 | 150)}
+                  onChange={(e) => setHdpLevel(parseInt(e.target.value) as HDPLevel)}
                   className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                 >
-                  <option value={0}>None</option>
-                  <option value={50}>$50/month</option>
-                  <option value={100}>$100/month</option>
-                  <option value={150}>$150/month</option>
+                  {DEPLOYMENT_RATES_2026.hdpLevels.map((level) => (
+                    <option key={level} value={level}>{level === 0 ? 'None' : `${fmt(level)}/month`}</option>
+                  ))}
                 </select>
-                {receivingHFP && hdpLevel > 100 && (
-                  <InfoTip
-                    label="Capped at $100 with HFP/IDP"
-                    tooltip="When receiving Hostile Fire Pay or Imminent Danger Pay, Hardship Duty Pay is capped at $100/month per DoD Financial Management Regulation Volume 7A, Chapter 17."
-                    className="mt-1"
-                  />
-                )}
               </div>
 
               <div>
@@ -585,14 +574,13 @@ export function DeploymentCalculator() {
               <PayRow label="Base pay" value={fmt(result.during.monthlyBasePay)} sub={isCombatZone ? 'Tax-free (CZTE)' : undefined} />
               <PayRow label="BAH" value={fmt(result.during.monthlyBAH)} sub="Continues at home rate" />
               <PayRow label="BAS" value={fmt(result.during.monthlyBAS)} />
-              {result.during.monthlyHFP > 0 && (
-                <PayRow label="HFP / IDP" value={`+${fmt(result.during.monthlyHFP)}`} positive />
+              {result.during.monthlyIDP > 0 && (
+                <PayRow label="Imminent Danger Pay" value={`+${fmt(result.during.monthlyIDP)}`} positive />
               )}
               {result.during.monthlyHDP > 0 && (
                 <PayRow
                   label="Hardship Duty Pay"
                   value={`+${fmt(result.during.monthlyHDP)}`}
-                  sub={effectiveHDP < hdpLevel ? `Capped (was ${fmt(hdpLevel)})` : undefined}
                   positive
                 />
               )}
@@ -629,9 +617,9 @@ export function DeploymentCalculator() {
             {/* Phase 3: Tour Total */}
             <PhaseCard title={`${deployMonths}-Month Tour Total`} accent="blue">
               <PayRow
-                label="Additional pay (HFP + HDP + FSA)"
+                label="Additional pay (IDP + HDP + FSA)"
                 value={fmt(result.tour.totalAdditionalAllowancePay)}
-                sub={`${fmt(result.during.monthlyHFP + result.during.monthlyHDP + result.during.monthlyFSA)}/mo × ${deployMonths} mo`}
+                sub={`${fmt(result.during.monthlyIDP + result.during.monthlyHDP + result.during.monthlyFSA)}/mo × ${deployMonths} mo`}
                 positive
               />
               {isCombatZone && (
@@ -751,7 +739,7 @@ export function DeploymentCalculator() {
           <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 text-xs text-zinc-500 leading-relaxed">
             <p className="font-semibold text-zinc-600 mb-1">Disclaimer</p>
             <p>
-              This calculator estimates deployment compensation based on 2026 rates. Actual pay depends on your specific orders, designated combat zone status, and finance office processing. Combat Zone Tax Exclusion applies only in areas designated by Executive Order — verify with your orders and finance office. FICA taxes (Social Security and Medicare) still apply to all pay even in combat zones. SDP availability requires 30+ consecutive days in a combat zone while receiving HFP/IDP. TSP combat zone contribution limits are subject to IRS rules and may be affected by your BRS matching. This is not tax or financial advice — consult a tax professional for your specific situation.
+              This calculator estimates deployment compensation based on 2026 rates. Imminent Danger Pay and Hardship Duty Pay rates are those effective {DEPLOYMENT_RATES_2026.ratesEffectiveDate}; earlier periods used the prior rates. Actual pay depends on your specific orders, designated combat zone status, and finance office processing. Combat Zone Tax Exclusion applies only in areas designated by Executive Order — verify with your orders and finance office. FICA taxes (Social Security and Medicare) still apply to all pay even in combat zones. SDP availability requires 30+ consecutive days in a combat zone while receiving HFP/IDP. TSP combat zone contribution limits are subject to IRS rules and may be affected by your BRS matching. This is not tax or financial advice — consult a tax professional for your specific situation.
             </p>
           </div>
         </>
