@@ -242,7 +242,7 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
     },
     {
       question: 'Why did hardship duty pay go down?',
-      answer: 'The memo that raised HFP and IDP also reduced the top Hardship Duty Pay–Location rate from $150 to $100/month, citing consistency with the maximum allowed for combined payment of HDP-L with HFP, and of HDP-L with IDP. Members already drawing HFP or IDP at top-tier locations were limited to $100 of HDP-L before, so for them it is a wash. Members at top-tier locations who draw neither now receive $50/month less.',
+      answer: 'The memo that raised HFP and IDP also reduced the top Hardship Duty Pay–Location rate from $150 to $100/month, citing consistency with the maximum allowed for combined payment of HDP-L with HFP, and of HDP-L with IDP. Members at top-tier locations who draw neither HFP nor IDP now receive $50/month less. Members who draw both may find their combined amount was already constrained by that maximum, so it is worth checking what was actually paid on a pre-October LES rather than assuming the published tier.',
     },
     {
       question: 'Can you get both HFP and IDP?',
@@ -254,7 +254,7 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
     },
     {
       question: 'Does everyone on HDP-L get less now?',
-      answer: 'No. The $50 and $100 HDP-L rates did not change. Only the top rate dropped from $150 to $100, and members drawing HFP or IDP at those locations were already limited to $100 before the change.',
+      answer: 'No. The $50 and $100 HDP-L rates did not change. Only the top rate dropped from $150 to $100. Members who also draw HFP or IDP at a top-tier location may find their combined amount was already constrained by the combined-payment maximum, so compare what was actually paid before and after October 1.',
     },
   ],
   'how-deployment-pay-works': [
