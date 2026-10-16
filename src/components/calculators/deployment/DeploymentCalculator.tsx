@@ -197,7 +197,7 @@ function buildActionSteps(
   if (isOfficer && isCombatZone) {
     steps.push({
       label: 'Verify your officer CZTE cap with your finance office',
-      description: `Officers' CZTE is capped at the highest enlisted rate plus HFP/IDP (~${fmt(DEPLOYMENT_RATES_2026.officerCZTECap)}/month). Pay above that cap remains taxable. Your finance office can give you the exact figures for your grade.`,
+      description: `The officer CZTE cap equals the highest enlisted base pay plus hostile fire or imminent danger pay. The dollar amount is being re-verified following the October 1, 2026 rate change. Pay above that cap remains taxable. Your finance office can give you the exact figures for your grade.`,
       priority: 'medium',
     });
   }
@@ -701,8 +701,7 @@ export function DeploymentCalculator() {
           {result.isOfficer && isCombatZone && (
             <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 leading-relaxed">
               <span className="font-semibold">Officer CZTE note: </span>
-              Officers&apos; tax exclusion is capped at approximately{' '}
-              {fmt(DEPLOYMENT_RATES_2026.officerCZTECap)}/month (highest enlisted rate + HFP/IDP). Base pay above that cap remains taxable. Verify exact figures with your finance office.
+              The officer CZTE cap equals the highest enlisted base pay plus hostile fire or imminent danger pay. The dollar amount is being re-verified following the October 1, 2026 rate change. Base pay above that cap remains taxable, and this estimate&apos;s officer tax figures may change once the cap is confirmed. Verify exact figures with your finance office.
             </div>
           )}
 

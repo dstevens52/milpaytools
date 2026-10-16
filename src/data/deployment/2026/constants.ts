@@ -6,6 +6,12 @@
  *     Imminent Danger Pay," signed July 14, 2026, effective October 1, 2026 — authority DoWI
  *     1340.09; DoW 7000.14-R Vol. 7a Ch. 10 (HFP/IDP) and Ch. 17 (HDP-L).
  *     Copy: docs/sources/hostile-pay-memo.pdf
+ *     Statutory authority and history (from the DoD release, NOT the memo): "Statement by Chief
+ *     Pentagon Spokesman, Sean Parnell, on the Department of War's Historic Increase to Hostile
+ *     Fire and Imminent Danger Pay," war.gov, Oct. 1, 2026 — the increase is under 37 U.S.C. § 351,
+ *     and "Since October 2002, both HFP and IDP pay have been set at a flat monthly rate of $225."
+ *     Verified in browser 2026-10-16: 
+ *     https://www.war.gov/News/Releases/Release/Article/4616378/statement-by-chief-pentagon-spokesman-sean-parnell-on-the-department-of-wars-hi/
  *   - FSA: 37 U.S.C. § 427 — increased to $300/month effective FY2026 NDAA
  *   - CZTE: 26 U.S.C. § 112, IRS Pub. 3 (Armed Forces' Tax Guide)
  *   - SDP: 10 U.S.C. § 1035 — 10% annual guaranteed return
@@ -25,6 +31,9 @@ export const DEPLOYMENT_RATES_2026 = {
   // DoW 7000.14-R Vol. 7a Ch. 10. HFP and IDP may not be paid for the same period of service.
   // Earlier periods used the prior rates; this calculator does not model the transition.
   ratesEffectiveDate: 'October 1, 2026',
+  hfpIdpUnchangedSince: 'October 2002', // DoD release (war.gov, Oct. 1, 2026), not the memo
+  releaseUrl:
+    'https://www.war.gov/News/Releases/Release/Article/4616378/statement-by-chief-pentagon-spokesman-sean-parnell-on-the-department-of-wars-hi/',
   hfp: 450, // $450/month — memo, effective 2026-10-01
   idp: 275, // $275/month — memo, effective 2026-10-01
   idpDaily: 9.16, // $9.16/day — memo, effective 2026-10-01. Not used yet: the calculator models full months of IDP.

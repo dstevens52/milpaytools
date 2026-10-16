@@ -145,14 +145,21 @@ export default function DeploymentPage() {
           <p>
             <span className="font-semibold text-zinc-900">What changed on {R.ratesEffectiveDate}:</span>{' '}
             Hostile Fire Pay rose to {formatCurrency(R.hfp)}/month and Imminent Danger Pay to{' '}
-            {formatCurrency(R.idp)}/month (prorated at {formatCurrency(R.idpDaily, true)}/day). To keep the
+            {formatCurrency(R.idp)}/month (prorated at {formatCurrency(R.idpDaily, true)}/day) — the first
+            change since {R.hfpIdpUnchangedSince}, when both were set at the same flat monthly rate. To keep the
             combined payment with HFP or IDP within its maximum, the top Hardship Duty Pay–Location rate
             dropped from {formatCurrency(R.hdpLTopRatePrior)} to {formatCurrency(Math.max(...R.hdpLevels))}/month. Earlier periods used
             the prior rates — this calculator uses the new ones.
           </p>
           <p className="mt-1 text-xs text-zinc-500">
             Source: Assistant Secretary of War (Manpower &amp; Reserve Affairs) memorandum signed July 14,
-            2026, under DoWI 1340.09; DoW 7000.14-R, Volume 7a, Chapters 10 and 17.
+            2026, under DoWI 1340.09; DoW 7000.14-R, Volume 7a, Chapters 10 and 17. Statutory authority
+            (37 U.S.C. § 351) and the October 2002 history: DoD release,{' '}
+            <a href={R.releaseUrl} className="underline hover:text-zinc-700" target="_blank" rel="noopener noreferrer">
+              &ldquo;Statement by Chief Pentagon Spokesman, Sean Parnell, on the Department of War&apos;s
+              Historic Increase to Hostile Fire and Imminent Danger Pay&rdquo;
+            </a>
+            , war.gov, October 1, 2026.
           </p>
         </div>
       </div>
@@ -205,8 +212,9 @@ export default function DeploymentPage() {
               month qualifies the entire month.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              Officers receive the same exclusion but capped at the highest enlisted rate (E-9 maximum
-              base pay) plus the HFP/IDP amount — approximately $10,520/month in 2026. Base pay
+              Officers receive the same exclusion, but it is capped: the officer CZTE cap equals
+              the highest enlisted base pay plus hostile fire or imminent danger pay. The dollar
+              amount is being re-verified following the October 1, 2026 rate change. Base pay
               above that cap remains taxable. State income tax treatment varies by state — many states
               follow the federal exclusion, others do not.
             </p>
@@ -335,7 +343,8 @@ export default function DeploymentPage() {
             entitlements depend on your deployment orders, official combat zone designation, DFAS
             processing, and individual tax situation. HFP {formatCurrency(R.hfp)}/month, IDP {formatCurrency(R.idp)}/month
             ({formatCurrency(R.idpDaily, true)}/day), HDP-L up to {formatCurrency(Math.max(...R.hdpLevels))}/month,
-            effective {R.ratesEffectiveDate} (DoWI 1340.09; DoW 7000.14-R, Volume 7a, Chapters 10 and 17).
+            effective {R.ratesEffectiveDate} (DoWI 1340.09; DoW 7000.14-R, Volume 7a, Chapters 10 and 17;
+            statutory authority 37 U.S.C. § 351 per the DoD release of October 1, 2026).
             FSA: $300/month (37 U.S.C. § 427, FY2026 NDAA). CZTE: 26 U.S.C. § 112 and IRS
             Publication 3. SDP: 10 U.S.C. § 1035. TSP: IRC § 415(c) total additions limit $72,000
             in combat zones; Roth TSP elective deferral (IRC § 402(g)) remains capped at $24,500.
