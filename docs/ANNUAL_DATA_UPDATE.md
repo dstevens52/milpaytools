@@ -45,9 +45,11 @@ calculator page and component read these; the items below hard-code them inline.
     change. Current: HFP $450, IDP $275, $9.16/day, HDP-L $50/$100. Prior (historical, keep):
     HFP/IDP $225 (since Oct 2002, per DoD release), top HDP-L $150. Derived arithmetic: +$225/mo
     & $2,700/yr (HFP), +$50/mo & $600/yr (IDP), −$50/mo & $600/yr (top-tier HDP-L, no HFP/IDP),
-    published post-Oct totals $550 (HFP + $100) / $375 (IDP + $100), proration table
-    $91.60 / $137.40 / $183.20 / $283.96 → $275, "$175 difference" (HFP − IDP) in the calculator
-    note. Same figures in its `POST_FAQS` entry in `src/app/blog/[slug]/page.tsx` and its
+    $275 + $100 = $375 (shown only as exceeding the $325 ceiling), proration table
+    $91.60 / $137.40 / $183.20, 30 × $9.16 = $274.80 (not $275), "$175" (HFP − IDP) in the
+    calculator note. From FMR Ch. 17 (not the data layer): $100 HDP-L limit and $325 combined
+    ceiling (para. 3.1), "$225 for HFP or IDP" (Table 17-1 Note 3) — re-check these against the
+    next Ch. 17 revision. Same figures in its `POST_FAQS` entry in `src/app/blog/[slug]/page.tsx` and its
     `public/llms.txt` entry. On the next rate change, update or retire this post rather than
     silently editing — it is a dated explainer of the Oct 2026 change.
   - `src/content/blog/deployment-pay-explained.mdx` (answer block, QA, HFP/IDP and HDP sections, E-6 table)
@@ -58,13 +60,25 @@ calculator page and component read these; the items below hard-code them inline.
   - `POST_FAQS` "How much is Hostile Fire Pay" in `src/app/blog/[slug]/page.tsx`
   - `public/llms.txt` — three deployment blog entries
   - `scripts/add_answer_blocks.py`, `scripts/add_calc_guide_answers.py` (generator text)
-- [ ] **Prior HDP-L combined-payment cap** — PENDING: confirm against DoD FMR (DoW 7000.14-R)
-  Volume 7A, Chapter 17, the chapter the July 14, 2026 memo names. The repo used to model a
-  $100 HDP-L cap when drawn with HFP/IDP (`hdpCapWithHFP`, removed in 58f10b1), but that value
-  was never verified against the FMR. Until confirmed, `hfp-idp-hdpl-rate-changes-october-2026.mdx`
-  describes only the mechanism (the memo cites the combined-payment maximum) and states no cap
-  figure. If it is confirmed, the post's "HFP or IDP and HDP-L at the top-rate location" section
-  can be made more specific.
+- [x] **Prior HDP-L combined-payment cap** — CLOSED 2026-10-16. Confirmed from
+  `docs/sources/fmr-vol7a-ch17-hdpl.pdf`: DoD 7000.14-R Vol. 7A, Ch. 17, "Special Pay – Hardship
+  Duty," December 2024 revision (location table updated August 2025). Para. 3.1: "When a member
+  is in receipt of Hostile Fire Pay (HFP) or Imminent Danger Pay (IDP), then the maximum amount of
+  HDP – L is $100. The total entitlement of HDP – L plus HFP or IDP in any 1 month may not exceed
+  $325." Repeated in Table 17-2 Rules 5 and 10 and Table 17-1 Note 3. Authority (chapter
+  references): ASD (M&RA) Memo, September 26, 2017 — policy, not statute.
+- [ ] **HDP-L combined limit under the October 2026 rates** — PENDING: Ch. 17 predates the change.
+  Its $325 ceiling (= old $225 + $100) is below HFP $450 alone and below IDP $275 + $100 = $375,
+  and Table 17-1 Note 3 still names "$225 for HFP or IDP." Watch for a Ch. 17 revision or ASW
+  (M&RA) memo stating the new combined maximum. When it appears: update the post's combined-limit
+  section, and decide whether the deployment calculator should model the limit (it currently adds
+  HDP-L to IDP with no combined cap — `src/lib/calculations/deployment.ts`).
+- [ ] **IDP for a whole calendar month** — PENDING: the memo states $275/month prorated at
+  $9.16/day but not how a whole month is paid (30 × $9.16 = $274.80). FMR Vol. 7A Ch. 10 (October
+  2024; `docs/sources/fmr-vol7a-ch10-hfp-idp.pdf`) para. 2.2 says IDP is "payable on a prorated
+  daily basis not to exceed a monthly rate" and that proration "does not apply to the 31st of a
+  month" for members on active duty 30+ days, but was written for the $225 rate. Resolve when
+  Ch. 10 is revised; until then the post hedges.
 - [ ] **Officer CZTE cap** (`officerCZTECap`) — PENDING: still built on the
   pre-October $225 HFP/IDP; unconfirmed whether it tracks HFP ($450) or IDP ($275).
 

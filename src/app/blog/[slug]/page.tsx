@@ -234,19 +234,19 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
   'hfp-idp-hdpl-rate-changes-october-2026': [
     {
       question: 'What is hostile fire pay in 2026?',
-      answer: 'Effective October 1, 2026, Hostile Fire Pay is $450/month, up from $225. It is paid as the full monthly amount, not prorated, when you qualify. Before that date it was $225/month, a rate unchanged since October 2002.',
+      answer: 'Effective October 1, 2026, Hostile Fire Pay is $450/month, up from $225. It is paid as the full monthly amount, not prorated, for a month in which you qualify.',
     },
     {
       question: 'Did imminent danger pay go up?',
-      answer: 'Yes. Effective October 1, 2026, Imminent Danger Pay is $275/month, up from $225. It is prorated at $9.16 per day in a designated imminent danger area, up to the $275 monthly maximum.',
+      answer: 'Yes. Effective October 1, 2026, Imminent Danger Pay is up to $275/month, up from $225. It is prorated at $9.16 per day in a designated imminent danger area, up to the $275 monthly maximum.',
     },
     {
       question: 'Why did hardship duty pay go down?',
-      answer: 'The memo that raised HFP and IDP also reduced the top Hardship Duty Pay–Location rate from $150 to $100/month, citing consistency with the maximum allowed for combined payment of HDP-L with HFP, and of HDP-L with IDP. Members at top-tier locations who draw neither HFP nor IDP now receive $50/month less. Members who draw both may find their combined amount was already constrained by that maximum, so it is worth checking what was actually paid on a pre-October LES rather than assuming the published tier.',
+      answer: 'The memo that raised HFP and IDP also reduced the top Hardship Duty Pay–Location rate from $150 to $100/month. It gives the reason as consistency with the maximum allowed for combined payment of HDP-L with HFP, and of HDP-L with IDP. Members at top-tier locations who draw neither HFP nor IDP now receive $50/month less. For members who draw both: before October 1, the pay regulation (FMR Volume 7A, Chapter 17, paragraph 3.1) limited HDP-L to $100 and the combined total to $325 a month. That chapter has not been updated for the new rates, so how the limit applies now is not yet published — check your LES and your finance office.',
     },
     {
       question: 'Can you get both HFP and IDP?',
-      answer: 'No. You cannot receive Hostile Fire Pay and Imminent Danger Pay for the same period of service. The memo directs the services and DFAS to make sure the two are not paid at the same time. Either one can be drawn alongside Hardship Duty Pay–Location.',
+      answer: 'No. The memo directs the services and DFAS to make sure members do not receive HFP and IDP for the same period of service. FMR Volume 7A, Chapter 10 applies this month by month: in a month when HFP is paid, it covers that entire month, and IDP is paid only for other periods. Either one can be drawn alongside Hardship Duty Pay–Location.',
     },
     {
       question: 'When did the new rates take effect?',
@@ -254,7 +254,7 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
     },
     {
       question: 'Does everyone on HDP-L get less now?',
-      answer: 'No. The $50 and $100 HDP-L rates did not change. Only the top rate dropped from $150 to $100. Members who also draw HFP or IDP at a top-tier location may find their combined amount was already constrained by the combined-payment maximum, so compare what was actually paid before and after October 1.',
+      answer: 'No. The $50 and $100 HDP-L rates did not change; only the top rate dropped from $150 to $100. Members at top-tier locations without HFP or IDP receive $50/month less. For members who also draw HFP or IDP: before October 1, the pay regulation (FMR Volume 7A, Chapter 17, paragraph 3.1) limited HDP-L to $100 and the combined total to $325 a month. That chapter has not been updated for the new rates, so how the limit applies now is not yet published — check your LES and your finance office.',
     },
   ],
   'how-deployment-pay-works': [
