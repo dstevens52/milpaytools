@@ -238,7 +238,7 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
     },
     {
       question: 'How much is Hostile Fire Pay in 2026?',
-      answer: 'Hostile Fire Pay and Imminent Danger Pay each pay $225/month. HFP is typically paid for the full calendar month if you qualify any day of that month; IDP is generally prorated daily. Both are tax-free during combat zone months under CZTE.',
+      answer: 'Effective October 1, 2026, Hostile Fire Pay is $450/month and Imminent Danger Pay is $275/month; you cannot receive both for the same period. HFP is typically paid for the full calendar month if you qualify any day of that month; IDP is prorated at $9.16 per day. Both are tax-free during combat zone months under CZTE.',
     },
     {
       question: 'What is the Savings Deposit Program during deployment?',
