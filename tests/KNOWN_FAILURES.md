@@ -16,9 +16,12 @@ is NOT listed here is a regression. The conditional `test.skip()` data-guards (s
 when reference BAH/pay data is absent) and the `transition-readiness.spec.ts:59`
 `test.fixme` are expected and excluded from the counts below.
 
-## Failing tests (27)
+## Failing tests (28)
 
-Failures group into four clusters. Browser coverage noted per cluster.
+> 2026-10-16: added `va-disability.spec.ts:207` (webkit) — see the VA Disability cluster below.
+> Full-suite JSON run that day: 1268 expected · 28 unexpected · 33 skipped · 0 flaky.
+
+Failures group into five clusters. Browser coverage noted per cluster.
 `data-accuracy.spec.ts:40` (firefox, VA 40% with spouse) was previously listed here but has been
 reclassified as a flake — see the flaky-pair entry below.
 
@@ -48,6 +51,15 @@ that the gating is intended. **Not fixed here.**
 served build. The adjacent `transition-readiness.spec.ts:58` `fixme` comment notes
 such share/PDF UI "passes after deployment," suggesting these assertions depend on
 post-deploy behavior rather than local code. Triage separately. **Not fixed here.**
+
+### VA Disability — long multi-condition case (1 = webkit only)
+- `va-disability.spec.ts:207` — Reddit case: 13 conditions with bilateral legs → 100% and
+  walkthrough shows "rounds to 64" — webkit only
+
+Fails with `Test timeout of 30000ms exceeded`. Pre-existing baseline failure, not a flake:
+it failed in the 2026-10-16 full-suite run, again in isolation, and again in isolation against
+unchanged `main` code (confirmed against main on 2026-10-16). Passes on chromium and firefox.
+Triage separately. **Not fixed here.**
 
 ## Known flaky tests (not failures — excluded from the baseline count)
 
