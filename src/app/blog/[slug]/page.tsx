@@ -231,6 +231,32 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
       answer: 'SGLI terminates 120 days after separation. Within 240 days of separation, you can convert to VGLI (Veterans Group Life Insurance) without a health exam. After 240 days, a medical exam is required. VGLI premiums increase every 5 years with age and become significantly more expensive than private term life insurance purchased while young and healthy.',
     },
   ],
+  'hfp-idp-hdpl-rate-changes-october-2026': [
+    {
+      question: 'What is hostile fire pay in 2026?',
+      answer: 'Effective October 1, 2026, Hostile Fire Pay is $450/month, up from $225. It is paid as the full monthly amount, not prorated, when you qualify. Before that date it was $225/month, a rate unchanged since October 2002.',
+    },
+    {
+      question: 'Did imminent danger pay go up?',
+      answer: 'Yes. Effective October 1, 2026, Imminent Danger Pay is $275/month, up from $225. It is prorated at $9.16 per day in a designated imminent danger area, up to the $275 monthly maximum.',
+    },
+    {
+      question: 'Why did hardship duty pay go down?',
+      answer: 'The memo that raised HFP and IDP also reduced the top Hardship Duty Pay–Location rate from $150 to $100/month, citing consistency with the maximum allowed for combined payment of HDP-L with HFP, and of HDP-L with IDP. Members already drawing HFP or IDP at top-tier locations were limited to $100 of HDP-L before, so for them it is a wash. Members at top-tier locations who draw neither now receive $50/month less.',
+    },
+    {
+      question: 'Can you get both HFP and IDP?',
+      answer: 'No. You cannot receive Hostile Fire Pay and Imminent Danger Pay for the same period of service. The memo directs the services and DFAS to make sure the two are not paid at the same time. Either one can be drawn alongside Hardship Duty Pay–Location.',
+    },
+    {
+      question: 'When did the new rates take effect?',
+      answer: 'October 1, 2026. The memo was signed July 14, 2026. Periods of service before October 1 are paid at the prior rates.',
+    },
+    {
+      question: 'Does everyone on HDP-L get less now?',
+      answer: 'No. The $50 and $100 HDP-L rates did not change. Only the top rate dropped from $150 to $100, and members drawing HFP or IDP at those locations were already limited to $100 before the change.',
+    },
+  ],
   'how-deployment-pay-works': [
     {
       question: 'What is the Combat Zone Tax Exclusion?',

@@ -41,6 +41,15 @@ Canonical values: `DEPLOYMENT_RATES_2026` in `src/data/deployment/2026/constants
 calculator page and component read these; the items below hard-code them inline.
 
 - [ ] **HFP $450 / IDP $275 / IDP $9.16/day / HDP-L tiers $50–$100** — inline in:
+  - `src/content/blog/hfp-idp-hdpl-rate-changes-october-2026.mdx` — the whole post is about this
+    change. Current: HFP $450, IDP $275, $9.16/day, HDP-L $50/$100. Prior (historical, keep):
+    HFP/IDP $225 (since Oct 2002, per DoD release), top HDP-L $150, prior $100 HDP-L limit with
+    HFP/IDP. Derived arithmetic: +$225/mo & $2,700/yr (HFP), +$50/mo & $600/yr (IDP), −$50/mo &
+    $600/yr (top-tier HDP-L, no HFP/IDP), $325 → $550 / $325 → $375 combined, proration table
+    $91.60 / $137.40 / $183.20 / $283.96 → $275, "$175 difference" (HFP − IDP) in the calculator
+    note. Same figures in its `POST_FAQS` entry in `src/app/blog/[slug]/page.tsx` and its
+    `public/llms.txt` entry. On the next rate change, update or retire this post rather than
+    silently editing — it is a dated explainer of the Oct 2026 change.
   - `src/content/blog/deployment-pay-explained.mdx` (answer block, QA, HFP/IDP and HDP sections, E-6 table)
   - `src/content/blog/deployment-financial-planning.mdx` (QA, CZTE list, IDP section, 9-month total, monthly table total)
   - `src/content/blog/how-deployment-pay-works.mdx`
