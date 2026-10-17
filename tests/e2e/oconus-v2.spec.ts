@@ -109,6 +109,14 @@ test.describe('OCONUS v2 — Ramstein Air Base', () => {
     expect(slugs.sort()).toEqual(['camp-humphreys', 'kadena-air-base', 'yokota-air-base']);
   });
 
+  test('"What to do next" shows exactly three links, in order', async ({ page }) => {
+    await expect(page.getByRole('heading', { name: 'What to do next' })).toBeVisible();
+    const links = page.locator('[data-next-link]');
+    await expect(links).toHaveCount(3);
+    const hrefs = await links.evaluateAll((els) => els.map((e) => e.getAttribute('href')));
+    expect(hrefs).toEqual(['/pay', '/calculators/tsp', '/calculators/retirement']);
+  });
+
   test('no in-page signup — the footer signup is the only one', async ({ page }) => {
     await expect(page.locator('main input[type="email"]')).toHaveCount(0);
     await expect(page.locator('footer input[type="email"]')).toHaveCount(1);
