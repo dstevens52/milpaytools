@@ -13,6 +13,9 @@ import { COLA_AREAS } from '@/data/cola/2026/constants';
 import { StationPageClient } from '@/components/calculators/bah/StationPageClient';
 import { OCONUS_HERO_SLUGS } from '@/lib/oconusPilot';
 import { ogImage } from '@/lib/og';
+import { getRenderableOconusV2, oconusTitle, oconusDescription, OCONUS_OG_SUB } from '@/data/oconus';
+import { OconusStationPage } from '@/components/oconus/OconusStationPage';
+import { oconusFaqs } from '@/data/oconus/sharedCopy';
 
 function ordinal(n: number): string {
   const s = ['th', 'st', 'nd', 'rd'];
@@ -48,6 +51,25 @@ export async function generateMetadata({
   const { slug } = await params;
   const station = STATION_BY_SLUG[slug];
   if (!station) return {};
+
+  // v2 OCONUS template (registry first). Unpublished entries return null and
+  // fall through to the legacy metadata below.
+  const v2 = getRenderableOconusV2(slug);
+  if (v2) {
+    const title = oconusTitle(v2);
+    const description = oconusDescription(v2);
+    const images = ogImage({ type: 'station', title, sub: OCONUS_OG_SUB });
+    // og/twitter skip the root title template, so they carry the site name
+    // explicitly to match the rendered <title>.
+    const socialTitle = `${title} | MilPayTools`;
+    return {
+      title,
+      description,
+      alternates: { canonical: `/bah/${v2.slug}` },
+      openGraph: { title: socialTitle, description, type: 'website', url: `/bah/${v2.slug}`, siteName: 'MilPayTools', images },
+      twitter: { card: 'summary_large_image', title: socialTitle, description, images },
+    };
+  }
   // E-5 reference rates, read from the same dataset the on-page rate table uses
   // so the snippet figures always match the table. OCONUS bases have no BAH
   // (they receive OHA) and fall through to a rate-free description below.
@@ -135,6 +157,33 @@ export default async function StationPage({
   const { slug } = await params;
   const station = STATION_BY_SLUG[slug];
   if (!station) notFound();
+
+  const v2 = getRenderableOconusV2(slug);
+  if (v2) {
+    const breadcrumb = breadcrumbListSchema([
+      { name: 'Home', url: '/' },
+      { name: 'BAH by Station', url: '/bah' },
+      { name: v2.name, url: `/bah/${v2.slug}` },
+    ]);
+    // Article: v2 title; dateModified = lastReviewed (omitted until it's an
+    // ISO date). FAQ answers reuse the visible explainer copy verbatim.
+    const article = articleSchema({
+      title: oconusTitle(v2),
+      description: oconusDescription(v2),
+      datePublished: '2026-04-27',
+      dateModified: /^\d{4}-\d{2}-\d{2}$/.test(v2.lastReviewed) ? v2.lastReviewed : undefined,
+      url: `/bah/${v2.slug}`,
+    });
+    const faq = faqPageSchema(oconusFaqs({ name: v2.name, ohaLocalityCode: v2.ohaLocalityCode.value }));
+    return (
+      <>
+        <JsonLdScript schema={article} />
+        <JsonLdScript schema={breadcrumb} />
+        <JsonLdScript schema={faq} />
+        <OconusStationPage station={v2} heroImage={station.heroImage} heroImageCredit={station.heroImageCredit} />
+      </>
+    );
+  }
 
   const mhaCode = station.oconus ? null : getMHACode(station.zip);
   const ratesW = mhaCode ? getMHARates(mhaCode, true) : null;

@@ -49,6 +49,10 @@ export default defineConfig({
         command: 'npm run dev',
         url: 'http://localhost:3000',
         reuseExistingServer: !process.env.CI,
+        // Render unpublished v2 OCONUS stations (src/data/oconus) so their
+        // template is testable before Dan publishes them. A reused server
+        // started without this flag fails tests/e2e/oconus-v2.spec.ts loudly.
+        env: { OCONUS_V2_PREVIEW: '1' },
         timeout: 120_000,
         stdout: 'pipe',
         stderr: 'pipe',

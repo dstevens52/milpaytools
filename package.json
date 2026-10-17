@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "tsx scripts/lint-oconus.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "lint:oconus": "tsx scripts/lint-oconus.ts",
+    "check:oconus-links": "tsx scripts/check-oconus-links.ts",
     "test:e2e": "playwright test",
     "test:e2e:live": "cross-env BASE_URL=https://www.milpaytools.com playwright test",
     "test:e2e:ui": "playwright test --ui",
@@ -35,6 +38,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.2",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }
