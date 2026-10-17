@@ -11,7 +11,7 @@ import {
   OCONUS_APPROVED_NEXT_LINKS,
   ALL_SHARED_LINKS,
 } from '@/data/oconus/sharedCopy';
-import { CALCULATORS } from '@/data/calculators';
+import { CALCULATORS, OCONUS_NEXT_CALCULATORS, OCONUS_NEXT_LINKS_MAX } from '@/data/calculators';
 import { STATION_BY_SLUG } from '@/data/duty-stations/stations';
 import { OconusAllowanceExplainer, MaybeLink, isPendingUrl } from '@/components/oconus/OconusAllowanceExplainer';
 
@@ -84,9 +84,12 @@ export function OconusStationPage({
   const oconusCalcs = CALCULATORS.filter((c) => c.supportsOconus);
   const pcsSupportsOconus = oconusCalcs.some((c) => c.href === '/calculators/pcs');
   const nextLinks = [
-    ...oconusCalcs.map((c) => ({ label: c.name, href: c.href })),
+    ...OCONUS_NEXT_CALCULATORS.flatMap((href) => oconusCalcs.filter((c) => c.href === href)).map((c) => ({
+      label: c.name,
+      href: c.href,
+    })),
     ...OCONUS_APPROVED_NEXT_LINKS,
-  ];
+  ].slice(0, OCONUS_NEXT_LINKS_MAX);
 
   // Related stations: OCONUS only — a CONUS slug here is dropped, never linked.
   const related = station.relatedStations
@@ -278,7 +281,12 @@ export function OconusStationPage({
               <h2 className="text-white font-semibold mb-4">What to do next</h2>
               <div className="flex flex-col gap-2.5">
                 {nextLinks.map((l) => (
-                  <Link key={l.href} href={l.href} className="text-sm text-zinc-300 hover:text-white transition-colors">
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    data-next-link
+                    className="text-sm text-zinc-300 hover:text-white transition-colors"
+                  >
                     {l.label} →
                   </Link>
                 ))}

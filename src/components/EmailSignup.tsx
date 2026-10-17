@@ -57,7 +57,7 @@ export function EmailSignup({
   if (status === 'success') {
     return (
       <p className={`text-sm font-medium ${darkBg ? 'text-green-400' : 'text-green-700'}`}>
-        You&apos;re in! We&apos;ll email you when 2027 rates drop.
+        You&apos;re on the list. We&apos;ll email you when rates or tools are updated.
       </p>
     );
   }

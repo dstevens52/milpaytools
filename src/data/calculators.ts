@@ -87,7 +87,7 @@ export const CALCULATORS: CalculatorDetail[] = [
       'Scenario builder for additional conditions',
     ],
     group: 'veteran',
-    supportsOconus: false,
+    supportsOconus: true,
   },
   {
     href: '/calculators/tsp',
@@ -102,7 +102,7 @@ export const CALCULATORS: CalculatorDetail[] = [
       'Retirement income estimate',
     ],
     group: 'active-duty',
-    supportsOconus: false,
+    supportsOconus: true,
   },
   {
     href: '/calculators/retirement',
@@ -117,7 +117,7 @@ export const CALCULATORS: CalculatorDetail[] = [
       'CRDP eligibility check',
     ],
     group: 'active-duty',
-    supportsOconus: false,
+    supportsOconus: true,
   },
   {
     href: '/calculators/pcs',
@@ -162,7 +162,7 @@ export const CALCULATORS: CalculatorDetail[] = [
       'Total program value over 2 or 4 years',
     ],
     group: 'education',
-    supportsOconus: false,
+    supportsOconus: true,
   },
   {
     href: '/calculators/separation-timeline',
@@ -237,7 +237,7 @@ export const CALCULATORS: CalculatorDetail[] = [
       'Monthly and annual toggle',
     ],
     group: 'reference',
-    supportsOconus: false,
+    supportsOconus: true,
   },
   {
     href: '/calculators/dual-military-bah',
@@ -270,3 +270,10 @@ export const CALCULATORS: CalculatorDetail[] = [
     supportsOconus: false,
   },
 ];
+
+/**
+ * "What to do next" on v2 OCONUS station pages: these calculators, in this
+ * order, at most three. An entry renders only while flagged supportsOconus.
+ */
+export const OCONUS_NEXT_CALCULATORS: string[] = ['/pay', '/calculators/tsp', '/calculators/retirement'];
+export const OCONUS_NEXT_LINKS_MAX = 3;
