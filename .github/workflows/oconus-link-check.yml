@@ -1,0 +1,23 @@
+name: OCONUS link check
+
+# Monthly check of every official link and source URL on v2 OCONUS station
+# pages (scripts/check-oconus-links.ts). Reports only — no auto-fixes.
+on:
+  schedule:
+    - cron: '0 12 1 * *' # 12:00 UTC on the 1st of each month
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx tsx scripts/check-oconus-links.ts
