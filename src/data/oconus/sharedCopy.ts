@@ -109,8 +109,23 @@ export const UNCHANGED_POINTS: string[] = [
 export const OCONUS_DISCLAIMER =
   'OHA and OCONUS COLA amounts are set by the Defense Travel Management Office (DTMO) and can change as often as twice a month with exchange rates. MilPayTools does not display these rates. This page is educational information only — not financial, tax, or legal advice — and is not affiliated with DoD, DTMO, or any government agency. Verify your entitlements with DTMO, your orders, and your finance office.';
 
-// Generic site signup headline (replaces the station "2027 BAH rates" box).
-export const SIGNUP_HEADLINE = 'Get notified when MilPayTools tools or data are updated';
+// ── FAQ schema. Questions only; every answer is assembled from explainer
+// text already visible on the page, so schema and page never diverge. ──────
+
+export const FAQ_QUESTIONS = {
+  bah: 'Do members at {name} receive BAH?',
+  oha: 'How does OHA work?',
+  change: 'How often do OHA and OCONUS COLA change?',
+} as const;
+
+export function oconusFaqs(tokens: { name: string; ohaLocalityCode: string }): { question: string; answer: string }[] {
+  const point = (i: number) => `${EXPLAINER_POINTS[i].strong} ${fillTokens(EXPLAINER_POINTS[i].body, tokens)}`;
+  return [
+    { question: fillTokens(FAQ_QUESTIONS.bah, tokens), answer: `${EXPLAINER_LEAD.strong} ${EXPLAINER_LEAD.body}` },
+    { question: FAQ_QUESTIONS.oha, answer: [0, 1, 2, 3].map(point).join(' ') },
+    { question: FAQ_QUESTIONS.change, answer: fillTokens(EXPLAINER_POINTS[4].body, tokens) },
+  ];
+}
 
 // Always-relevant, non-station links for "What to do next" (e.g. /pay, TSP
 // projector). Empty until Dan approves each one.
@@ -126,8 +141,8 @@ export function allSharedCopy(): { field: string; text: string }[] {
     { field: 'LES_NOTE', text: LES_NOTE },
     { field: 'UNCHANGED_HEADING', text: UNCHANGED_HEADING },
     { field: 'OCONUS_DISCLAIMER', text: OCONUS_DISCLAIMER },
-    { field: 'SIGNUP_HEADLINE', text: SIGNUP_HEADLINE },
   ];
+  Object.entries(FAQ_QUESTIONS).forEach(([k, q]) => out.push({ field: `FAQ_QUESTIONS.${k}`, text: q }));
   PLAN_STEPS.forEach((s, i) => {
     out.push({ field: `PLAN_STEPS[${i}].title`, text: s.title });
     for (const k of ['sub', 'subPcs', 'subAnchor'] as const) {

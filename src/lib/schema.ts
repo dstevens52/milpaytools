@@ -22,11 +22,14 @@ export function articleSchema({
   title,
   description,
   datePublished,
+  dateModified,
   url,
 }: {
   title: string;
   description: string;
   datePublished: string;
+  /** Defaults to datePublished. */
+  dateModified?: string;
   url: string;
 }) {
   const isoDate = toISODateTime(datePublished);
@@ -42,7 +45,7 @@ export function articleSchema({
     author: AUTHOR,
     publisher: PUBLISHER,
     datePublished: isoDate,
-    dateModified: isoDate,
+    dateModified: dateModified ? toISODateTime(dateModified) : isoDate,
     url: `${BASE_URL}${url}`,
   };
 }

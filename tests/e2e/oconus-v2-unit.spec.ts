@@ -4,11 +4,12 @@ import {
   OCONUS_V2_STATIONS,
   oconusTitle,
   oconusDescription,
-  OCONUS_TITLE_MAX,
+  oconusRenderedTitle,
+  OCONUS_RENDERED_TITLE_MAX,
   OCONUS_DESC_MAX,
 } from '../../src/data/oconus';
 import { ramstein } from '../../src/data/oconus/ramstein';
-import { allSharedCopy, OFFICIAL_LOOKUPS, EXPLAINER_SOURCES } from '../../src/data/oconus/sharedCopy';
+import { allSharedCopy, OFFICIAL_LOOKUPS, EXPLAINER_SOURCES, oconusFaqs, EXPLAINER_LEAD, EXPLAINER_POINTS } from '../../src/data/oconus/sharedCopy';
 import { lintStation, lintShared, lintText } from '../../scripts/oconusLint';
 import { currencyFixture, voiceFixture, publishedUnverifiedFixture } from './helpers/oconusFixtures';
 
@@ -20,14 +21,34 @@ test.describe('OCONUS v2 — metadata lengths', () => {
   });
 
   for (const s of OCONUS_V2_STATIONS) {
-    test(`${s.slug}: title ≤ ${OCONUS_TITLE_MAX}, description ≤ ${OCONUS_DESC_MAX}`, () => {
-      expect(oconusTitle(s).length).toBeLessThanOrEqual(OCONUS_TITLE_MAX);
+    test(`${s.slug}: rendered title ≤ ${OCONUS_RENDERED_TITLE_MAX}, description ≤ ${OCONUS_DESC_MAX}`, () => {
+      expect(oconusRenderedTitle(s).length).toBeLessThanOrEqual(OCONUS_RENDERED_TITLE_MAX);
       expect(oconusDescription(s).length).toBeLessThanOrEqual(OCONUS_DESC_MAX);
     });
   }
 
   test('Ramstein title matches the spec pattern', () => {
     expect(oconusTitle(ramstein)).toBe("Ramstein AB BAH? It's OHA — Housing & COLA Guide");
+  });
+
+  test('Ramstein description keeps full name and country (no fallback)', () => {
+    expect(oconusDescription(ramstein)).toBe(
+      'Ramstein Air Base, Germany: eligible members renting privately generally get OHA, not BAH. How OHA and COLA work, with official DTMO lookups.',
+    );
+  });
+
+  test('long names fall back to short name + country, still within the limit', () => {
+    const long = { ...ramstein, name: 'Royal Air Force Lakenheath and Royal Air Force Mildenhall', shortName: 'RAF Lakenheath', hostCountry: { ...ramstein.hostCountry, value: 'United Kingdom' } };
+    const d = oconusDescription(long);
+    expect(d.length).toBeLessThanOrEqual(OCONUS_DESC_MAX);
+    expect(d.startsWith('RAF Lakenheath, United Kingdom:')).toBe(true);
+  });
+
+  test('very long short names drop the country last, still within the limit', () => {
+    const long = { ...ramstein, name: 'Royal Air Force Lakenheath and Royal Air Force Mildenhall', shortName: 'RAF Lakenheath/Mildenhall', hostCountry: { ...ramstein.hostCountry, value: 'United Kingdom' } };
+    const d = oconusDescription(long);
+    expect(d.length).toBeLessThanOrEqual(OCONUS_DESC_MAX);
+    expect(d.startsWith('RAF Lakenheath/Mildenhall:')).toBe(true);
   });
 });
 
@@ -70,10 +91,31 @@ test.describe('OCONUS v2 — lints', () => {
     }
   });
 
+  test('"150 €" (symbol after the number, with a space) fails the currency lint', () => {
+    const issues = lintText('Heating can run 150 € a month.', { station: 'x', field: 'f', isStationData: true });
+    expect(issues.some((i) => i.rule === 'currency' && i.severity === 'error')).toBe(true);
+  });
+
   test('lint CLI (the prebuild step) exits 0 on the current data', () => {
     const out = execFileSync(process.execPath, ['node_modules/tsx/dist/cli.mjs', 'scripts/lint-oconus.ts'], {
       encoding: 'utf8',
     });
     expect(out).toContain('0 error(s)');
+  });
+});
+
+test.describe('OCONUS v2 — FAQ schema', () => {
+  test('answers are built verbatim from the visible explainer copy', () => {
+    const faqs = oconusFaqs({ name: ramstein.name, ohaLocalityCode: ramstein.ohaLocalityCode.value });
+    expect(faqs.map((f) => f.question)).toEqual([
+      'Do members at Ramstein Air Base receive BAH?',
+      'How does OHA work?',
+      'How often do OHA and OCONUS COLA change?',
+    ]);
+    expect(faqs[0].answer).toContain(EXPLAINER_LEAD.body);
+    expect(faqs[1].answer).toContain(EXPLAINER_POINTS[3].body);
+    expect(faqs[1].answer).toContain('DE700 for Ramstein Air Base');
+    expect(faqs[2].answer).toContain('twice a month');
+    for (const f of faqs) expect(f.answer).not.toMatch(/\{\w+\}/); // no unfilled tokens
   });
 });

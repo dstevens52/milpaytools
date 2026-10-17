@@ -30,28 +30,32 @@ export function getRenderableOconusV2(slug: string): OconusStation | null {
 
 // ── Metadata (Section 2). Pure so the length unit tests cover every station. ──
 
-export const OCONUS_TITLE_MAX = 60;
+// Limit on the full rendered <title> (with the layout's " | MilPayTools").
+// Search engines truncate by pixel width, so this is a guide, not a hard cut.
+export const OCONUS_RENDERED_TITLE_MAX = 65;
 export const OCONUS_DESC_MAX = 155;
+export const SITE_TITLE_SUFFIX = ' | MilPayTools';
 
 /** Page title, without the site name (the root layout template appends it). */
 export function oconusTitle(s: OconusStation): string {
   return `${s.shortName} BAH? It's OHA — Housing & COLA Guide`;
 }
 
+/** The <title> as rendered, after the root layout's template. */
+export function oconusRenderedTitle(s: OconusStation): string {
+  return oconusTitle(s) + SITE_TITLE_SUFFIX;
+}
+
 /**
- * Meta description. The spec pattern runs past 155 chars for most stations,
- * so it steps down — full name + country, short name + country, short name
- * alone — and finally drops the closing sentence. First fit wins.
+ * Meta description. Keeps the country (it carries searches like "Germany
+ * OHA"). Long names step down — short name + country, then short name alone —
+ * and finally drop the closing sentence. First fit wins.
  */
 export function oconusDescription(s: OconusStation): string {
-  const mid = ' Eligible members renting privately generally receive OHA instead of BAH.';
-  const tail = ' How OHA and COLA work, with official lookups.';
+  const mid = ': eligible members renting privately generally get OHA, not BAH.';
+  const tail = ' How OHA and COLA work, with official DTMO lookups.';
   const country = s.hostCountry.value;
-  const heads = [
-    `${s.name}, ${country} is an overseas station.`,
-    `${s.shortName}, ${country} is an overseas station.`,
-    `${s.shortName} is an overseas station.`,
-  ];
+  const heads = [`${s.name}, ${country}`, `${s.shortName}, ${country}`, s.shortName];
   for (const h of heads) {
     const d = h + mid + tail;
     if (d.length <= OCONUS_DESC_MAX) return d;

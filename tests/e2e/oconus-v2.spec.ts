@@ -34,8 +34,31 @@ test.describe('OCONUS v2 — Ramstein Air Base', () => {
   test('title and meta description follow the v2 pattern', async ({ page }) => {
     await expect(page).toHaveTitle("Ramstein AB BAH? It's OHA — Housing & COLA Guide | MilPayTools");
     const desc = await page.locator('meta[name="description"]').getAttribute('content');
-    expect(desc).toContain('overseas station');
+    expect(desc).toContain('Ramstein Air Base, Germany:');
     expect(desc!.length).toBeLessThanOrEqual(155);
+  });
+
+  test('emits Article, BreadcrumbList, and FAQPage schema', async ({ page }) => {
+    const blocks = await page
+      .locator('script[type="application/ld+json"]')
+      .evaluateAll((els) => els.map((e) => JSON.parse(e.textContent || '{}')));
+    expect(blocks.length).toBeGreaterThan(0);
+    const byType = Object.fromEntries(blocks.map((b) => [b['@type'], b]));
+    expect(byType.Article?.headline).toBe("Ramstein AB BAH? It's OHA — Housing & COLA Guide");
+    expect(byType.BreadcrumbList).toBeTruthy();
+    const questions = byType.FAQPage?.mainEntity?.map((q: { name: string }) => q.name);
+    expect(questions).toEqual([
+      'Do members at Ramstein Air Base receive BAH?',
+      'How does OHA work?',
+      'How often do OHA and OCONUS COLA change?',
+    ]);
+    // Every FAQ answer must be text that is visible on the page.
+    const main = await page.locator('main').innerText();
+    const flat = (t: string) => t.replace(/\s+/g, ' ');
+    for (const q of byType.FAQPage.mainEntity) {
+      const firstSentence = q.acceptedAnswer.text.split('. ')[0];
+      expect(flat(main)).toContain(flat(firstSentence));
+    }
   });
 
   test('contains the eligibility qualifier and "Last reviewed"', async ({ page }) => {
@@ -63,10 +86,9 @@ test.describe('OCONUS v2 — Ramstein Air Base', () => {
     expect(slugs.sort()).toEqual(['camp-humphreys', 'kadena-air-base', 'yokota-air-base']);
   });
 
-  test('station signup box is replaced by the generic site signup', async ({ page }) => {
-    const main = page.locator('main');
-    await expect(main.getByText(/Get notified when 2027 BAH rates update/i)).toHaveCount(0);
-    await expect(main.getByText('Get notified when MilPayTools tools or data are updated')).toBeVisible();
+  test('no in-page signup — the footer signup is the only one', async ({ page }) => {
+    await expect(page.locator('main input[type="email"]')).toHaveCount(0);
+    await expect(page.locator('footer input[type="email"]')).toHaveCount(1);
   });
 
   test('OCONUS disclaimer replaces the BAH/MHA disclaimer', async ({ page }) => {

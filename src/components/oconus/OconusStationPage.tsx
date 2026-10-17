@@ -8,14 +8,12 @@ import {
   UNCHANGED_HEADING,
   UNCHANGED_POINTS,
   OCONUS_DISCLAIMER,
-  SIGNUP_HEADLINE,
   OCONUS_APPROVED_NEXT_LINKS,
   OFFICIAL_LOOKUPS,
   EXPLAINER_SOURCES,
 } from '@/data/oconus/sharedCopy';
 import { CALCULATORS } from '@/data/calculators';
 import { STATION_BY_SLUG } from '@/data/duty-stations/stations';
-import { EmailSignup } from '@/components/EmailSignup';
 import { OconusAllowanceExplainer, MaybeLink, isPendingUrl } from '@/components/oconus/OconusAllowanceExplainer';
 
 // v2 OCONUS station template. No rates, no cost figures: every station fact
@@ -332,8 +330,7 @@ export function OconusStationPage({
             <p className="text-xs text-slate-500 leading-relaxed">{OCONUS_DISCLAIMER}</p>
           </div>
 
-          {/* 13. Generic site signup (no station "2027 BAH rates" box) */}
-          <EmailSignup variant="card" headline={SIGNUP_HEADLINE} source={`oconus-${station.slug}`} />
+          {/* 13. No in-page signup — the sitewide footer signup is the only one. */}
         </div>
       </div>
     </>
