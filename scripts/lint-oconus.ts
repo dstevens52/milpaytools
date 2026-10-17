@@ -4,7 +4,7 @@
 //   npx tsx scripts/lint-oconus.ts
 
 import { OCONUS_V2_STATIONS } from '../src/data/oconus/index';
-import { allSharedCopy, OFFICIAL_LOOKUPS, EXPLAINER_SOURCES } from '../src/data/oconus/sharedCopy';
+import { allSharedCopy, ALL_SHARED_LINKS } from '../src/data/oconus/sharedCopy';
 import { lintStation, lintShared, formatIssue, type LintIssue } from './oconusLint';
 
 const stations = OCONUS_V2_STATIONS.filter((s) => s.templateVersion === 2);
@@ -19,7 +19,7 @@ if (stations.length === 0 || sharedCopy.length === 0) {
 
 const issues: LintIssue[] = [
   ...stations.flatMap((s) => lintStation(s)),
-  ...lintShared(sharedCopy, [...OFFICIAL_LOOKUPS, ...EXPLAINER_SOURCES], anyPublished),
+  ...lintShared(sharedCopy, ALL_SHARED_LINKS, anyPublished),
 ];
 
 const errors = issues.filter((i) => i.severity === 'error');

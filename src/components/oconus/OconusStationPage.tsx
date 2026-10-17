@@ -9,8 +9,7 @@ import {
   UNCHANGED_POINTS,
   OCONUS_DISCLAIMER,
   OCONUS_APPROVED_NEXT_LINKS,
-  OFFICIAL_LOOKUPS,
-  EXPLAINER_SOURCES,
+  ALL_SHARED_LINKS,
 } from '@/data/oconus/sharedCopy';
 import { CALCULATORS } from '@/data/calculators';
 import { STATION_BY_SLUG } from '@/data/duty-stations/stations';
@@ -121,10 +120,9 @@ export function OconusStationPage({
   ];
   const sourceUrls = Array.from(
     new Set([
-      ...stationFacts.map((f) => f.sourceUrl),
+      ...stationFacts.filter((f) => f.showInSources !== false).map((f) => f.sourceUrl),
       ...station.officialLinks.map((l) => l.url),
-      ...OFFICIAL_LOOKUPS.map((l) => l.url),
-      ...EXPLAINER_SOURCES.map((l) => l.url),
+      ...ALL_SHARED_LINKS.map((l) => l.url),
     ]),
   );
   const verifiedSources = sourceUrls.filter((u) => !isPendingUrl(u));

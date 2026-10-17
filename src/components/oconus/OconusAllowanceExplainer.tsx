@@ -4,6 +4,7 @@ import {
   EXPLAINER_LEAD,
   EXPLAINER_POINTS,
   OFFICIAL_LOOKUPS,
+  SECONDARY_LOOKUPS,
   EXPLAINER_SOURCES,
   LES_NOTE,
   fillTokens,
@@ -53,7 +54,7 @@ export function OconusAllowanceExplainer({ station }: { station: OconusStation }
       </ul>
 
       <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 mb-2">Official lookups</p>
-      <div className="flex flex-wrap gap-2 mb-3">
+      <div className="flex flex-wrap items-center gap-2 mb-3">
         {OFFICIAL_LOOKUPS.map((l) =>
           isPendingUrl(l.url) ? (
             <MaybeLink key={l.label} link={l} className="inline-flex rounded-md border border-dashed border-amber-300 bg-amber-50 px-3 py-2 text-xs text-zinc-700" />
@@ -65,6 +66,9 @@ export function OconusAllowanceExplainer({ station }: { station: OconusStation }
             />
           ),
         )}
+        {SECONDARY_LOOKUPS.map((l) => (
+          <MaybeLink key={l.label} link={l} className="px-2 text-sm font-medium text-red-700 underline underline-offset-2 hover:text-red-800" />
+        ))}
       </div>
       <p className="text-sm text-zinc-600 mb-5">{LES_NOTE}</p>
 

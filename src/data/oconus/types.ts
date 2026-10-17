@@ -10,6 +10,9 @@ export type SourcedFact<T = string> = {
   value: T;
   sourceUrl: string; // official source; "TODO-DAN" until verified
   verifiedOn: string | null; // ISO date Dan verified it; null until verified
+  // Default true. false = still linted and link-checked, but left out of the
+  // page's Sources list (e.g. a temporary page).
+  showInSources?: boolean;
 };
 
 export type OconusStation = {

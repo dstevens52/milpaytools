@@ -3,10 +3,10 @@ import { ramstein } from '../../src/data/oconus/ramstein';
 
 // v2 OCONUS station template — Ramstein reference migration.
 //
-// Ramstein is unpublished until Dan verifies its data, so the v2 page renders
-// only on a server started with OCONUS_V2_PREVIEW=1 (the local Playwright
-// webServer sets it). Against the live site it still serves the legacy page,
-// so the v2 checks are skipped there until `published: true`.
+// An unpublished v2 station renders only on a server started with
+// OCONUS_V2_PREVIEW=1 (the local Playwright webServer sets it); the live site
+// serves its legacy page, so the v2 checks are skipped there. Ramstein is
+// published, so these checks also run against the live site once deployed.
 
 const RAMSTEIN = '/bah/ramstein-air-base';
 const H1 = 'Ramstein Air Base OHA, COLA & PCS Housing Guide';
@@ -61,10 +61,33 @@ test.describe('OCONUS v2 — Ramstein Air Base', () => {
     }
   });
 
-  test('contains the eligibility qualifier and "Last reviewed"', async ({ page }) => {
+  test('contains the eligibility qualifier and "Last reviewed October 2026"', async ({ page }) => {
     const main = page.locator('main');
     await expect(main).toContainText('depends on your situation');
-    await expect(main).toContainText('Last reviewed');
+    await expect(main).toContainText('Last reviewed October 2026');
+  });
+
+  test('both DTMO rate-lookup buttons link to the official lookups', async ({ page }) => {
+    await expect(page.getByRole('link', { name: 'OHA rate lookup' })).toHaveAttribute(
+      'href',
+      'https://www.travel.dod.mil/Allowances/Overseas-Housing-Allowance/OHA-Rate-Lookup/',
+    );
+    await expect(page.getByRole('link', { name: 'OCONUS COLA rate lookup' })).toHaveAttribute(
+      'href',
+      'https://www.travel.dod.mil/Allowances/Overseas-Cost-of-Living-Allowance/Overseas-COLA-Rate-Lookup/',
+    );
+  });
+
+  test('no TODO markers, no JTR, and the VAT page is kept out of Sources', async ({ page }) => {
+    const main = page.locator('main');
+    const text = await main.innerText();
+    expect(text.length).toBeGreaterThan(500);
+    expect(text).not.toContain('TODO-DAN');
+    expect(text).not.toMatch(/Joint Travel Regulations|\bJTR\b/);
+    await expect(main).toContainText('DoD FMR Volume 7A, Chapter 26');
+    const sources = main.locator('section', { hasText: 'Last reviewed' });
+    await expect(sources.locator('a[href*="militaryonesource.mil"]').first()).toBeVisible();
+    await expect(sources.locator('a[href*="kaiserslautern.armymwr.com"]')).toHaveCount(0);
   });
 
   test('contains no BAH-rate, VA loan, CONUS COLA, MHA, or currency text', async ({ page }) => {

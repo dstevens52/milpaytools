@@ -15,4 +15,7 @@ export const voiceFixture = clone({
   beforeYouMove: [{ value: 'You should file your VAT forms on arrival.', sourceUrl: 'TODO-DAN', verifiedOn: null }],
 });
 
-export const publishedUnverifiedFixture = clone({ published: true });
+export const publishedUnverifiedFixture = clone({
+  published: true,
+  hostCountry: { value: 'Germany', sourceUrl: 'TODO-DAN', verifiedOn: null },
+});

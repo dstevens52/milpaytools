@@ -6,7 +6,7 @@
 //   npx tsx scripts/check-oconus-links.ts
 
 import { OCONUS_V2_STATIONS } from '../src/data/oconus/index';
-import { OFFICIAL_LOOKUPS, EXPLAINER_SOURCES } from '../src/data/oconus/sharedCopy';
+import { ALL_SHARED_LINKS } from '../src/data/oconus/sharedCopy';
 import { stationFacts } from './oconusLint';
 
 type Target = { url: string; where: string[] };
@@ -22,19 +22,19 @@ for (const s of OCONUS_V2_STATIONS) {
   for (const { field, fact } of stationFacts(s)) add(fact.sourceUrl, `${s.slug} › ${field}`);
   s.officialLinks.forEach((l, i) => add(l.url, `${s.slug} › officialLinks[${i}] (${l.label})`));
 }
-for (const l of [...OFFICIAL_LOOKUPS, ...EXPLAINER_SOURCES]) add(l.url, `shared › ${l.label}`);
+for (const l of ALL_SHARED_LINKS) add(l.url, `shared › ${l.label}`);
 
 const isHttp = (u: string) => /^https?:\/\//.test(u);
 const pending = [...targets.values()].filter((t) => !isHttp(t.url));
 const checkable = [...targets.values()].filter((t) => isHttp(t.url));
 
-async function check(url: string): Promise<{ status: number | string; ok: boolean }> {
+async function check(url: string): Promise<{ status: number | string; ok: boolean; finalUrl?: string }> {
   const opts = { redirect: 'follow' as const, signal: AbortSignal.timeout(20_000), headers: { 'user-agent': 'MilPayTools link check' } };
   try {
     let res = await fetch(url, { ...opts, method: 'HEAD' });
     // Some government servers reject HEAD — retry with GET before reporting.
     if (res.status >= 400) res = await fetch(url, { ...opts, method: 'GET' });
-    return { status: res.status, ok: res.status >= 200 && res.status < 400 };
+    return { status: res.status, ok: res.status >= 200 && res.status < 400, finalUrl: res.url };
   } catch (e) {
     return { status: e instanceof Error ? e.message : String(e), ok: false };
   }
@@ -48,7 +48,11 @@ async function main() {
   }
   const results = await Promise.all(checkable.map(async (t) => ({ t, r: await check(t.url) })));
   const bad = results.filter(({ r }) => !r.ok);
-  for (const { t, r } of results) console.log(`${r.ok ? 'OK  ' : 'FAIL'} ${r.status}  ${t.url}`);
+  for (const { t, r } of results) {
+    console.log(`${r.ok ? 'OK  ' : 'FAIL'} ${r.status}  ${t.url}`);
+    // A redirect is reported so the data can be moved to the final URL.
+    if (r.finalUrl && r.finalUrl !== t.url) console.log(`       → redirected to ${r.finalUrl}`);
+  }
   if (pending.length) {
     console.log('\nPending (TODO-DAN, not checked):');
     for (const t of pending) console.log(`  ${t.url}  ← ${t.where.join('; ')}`);

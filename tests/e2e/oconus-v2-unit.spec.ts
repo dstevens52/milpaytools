@@ -9,7 +9,7 @@ import {
   OCONUS_DESC_MAX,
 } from '../../src/data/oconus';
 import { ramstein } from '../../src/data/oconus/ramstein';
-import { allSharedCopy, OFFICIAL_LOOKUPS, EXPLAINER_SOURCES, oconusFaqs, EXPLAINER_LEAD, EXPLAINER_POINTS } from '../../src/data/oconus/sharedCopy';
+import { allSharedCopy, ALL_SHARED_LINKS, oconusFaqs, EXPLAINER_LEAD, EXPLAINER_POINTS } from '../../src/data/oconus/sharedCopy';
 import { lintStation, lintShared, lintText } from '../../scripts/oconusLint';
 import { currencyFixture, voiceFixture, publishedUnverifiedFixture } from './helpers/oconusFixtures';
 
@@ -60,7 +60,7 @@ test.describe('OCONUS v2 — lints', () => {
   test('shared copy passes all lints (no errors)', () => {
     const copy = allSharedCopy();
     expect(copy.length).toBeGreaterThan(0);
-    const issues = lintShared(copy, [...OFFICIAL_LOOKUPS, ...EXPLAINER_SOURCES], false);
+    const issues = lintShared(copy, ALL_SHARED_LINKS, true);
     expect(issues.filter((i) => i.severity === 'error')).toEqual([]);
   });
 

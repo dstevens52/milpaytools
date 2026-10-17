@@ -68,32 +68,62 @@ export const EXPLAINER_POINTS: { strong: string; body: string }[] = [
   },
 ];
 
-// Official lookups. verifiedOn stays null until Dan confirms each URL; a URL
-// still starting "TODO-DAN" renders as plain text, never as a link.
+// Official lookups. A URL still starting "TODO-DAN" renders as plain text,
+// never as a link. All verified by Dan against the official sources.
+const VERIFIED = '2026-10-17';
+
+// Primary buttons: the two DTMO rate lookups.
 export const OFFICIAL_LOOKUPS: SharedLink[] = [
   {
-    label: 'OHA rates',
-    url: 'https://www.travel.dod.mil/Allowances/Overseas-Housing-Allowance/',
-    verifiedOn: null, // already linked on the live site; Dan to set verification date
+    label: 'OHA rate lookup',
+    url: 'https://www.travel.dod.mil/Allowances/Overseas-Housing-Allowance/OHA-Rate-Lookup/',
+    verifiedOn: VERIFIED,
   },
   {
-    label: 'OCONUS COLA rates',
-    url: 'TODO-DAN: confirm DTMO OCONUS COLA page URL',
-    verifiedOn: null,
+    label: 'OCONUS COLA rate lookup',
+    url: 'https://www.travel.dod.mil/Allowances/Overseas-Cost-of-Living-Allowance/Overseas-COLA-Rate-Lookup/',
+    verifiedOn: VERIFIED,
   },
+];
+
+// Secondary link beside the buttons.
+export const SECONDARY_LOOKUPS: SharedLink[] = [
   {
     label: 'Exchange-rate adjustments',
     url: 'https://www.travel.dod.mil/Allowances/Currency-Fluctuations-Exchange-Rates/',
-    verifiedOn: null, // TODO-DAN: confirm resolves
+    verifiedOn: VERIFIED,
   },
 ];
 
 export const LES_NOTE = "Your LES in myPay shows what you're actually receiving.";
 
+// Source line under the explainer. OHA and OCONUS COLA policy lives in the
+// DoD FMR Volume 7A (not the JTR).
 export const EXPLAINER_SOURCES: SharedLink[] = [
-  { label: 'DTMO OHA and COLA pages', url: 'https://www.travel.dod.mil/Allowances/Overseas-Housing-Allowance/', verifiedOn: null },
-  { label: 'Joint Travel Regulations, Chapter 10', url: 'TODO-DAN: confirm chapter reference and URL', verifiedOn: null },
+  { label: 'DTMO OHA program page', url: 'https://www.travel.dod.mil/Allowances/Overseas-Housing-Allowance/', verifiedOn: VERIFIED },
+  { label: 'DTMO OCONUS COLA program page', url: 'https://www.travel.dod.mil/Allowances/Overseas-Cost-of-Living-Allowance/', verifiedOn: VERIFIED },
+  {
+    label: 'DoD FMR Volume 7A, Chapter 26 (Housing Allowances)',
+    url: 'https://comptroller.war.gov/Portals/45/documents/fmr/current/07a/07a_26.pdf',
+    verifiedOn: VERIFIED,
+  },
+  {
+    label: 'DoD FMR Volume 7A, Chapter 68 (Cost of Living Allowance Outside the Continental United States)',
+    url: 'https://comptroller.war.gov/Portals/45/documents/fmr/current/07a/07a_68.pdf',
+    verifiedOn: VERIFIED,
+  },
+  {
+    // Source for the eligibility qualifier (orders / government housing /
+    // dependents' location). Installation-specific — revisit when a second
+    // v2 station ships, since this source line renders on every station.
+    label: 'Military OneSource — USAG Rheinland-Pfalz check-in procedures',
+    url: 'https://installations.militaryonesource.mil/military-installation/usag-rheinland-pfalz/base-essentials/check-in-procedures',
+    verifiedOn: VERIFIED,
+  },
 ];
+
+/** Every shared link — for the lints, the link checker, and the Sources list. */
+export const ALL_SHARED_LINKS: SharedLink[] = [...OFFICIAL_LOOKUPS, ...SECONDARY_LOOKUPS, ...EXPLAINER_SOURCES];
 
 // ── Section 8. What doesn't change overseas ────────────────────────────────
 
@@ -155,7 +185,7 @@ export function allSharedCopy(): { field: string; text: string }[] {
   });
   UNCHANGED_POINTS.forEach((t, i) => out.push({ field: `UNCHANGED_POINTS[${i}]`, text: t }));
   OCONUS_APPROVED_NEXT_LINKS.forEach((l, i) => out.push({ field: `OCONUS_APPROVED_NEXT_LINKS[${i}].label`, text: l.label }));
-  [...OFFICIAL_LOOKUPS, ...EXPLAINER_SOURCES].forEach((l, i) =>
+  ALL_SHARED_LINKS.forEach((l, i) =>
     out.push({ field: `link[${i}].label`, text: l.label }),
   );
   return out;
