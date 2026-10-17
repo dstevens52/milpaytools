@@ -15,7 +15,7 @@ export const PCS_OVERSEAS_INTRO =
 export const PCS_OVERSEAS_POINTS: { strong: string; body: string }[] = [
   {
     strong: 'Travel.',
-    body: "Travel to an overseas station is usually by air on government-arranged travel, so mileage-based allowances from a stateside move generally don't apply.",
+    body: "Travel to or from an overseas station is usually by air on government-arranged travel, so mileage-based allowances from a stateside move generally don't apply.",
   },
   {
     strong: 'Household goods.',

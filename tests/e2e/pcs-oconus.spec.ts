@@ -36,9 +36,17 @@ async function expectOverseasMode(page: Page) {
   // The only dollar figure in the results is DLA.
   expect(text.match(/\$[\d,]+(\.\d+)?/g)).toEqual([DLA_E5_WITH_DEPS]);
 
-  await expect(page.locator('#distance')).toHaveCount(0);
-  await expect(page.locator('#numPOVs')).toHaveCount(0);
+  // No input that does nothing: mileage, vehicles, move type, PPM weight/expenses, TLE days.
+  for (const sel of ['#distance', '#numPOVs', 'input[name="moveType"]', '#hhgWeight', '#ppmExp', '#tleOld', '#tleNew']) {
+    await expect(page.locator(sel), `found input ${sel}`).toHaveCount(0);
+  }
   await expect(page.getByText(OLD_WARNING)).toHaveCount(0);
+  // BAH / Total Comp cross-links hidden; Save/share kept.
+  await expect(page.getByTestId('pcs-cross-links')).toHaveCount(0);
+  await expect(page.getByText('Save or share your PCS estimate')).toBeVisible();
+  await expect(page.getByTestId('pcs-overseas-panel')).toContainText(
+    "Travel to or from an overseas station is usually by air on government-arranged travel, so mileage-based allowances from a stateside move generally don't apply.",
+  );
 
   for (const href of [
     'https://www.travel.dod.mil/Travel-Transportation-Rates/Dislocation-Allowance/',
@@ -62,6 +70,12 @@ test.describe('PCS estimator — overseas moves', () => {
     await page.getByLabel('Moving from (optional)').pressSequentially('28301', { delay: 50 });
     await page.getByLabel('Moving to (optional)').pressSequentially('09012', { delay: 50 });
     await expectOverseasMode(page);
+  });
+
+  test('APO origin → stateside ZIP: overseas mode, no guide link', async ({ page }) => {
+    await page.goto('/calculators/pcs?rank=E-5&dep=yes&numdep=1&movetype=gov&from=09012&to=28301');
+    await expectOverseasMode(page);
+    await expect(page.getByRole('link', { name: /housing & COLA guide/ })).toHaveCount(0);
   });
 
   test('CONUS → Ramstein: overseas mode plus the Ramstein guide link', async ({ page }) => {
@@ -95,7 +109,18 @@ test.describe('PCS estimator — stateside moves unchanged', () => {
       expect(text, `missing "${v}"`).toContain(v);
     }
     await expect(page.getByTestId('pcs-overseas-panel')).toHaveCount(0);
-    await expect(page.locator('#numPOVs')).toHaveCount(1);
-    await expect(page.locator('#distance')).toHaveCount(1);
+    for (const sel of ['#distance', '#numPOVs', '#tleOld', '#tleNew']) {
+      await expect(page.locator(sel), `missing input ${sel}`).toHaveCount(1);
+    }
+    await expect(page.locator('input[name="moveType"]')).toHaveCount(3);
+    await expect(page.getByTestId('pcs-cross-links')).toBeVisible();
+    await expect(page.getByText('Save or share your PCS estimate')).toBeVisible();
+  });
+
+  test('stateside PPM move still shows PPM weight and expense inputs', async ({ page }) => {
+    await page.goto('/calculators/pcs?rank=E-5&dep=yes&numdep=1&movetype=full-ppm&miles=1000&povs=1');
+    await expect(page.getByTestId('pcs-results')).toContainText('1,000 miles');
+    await expect(page.locator('#hhgWeight')).toHaveCount(1);
+    await expect(page.locator('#ppmExp')).toHaveCount(1);
   });
 });

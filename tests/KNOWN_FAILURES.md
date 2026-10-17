@@ -91,3 +91,11 @@ indicator on its own — treat both as flakes and re-run in isolation to confirm
 **Pattern:** when `:40` (firefox) fails in a run, `:235` (webkit) tends to pass, and vice versa.
 Both test healthcare/disability rate rendering under a specific browser rendering path.
 If both fail in the same run, treat that as a real signal and investigate before dismissing.
+
+## Known issues (not Playwright failures)
+
+### ESLint — PCS estimator URL-params effect (noted 2026-10-17)
+- `src/components/calculators/pcs/PCSCalculator.tsx` — the mount effect that pre-populates inputs
+  from URL params calls `setState` synchronously, which ESLint reports as
+  `react-hooks/set-state-in-effect` (1 error). Pre-existing on `main` @ `d0c1688`, before
+  `fix/pcs-oconus`. Does not affect `npm run build`. **Not fixed here** — triage separately.

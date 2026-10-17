@@ -508,6 +508,8 @@ export function PCSCalculator() {
                   />
                 </div>
 
+                {/* Overseas mode hides every input that no longer affects a result */}
+                {!isOverseas && (
                 <div>
                   <Label>Move type</Label>
                   <div className="space-y-2">
@@ -537,6 +539,7 @@ export function PCSCalculator() {
                     ))}
                   </div>
                 </div>
+                )}
 
                 {/* Distance — varies by route type. Overseas: no mileage inputs at all. */}
                 {isOverseas ? null : autoDistance !== null && !showManualOverride ? (
@@ -627,7 +630,7 @@ export function PCSCalculator() {
                 </div>
                 )}
 
-                {isPPM && (
+                {isPPM && !isOverseas && (
                   <div>
                     <Label htmlFor="hhgWeight">
                       HHG weight to self-move (lbs)
@@ -654,7 +657,8 @@ export function PCSCalculator() {
               </div>
             </div>
 
-            {/* Optional */}
+            {/* Optional — TLE days and PPM expenses; none apply in overseas mode */}
+            {!isOverseas && (
             <div>
               <SectionHeading>Optional</SectionHeading>
               <div className="space-y-4">
@@ -710,6 +714,7 @@ export function PCSCalculator() {
                 )}
               </div>
             </div>
+            )}
 
           </Card>
         </div>
@@ -954,8 +959,9 @@ export function PCSCalculator() {
             context="pcs"
           />
 
-          {/* Cross-links */}
-          <div className="rounded-lg bg-blue-50 border border-blue-200 p-4">
+          {/* Cross-links — BAH and Total Comp don't support overseas stations */}
+          {!isOverseas && (
+          <div className="rounded-lg bg-blue-50 border border-blue-200 p-4" data-testid="pcs-cross-links">
             <p className="text-sm font-semibold text-zinc-800 mb-2">PCS planning tools</p>
             <div className="flex flex-col gap-2">
               <Link href="/bah" className="text-sm text-blue-700 hover:underline font-medium">
@@ -966,6 +972,7 @@ export function PCSCalculator() {
               </Link>
             </div>
           </div>
+          )}
 
         </div>
       </div>

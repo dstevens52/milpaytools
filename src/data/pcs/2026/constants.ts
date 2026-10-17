@@ -33,8 +33,11 @@ export const PCS_RATES_2026 = {
   milesFirstDay: 400,
   milesPerAdditionalDay: 350,
 
-  // DLA (Dislocation Allowance) — primary rates per DTMO MAP 72-25(I), effective January 1, 2026
-  // Source: https://www.travel.dod.mil
+  // DLA (Dislocation Allowance) — primary rates, effective January 1, 2026.
+  // Source: PDTATAC, "UTD for MAP 72-25(I), CY2026 Dislocation Allowance (DLA) Rates"
+  //   https://media.defense.gov/2025/Dec/31/2003850077/-1/-1/0/UTD_FOR_MAP_72-25(I)_CY2026_DISLOCATION_ALLOWANCE_(DLA)_RATES.PDF
+  // Rate lookup: https://www.travel.dod.mil/Travel-Transportation-Rates/Dislocation-Allowance/
+  // Both URLs are in PCS_DLA_SOURCE_URLS below (monthly link check).
   dla: {
     withDependents: {
       'E-1': 3548.02,
@@ -132,3 +135,12 @@ export const PCS_RATES_2026 = {
 } as const;
 
 export type DLATable = typeof PCS_RATES_2026.dla.withDependents;
+
+/** DLA source document and rate lookup page — checked monthly by scripts/check-oconus-links.ts. */
+export const PCS_DLA_SOURCE_URLS: { label: string; url: string }[] = [
+  {
+    label: 'PDTATAC — UTD for MAP 72-25(I), CY2026 DLA Rates',
+    url: 'https://media.defense.gov/2025/Dec/31/2003850077/-1/-1/0/UTD_FOR_MAP_72-25(I)_CY2026_DISLOCATION_ALLOWANCE_(DLA)_RATES.PDF',
+  },
+  { label: 'DTMO — Dislocation Allowance', url: 'https://www.travel.dod.mil/Travel-Transportation-Rates/Dislocation-Allowance/' },
+];
