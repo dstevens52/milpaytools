@@ -24,6 +24,17 @@ import type { PCSMoveType, PCSInput, PCSOutput } from '@/lib/calculations/pcs';
 import type { SearchResult } from '@/lib/stationSearch';
 import { parseBool } from '@/lib/urlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
+import { OCONUS_V2_STATIONS } from '@/data/oconus';
+import {
+  PCS_OVERSEAS_DLA_LABEL,
+  PCS_OVERSEAS_DLA_NOTE,
+  PCS_OVERSEAS_HEADING,
+  PCS_OVERSEAS_INTRO,
+  PCS_OVERSEAS_POINTS,
+  PCS_OVERSEAS_RESOURCES_HEADING,
+  PCS_OVERSEAS_LINKS,
+  PCS_OVERSEAS_GUIDE_LINK,
+} from '@/data/pcs/oconusPanel';
 
 // ─── Formatters ────────────────────────────────────────────────────────────────
 
@@ -267,7 +278,7 @@ export function PCSCalculator() {
   const [zipFrom, setZipFrom] = useState('');
   const [zipTo, setZipTo] = useState('');
   const [fromMeta, setFromMeta] = useState<{ state: string; oconus?: boolean } | null>(null);
-  const [toMeta, setToMeta] = useState<{ state: string; oconus?: boolean } | null>(null);
+  const [toMeta, setToMeta] = useState<{ state: string; oconus?: boolean; name?: string } | null>(null);
   const [showManualOverride, setShowManualOverride] = useState(false);
   const [manualMiles, setManualMiles] = useState(0);
   const [numPOVs, setNumPOVs] = useState<1 | 2>(1);
@@ -284,14 +295,20 @@ export function PCSCalculator() {
   const stationPagesTo = bahDataTo?.stationPages ?? [];
 
   const routeType = useMemo((): RouteClass => {
-    const hasFrom = zipFrom || fromMeta;
-    const hasTo = zipTo || toMeta;
-    if (!hasFrom || !hasTo) return 'conus';
-    return getRouteType(
-      classifyEndpoint(zipFrom, fromMeta),
-      classifyEndpoint(zipTo, toMeta),
-    );
+    const fromClass = zipFrom || fromMeta ? classifyEndpoint(zipFrom, fromMeta) : null;
+    const toClass = zipTo || toMeta ? classifyEndpoint(zipTo, toMeta) : null;
+    // One overseas end is enough for overseas mode — stateside math is wrong
+    // for an overseas move even before the other end is entered.
+    if (fromClass === 'oconus' || toClass === 'oconus') return 'oconus';
+    if (!fromClass || !toClass) return 'conus';
+    return getRouteType(fromClass, toClass);
   }, [zipFrom, zipTo, fromMeta, toMeta]);
+
+  // Overseas mode: show DLA only plus an explanation panel — no total.
+  const isOverseas = routeType === 'oconus';
+  const overseasGuide = toMeta?.name
+    ? OCONUS_V2_STATIONS.find((s) => s.published && s.name === toMeta.name)
+    : undefined;
 
   // Auto-distance via haversine × 1.25 road factor when both ZIPs resolve to coordinates.
   // Covers both DUTY_STATIONS (slug-keyed) and INSTALLATIONS_LOOKUP (inline lat/lon).
@@ -485,7 +502,7 @@ export function PCSCalculator() {
                     label="Moving to (optional)"
                     value={zipTo}
                     onZipChange={setZipTo}
-                    onSelect={(r: SearchResult | null) => setToMeta(r ? { state: r.state, oconus: r.oconus } : null)}
+                    onSelect={(r: SearchResult | null) => setToMeta(r ? { state: r.state, oconus: r.oconus, name: r.name } : null)}
                     excludeOconus={false}
                     placeholder="Base name or ZIP code"
                   />
@@ -521,28 +538,8 @@ export function PCSCalculator() {
                   </div>
                 </div>
 
-                {/* Distance — varies by route type */}
-                {routeType === 'oconus' ? (
-                  /* OCONUS: no auto estimate — manual entry only */
-                  <div>
-                    <div className="rounded-md bg-amber-50 border border-amber-300 px-3 py-2.5 mb-3">
-                      <p className="text-sm font-semibold text-amber-800">OCONUS move — limited estimate</p>
-                      <p className="text-xs text-amber-700 leading-relaxed mt-0.5">
-                        Auto-distance is not available for overseas routes. Enter the mileage from your orders, or use a planning estimate. Verify all figures with your transportation or finance office.
-                      </p>
-                    </div>
-                    <Label htmlFor="distance">PCS mileage (from your orders)</Label>
-                    <input
-                      id="distance"
-                      type="number"
-                      min={0}
-                      max={20000}
-                      value={manualMiles}
-                      onChange={(e) => setManualMiles(Math.max(0, parseInt(e.target.value) || 0))}
-                      className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
-                    />
-                  </div>
-                ) : autoDistance !== null && !showManualOverride ? (
+                {/* Distance — varies by route type. Overseas: no mileage inputs at all. */}
+                {isOverseas ? null : autoDistance !== null && !showManualOverride ? (
                   /* CONUS or AK/HI: auto estimate available */
                   <div className={`rounded-md px-3 py-2.5 space-y-1.5 ${routeType === 'ak-hi' ? 'bg-amber-50 border border-amber-300' : 'bg-zinc-50 border border-zinc-200'}`}>
                     <p className="text-sm text-zinc-700">
@@ -615,6 +612,7 @@ export function PCSCalculator() {
                   </div>
                 )}
 
+                {!isOverseas && (
                 <div>
                   <Label htmlFor="numPOVs">Number of POVs driving</Label>
                   <select
@@ -627,6 +625,7 @@ export function PCSCalculator() {
                     <option value={2}>2 vehicles</option>
                   </select>
                 </div>
+                )}
 
                 {isPPM && (
                   <div>
@@ -716,9 +715,10 @@ export function PCSCalculator() {
         </div>
 
         {/* ── Results ─────────────────────────────────────────────────────── */}
-        <div className="lg:col-span-3 space-y-4">
+        <div className="lg:col-span-3 space-y-4" data-testid="pcs-results">
 
-          {/* Banner */}
+          {/* Banner — no total for an overseas move */}
+          {!isOverseas && (
           <div className="rounded-lg bg-red-700 p-5 text-white">
             <p className="text-sm font-medium text-red-200 mb-1">
               Total estimated PCS entitlements
@@ -730,6 +730,7 @@ export function PCSCalculator() {
               Based on 2026 rates · {output.travelDays} travel {output.travelDays === 1 ? 'day' : 'days'} · {effectiveDistance.toLocaleString()} miles
             </p>
           </div>
+          )}
 
           <SaveOrShareResults
             pageName="pcs"
@@ -741,6 +742,56 @@ export function PCSCalculator() {
             shareText="Here's my PCS entitlement estimate from MilPayTools."
           />
 
+          {isOverseas ? (
+            <>
+              {/* Overseas: DLA is the only figure this estimator can calculate correctly */}
+              <div className="rounded-lg border border-zinc-200 bg-white p-5" data-testid="pcs-overseas-dla">
+                <EntitlementRow
+                  label={PCS_OVERSEAS_DLA_LABEL}
+                  value={fmtDecimals(output.dla)}
+                  sub={PCS_OVERSEAS_DLA_NOTE}
+                />
+              </div>
+
+              <div className="rounded-lg border border-zinc-200 bg-white p-5" data-testid="pcs-overseas-panel">
+                <h3 className="font-semibold text-zinc-900 mb-2">{PCS_OVERSEAS_HEADING}</h3>
+                <p className="text-sm text-zinc-600 leading-relaxed mb-4">{PCS_OVERSEAS_INTRO}</p>
+                <ul className="space-y-3 mb-5">
+                  {PCS_OVERSEAS_POINTS.map((p) => (
+                    <li key={p.strong} className="text-sm text-zinc-600 leading-relaxed">
+                      <span className="font-semibold text-zinc-900">{p.strong}</span> {p.body}
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+                  {PCS_OVERSEAS_RESOURCES_HEADING}
+                </p>
+                <ul className="space-y-1.5">
+                  {PCS_OVERSEAS_LINKS.map((l) => (
+                    <li key={l.url}>
+                      <a
+                        href={l.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-blue-700 hover:underline"
+                      >
+                        {l.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+                {overseasGuide && (
+                  <Link
+                    href={`/bah/${overseasGuide.slug}`}
+                    className="mt-4 inline-block text-sm font-semibold text-red-700 hover:underline"
+                  >
+                    {PCS_OVERSEAS_GUIDE_LINK.replace('{name}', overseasGuide.name)}
+                  </Link>
+                )}
+              </div>
+            </>
+          ) : (
+          <>
           {/* Entitlement breakdown */}
           <div className="rounded-lg border border-zinc-200 bg-white p-5">
             <h3 className="font-semibold text-zinc-900 mb-1">Entitlement Breakdown</h3>
@@ -755,9 +806,7 @@ export function PCSCalculator() {
               label="MALT (Mileage)"
               value={fmtDecimals(output.malt)}
               sub={
-                routeType === 'oconus'
-                  ? `${effectiveDistance.toLocaleString()} mi × $0.205 × ${numPOVs} POV${numPOVs > 1 ? 's' : ''} — planning estimate; verify with your orders`
-                  : routeType === 'ak-hi'
+                routeType === 'ak-hi'
                   ? `${effectiveDistance.toLocaleString()} mi × $0.205 × ${numPOVs} POV${numPOVs > 1 ? 's' : ''} — AK/HI planning estimate`
                   : `${effectiveDistance.toLocaleString()} mi × $0.205 × ${numPOVs} POV${numPOVs > 1 ? 's' : ''}`
               }
@@ -895,6 +944,8 @@ export function PCSCalculator() {
 
           {/* Act steps */}
           <ActSteps steps={actionSteps} title="Before you move" />
+          </>
+          )}
 
           {/* Destination station guide — helps PCS planning with local housing context */}
           <StationPageCard

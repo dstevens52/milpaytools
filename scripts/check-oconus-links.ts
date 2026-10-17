@@ -7,6 +7,7 @@
 
 import { OCONUS_V2_STATIONS } from '../src/data/oconus/index';
 import { ALL_SHARED_LINKS } from '../src/data/oconus/sharedCopy';
+import { PCS_OVERSEAS_LINKS } from '../src/data/pcs/oconusPanel';
 import { stationFacts } from './oconusLint';
 
 // Domains that block or drop automated requests, so a scripted check always
@@ -42,6 +43,7 @@ for (const s of OCONUS_V2_STATIONS) {
   s.officialLinks.forEach((l, i) => add(l.url, `${s.slug} › officialLinks[${i}] (${l.label})`));
 }
 for (const l of ALL_SHARED_LINKS) add(l.url, `shared › ${l.label}`);
+for (const l of PCS_OVERSEAS_LINKS) add(l.url, `pcs-overseas › ${l.label}`);
 
 const isHttp = (u: string) => /^https?:\/\//.test(u);
 const pending = [...targets.values()].filter((t) => !isHttp(t.url));

@@ -5,21 +5,27 @@
 
 import { OCONUS_V2_STATIONS } from '../src/data/oconus/index';
 import { allSharedCopy, ALL_SHARED_LINKS } from '../src/data/oconus/sharedCopy';
-import { lintStation, lintShared, formatIssue, type LintIssue } from './oconusLint';
+import { pcsOverseasPanelCopy } from '../src/data/pcs/oconusPanel';
+import { lintStation, lintShared, lintText, formatIssue, type LintIssue } from './oconusLint';
 
 const stations = OCONUS_V2_STATIONS.filter((s) => s.templateVersion === 2);
 const sharedCopy = allSharedCopy();
+const pcsPanelCopy = pcsOverseasPanelCopy();
 const anyPublished = stations.some((s) => s.published);
 
 // An empty input proves nothing — refuse to report "clean" on nothing.
-if (stations.length === 0 || sharedCopy.length === 0) {
-  console.error(`lint-oconus: no input (stations: ${stations.length}, shared strings: ${sharedCopy.length})`);
+if (stations.length === 0 || sharedCopy.length === 0 || pcsPanelCopy.length === 0) {
+  console.error(
+    `lint-oconus: no input (stations: ${stations.length}, shared strings: ${sharedCopy.length}, PCS panel strings: ${pcsPanelCopy.length})`,
+  );
   process.exit(1);
 }
 
 const issues: LintIssue[] = [
   ...stations.flatMap((s) => lintStation(s)),
   ...lintShared(sharedCopy, ALL_SHARED_LINKS, anyPublished),
+  // PCS estimator overseas panel — currency and voice only.
+  ...pcsPanelCopy.flatMap(({ field, text }) => lintText(text, { station: 'pcs-overseas', field, isStationData: false })),
 ];
 
 const errors = issues.filter((i) => i.severity === 'error');
@@ -28,7 +34,7 @@ const warnings = issues.filter((i) => i.severity === 'warn');
 console.log(
   `lint-oconus: ${stations.length} v2 station(s) [${stations
     .map((s) => `${s.slug}${s.published ? '' : ' (unpublished)'}`)
-    .join(', ')}], ${sharedCopy.length} shared strings`,
+    .join(', ')}], ${sharedCopy.length} shared strings, ${pcsPanelCopy.length} PCS overseas panel strings`,
 );
 const stale = warnings.filter((w) => w.rule === 'staleness');
 if (stale.length) console.log(`Stale (lastReviewed > 13 months): ${stale.map((w) => w.station).join(', ')}`);
