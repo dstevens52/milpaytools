@@ -3561,7 +3561,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     oconus: true,
     oconusContent: {
       colaNote:
-        'Ramstein members receive OCONUS COLA based on the Kaiserslautern area cost index. European COLA adjusts with euro-dollar exchange rates and DoD cost-of-living surveys. When the euro strengthens relative to the dollar, purchasing power off base decreases and COLA may increase to offset the difference. COLA is updated more frequently than BAH — sometimes quarterly — and can change meaningfully with exchange rate movements. Look up current rates with the DTMO COLA calculator (travel.dod.mil); your LES in myPay shows what you\'re actually receiving.',
+        'Ramstein members receive OCONUS COLA based on the Kaiserslautern area cost index. European COLA adjusts with euro-dollar exchange rates and DoD cost-of-living surveys. When the euro strengthens relative to the dollar, purchasing power off base decreases and COLA may increase to offset the difference. COLA amounts can change as often as twice a month with exchange rates. Look up current rates with the DTMO COLA calculator (travel.dod.mil); your LES in myPay shows what you\'re actually receiving.',
       financialContext: [
         'Germany\'s cost of living is moderate by Western European standards, but utility costs — particularly heating — run significantly higher than CONUS. Budget €150–300/month for heating in winter, more for older homes with oil or gas heat.',
         'The Kaiserslautern Military Community (KMC) is one of the largest concentrations of Americans in Europe, with a well-developed off-base rental market. KMC landlords are experienced with SOFA tenants and the housing office maintains current market rates.',
