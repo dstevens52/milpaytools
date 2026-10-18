@@ -83,7 +83,11 @@ function StepBreakdown({ steps, collapsed }: { steps: CalculationStep[]; collaps
         >
           <span className="font-medium">{s.label}</span>
           {s.detail && s.detail !== s.label && (
-            <span className="ml-2 font-normal opacity-80">{s.detail}</span>
+            <>
+              {/* Real space so copy-paste and screen readers don't run label and detail together */}
+              {' '}
+              <span className="ml-1 font-normal opacity-80">{s.detail}</span>
+            </>
           )}
         </div>
       ))}
