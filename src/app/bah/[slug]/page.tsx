@@ -13,7 +13,7 @@ import { COLA_AREAS } from '@/data/cola/2026/constants';
 import { StationPageClient } from '@/components/calculators/bah/StationPageClient';
 import { OCONUS_HERO_SLUGS } from '@/lib/oconusPilot';
 import { ogImage } from '@/lib/og';
-import { getRenderableOconusV2, oconusTitle, oconusDescription, OCONUS_OG_SUB } from '@/data/oconus';
+import { OCONUS_V2_STATIONS, getRenderableOconusV2, oconusTitle, oconusDescription, OCONUS_OG_SUB } from '@/data/oconus';
 import { OconusStationPage } from '@/components/oconus/OconusStationPage';
 import { oconusFaqs } from '@/data/oconus/sharedCopy';
 
@@ -31,7 +31,10 @@ function listToProse(items: string[]): string {
 }
 
 export async function generateStaticParams() {
-  return DUTY_STATIONS.map((s) => ({ slug: s.slug }));
+  // Duty stations, plus rendered v2 OCONUS stations that have no duty-station
+  // entry (raf-lakenheath).
+  const v2Only = OCONUS_V2_STATIONS.filter((s) => !STATION_BY_SLUG[s.slug] && getRenderableOconusV2(s.slug));
+  return [...DUTY_STATIONS, ...v2Only].map((s) => ({ slug: s.slug }));
 }
 
 export const dynamicParams = false;
@@ -49,8 +52,6 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const station = STATION_BY_SLUG[slug];
-  if (!station) return {};
 
   // v2 OCONUS template (registry first). Unpublished entries return null and
   // fall through to the legacy metadata below.
@@ -70,6 +71,9 @@ export async function generateMetadata({
       twitter: { card: 'summary_large_image', title: socialTitle, description, images },
     };
   }
+
+  const station = STATION_BY_SLUG[slug];
+  if (!station) return {};
   // E-5 reference rates, read from the same dataset the on-page rate table uses
   // so the snippet figures always match the table. OCONUS bases have no BAH
   // (they receive OHA) and fall through to a rate-free description below.
@@ -156,7 +160,6 @@ export default async function StationPage({
 }) {
   const { slug } = await params;
   const station = STATION_BY_SLUG[slug];
-  if (!station) notFound();
 
   const v2 = getRenderableOconusV2(slug);
   if (v2) {
@@ -180,10 +183,12 @@ export default async function StationPage({
         <JsonLdScript schema={article} />
         <JsonLdScript schema={breadcrumb} />
         <JsonLdScript schema={faq} />
-        <OconusStationPage station={v2} heroImage={station.heroImage} heroImageCredit={station.heroImageCredit} />
+        <OconusStationPage station={v2} heroImage={station?.heroImage} heroImageCredit={station?.heroImageCredit} />
       </>
     );
   }
+
+  if (!station) notFound();
 
   const mhaCode = station.oconus ? null : getMHACode(station.zip);
   const ratesW = mhaCode ? getMHARates(mhaCode, true) : null;

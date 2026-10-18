@@ -31,6 +31,11 @@ export const ramstein: OconusStation = {
     sourceUrl: USAG_RP_VISITOR,
     verifiedOn: V,
   },
+  commandSponsorshipSource: {
+    value: 'Military OneSource — USAG Rheinland-Pfalz check-in procedures',
+    sourceUrl: 'https://installations.militaryonesource.mil/military-installation/usag-rheinland-pfalz/base-essentials/check-in-procedures',
+    verifiedOn: V,
+  },
   localContext: {
     value:
       'Ramstein is part of the Kaiserslautern Military Community (KMC), a large American community spanning Air Force and Army installations. Most of the KMC community lives off base, and rentals near Ramstein are in high demand. Many local landlords are experienced with SOFA tenants, and the KMC housing office tracks current local rental conditions.',
@@ -72,6 +77,6 @@ export const ramstein: OconusStation = {
     { label: 'Ramstein newcomers — before you arrive', url: 'https://www.ramstein.af.mil/PCS-Info/Newcomers-Info/Before-You-Arrive/' },
     { label: 'Military OneSource — Ramstein overview', url: MOS_RAMSTEIN },
   ],
-  relatedStations: ['yokota-air-base', 'kadena-air-base', 'camp-humphreys'],
+  relatedStations: ['raf-lakenheath', 'yokota-air-base', 'kadena-air-base', 'camp-humphreys'],
   lastReviewed: '2026-10-17',
 };

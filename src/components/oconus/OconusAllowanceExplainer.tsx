@@ -34,6 +34,10 @@ export function MaybeLink({ link, className }: { link: SharedLink | { label: str
 // src/data/oconus/sharedCopy.ts (linted at build time) — edit it there.
 export function OconusAllowanceExplainer({ station }: { station: OconusStation }) {
   const tokens = { name: station.name, ohaLocalityCode: station.ohaLocalityCode.value };
+  // Shared sources, then the station's own eligibility source when it has one.
+  const sources = station.commandSponsorshipSource
+    ? [...EXPLAINER_SOURCES, { label: station.commandSponsorshipSource.value, url: station.commandSponsorshipSource.sourceUrl }]
+    : EXPLAINER_SOURCES;
 
   return (
     <section className="bg-white rounded-lg border border-zinc-200 p-6" aria-labelledby="oconus-explainer">
@@ -74,8 +78,8 @@ export function OconusAllowanceExplainer({ station }: { station: OconusStation }
 
       <p className="text-xs text-zinc-400 leading-relaxed">
         Source:{' '}
-        {EXPLAINER_SOURCES.map((s, i) => (
-          <span key={s.label}>
+        {sources.map((s, i) => (
+          <span key={s.label} data-command-sponsorship-source={s.url === station.commandSponsorshipSource?.sourceUrl || undefined}>
             {i > 0 && '; '}
             <MaybeLink link={s} className="underline" />
           </span>

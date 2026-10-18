@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next';
 import { getAllPostMeta } from '@/lib/blog';
 import { GUIDE_PAGES } from '@/data/guides/pages';
-import { DUTY_STATIONS } from '@/data/duty-stations/stations';
+import { DUTY_STATIONS, STATION_BY_SLUG } from '@/data/duty-stations/stations';
+import { OCONUS_V2_STATIONS } from '@/data/oconus';
 import { PAY_PAGE_RANKS } from '@/data/pay-pages/ranks';
 
 const BASE_URL = 'https://www.milpaytools.com';
@@ -189,6 +190,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     ...DUTY_STATIONS.map((s) => ({
+      url: `${BASE_URL}/bah/${s.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    })),
+    // Published v2 OCONUS stations with no duty-station entry (raf-lakenheath).
+    // Redirecting slugs (raf-mildenhall) stay out.
+    ...OCONUS_V2_STATIONS.filter((s) => s.published && !STATION_BY_SLUG[s.slug]).map((s) => ({
       url: `${BASE_URL}/bah/${s.slug}`,
       lastModified: now,
       changeFrequency: 'monthly' as const,

@@ -48,6 +48,25 @@ MilPayTools.com is a free military financial calculator and education platform f
 - Blog posts: write for a real person, not Google first. Plain English, zero unexplained jargon. Include summary tables for scannability. End with clear action items.
 
 ## Testing
+
+### When to run what (policy from 2026-10-17 — overrides "run after any change" below)
+The full three-browser suite takes 20+ minutes; most repeat runs protect nothing.
+1. **While working on a branch:** run only the specs for the files you changed, on Chromium only
+   (`npx playwright test <specs> --project=chromium`).
+2. **Once per branch, right before Dan approves a merge:** run the full suite on all three browsers,
+   one time (JSON reporter, stats block below). If it has already run since the last code change,
+   don't run it again.
+3. **Don't re-run the full suite to investigate a single failure.** Re-run just that spec file.
+4. **Full runs use the production build, one browser at a time, `--workers=2`** (added 2026-10-18,
+   after a three-browser run on `next dev` was killed for low memory):
+   `npm run build`, then `E2E_SERVER=prod npx playwright test --project=<browser> --workers=2 --reporter=json`
+   (`E2E_SERVER=prod` makes the Playwright webServer run `next start` instead of `next dev`).
+   - Chromium-only is acceptable before merge for **data and template changes**.
+   - Run **all three browsers** (one after another) for changes to **shared components or
+     calculator logic**.
+5. Baseline failures and their root causes are in `tests/KNOWN_FAILURES.md`.
+
+### Reference
 - Run `npm run test:e2e` after any changes
 - 1299+ Playwright tests covering all calculators, BAH pages, and cross-browser (Chrome/Firefox/WebKit)
 - Fort Bragg and Fort Hood are commonly used as test reference pages

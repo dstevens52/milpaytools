@@ -7,8 +7,11 @@ import {
   oconusRenderedTitle,
   OCONUS_RENDERED_TITLE_MAX,
   OCONUS_DESC_MAX,
+  oconusH1,
+  publishedOconusV2ForName,
 } from '../../src/data/oconus';
 import { ramstein } from '../../src/data/oconus/ramstein';
+import { rafLakenheath } from '../../src/data/oconus/raf-lakenheath';
 import { allSharedCopy, ALL_SHARED_LINKS, oconusFaqs, EXPLAINER_LEAD, EXPLAINER_POINTS } from '../../src/data/oconus/sharedCopy';
 import { lintStation, lintShared, lintText } from '../../scripts/oconusLint';
 import { currencyFixture, voiceFixture, publishedUnverifiedFixture } from './helpers/oconusFixtures';
@@ -37,6 +40,23 @@ test.describe('OCONUS v2 — metadata lengths', () => {
     );
   });
 
+  test('Lakenheath & Mildenhall: titleOverride replaces the pattern; description falls back to short name + country', () => {
+    expect(oconusTitle(rafLakenheath)).toBe("Lakenheath & Mildenhall BAH? It's OHA");
+    expect(oconusRenderedTitle(rafLakenheath)).toBe("Lakenheath & Mildenhall BAH? It's OHA | MilPayTools");
+    // Full name + country is 163 characters, so the first shortening step runs.
+    expect(oconusDescription(rafLakenheath)).toBe(
+      'Lakenheath & Mildenhall, United Kingdom: eligible members renting privately generally get OHA, not BAH. How OHA and COLA work, with official DTMO lookups.',
+    );
+    expect(oconusH1(rafLakenheath)).toBe('RAF Lakenheath & RAF Mildenhall OHA, COLA & PCS Housing Guide');
+  });
+
+  test('PCS guide lookup matches either installation search name', () => {
+    expect(publishedOconusV2ForName('RAF Lakenheath')?.slug).toBe('raf-lakenheath');
+    expect(publishedOconusV2ForName('RAF Mildenhall')?.slug).toBe('raf-lakenheath');
+    expect(publishedOconusV2ForName('Ramstein Air Base')?.slug).toBe('ramstein-air-base');
+    expect(publishedOconusV2ForName('Yokota Air Base')).toBeUndefined();
+  });
+
   test('long names fall back to short name + country, still within the limit', () => {
     const long = { ...ramstein, name: 'Royal Air Force Lakenheath and Royal Air Force Mildenhall', shortName: 'RAF Lakenheath', hostCountry: { ...ramstein.hostCountry, value: 'United Kingdom' } };
     const d = oconusDescription(long);
@@ -55,6 +75,10 @@ test.describe('OCONUS v2 — metadata lengths', () => {
 test.describe('OCONUS v2 — lints', () => {
   test('Ramstein passes all lints (no errors)', () => {
     expect(lintStation(ramstein).filter((i) => i.severity === 'error')).toEqual([]);
+  });
+
+  test('Lakenheath & Mildenhall passes all lints (no errors, no warnings)', () => {
+    expect(lintStation(rafLakenheath)).toEqual([]);
   });
 
   test('shared copy passes all lints (no errors)', () => {

@@ -13,6 +13,8 @@ export type SourcedFact<T = string> = {
   // Default true. false = still linted and link-checked, but left out of the
   // page's Sources list (e.g. a temporary page).
   showInSources?: boolean;
+  // Optional bold lead-in rendered before the value (e.g. "Driving.").
+  lead?: string;
 };
 
 export type OconusStation = {
@@ -21,12 +23,19 @@ export type OconusStation = {
   published: boolean; // build fails if published && any fact unverified
   name: string; // "Ramstein Air Base"
   shortName: string; // used in <title> to stay under 60 chars
+  titleOverride?: string; // replaces the "{shortName} BAH? It's OHA — …" title pattern
+  // Installation search names (src/data/installations-lookup.ts) that should
+  // link to this guide from the PCS estimator, when they differ from `name`.
+  searchNames?: string[];
   hostCountry: SourcedFact;
   cityRegion: SourcedFact;
   branches: SourcedFact<string[]>;
   ohaLocalityCode: SourcedFact; // from DTMO
   colaLocality: SourcedFact; // DTMO COLA locality name
   coLocated?: SourcedFact<string[]>; // e.g. KMC Army installations
+  // Station-specific source for the shared eligibility qualifier, rendered next
+  // to the shared sources. value = link label.
+  commandSponsorshipSource?: SourcedFact;
   localContext: SourcedFact; // 1 short paragraph, no numbers
   leaseQuestions: SourcedFact[]; // "Questions to ask before you sign"
   beforeYouMove: SourcedFact[]; // practical checklist items

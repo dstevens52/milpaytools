@@ -101,12 +101,27 @@ test.describe('OCONUS v2 — Ramstein Air Base', () => {
     expect(text, 'found $ followed by a digit').not.toMatch(/\$\s?\d/);
   });
 
-  test('"Other overseas stations" links only to OCONUS slugs', async ({ page }) => {
+  test('"Other overseas stations": v2 stations first, then legacy OCONUS pages', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'Other overseas stations' })).toBeVisible();
     const links = page.locator('[data-related-station]');
     const slugs = await links.evaluateAll((els) => els.map((e) => e.getAttribute('data-related-station')));
     expect(slugs.length).toBeGreaterThan(0);
-    expect(slugs.sort()).toEqual(['camp-humphreys', 'kadena-air-base', 'yokota-air-base']);
+    expect(slugs).toEqual(['raf-lakenheath', 'yokota-air-base', 'kadena-air-base', 'camp-humphreys']);
+    await expect(page.locator('[data-related-station="raf-lakenheath"]')).toHaveAttribute('href', '/bah/raf-lakenheath');
+  });
+
+  test('eligibility sources: FMR Chapter 26 plus the USAG Rheinland-Pfalz command sponsorship source', async ({ page }) => {
+    const explainer = page.locator('section[aria-labelledby="oconus-explainer"]');
+    await expect(explainer.getByRole('link', { name: 'DoD FMR Volume 7A, Chapter 26 (Housing Allowances)' })).toHaveAttribute(
+      'href',
+      'https://comptroller.war.gov/Portals/45/documents/fmr/current/07a/07a_26.pdf',
+    );
+    const cs = explainer.locator('[data-command-sponsorship-source]');
+    await expect(cs).toHaveCount(1);
+    await expect(cs.getByRole('link', { name: 'Military OneSource — USAG Rheinland-Pfalz check-in procedures' })).toHaveAttribute(
+      'href',
+      'https://installations.militaryonesource.mil/military-installation/usag-rheinland-pfalz/base-essentials/check-in-procedures',
+    );
   });
 
   test('"What to do next" shows exactly three links, in order', async ({ page }) => {

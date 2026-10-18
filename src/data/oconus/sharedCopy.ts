@@ -112,14 +112,8 @@ export const EXPLAINER_SOURCES: SharedLink[] = [
     url: 'https://comptroller.war.gov/Portals/45/documents/fmr/current/07a/07a_68.pdf',
     verifiedOn: VERIFIED,
   },
-  {
-    // Source for the eligibility qualifier (orders / government housing /
-    // dependents' location). Installation-specific — revisit when a second
-    // v2 station ships, since this source line renders on every station.
-    label: 'Military OneSource — USAG Rheinland-Pfalz check-in procedures',
-    url: 'https://installations.militaryonesource.mil/military-installation/usag-rheinland-pfalz/base-essentials/check-in-procedures',
-    verifiedOn: VERIFIED,
-  },
+  // Installation-specific eligibility sources live on the station as
+  // commandSponsorshipSource and render after these.
 ];
 
 /** Every shared link — for the lints, the link checker, and the Sources list. */

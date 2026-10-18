@@ -24,7 +24,7 @@ import type { PCSMoveType, PCSInput, PCSOutput } from '@/lib/calculations/pcs';
 import type { SearchResult } from '@/lib/stationSearch';
 import { parseBool } from '@/lib/urlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
-import { OCONUS_V2_STATIONS } from '@/data/oconus';
+import { publishedOconusV2ForName } from '@/data/oconus';
 import {
   PCS_OVERSEAS_DLA_LABEL,
   PCS_OVERSEAS_DLA_NOTE,
@@ -306,9 +306,7 @@ export function PCSCalculator() {
 
   // Overseas mode: show DLA only plus an explanation panel — no total.
   const isOverseas = routeType === 'oconus';
-  const overseasGuide = toMeta?.name
-    ? OCONUS_V2_STATIONS.find((s) => s.published && s.name === toMeta.name)
-    : undefined;
+  const overseasGuide = toMeta?.name ? publishedOconusV2ForName(toMeta.name) : undefined;
 
   // Auto-distance via haversine × 1.25 road factor when both ZIPs resolve to coordinates.
   // Covers both DUTY_STATIONS (slug-keyed) and INSTALLATIONS_LOOKUP (inline lat/lon).
