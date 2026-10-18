@@ -87,6 +87,19 @@ test.describe('PCS estimator — overseas moves', () => {
     const guide = page.getByRole('link', { name: 'See the Ramstein Air Base housing & COLA guide →' });
     await expect(guide).toHaveAttribute('href', '/bah/ramstein-air-base');
   });
+
+  // Both installations share one v2 guide (one DTMO locality, GB352).
+  for (const base of ['RAF Lakenheath', 'RAF Mildenhall']) {
+    test(`CONUS → ${base}: overseas mode plus the Lakenheath & Mildenhall guide link`, async ({ page }) => {
+      await page.goto('/calculators/pcs');
+      await page.getByLabel('Moving from (optional)').pressSequentially('28301', { delay: 50 });
+      await page.getByLabel('Moving to (optional)').pressSequentially(base.replace('RAF ', ''), { delay: 50 });
+      await page.getByRole('option', { name: new RegExp(base) }).first().locator('button').dispatchEvent('mousedown');
+      await expectOverseasMode(page);
+      const guide = page.getByRole('link', { name: 'See the RAF Lakenheath & RAF Mildenhall housing & COLA guide →' });
+      await expect(guide).toHaveAttribute('href', '/bah/raf-lakenheath');
+    });
+  }
 });
 
 test.describe('PCS estimator — stateside moves unchanged', () => {

@@ -29,6 +29,9 @@ const nextConfig: NextConfig = {
       { source: '/bah/fort-eisenhower', destination: '/bah/fort-gordon', permanent: true },
       { source: '/bah/fort-johnson', destination: '/bah/fort-polk', permanent: true },
       { source: '/bah/fort-gregg-adams', destination: '/bah/fort-lee', permanent: true },
+      // RAF Mildenhall shares RAF Lakenheath's OHA/COLA locality (GB352) and
+      // housing office — one combined page. 301 by request (permanent: true is 308).
+      { source: '/bah/raf-mildenhall', destination: '/bah/raf-lakenheath', statusCode: 301 },
     ];
   },
 };

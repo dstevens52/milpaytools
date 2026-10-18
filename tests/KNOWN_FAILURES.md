@@ -61,6 +61,34 @@ it failed in the 2026-10-16 full-suite run, again in isolation, and again in iso
 unchanged `main` code (confirmed against main on 2026-10-16). Passes on chromium and firefox.
 Triage separately. **Not fixed here.**
 
+## Root causes (diagnosed 2026-10-17 — nothing fixed)
+
+Each baseline test fails by waiting the full 8 s locator timeout, so the 27 failures also slow
+every full run. In all three clusters **the test is wrong; the calculator is correct.**
+
+- **Total Comp base pay — `data-accuracy.spec.ts:108, :114`.** Test is outdated. Since `8daeede`
+  the results block only renders after the ZIP matches a CONUS duty station
+  (`TotalCompensationCalculator.tsx` — `stationState === 'matched'`); these tests never enter a ZIP.
+  - `:108` expects `$49,320/yr`. Without a ZIP the page shows only the station gate. With
+    `?zip=28310` at the default 6 YOS it shows **`$49,320/yr`**, matching the expected value.
+  - `:114` has a second problem: it expects `$4,299.9/mo` (`resultCardNum` drops the trailing zero),
+    but the calculator rounds to whole dollars. With ZIP 28310 and 8 YOS it shows **`$4,300/mo`**
+    (and `$51,599/yr` = 4,299.90 × 12, rounded). Both the ZIP and the expected format need fixing.
+- **BRS match tiering — `edge-cases.spec.ts:159, :167, :175, :183`.** Same gate: the pure
+  `calculateTotalCompensation()` assertions pass; the UI step fails because no ZIP is entered.
+  With `zip=28310` added, each expected value renders: `tsp=3` → `$1,973`, `tsp=4` → `$2,219`,
+  `tsp=5` → `$2,466`, `tsp=0` → `$493` (all visible).
+- **Share buttons — `healthcare-comparison.spec.ts:137`, `separation-timeline.spec.ts:113`,
+  `transition-readiness.spec.ts:51`.** Test selectors don't match the shared `SaveOrShareResults`
+  component (unchanged since 2026-05-26). Its buttons are labeled **"Share result"** (`md:hidden`,
+  mobile only) and **"Copy result link"**.
+  - `:137` looks for `/copy link/i`, which can't match "Copy result link" (the word "result" sits
+    between).
+  - `:113` and `:51` use `/share|copy link/i` with `.first()`, which picks "Share result" — hidden at
+    the desktop viewport, so `toBeVisible()` fails.
+  - `healthcare-comparison.spec.ts` runs in serial mode, so `:137` failing skips the 5 tests after
+    it (`:141`–`:164`) — seen in the 2026-10-17 webkit re-run of that file.
+
 ## Known flaky tests (not failures — excluded from the baseline count)
 
 Single-browser failures that passed an isolated re-run. If one of these shows up

@@ -80,6 +80,7 @@ export function stationFacts(s: OconusStation): NamedFact[] {
     { field: 'localContext', fact: s.localContext },
   ];
   if (s.coLocated) out.push({ field: 'coLocated', fact: s.coLocated });
+  if (s.commandSponsorshipSource) out.push({ field: 'commandSponsorshipSource', fact: s.commandSponsorshipSource });
   s.leaseQuestions.forEach((f, i) => out.push({ field: `leaseQuestions[${i}]`, fact: f }));
   s.beforeYouMove.forEach((f, i) => out.push({ field: `beforeYouMove[${i}]`, fact: f }));
   return out;
@@ -90,8 +91,10 @@ export function stationTexts(s: OconusStation): { field: string; text: string }[
   const out = [
     { field: 'name', text: s.name },
     { field: 'shortName', text: s.shortName },
+    ...(s.titleOverride ? [{ field: 'titleOverride', text: s.titleOverride }] : []),
   ];
   for (const { field, fact } of stationFacts(s)) {
+    if (fact.lead) out.push({ field: `${field}.lead`, text: fact.lead });
     const vals = Array.isArray(fact.value) ? fact.value : [fact.value];
     vals.forEach((v, i) => out.push({ field: Array.isArray(fact.value) ? `${field}[${i}]` : field, text: v }));
   }

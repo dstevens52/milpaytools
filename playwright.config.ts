@@ -4,6 +4,7 @@ import { defineConfig, devices } from '@playwright/test';
  * MilPayTools end-to-end test suite.
  *
  * Default (local):  npm run test:e2e       — auto-starts `next dev` on :3000
+ * Production build:  npm run build, then E2E_SERVER=prod npm run test:e2e — `next start`
  * Against live:      npm run test:e2e:live  — post-deploy smoke; no local server
  * Custom target:     BASE_URL=<url> npm run test:e2e
  *
@@ -44,9 +45,11 @@ export default defineConfig({
 
   // Auto-start a local dev server only when targeting localhost. For live
   // (or any non-local BASE_URL) this is undefined so no local server is started.
+  // E2E_SERVER=prod serves the existing production build (`npm run build`
+  // first) with `next start` instead of `next dev` — use it for full runs.
   webServer: isLocal
     ? {
-        command: 'npm run dev',
+        command: process.env.E2E_SERVER === 'prod' ? 'npm run start' : 'npm run dev',
         url: 'http://localhost:3000',
         reuseExistingServer: !process.env.CI,
         // Render unpublished v2 OCONUS stations (src/data/oconus) so their

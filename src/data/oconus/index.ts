@@ -1,16 +1,23 @@
 import type { OconusStation } from './types';
 import { ramstein } from './ramstein';
+import { rafLakenheath } from './raf-lakenheath';
 
 export type { OconusStation, SourcedFact, SharedLink } from './types';
 
 // v2 OCONUS station registry. /bah/[slug] checks this first; a slug with a
 // rendered v2 entry gets OconusStationPage, everything else falls through to
-// the existing CONUS / legacy-OCONUS template.
-export const OCONUS_V2_STATIONS: OconusStation[] = [ramstein];
+// the existing CONUS / legacy-OCONUS template. A v2 slug with no duty-station
+// entry (raf-lakenheath) exists only while it renders.
+export const OCONUS_V2_STATIONS: OconusStation[] = [ramstein, rafLakenheath];
 
 export const OCONUS_V2_BY_SLUG: Record<string, OconusStation> = Object.fromEntries(
   OCONUS_V2_STATIONS.map((s) => [s.slug, s]),
 );
+
+/** Published v2 station for an installation search name (PCS estimator guide link). */
+export function publishedOconusV2ForName(name: string): OconusStation | undefined {
+  return OCONUS_V2_STATIONS.find((s) => s.published && (s.name === name || (s.searchNames ?? []).includes(name)));
+}
 
 /**
  * Unpublished v2 stations render only when OCONUS_V2_PREVIEW=1 is set (the
@@ -38,7 +45,7 @@ export const SITE_TITLE_SUFFIX = ' | MilPayTools';
 
 /** Page title, without the site name (the root layout template appends it). */
 export function oconusTitle(s: OconusStation): string {
-  return `${s.shortName} BAH? It's OHA — Housing & COLA Guide`;
+  return s.titleOverride ?? `${s.shortName} BAH? It's OHA — Housing & COLA Guide`;
 }
 
 /** The <title> as rendered, after the root layout's template. */

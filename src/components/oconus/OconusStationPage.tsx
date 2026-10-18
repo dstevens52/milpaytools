@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import type { OconusStation, SourcedFact } from '@/data/oconus';
-import { oconusH1 } from '@/data/oconus';
+import { oconusH1, getRenderableOconusV2 } from '@/data/oconus';
 import {
   HERO_EYEBROW,
   PLAN_STEPS,
@@ -64,6 +64,7 @@ function Checklist({ items }: { items: SourcedFact[] }) {
             <path strokeLinecap="round" strokeLinejoin="round" d="M8 12.5l3 3 5-6" />
           </svg>
           <p className="text-sm text-zinc-700 leading-relaxed">
+            {item.lead && <><strong className="text-zinc-900">{item.lead}</strong>{' '}</>}
             {item.value} <SourceLink fact={item} />
           </p>
         </li>
@@ -91,10 +92,17 @@ export function OconusStationPage({
     ...OCONUS_APPROVED_NEXT_LINKS,
   ].slice(0, OCONUS_NEXT_LINKS_MAX);
 
-  // Related stations: OCONUS only — a CONUS slug here is dropped, never linked.
-  const related = station.relatedStations
-    .map((slug) => STATION_BY_SLUG[slug])
-    .filter((s): s is NonNullable<typeof s> => !!s && !!s.oconus);
+  // Related stations: OCONUS only — a CONUS or unknown slug is dropped, never
+  // linked. Rendered v2 stations first, then legacy overseas pages.
+  const relatedV2: { slug: string; name: string; sub: string }[] = [];
+  const relatedLegacy: { slug: string; name: string; sub: string }[] = [];
+  for (const slug of station.relatedStations) {
+    const v2 = getRenderableOconusV2(slug);
+    const legacy = STATION_BY_SLUG[slug];
+    if (v2) relatedV2.push({ slug, name: v2.name, sub: v2.hostCountry.value });
+    else if (legacy?.oconus) relatedLegacy.push({ slug, name: legacy.name, sub: legacy.stateName });
+  }
+  const related = [...relatedV2, ...relatedLegacy];
 
   const emblem = branchEmblem(station.branches.value);
   const subtitle = [station.cityRegion.value, station.hostCountry.value, station.branches.value.join(' / ')].join(' · ');
@@ -126,6 +134,7 @@ export function OconusStationPage({
       ...stationFacts.filter((f) => f.showInSources !== false).map((f) => f.sourceUrl),
       ...station.officialLinks.map((l) => l.url),
       ...ALL_SHARED_LINKS.map((l) => l.url),
+      ...(station.commandSponsorshipSource ? [station.commandSponsorshipSource.sourceUrl] : []),
     ]),
   );
   const verifiedSources = sourceUrls.filter((u) => !isPendingUrl(u));
@@ -307,7 +316,7 @@ export function OconusStationPage({
                     className="rounded-lg border border-zinc-200 p-4 hover:border-zinc-300 hover:shadow-sm transition-all"
                   >
                     <p className="font-semibold text-zinc-900 text-sm mb-1">{s.name}</p>
-                    <p className="text-xs text-zinc-500">{s.stateName}</p>
+                    <p className="text-xs text-zinc-500">{s.sub}</p>
                   </Link>
                 ))}
               </div>
