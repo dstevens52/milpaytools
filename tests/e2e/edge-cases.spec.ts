@@ -143,7 +143,8 @@ test.describe('VA Disability — edge cases', () => {
 // ─── Total Compensation — BRS match tiering ─────────────────────────────────────
 
 test.describe('Total Compensation — BRS match tiering', () => {
-  // E-5 at 6 YOS is the calculator default.
+  // E-5 at 6 YOS is the calculator default. The UI steps enter Fort Bragg
+  // (28310) because results render only after a matched CONUS duty station.
   const baseInput = {
     payGrade: 'E-5' as const,
     yearsOfService: 6,
@@ -160,6 +161,7 @@ test.describe('Total Compensation — BRS match tiering', () => {
     const out = calculateTotalCompensation({ ...baseInput, tspContributionPct: 3 }, 0);
     expect(out.tspAgencyContribution).toBeCloseTo(annualBase * 0.04, 2);
     await page.goto('/calculators/total-compensation?tsp=3');
+    await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 50 });
     await expect(page.getByText(formatCurrency(out.tspAgencyContribution)).first()).toBeVisible();
   });
 
@@ -168,6 +170,7 @@ test.describe('Total Compensation — BRS match tiering', () => {
     const out = calculateTotalCompensation({ ...baseInput, tspContributionPct: 4 }, 0);
     expect(out.tspAgencyContribution).toBeCloseTo(annualBase * 0.045, 2);
     await page.goto('/calculators/total-compensation?tsp=4');
+    await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 50 });
     await expect(page.getByText(formatCurrency(out.tspAgencyContribution)).first()).toBeVisible();
   });
 
@@ -176,6 +179,7 @@ test.describe('Total Compensation — BRS match tiering', () => {
     const out = calculateTotalCompensation({ ...baseInput, tspContributionPct: 5 }, 0);
     expect(out.tspAgencyContribution).toBeCloseTo(annualBase * 0.05, 2);
     await page.goto('/calculators/total-compensation?tsp=5');
+    await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 50 });
     await expect(page.getByText(formatCurrency(out.tspAgencyContribution)).first()).toBeVisible();
   });
 
@@ -184,6 +188,7 @@ test.describe('Total Compensation — BRS match tiering', () => {
     const out = calculateTotalCompensation({ ...baseInput, tspContributionPct: 0 }, 0);
     expect(out.tspAgencyContribution).toBeCloseTo(annualBase * 0.01, 2);
     await page.goto('/calculators/total-compensation?tsp=0');
+    await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 50 });
     await expect(page.getByText(formatCurrency(out.tspAgencyContribution)).first()).toBeVisible();
   });
 

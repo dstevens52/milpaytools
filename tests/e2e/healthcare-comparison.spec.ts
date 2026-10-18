@@ -135,7 +135,8 @@ test.describe('Healthcare Cost Comparison Calculator', () => {
   });
 
   test('share button appears', async ({ page }) => {
-    await expect(page.getByRole('button', { name: /copy link/i })).toBeVisible();
+    // Desktop viewport (config default): "Share result" is mobile-only, so check "Copy result link".
+    await expect(page.getByRole('button', { name: 'Copy result link', exact: true })).toBeVisible();
   });
 
   test('URL params pre-populate family status and path', async ({ page }) => {

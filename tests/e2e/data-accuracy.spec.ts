@@ -12,7 +12,7 @@
 
 import { test, expect } from '@playwright/test';
 import { getBasePay, getBAH, BAS_RATES } from './helpers/data';
-import { vaAmount, bahAmount, payChartsAmount, formatCurrency, resultCardNum } from './helpers/format';
+import { vaAmount, bahAmount, payChartsAmount, formatCurrency } from './helpers/format';
 
 // ─── 1. VA Disability ─────────────────────────────────────────────────────────
 
@@ -104,17 +104,23 @@ test.describe('Total Compensation — known answers', () => {
     await page.goto('/calculators/total-compensation');
   });
 
+  // Results render only after the ZIP matches a CONUS duty station (8daeede),
+  // so both base-pay tests enter Fort Bragg (28310) first.
+
   // E-5 at 6 YOS = $4,110.00 (DFAS 2026 pay table, "Over 6" column)
   test('Total Comp: E-5 6 YOS base pay = $49,320/yr', async ({ page }) => {
+    await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 50 });
     const pay = getBasePay('E-5', 6); // $4,110.00 → $49,320/yr
     await expect(page.getByText(`${formatCurrency(pay * 12)}/yr`).first()).toBeVisible();
   });
 
-  // E-5 at 8 YOS = $4,299.90 (DFAS 2026 pay table, "Over 8" column)
-  test('Total Comp: E-5 8 YOS base pay = $4,299.90/mo', async ({ page }) => {
+  // E-5 at 8 YOS = $4,299.90 (DFAS 2026 pay table, "Over 8" column).
+  // The calculator shows whole dollars, so it displays $4,300/mo.
+  test('Total Comp: E-5 8 YOS base pay = $4,299.90/mo (displayed as $4,300)', async ({ page }) => {
+    await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 50 });
     await page.getByLabel('Years of Service').selectOption('8');
     const pay = getBasePay('E-5', 8); // $4,299.90
-    await expect(page.getByText(`$${resultCardNum(pay)}/mo`).first()).toBeVisible();
+    await expect(page.getByText(`${formatCurrency(pay)}/mo`).first()).toBeVisible(); // "$4,300/mo"
   });
 
   // BAS enlisted = $476.95/mo (shown as $477 via formatCurrency with 0 decimals)
