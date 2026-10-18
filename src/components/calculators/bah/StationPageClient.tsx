@@ -691,7 +691,7 @@ export function StationPageClient({
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-none mt-1.5" />
                   <p className="text-sm text-amber-700 leading-relaxed">
-                    OHA rates are set by location and <strong>updated more frequently than BAH</strong> — often quarterly — to account for exchange rate changes and local market shifts.
+                    OHA rates are set by location and reflect local market shifts; amounts <strong>can change as often as twice a month</strong> with exchange rates.
                   </p>
                 </li>
                 <li className="flex items-start gap-2.5">
