@@ -52,7 +52,8 @@ test.describe('Transition Readiness Calculator', () => {
     // Share button is only shown once hasEngaged = true (salary > 0 && expenses > 0)
     await page.getByLabel(/target civilian salary/i).pressSequentially('75000', { delay: 50 });
     await page.getByLabel(/total monthly expenses/i).pressSequentially('4000', { delay: 50 });
-    await expect(page.getByRole('button', { name: /share|copy link/i }).first()).toBeVisible();
+    // Desktop viewport (config default): "Share result" is mobile-only, so check "Copy result link".
+    await expect(page.getByRole('button', { name: 'Copy result link', exact: true })).toBeVisible();
   });
 
   // fixme: passes after deployment — tests new Save as PDF button added in batch 2

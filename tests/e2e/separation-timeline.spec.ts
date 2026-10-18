@@ -112,7 +112,8 @@ test.describe('Separation Benefits Timeline Calculator', () => {
 
   test('share button appears after entering a date', async ({ page }) => {
     await fillDate(page, '2027-01-15');
-    await expect(page.getByRole('button', { name: /share|copy link/i }).first()).toBeVisible();
+    // Desktop viewport (config default): "Share result" is mobile-only, so check "Copy result link".
+    await expect(page.getByRole('button', { name: 'Copy result link', exact: true })).toBeVisible();
   });
 
   test('print button appears after entering a date', async ({ page }) => {

@@ -13,44 +13,18 @@
 
 This file is the baseline to diff future **local** runs against. A new failure that
 is NOT listed here is a regression. The conditional `test.skip()` data-guards (skip
-when reference BAH/pay data is absent) and the `transition-readiness.spec.ts:59`
+when reference BAH/pay data is absent) and the `transition-readiness.spec.ts:60`
 `test.fixme` are expected and excluded from the counts below.
 
-## Failing tests (28)
+## Failing tests (1)
 
+> 2026-10-18: the Total Comp base pay, BRS match tiering, and share-button clusters (27 failures
+> = 9 tests × 3 browsers) were fixed in the tests — see "Resolved 2026-10-18" below.
 > 2026-10-16: added `va-disability.spec.ts:207` (webkit) — see the VA Disability cluster below.
 > Full-suite JSON run that day: 1268 expected · 28 unexpected · 33 skipped · 0 flaky.
 
-Failures group into five clusters. Browser coverage noted per cluster.
 `data-accuracy.spec.ts:40` (firefox, VA 40% with spouse) was previously listed here but has been
 reclassified as a flake — see the flaky-pair entry below.
-
-### Total Compensation — base pay known answers (6 = 3 browsers × 2 tests)
-- `data-accuracy.spec.ts:108` — Total Comp: E-5 6 YOS base pay = $49,320/yr — chromium, firefox, webkit
-- `data-accuracy.spec.ts:114` — Total Comp: E-5 8 YOS base pay = $4,299.90/mo — chromium, firefox, webkit
-
-### Total Compensation — BRS match tiering (12 = 3 browsers × 4 tests)
-- `edge-cases.spec.ts:159` — 3% contribution → 4% government total (not 3%) — chromium, firefox, webkit
-- `edge-cases.spec.ts:167` — 4% contribution → 4.5% government total — chromium, firefox, webkit
-- `edge-cases.spec.ts:175` — 5% contribution → 5% government total — chromium, firefox, webkit
-- `edge-cases.spec.ts:183` — 0% contribution → 1% automatic only — chromium, firefox, webkit
-
-**Likely reason (both Total Comp clusters):** recent commit `8daeede`
-("require a matched CONUS duty station before total-comp results") now gates the
-total-comp results behind a matched duty station. These tests don't select one, so
-the results region stays hidden and the expected values never render. Triage
-separately — needs either a duty-station step added to the tests or a confirmation
-that the gating is intended. **Not fixed here.**
-
-### Share button visibility (9 = 3 browsers × 3 tests)
-- `healthcare-comparison.spec.ts:137` — share button appears — chromium, firefox, webkit
-- `separation-timeline.spec.ts:113` — share button appears after entering a date — chromium, firefox, webkit
-- `transition-readiness.spec.ts:51` — share button appears after engaging with calculator — chromium, firefox, webkit
-
-**Likely reason:** the `/share|copy link/i` button isn't present in the locally
-served build. The adjacent `transition-readiness.spec.ts:58` `fixme` comment notes
-such share/PDF UI "passes after deployment," suggesting these assertions depend on
-post-deploy behavior rather than local code. Triage separately. **Not fixed here.**
 
 ### VA Disability — long multi-condition case (1 = webkit only)
 - `va-disability.spec.ts:207` — Reddit case: 13 conditions with bilateral legs → 100% and
@@ -61,10 +35,24 @@ it failed in the 2026-10-16 full-suite run, again in isolation, and again in iso
 unchanged `main` code (confirmed against main on 2026-10-16). Passes on chromium and firefox.
 Triage separately. **Not fixed here.**
 
-## Root causes (diagnosed 2026-10-17 — nothing fixed)
+## Resolved 2026-10-18
 
-Each baseline test fails by waiting the full 8 s locator timeout, so the 27 failures also slow
-every full run. In all three clusters **the test is wrong; the calculator is correct.**
+Three clusters, 27 failures (9 tests × 3 browsers), fixed on `chore/fix-baseline-tests` by
+changing the tests only — no calculator code changed. Diagnosed 2026-10-17, corrected 2026-10-18.
+In all three clusters **the test was wrong; the calculator was correct**, and live users saw the
+right values. Root-cause line numbers are pre-fix; the Fixes list gives the new ones.
+Each test failed by waiting the full 8 s locator timeout, which also slowed every full run.
+
+Fixes:
+- **Total Comp base pay** — both tests enter ZIP 28310 before reading results; the 8-YOS test now
+  expects the whole-dollar display `$4,300/mo` (`formatCurrency`). Now `data-accuracy.spec.ts:111, :119`.
+- **BRS match tiering** — each UI step enters ZIP 28310; expected values unchanged
+  (`$1,973` / `$2,219` / `$2,466` / `$493`). Now `edge-cases.spec.ts:160, :169, :178, :187`.
+- **Share buttons** — each test checks the visible button by its exact name,
+  `getByRole('button', { name: 'Copy result link', exact: true })`, at the desktop viewport.
+  Line numbers unchanged.
+
+Root causes:
 
 - **Total Comp base pay — `data-accuracy.spec.ts:108, :114`.** Test is outdated. Since `8daeede`
   the results block only renders after the ZIP matches a CONUS duty station
@@ -84,10 +72,15 @@ every full run. In all three clusters **the test is wrong; the calculator is cor
   mobile only) and **"Copy result link"**.
   - `:137` looks for `/copy link/i`, which can't match "Copy result link" (the word "result" sits
     between).
-  - `:113` and `:51` use `/share|copy link/i` with `.first()`, which picks "Share result" — hidden at
-    the desktop viewport, so `toBeVisible()` fails.
-  - `healthcare-comparison.spec.ts` runs in serial mode, so `:137` failing skips the 5 tests after
-    it (`:141`–`:164`) — seen in the 2026-10-17 webkit re-run of that file.
+  - `:113` and `:51` use `/share|copy link/i` with `.first()`. Role lookup skips hidden elements,
+    so the mobile-only "Share result" (hidden at the desktop viewport) is never a candidate, and
+    "copy link" can't match "Copy result link" — the locator matches no button at all, so
+    `toBeVisible()` fails. (Corrected 2026-10-18; the 2026-10-17 note said `.first()` picked the
+    hidden "Share result" button.)
+  - `healthcare-comparison.spec.ts` and `separation-timeline.spec.ts` both run in serial mode, so a
+    failure skips every test after it in that file: `healthcare-comparison:137` skipped 5
+    (`:141`–`:164`), and `separation-timeline:113` skipped 5 (`:118`–`:142`). (The separation-timeline
+    cascade added 2026-10-18.)
 
 ## Known flaky tests (not failures — excluded from the baseline count)
 
