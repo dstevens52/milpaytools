@@ -16,26 +16,31 @@ is NOT listed here is a regression. The conditional `test.skip()` data-guards (s
 when reference BAH/pay data is absent) and the `transition-readiness.spec.ts:60`
 `test.fixme` are expected and excluded from the counts below.
 
-## Failing tests (1)
+## Failing tests (0)
 
 > 2026-10-18: the Total Comp base pay, BRS match tiering, and share-button clusters (27 failures
-> = 9 tests × 3 browsers) were fixed in the tests — see "Resolved 2026-10-18" below.
-> 2026-10-16: added `va-disability.spec.ts:207` (webkit) — see the VA Disability cluster below.
-> Full-suite JSON run that day: 1268 expected · 28 unexpected · 33 skipped · 0 flaky.
+> = 9 tests × 3 browsers) were fixed in the tests, and `va-disability.spec.ts:207` (webkit) was
+> marked `test.slow()` — see "Resolved 2026-10-18" below. No known failures remain; any failure
+> in a full run is either a listed flake (re-run that spec file alone) or a regression.
 
 `data-accuracy.spec.ts:40` (firefox, VA 40% with spouse) was previously listed here but has been
 reclassified as a flake — see the flaky-pair entry below.
 
-### VA Disability — long multi-condition case (1 = webkit only)
+## Resolved 2026-10-18
+
+### VA Disability — long multi-condition case (was 1 = webkit only)
 - `va-disability.spec.ts:207` — Reddit case: 13 conditions with bilateral legs → 100% and
   walkthrough shows "rounds to 64" — webkit only
 
-Fails with `Test timeout of 30000ms exceeded`. Pre-existing baseline failure, not a flake:
-it failed in the 2026-10-16 full-suite run, again in isolation, and again in isolation against
-unchanged `main` code (confirmed against main on 2026-10-16). Passes on chromium and firefox.
-Triage separately. **Not fixed here.**
+Failed with `Test timeout of 30000ms exceeded` (added 2026-10-16; it also failed alone that day).
+**Neither the test nor the calculator was wrong — it was a time limit.** The test enters 13
+conditions with ~26 clicks and 7 dropdown choices, which WebKit drives slowly: on 2026-10-18 the
+spec file alone (`--workers=1`) passed on WebKit with `:207` at 16.9 s (Chromium 2.8 s). Under
+full-suite parallel load that passes the 30 s limit. Production shows the expected result on both
+browsers (100%, $3,938.58/mo, "rounds to 64"). Fixed on `chore/va-test-and-walkthrough` with
+`test.slow()`, which triples that one test's limit to 90 s; what it checks is unchanged.
 
-## Resolved 2026-10-18
+### Total Comp, BRS tiering, share buttons
 
 Three clusters, 27 failures (9 tests × 3 browsers), fixed on `chore/fix-baseline-tests` by
 changing the tests only — no calculator code changed. Diagnosed 2026-10-17, corrected 2026-10-18.

@@ -205,6 +205,8 @@ test.describe('VA Disability Calculator', () => {
   // §4.25 table method: 50,30,30,20,10,10 non-bilateral + bilateral lower group
   // (20,20,10,10,10,10,0) → bilateral 58 → +5.8 → 63.8 → 64 → chain ends 95 → 100%.
   test('Reddit case: 13 conditions with bilateral legs → 100% and walkthrough shows "rounds to 64"', async ({ page }) => {
+    // ~26 clicks + 7 selects: ~17 s alone on WebKit, past 30 s under full-suite load.
+    test.slow();
     async function add(rating: string, location?: string) {
       await page.getByRole('button', { name: rating, exact: true }).click();
       if (location) await page.getByLabel('Body Location').selectOption(location);
@@ -230,5 +232,8 @@ test.describe('VA Disability Calculator', () => {
 
     await expect(page.locator('p.text-6xl')).toContainText('100');
     await expect(page.getByText(/rounds to 64/)).toBeVisible();
+    // The step's text keeps a real space between label and detail (not "5.858").
+    await expect(page.locator('div.rounded.border', { hasText: 'Bilateral factor: 10% of' }).first())
+      .toContainText('= 5.8 58 + 5.8');
   });
 });
