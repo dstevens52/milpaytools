@@ -1,6 +1,9 @@
 import type { OconusStation } from './types';
 import { ramstein } from './ramstein';
 import { rafLakenheath } from './raf-lakenheath';
+import { yokota } from './yokota-air-base';
+import { kadena } from './kadena-air-base';
+import { campHumphreys } from './camp-humphreys';
 
 export type { OconusStation, SourcedFact, SharedLink } from './types';
 
@@ -8,7 +11,7 @@ export type { OconusStation, SourcedFact, SharedLink } from './types';
 // rendered v2 entry gets OconusStationPage, everything else falls through to
 // the existing CONUS / legacy-OCONUS template. A v2 slug with no duty-station
 // entry (raf-lakenheath) exists only while it renders.
-export const OCONUS_V2_STATIONS: OconusStation[] = [ramstein, rafLakenheath];
+export const OCONUS_V2_STATIONS: OconusStation[] = [ramstein, rafLakenheath, yokota, kadena, campHumphreys];
 
 export const OCONUS_V2_BY_SLUG: Record<string, OconusStation> = Object.fromEntries(
   OCONUS_V2_STATIONS.map((s) => [s.slug, s]),

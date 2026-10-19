@@ -98,6 +98,6 @@ export const rafLakenheath: OconusStation = {
     { label: 'Military OneSource — RAF Lakenheath', url: MOS_LAKENHEATH },
     { label: 'Military OneSource — RAF Mildenhall', url: MOS_MILDENHALL },
   ],
-  relatedStations: ['ramstein-air-base'],
+  relatedStations: ['ramstein-air-base', 'yokota-air-base', 'kadena-air-base', 'camp-humphreys'],
   lastReviewed: '2026-10-17',
 };

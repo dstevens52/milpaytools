@@ -12,6 +12,9 @@ import {
 } from '../../src/data/oconus';
 import { ramstein } from '../../src/data/oconus/ramstein';
 import { rafLakenheath } from '../../src/data/oconus/raf-lakenheath';
+import { yokota } from '../../src/data/oconus/yokota-air-base';
+import { kadena } from '../../src/data/oconus/kadena-air-base';
+import { campHumphreys } from '../../src/data/oconus/camp-humphreys';
 import { allSharedCopy, ALL_SHARED_LINKS, oconusFaqs, EXPLAINER_LEAD, EXPLAINER_POINTS } from '../../src/data/oconus/sharedCopy';
 import { lintStation, lintShared, lintText } from '../../scripts/oconusLint';
 import { currencyFixture, voiceFixture, publishedUnverifiedFixture } from './helpers/oconusFixtures';
@@ -54,7 +57,10 @@ test.describe('OCONUS v2 — metadata lengths', () => {
     expect(publishedOconusV2ForName('RAF Lakenheath')?.slug).toBe('raf-lakenheath');
     expect(publishedOconusV2ForName('RAF Mildenhall')?.slug).toBe('raf-lakenheath');
     expect(publishedOconusV2ForName('Ramstein Air Base')?.slug).toBe('ramstein-air-base');
-    expect(publishedOconusV2ForName('Yokota Air Base')).toBeUndefined();
+    expect(publishedOconusV2ForName('Yokota Air Base')?.slug).toBe('yokota-air-base');
+    expect(publishedOconusV2ForName('Kadena Air Base')?.slug).toBe('kadena-air-base');
+    expect(publishedOconusV2ForName('Camp Humphreys (K-6)')?.slug).toBe('camp-humphreys');
+    expect(publishedOconusV2ForName('Fort Bragg')).toBeUndefined();
   });
 
   test('long names fall back to short name + country, still within the limit', () => {
@@ -80,6 +86,12 @@ test.describe('OCONUS v2 — lints', () => {
   test('Lakenheath & Mildenhall passes all lints (no errors, no warnings)', () => {
     expect(lintStation(rafLakenheath)).toEqual([]);
   });
+
+  for (const s of [yokota, kadena, campHumphreys]) {
+    test(`${s.slug} passes all lints (no errors, no warnings)`, () => {
+      expect(lintStation(s)).toEqual([]);
+    });
+  }
 
   test('shared copy passes all lints (no errors)', () => {
     const copy = allSharedCopy();

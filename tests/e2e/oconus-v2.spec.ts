@@ -101,7 +101,7 @@ test.describe('OCONUS v2 — Ramstein Air Base', () => {
     expect(text, 'found $ followed by a digit').not.toMatch(/\$\s?\d/);
   });
 
-  test('"Other overseas stations": v2 stations first, then legacy OCONUS pages', async ({ page }) => {
+  test('"Other overseas stations": the other v2 stations, in order', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'Other overseas stations' })).toBeVisible();
     const links = page.locator('[data-related-station]');
     const slugs = await links.evaluateAll((els) => els.map((e) => e.getAttribute('data-related-station')));
@@ -147,9 +147,6 @@ test.describe('OCONUS v2 — Ramstein Air Base', () => {
 // Unchanged pages — snapshot H1 + title. Expected values captured from
 // production (main @ 444c09c) before this branch.
 const UNCHANGED: { path: string; h1: string; title: string }[] = [
-  { path: '/bah/yokota-air-base', h1: 'Yokota Air Base', title: 'Yokota Air Base BAH & OHA 2026 | MilPayTools' },
-  { path: '/bah/kadena-air-base', h1: 'Kadena Air Base', title: 'Kadena Air Base BAH & OHA 2026 | MilPayTools' },
-  { path: '/bah/camp-humphreys', h1: 'Camp Humphreys (K-6)', title: 'Camp Humphreys (K-6) BAH & OHA 2026 | MilPayTools' },
   { path: '/bah/fort-bragg', h1: 'Fort Bragg', title: 'Fort Bragg (Fort Liberty) BAH Rates 2026 | MilPayTools' },
   { path: '/bah/fort-hood', h1: 'Fort Hood', title: 'Fort Hood (Fort Cavazos) BAH Rates 2026 | MilPayTools' },
 ];

@@ -41,12 +41,12 @@ test.describe('OCONUS v2 — RAF Lakenheath & RAF Mildenhall', () => {
     await expect(page.locator('main')).not.toContainText('Rheinland-Pfalz');
   });
 
-  test('"Other overseas stations" links to Ramstein', async ({ page }) => {
+  test('"Other overseas stations" links to the other v2 stations', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'Other overseas stations' })).toBeVisible();
     const slugs = await page
       .locator('[data-related-station]')
       .evaluateAll((els) => els.map((e) => e.getAttribute('data-related-station')));
-    expect(slugs).toEqual(['ramstein-air-base']);
+    expect(slugs).toEqual(['ramstein-air-base', 'yokota-air-base', 'kadena-air-base', 'camp-humphreys']);
     await expect(page.locator('[data-related-station="ramstein-air-base"]')).toHaveAttribute('href', '/bah/ramstein-air-base');
   });
 
