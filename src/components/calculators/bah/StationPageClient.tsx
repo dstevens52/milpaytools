@@ -18,7 +18,6 @@ import { EmailSignup } from '@/components/EmailSignup';
 import { YoYDelta } from '@/components/calculators/bah/YoYDelta';
 import { bahVsRentClause } from '@/lib/rentCompare';
 import { fireShareEvent } from '@/lib/analytics';
-import { OCONUS_HERO_SLUGS, OCONUS_LOCALITY_CODE } from '@/lib/oconusPilot';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -27,7 +26,6 @@ interface NearbyStationData {
   slug: string;
   city: string;
   state: string;
-  oconus?: true;
   e5Rate?: number;
   e5Delta?: number;
 }
@@ -144,7 +142,7 @@ const HERO_STEPS = [
   { title: 'Plan your move', sub: 'Compare stations or estimate PCS costs' },
 ] as const;
 
-function HeroBanner({ station, oconusHero }: { station: DutyStation; oconusHero: boolean }) {
+function HeroBanner({ station }: { station: DutyStation }) {
   const subtitle = [
     `${station.city}, ${station.stateName}`,
     station.branches.join(' / '),
@@ -154,14 +152,6 @@ function HeroBanner({ station, oconusHero }: { station: DutyStation; oconusHero:
     .join(' · ');
 
   const emblemFile = getBranchEmblem(station);
-
-  const heroSteps = oconusHero
-    ? [
-        { title: 'Know your overseas pay', sub: `At ${station.name} you receive OHA + COLA — not BAH` },
-        { title: 'How OHA works', sub: 'Reimburses your actual rent up to a pay-grade ceiling' },
-        { title: 'Plan your move', sub: 'Estimate your PCS move costs' },
-      ]
-    : HERO_STEPS;
 
   return (
     <div className="relative overflow-hidden bg-slate-800">
@@ -193,7 +183,7 @@ function HeroBanner({ station, oconusHero }: { station: DutyStation; oconusHero:
         {/* Hero text */}
         <div className="px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-5 sm:pb-6">
           <span className="inline-flex items-center mb-2 px-2.5 py-1 rounded-full text-xs font-semibold text-white/90 bg-white/15 border border-white/20">
-            {oconusHero ? 'OCONUS Duty Station' : '2026 BAH Rates'}
+            2026 BAH Rates
           </span>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-1">
             {station.name}
@@ -206,13 +196,13 @@ function HeroBanner({ station, oconusHero }: { station: DutyStation; oconusHero:
         {/* 3-step plan strip — inside the dark hero */}
         <div className="border-t border-white/10 px-4 sm:px-6 lg:px-8 py-5">
           <div className="flex flex-col gap-4 sm:flex-row sm:gap-0">
-            {heroSteps.map((step, i) => (
+            {HERO_STEPS.map((step, i) => (
               <div
                 key={step.title}
                 className={[
                   'flex items-start gap-3 flex-1',
                   i > 0 ? 'sm:pl-6 sm:border-l sm:border-white/10' : '',
-                  i < heroSteps.length - 1 ? 'sm:pr-6' : '',
+                  i < HERO_STEPS.length - 1 ? 'sm:pr-6' : '',
                 ].filter(Boolean).join(' ')}
               >
                 <div className="w-7 h-7 rounded-full bg-red-700 text-white flex items-center justify-center font-bold text-xs flex-none mt-0.5">
@@ -305,15 +295,13 @@ function RankSelector({ availableGrades, selectedGrade, hasDependents, onGradeCh
 
 // ─── ShareButton sub-component ───────────────────────────────────────────────
 
-function ShareButton({ station, oconusHero }: { station: DutyStation; oconusHero: boolean }) {
+function ShareButton({ station }: { station: DutyStation }) {
   const [copied, setCopied] = useState(false);
 
   async function handleClick() {
     fireShareEvent('bah-station', station.slug);
     const url = window.location.href;
-    const title = oconusHero
-      ? `${station.name} Guide | MilPayTools`
-      : `${station.name} BAH Rates 2026 | MilPayTools`;
+    const title = `${station.name} BAH Rates 2026 | MilPayTools`;
     const isMobile =
       /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
       (navigator.maxTouchPoints > 0 && window.innerWidth < 768);
@@ -357,69 +345,10 @@ function ShareButton({ station, oconusHero }: { station: DutyStation; oconusHero
           <svg className="w-3.5 h-3.5 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
           </svg>
-          Share {station.name} {oconusHero ? 'guide' : 'BAH rates'}
+          Share {station.name} BAH rates
         </>
       )}
     </button>
-  );
-}
-
-// ─── OconusExplainerCard sub-component ───────────────────────────────────────
-// Replaces the rank selector for OCONUS stations: OHA/COLA explainer, no rate.
-
-function OconusExplainerCard({
-  station,
-  localityCode,
-}: {
-  station: DutyStation;
-  localityCode?: string;
-}) {
-  const localityClause = localityCode ? ` (your locality is DoD code ${localityCode})` : '';
-  const points = [
-    {
-      label: 'Tied to your actual rent',
-      body: `Reimburses what you pay up to a ceiling set by pay grade and locality${localityClause} — not a fixed monthly amount.`,
-    },
-    {
-      label: 'No keeping the difference',
-      body: "If your rent is below the ceiling, you receive only what you actually pay. Unlike BAH, there's no spread to pocket.",
-    },
-    {
-      label: 'Extra allowances on top',
-      body: 'A separate utility / recurring-maintenance allowance is added, and a one-time Move-In Housing Allowance (MIHA) may apply.',
-    },
-  ];
-
-  return (
-    <div className="bg-white rounded-lg border border-zinc-200 p-6">
-      <span className="inline-flex items-center mb-3 px-2.5 py-1 rounded-full text-xs font-semibold text-red-700 bg-red-50 border border-red-100">
-        Overseas station — OHA, not BAH
-      </span>
-      <h2 className="text-lg font-semibold text-zinc-900 mb-2">{station.name} doesn&apos;t use BAH</h2>
-      <p className="text-sm text-zinc-600 leading-relaxed mb-5">
-        Service members stationed at {station.name} receive the Overseas Housing Allowance (OHA)
-        plus an OCONUS Cost-of-Living Allowance (COLA) instead of BAH. OHA works differently from
-        the stateside flat-rate allowance:
-      </p>
-      <ul className="space-y-4 mb-6">
-        {points.map((p) => (
-          <li key={p.label} className="border-l-2 border-red-600 pl-4">
-            <p className="text-sm font-semibold text-zinc-900">{p.label}</p>
-            <p className="text-sm text-zinc-600 leading-relaxed mt-0.5">{p.body}</p>
-          </li>
-        ))}
-      </ul>
-      <Link
-        href="/calculators/pcs"
-        className="inline-flex items-center gap-1.5 rounded-lg bg-red-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
-      >
-        Estimate PCS costs →
-      </Link>
-      <p className="text-xs text-zinc-400 leading-relaxed mt-5">
-        Because OHA depends on your actual lease, there&apos;s no single rate to display here.
-        Official OHA ceilings are published by the DoD Defense Travel Management Office (DTMO).
-      </p>
-    </div>
   );
 }
 
@@ -501,10 +430,6 @@ export function StationPageClient({
 
   const depLabel = hasDependents ? 'w/dep' : 'w/o dep';
 
-  // OCONUS hero treatment — gated to the pilot allowlist (Ramstein only for now).
-  const oconusHero = !!station.oconus && OCONUS_HERO_SLUGS.has(station.slug);
-  const localityCode = OCONUS_LOCALITY_CODE[station.slug];
-
   return (
     <>
       {/* Breadcrumb — above the hero */}
@@ -521,12 +446,12 @@ export function StationPageClient({
       </div>
 
       {/* Hero banner */}
-      <HeroBanner station={station} oconusHero={oconusHero} />
+      <HeroBanner station={station} />
 
       {/* Share bar — after hero, before main content */}
       <div className="bg-white border-b border-zinc-100">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-center">
-          <ShareButton station={station} oconusHero={oconusHero} />
+          <ShareButton station={station} />
         </div>
       </div>
 
@@ -557,12 +482,8 @@ export function StationPageClient({
             </details>
           )}
 
-          {/* Rank selector card (CONUS + non-pilot OCONUS) — replaced by the OHA
-              explainer on OCONUS-hero pilot pages, where no rate exists to pick. */}
-          {oconusHero ? (
-            <OconusExplainerCard station={station} localityCode={localityCode} />
-          ) : (
-            <div className="bg-white rounded-lg border border-zinc-200 p-5 space-y-5">
+          {/* Rank selector card */}
+          <div className="bg-white rounded-lg border border-zinc-200 p-5 space-y-5">
               <RankSelector
                 availableGrades={availableGrades}
                 selectedGrade={selectedGrade}
@@ -589,8 +510,7 @@ export function StationPageClient({
                   />
                 </p>
               )}
-            </div>
-          )}
+          </div>
 
           {/* Quick Facts — for stations WITHOUT rich data */}
           {!hasRichData && (
@@ -605,20 +525,11 @@ export function StationPageClient({
                   <p className="text-xs text-zinc-500 mb-0.5 uppercase tracking-wide">Branch</p>
                   <p className="text-sm font-medium text-zinc-800">{station.branches.join(', ')}</p>
                 </div>
-                {oconusHero ? (
+                {locationName && (
                   <div>
-                    <p className="text-xs text-zinc-500 mb-0.5 uppercase tracking-wide">Housing</p>
-                    <p className="text-sm font-medium text-zinc-800">
-                      OHA{localityCode ? ` — locality ${localityCode}` : ''}
-                    </p>
+                    <p className="text-xs text-zinc-500 mb-0.5 uppercase tracking-wide">MHA</p>
+                    <p className="text-sm font-medium text-zinc-800">{locationName}</p>
                   </div>
-                ) : (
-                  locationName && (
-                    <div>
-                      <p className="text-xs text-zinc-500 mb-0.5 uppercase tracking-wide">MHA</p>
-                      <p className="text-sm font-medium text-zinc-800">{locationName}</p>
-                    </div>
-                  )
                 )}
                 {selectedBAH > 0 && (
                   <div>
@@ -644,131 +555,8 @@ export function StationPageClient({
             </div>
           )}
 
-          {/* OCONUS notice — OHA detail. On pilot (hero-explainer) pages the
-              OHA-vs-BAH / URMA / MIHA basics are cut as duplicative with the hero
-              card; the points the hero doesn't cover (update cadence, on-base
-              forfeiture), the DTMO link, and the station-specific rental note are
-              kept. Non-pilot OCONUS pages keep the full explanation. */}
-          {station.oconus && (
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-5">
-              <p className="font-semibold text-amber-800 mb-3">
-                {oconusHero ? `More about OHA at ${station.name}` : 'OCONUS Assignment — OHA, Not BAH'}
-              </p>
-              <p className="text-sm text-amber-700 leading-relaxed mb-3">
-                {oconusHero ? (
-                  <>Two more things to know about how OHA works at {station.name}:</>
-                ) : (
-                  <>
-                    Members assigned to {station.name} receive{' '}
-                    <strong>Overseas Housing Allowance (OHA)</strong> instead of BAH. OHA works
-                    differently from BAH in several important ways:
-                  </>
-                )}
-              </p>
-              <ul className="space-y-2 mb-4">
-                {!oconusHero && (
-                  <>
-                    <li className="flex items-start gap-2.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-none mt-1.5" />
-                      <p className="text-sm text-amber-700 leading-relaxed">
-                        <strong>OHA covers actual rent</strong> up to a location-specific ceiling — not a flat rate like BAH. You receive your actual rent amount, up to the authorized maximum.
-                      </p>
-                    </li>
-                    <li className="flex items-start gap-2.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-none mt-1.5" />
-                      <p className="text-sm text-amber-700 leading-relaxed">
-                        A separate <strong>Utility/Recurring Maintenance Allowance (URMA)</strong> is paid on top of OHA to help offset overseas utility costs.
-                      </p>
-                    </li>
-                    <li className="flex items-start gap-2.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-none mt-1.5" />
-                      <p className="text-sm text-amber-700 leading-relaxed">
-                        <strong>Move-In Housing Allowance (MIHA)</strong> is available to help cover security deposits, real estate agent fees, and certain one-time move-in costs unique to overseas markets.
-                      </p>
-                    </li>
-                  </>
-                )}
-                <li className="flex items-start gap-2.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-none mt-1.5" />
-                  <p className="text-sm text-amber-700 leading-relaxed">
-                    OHA rates are set by location and reflect local market shifts; amounts <strong>can change as often as twice a month</strong> with exchange rates.
-                  </p>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-none mt-1.5" />
-                  <p className="text-sm text-amber-700 leading-relaxed">
-                    If living in <strong>government or on-base housing</strong>, OHA is forfeited — the same rule that applies to BAH.
-                  </p>
-                </li>
-              </ul>
-              <p className="text-sm text-amber-700 leading-relaxed mb-2">
-                Use the{' '}
-                <a
-                  href="https://www.travel.dod.mil/Allowances/Overseas-Housing-Allowance/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline font-medium"
-                >
-                  DTMO OHA calculator at travel.dod.mil
-                </a>{' '}
-                for your specific OHA ceiling. Contact your gaining unit&apos;s housing office for current local rates and MIHA entitlements.
-              </p>
-              <p className="text-sm text-amber-700 italic">{station.rentalNote}</p>
-            </div>
-          )}
-
-          {/* OCONUS COLA */}
-          {station.oconus && station.oconusContent && (
-            <div className="bg-white rounded-lg border border-zinc-200 p-6">
-              <h2 className="text-base font-semibold text-zinc-900 mb-3">OCONUS COLA</h2>
-              <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-                {station.oconusContent.colaNote}
-              </p>
-              <Link
-                href="/calculators/cola"
-                className="text-sm font-semibold text-red-700 hover:underline"
-              >
-                View CONUS COLA calculator → (OCONUS uses a separate calculation method)
-              </Link>
-            </div>
-          )}
-
-          {/* Location-specific financial context */}
-          {station.oconus && station.oconusContent && (
-            <div className="bg-white rounded-lg border border-zinc-200 p-6">
-              <h2 className="text-base font-semibold text-zinc-900 mb-4">
-                Financial context for {station.name}
-              </h2>
-              <ul className="space-y-3">
-                {station.oconusContent.financialContext.map((tip, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 flex-none mt-1.5" />
-                    <p className="text-sm text-zinc-600 leading-relaxed">{tip}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* What to know before you move — OCONUS */}
-          {station.oconus && station.oconusContent && (
-            <div className="rounded-lg bg-sky-50 border border-sky-200 p-5">
-              <p className="text-sm font-semibold text-sky-900 mb-3">
-                What to know before you move to {station.name}
-              </p>
-              <ul className="space-y-3">
-                {station.oconusContent.whatToKnow.map((item, i) => (
-                  <li key={i} className="flex items-start gap-2.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-sky-500 flex-none mt-1.5" />
-                    <p className="text-sm text-sky-800 leading-relaxed">{item}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
           {/* How This Market Compares */}
-          {selectedBAH > 0 && !station.oconus && (
+          {selectedBAH > 0 && (
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
               <h2 className="text-lg font-semibold text-zinc-900 mb-3">How This Market Compares</h2>
               {(medianSentence || percentileSentence) && (
@@ -967,7 +755,7 @@ export function StationPageClient({
           )}
 
           {/* No data fallback */}
-          {!station.oconus && !hasRates && (
+          {!hasRates && (
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
               <p className="text-zinc-600 text-sm">
                 BAH rate data for this ZIP code could not be loaded. Use the{' '}
@@ -1024,15 +812,6 @@ export function StationPageClient({
                   </p>
                 </li>
               )}
-              {oconusHero && (
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 flex-none mt-1.5" />
-                  <p className="text-sm text-zinc-600">
-                    State income tax is set by your state of legal residence, not your duty station —
-                    being stationed overseas doesn&apos;t change that.
-                  </p>
-                </li>
-              )}
               {colaArea && (
                 <li className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-700 flex-none mt-1.5" />
@@ -1043,16 +822,14 @@ export function StationPageClient({
                   </p>
                 </li>
               )}
-              {!oconusHero && (
-                <li className="flex items-start gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-700 flex-none mt-1.5" />
-                  <p className="text-sm text-zinc-600">
-                    BAH is benchmarked to typical local rental costs for a member&apos;s pay grade and
-                    dependency status — not premium or above-median housing. Members who choose more
-                    expensive housing pay the difference out of pocket.
-                  </p>
-                </li>
-              )}
+              <li className="flex items-start gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-700 flex-none mt-1.5" />
+                <p className="text-sm text-zinc-600">
+                  BAH is benchmarked to typical local rental costs for a member&apos;s pay grade and
+                  dependency status — not premium or above-median housing. Members who choose more
+                  expensive housing pay the difference out of pocket.
+                </p>
+              </li>
             </ul>
           </div>
           )}
@@ -1085,7 +862,7 @@ export function StationPageClient({
           <div className="bg-zinc-900 rounded-lg p-6">
             <h2 className="text-white font-semibold mb-1">What to do next</h2>
             <p className="text-zinc-400 text-sm mb-5">
-              {oconusHero ? 'Your overseas pay' : 'BAH'} is the starting point. Here are the calculations that matter most for your PCS decision.
+              BAH is the starting point. Here are the calculations that matter most for your PCS decision.
             </p>
             {/* Primary CTA */}
             <Link
@@ -1115,22 +892,12 @@ export function StationPageClient({
               >
                 VA loan payment calculator →
               </Link>
-              {station.oconus && (
-                <Link
-                  href="/calculators/deployment"
-                  className="text-sm text-zinc-300 hover:text-white transition-colors"
-                >
-                  Calculate deployment pay for overseas assignments →
-                </Link>
-              )}
-              {!oconusHero && (
-                <Link
-                  href="/blog/how-bah-builds-wealth"
-                  className="text-sm text-zinc-300 hover:text-white transition-colors"
-                >
-                  How BAH can build long-term wealth →
-                </Link>
-              )}
+              <Link
+                href="/blog/how-bah-builds-wealth"
+                className="text-sm text-zinc-300 hover:text-white transition-colors"
+              >
+                How BAH can build long-term wealth →
+              </Link>
               <Link
                 href="/blog/how-much-does-an-e5-really-make-2026"
                 className="text-sm text-zinc-300 hover:text-white transition-colors"
@@ -1179,7 +946,6 @@ export function StationPageClient({
                         )}
                       </p>
                     )}
-                    {s.oconus && <p className="text-xs text-amber-600">OCONUS — OHA applies</p>}
                   </Link>
                 ))}
               </div>

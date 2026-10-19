@@ -93,6 +93,13 @@ test.describe('OCONUS v2 — lints', () => {
     });
   }
 
+  // The value renders as the link text in the explainer's Source line.
+  test('command sponsorship sources are short link labels, not paragraphs', () => {
+    const withSource = OCONUS_V2_STATIONS.filter((s) => s.commandSponsorshipSource);
+    expect(withSource.map((s) => s.slug)).toEqual(['ramstein-air-base', 'camp-humphreys']);
+    for (const s of withSource) expect(s.commandSponsorshipSource!.value.length).toBeLessThanOrEqual(80);
+  });
+
   test('shared copy passes all lints (no errors)', () => {
     const copy = allSharedCopy();
     expect(copy.length).toBeGreaterThan(0);

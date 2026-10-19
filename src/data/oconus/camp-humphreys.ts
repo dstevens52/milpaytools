@@ -36,7 +36,7 @@ export const campHumphreys: OconusStation = {
     sourceUrl: 'https://www.travel.dod.mil/Allowances/Overseas-Cost-of-Living-Allowance/Overseas-COLA-Rate-Lookup/',
     verifiedOn: V,
   },
-  commandSponsorshipSource: { value: COMMAND_SPONSORSHIP, sourceUrl: MOS_HOUSING, verifiedOn: V },
+  commandSponsorshipSource: { value: 'Humphreys housing (Military OneSource)', sourceUrl: MOS_HOUSING, verifiedOn: V },
   localContext: {
     value:
       "Command-sponsored families at Camp Humphreys are assigned on-post family housing first when it's available, and live off post in private rentals when it isn't. Most off-post housing is built to American standards. Unaccompanied members E-7 and above are assigned Senior Leader Quarters, and E-6 and below live in barracks.",

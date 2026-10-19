@@ -11,7 +11,6 @@ import { formatCurrency } from '@/lib/utils';
 import { STATE_TAX_DATA } from '@/data/compare/stateTax';
 import { COLA_AREAS } from '@/data/cola/2026/constants';
 import { StationPageClient } from '@/components/calculators/bah/StationPageClient';
-import { OCONUS_HERO_SLUGS } from '@/lib/oconusPilot';
 import { ogImage } from '@/lib/og';
 import { OCONUS_V2_STATIONS, getRenderableOconusV2, oconusTitle, oconusDescription, OCONUS_OG_SUB } from '@/data/oconus';
 import { OconusStationPage } from '@/components/oconus/OconusStationPage';
@@ -31,10 +30,11 @@ function listToProse(items: string[]): string {
 }
 
 export async function generateStaticParams() {
-  // Duty stations, plus rendered v2 OCONUS stations that have no duty-station
-  // entry (raf-lakenheath).
-  const v2Only = OCONUS_V2_STATIONS.filter((s) => !STATION_BY_SLUG[s.slug] && getRenderableOconusV2(s.slug));
-  return [...DUTY_STATIONS, ...v2Only].map((s) => ({ slug: s.slug }));
+  // CONUS duty stations, plus every rendered v2 OCONUS station. Overseas
+  // stations render only from the v2 template — there is no legacy overseas page.
+  const conus = DUTY_STATIONS.filter((s) => !s.oconus);
+  const v2 = OCONUS_V2_STATIONS.filter((s) => getRenderableOconusV2(s.slug));
+  return [...conus, ...v2].map((s) => ({ slug: s.slug }));
 }
 
 export const dynamicParams = false;
@@ -53,8 +53,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
 
-  // v2 OCONUS template (registry first). Unpublished entries return null and
-  // fall through to the legacy metadata below.
+  // v2 OCONUS template (registry first). Overseas stations have no other page.
   const v2 = getRenderableOconusV2(slug);
   if (v2) {
     const title = oconusTitle(v2);
@@ -73,11 +72,10 @@ export async function generateMetadata({
   }
 
   const station = STATION_BY_SLUG[slug];
-  if (!station) return {};
+  if (!station || station.oconus) return {};
   // E-5 reference rates, read from the same dataset the on-page rate table uses
-  // so the snippet figures always match the table. OCONUS bases have no BAH
-  // (they receive OHA) and fall through to a rate-free description below.
-  const mhaCode = station.oconus ? null : getMHACode(station.zip);
+  // so the snippet figures always match the table.
+  const mhaCode = getMHACode(station.zip);
   const e5W = mhaCode ? getMHARates(mhaCode, true)?.['E-5'] : undefined;
   const e5WO = mhaCode ? getMHARates(mhaCode, false)?.['E-5'] : undefined;
 
@@ -93,16 +91,11 @@ export async function generateMetadata({
   // titleBase omits the site name — the root layout's title template appends
   // " | MilPayTools". OG/Twitter don't run through that template, so they get an
   // explicit socialTitle (with the site name) to match the rendered <title>.
-  let titleBase: string;
-  if (station.oconus) {
-    titleBase = `${station.name} BAH & OHA 2026`;
-  } else {
-    const core = formerShort
-      ? `${station.name} (${formerShort}) BAH Rates 2026`
-      : `${station.name} BAH Rates 2026`;
-    const withLocality = `${core} — ${station.city}, ${station.state}`;
-    titleBase = !formerShort && cityDistinct && withLocality.length <= 60 ? withLocality : core;
-  }
+  const core = formerShort
+    ? `${station.name} (${formerShort}) BAH Rates 2026`
+    : `${station.name} BAH Rates 2026`;
+  const withLocality = `${core} — ${station.city}, ${station.state}`;
+  const titleBase = !formerShort && cityDistinct && withLocality.length <= 60 ? withLocality : core;
   const socialTitle = `${titleBase} | MilPayTools`;
 
   // ── Description: lead with the actual E-5 figures so the search snippet shows
@@ -113,12 +106,6 @@ export async function generateMetadata({
     description = fitDescription(head, [
       ' All ranks and dependency statuses. Official DTMO data, no account.',
       ' All ranks and dependency statuses.',
-    ]);
-  } else if (station.oconus) {
-    const head = `${station.name}, ${station.stateName} is an overseas duty station — members receive Overseas Housing Allowance (OHA), not BAH.`;
-    description = fitDescription(head, [
-      ' Housing pay guidance for every pay grade, no account.',
-      ' Housing pay guidance, no account.',
     ]);
   } else {
     description = `2026 BAH rates for ${station.name}, ${station.stateName}${locality}. Monthly BAH for every pay grade, with and without dependents. Official DTMO data, no account.`;
@@ -188,9 +175,9 @@ export default async function StationPage({
     );
   }
 
-  if (!station) notFound();
+  if (!station || station.oconus) notFound();
 
-  const mhaCode = station.oconus ? null : getMHACode(station.zip);
+  const mhaCode = getMHACode(station.zip);
   const ratesW = mhaCode ? getMHARates(mhaCode, true) : null;
   const ratesWO = mhaCode ? getMHARates(mhaCode, false) : null;
   const locationName = mhaCode ? getLocationName(station.zip) : null;
@@ -200,15 +187,8 @@ export default async function StationPage({
   const ratesWPrev = mhaCode ? getMHARatesForYear(mhaCode, true, PRIOR_BAH_YEAR) : null;
   const ratesWOPrev = mhaCode ? getMHARatesForYear(mhaCode, false, PRIOR_BAH_YEAR) : null;
 
-  // OCONUS pilot stations: `station.state` holds a country code (e.g. 'DE' for
-  // Germany), which collides with US state codes (DE → Delaware). US military pay
-  // overseas isn't subject to host-nation income tax, so skip the lookup entirely
-  // rather than serialize a wrong rate.
-  const oconusPilot = !!station.oconus && OCONUS_HERO_SLUGS.has(station.slug);
-  const taxInfo = oconusPilot ? null : (STATE_TAX_DATA[station.state] ?? null);
-  const colaAreaFull = station.oconus
-    ? null
-    : COLA_AREAS.find((a) => a.zipPrefixes.includes(station.zip.slice(0, 3))) ?? null;
+  const taxInfo = STATE_TAX_DATA[station.state] ?? null;
+  const colaAreaFull = COLA_AREAS.find((a) => a.zipPrefixes.includes(station.zip.slice(0, 3))) ?? null;
   const colaArea = colaAreaFull ? { name: colaAreaFull.name, tier: colaAreaFull.tier } : null;
 
   const nearbyData = nearbyDeltas(station.slug);
@@ -340,12 +320,12 @@ export default async function StationPage({
   // serialized into the page's HTML payload. The page no longer renders the
   // retired home-buying / surplus / cost-of-living / neighborhood-steering copy,
   // so strip those fields here to keep them out of the shipped HTML entirely
-  // (only stateTaxNote, rentalNote[OCONUS], and oconusContent are still rendered).
+  // (only stateTaxNote is still rendered).
   const clientStation: DutyStation = {
     ...station,
     description: '',
     rentalContext: undefined,
-    rentalNote: station.oconus ? station.rentalNote : '',
+    rentalNote: '',
     bahVsHousing: undefined,
     localHousingTips: station.localHousingTips
       ? { coliNote: '', stateTaxNote: station.localHousingTips.stateTaxNote, neighborhoods: [], mistakeToAvoid: '' }
@@ -371,7 +351,7 @@ export default async function StationPage({
         taxInfo={taxInfo}
         colaArea={colaArea}
         nearbyData={nearbyData}
-        hasRates={!station.oconus && !!ratesW && !!ratesWO}
+        hasRates={!!ratesW && !!ratesWO}
         nationalAvgs={nationalAvgs}
         medianSentence={medianSentence}
         percentileSentence={percentileSentence}

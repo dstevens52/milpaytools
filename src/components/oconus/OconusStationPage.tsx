@@ -12,7 +12,6 @@ import {
   ALL_SHARED_LINKS,
 } from '@/data/oconus/sharedCopy';
 import { CALCULATORS, OCONUS_NEXT_CALCULATORS, OCONUS_NEXT_LINKS_MAX } from '@/data/calculators';
-import { STATION_BY_SLUG } from '@/data/duty-stations/stations';
 import { OconusAllowanceExplainer, MaybeLink, isPendingUrl } from '@/components/oconus/OconusAllowanceExplainer';
 
 // v2 OCONUS station template. No rates, no cost figures: every station fact
@@ -92,17 +91,12 @@ export function OconusStationPage({
     ...OCONUS_APPROVED_NEXT_LINKS,
   ].slice(0, OCONUS_NEXT_LINKS_MAX);
 
-  // Related stations: OCONUS only — a CONUS or unknown slug is dropped, never
-  // linked. Rendered v2 stations first, then legacy overseas pages.
-  const relatedV2: { slug: string; name: string; sub: string }[] = [];
-  const relatedLegacy: { slug: string; name: string; sub: string }[] = [];
-  for (const slug of station.relatedStations) {
+  // Related stations: rendered v2 stations only — any other slug is dropped,
+  // never linked.
+  const related = station.relatedStations.flatMap((slug) => {
     const v2 = getRenderableOconusV2(slug);
-    const legacy = STATION_BY_SLUG[slug];
-    if (v2) relatedV2.push({ slug, name: v2.name, sub: v2.hostCountry.value });
-    else if (legacy?.oconus) relatedLegacy.push({ slug, name: legacy.name, sub: legacy.stateName });
-  }
-  const related = [...relatedV2, ...relatedLegacy];
+    return v2 ? [{ slug, name: v2.name, sub: v2.hostCountry.value }] : [];
+  });
 
   const emblem = branchEmblem(station.branches.value);
   const subtitle = [station.cityRegion.value, station.hostCountry.value, station.branches.value.join(' / ')].join(' · ');
