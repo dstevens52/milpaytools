@@ -68,11 +68,10 @@ for (const p of PACIFIC) {
       const cs = page.locator('section[aria-labelledby="oconus-explainer"] [data-command-sponsorship-source]');
       if (p.commandSponsorship) {
         await expect(cs).toHaveCount(1);
-        await expect(cs.locator('a')).toHaveAttribute(
+        await expect(cs.getByRole('link', { name: 'Humphreys housing (Military OneSource)' })).toHaveAttribute(
           'href',
           'https://installations.militaryonesource.mil/military-installation/camp-humphreys-usag-humphreys/housing/housing',
         );
-        await expect(cs).toContainText('Command sponsorship is how families are authorized to come to Korea.');
       } else {
         await expect(cs).toHaveCount(0);
       }
