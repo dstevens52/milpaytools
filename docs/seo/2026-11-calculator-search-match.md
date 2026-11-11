@@ -5,7 +5,7 @@ Branch: `seo/calculator-search-match`. Copy and metadata changes on `/calculator
 `/calculators/total-compensation` so titles, H1s and section headings use the words people
 search. Compare against this baseline 4–6 weeks after merge.
 
-**Merge date:** _TBD — fill in when merged to main and confirmed in production._
+**Merge date:** 2026-11-11. PR #3, merge commit `21be4fd`. Confirmed live in production the same day, then submitted to IndexNow and to Google Request Indexing (all four pages). Compare between 2026-12-09 (4 weeks) and 2026-12-23 (6 weeks). The mid-December BAH release may move traffic, so read the results with that in mind.
 
 **Google Search Console baseline — last 28 days as of Nov 11, 2026**
 
