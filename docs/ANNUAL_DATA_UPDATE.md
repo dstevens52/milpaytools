@@ -104,6 +104,15 @@ calculator page and component read these; the items below hard-code them inline.
 - [ ] **Officer CZTE cap** (`officerCZTECap`) — PENDING: still built on the
   pre-October $225 HFP/IDP; unconfirmed whether it tracks HFP ($450) or IDP ($275).
 
+## Calculator page titles with the year
+
+Titles include "2026". The January annual update must switch them to 2027 on the same day the 2027 figures go live.
+
+- [ ] `/calculators/pcs`, `/calculators/deployment`, `/calculators/dual-military-bah`,
+  `/calculators/total-compensation` — `title`, `openGraph.title`, `twitter.title`,
+  meta/og/twitter descriptions, the JSON-LD `name`/`description`, and the `ogImage` card title
+  in each `page.tsx`. Baseline and context: `docs/seo/2026-11-calculator-search-match.md`.
+
 ## Notes
 
 - The `llms.txt` Blog entries for both posts embed a headline dollar figure —

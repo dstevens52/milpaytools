@@ -9,27 +9,27 @@ import { calculatePCS } from '@/lib/calculations/pcs';
 import { formatCurrency } from '@/lib/utils';
 
 export const metadata: Metadata = {
-  title: { absolute: 'PCS Cost Estimator 2026 | Military Move Calculator' },
+  title: { absolute: 'PCS Calculator 2026 — Military Move & PPM Estimator' },
   description:
-    'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds. Uses 2026 DTMO rates for all ranks.',
+    'Free 2026 PCS calculator: estimate DLA, MALT, per diem, TLE and PPM (DITY) move proceeds with official DTMO rates. All branches, all ranks.',
   alternates: {
     canonical: '/calculators/pcs',
   },
   openGraph: {
-    title: 'PCS Cost Estimator 2026 | Military Move Calculator',
+    title: 'PCS Calculator 2026 — Military Move & PPM Estimator',
     description:
-      'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds. Uses 2026 DTMO rates for all ranks.',
+      'Free 2026 PCS calculator: estimate DLA, MALT, per diem, TLE and PPM (DITY) move proceeds with official DTMO rates. All branches, all ranks.',
     type: 'website',
     url: '/calculators/pcs',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'PCS Cost Estimator 2026', sub: 'DLA, MALT, per diem, TLE, and PPM net proceeds' }),
+    images: ogImage({ type: 'calculator', title: 'PCS Calculator 2026', sub: 'DLA, MALT, per diem, TLE, and PPM net proceeds' }),
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PCS Cost Estimator 2026 | Military Move Calculator',
+    title: 'PCS Calculator 2026 — Military Move & PPM Estimator',
     description:
-      'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds. Uses 2026 DTMO rates for all ranks.',
-    images: ogImage({ type: 'calculator', title: 'PCS Cost Estimator 2026', sub: 'DLA, MALT, per diem, TLE, and PPM net proceeds' }),
+      'Free 2026 PCS calculator: estimate DLA, MALT, per diem, TLE and PPM (DITY) move proceeds with official DTMO rates. All branches, all ranks.',
+    images: ogImage({ type: 'calculator', title: 'PCS Calculator 2026', sub: 'DLA, MALT, per diem, TLE, and PPM net proceeds' }),
   },
 };
 
@@ -54,7 +54,7 @@ export default function PCSPage() {
 
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'PCS Cost Estimator 2026', description: 'Estimate your PCS entitlements: DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds. Uses 2026 DTMO rates for all ranks.', url: '/calculators/pcs' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: 'PCS Calculator 2026', description: 'Free 2026 PCS calculator: estimate DLA, MALT, per diem, TLE and PPM (DITY) move proceeds with official DTMO rates. All branches, all ranks.', url: '/calculators/pcs' })} />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="border-b border-zinc-200"
@@ -69,10 +69,16 @@ export default function PCSPage() {
             </span>
           </div>
           <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
-            PCS Cost Estimator
+            PCS Calculator
           </h1>
           <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
-            Estimate your full PCS entitlements — DLA, mileage, per diem, TLE, and PPM/DITY proceeds — using official 2026 DTMO rates.
+            Estimate your military move: DLA, MALT, per diem, TLE, and what a PPM (DITY) move could net.
+          </p>
+          <p className="text-zinc-600 text-sm leading-relaxed max-w-2xl mt-2">
+            Doing a PPM (DITY) move?{' '}
+            <a href="#ppm" className="text-blue-700 hover:underline font-medium">
+              See how PPM pay works below.
+            </a>
           </p>
         </div>
 
@@ -184,8 +190,8 @@ export default function PCSPage() {
             </p>
           </div>
 
-          <div>
-            <h2 className="text-xl font-semibold text-zinc-900 mb-3">PPM (Personally Procured Move)</h2>
+          <div id="ppm" className="scroll-mt-20">
+            <h2 className="text-xl font-semibold text-zinc-900 mb-3">PPM calculator: what a PPM (DITY) move pays</h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               A PPM move (formerly DITY — Do It Yourself) lets you move your own household goods
               and get reimbursed at the government&apos;s cost to do the same move commercially.

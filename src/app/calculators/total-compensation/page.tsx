@@ -12,27 +12,27 @@ import { getMHACode, getMHARates } from '@/lib/calculations/bah';
 import { formatCurrency, roundToNearest } from '@/lib/utils';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Total Military Compensation Calculator 2026: Base Pay, BAH, BAS & Tax Advantages' },
+  title: { absolute: 'Military Pay Calculator 2026: Base Pay, BAH, BAS, Total Comp' },
   description:
-    'Calculate your true total military compensation: base pay, BAH, BAS, TSP match, and tax advantage. See the civilian salary equivalent using official 2026 DoD rates.',
+    'Free 2026 military pay calculator: base pay, BAH, BAS, TSP match and tax advantage in one place, plus your civilian salary equivalent. Official DoD rates.',
   alternates: {
     canonical: '/calculators/total-compensation',
   },
   openGraph: {
-    title: 'Total Military Compensation Calculator 2026: Base Pay, BAH, BAS & Tax Advantages',
+    title: 'Military Pay Calculator 2026: Base Pay, BAH, BAS, Total Comp',
     description:
-      'Calculate your true total military compensation: base pay, BAH, BAS, TSP match, and tax advantage. See the civilian salary equivalent using official 2026 DoD rates.',
+      'Free 2026 military pay calculator: base pay, BAH, BAS, TSP match and tax advantage in one place, plus your civilian salary equivalent. Official DoD rates.',
     type: 'website',
     url: '/calculators/total-compensation',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'Total Military Compensation Calculator 2026', sub: 'Base pay, BAH, BAS, and tax advantage in one number' }),
+    images: ogImage({ type: 'calculator', title: 'Military Pay Calculator 2026', sub: 'Base pay, BAH, BAS, and tax advantage in one number' }),
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Total Military Compensation Calculator 2026: Base Pay, BAH, BAS & Tax Advantages',
+    title: 'Military Pay Calculator 2026: Base Pay, BAH, BAS, Total Comp',
     description:
-      'Calculate your true total military compensation: base pay, BAH, BAS, TSP match, and tax advantage. See the civilian salary equivalent using official 2026 DoD rates.',
-    images: ogImage({ type: 'calculator', title: 'Total Military Compensation Calculator 2026', sub: 'Base pay, BAH, BAS, and tax advantage in one number' }),
+      'Free 2026 military pay calculator: base pay, BAH, BAS, TSP match and tax advantage in one place, plus your civilian salary equivalent. Official DoD rates.',
+    images: ogImage({ type: 'calculator', title: 'Military Pay Calculator 2026', sub: 'Base pay, BAH, BAS, and tax advantage in one number' }),
   },
 };
 
@@ -61,7 +61,7 @@ export default function TotalCompensationPage() {
 
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'Total Military Compensation Calculator 2026', description: 'Calculate your true total military compensation: base pay, BAH, BAS, TSP match, and tax advantage. See the civilian salary equivalent using official 2026 DoD rates.', url: '/calculators/total-compensation' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: 'Military Pay Calculator 2026', description: 'Free 2026 military pay calculator: base pay, BAH, BAS, TSP match and tax advantage in one place, plus your civilian salary equivalent. Official DoD rates.', url: '/calculators/total-compensation' })} />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="relative overflow-hidden border-b border-zinc-200 md:min-h-[340px]"
@@ -99,12 +99,12 @@ export default function TotalCompensationPage() {
 
               {/* Title */}
               <h1 className="text-[28px] sm:text-[38px] font-extrabold leading-tight tracking-tight text-zinc-900 mb-3">
-                Total Military Compensation Calculator
+                Military Pay Calculator
               </h1>
 
               {/* Description */}
               <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-                See what your military compensation is really worth — including BAH, BAS, TSP match, and tax advantages.
+                Your total compensation: base pay, BAH, BAS, TSP match, and tax advantage.
               </p>
 
             </div>

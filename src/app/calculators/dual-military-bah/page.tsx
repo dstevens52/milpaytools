@@ -12,16 +12,16 @@ import { BAS_RATES } from '@/data/constants';
 import { formatCurrency } from '@/lib/utils';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH' },
+  title: { absolute: 'Dual Military BAH Calculator 2026 + Double BAH Rules' },
   description:
-    'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.',
+    'Free 2026 dual military BAH calculator: see what both members draw, who should claim dependents, and how "double BAH" really works. Official DoD rates.',
   alternates: {
     canonical: '/calculators/dual-military-bah',
   },
   openGraph: {
-    title: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH',
+    title: 'Dual Military BAH Calculator 2026 + Double BAH Rules',
     description:
-      'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.',
+      'Free 2026 dual military BAH calculator: see what both members draw, who should claim dependents, and how "double BAH" really works. Official DoD rates.',
     type: 'website',
     url: '/calculators/dual-military-bah',
     siteName: 'MilPayTools',
@@ -29,9 +29,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Dual Military BAH Calculator 2026: Maximize Your Household BAH',
+    title: 'Dual Military BAH Calculator 2026 + Double BAH Rules',
     description:
-      'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.',
+      'Free 2026 dual military BAH calculator: see what both members draw, who should claim dependents, and how "double BAH" really works. Official DoD rates.',
     images: ogImage({ type: 'calculator', title: 'Dual Military BAH Calculator 2026', sub: 'Who should claim dependents, and the optimal setup for couples' }),
   },
 };
@@ -55,8 +55,12 @@ export default function DualMilitaryBAHPage() {
 
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'Dual Military BAH Calculator 2026', description: 'Calculate total BAH for dual military couples. See who should claim dependents, compare rates at different duty stations, and find the optimal configuration using official 2026 rates.', url: '/calculators/dual-military-bah' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: 'Dual Military BAH Calculator 2026', description: 'Free 2026 dual military BAH calculator: see what both members draw, who should claim dependents, and how "double BAH" really works. Official DoD rates.', url: '/calculators/dual-military-bah' })} />
       <JsonLdScript schema={faqPageSchema([
+        {
+          question: 'Do dual-military couples get double BAH?',
+          answer: 'Each member draws their own BAH, so a dual-military couple living off base can receive two BAH payments. What they don\'t get is two with-dependents payments for the same children. No children: each member generally draws BAH at the without-dependents rate. With children: one member claims the children and draws the with-dependents rate; the other draws the without-dependents rate. The calculator above shows which arrangement gives your household more. Your finance office confirms what you\'re entitled to.',
+        },
         {
           question: 'Can we both get BAH if we live together in the same house?',
           answer: 'Yes. Both members receive their full BAH entitlement regardless of shared housing. The military does not reduce BAH because a couple lives together. This is one of the most significant financial advantages of dual military status.',
@@ -174,6 +178,31 @@ export default function DualMilitaryBAHPage() {
       {/* ── Explainer ────────────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-8">
         <hr className="border-zinc-200" />
+
+        <div id="double-bah">
+          <h2 className="text-xl font-semibold text-zinc-900 mb-3">
+            Do dual-military couples get double BAH?
+          </h2>
+          <p className="text-zinc-600 text-sm leading-relaxed mb-3">
+            Each member draws their own BAH, so a dual-military couple living off base can receive
+            two BAH payments. What they don&apos;t get is two with-dependents payments for the same
+            children.
+          </p>
+          <ul className="text-zinc-600 text-sm leading-relaxed mb-3 space-y-1.5 list-disc list-inside">
+            <li>
+              <strong className="text-zinc-800">No children:</strong> each member generally draws BAH
+              at the without-dependents rate.
+            </li>
+            <li>
+              <strong className="text-zinc-800">With children:</strong> one member claims the children
+              and draws the with-dependents rate; the other draws the without-dependents rate.
+            </li>
+          </ul>
+          <p className="text-zinc-600 text-sm leading-relaxed">
+            The calculator above shows which arrangement gives your household more. Your finance
+            office confirms what you&apos;re entitled to.
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
