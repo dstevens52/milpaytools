@@ -39,10 +39,11 @@ figure-manifest comment block at the top of each post.
   - Annual/indexed figures to re-check first: Idaho cap (resets yearly), New Mexico $30,000
     (set through TY2026 only), California $20,000 + AGI limits (TY2025–2029; watch SB 1407 or
     successors), Colorado $15,000 (through TY2028), Utah credit rate, Washington's 2028 tax.
-  - Try to clear `STATE_MILITARY_RETIREMENT_TAX_PENDING` (DC as of 2026-11-10). A state moves
-    into the dropdown only once an official state source confirms it.
-  - Vermont is `varies` (AGI phase-out, not modeled) — if VT publishes the phase-out formula,
-    decide whether to model it.
+  - `STATE_MILITARY_RETIREMENT_TAX_PENDING` is empty (all 50 states + DC verified 2026-11-11).
+    A state moves into the dropdown only once an official state source confirms it.
+  - Vermont military retirement thresholds ($125K/$175K) are fixed in statute and not indexed.
+    Confirm 32 V.S.A. § 5830e(d) is unchanged each January. D.C.: confirm no new military
+    retirement exclusion in § 47-1803.02.
   - Also re-check the federal brackets/standard deductions in `src/data/constants.ts` for all
     three filing statuses (`FED_TAX_BRACKETS_SINGLE`/`_MFJ`/`_HOH`, `STANDARD_DEDUCTION_*`)
     against the new IRS Rev. Proc., and update the literal tables in

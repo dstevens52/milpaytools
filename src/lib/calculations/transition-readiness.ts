@@ -25,6 +25,7 @@ import {
   getStateMilitaryRetirementTax,
   stateTaxableRetiredPay,
   effectiveExemptionCap,
+  agiPhaseOutShare,
   type StateMilitaryRetirementTax,
   type StateTaxContext,
 } from '@/data/state-military-retirement-tax';
@@ -158,6 +159,7 @@ export interface CivilianTaxResult {
   stateTaxAnnual: number;
   stateRetiredPayTaxedAnnual: number;
   stateExemptionCapAnnual: number | null; // cap-based partial rules, after modeled conditions
+  stateExclusionShare: number | null; // AGI phase-out rules (VT): share of retired pay excluded, 0–1
   netAnnual: number; // wages + all retired pay/VA/CRSC, minus all taxes
 }
 
@@ -190,16 +192,21 @@ export function computeCivilianTaxes(params: {
   const fedTaxableIncomeAnnual = wages + split.taxableRetiredPayAnnual;
   const fedTaxAnnual = estimateAnnualFederalTax(fedTaxableIncomeAnnual, filingStatus);
   const ficaAnnual = wages * FICA_RATE;
-  // State conditions we can evaluate: AGI (CA), filing status (ID), the member's own
-  // earned income (GA — the civilian salary; the spouse qualifies separately, not modeled).
+  // State conditions we can evaluate: AGI (CA cliff, VT phase-out), filing status (ID), the
+  // member's own earned income (GA — the civilian salary; the spouse qualifies separately, not modeled).
+  // AGI = wages + federally taxable retired pay (after the VA waiver); VA comp and CRSC are excluded.
   const stateCtx: StateTaxContext = {
     filingStatus,
     federalAgiAnnual: fedTaxableIncomeAnnual,
     memberEarnedIncomeAnnual: salary,
   };
   const stateExemptionCapAnnual =
-    stateRule?.treatment === 'partial' && stateRule.exemptionPercent === undefined
+    stateRule?.treatment === 'partial' && stateRule.exemptionPercent === undefined && !stateRule.agiPhaseOut
       ? effectiveExemptionCap(stateRule, stateCtx)
+      : null;
+  const stateExclusionShare =
+    stateRule?.treatment === 'partial' && stateRule.agiPhaseOut
+      ? agiPhaseOutShare(stateRule.agiPhaseOut, stateCtx.federalAgiAnnual)
       : null;
 
   let stateRetiredPayTaxedAnnual: number;
@@ -217,7 +224,7 @@ export function computeCivilianTaxes(params: {
   const netAnnual =
     fedTaxableIncomeAnnual + split.crscAnnual + vaCompAnnual - fedTaxAnnual - ficaAnnual - stateTaxAnnual;
 
-  return { filingStatus, fedTaxableIncomeAnnual, fedTaxAnnual, ficaAnnual, stateTaxAnnual, stateRetiredPayTaxedAnnual, stateExemptionCapAnnual, netAnnual };
+  return { filingStatus, fedTaxableIncomeAnnual, fedTaxAnnual, ficaAnnual, stateTaxAnnual, stateRetiredPayTaxedAnnual, stateExemptionCapAnnual, stateExclusionShare, netAnnual };
 }
 
 // ─── VA compensation lookup ────────────────────────────────────────────────
@@ -520,6 +527,7 @@ export function calculateTransitionReadiness(
     civilianStateTaxMonthly,
     stateRetiredPayTaxedMonthly: tax.stateRetiredPayTaxedAnnual / 12,
     stateExemptionCapAnnual: tax.stateExemptionCapAnnual,
+    stateExclusionShare: tax.stateExclusionShare,
     stateTaxRule,
     afterTaxTaxableIncomeMonthly,
     projectedCivilianMonthly,

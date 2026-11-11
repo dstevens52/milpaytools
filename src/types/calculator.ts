@@ -228,10 +228,11 @@ export interface TransitionReadinessOutput {
   civilianStateTaxMonthly: number;
   stateRetiredPayTaxedMonthly: number; // retired pay included in the state base
   stateExemptionCapAnnual: number | null; // cap-based partial states, after modeled conditions (GA/CA/ID)
+  stateExclusionShare: number | null; // AGI phase-out states (VT): share of retired pay excluded, 0–1
   stateTaxRule: StateMilitaryRetirementTax | null;
   afterTaxTaxableIncomeMonthly: number; // wages + taxable retired pay, minus all taxes
   projectedCivilianMonthly: number;
-  // "I'm not sure yet" or a "varies" state, with retired pay: both outcomes (primary result uses the taxed one)
+  // "I'm not sure yet" or a "varies" state (none today), with retired pay: both outcomes (primary result uses the taxed one)
   projectedCivilianMonthlyIfStateTaxes: number | null;
   projectedCivilianMonthlyIfStateExempts: number | null;
   grossedUpCivilianSalary: number;

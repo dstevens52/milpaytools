@@ -1,10 +1,10 @@
 /**
  * State income tax treatment of military retired pay.
  *
- * DATA RULE: every record is populated from the state's official revenue
- * source (revenue department page, form instructions, or published guidance).
- * No values from memory. A state without a verified source stays in
- * STATE_MILITARY_RETIREMENT_TAX_PENDING and out of every dropdown until it is
+ * DATA RULE: every record is populated from the official state revenue source
+ * (revenue department page, form instructions, or published guidance) or the
+ * state's statute. No values from memory. A state without a verified source stays
+ * in STATE_MILITARY_RETIREMENT_TAX_PENDING and out of every dropdown until it is
  * verified. Re-verify every record each January (docs/ANNUAL_DATA_UPDATE.md).
  *
  * Modeling notes:
@@ -14,7 +14,8 @@
  *   condition is stated in `conditionNote`.
  * - `exemptionPercent` covers the one percentage-based rule (Montana).
  * - Conditions the calculator can evaluate are modeled, not just noted:
- *   `earnedIncomeBonus` (GA), `agiLimit` (CA — a cliff), `exemptionCapMfj` (ID).
+ *   `earnedIncomeBonus` (GA), `agiLimit` (CA — a cliff), `exemptionCapMfj` (ID),
+ *   `agiPhaseOut` (VT — a linear phase-out of the excluded share).
  *   Anything else (age, residency dates, etc.) lives only in `conditionNote`.
  * - `varies` marks a rule the calculator does not model (e.g. an income phase-out).
  *   It shows both outcomes — taxed and exempt — like "I'm not sure yet", plus the
@@ -41,10 +42,23 @@ export interface StateMilitaryRetirementTax {
   exemptionCapMfj?: number; // cap when filing jointly, if it differs from exemptionCap
   earnedIncomeBonus?: { over: number; extraCap: number }; // cap rises by extraCap when the member's earned income > over
   agiLimit?: { single: number; mfj: number }; // exclusion applies only at federal AGI ≤ limit (single = any non-joint status); above it, fully taxable
+  agiPhaseOut?: AgiPhaseOut; // excluded share of retired pay phases out linearly with federal AGI (any filing status)
   conditionNote?: string; // plain-language age/income condition
   taxYear: number;
-  sourceUrl: string; // official state revenue source only
+  sourceUrl: string; // official state revenue source or the state's statute
+  sourceLabel?: string; // link text when the source isn't the revenue department (e.g. a statute citation)
   lastVerified: string; // YYYY-MM-DD
+}
+
+/**
+ * Linear AGI phase-out of a full exclusion:
+ * AGI ≤ fullExclusionMaxAgi → all excluded; AGI ≥ noExclusionMinAgi → none;
+ * in between → (noExclusionMinAgi − AGI) ÷ divisor of it excluded.
+ */
+export interface AgiPhaseOut {
+  fullExclusionMaxAgi: number;
+  noExclusionMinAgi: number;
+  divisor: number; // as written in the statute; equals noExclusionMinAgi − fullExclusionMaxAgi
 }
 
 const V = '2026-11-10';
@@ -70,6 +84,12 @@ export const STATE_MILITARY_RETIREMENT_TAX: readonly StateMilitaryRetirementTax[
     state: 'DE', name: 'Delaware', treatment: 'partial', exemptionCap: 12_500,
     conditionNote: 'Under 60: the lesser of $12,500 or your military pension. At 60 and older, the $12,500 exclusion also covers other retirement income.',
     taxYear: 2025, sourceUrl: 'https://revenuefiles.delaware.gov/2025/PITForms_Instructions/Instructions/PIT-RES_Instructions_2025-01.pdf', lastVerified: V,
+  },
+  {
+    state: 'DC', name: 'District of Columbia', treatment: 'taxable',
+    conditionNote: 'D.C.’s $3,000 exclusion for retirees 62+ expired for tax years beginning after Dec 31, 2014 (D.C. Code § 47-1803.02(a)(2)(N)(i)).',
+    taxYear: 2026, sourceUrl: 'https://code.dccouncil.gov/us/dc/council/code/sections/47-1803.02',
+    sourceLabel: 'D.C. Code § 47-1803.02', lastVerified: '2026-11-11', // verified: 2026-11-11
   },
   { state: 'FL', name: 'Florida', treatment: 'no_income_tax', taxYear: 2026, sourceUrl: 'https://floridarevenue.com/faq/Pages/FAQDetails.aspx?FAQID=1466', lastVerified: V },
   {
@@ -145,9 +165,13 @@ export const STATE_MILITARY_RETIREMENT_TAX: readonly StateMilitaryRetirementTax[
     taxYear: 2025, sourceUrl: 'https://files.tax.utah.gov/tax/forms/current/tc-40inst.pdf', lastVerified: V,
   },
   {
-    state: 'VT', name: 'Vermont', treatment: 'varies',
-    conditionNote: 'Fully exempt if your adjusted gross income is $125,000 or less. The exempt amount shrinks between $125,000 and $175,000, and there is no exemption at $175,000 or more (any filing status).',
-    taxYear: 2025, sourceUrl: 'https://tax.vermont.gov/individuals/income-tax-returns/who-needs-to-file/military-personnel', lastVerified: V,
+    // 32 V.S.A. § 5830e(d) (Act 71, effective tax year 2025). verified: 2026-11-11
+    // Thresholds are fixed in statute, not indexed.
+    state: 'VT', name: 'Vermont', treatment: 'partial',
+    agiPhaseOut: { fullExclusionMaxAgi: 125_000, noExclusionMinAgi: 175_000, divisor: 50_000 },
+    conditionNote: 'The threshold applies to federal adjusted gross income for any filing status. The calculator’s AGI is an estimate from the incomes you entered.',
+    taxYear: 2026, sourceUrl: 'https://legislature.vermont.gov/statutes/section/32/151/05830e',
+    sourceLabel: '32 V.S.A. § 5830e(d)', lastVerified: '2026-11-11',
   },
   {
     state: 'VA', name: 'Virginia', treatment: 'partial', exemptionCap: 40_000,
@@ -165,9 +189,7 @@ export const STATE_MILITARY_RETIREMENT_TAX: readonly StateMilitaryRetirementTax[
 ];
 
 /** Not yet verified against an official revenue source — excluded from dropdowns. */
-export const STATE_MILITARY_RETIREMENT_TAX_PENDING: readonly { state: string; name: string; reason: string }[] = [
-  { state: 'DC', name: 'District of Columbia', reason: 'OTR repealed the $3,000 exclusion for 62+ (2015 filing season); excluded until the 2026 D-40 instructions confirm current treatment.' },
-];
+export const STATE_MILITARY_RETIREMENT_TAX_PENDING: readonly { state: string; name: string; reason: string }[] = [];
 
 export function getStateMilitaryRetirementTax(state: string | null | undefined): StateMilitaryRetirementTax | null {
   if (!state) return null;
@@ -198,6 +220,13 @@ export function effectiveExemptionCap(rule: StateMilitaryRetirementTax, ctx: Sta
   return cap;
 }
 
+/** Share (0–1) of retired pay excluded under a linear AGI phase-out. */
+export function agiPhaseOutShare(phaseOut: AgiPhaseOut, federalAgiAnnual: number): number {
+  if (federalAgiAnnual <= phaseOut.fullExclusionMaxAgi) return 1;
+  if (federalAgiAnnual >= phaseOut.noExclusionMinAgi) return 0;
+  return (phaseOut.noExclusionMinAgi - federalAgiAnnual) / phaseOut.divisor;
+}
+
 export function stateTaxableRetiredPay(
   rule: StateMilitaryRetirementTax,
   taxableRetiredPayAnnual: number,
@@ -209,9 +238,11 @@ export function stateTaxableRetiredPay(
     case 'fully_exempt':
       return 0;
     case 'partial': {
-      const excluded = rule.exemptionPercent !== undefined
-        ? pay * rule.exemptionPercent
-        : Math.min(pay, effectiveExemptionCap(rule, ctx));
+      const excluded = rule.agiPhaseOut
+        ? pay * agiPhaseOutShare(rule.agiPhaseOut, ctx.federalAgiAnnual)
+        : rule.exemptionPercent !== undefined
+          ? pay * rule.exemptionPercent
+          : Math.min(pay, effectiveExemptionCap(rule, ctx));
       return Math.max(0, pay - excluded);
     }
     case 'taxable':

@@ -255,14 +255,101 @@ test.describe('Transition readiness — filing status', () => {
   });
 });
 
-test.describe('Transition readiness — Vermont / "varies"', () => {
-  test('Vermont shows both results, matching the taxable and exempt cases', () => {
-    expect(getStateMilitaryRetirementTax('VT')?.treatment).toBe('varies');
-    const vt = run({ retirementState: 'VT' });
-    const taxed = run({ retirementState: 'OR' });
-    const exempt = run({ retirementState: 'PA' });
-    expect(vt.projectedCivilianMonthlyIfStateTaxes).toBeCloseTo(taxed.projectedCivilianMonthly, 6);
-    expect(vt.projectedCivilianMonthlyIfStateExempts).toBeCloseTo(exempt.projectedCivilianMonthly, 6);
+// ── D.C. and Vermont (32 V.S.A. § 5830e(d)) ──────────────────────────────
+// Statute values written out here, independent of the data file, so a data typo fails.
+const VT_FULL = 125_000;
+const VT_NONE = 175_000;
+const VT_DIVISOR = 50_000;
+
+// Household AGI = salary + spouse income + federally taxable retired pay (after the VA waiver).
+// Probe with salary 0 to get spouse + taxable retired pay, then pick the salary that lands AGI
+// on the target.
+function vtAt(targetAgi: number, overrides: Partial<TransitionReadinessInput> = {}) {
+  const probe = run({ retirementState: 'VT', ...overrides, targetCivilianSalary: 0 });
+  const r = run({ retirementState: 'VT', ...overrides, targetCivilianSalary: targetAgi - probe.civilianFedTaxableIncomeAnnual });
+  return { r, agi: r.civilianFedTaxableIncomeAnnual, taxableRP: r.taxableRetiredPayMonthly * 12 };
+}
+const vtLow = vtAt(60_000);
+const vt125 = vtAt(125_000);
+const vt150 = vtAt(150_000);
+const vt175 = vtAt(175_000);
+const vtStatuses = (['single', 'mfj', 'hoh'] as FilingStatus[]).map((fs) => ({ fs, ...vtAt(150_000, { filingStatus: fs }) }));
+const vtWaiver = vtAt(150_000, { vaRating: 30 });
+const fmtAgi = (n: number) => `AGI $${n.toLocaleString('en-US', { maximumFractionDigits: 6 })}`;
+
+test.describe('Transition readiness — D.C. and Vermont', () => {
+  test('1. D.C.: retired pay taxed at the state rate input, no "both outcomes"', () => {
+    const dc = getStateMilitaryRetirementTax('DC');
+    expect(dc?.treatment).toBe('taxable');
+    expect(dc?.sourceUrl).toBe('https://code.dccouncil.gov/us/dc/council/code/sections/47-1803.02');
+    const r = run({ retirementState: 'DC' });
+    const taxableRetired = GROSS_HIGH3 - VA30; // independent of the lib
+    expect(taxableRetired).toBeGreaterThan(0); // otherwise this test proves nothing
+    expect(r.stateRetiredPayTaxedMonthly * 12).toBeCloseTo(taxableRetired, 6);
+    const wages = base.targetCivilianSalary + base.spouseIncome;
+    expect(r.civilianStateTaxMonthly * 12).toBeCloseTo(STATE_RATE * (wages + taxableRetired), 6);
+    expect(r.projectedCivilianMonthlyIfStateTaxes).toBeNull();
+    expect(r.projectedCivilianMonthlyIfStateExempts).toBeNull();
+  });
+
+  test('Vermont record: statute thresholds as named constants, divisor = none − full', () => {
+    const vt = getStateMilitaryRetirementTax('VT');
+    expect(vt?.treatment).toBe('partial');
+    expect(vt?.agiPhaseOut).toEqual({ fullExclusionMaxAgi: VT_FULL, noExclusionMinAgi: VT_NONE, divisor: VT_DIVISOR });
+    expect(vt!.agiPhaseOut!.divisor).toBe(vt!.agiPhaseOut!.noExclusionMinAgi - vt!.agiPhaseOut!.fullExclusionMaxAgi);
+    expect(vt?.sourceUrl).toBe('https://legislature.vermont.gov/statutes/section/32/151/05830e');
+  });
+
+  test(`2. Vermont, ${fmtAgi(vtLow.agi)} (well under $125,000): fully excluded`, () => {
+    expect(vtLow.agi).toBe(60_000);
+    expect(vtLow.taxableRP).toBeGreaterThan(0);
+    expect(vtLow.r.stateExclusionShare).toBe(1);
+    expect(vtLow.r.stateRetiredPayTaxedMonthly).toBe(0);
+    expect(vtLow.r.projectedCivilianMonthlyIfStateTaxes).toBeNull(); // no "both outcomes"
+  });
+
+  test(`3. Vermont, ${fmtAgi(vt125.agi)} (boundary): fully excluded`, () => {
+    expect(vt125.agi).toBe(VT_FULL);
+    expect(vt125.r.stateExclusionShare).toBe(1);
+    expect(vt125.r.stateRetiredPayTaxedMonthly).toBe(0);
+  });
+
+  test(`4. Vermont, ${fmtAgi(vt150.agi)}: exactly 50% excluded`, () => {
+    expect(vt150.agi).toBe(150_000);
+    expect(vt150.r.stateExclusionShare).toBe((VT_NONE - 150_000) / VT_DIVISOR);
+    expect(vt150.r.stateExclusionShare).toBe(0.5);
+    expect(vt150.r.stateRetiredPayTaxedMonthly * 12).toBeCloseTo(vt150.taxableRP * 0.5, 6);
+  });
+
+  test(`5. Vermont, ${fmtAgi(vt175.agi)} (boundary): nothing excluded`, () => {
+    expect(vt175.agi).toBe(VT_NONE);
+    expect(vt175.r.stateExclusionShare).toBe(0);
+    expect(vt175.r.stateRetiredPayTaxedMonthly * 12).toBeCloseTo(vt175.taxableRP, 6);
+  });
+
+  test(`6. Vermont: same thresholds for every filing status (${vtStatuses.map((s) => `${s.fs} ${fmtAgi(s.agi)}`).join(', ')})`, () => {
+    for (const s of vtStatuses) {
+      expect(s.r.filingStatus).toBe(s.fs);
+      expect(s.agi).toBe(150_000);
+      expect(s.r.stateExclusionShare).toBe(0.5);
+      expect(s.r.stateRetiredPayTaxedMonthly * 12).toBeCloseTo(s.taxableRP * 0.5, 6);
+    }
+    // And the boundaries hold for single/hoh too, not just the joint return.
+    for (const fs of ['single', 'hoh'] as FilingStatus[]) {
+      expect(vtAt(VT_FULL, { filingStatus: fs }).r.stateExclusionShare).toBe(1);
+      expect(vtAt(VT_NONE, { filingStatus: fs }).r.stateExclusionShare).toBe(0);
+    }
+  });
+
+  test(`7. Vermont, VA 30% (waiver), ${fmtAgi(vtWaiver.agi)}: exclusion applies to retired pay after the waiver`, () => {
+    const { r, agi } = vtWaiver;
+    expect(agi).toBe(150_000);
+    const gross = r.grossRetiredPayMonthly * 12;
+    const afterWaiver = r.taxableRetiredPayMonthly * 12;
+    expect(r.vaWaiverMonthly).toBeGreaterThan(0); // otherwise this test proves nothing
+    expect(afterWaiver).toBeLessThan(gross);
+    expect(r.stateRetiredPayTaxedMonthly * 12).toBeCloseTo(afterWaiver * 0.5, 6);
+    expect(Math.abs(r.stateRetiredPayTaxedMonthly * 12 - gross * 0.5)).toBeGreaterThan(1);
   });
 
   test('Wyoming is in the table as a no-income-tax state', () => {
@@ -377,7 +464,10 @@ test.describe('State military retirement tax data', () => {
       expect(s.lastVerified).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       expect(s.taxYear).toBeGreaterThanOrEqual(2024);
       if (s.treatment === 'partial') {
-        expect(s.exemptionCap !== undefined || s.exemptionPercent !== undefined).toBe(true);
+        expect(s.exemptionCap !== undefined || s.exemptionPercent !== undefined || s.agiPhaseOut !== undefined).toBe(true);
+        if (s.agiPhaseOut) {
+          expect(s.agiPhaseOut.divisor).toBe(s.agiPhaseOut.noExclusionMinAgi - s.agiPhaseOut.fullExclusionMaxAgi);
+        }
       } else if (s.treatment === 'varies') {
         expect(s.conditionNote).toBeTruthy(); // the note is the only explanation the user gets
       } else {
