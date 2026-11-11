@@ -19,6 +19,8 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema, breadcrumbListSchema } from '@/lib/schema';
 import { ogImage } from '@/lib/og';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { rankPageLinkText } from '@/lib/calculations/payRaise';
+import { gradeToParam } from '@/lib/urlParams';
 
 export async function generateStaticParams() {
   return PAY_PAGE_RANKS.map((r) => ({ rank: r.slug }));
@@ -359,6 +361,15 @@ export default async function RankPayPage({
                 ? `${formatCurrency(minPay, true)} a month — a single flat rate`
                 : `${formatCurrency(minPay, true)} to ${formatCurrency(maxPay, true)} a month`
             } — but basic pay is only the taxable slice of the package. This page shows the full 2026 ${rank.title} pay ${isFlat ? 'picture' : 'progression by years of service'}, then adds the parts a base-pay table hides: housing allowance, food allowance, and what they're worth because they're excluded from federal taxable income.`}
+          </p>
+          <p className="mt-3 text-sm">
+            <Link
+              href={`/pay/raise?grade=${gradeToParam(rank.grade)}`}
+              className="font-semibold text-red-700 hover:text-red-800 underline"
+              data-testid="pay-raise-link"
+            >
+              {rankPageLinkText()}
+            </Link>
           </p>
         </div>
       </section>
