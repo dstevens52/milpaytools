@@ -49,25 +49,32 @@ MilPayTools.com is a free military financial calculator and education platform f
 
 ## Testing
 
-### When to run what (policy from 2026-10-17 — overrides "run after any change" below)
-The full three-browser suite takes 20+ minutes; most repeat runs protect nothing.
-1. **While working on a branch:** run only the specs for the files you changed, on Chromium only
-   (`npx playwright test <specs> --project=chromium`).
-2. **Once per branch, right before Dan approves a merge:** run the full suite on all three browsers,
-   one time (JSON reporter, stats block below). If it has already run since the last code change,
-   don't run it again.
-3. **Don't re-run the full suite to investigate a single failure.** Re-run just that spec file.
-4. **Full runs use the production build, one browser at a time, `--workers=2`** (added 2026-10-18,
+### When to run what (tiered policy, updated 2026-11-10 — this is the only testing rule; it overrides any "run after every change" line elsewhere)
+The full three-browser suite takes 20+ minutes. Calculator math gives the same answer in every
+browser; cross-browser bugs come from shared UI. Test accordingly.
+1. **While iterating:** only the specs for what you changed, Chromium only
+   (`npx playwright test <specs> --project=chromium`). 1–3 minutes.
+2. **Before the PR (once per branch):** affected specs on all three browsers + the full suite on
+   Chromium only. ~8–10 minutes. This is the default pre-merge gate for calculator logic, data,
+   content and template changes.
+3. **Full three-browser gate** only when the change touches shared code used across many pages
+   (layout, `ResultCard`, `EmailSignup`, `BaseSearchInput`, `StationPageClient`, `constants.ts`,
+   shared `src/lib` helpers, global CSS, `next.config.ts`, Playwright config) or before a big release.
+4. **Finish all review before gating.** Fold in every pending fix, data spot-check and copy edit
+   first, so the gate runs once. Don't start a gate while more changes are known to be coming.
+   If code changes after the gate, re-run only tier 1 for the changed files plus tier 2 if it was
+   more than a copy/spacing fix.
+5. **Don't re-run a suite to investigate a single failure.** Re-run just that spec file.
+6. **Gate runs use the production build, one browser at a time, `--workers=2`** (added 2026-10-18,
    after a three-browser run on `next dev` was killed for low memory):
    `npm run build`, then `E2E_SERVER=prod npx playwright test --project=<browser> --workers=2 --reporter=json`
    (`E2E_SERVER=prod` makes the Playwright webServer run `next start` instead of `next dev`).
-   - Chromium-only is acceptable before merge for **data and template changes**.
-   - Run **all three browsers** (one after another) for changes to **shared components or
-     calculator logic**.
-5. Baseline failures and their root causes are in `tests/KNOWN_FAILURES.md`.
+   Before starting, make sure nothing is already listening on :3000 (a leftover `next start`
+   makes Playwright test a stale build).
+7. Baseline failures and their root causes are in `tests/KNOWN_FAILURES.md`.
 
 ### Reference
-- Run `npm run test:e2e` after any changes
+- Which tests to run when: see the tiered policy above
 - 1299+ Playwright tests covering all calculators, BAH pages, and cross-browser (Chrome/Firefox/WebKit)
 - Fort Bragg and Fort Hood are commonly used as test reference pages
 - **Baseline gate must use the JSON reporter:** `npx playwright test --reporter=json > results.json`
@@ -157,4 +164,4 @@ Before flagging any figure as wrong, the full lookup chain must be established a
 - One type of change at a time for code modifications
 - Cap at 5-8 files for code changes per prompt
 - Verify between builds
-- Run Playwright after every change
+- Test per the tiered policy in the Testing section (not the full suite after every change)
