@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "tsx scripts/lint-oconus.ts",
+    "prebuild": "tsx scripts/gen-oconus-search-index.ts && tsx scripts/lint-oconus.ts",
+    "gen:oconus-index": "tsx scripts/gen-oconus-search-index.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

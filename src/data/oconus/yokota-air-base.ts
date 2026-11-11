@@ -14,6 +14,7 @@ export const yokota: OconusStation = {
   published: true,
   name: 'Yokota Air Base',
   shortName: 'Yokota AB',
+  searchAliases: ['yokota'],
   hostCountry: { value: 'Japan', sourceUrl: MOS_YOKOTA, verifiedOn: V },
   cityRegion: { value: 'Fussa, Tokyo area', sourceUrl: MOS_YOKOTA, verifiedOn: V },
   branches: { value: ['Air Force'], sourceUrl: MOS_YOKOTA, verifiedOn: V },

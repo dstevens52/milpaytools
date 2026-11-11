@@ -21,6 +21,7 @@ export const campHumphreys: OconusStation = {
   published: true,
   name: 'Camp Humphreys',
   shortName: 'Camp Humphreys',
+  searchAliases: ['humphreys', 'camp humphreys', 'pyeongtaek'],
   // The legacy duty-station name, which the PCS estimator's search returns.
   searchNames: ['Camp Humphreys (K-6)'],
   hostCountry: { value: 'South Korea', sourceUrl: MOS_HUMPHREYS, verifiedOn: V },

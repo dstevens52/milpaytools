@@ -12,7 +12,14 @@
  */
 
 import { useState, useEffect, useRef, useMemo } from 'react';
+import Link from 'next/link';
 import { searchStations, type SearchResult } from '@/lib/stationSearch';
+import { detectOverseasText, detectOverseasZip } from '@/lib/overseasSearch';
+import {
+  overseasNoteCopy,
+  type OverseasMatch,
+  type OverseasVariant,
+} from '@/data/oconus/stationSearchCopy';
 import { useBahLookup } from './useBahLookup';
 
 export interface BaseSearchInputProps {
@@ -31,6 +38,14 @@ export interface BaseSearchInputProps {
   hint?: string;
   /** Exclude OCONUS installations from suggestions (default true — they use OHA, not BAH). */
   excludeOconus?: boolean;
+  /**
+   * Which allowance the host calculator prices, for the overseas note's wording
+   * (default 'housing'). The note shows only when excludeOconus is true — a
+   * tool that accepts overseas stations (PCS) handles them itself.
+   */
+  overseasVariant?: OverseasVariant;
+  /** Called with the overseas match (or null) whenever it changes. Display-only hook for the parent. */
+  onOverseasChange?: (match: OverseasMatch | null) => void;
   className?: string;
 }
 
@@ -44,6 +59,8 @@ export function BaseSearchInput({
   initialText,
   hint,
   excludeOconus = true,
+  overseasVariant = 'housing',
+  onOverseasChange,
   className,
 }: BaseSearchInputProps) {
   const inputId = idProp ?? label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -92,6 +109,22 @@ export function BaseSearchInput({
       ? { kind: 'location', msg: `📍 ${lookup.locationName}` }
       : { kind: null, msg: '' };
   }, [value, lookup, lookupLoading]);
+
+  // Overseas note — replaces "No matches found" / "ZIP code not found" for
+  // overseas input. Text detection runs only once the CONUS search is empty.
+  const overseas = useMemo((): OverseasMatch | null => {
+    if (!excludeOconus) return null;
+    if (isNumericMode) return detectOverseasZip(value);
+    if (text.trim().length < 3 || suggestions.length > 0) return null;
+    return detectOverseasText(text);
+  }, [excludeOconus, isNumericMode, value, text, suggestions.length]);
+
+  const overseasKey = overseas ? `${overseas.kind}:${'name' in overseas ? overseas.name : ''}` : '';
+  useEffect(() => {
+    onOverseasChange?.(overseas);
+    // Keyed on the match identity, not the object, so parents aren't re-notified every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [overseasKey]);
 
   function handleChange(raw: string) {
     userHasInteracted.current = true;
@@ -154,7 +187,9 @@ export function BaseSearchInput({
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  const hasError = feedback.kind === 'error';
+  const hasError = feedback.kind === 'error' && !overseas;
+  const noteId = `${inputId}-overseas-note`;
+  const note = overseas ? overseasNoteCopy(overseas, overseasVariant) : null;
 
   return (
     <div ref={containerRef} className={`relative ${className ?? ''}`}>
@@ -176,6 +211,7 @@ export function BaseSearchInput({
         aria-autocomplete="list"
         aria-expanded={showDropdown}
         aria-haspopup="listbox"
+        aria-describedby={note ? noteId : undefined}
         className={[
           'w-full rounded-md border bg-white px-3 py-2 text-sm text-zinc-900',
           'placeholder:text-zinc-400 focus:outline-none focus:ring-1 transition-colors',
@@ -185,17 +221,52 @@ export function BaseSearchInput({
         ].join(' ')}
       />
 
+      {/* Overseas note — neutral info, not an error (it isn't a user mistake) */}
+      {note && (
+        <div
+          id={noteId}
+          role="status"
+          data-testid="overseas-note"
+          className="mt-1.5 rounded-md border border-sky-200 bg-sky-50 px-3 py-2 text-xs leading-relaxed text-sky-900"
+        >
+          <p className="font-semibold">
+            <span aria-hidden="true">📍 </span>
+            {note.headline}
+          </p>
+          <p className="mt-0.5">{note.body}</p>
+          <p className="mt-1 flex flex-wrap gap-x-4 gap-y-1">
+            {note.links.map((l) =>
+              l.external ? (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-blue-700 underline hover:text-blue-800"
+                >
+                  {l.label}
+                </a>
+              ) : (
+                <Link key={l.href} href={l.href} className="font-medium text-blue-700 underline hover:text-blue-800">
+                  {l.label}
+                </Link>
+              ),
+            )}
+          </p>
+        </div>
+      )}
+
       {/* Inline feedback */}
-      {feedback.kind === 'loading' && !showDropdown && (
+      {!note && feedback.kind === 'loading' && !showDropdown && (
         <p className="text-xs text-zinc-400 mt-1">{feedback.msg}</p>
       )}
-      {feedback.kind === 'error' && (
+      {!note && feedback.kind === 'error' && (
         <p className="text-xs text-red-600 mt-1">{feedback.msg}</p>
       )}
       {feedback.kind === 'location' && !showDropdown && (
         <p className="text-xs text-zinc-500 mt-1">{feedback.msg}</p>
       )}
-      {feedback.kind === null && !isNumericMode && text.length >= 3 && suggestions.length === 0 && !showDropdown && (
+      {!note && feedback.kind === null && !isNumericMode && text.length >= 3 && suggestions.length === 0 && !showDropdown && (
         <p className="text-xs text-zinc-500 mt-1">No matches found — try entering your ZIP code directly</p>
       )}
       {feedback.kind === null && hint && !showDropdown && (isNumericMode || text.length < 3 || suggestions.length > 0) && (

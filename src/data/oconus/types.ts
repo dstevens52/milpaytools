@@ -27,6 +27,10 @@ export type OconusStation = {
   // Installation search names (src/data/installations-lookup.ts) that should
   // link to this guide from the PCS estimator, when they differ from `name`.
   searchNames?: string[];
+  // Lowercase search terms that identify this station in the calculators'
+  // station inputs (BaseSearchInput), which show an overseas note linking here
+  // instead of "No matches found". Search terms only, not displayed.
+  searchAliases?: string[];
   hostCountry: SourcedFact;
   cityRegion: SourcedFact;
   branches: SourcedFact<string[]>;

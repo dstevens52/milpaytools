@@ -19,6 +19,7 @@ export const rafLakenheath: OconusStation = {
   shortName: 'Lakenheath & Mildenhall',
   titleOverride: "Lakenheath & Mildenhall BAH? It's OHA",
   searchNames: ['RAF Lakenheath', 'RAF Mildenhall'],
+  searchAliases: ['lakenheath', 'mildenhall', 'raf lakenheath', 'raf mildenhall'],
   hostCountry: { value: 'United Kingdom', sourceUrl: MOS_LAKENHEATH, verifiedOn: V },
   cityRegion: { value: 'Suffolk, England', sourceUrl: MOS_LAKENHEATH, verifiedOn: V },
   branches: { value: ['Air Force'], sourceUrl: `${MOS_MILDENHALL}/base-essentials/major-units`, verifiedOn: V },
