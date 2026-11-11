@@ -1,4 +1,5 @@
 import type { PayGrade } from './military';
+import type { StateMilitaryRetirementTax } from '@/data/state-military-retirement-tax';
 
 // ─── Total Compensation ────────────────────────────────────────────────────
 
@@ -164,6 +165,10 @@ export interface ActionStep {
 
 // ─── Transition Readiness ──────────────────────────────────────────────────
 
+// Federal filing status. Separate from BAH dependent status — a single parent draws
+// with-dependents BAH but files as head of household.
+export type FilingStatus = 'single' | 'mfj' | 'hoh';
+
 export interface TransitionReadinessInput {
   payGrade: PayGrade;
   yearsOfService: number;
@@ -174,6 +179,10 @@ export interface TransitionReadinessInput {
   targetCivilianSalary: number;
   spouseIncome: number;
   vaRating: number; // 0–100, or -1 for "haven't filed"
+  crscEligible: boolean; // user says the disability is combat-related (CRSC)
+  retirementState: string | null; // USPS code from state-military-retirement-tax.ts; null = "not sure yet"
+  stateTaxRate: number; // user-entered effective state rate, decimal (0.05 = 5%)
+  filingStatus: FilingStatus; // used on BOTH the military and civilian sides
   healthcareAssumption: 'marketplace' | 'employer' | 'va' | 'not-sure';
   expenseMode: 'quick' | 'detailed';
   totalMonthlyExpenses: number;
@@ -197,20 +206,34 @@ export interface TransitionReadinessOutput {
   militaryTaxAdvantageMonthly: number;
   militaryTotalMonthly: number;
   // After-tax military breakdown
-  militaryFedEffectiveRate: number;
+  // Household basis: base pay + spouse wages on one return (same filing status as civilian side)
+  militaryFedEffectiveRate: number; // federal tax ÷ (base pay + spouse wages)
   militaryFedTaxMonthly: number;
-  militaryFICAMonthly: number;
+  militaryFICAMonthly: number; // base pay + spouse wages
+  militarySpouseStateTaxMonthly: number; // state tax on spouse wages only (see lib comment)
   militaryTakeHomeMonthly: number;
-  // After-tax civilian breakdown
-  civilianFedEffectiveRate: number;
-  civilianFedTaxMonthly: number;
-  civilianFICAMonthly: number;
-  civilianStateTaxMonthly: number;
-  netCivilianSalaryMonthly: number;
+  // Retired pay and VA offset
+  grossRetiredPayMonthly: number; // pension formula before any VA waiver
+  vaWaiverMonthly: number; // retired pay waived to receive VA comp (rating below 50%)
+  taxableRetiredPayMonthly: number; // retired pay after waiver — federally taxable
+  crscMonthly: number; // tax-free CRSC restoring the waived amount
+  receivesCRDP: boolean;
   vaCompMonthly: number;
-  pensionMonthly: number;
-  netSpouseMonthly: number;
+  // After-tax civilian breakdown (one household return)
+  filingStatus: FilingStatus;
+  civilianFedTaxableIncomeAnnual: number; // gross income subject to federal tax, before the standard deduction
+  civilianFedEffectiveRate: number; // federal tax ÷ civilianFedTaxableIncomeAnnual
+  civilianFedTaxMonthly: number;
+  civilianFICAMonthly: number; // wages only — not retired pay
+  civilianStateTaxMonthly: number;
+  stateRetiredPayTaxedMonthly: number; // retired pay included in the state base
+  stateExemptionCapAnnual: number | null; // cap-based partial states, after modeled conditions (GA/CA/ID)
+  stateTaxRule: StateMilitaryRetirementTax | null;
+  afterTaxTaxableIncomeMonthly: number; // wages + taxable retired pay, minus all taxes
   projectedCivilianMonthly: number;
+  // "I'm not sure yet" or a "varies" state, with retired pay: both outcomes (primary result uses the taxed one)
+  projectedCivilianMonthlyIfStateTaxes: number | null;
+  projectedCivilianMonthlyIfStateExempts: number | null;
   grossedUpCivilianSalary: number;
   isRetirementEligible: boolean;
   separationYOS: number;

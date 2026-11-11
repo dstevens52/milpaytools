@@ -113,6 +113,53 @@ test.describe('Transition Readiness Calculator', () => {
     await expect(page.getByLabel(/rank.*pay grade/i)).toHaveValue('O-3');
   });
 
+  test('retiree below 50% VA: retired pay is labeled taxable, waiver line and CRSC box appear', async ({ page }) => {
+    await page.goto('/calculators/transition-readiness?rank=e6&yos=20&va=30&sal=75000&sp=50000&exp=4000&mode=quick');
+    await expect(page.getByText('Military retired pay (federally taxable)')).toBeVisible();
+    await expect(page.getByText('VA waiver offset (rating below 50%)')).toBeVisible();
+    await expect(page.getByText(/retirement pension \(tax-free\)/i)).toHaveCount(0);
+    await expect(page.getByLabel('My disability is combat-related (CRSC)')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'How CRDP and CRSC work' }).first()).toBeVisible();
+    // No state chosen: both outcomes shown
+    await expect(page.getByText(/if your state taxes retired pay/i)).toBeVisible();
+  });
+
+  test('retiree at 50%+ VA: no waiver line and no CRSC box (CRDP)', async ({ page }) => {
+    await page.goto('/calculators/transition-readiness?rank=e6&yos=20&va=60&sal=75000&sp=50000&exp=4000&mode=quick');
+    await expect(page.getByText('Military retired pay (federally taxable)')).toBeVisible();
+    await expect(page.getByText('VA waiver offset (rating below 50%)')).toHaveCount(0);
+    await expect(page.getByLabel('My disability is combat-related (CRSC)')).toHaveCount(0);
+  });
+
+  test('choosing a post-separation state shows its treatment and source', async ({ page }) => {
+    await page.goto('/calculators/transition-readiness?rank=e6&yos=20&va=30&sal=75000&sp=50000&exp=4000&mode=quick');
+    await page.locator('#retirement-state').selectOption('TX');
+    await expect(page.getByText(/Texas: military retired pay not taxed \(no state income tax\)/)).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Texas revenue department' })).toBeVisible();
+    await expect(page.getByText(/if your state taxes retired pay/i)).toHaveCount(0);
+  });
+
+  test('single parent defaults to head of household; user can override; both cards follow it', async ({ page }) => {
+    await page.goto('/calculators/transition-readiness?rank=e6&yos=10&dep=yes&sp=0&sal=75000&exp=4000&mode=quick');
+    const fs = page.locator('#filing-status');
+    await expect(fs).toHaveValue('hoh');
+    await expect(page.getByText('Est. federal income tax (head of household)')).toHaveCount(2); // military + civilian
+    await fs.selectOption('single');
+    await expect(page.getByText('Est. federal income tax (single)')).toHaveCount(2);
+    await expect(page.getByText('Est. federal income tax (head of household)')).toHaveCount(0);
+  });
+
+  test('Vermont ("varies") shows both results and its condition note', async ({ page }) => {
+    await page.goto('/calculators/transition-readiness?rank=e6&yos=20&va=30&sal=75000&sp=50000&exp=4000&mode=quick&st=VT');
+    await expect(page.getByText(/Vermont: military retired pay exempt or taxable depending on your income/)).toBeVisible();
+    await expect(page.getByText(/if your state taxes retired pay/i)).toBeVisible();
+  });
+
+  test('retired pay states it uses 2026 pay tables with no raise projection', async ({ page }) => {
+    await page.goto('/calculators/transition-readiness?rank=e6&yos=20&va=30&sal=75000&sp=50000&exp=4000&mode=quick');
+    await expect(page.getByText(/Uses 2026 pay tables — no future raises assumed/)).toBeVisible();
+  });
+
   test('page is mobile-responsive: input cards visible on small viewport', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await expect(page.getByText(/current military/i).first()).toBeVisible();

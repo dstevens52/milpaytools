@@ -5,12 +5,29 @@
  * Pure functions — no React, no side effects.
  */
 
-import type { TransitionReadinessInput, TransitionReadinessOutput, ActionStep } from '@/types/calculator';
+import type { TransitionReadinessInput, TransitionReadinessOutput, ActionStep, FilingStatus } from '@/types/calculator';
 import { lookupBasePay } from '@/lib/calculations/total-compensation';
-import { BAS_RATES, LEGACY_RETIREMENT_MULTIPLIER, BRS_RETIREMENT_MULTIPLIER, FED_TAX_BRACKETS_SINGLE, STANDARD_DEDUCTION_SINGLE } from '@/data/constants';
+import {
+  BAS_RATES,
+  LEGACY_RETIREMENT_MULTIPLIER,
+  BRS_RETIREMENT_MULTIPLIER,
+  FED_TAX_BRACKETS_SINGLE,
+  STANDARD_DEDUCTION_SINGLE,
+  FED_TAX_BRACKETS_MFJ,
+  STANDARD_DEDUCTION_MFJ,
+  FED_TAX_BRACKETS_HOH,
+  STANDARD_DEDUCTION_HOH,
+} from '@/data/constants';
 import { estimateTaxAdvantage } from '@/lib/utils';
 import { ENLISTED_GRADES } from '@/types/military';
 import { vaRates } from '@/data/va-rates/2026';
+import {
+  getStateMilitaryRetirementTax,
+  stateTaxableRetiredPay,
+  effectiveExemptionCap,
+  type StateMilitaryRetirementTax,
+  type StateTaxContext,
+} from '@/data/state-military-retirement-tax';
 
 // Healthcare replacement cost benchmarks (KFF 2025 Employer Health Benefits Survey)
 const HEALTHCARE_MONTHLY_MARKETPLACE = {
@@ -42,18 +59,39 @@ function resolveHealthcare(
   };
 }
 
-// Combined civilian effective tax rate — used only for spouse income and action step guidance
-// (main civilian salary now uses per-income effective rate calculation)
-export const CIVILIAN_COMBINED_TAX_RATE = 0.3465;
-
 const FICA_RATE = 0.0765;            // 6.2% SS + 1.45% Medicare
-const CIVILIAN_STATE_TAX_RATE = 0.05; // simplified default state effective rate
+// Default for the calculator's state-rate input.
+export const DEFAULT_STATE_TAX_RATE = 0.05;
 
-function estimateAnnualFederalTax(annualIncome: number): number {
-  const taxable = Math.max(0, annualIncome - STANDARD_DEDUCTION_SINGLE);
+const FEDERAL_TAX_TABLES: Record<FilingStatus, { brackets: readonly { upTo: number; rate: number }[]; deduction: number }> = {
+  single: { brackets: FED_TAX_BRACKETS_SINGLE, deduction: STANDARD_DEDUCTION_SINGLE },
+  mfj: { brackets: FED_TAX_BRACKETS_MFJ, deduction: STANDARD_DEDUCTION_MFJ },
+  hoh: { brackets: FED_TAX_BRACKETS_HOH, deduction: STANDARD_DEDUCTION_HOH },
+};
+
+export const FILING_STATUS_LABEL: Record<FilingStatus, string> = {
+  single: 'Single',
+  mfj: 'Married filing jointly',
+  hoh: 'Head of household',
+};
+
+/**
+ * Default filing status when the user hasn't picked one. BAH dependent status is a
+ * separate question: a single parent draws with-dependents BAH but files as head of
+ * household, so dependents alone never imply a joint return.
+ */
+export function defaultFilingStatus(spouseIncome: number, hasDependents: boolean): FilingStatus {
+  if (spouseIncome > 0) return 'mfj';
+  if (hasDependents) return 'hoh';
+  return 'single';
+}
+
+export function estimateAnnualFederalTax(annualIncome: number, filingStatus: FilingStatus): number {
+  const { brackets, deduction } = FEDERAL_TAX_TABLES[filingStatus];
+  const taxable = Math.max(0, annualIncome - deduction);
   let tax = 0;
   let prev = 0;
-  for (const bracket of FED_TAX_BRACKETS_SINGLE) {
+  for (const bracket of brackets) {
     if (taxable <= bracket.upTo) {
       tax += (taxable - prev) * bracket.rate;
       break;
@@ -64,20 +102,122 @@ function estimateAnnualFederalTax(annualIncome: number): number {
   return tax;
 }
 
-function estimateEffectiveFederalRate(annualIncome: number): number {
-  if (annualIncome <= 0) return 0;
-  return estimateAnnualFederalTax(annualIncome) / annualIncome;
+// Bisection: smallest x in [lo, ∞) with f(x) >= target, for f increasing in x.
+export function solveIncreasing(f: (x: number) => number, target: number, lo: number): number {
+  let hi = Math.max(lo, 50_000);
+  while (f(hi) < target && hi < 5_000_000) hi *= 2;
+  for (let i = 0; i < 40; i++) {
+    const mid = (lo + hi) / 2;
+    if (f(mid) < target) lo = mid;
+    else hi = mid;
+  }
+  return hi;
 }
 
-// Iterative solver: find gross salary whose after-tax equals a target monthly take-home
-function computeGrossedUpSalary(militaryTakeHomeAnnual: number): number {
-  let guess = militaryTakeHomeAnnual / 0.65; // start with ~35% combined rate
-  for (let i = 0; i < 3; i++) {
-    const fedRate = estimateEffectiveFederalRate(guess);
-    const totalRate = fedRate + FICA_RATE + CIVILIAN_STATE_TAX_RATE;
-    guess = militaryTakeHomeAnnual / Math.max(0.1, 1 - totalRate);
+// ─── Retired pay and VA offset ─────────────────────────────────────────────
+
+export interface RetiredPaySplit {
+  grossRetiredPayAnnual: number;
+  vaWaiverAnnual: number;
+  taxableRetiredPayAnnual: number; // after the VA waiver — federally taxable
+  crscAnnual: number;              // tax-free
+  receivesCRDP: boolean;
+}
+
+/**
+ * Splits retired pay against VA compensation.
+ * - 50%+ rating with 20+ years: CRDP — full retired pay and full VA comp.
+ * - Below 50%: retired pay is reduced dollar-for-dollar by VA comp (VA waiver).
+ *   If the user says the disability is combat-related, CRSC restores the waived
+ *   amount tax-free, capped at the waived amount.
+ */
+export function splitRetiredPay(
+  grossRetiredPayAnnual: number,
+  vaCompAnnual: number,
+  vaRating: number,
+  yearsOfService: number,
+  crscEligible: boolean,
+): RetiredPaySplit {
+  if (grossRetiredPayAnnual <= 0) {
+    return { grossRetiredPayAnnual: 0, vaWaiverAnnual: 0, taxableRetiredPayAnnual: 0, crscAnnual: 0, receivesCRDP: false };
   }
-  return Math.round(guess / 1000) * 1000;
+  const receivesCRDP = vaRating >= 50 && yearsOfService >= 20;
+  const vaWaiverAnnual = receivesCRDP ? 0 : Math.min(grossRetiredPayAnnual, Math.max(0, vaCompAnnual));
+  const taxableRetiredPayAnnual = grossRetiredPayAnnual - vaWaiverAnnual;
+  const crscAnnual = crscEligible && !receivesCRDP ? vaWaiverAnnual : 0;
+  return { grossRetiredPayAnnual, vaWaiverAnnual, taxableRetiredPayAnnual, crscAnnual, receivesCRDP };
+}
+
+// ─── Household taxes after separation ─────────────────────────────────────
+
+export interface CivilianTaxResult {
+  filingStatus: FilingStatus;
+  fedTaxableIncomeAnnual: number;
+  fedTaxAnnual: number;
+  ficaAnnual: number;
+  stateTaxAnnual: number;
+  stateRetiredPayTaxedAnnual: number;
+  stateExemptionCapAnnual: number | null; // cap-based partial rules, after modeled conditions
+  netAnnual: number; // wages + all retired pay/VA/CRSC, minus all taxes
+}
+
+/** State rule is unresolved ("not sure yet", or a `varies` state) — show both outcomes. */
+function isUnresolvedStateRule(rule: StateMilitaryRetirementTax | null): boolean {
+  return !rule || rule.treatment === 'varies';
+}
+
+/**
+ * One household return:
+ * - Federal: salary + spouse income + taxable retired pay (VA comp and CRSC excluded),
+ *   using the household's filing status.
+ * - FICA: wages only.
+ * - State: user rate × wages, plus taxable retired pay only as far as the state taxes it.
+ *   Unresolved rule ("not sure yet" / `varies`) — `retiredPayStateTaxed` picks the case.
+ */
+export function computeCivilianTaxes(params: {
+  salary: number;
+  spouseIncome: number;
+  filingStatus: FilingStatus;
+  split: RetiredPaySplit;
+  vaCompAnnual: number;
+  stateRule: StateMilitaryRetirementTax | null;
+  stateTaxRate: number;
+  retiredPayStateTaxed?: boolean; // only used when the state rule is unresolved
+}): CivilianTaxResult {
+  const { salary, spouseIncome, filingStatus, split, vaCompAnnual, stateRule, stateTaxRate } = params;
+  const wages = salary + spouseIncome;
+
+  const fedTaxableIncomeAnnual = wages + split.taxableRetiredPayAnnual;
+  const fedTaxAnnual = estimateAnnualFederalTax(fedTaxableIncomeAnnual, filingStatus);
+  const ficaAnnual = wages * FICA_RATE;
+  // State conditions we can evaluate: AGI (CA), filing status (ID), the member's own
+  // earned income (GA — the civilian salary; the spouse qualifies separately, not modeled).
+  const stateCtx: StateTaxContext = {
+    filingStatus,
+    federalAgiAnnual: fedTaxableIncomeAnnual,
+    memberEarnedIncomeAnnual: salary,
+  };
+  const stateExemptionCapAnnual =
+    stateRule?.treatment === 'partial' && stateRule.exemptionPercent === undefined
+      ? effectiveExemptionCap(stateRule, stateCtx)
+      : null;
+
+  let stateRetiredPayTaxedAnnual: number;
+  let stateTaxAnnual: number;
+  if (stateRule?.treatment === 'no_income_tax') {
+    stateRetiredPayTaxedAnnual = 0;
+    stateTaxAnnual = 0;
+  } else {
+    stateRetiredPayTaxedAnnual = isUnresolvedStateRule(stateRule)
+      ? params.retiredPayStateTaxed === false ? 0 : split.taxableRetiredPayAnnual
+      : stateTaxableRetiredPay(stateRule!, split.taxableRetiredPayAnnual, stateCtx);
+    stateTaxAnnual = Math.max(0, stateTaxRate) * (wages + stateRetiredPayTaxedAnnual);
+  }
+
+  const netAnnual =
+    fedTaxableIncomeAnnual + split.crscAnnual + vaCompAnnual - fedTaxAnnual - ficaAnnual - stateTaxAnnual;
+
+  return { filingStatus, fedTaxableIncomeAnnual, fedTaxAnnual, ficaAnnual, stateTaxAnnual, stateRetiredPayTaxedAnnual, stateExemptionCapAnnual, netAnnual };
 }
 
 // ─── VA compensation lookup ────────────────────────────────────────────────
@@ -101,7 +241,7 @@ function buildActionSteps(
     emergencyFundMonths: number;
     adjustedMonthlyExpenses: number;
     totalLiquidSavings: number;
-    netSpouseAnnual: number;
+    netAnnualForSalary: (salary: number) => number;
     vaClaimStatus: 'green' | 'yellow' | 'na';
     timelineStatus: 'green' | 'yellow' | 'red';
     isRetirementEligible: boolean;
@@ -123,14 +263,11 @@ function buildActionSteps(
   // 2. Income deficit
   if (computed.monthlyGapOrSurplus < 0) {
     const gap = Math.abs(Math.round(computed.monthlyGapOrSurplus));
+    // Solve for the salary whose household after-tax income covers expenses + $500/mo,
+    // using the same tax model as the result (joint return, retired pay, state rule).
+    const needAnnual = (computed.adjustedMonthlyExpenses + 500) * 12;
     const targetSalary =
-      Math.ceil(
-        ((computed.adjustedMonthlyExpenses + 500) * 12 -
-          computed.netSpouseAnnual -
-          lookupVACompMonthly(Math.max(0, input.vaRating), input.hasDependents) * 12) /
-          (1 - CIVILIAN_COMBINED_TAX_RATE) /
-          1000
-      ) * 1000;
+      Math.ceil(solveIncreasing(computed.netAnnualForSalary, needAnnual, input.targetCivilianSalary) / 1000) * 1000;
     steps.push({
       label: `Your projected income falls $${gap.toLocaleString()}/month short`,
       description: `Your current inputs require roughly $${targetSalary.toLocaleString()}/year gross salary to cover adjusted expenses with a $500/month cushion. Ways to close the gap include: targeting a higher salary, reducing monthly expenses, adding or increasing spouse/partner income, using GI Bill MHA if planning education benefits post-separation, exploring lower-cost healthcare options, or extending your timeline to build more savings.`,
@@ -203,12 +340,25 @@ export function calculateTransitionReadiness(
   const taxAdvantageMonthly = estimateTaxAdvantage(basePay * 12, monthlyBAH * 12, monthlyBAS * 12) / 12;
   const militaryTotalMonthly = basePay + monthlyBAH + monthlyBAS;
 
-  // 1b. Military after-tax breakdown (only base pay is taxable; BAH and BAS are excluded)
-  const militaryAnnualFedTax = estimateAnnualFederalTax(basePay * 12);
-  const militaryFedEffectiveRate = basePay > 0 ? militaryAnnualFedTax / (basePay * 12) : 0;
+  // 1b. Military after-tax breakdown — household basis, so it compares like-for-like with
+  // the civilian projection:
+  // - Same filing status as the civilian side (input.filingStatus).
+  // - Spouse income is included on BOTH sides: in the joint federal base, FICA, and state
+  //   tax at the user's rate (0 in a no-income-tax state), exactly as on the civilian side.
+  // - Only base pay is taxable; BAH and BAS are excluded. State tax on the member's own
+  //   military pay is not modeled (it depends on state of legal residence) — listed under
+  //   "What this calculator does not include".
+  const stateTaxRule = getStateMilitaryRetirementTax(input.retirementState);
+  const wageStateRate = stateTaxRule?.treatment === 'no_income_tax' ? 0 : Math.max(0, input.stateTaxRate);
+  const militaryFedBaseAnnual = basePay * 12 + input.spouseIncome;
+  const militaryAnnualFedTax = estimateAnnualFederalTax(militaryFedBaseAnnual, input.filingStatus);
+  const militaryFedEffectiveRate = militaryFedBaseAnnual > 0 ? militaryAnnualFedTax / militaryFedBaseAnnual : 0;
   const militaryFedTaxMonthly = militaryAnnualFedTax / 12;
-  const militaryFICAMonthly = basePay * FICA_RATE;
-  const militaryTakeHomeMonthly = (basePay - militaryFedTaxMonthly - militaryFICAMonthly) + monthlyBAH + monthlyBAS;
+  const militaryFICAMonthly = (militaryFedBaseAnnual * FICA_RATE) / 12;
+  const militarySpouseStateTaxMonthly = (input.spouseIncome * wageStateRate) / 12;
+  const militaryTakeHomeMonthly =
+    militaryFedBaseAnnual / 12 - militaryFedTaxMonthly - militaryFICAMonthly - militarySpouseStateTaxMonthly
+    + monthlyBAH + monthlyBAS;
 
   // 2. Retirement eligibility at planned separation
   const separationYOS = input.yearsOfService + input.separationMonths / 12;
@@ -218,27 +368,59 @@ export function calculateTransitionReadiness(
   // 3. Pension (if retirement-eligible)
   const multiplier =
     input.retirementSystem === 'legacy' ? LEGACY_RETIREMENT_MULTIPLIER : BRS_RETIREMENT_MULTIPLIER;
-  const pensionMonthly = isRetirementEligible ? basePay * multiplier * yosAtSep : 0;
+  const grossRetiredPayMonthly = isRetirementEligible ? basePay * multiplier * yosAtSep : 0;
 
-  // 4. VA compensation
+  // 4. VA compensation, and the VA waiver / CRDP / CRSC split of retired pay
   const vaCompMonthly = lookupVACompMonthly(input.vaRating, input.hasDependents);
+  const split = splitRetiredPay(
+    grossRetiredPayMonthly * 12,
+    vaCompMonthly * 12,
+    input.vaRating,
+    separationYOS,
+    input.crscEligible,
+  );
 
-  // 5. Projected civilian income (with per-income effective tax rates)
-  const civilianFedEffectiveRate = estimateEffectiveFederalRate(input.targetCivilianSalary);
-  const civilianFedTaxMonthly = (input.targetCivilianSalary * civilianFedEffectiveRate) / 12;
-  const civilianFICAMonthly = (input.targetCivilianSalary * FICA_RATE) / 12;
-  const civilianStateTaxMonthly = (input.targetCivilianSalary * CIVILIAN_STATE_TAX_RATE) / 12;
-  const civilianCombinedRate = civilianFedEffectiveRate + FICA_RATE + CIVILIAN_STATE_TAX_RATE;
-  const netCivilianSalaryMonthly = (input.targetCivilianSalary * (1 - civilianCombinedRate)) / 12;
-  const spouseFedEffectiveRate = estimateEffectiveFederalRate(input.spouseIncome);
-  const spouseCombinedRate = spouseFedEffectiveRate + FICA_RATE + CIVILIAN_STATE_TAX_RATE;
-  const netSpouseAnnual = input.spouseIncome > 0 ? input.spouseIncome * (1 - spouseCombinedRate) : 0;
-  const netSpouseMonthly = netSpouseAnnual / 12;
-  const projectedCivilianMonthly =
-    netCivilianSalaryMonthly + vaCompMonthly + pensionMonthly + netSpouseMonthly;
+  // 5. Projected civilian income — one household return (federal, FICA on wages, state rule)
+  const taxesFor = (salary: number, retiredPayStateTaxed?: boolean) =>
+    computeCivilianTaxes({
+      salary,
+      spouseIncome: input.spouseIncome,
+      filingStatus: input.filingStatus,
+      split,
+      vaCompAnnual: vaCompMonthly * 12,
+      stateRule: stateTaxRule,
+      stateTaxRate: input.stateTaxRate,
+      retiredPayStateTaxed,
+    });
+  // With the state rule unresolved, the primary result assumes the state taxes retired pay (conservative).
+  const tax = taxesFor(input.targetCivilianSalary, true);
+  const showBothStateCases = isUnresolvedStateRule(stateTaxRule) && split.taxableRetiredPayAnnual > 0;
+  const taxExempt = showBothStateCases ? taxesFor(input.targetCivilianSalary, false) : null;
 
-  // Grossed-up civilian salary: annual gross that produces the same after-tax as military take-home
-  const grossedUpCivilianSalary = computeGrossedUpSalary(militaryTakeHomeMonthly * 12);
+  const civilianFedEffectiveRate = tax.fedTaxableIncomeAnnual > 0 ? tax.fedTaxAnnual / tax.fedTaxableIncomeAnnual : 0;
+  const civilianFedTaxMonthly = tax.fedTaxAnnual / 12;
+  const civilianFICAMonthly = tax.ficaAnnual / 12;
+  const civilianStateTaxMonthly = tax.stateTaxAnnual / 12;
+  const afterTaxTaxableIncomeMonthly =
+    (tax.fedTaxableIncomeAnnual - tax.fedTaxAnnual - tax.ficaAnnual - tax.stateTaxAnnual) / 12;
+  const projectedCivilianMonthly = tax.netAnnual / 12;
+
+  // Grossed-up civilian salary: the salary whose civilian household after-tax equals the
+  // military household take-home — same filing status, spouse income on both sides, state
+  // tax at the user's rate on wages. Retired pay and VA comp stay out of both sides here
+  // (the copy calls them income "on top of this salary").
+  const civilianWagesNetAnnual = (salary: number) =>
+    computeCivilianTaxes({
+      salary,
+      spouseIncome: input.spouseIncome,
+      filingStatus: input.filingStatus,
+      split: splitRetiredPay(0, 0, 0, 0, false),
+      vaCompAnnual: 0,
+      stateRule: stateTaxRule,
+      stateTaxRate: input.stateTaxRate,
+    }).netAnnual;
+  const grossedUpCivilianSalary =
+    Math.round(solveIncreasing(civilianWagesNetAnnual, militaryTakeHomeMonthly * 12, 0) / 1000) * 1000;
 
   // 6. Healthcare replacement cost
   const hasRetireeTricare = isRetirementEligible;
@@ -307,7 +489,7 @@ export function calculateTransitionReadiness(
     emergencyFundMonths,
     adjustedMonthlyExpenses,
     totalLiquidSavings,
-    netSpouseAnnual,
+    netAnnualForSalary: (salary) => taxesFor(salary, true).netAnnual,
     vaClaimStatus,
     timelineStatus,
     isRetirementEligible,
@@ -322,16 +504,27 @@ export function calculateTransitionReadiness(
     militaryFedEffectiveRate,
     militaryFedTaxMonthly,
     militaryFICAMonthly,
+    militarySpouseStateTaxMonthly,
     militaryTakeHomeMonthly,
+    grossRetiredPayMonthly,
+    vaWaiverMonthly: split.vaWaiverAnnual / 12,
+    taxableRetiredPayMonthly: split.taxableRetiredPayAnnual / 12,
+    crscMonthly: split.crscAnnual / 12,
+    receivesCRDP: split.receivesCRDP,
+    vaCompMonthly,
+    filingStatus: tax.filingStatus,
+    civilianFedTaxableIncomeAnnual: tax.fedTaxableIncomeAnnual,
     civilianFedEffectiveRate,
     civilianFedTaxMonthly,
     civilianFICAMonthly,
     civilianStateTaxMonthly,
-    netCivilianSalaryMonthly,
-    vaCompMonthly,
-    pensionMonthly,
-    netSpouseMonthly,
+    stateRetiredPayTaxedMonthly: tax.stateRetiredPayTaxedAnnual / 12,
+    stateExemptionCapAnnual: tax.stateExemptionCapAnnual,
+    stateTaxRule,
+    afterTaxTaxableIncomeMonthly,
     projectedCivilianMonthly,
+    projectedCivilianMonthlyIfStateTaxes: taxExempt ? projectedCivilianMonthly : null,
+    projectedCivilianMonthlyIfStateExempts: taxExempt ? taxExempt.netAnnual / 12 : null,
     grossedUpCivilianSalary,
     isRetirementEligible,
     separationYOS,
