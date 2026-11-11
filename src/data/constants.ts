@@ -10,8 +10,8 @@ export const DATA_YEAR = '2026';
 export const DATA_AS_OF = `January 1, ${DATA_YEAR}`;
 
 // ─── Basic Allowance for Subsistence (BAS) ────────────────────────────────
-// Monthly rates — tax-free
-// Source: https://militarypay.defense.gov/Pay/Allowances/bas/
+// Monthly rates — excluded from federal taxable income
+// Source: https://www.dfas.mil/Military-Members/payentitlements/Pay-Tables/bas/
 export const BAS_RATES = {
   enlisted: 476.95,  // Verified FY2026 DFAS rate
   officer:  328.48,  // Verified FY2026 DFAS rate

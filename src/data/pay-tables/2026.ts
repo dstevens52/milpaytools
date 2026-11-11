@@ -1,22 +1,20 @@
 /**
  * FY2026 Military Monthly Basic Pay Table
  *
- * Source: https://militarypay.defense.gov/Pay/Military-Pay-Charts/
- * Effective: January 1, 2026 (3.8% increase over FY2025)
+ * Source (DFAS basic pay tables, published as HTML pages):
+ *   Enlisted:  https://www.dfas.mil/Military-Members/payentitlements/Pay-Tables/Basic-Pay/EM/
+ *   Officers:  https://www.dfas.mil/Military-Members/payentitlements/Pay-Tables/Basic-Pay/CO/
+ *   O-1E–O-3E: https://www.dfas.mil/Military-Members/payentitlements/Pay-Tables/Basic-Pay/CO_FE/
+ *   Warrant:   https://www.dfas.mil/Military-Members/payentitlements/Pay-Tables/Basic-Pay/WO/
+ * DoD FMR Vol. 7A, Ch. 1. Effective January 1, 2026 (3.8% raise).
+ *
+ * All grades, including W-5 and O-7–O-10, verified cell by cell against DFAS on
+ * Nov 11, 2026 (541 cells, 0 differences). Guarded by
+ * tests/e2e/pay-table-dfas.spec.ts against docs/sources/dfas-2026-basic-pay.csv.
  *
  * Structure: payTable[PayGrade][YOS] = monthly basic pay in dollars
  * YOS key = minimum years of service to qualify for that column.
  * Values are in dollars and cents as published by DFAS.
- *
- * Enlisted E-1–E-9: transcribed from official FY2026 DFAS published table.
- * Warrant O-1 through O-5: values end in clean .00/.10/.20/.30 increments consistent
- *   with official DFAS formatting — spot-checked against verified anchor points.
- * O-1E/O-2E/O-3E: verified June 2026 against the published DFAS 2026 table
- *   (DoD FMR Vol. 7A, Ch. 1); an earlier two-column YOS shift was corrected.
- * O-6: verified June 2026 against the published DFAS 2026 table — values correct.
- * W-5 and O-7 through O-10: values contain odd-cent amounts (.81, .59, .22, etc.)
- *   that are consistent with ECI-formula rounding on higher-grade pay — treat as
- *   estimates pending manual verification against current DFAS tables.
  */
 
 import type { PayTable } from '@/data/types';

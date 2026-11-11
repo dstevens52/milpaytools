@@ -6,6 +6,14 @@ replacement. This file tracks **content that hard-codes dollar figures inline**
 and therefore does NOT update automatically when the data layer is replaced —
 each item below must be re-traced against the new source and revised by hand.
 
+## Basic pay table (January 2027)
+
+- [ ] Replace docs/sources/dfas-2027-basic-pay.csv from the DFAS pages, add 2027.ts, point the
+  pay-table test at the new year; the test must pass before merge.
+  - DFAS pages, CSV format, and retrieval notes: `docs/sources/README.md`.
+  - Test: `tests/e2e/pay-table-dfas.spec.ts` (`npm run test:pay-table`) — update its CSV path,
+    its `src/data/pay-tables/` import, and the expected cell count if DFAS changes the table shape.
+
 ## Pay posts with inline dollar figures
 
 These blog posts render as raw MDX strings (`next-mdx-remote/rsc` cannot import

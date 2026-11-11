@@ -14,7 +14,8 @@
     "test:e2e": "playwright test",
     "test:e2e:live": "cross-env BASE_URL=https://www.milpaytools.com playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:e2e:report": "playwright show-report"
+    "test:e2e:report": "playwright show-report",
+    "test:pay-table": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/pay-table-dfas.spec.ts --project=chromium"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",
