@@ -15,16 +15,16 @@ const DEPLOYMENT_LAST_REVIEWED = 'October 15, 2026';
 const R = DEPLOYMENT_RATES_2026;
 
 export const metadata: Metadata = {
-  title: { absolute: 'Deployment Pay Calculator 2026 | CZTE, HFP, SDP' },
+  title: { absolute: 'Deployment Pay Calculator 2026: Army, Navy, Air Force, USMC' },
   description:
-    'Calculate your deployment pay increase: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings, and Savings Deposit Program interest. All ranks, 2026 rates.',
+    'Free 2026 deployment pay calculator for every branch: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings and Savings Deposit Program interest. All ranks.',
   alternates: {
     canonical: '/calculators/deployment',
   },
   openGraph: {
-    title: 'Deployment Pay Calculator 2026 | CZTE, HFP, SDP',
+    title: 'Deployment Pay Calculator 2026: Army, Navy, Air Force, USMC',
     description:
-      'Calculate your deployment pay increase: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings, and Savings Deposit Program interest. All ranks, 2026 rates.',
+      'Free 2026 deployment pay calculator for every branch: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings and Savings Deposit Program interest. All ranks.',
     type: 'website',
     url: '/calculators/deployment',
     siteName: 'MilPayTools',
@@ -32,9 +32,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Deployment Pay Calculator 2026 | CZTE, HFP, SDP',
+    title: 'Deployment Pay Calculator 2026: Army, Navy, Air Force, USMC',
     description:
-      'Calculate your deployment pay increase: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings, and Savings Deposit Program interest. All ranks, 2026 rates.',
+      'Free 2026 deployment pay calculator for every branch: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings and Savings Deposit Program interest. All ranks.',
     images: ogImage({ type: 'calculator', title: 'Deployment Pay Calculator 2026', sub: 'HFP/IDP, hardship pay, FSA, and combat-zone tax savings' }),
   },
 };
@@ -82,7 +82,7 @@ export default function DeploymentPage() {
 
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'Deployment Pay Calculator 2026', description: 'Calculate your deployment pay increase: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings, and Savings Deposit Program interest. All ranks, 2026 rates.', url: '/calculators/deployment' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: 'Deployment Pay Calculator 2026', description: 'Free 2026 deployment pay calculator for every branch: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings and Savings Deposit Program interest. All ranks.', url: '/calculators/deployment' })} />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="border-b border-zinc-200"
@@ -199,6 +199,27 @@ export default function DeploymentPage() {
       {/* ── Explainer ──────────────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         <hr className="border-zinc-200" />
+
+        <div id="by-branch">
+          <h2 className="text-xl font-semibold text-zinc-900 mb-3">
+            Does deployment pay differ by branch?
+          </h2>
+          <p className="text-zinc-600 text-sm leading-relaxed mb-3">
+            For the pays this calculator covers, no. Hostile Fire/Imminent Danger Pay, Hardship Duty
+            Pay–Location, Family Separation Allowance, the Combat Zone Tax Exclusion, and the Savings
+            Deposit Program are set by federal law and Department of Defense regulation, so they work
+            the same way for Army, Navy, Air Force, Marine Corps, and Space Force members. What
+            changes your total is your rank, where you deploy, how long, and whether you have
+            dependents — not your branch.
+          </p>
+          <p className="text-zinc-600 text-sm leading-relaxed">
+            Some branch-specific pays (such as Navy sea pay or aviation incentive pay) aren&apos;t
+            included here. Your LES and finance office are the final word on what you receive.
+          </p>
+          <p className="mt-1 text-xs text-zinc-500">
+            Source: DoW 7000.14-R, Volume 7a; 37 U.S.C. § 427; 26 U.S.C. § 112; 10 U.S.C. § 1035.
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>

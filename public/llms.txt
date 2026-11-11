@@ -2,19 +2,19 @@
 > Free military pay and benefits calculators built on official 2026 DoD and VA data. No account required. No personal info needed to use the tools — calculator inputs are never sent to our servers. We use privacy-respecting analytics; see our Privacy Policy.
 
 ## Calculators (18)
-- [Total Military Compensation](/calculators/total-compensation): Full pay breakdown with BAH, BAS, tax advantages, TSP match, TRICARE healthcare value, and civilian salary equivalent — including what a civilian would need to earn to match your total package
+- [Military Pay Calculator](/calculators/total-compensation): Base pay, BAH, BAS, TSP match, and tax advantage in one place — your total military compensation, including TRICARE healthcare value and the civilian salary you would need to match it
 - [BAH Calculator](/bah): 2026 BAH rates for all 40,959 ZIP codes, plus search and filter for all duty station BAH pages
 - [VA Disability Rating](/calculators/va-disability): Combined rating calculator with bilateral factor and 2026 compensation rates
 - [TSP Growth Projector](/calculators/tsp): Retirement savings projections with fund allocation
 - [Military Retirement](/calculators/retirement): High-3 and BRS pension projections with lifetime value
-- [PCS Cost Estimator](/calculators/pcs): DLA, MALT, per diem, TLE, and PPM profit estimates
+- [PCS Calculator](/calculators/pcs): Military move and PPM (DITY) estimator — DLA, MALT, per diem, TLE, and PPM net proceeds
 - [Guard/Reserve Pay](/calculators/guard-reserve): Drill pay, annual training, and TRICARE Reserve Select
 - [Education Benefits](/calculators/education): GI Bill vs VR&E vs TA comparison by school
 - [CONUS COLA](/calculators/cola): Cost of living allowance lookup by ZIP
 - [Compare Your PCS Move](/calculators/compare): Side-by-side BAH, taxes, COLA, and take-home between current and new station
-- [Deployment Pay](/calculators/deployment): Combat zone tax exclusion and special pays
+- [Deployment Pay Calculator](/calculators/deployment): For every branch (Army, Navy, Air Force, Marine Corps, Space Force) — HFP/IDP, Hardship Duty Pay, FSA, combat zone tax exclusion, and Savings Deposit Program interest
 - [2026 Pay Charts](/pay): Full pay tables for all ranks and years of service, plus the index of per-rank pay pages
-- [Dual Military BAH](/calculators/dual-military-bah): BAH scenarios for military couples
+- [Dual Military BAH Calculator](/calculators/dual-military-bah): What both members draw, who should claim dependents, and how "double BAH" works for military couples
 - [Transition Readiness](/calculators/transition-readiness): Am I financially ready to leave the military?
 - [Separation Benefits Timeline](/calculators/separation-timeline): When each benefit stops, converts, or expires after separation
 - [Healthcare Cost Comparison](/calculators/healthcare-comparison): TRICARE vs civilian healthcare cost comparison

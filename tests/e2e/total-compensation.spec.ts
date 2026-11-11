@@ -25,7 +25,7 @@ test.describe('Total Compensation Calculator', () => {
   });
 
   test('page loads with correct title', async ({ page }) => {
-    await expect(page).toHaveTitle(/Total Military Compensation/i);
+    await expect(page).toHaveTitle(/Military Pay Calculator/i);
   });
 
   // ── Station gate states ───────────────────────────────────────────────────
