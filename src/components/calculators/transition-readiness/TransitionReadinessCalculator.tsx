@@ -71,6 +71,16 @@ const CRDP_CRSC_POST = '/blog/crdp-vs-crsc-military-retirement';
 const FILING_STATUSES: FilingStatus[] = ['single', 'mfj', 'hoh'];
 const FILING_STATUS_OPTIONS = FILING_STATUSES.map((s) => ({ value: s, label: FILING_STATUS_LABEL[s] }));
 
+/** Full sentence for an AGI phase-out rule (VT); thresholds come from the data record. */
+function phaseOutSentence(rule: StateMilitaryRetirementTax, share: number): string {
+  const p = rule.agiPhaseOut!;
+  if (share >= 1) return `${rule.name} excludes all of your military retired pay at this income.`;
+  if (share <= 0) return `${rule.name} doesn’t exclude military retired pay at ${formatCurrency(p.noExclusionMinAgi)} AGI or more.`;
+  // Inside the range the share is strictly between 0 and 1 — never display 0% or 100% there.
+  const pct = Math.min(99, Math.max(1, Math.round(share * 100)));
+  return `${rule.name} excludes about ${pct}% of your military retired pay at this income (phase-out between ${formatCurrency(p.fullExclusionMaxAgi)} and ${formatCurrency(p.noExclusionMinAgi)} AGI).`;
+}
+
 function stateTreatmentPhrase(rule: StateMilitaryRetirementTax, effectiveCap: number | null): string {
   switch (rule.treatment) {
     case 'no_income_tax':
@@ -954,7 +964,9 @@ export function TransitionReadinessCalculator() {
                       : `−${formatCurrency(result.civilianStateTaxMonthly * 12)}/yr (${stateTaxRatePct}%)`,
                     note: result.stateTaxRule ? (
                       <>
-                        {result.stateTaxRule.name}: military retired pay {stateTreatmentPhrase(result.stateTaxRule, result.stateExemptionCapAnnual)}.
+                        {result.stateTaxRule.agiPhaseOut && result.stateExclusionShare !== null
+                          ? phaseOutSentence(result.stateTaxRule, result.stateExclusionShare)
+                          : <>{result.stateTaxRule.name}: military retired pay {stateTreatmentPhrase(result.stateTaxRule, result.stateExemptionCapAnnual)}.</>}
                         {result.stateTaxRule.treatment === 'partial' && result.grossRetiredPayMonthly > 0 && (
                           <> {result.stateTaxRule.conditionNote} Verify your eligibility.</>
                         )}
@@ -963,7 +975,7 @@ export function TransitionReadinessCalculator() {
                         )}{' '}
                         Source:{' '}
                         <a href={result.stateTaxRule.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-zinc-700">
-                          {result.stateTaxRule.name} revenue department
+                          {result.stateTaxRule.sourceLabel ?? `${result.stateTaxRule.name} revenue department`}
                         </a>
                         , verified {result.stateTaxRule.lastVerified}.
                       </>

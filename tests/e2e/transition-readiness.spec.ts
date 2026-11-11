@@ -181,10 +181,33 @@ test.describe('Transition Readiness Calculator', () => {
     await expect(page.getByText('Est. federal income tax (head of household)')).toHaveCount(0);
   });
 
-  test('Vermont ("varies") shows both results and its condition note', async ({ page }) => {
+  test('Vermont: partial exclusion in the phase-out range, statute source, no "both outcomes"', async ({ page }) => {
+    // $75K + $50K wages + taxable retired pay → AGI between $125K and $175K.
     await page.goto('/calculators/transition-readiness?rank=e6&yos=20&va=30&sal=75000&sp=50000&exp=4000&mode=quick&st=VT');
-    await expect(page.getByText(/Vermont: military retired pay exempt or taxable depending on your income/)).toBeVisible();
-    await expect(page.getByText(/if your state taxes retired pay/i)).toBeVisible();
+    await expect(page.getByText(/Vermont excludes about \d+% of your military retired pay at this income \(phase-out between \$125,000 and \$175,000 AGI\)\./)).toBeVisible();
+    await expect(page.getByText(/applies to federal adjusted gross income for any filing status/)).toBeVisible();
+    await expect(page.getByRole('link', { name: '32 V.S.A. § 5830e(d)' })).toBeVisible();
+    await expect(page.getByText(/if your state taxes retired pay/i)).toHaveCount(0);
+  });
+
+  test('Vermont: low income → all retired pay excluded; high income → none', async ({ page }) => {
+    await page.goto('/calculators/transition-readiness?rank=e6&yos=20&va=30&sal=30000&sp=0&exp=4000&mode=quick&st=VT');
+    await expect(page.getByText('Vermont excludes all of your military retired pay at this income.')).toBeVisible();
+    await page.goto('/calculators/transition-readiness?rank=e6&yos=20&va=30&sal=200000&sp=0&exp=4000&mode=quick&st=VT');
+    await expect(page.getByText('Vermont doesn’t exclude military retired pay at $175,000 AGI or more.')).toBeVisible();
+  });
+
+  test('District of Columbia: in the dropdown (alphabetical), taxable, statute source', async ({ page }) => {
+    await page.goto('/calculators/transition-readiness?rank=e6&yos=20&va=30&sal=75000&sp=50000&exp=4000&mode=quick');
+    const labels = await page.locator('#retirement-state option').allTextContents();
+    const i = labels.indexOf('District of Columbia');
+    expect(i).toBeGreaterThan(0);
+    expect(labels[i - 1]).toBe('Delaware');
+    expect(labels[i + 1]).toBe('Florida');
+    await page.locator('#retirement-state').selectOption('DC');
+    await expect(page.getByText(/District of Columbia: military retired pay taxable\./)).toBeVisible();
+    await expect(page.getByRole('link', { name: 'D.C. Code § 47-1803.02' })).toBeVisible();
+    await expect(page.getByText(/if your state taxes retired pay/i)).toHaveCount(0);
   });
 
   test('retired pay states it uses 2026 pay tables with no raise projection', async ({ page }) => {
