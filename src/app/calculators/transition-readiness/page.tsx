@@ -98,7 +98,7 @@ export default function TransitionReadinessPage() {
             </p>
             <div className="flex-1 min-w-0" />
             <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
-              Verdict: <span className="font-semibold text-amber-600">Not yet ready</span> &mdash; <span className="font-semibold text-zinc-700">{formatCurrency(tr.monthlyGapOrSurplus)}/mo surplus · {tr.emergencyFundMonths.toFixed(1)} mo runway</span>
+              Verdict: <span className="font-semibold text-amber-600">Not yet ready</span> &mdash; <span className="font-semibold text-zinc-700">{formatCurrency(tr.monthlyGapOrSurplus)}/mo surplus ·{' '}{tr.emergencyFundMonths.toFixed(1)}{' '}mo runway</span>
             </p>
           </div>
         </div>
@@ -141,9 +141,9 @@ export default function TransitionReadinessPage() {
             <ExampleRow label={`Emergency fund runway ($15K ÷ ${formatCurrency(tr.adjustedMonthlyExpenses)}/mo)`} value={`${tr.emergencyFundMonths.toFixed(1)} months`} />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>Verdict: Not yet ready.</strong> Even with a healthy {formatCurrency(tr.monthlyGapOrSurplus)} monthly
+            <strong>Verdict: Not yet ready.</strong> Even with a healthy{' '}{formatCurrency(tr.monthlyGapOrSurplus)}{' '}monthly
             surplus, this profile still lands at &quot;Not yet ready&quot; — the tool flags the emergency fund, which covers
-            {tr.emergencyFundMonths.toFixed(1)} months of expenses against its 3-month benchmark. That is the teaching point:
+            {' '}{tr.emergencyFundMonths.toFixed(1)}{' '}months of expenses against its 3-month benchmark. That is the teaching point:
             a strong income surplus on its own doesn&apos;t signal transition-ready, because a thin cash cushion can&apos;t
             absorb a delayed first paycheck, a slow VA claim, or relocation costs — and a brand-new surplus hasn&apos;t had
             time to build one yet. The healthcare cost alone ({formatCurrency(tr.healthcareCostMonthly)}/month for a family)

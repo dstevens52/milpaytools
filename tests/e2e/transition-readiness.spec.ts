@@ -1,4 +1,36 @@
 import { test, expect } from '@playwright/test';
+import {
+  getTransitionReadinessExample,
+  getExampleSalaryForSurplusTarget,
+  TR_EXAMPLE_SURPLUS_TARGET,
+} from '../../src/lib/calculations/transition-readiness-example';
+import { formatCurrency } from '../../src/lib/utils';
+
+// Rendered worked-example text: interpolated values must keep their surrounding spaces
+// (JSX drops whitespace that spans a line break).
+test.describe('Transition readiness worked example — rendered spacing', () => {
+  const ex = getTransitionReadinessExample();
+  const surplus = formatCurrency(ex.monthlyGapOrSurplus); // $1,563 as of 2026-11-10
+  const runway = ex.emergencyFundMonths.toFixed(1); // 2.5
+
+  test('calculator page verdict paragraph and hero bar', async ({ page }) => {
+    await page.goto('/calculators/transition-readiness');
+    const verdict = page.locator('.tr-example p', { hasText: 'Verdict: Not yet ready.' });
+    await expect(verdict).toContainText(`a healthy ${surplus} monthly surplus`);
+    await expect(verdict).toContainText(`covers ${runway} months of expenses`);
+    await expect(page.locator('.tr-page-intro')).toContainText(`${surplus}/mo surplus · ${runway} mo runway`);
+  });
+
+  test('blog post example figures', async ({ page }) => {
+    await page.goto('/blog/are-you-financially-ready-to-leave-the-military');
+    const article = page.locator('main');
+    await expect(article).toContainText(`a ${surplus}/month surplus clears`);
+    await expect(article).toContainText(`emergency fund: ${runway} months of coverage`);
+    await expect(article).toContainText(
+      `toward ${formatCurrency(getExampleSalaryForSurplusTarget())} — enough to clear a ${formatCurrency(TR_EXAMPLE_SURPLUS_TARGET)}/month surplus`,
+    );
+  });
+});
 
 test.describe('Transition Readiness Calculator', () => {
   test.beforeEach(async ({ page }) => {
