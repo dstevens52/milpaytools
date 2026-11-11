@@ -54,6 +54,8 @@ The full three-browser suite takes 20+ minutes. Calculator math gives the same a
 browser; cross-browser bugs come from shared UI. Test accordingly.
 1. **While iterating:** only the specs for what you changed, Chromium only
    (`npx playwright test <specs> --project=chromium`). 1–3 minutes.
+   Always also run `npm run test:pay-table` (data-only: locks `src/data/pay-tables/2026.ts` to
+   `docs/sources/dfas-2026-basic-pay.csv`, no browser or server, ~2 seconds).
 2. **Before the PR (once per branch):** affected specs on all three browsers + the full suite on
    Chromium only. ~8–10 minutes. This is the default pre-merge gate for calculator logic, data,
    content and template changes.
