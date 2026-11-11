@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { lookupCola } from '@/lib/calculations/cola';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
+import { COLA_OVERSEAS_LINE } from '@/data/oconus/stationSearchCopy';
 import { useBahLookup } from '@/components/calculators/shared/useBahLookup';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
@@ -39,6 +40,7 @@ export function ColaCalculator() {
   const [zip, setZip] = useState('');
   const [payGrade, setPayGrade] = useState<PayGrade>('E-5');
   const [hasDependents, setHasDependents] = useState(false);
+  const [overseasInput, setOverseasInput] = useState(false);
 
   const isValidZip = zip.length === 5;
 
@@ -81,7 +83,13 @@ export function ColaCalculator() {
     <div className="bg-white rounded-lg border border-zinc-200 shadow-sm">
       {/* Input panel */}
       <div className="p-6 border-b border-zinc-100">
-        <h2 className="text-lg font-semibold text-zinc-900 mb-5">CONUS COLA Lookup</h2>
+        <h2 className="text-lg font-semibold text-zinc-900 mb-2">CONUS COLA Lookup</h2>
+        <p className="text-sm text-zinc-600 mb-5" data-testid="cola-overseas-line">
+          {COLA_OVERSEAS_LINE.text}{' '}
+          <Link href={COLA_OVERSEAS_LINE.href} className="font-medium text-blue-700 underline hover:text-blue-800">
+            {COLA_OVERSEAS_LINE.linkLabel}
+          </Link>
+        </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
           {/* ZIP / base name */}
@@ -91,6 +99,8 @@ export function ColaCalculator() {
               label="Base or duty station"
               value={zip}
               onZipChange={setZip}
+              overseasVariant="cola"
+              onOverseasChange={(m) => setOverseasInput(m !== null)}
               placeholder="Try Monterey, Fort Irwin, or 93940"
             />
           </div>
@@ -170,7 +180,9 @@ export function ColaCalculator() {
           </div>
         )}
 
-        {isValidZip && result && !result.isColaArea && (
+        {/* Display only: for overseas input the station field's overseas note already
+            explains why there's no CONUS COLA result, so this box would repeat it. */}
+        {isValidZip && result && !result.isColaArea && !overseasInput && (
           <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-6">
             <div className="flex items-start gap-4">
               <span className="text-2xl flex-none">📍</span>

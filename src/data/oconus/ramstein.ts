@@ -13,6 +13,7 @@ export const ramstein: OconusStation = {
   published: true,
   name: 'Ramstein Air Base',
   shortName: 'Ramstein AB',
+  searchAliases: ['ramstein', 'kaiserslautern', 'kmc'],
   hostCountry: { value: 'Germany', sourceUrl: MOS_RAMSTEIN, verifiedOn: V },
   cityRegion: { value: 'Ramstein-Miesenbach, Rhineland-Palatinate', sourceUrl: MOS_RAMSTEIN, verifiedOn: V },
   branches: { value: ['Air Force', 'Army (Kaiserslautern Military Community)'], sourceUrl: USAG_RP_VISITOR, verifiedOn: V },

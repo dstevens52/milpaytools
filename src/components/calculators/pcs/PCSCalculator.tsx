@@ -25,6 +25,7 @@ import type { SearchResult } from '@/lib/stationSearch';
 import { parseBool } from '@/lib/urlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { publishedOconusV2ForName } from '@/data/oconus';
+import { isMilitaryMailZip } from '@/lib/militaryMailZip';
 import {
   PCS_OVERSEAS_DLA_LABEL,
   PCS_OVERSEAS_DLA_NOTE,
@@ -109,13 +110,10 @@ type RouteClass = 'conus' | 'ak-hi' | 'oconus';
 
 function classifyZip(zip: string): RouteClass {
   if (!zip || zip.length < 3) return 'conus';
-  const p2 = zip.slice(0, 2);
   const p3 = zip.slice(0, 3);
   if (p3 >= '995') return 'ak-hi'; // Alaska (995–999)
   if (p3 === '967' || p3 === '968') return 'ak-hi'; // Hawaii
-  if (p2 === '09') return 'oconus'; // APO AE
-  if (p3 >= '962' && p3 <= '966') return 'oconus'; // APO AP
-  if (p3 === '340') return 'oconus'; // APO AA
+  if (isMilitaryMailZip(zip)) return 'oconus'; // APO AE (09), AP (962–966), AA (340)
   return 'conus';
 }
 

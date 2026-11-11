@@ -4,8 +4,15 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import type { DutyStation } from '@/data/duty-stations/stations';
 
+/** One card in the hub list: a duty station, or a v2 OCONUS station with no duty-station entry. */
+export type StationCard = Pick<DutyStation, 'name' | 'slug' | 'formerName' | 'city' | 'state' | 'stateName'> & {
+  branches: string[];
+  oconus?: boolean;
+  e5Rate: number | null;
+};
+
 interface Props {
-  stations: Array<DutyStation & { e5Rate: number | null }>;
+  stations: StationCard[];
 }
 
 function fmt(n: number) {
@@ -70,7 +77,9 @@ export function StationSearch({ stations }: Props) {
       <div className="space-y-10">
         {grouped.map(([stateName, list]) => (
           <div key={stateName}>
-            <h2 className="text-sm font-semibold text-zinc-500 uppercase tracking-widest mb-3 pb-2 border-b border-zinc-200">
+            <h2
+              id={stateName === 'OCONUS' ? 'oconus' : undefined}
+              className="scroll-mt-20 text-sm font-semibold text-zinc-500 uppercase tracking-widest mb-3 pb-2 border-b border-zinc-200">
               {stateName}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">

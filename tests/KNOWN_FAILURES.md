@@ -13,7 +13,7 @@
 
 This file is the baseline to diff future **local** runs against. A new failure that
 is NOT listed here is a regression. The conditional `test.skip()` data-guards (skip
-when reference BAH/pay data is absent) and the `transition-readiness.spec.ts:60`
+when reference BAH/pay data is absent) and the `transition-readiness.spec.ts:92`
 `test.fixme` are expected and excluded from the counts below.
 
 ## Failing tests (0)

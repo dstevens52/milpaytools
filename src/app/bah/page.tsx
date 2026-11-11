@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { DUTY_STATIONS } from '@/data/duty-stations/stations';
 import { getMHACode, getMHARates } from '@/lib/calculations/bah';
-import { StationSearch } from '@/components/bah-stations/StationSearch';
+import { StationSearch, type StationCard } from '@/components/bah-stations/StationSearch';
+import { OCONUS_V2_STATIONS } from '@/data/oconus';
 import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
@@ -39,12 +40,27 @@ export const metadata: Metadata = {
 };
 
 export default function BahHubPage() {
-  const stationsWithRates = DUTY_STATIONS.map((s) => {
+  const dutyCards: StationCard[] = DUTY_STATIONS.map((s) => {
     if (s.oconus) return { ...s, e5Rate: null };
     const mhaCode = getMHACode(s.zip);
     const rates = mhaCode ? getMHARates(mhaCode, true) : null;
     return { ...s, e5Rate: rates?.['E-5'] ?? null };
   });
+  // Published v2 OCONUS guides with no duty-station entry (e.g. RAF Lakenheath
+  // & Mildenhall). Stations already in DUTY_STATIONS are skipped by slug, so
+  // none appears twice.
+  const dutySlugs = new Set(DUTY_STATIONS.map((s) => s.slug));
+  const v2OnlyCards: StationCard[] = OCONUS_V2_STATIONS.filter((s) => s.published && !dutySlugs.has(s.slug)).map((s) => ({
+    name: s.name,
+    slug: s.slug,
+    city: s.cityRegion.value,
+    state: s.hostCountry.value,
+    stateName: s.hostCountry.value,
+    branches: s.branches.value,
+    oconus: true,
+    e5Rate: null,
+  }));
+  const stationsWithRates = [...dutyCards, ...v2OnlyCards];
 
   const totalConus = DUTY_STATIONS.filter((s) => !s.oconus).length;
 

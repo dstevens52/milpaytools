@@ -14,6 +14,7 @@ export const kadena: OconusStation = {
   published: true,
   name: 'Kadena Air Base',
   shortName: 'Kadena AB',
+  searchAliases: ['kadena', 'okinawa'],
   hostCountry: { value: 'Japan', sourceUrl: MOS_KADENA, verifiedOn: V },
   cityRegion: { value: 'Okinawa City, Okinawa', sourceUrl: MOS_KADENA, verifiedOn: V },
   branches: { value: ['Air Force'], sourceUrl: MOS_KADENA, verifiedOn: V },

@@ -38,7 +38,7 @@ const ABBREVS: [RegExp, string][] = [
   [/\bpentagon\b/gi,'fort myer henderson hall'],
 ];
 
-function normalize(s: string): string {
+export function normalize(s: string): string {
   let r = s.toLowerCase().trim();
   for (const [pat, rep] of ABBREVS) r = r.replace(pat, rep);
   return r.replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();

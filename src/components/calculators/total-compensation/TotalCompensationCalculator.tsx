@@ -181,6 +181,7 @@ function StationGate({ state }: { state: 'none' | 'loading' | 'territory' | 'unm
 export function TotalCompensationCalculator() {
   const [grade, setGrade] = useState<PayGrade>('E-5');
   const [yos, setYos] = useState(6);
+  const [overseasInput, setOverseasInput] = useState(false);
   const [zipCode, setZipCode] = useState('');
   const [hasDependents, setHasDependents] = useState(false);
   const [retirementSystem, setRetirementSystem] = useState<'legacy' | 'brs'>('brs');
@@ -308,6 +309,7 @@ export function TotalCompensationCalculator() {
             label="Duty Station"
             value={zipCode}
             onZipChange={setZipCode}
+            onOverseasChange={(m) => setOverseasInput(m !== null)}
             placeholder="Try 'Fort Bragg', 'San Diego', or '28310'"
             hint="We'll match your ZIP or installation to the correct BAH area."
           />
@@ -644,7 +646,10 @@ export function TotalCompensationCalculator() {
 
       </div>
       ) : (
-        <StationGate state={stationState} />
+        // Display only: when the input shows its overseas note, the amber
+        // "couldn't match" box would repeat it, so show the neutral prompt.
+        // stationState (what decides whether results can be calculated) is unchanged.
+        <StationGate state={overseasInput && stationState === 'unmatched' ? 'none' : stationState} />
       )}
     </div>
   );
