@@ -5,8 +5,8 @@ import { TransitionReadinessCalculator } from '@/components/calculators/transiti
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
-import { calculateTransitionReadiness } from '@/lib/calculations/transition-readiness';
-import { getMHACode, getMHARates } from '@/lib/calculations/bah';
+import { getTransitionReadinessExample } from '@/lib/calculations/transition-readiness-example';
+import { FILING_STATUS_LABEL } from '@/lib/calculations/transition-readiness';
 import { formatCurrency } from '@/lib/utils';
 import { ogImage } from '@/lib/og';
 import { vaRates } from '@/data/va-rates/2026';
@@ -43,40 +43,8 @@ export const metadata: Metadata = {
 };
 
 export default function TransitionReadinessPage() {
-  // ── Worked-example values; BAH resolved server-side from bah.ts ───────────────
-  // Scenario: E-6, 10 YOS, JBSA (78234), married, 14 months out, Legacy, $75k
-  // target salary, 40% VA, spouse $24k, $15k emergency fund, $45k TSP, $4,200/mo
-  // expenses, marketplace family healthcare.
-  const trMha = getMHACode('78234');
-  const trBah = (trMha && getMHARates(trMha, true)?.['E-6']) || 0;
-  const tr = calculateTransitionReadiness(
-    {
-      payGrade: 'E-6',
-      yearsOfService: 10,
-      zipCode: '78234',
-      hasDependents: true,
-      separationMonths: 14,
-      retirementSystem: 'legacy',
-      targetCivilianSalary: 75000,
-      spouseIncome: 24000,
-      vaRating: 40,
-      healthcareAssumption: 'marketplace',
-      expenseMode: 'quick',
-      totalMonthlyExpenses: 4200,
-      expenseHousing: 0,
-      expenseCar: 0,
-      expenseInsurance: 0,
-      expenseGroceries: 0,
-      expenseDebt: 0,
-      expenseChildcare: 0,
-      expenseUtilities: 0,
-      expenseOther: 0,
-      emergencyFund: 15000,
-      tspBalance: 45000,
-      otherSavings: 0,
-    },
-    trBah,
-  );
+  // ── Worked-example values (shared with the blog post); BAH resolved server-side ──
+  const tr = getTransitionReadinessExample();
 
   return (
     <>
@@ -130,7 +98,7 @@ export default function TransitionReadinessPage() {
             </p>
             <div className="flex-1 min-w-0" />
             <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
-              Verdict: <span className="font-semibold text-amber-600">Not yet ready</span> &mdash; <span className="font-semibold text-zinc-700">$374/mo surplus · 2.5 mo runway</span>
+              Verdict: <span className="font-semibold text-amber-600">Not yet ready</span> &mdash; <span className="font-semibold text-zinc-700">{formatCurrency(tr.monthlyGapOrSurplus)}/mo surplus ·{' '}{tr.emergencyFundMonths.toFixed(1)}{' '}mo runway</span>
             </p>
           </div>
         </div>
@@ -163,9 +131,8 @@ export default function TransitionReadinessPage() {
             <ExampleRow label="BAH — JBSA (ZIP 78234, with dependents)" value={`${formatCurrency(tr.militaryMonthlyBAH)}/mo`} />
             <ExampleRow label="BAS — Enlisted" value={`${formatCurrency(tr.militaryMonthlyBAS)}/mo`} />
             <ExampleRow label="Total military compensation (pre-tax)" value={`${formatCurrency(tr.militaryTotalMonthly)}/mo`} highlight />
-            <ExampleRow label="Post-separation: $75K salary after federal + FICA + state tax" value={`${formatCurrency(tr.netCivilianSalaryMonthly)}/mo`} />
+            <ExampleRow label={`Post-separation: $75K salary + $24K spouse income, after federal (${FILING_STATUS_LABEL[tr.filingStatus].toLowerCase()}) + FICA + state tax`} value={`${formatCurrency(tr.afterTaxTaxableIncomeMonthly)}/mo`} />
             <ExampleRow label="VA disability — 40%, with dependents (tax-free)" value={`${formatCurrency(tr.vaCompMonthly)}/mo`} />
-            <ExampleRow label="Spouse income ($24K) after tax" value={`${formatCurrency(tr.netSpouseMonthly)}/mo`} />
             <ExampleRow label="Total projected civilian income" value={`${formatCurrency(tr.projectedCivilianMonthly)}/mo`} highlight />
             <ExampleRow label="Monthly expenses" value={`${formatCurrency(tr.rawMonthlyExpenses)}/mo`} />
             <ExampleRow label="Healthcare replacement (family, market rate)" value={`+${formatCurrency(tr.healthcareCostMonthly)}/mo`} />
@@ -174,9 +141,9 @@ export default function TransitionReadinessPage() {
             <ExampleRow label={`Emergency fund runway ($15K ÷ ${formatCurrency(tr.adjustedMonthlyExpenses)}/mo)`} value={`${tr.emergencyFundMonths.toFixed(1)} months`} />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>Verdict: Not yet ready.</strong> Even with a healthy {formatCurrency(tr.monthlyGapOrSurplus)} monthly
+            <strong>Verdict: Not yet ready.</strong> Even with a healthy{' '}{formatCurrency(tr.monthlyGapOrSurplus)}{' '}monthly
             surplus, this profile still lands at &quot;Not yet ready&quot; — the tool flags the emergency fund, which covers
-            {tr.emergencyFundMonths.toFixed(1)} months of expenses against its 3-month benchmark. That is the teaching point:
+            {' '}{tr.emergencyFundMonths.toFixed(1)}{' '}months of expenses against its 3-month benchmark. That is the teaching point:
             a strong income surplus on its own doesn&apos;t signal transition-ready, because a thin cash cushion can&apos;t
             absorb a delayed first paycheck, a slow VA claim, or relocation costs — and a brand-new surplus hasn&apos;t had
             time to build one yet. The healthcare cost alone ({formatCurrency(tr.healthcareCostMonthly)}/month for a family)
@@ -277,7 +244,20 @@ export default function TransitionReadinessPage() {
               Severance pay (for involuntary separations) — significant if applicable, verify with your finance office
             </li>
             <li>
-              State income tax on VA disability or military retirement — several states exempt both; verify for your new state
+              Exact state tax treatment of retired pay — confirm with your state revenue department
+            </li>
+            <li>
+              State income tax on your military pay while serving — it depends on your state of legal residence.
+              Spouse income is counted on both sides of the comparison, with state tax at the rate you enter.
+            </li>
+            <li>
+              Future pay raises — retired pay uses 2026 pay tables at your current base pay, with no raise projected to your separation date
+            </li>
+            <li>
+              Combat-Related Special Compensation (CRSC) eligibility — the calculator applies it only if you check the box, and caps it at the waived amount.{' '}
+              <Link href="/blog/crdp-vs-crsc-military-retirement" className="font-medium text-red-700 hover:text-red-800 transition-colors">
+                How CRDP and CRSC work
+              </Link>
             </li>
             <li>
               Commissary and exchange savings that disappear at separation — often $2,000–$4,000/year for an active family
@@ -339,6 +319,7 @@ export default function TransitionReadinessPage() {
         </div>
 
         <Disclaimer dataYear="2026" />
+        <p className="text-xs text-zinc-500">Last updated: November 10, 2026.</p>
       </div>
     </>
   );

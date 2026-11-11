@@ -2,7 +2,13 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { calculateTransitionReadiness } from '@/lib/calculations/transition-readiness';
+import {
+  calculateTransitionReadiness,
+  DEFAULT_STATE_TAX_RATE,
+  defaultFilingStatus,
+  FILING_STATUS_LABEL,
+} from '@/lib/calculations/transition-readiness';
+import { STATE_MILITARY_RETIREMENT_TAX, type StateMilitaryRetirementTax } from '@/data/state-military-retirement-tax';
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { formatCurrency } from '@/lib/utils';
@@ -21,7 +27,7 @@ import {
   PRIOR_ENLISTED_OFFICER_GRADES,
   RANK_DISPLAY,
 } from '@/types/military';
-import type { TransitionReadinessInput } from '@/types/calculator';
+import type { TransitionReadinessInput, FilingStatus } from '@/types/calculator';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 
@@ -50,6 +56,37 @@ const VA_RATING_OPTIONS = [
     return { value: String(pct), label: `${pct}%${pct === 100 ? ' (Total & Permanent)' : ''}` };
   }),
 ];
+
+// Only states with a verified official source appear (see state-military-retirement-tax.ts).
+const RETIREMENT_STATE_OPTIONS = [
+  { value: '', label: "I'm not sure yet" },
+  ...[...STATE_MILITARY_RETIREMENT_TAX]
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((s) => ({ value: s.state, label: s.name })),
+];
+const RETIREMENT_STATE_CODES = new Set(STATE_MILITARY_RETIREMENT_TAX.map((s) => s.state));
+
+const CRDP_CRSC_POST = '/blog/crdp-vs-crsc-military-retirement';
+
+const FILING_STATUSES: FilingStatus[] = ['single', 'mfj', 'hoh'];
+const FILING_STATUS_OPTIONS = FILING_STATUSES.map((s) => ({ value: s, label: FILING_STATUS_LABEL[s] }));
+
+function stateTreatmentPhrase(rule: StateMilitaryRetirementTax, effectiveCap: number | null): string {
+  switch (rule.treatment) {
+    case 'no_income_tax':
+      return 'not taxed (no state income tax)';
+    case 'fully_exempt':
+      return 'fully exempt';
+    case 'partial':
+      if (rule.exemptionPercent !== undefined) return `partly exempt (${Math.round(rule.exemptionPercent * 100)}% excluded)`;
+      if (effectiveCap === 0) return 'taxable at your income (the exclusion doesn’t apply)';
+      return `partly exempt (up to ${formatCurrency(effectiveCap ?? rule.exemptionCap ?? 0)}/yr excluded)`;
+    case 'taxable':
+      return 'taxable';
+    case 'varies':
+      return 'exempt or taxable depending on your income';
+  }
+}
 
 const HEALTHCARE_ASSUMPTION_OPTIONS = [
   { value: 'marketplace', label: 'Marketplace plan (conservative estimate)' },
@@ -136,6 +173,11 @@ export function TransitionReadinessCalculator() {
   const [civilianSalary, setCivilianSalary] = useState(0);
   const [spouseIncome, setSpouseIncome] = useState(0);
   const [vaRating, setVaRating] = useState(30);
+  const [crscEligible, setCrscEligible] = useState(false);
+  const [retirementState, setRetirementState] = useState(''); // '' = not sure yet
+  const [stateTaxRatePct, setStateTaxRatePct] = useState(DEFAULT_STATE_TAX_RATE * 100);
+  // null = follow the default from spouse income + dependents; set once the user picks one
+  const [filingStatusOverride, setFilingStatusOverride] = useState<FilingStatus | null>(null);
   const [healthcareAssumption, setHealthcareAssumption] = useState<'marketplace' | 'employer' | 'va' | 'not-sure'>('employer');
 
   // Section 3: Expenses
@@ -196,8 +238,16 @@ export function TransitionReadinessCalculator() {
     const tspRaw = p.get('tsp');
     const savRaw = p.get('sav');
     const hcaRaw = p.get('hca');
+    const crscRaw = parseBool(p.get('crsc'));
+    const stRaw = p.get('st');
+    const strRaw = p.get('str');
+    const fsRaw = p.get('fs');
+    if (fsRaw === 'single' || fsRaw === 'mfj' || fsRaw === 'hoh') setFilingStatusOverride(fsRaw);
 
     if (gr) setGrade(gr);
+    if (crscRaw !== null) setCrscEligible(crscRaw);
+    if (stRaw && RETIREMENT_STATE_CODES.has(stRaw.toUpperCase())) setRetirementState(stRaw.toUpperCase());
+    if (strRaw) { const n = parseFloat(strRaw); if (!isNaN(n) && n >= 0 && n <= 15) setStateTaxRatePct(n); }
     if (yosRaw) { const n = parseInt(yosRaw, 10); if (!isNaN(n) && n >= 0 && n <= 40) setYos(n); }
     if (gz) setZipCode(gz);
     if (dep !== null) setHasDependents(dep);
@@ -238,6 +288,10 @@ export function TransitionReadinessCalculator() {
     p.set('sal', String(civilianSalary));
     p.set('sp', String(spouseIncome));
     p.set('va', String(vaRating));
+    if (crscEligible) p.set('crsc', 'yes');
+    if (retirementState) p.set('st', retirementState);
+    p.set('str', String(stateTaxRatePct));
+    if (filingStatusOverride) p.set('fs', filingStatusOverride);
     p.set('mode', expenseMode);
     if (expenseMode === 'quick') {
       p.set('exp', String(totalExpenses));
@@ -254,6 +308,8 @@ export function TransitionReadinessCalculator() {
   const { data: bahData } = useBahLookup(zipCode);
   const monthlyBAH = rateFor(bahData, grade, hasDependents) ?? 0;
 
+  const filingStatus = filingStatusOverride ?? defaultFilingStatus(spouseIncome, hasDependents);
+
   const input: TransitionReadinessInput = {
     payGrade: grade,
     yearsOfService: yos,
@@ -264,6 +320,10 @@ export function TransitionReadinessCalculator() {
     targetCivilianSalary: civilianSalary,
     spouseIncome,
     vaRating,
+    crscEligible,
+    retirementState: retirementState || null,
+    stateTaxRate: stateTaxRatePct / 100,
+    filingStatus,
     healthcareAssumption,
     expenseMode,
     totalMonthlyExpenses: totalExpenses,
@@ -286,7 +346,7 @@ export function TransitionReadinessCalculator() {
     [
       monthlyBAH,
       grade, yos, zipCode, hasDependents, separationMonths, retirementSystem,
-      civilianSalary, spouseIncome, vaRating, healthcareAssumption,
+      civilianSalary, spouseIncome, vaRating, crscEligible, retirementState, stateTaxRatePct, filingStatus, healthcareAssumption,
       expenseMode, totalExpenses, expHousing, expCar, expInsurance,
       expGroceries, expDebt, expChildcare, expUtilities, expOther,
       emergencyFund, tspBalance, otherSavings,
@@ -495,6 +555,19 @@ export function TransitionReadinessCalculator() {
                 hint="Leave blank or enter 0 if not applicable"
               />
 
+              <Select
+                label="Tax Filing Status"
+                id="filing-status"
+                options={FILING_STATUS_OPTIONS}
+                value={filingStatus}
+                onChange={(e) => setFilingStatusOverride(e.target.value as FilingStatus)}
+                hint={
+                  filingStatusOverride
+                    ? 'Used for federal tax on both the military and civilian side.'
+                    : 'Set from your spouse income and dependents — change it if it’s wrong. Your BAH dependent status doesn’t decide this (a single parent usually files as head of household).'
+                }
+              />
+
               <div className="sm:col-span-2">
                 <Select
                   label="Expected VA Disability Rating"
@@ -512,7 +585,49 @@ export function TransitionReadinessCalculator() {
                 <p className="text-xs text-zinc-500 mt-1.5">
                   Estimate assumes veteran with spouse. Actual VA compensation varies by number of children, dependent parents, and Aid &amp; Attendance eligibility.
                 </p>
+                {result.isRetirementEligible && vaRating >= 10 && vaRating < 50 && (
+                  <div className="mt-3">
+                    <label className="flex items-start gap-2 text-sm text-zinc-700">
+                      <input
+                        type="checkbox"
+                        checked={crscEligible}
+                        onChange={(e) => setCrscEligible(e.target.checked)}
+                        className="mt-0.5 h-4 w-4 rounded border-zinc-300 accent-red-700"
+                      />
+                      <span>My disability is combat-related (CRSC)</span>
+                    </label>
+                    <p className="text-xs text-zinc-500 mt-1 ml-6">
+                      CRSC requires a separate application and approval. Leave unchecked if unsure.
+                    </p>
+                  </div>
+                )}
               </div>
+
+              <Select
+                label="Where will you live after separating?"
+                id="retirement-state"
+                options={RETIREMENT_STATE_OPTIONS}
+                value={retirementState}
+                onChange={(e) => setRetirementState(e.target.value)}
+                hint="Decides whether the state taxes your military retired pay. Separate from your duty station."
+              />
+
+              <Input
+                label="Est. State Income Tax Rate (%)"
+                type="text"
+                inputMode="decimal"
+                placeholder="e.g. 5"
+                value={String(stateTaxRatePct)}
+                onChange={(e) => {
+                  const n = parseFloat(e.target.value.replace(/[^\d.]/g, ''));
+                  setStateTaxRatePct(isNaN(n) ? 0 : Math.min(15, n));
+                }}
+                hint={
+                  result.stateTaxRule?.treatment === 'no_income_tax'
+                    ? `Not used — ${result.stateTaxRule.name} has no state income tax`
+                    : 'Your effective state rate on taxable income. Default 5%.'
+                }
+              />
 
               {/* Healthcare assumption selector */}
               <div className="sm:col-span-2">
@@ -771,15 +886,24 @@ export function TransitionReadinessCalculator() {
                 dataYear={DATA_YEAR}
                 rows={[
                   { label: 'Base pay (taxable)', monthly: result.militaryMonthlyBasePay },
-                  { label: 'Est. federal income tax', value: `−${formatCurrency(result.militaryFedTaxMonthly * 12)}/yr (${(result.militaryFedEffectiveRate * 100).toFixed(1)}% eff.)` },
+                  ...(spouseIncome > 0
+                    ? [{ label: 'Spouse / partner income (gross)', monthly: spouseIncome / 12 }]
+                    : []),
+                  {
+                    label: `Est. federal income tax (${FILING_STATUS_LABEL[result.filingStatus].toLowerCase()})`,
+                    value: `−${formatCurrency(result.militaryFedTaxMonthly * 12)}/yr (${(result.militaryFedEffectiveRate * 100).toFixed(1)}% eff.)`,
+                  },
                   { label: 'FICA (Soc. Security & Medicare)', value: `−${formatCurrency(result.militaryFICAMonthly * 12)}/yr (7.65%)` },
+                  ...(result.militarySpouseStateTaxMonthly > 0
+                    ? [{ label: 'Est. state income tax (spouse wages)', value: `−${formatCurrency(result.militarySpouseStateTaxMonthly * 12)}/yr (${stateTaxRatePct}%)` }]
+                    : []),
                   {
                     label: 'BAH (excluded from taxable income)',
                     monthly: result.militaryMonthlyBAH > 0 ? result.militaryMonthlyBAH : undefined,
                     value: result.militaryMonthlyBAH === 0 ? 'Enter ZIP code' : undefined,
                   },
                   { label: 'BAS (excluded from taxable income)', monthly: result.militaryMonthlyBAS },
-                  { label: 'Military take-home', monthly: result.militaryTakeHomeMonthly, highlight: true },
+                  { label: spouseIncome > 0 ? 'Military household take-home' : 'Military take-home', monthly: result.militaryTakeHomeMonthly, highlight: true },
                 ]}
               />
 
@@ -788,23 +912,78 @@ export function TransitionReadinessCalculator() {
                 dataYear={DATA_YEAR}
                 rows={[
                   { label: `Gross salary (${formatCurrency(civilianSalary)}/yr)`, monthly: civilianSalary / 12 },
-                  { label: 'Est. federal income tax', value: `−${formatCurrency(result.civilianFedTaxMonthly * 12)}/yr (${(result.civilianFedEffectiveRate * 100).toFixed(1)}% eff.)` },
-                  { label: 'FICA (Soc. Security & Medicare)', value: `−${formatCurrency(result.civilianFICAMonthly * 12)}/yr (7.65%)` },
-                  { label: 'Est. state income tax', value: `−${formatCurrency(result.civilianStateTaxMonthly * 12)}/yr (~5%)` },
-                  ...(result.pensionMonthly > 0
-                    ? [{ label: 'Retirement pension (tax-free)', monthly: result.pensionMonthly }]
+                  ...(spouseIncome > 0
+                    ? [{ label: 'Spouse / partner income (gross)', monthly: spouseIncome / 12 }]
+                    : []),
+                  ...(result.grossRetiredPayMonthly > 0
+                    ? [{
+                        label: 'Military retired pay (federally taxable)',
+                        monthly: result.grossRetiredPayMonthly,
+                        note: `${retirementSystem === 'legacy' ? 'High-3: 2.5%' : 'BRS: 2.0%'} × ${Math.floor(result.separationYOS)} years × your current base pay. Uses ${DATA_YEAR} pay tables — no future raises assumed.`,
+                      }]
+                    : []),
+                  ...(result.vaWaiverMonthly > 0
+                    ? [{
+                        label: 'VA waiver offset (rating below 50%)',
+                        value: `−${formatCurrency(result.vaWaiverMonthly * 12)}/yr`,
+                        tooltip: 'Below a 50% rating, retired pay is reduced by your VA compensation. The VA portion is tax-free. Concurrent receipt (CRDP) starts at 50%.',
+                        note: (
+                          <Link href={CRDP_CRSC_POST} className="text-red-700 hover:text-red-800 underline underline-offset-2">
+                            How CRDP and CRSC work
+                          </Link>
+                        ),
+                      }]
+                    : []),
+                  ...(result.crscMonthly > 0
+                    ? [{ label: 'CRSC — waived amount restored (tax-free)', monthly: result.crscMonthly }]
                     : []),
                   ...(result.vaCompMonthly > 0
                     ? [{ label: `VA disability ${vaRating}% (tax-free)`, monthly: result.vaCompMonthly }]
                     : vaRating === -1
                     ? [{ label: 'VA disability', value: 'Not yet filed — $0' }]
                     : []),
-                  ...(result.netSpouseMonthly > 0
-                    ? [{ label: 'Net spouse income', monthly: result.netSpouseMonthly }]
-                    : []),
+                  {
+                    label: `Est. federal income tax (${FILING_STATUS_LABEL[result.filingStatus].toLowerCase()})`,
+                    value: `−${formatCurrency(result.civilianFedTaxMonthly * 12)}/yr (${(result.civilianFedEffectiveRate * 100).toFixed(1)}% eff.)`,
+                  },
+                  { label: 'FICA (wages only)', value: `−${formatCurrency(result.civilianFICAMonthly * 12)}/yr (7.65%)` },
+                  {
+                    label: 'Est. state income tax',
+                    value: result.stateTaxRule?.treatment === 'no_income_tax'
+                      ? '$0/yr'
+                      : `−${formatCurrency(result.civilianStateTaxMonthly * 12)}/yr (${stateTaxRatePct}%)`,
+                    note: result.stateTaxRule ? (
+                      <>
+                        {result.stateTaxRule.name}: military retired pay {stateTreatmentPhrase(result.stateTaxRule, result.stateExemptionCapAnnual)}.
+                        {result.stateTaxRule.treatment === 'partial' && result.grossRetiredPayMonthly > 0 && (
+                          <> {result.stateTaxRule.conditionNote} Verify your eligibility.</>
+                        )}
+                        {result.stateTaxRule.treatment === 'varies' && (
+                          <> {result.stateTaxRule.conditionNote}{result.grossRetiredPayMonthly > 0 && ' This total assumes it is taxed.'}</>
+                        )}{' '}
+                        Source:{' '}
+                        <a href={result.stateTaxRule.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-zinc-700">
+                          {result.stateTaxRule.name} revenue department
+                        </a>
+                        , verified {result.stateTaxRule.lastVerified}.
+                      </>
+                    ) : result.projectedCivilianMonthlyIfStateExempts !== null ? (
+                      <>
+                        State not chosen — this total assumes your state taxes retired pay.
+                      </>
+                    ) : undefined,
+                  },
                   { label: 'Civilian take-home', monthly: result.projectedCivilianMonthly, highlight: true },
                 ]}
               />
+              {result.projectedCivilianMonthlyIfStateTaxes !== null && result.projectedCivilianMonthlyIfStateExempts !== null && (
+                <p className="md:col-start-2 -mt-2 text-xs text-zinc-600 leading-relaxed">
+                  Civilian take-home: <span className="font-semibold">{formatCurrency(result.projectedCivilianMonthlyIfStateTaxes)}/mo</span> if your state taxes retired pay
+                  {' / '}
+                  <span className="font-semibold">{formatCurrency(result.projectedCivilianMonthlyIfStateExempts)}/mo</span> if exempt.
+                  {!result.stateTaxRule && <> Choose where you&apos;ll live above to narrow it down.</>}
+                </p>
+              )}
             </div>
 
             {/* Take-home comparison */}
@@ -856,7 +1035,7 @@ export function TransitionReadinessCalculator() {
                 {formatCurrency(result.grossedUpCivilianSalary)}/year
               </p>
               <p className="text-xs text-zinc-500 leading-relaxed">
-                This accounts for paying full federal income tax, Social Security &amp; Medicare (7.65%), and estimated state income tax (~5%) on your entire civilian salary — taxes that military members don&apos;t pay on BAH and BAS. VA disability pay and any pension are separate income sources on top of this salary.
+                This accounts for paying full federal income tax ({FILING_STATUS_LABEL[result.filingStatus].toLowerCase()}, the same on both sides), Social Security &amp; Medicare (7.65%), and estimated state income tax ({result.stateTaxRule?.treatment === 'no_income_tax' ? 'none in ' + result.stateTaxRule.name : `${stateTaxRatePct}%`}) on your entire civilian salary — taxes that military members don&apos;t pay on BAH and BAS.{spouseIncome > 0 && ' Spouse income is counted on both sides.'} VA disability pay and any military retired pay are separate income sources on top of this salary.
               </p>
             </div>
 

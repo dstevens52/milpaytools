@@ -53,3 +53,37 @@ export const FED_TAX_BRACKETS_SINGLE = [
 
 // Standard deduction (single), 2026 — IRS Rev. Proc. 2025-32
 export const STANDARD_DEDUCTION_SINGLE = 16_100;
+
+// ─── Federal Tax Brackets 2026 (Married filing jointly) ──────────────────
+// Source: IRS Rev. Proc. 2025-32 (2026 inflation adjustments, incl. OBBB
+// amendments). Verified against the IRS release 2026-11-10.
+export const FED_TAX_BRACKETS_MFJ = [
+  { upTo: 24_800, rate: 0.10 },
+  { upTo: 100_800, rate: 0.12 },
+  { upTo: 211_400, rate: 0.22 },
+  { upTo: 403_550, rate: 0.24 },
+  { upTo: 512_450, rate: 0.32 },
+  { upTo: 768_700, rate: 0.35 },
+  { upTo: Infinity, rate: 0.37 },
+] as const;
+
+// Standard deduction (married filing jointly), 2026 — IRS Rev. Proc. 2025-32
+export const STANDARD_DEDUCTION_MFJ = 32_200;
+
+// ─── Federal Tax Brackets 2026 (Head of household) ───────────────────────
+// Source: IRS Rev. Proc. 2025-32, §4.01 Table 2 — Section 1(j)(2)(B), Heads of
+// Households (https://www.irs.gov/pub/irs-drop/rp-25-32.pdf). Verified 2026-11-10.
+export const FED_TAX_BRACKETS_HOH = [
+  { upTo: 17_700, rate: 0.10 },
+  { upTo: 67_450, rate: 0.12 },
+  { upTo: 105_700, rate: 0.22 },
+  { upTo: 201_750, rate: 0.24 },
+  { upTo: 256_200, rate: 0.32 },
+  { upTo: 640_600, rate: 0.35 },
+  { upTo: Infinity, rate: 0.37 },
+] as const;
+
+// Standard deduction (head of household), 2026 — IRS release on 2026 inflation
+// adjustments (Rev. Proc. 2025-32): "for heads of households, the standard deduction
+// will be $24,150." Verified 2026-11-10.
+export const STANDARD_DEDUCTION_HOH = 24_150;

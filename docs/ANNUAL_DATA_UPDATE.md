@@ -29,6 +29,28 @@ figure-manifest comment block at the top of each post.
     depend on the above — recompute when any input changes.
   - The full figure manifest is in the comment block at the top of the post.
 
+## State military retirement tax check
+
+- [ ] **State treatment of military retired pay** — `src/data/state-military-retirement-tax.ts`
+  (used by the Transition Readiness calculator; planned 50-State Military Tax Guide imports it).
+  - Re-open every record's `sourceUrl` (official state revenue source only — never values from
+    memory or third-party summaries). Update `treatment`, `exemptionCap`/`exemptionPercent`,
+    `conditionNote`, `taxYear`, and `lastVerified`.
+  - Annual/indexed figures to re-check first: Idaho cap (resets yearly), New Mexico $30,000
+    (set through TY2026 only), California $20,000 + AGI limits (TY2025–2029; watch SB 1407 or
+    successors), Colorado $15,000 (through TY2028), Utah credit rate, Washington's 2028 tax.
+  - Try to clear `STATE_MILITARY_RETIREMENT_TAX_PENDING` (DC as of 2026-11-10). A state moves
+    into the dropdown only once an official state source confirms it.
+  - Vermont is `varies` (AGI phase-out, not modeled) — if VT publishes the phase-out formula,
+    decide whether to model it.
+  - Also re-check the federal brackets/standard deductions in `src/data/constants.ts` for all
+    three filing statuses (`FED_TAX_BRACKETS_SINGLE`/`_MFJ`/`_HOH`, `STANDARD_DEDUCTION_*`)
+    against the new IRS Rev. Proc., and update the literal tables in
+    `tests/e2e/transition-readiness-unit.spec.ts` to match.
+  - The Transition Readiness worked example (`src/lib/calculations/transition-readiness-example.ts`)
+    flows into the calculator page and the "Are you financially ready" post automatically, but
+    `public/llms.txt` quotes its surplus as text — the unit spec fails until llms.txt is updated.
+
 ## Special and incentive pays — NOT January-only
 
 HFP, IDP, and HDP-L changed **off-cycle**, effective October 1, 2026 (ASW(M&RA)
