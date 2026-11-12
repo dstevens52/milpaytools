@@ -405,6 +405,7 @@ export async function generateMetadata({
       url: `/blog/${slug}`,
       siteName: 'MilPayTools',
       publishedTime: post.date,
+      ...(post.updated ? { modifiedTime: post.updated } : {}),
       authors: [post.author],
       images: ogImages,
     },
@@ -435,7 +436,7 @@ export default async function BlogPostPage({
 
   return (
     <>
-      <JsonLdScript schema={articleSchema({ title: post.title, description: post.description, datePublished: post.date, url: `/blog/${slug}` })} />
+      <JsonLdScript schema={articleSchema({ title: post.title, description: post.description, datePublished: post.date, dateModified: post.updated, url: `/blog/${slug}` })} />
       {postFaqs && <JsonLdScript schema={faqPageSchema(postFaqs)} />}
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Parent guide breadcrumb */}
@@ -511,7 +512,8 @@ export default async function BlogPostPage({
       </article>
 
       {/* Author bio */}
-      <AuthorBio date={post.date} />
+      {/* "Last reviewed" = the last factual update when set, else the publish date */}
+      <AuthorBio date={post.updated ?? post.date} />
 
       {/* Feedback */}
       <div className="mt-6 pt-6 border-t border-zinc-100">

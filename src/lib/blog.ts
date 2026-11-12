@@ -13,6 +13,8 @@ export interface PostMeta {
   slug: string;
   title: string;
   date: string;           // ISO date string e.g. "2026-04-08"
+  /** Optional ISO date of the last factual review/update (frontmatter `updated`). */
+  updated?: string;
   description: string;
   category: string;
   calculators: string[];  // e.g. ["bah", "total-compensation"]
@@ -35,6 +37,7 @@ export function getAllPostMeta(): PostMeta[] {
       slug,
       title: data.title ?? slug,
       date: data.date ?? '2026-01-01',
+      updated: data.updated,
       description: data.description ?? '',
       category: data.category ?? 'General',
       calculators: data.calculators ?? [],
@@ -59,6 +62,7 @@ export function getPost(slug: string): Post | null {
     slug,
     title: data.title ?? slug,
     date: data.date ?? '2026-01-01',
+    updated: data.updated,
     description: data.description ?? '',
     category: data.category ?? 'General',
     calculators: data.calculators ?? [],
