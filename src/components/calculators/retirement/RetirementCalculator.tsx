@@ -118,10 +118,10 @@ function buildActionSteps(input: RetirementInput, output: ReturnType<typeof calc
       description: `With ${input.vaRating}% VA disability and ${input.retirementYOS}+ years of service, Concurrent Retirement and Disability Pay (CRDP) lets you collect both your full military pension and VA compensation simultaneously.`,
       priority: 'medium',
     });
-  } else if (input.vaRating > 0 && input.vaRating < 50) {
+  } else if (output.waiverApplied) {
     steps.push({
       label: 'VA disability offsets pension until rating reaches 50%',
-      description: `At ${input.vaRating}% VA rating you currently receive a pension offset. At 50%+ with 20+ years, CRDP eliminates the offset and you receive both in full.`,
+      description: `At a ${input.vaRating}% VA rating, your retired pay is reduced by ${fmt(output.vaTaxFree)}/mo of VA compensation (the VA waiver), so your total stays ${fmt(output.totalMonthlyIncome)}/mo. At 50%+ with 20+ years, CRDP eliminates the offset and you receive both in full.`,
       priority: 'medium',
     });
   }
@@ -471,11 +471,20 @@ export function RetirementCalculator() {
             <p className="text-red-200 text-sm mt-1">{fmt(output.annualPension)}/year · {output.pensionMultiplierPct.toFixed(1)}% multiplier</p>
           </div>
           {output.monthlyVA > 0 && (
-            <div className="sm:text-right">
-              <p className="text-red-200 text-sm font-medium mb-1">Combined with VA ({vaRating}%)</p>
+            <div className="sm:text-right" data-testid="va-banner">
+              <p className="text-red-200 text-sm font-medium mb-1">
+                {output.waiverApplied
+                  ? `Total with VA (${vaRating}%) after VA waiver`
+                  : `Combined with VA (${vaRating}%) — concurrent receipt`}
+              </p>
               <p className="text-2xl font-bold tabular-nums">{fmt(output.totalMonthlyIncome)}/mo</p>
               {output.crdpEligible && (
                 <p className="text-green-300 text-xs mt-1 font-semibold">CRDP eligible — both paid in full</p>
+              )}
+              {output.waiverApplied && (
+                <p className="text-red-200 text-xs mt-1">
+                  {fmt(output.vaTaxFree)}/mo of it is VA compensation, excluded from federal taxable income
+                </p>
               )}
             </div>
           )}
@@ -539,15 +548,41 @@ export function RetirementCalculator() {
         )}
 
         {/* VA disability */}
-        {vaRating > 0 && (
-          <ResultCard
-            title="VA Disability"
-            rows={[
-              { label: `VA compensation (${vaRating}%, veteran alone)`, monthly: output.monthlyVA },
-              { label: 'Tax status', value: '100% tax-free' },
-              { label: 'Combined monthly income', monthly: output.totalMonthlyIncome, highlight: true },
-            ]}
-          />
+        {vaRating > 0 && output.waiverApplied && (
+          <div data-testid="va-waiver-card">
+            <ResultCard
+              title="VA Disability — VA Waiver"
+              rows={[
+                { label: 'Retired pay (before VA waiver)', value: `${fmt(output.monthlyPension)}/mo` },
+                { label: `VA compensation (${vaRating}%, veteran alone; excluded from federal taxable income)`, value: `${fmt(output.vaTaxFree)}/mo` },
+                { label: 'Retired pay after VA waiver', value: `${fmt(output.taxableRetiredPay)}/mo` },
+                ...(retirementSystem === 'brs'
+                  ? [{ label: `TSP income (${TSP_SWR_PCT}% withdrawal rule)`, value: `${fmt(output.tspMonthlyIncome)}/mo` }]
+                  : []),
+                {
+                  label: 'Total monthly income',
+                  value: `${fmt(output.totalMonthlyIncome)}/mo`,
+                  highlight: true,
+                  note: `Below a 50% VA rating, retired pay is reduced by the amount of VA compensation (the VA waiver). Your total stays the same, but ${fmt(output.vaTaxFree)}/mo of it is excluded from federal taxable income. At 50% or higher, concurrent receipt (CRDP) lets you receive both.`,
+                },
+              ]}
+            />
+          </div>
+        )}
+        {vaRating > 0 && !output.waiverApplied && (
+          <div data-testid="va-crdp-card">
+            <ResultCard
+              title="VA Disability — Concurrent Receipt (CRDP)"
+              rows={[
+                { label: 'Retired pay', value: `${fmt(output.monthlyPension)}/mo` },
+                { label: `VA compensation (${vaRating}%, veteran alone; excluded from federal taxable income)`, value: `${fmt(output.vaTaxFree)}/mo` },
+                ...(retirementSystem === 'brs'
+                  ? [{ label: `TSP income (${TSP_SWR_PCT}% withdrawal rule)`, value: `${fmt(output.tspMonthlyIncome)}/mo` }]
+                  : []),
+                { label: 'Combined monthly income (concurrent receipt)', value: `${fmt(output.totalMonthlyIncome)}/mo`, highlight: true },
+              ]}
+            />
+          </div>
         )}
 
         {/* Civilian equivalent */}
@@ -555,8 +590,10 @@ export function RetirementCalculator() {
           <ResultCard
             title="Civilian Salary Equivalent"
             rows={[
-              { label: 'Pension (annual)', value: fmt(output.annualPension) },
-              ...(output.monthlyVA > 0 ? [{ label: 'VA disability (annual, 100% tax-free)', value: fmt(output.monthlyVA * 12) }] : []),
+              output.waiverApplied
+                ? { label: 'Retired pay after VA waiver (annual)', value: fmt(output.taxableRetiredPay * 12) }
+                : { label: 'Pension (annual)', value: fmt(output.annualPension) },
+              ...(output.monthlyVA > 0 ? [{ label: 'VA compensation (annual, excluded from federal taxable income)', value: fmt(output.vaTaxFree * 12) }] : []),
               { label: 'Tax assumption', value: '~22% effective federal rate' },
               { label: 'Civilian gross equivalent (estimate)', value: `~${fmtM(output.civilianEquivalent)}/yr`, highlight: true },
             ]}

@@ -53,19 +53,22 @@ function Toggle({
   onChange,
   labelOn,
   labelOff,
+  disabled = false,
 }: {
   value: boolean;
   onChange: (v: boolean) => void;
   labelOn: string;
   labelOff: string;
+  disabled?: boolean;
 }) {
   return (
-    <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[36px] text-xs sm:text-sm">
+    <div className={['flex rounded-md border border-zinc-300 overflow-hidden h-[36px] text-xs sm:text-sm', disabled ? 'opacity-50' : ''].join(' ')}>
       <button
         type="button"
         onClick={() => onChange(false)}
+        disabled={disabled}
         className={[
-          'flex-1 font-medium transition-colors whitespace-nowrap px-2 sm:px-3',
+          'flex-1 font-medium transition-colors whitespace-nowrap px-2 sm:px-3 disabled:cursor-not-allowed',
           !value ? 'bg-red-700 text-white' : 'bg-white text-zinc-600 hover:bg-zinc-50',
         ].join(' ')}
       >
@@ -74,8 +77,9 @@ function Toggle({
       <button
         type="button"
         onClick={() => onChange(true)}
+        disabled={disabled}
         className={[
-          'flex-1 font-medium border-l border-zinc-300 transition-colors whitespace-nowrap px-2 sm:px-3',
+          'flex-1 font-medium border-l border-zinc-300 transition-colors whitespace-nowrap px-2 sm:px-3 disabled:cursor-not-allowed',
           value ? 'bg-red-700 text-white' : 'bg-white text-zinc-600 hover:bg-zinc-50',
         ].join(' ')}
       >
@@ -214,11 +218,15 @@ function buildActionSteps(
 
 // ─── Main calculator component ────────────────────────────────────────────────
 
+// FSA requires dependents (37 U.S.C. § 427(a)(1)), so the FSA default always follows
+// the dependents value: on with dependents, off (and locked) without.
+const DEFAULT_HAS_DEPENDENTS = true;
+
 export function DeploymentCalculator() {
   // ── Inputs: Section 1 — Service Member Info ──
   const [payGrade, setPayGrade] = useState<PayGrade>('E-6');
   const [yos, setYos] = useState(10);
-  const [hasDependents, setHasDependents] = useState(true);
+  const [hasDependents, setHasDependents] = useState(DEFAULT_HAS_DEPENDENTS);
   const [zip, setZip] = useState('28310'); // Fort Bragg, NC
 
   // ── Inputs: Section 2 — Deployment Details ──
@@ -226,7 +234,15 @@ export function DeploymentCalculator() {
   const [isCombatZone, setIsCombatZone] = useState(true);
   const [receivingIDP, setReceivingIDP] = useState(true);
   const [hdpLevel, setHdpLevel] = useState<HDPLevel>(100);
-  const [hasFSA, setHasFSA] = useState(true);
+  const [hasFSA, setHasFSA] = useState(DEFAULT_HAS_DEPENDENTS);
+  // Effective FSA: never on without dependents, whatever the toggle state.
+  const fsaOn = hasDependents && hasFSA;
+
+  // Changing dependents resets FSA to its default for that status (Yes → on, No → off).
+  function handleDependentsChange(v: boolean) {
+    setHasDependents(v);
+    setHasFSA(v);
+  }
 
   // ── Inputs: Section 3 — Savings Opportunities ──
   const [tspPct, setTspPct] = useState(10);
@@ -249,7 +265,8 @@ export function DeploymentCalculator() {
       if (!isNaN(n) && n >= 0 && n <= 40) setYos(n);
     }
     if (gz) setZip(gz);
-    if (deps !== null) setHasDependents(deps);
+    // FSA follows dependents on load, so dependents=no can never load with FSA on.
+    if (deps !== null) { setHasDependents(deps); setHasFSA(deps); }
     if (months !== null) {
       const n = parseInt(months);
       if (!isNaN(n) && n >= 1 && n <= 18) setDeployMonths(n);
@@ -288,12 +305,12 @@ export function DeploymentCalculator() {
       isCombatZone,
       receivingIDP,
       hdpLevel,
-      hasFSA,
+      hasFSA: fsaOn,
       tspContributionPct: tspPct,
       usingSDP,
       sdpDeposit,
     });
-  }, [payGrade, yos, hasDependents, zipDigits, isValidZip, bahData, monthlyBAH, bahFound, deployMonths, isCombatZone, receivingIDP, hdpLevel, hasFSA, tspPct, usingSDP, sdpDeposit]);
+  }, [payGrade, yos, hasDependents, zipDigits, isValidZip, bahData, monthlyBAH, bahFound, deployMonths, isCombatZone, receivingIDP, hdpLevel, fsaOn, tspPct, usingSDP, sdpDeposit]);
 
   const actionSteps = useMemo(() => {
     if (!result) return [];
@@ -369,7 +386,7 @@ export function DeploymentCalculator() {
                 <Label>Dependency status</Label>
                 <Toggle
                   value={hasDependents}
-                  onChange={setHasDependents}
+                  onChange={handleDependentsChange}
                   labelOn="With deps"
                   labelOff="Without"
                 />
@@ -448,15 +465,21 @@ export function DeploymentCalculator() {
               </div>
 
               <div>
-                <Label hint="$300/month — requires separation from dependents for 30+ days. Non-taxable.">
+                <Label hint={`${fmt(DEPLOYMENT_RATES_2026.fsa)}/month — requires separation from dependents for 30+ days. Non-taxable.`}>
                   Family Separation Allowance?
                 </Label>
                 <Toggle
-                  value={hasFSA}
+                  value={fsaOn}
                   onChange={setHasFSA}
-                  labelOn="Yes — $300/mo"
+                  labelOn={`Yes — ${fmt(DEPLOYMENT_RATES_2026.fsa)}/mo`}
                   labelOff="No"
+                  disabled={!hasDependents}
                 />
+                {!hasDependents && (
+                  <p className="text-xs text-zinc-500 mt-1" data-testid="fsa-requires-dependents">
+                    FSA requires dependents.
+                  </p>
+                )}
               </div>
             </div>
           </div>

@@ -142,8 +142,12 @@ export interface RetirementOutput {
   totalBRSMonthlyIncome: number; // pension + TSP monthly
   // VA disability (if selected)
   monthlyVA: number;
-  totalMonthlyIncome: number; // pension + VA (or pension + TSP + VA for BRS)
+  // [TSP (BRS)] + max(pension, VA) below 50% (VA waiver); [TSP] + pension + VA with CRDP
+  totalMonthlyIncome: number;
   crdpEligible: boolean;
+  waiverApplied: boolean; // VA > 0 without CRDP: retired pay reduced by the VA award
+  taxableRetiredPay: number; // retired pay after any VA waiver
+  vaTaxFree: number; // VA compensation received (excluded from federal taxable income)
   // Civilian equivalent
   civilianEquivalent: number;
   // Stay vs. Go insight

@@ -28,7 +28,7 @@ export interface DeploymentInput {
   isCombatZone: boolean;
   receivingIDP: boolean; // full months of IDP; HFP and daily proration not modeled yet
   hdpLevel: HDPLevel;
-  hasFSA: boolean;
+  hasFSA: boolean; // ignored (FSA = $0) when hasDependents is false
   tspContributionPct: number; // 0–100
   usingSDP: boolean;
   sdpDeposit: number; // 0–10,000
@@ -139,6 +139,7 @@ function calculateDuringDeployment(
   isCombatZone: boolean,
   receivingIDP: boolean,
   hdpLevel: HDPLevel,
+  hasDependents: boolean,
   hasFSA: boolean,
 ): DeploymentPay {
   const { monthlyBasePay, monthlyBAH, monthlyBAS, monthlyFederalTax: preTax } = pre;
@@ -151,7 +152,9 @@ function calculateDuringDeployment(
   // Highest HDP-L tier is now $100, so the old $100 cap with HFP/IDP no longer applies
   const monthlyHDP = hdpLevel;
 
-  const monthlyFSA = hasFSA ? DEPLOYMENT_RATES_2026.fsa : 0;
+  // FSA is payable only to a member with dependents (37 U.S.C. § 427(a)(1)),
+  // so hasFSA is ignored when hasDependents is false.
+  const monthlyFSA = hasDependents && hasFSA ? DEPLOYMENT_RATES_2026.fsa : 0;
 
   const grossMonthly =
     monthlyBasePay + monthlyBAH + monthlyBAS + monthlyIDP + monthlyHDP + monthlyFSA;
@@ -264,6 +267,7 @@ export function calculateDeployment(input: DeploymentInput): DeploymentResult {
     input.isCombatZone,
     input.receivingIDP,
     input.hdpLevel,
+    input.hasDependents,
     input.hasFSA,
   );
 
