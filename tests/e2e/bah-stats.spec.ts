@@ -30,12 +30,14 @@ test.describe('bahStats — nationalMedianBAH', () => {
 });
 
 test.describe('bahStats — mhaPercentile', () => {
-  test('Fort Bragg (NC182) E-5 w/dep ranks 221 of 338 (top 65%)', () => {
+  // Was 221 / 65% on the January tables. TX270 (Abilene) E-5 w/dep rose $1,554 → $1,872 on
+  // 2026-05-16, passing Fort Bragg's $1,806, so 221 MHAs are now above Fort Bragg.
+  test('Fort Bragg (NC182) E-5 w/dep ranks 222 of 338 (top 66%)', () => {
     const p = mhaPercentile(NC182, 'E-5', true);
     expect(p).not.toBeNull();
-    expect(p!.rankFromTop).toBe(221);
+    expect(p!.rankFromTop).toBe(222);
     expect(p!.total).toBe(338);
-    expect(p!.topPercent).toBe(65);
+    expect(p!.topPercent).toBe(66);
   });
 
   test('San Diego (CA038) is near the very top (top ≤ 5%)', () => {
