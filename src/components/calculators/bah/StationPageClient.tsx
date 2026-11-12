@@ -65,6 +65,8 @@ export interface StationPageClientProps {
   faqs?: { question: string; answer: string }[];
   /** Server-rendered dated notice slot (2027 BAH status), shown under the rate summary. */
   notice?: ReactNode;
+  /** Effective date of the rates shown; differs from January 1 after a DTMO mid-year change. */
+  ratesEffectiveLabel?: string;
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -382,6 +384,7 @@ export function StationPageClient({
   siblings = [],
   faqs = [],
   notice = null,
+  ratesEffectiveLabel = 'January 1, 2026',
 }: StationPageClientProps) {
   const [selectedGrade, setSelectedGrade] = useState<PayGrade>('E-5');
   const [hasDependents, setHasDependents] = useState(true);
@@ -734,6 +737,7 @@ export function StationPageClient({
               hasDecrease={hasDecrease}
               selectedGrade={selectedGrade}
               selectedHasDependents={hasDependents}
+              effectiveLabel={ratesEffectiveLabel}
             />
           )}
 
@@ -974,8 +978,8 @@ export function StationPageClient({
           <div className="rounded-lg bg-slate-50 border border-slate-200 p-4 text-xs text-slate-500 leading-relaxed">
             <p className="font-semibold text-slate-600 mb-1">Data Source &amp; Disclaimer</p>
             <p>
-              BAH rates are from the Defense Travel Management Office (DTMO) 2026 BAH data, effective
-              January 1, 2026. Rates are set by Military Housing Area (MHA), not individual ZIP code —
+              BAH rates are from the Defense Travel Management Office (DTMO) 2026 BAH data, effective{' '}
+              {ratesEffectiveLabel}. Rates are set by Military Housing Area (MHA), not individual ZIP code —
               all ZIPs in the same MHA receive identical rates. This page is for informational purposes
               only and is not affiliated with DoD, DTMO, or any government agency. Verify your
               entitlement at{' '}

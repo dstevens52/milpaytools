@@ -25,6 +25,23 @@ each item below must be re-traced against the new source and revised by hand.
   - Test: `tests/e2e/pay-table-dfas.spec.ts` (`npm run test:pay-table`) — update its CSV path,
     its `src/data/pay-tables/` import, and the expected cell count if DFAS changes the table shape.
 
+## Mid-year BAH changes — quarterly, NOT January-only
+
+DTMO can change BAH for individual MHAs mid-year. Case: TX270 (Abilene/Dyess AFB), "2026 Abilene
+Temporary Increase (Effective 05/16/2026)", missed until 2026-11-12 and understating every Dyess
+lookup by about $200–$600/month (`docs/sources/bah-2026-abilene-temporary-increase.md`).
+
+- [ ] Each quarter (Feb, May, Aug, Nov), download the current DTMO ASCII package
+  (`BAH-ASCII-{YYYY}.zip`) and diff `bahw{YY}.txt` / `bahwo{YY}.txt` against
+  `src/data/bah/{YYYY}/mhaRates.ts` for every MHA and grade. Also look for "old" files in the zip.
+- [ ] Check the DTMO BAH year selector for options other than the plain year (e.g. "Temporary
+  Increase").
+- [ ] For any changed MHA: write a source record in `docs/sources/` (old vs current, raw rows),
+  update only that MHA in `mhaRates.ts` with a comment citing it, add it to
+  `src/data/bah/{YYYY}/midYearChanges.ts` (drives the station-page line and effective date), and
+  add a data test plus an "every other MHA unchanged" checksum test like
+  `tests/e2e/bah-tx270.spec.ts`. Run `npm run check:figures -- --baseline` and the full gate.
+
 ## CONUS COLA location list (January 2027)
 
 The COLA calculator shows eligibility + the official index only — never a dollar amount — so

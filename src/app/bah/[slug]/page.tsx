@@ -17,6 +17,7 @@ import { OconusStationPage } from '@/components/oconus/OconusStationPage';
 import { oconusFaqs } from '@/data/oconus/sharedCopy';
 import { bah2027FaqQuestion, bah2027FaqAnswer } from '@/data/bah/2027-status';
 import { Bah2027Notice } from '@/components/bah-stations/Bah2027Notice';
+import { getBahMidYearChange, formatBahDate } from '@/data/bah/2026/midYearChanges';
 
 function ordinal(n: number): string {
   const s = ['th', 'st', 'nd', 'rd'];
@@ -183,6 +184,8 @@ export default async function StationPage({
   const ratesW = mhaCode ? getMHARates(mhaCode, true) : null;
   const ratesWO = mhaCode ? getMHARates(mhaCode, false) : null;
   const locationName = mhaCode ? getLocationName(station.zip) : null;
+  // DTMO mid-year change for this MHA (e.g. TX270 Abilene, May 16, 2026), or null.
+  const midYearChange = getBahMidYearChange(mhaCode);
 
   // Prior-year rates for year-over-year deltas — resolved at build time only.
   // Small resolved objects (~24 grades) become props; the dataset never ships.
@@ -367,7 +370,21 @@ export default async function StationPage({
         fmr2br={fmr2br}
         siblings={siblings}
         faqs={faqs}
-        notice={<Bah2027Notice stationName={station.name} />}
+        notice={
+          <>
+            {midYearChange && (
+              <p className="text-sm text-zinc-700 mt-3" data-testid="bah-midyear-change">
+                DTMO increased {midYearChange.areaName} BAH effective {formatBahDate(midYearChange.effective)}.
+              </p>
+            )}
+            <Bah2027Notice stationName={station.name} />
+          </>
+        }
+        ratesEffectiveLabel={
+          midYearChange
+            ? `${formatBahDate(midYearChange.effective)} (DTMO mid-year change)`
+            : 'January 1, 2026'
+        }
       />
     </>
   );

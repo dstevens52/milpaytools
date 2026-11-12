@@ -249,7 +249,7 @@ data 63 (17 weak) · derived 2 (0 weak) · unbound 52
 | 38 | $2,175 | data (weak) | `bah:AR411/O-1E/w`, `bah:AZ015/O-6/wo`, `bah:CA022/E-1/w`, `bah:CA022/E-2/w`, `bah:CA022/E-3/w` (+30 more) |  | …nts, source: mhaRates in src/data/bah/2026/mhaRates.ts **$2,175** ZIP 28307 → NC182 (Fort Bragg/Pope, NC) $2,595 ZIP 8… |
 | 39 | $2,595 | data (weak) | `bah:CA042/W-2/w`, `bah:CO046/O-3/w`, `bah:FL063/O-5/wo`, `bah:IN399/E-9/w`, `bah:MI145/O-5/w` (+7 more) |  | …s $2,175 ZIP 28307 → NC182 (Fort Bragg/Pope, NC) **$2,595** ZIP 80913 → CO046 (Colorado Springs, CO — Fort Carson) … |
 | 40 | $4,518 | data (weak) | `bah:CA024/W-5/wo`, `bah:CA038/O-3/w`, `bah:HI408/E-9/w` |  | …ZIP 80913 → CO046 (Colorado Springs, CO — Fort Carson) **$4,518** ZIP 92134 → CA038 (San Diego, CA) derived diff San Di… |
-| 41 | $2,343 | data (weak) | `bah:AZ014/W-5/w`, `bah:CA032/O-3/wo`, `bah:CA042/W-1/w`, `bah:FL058/O-6/wo`, `bah:ID086/O-7/wo` (+23 more) |  | … (San Diego, CA) derived diff San Diego − Fort Bragg = **$2,343** DERIVED TOTALS — base(Over 6) + BAH + officer BAS: … |
+| 41 | $2,343 | data (weak) | `bah:AZ014/W-5/w`, `bah:CA032/O-3/wo`, `bah:CA042/W-1/w`, `bah:FL058/O-6/wo`, `bah:ID086/O-7/wo` (+22 more) |  | … (San Diego, CA) derived diff San Diego − Fort Bragg = **$2,343** DERIVED TOTALS — base(Over 6) + BAH + officer BAS: … |
 | 62 | $7,737.00 | data | `pay:O-3@6`, `pay:O-3E@6` |  | …avy and Coast Guard. O-3 base pay for 6 years of service is **$7,737.00**/month in 2026, but that figure understates actual compensat… |
 | 62 | $2,175 | data (weak) | `bah:AR411/O-1E/w`, `bah:AZ015/O-6/wo`, `bah:CA022/E-1/w`, `bah:CA022/E-2/w`, `bah:CA022/E-3/w` (+30 more) |  | …actual compensation significantly. Adding BAH (ranging from **$2,175**/month at Fort Bragg to $4,518/month in San Diego), officer … |
 | 62 | $4,518 | data (weak) | `bah:CA024/W-5/wo`, `bah:CA038/O-3/w`, `bah:HI408/E-9/w` |  | …tly. Adding BAH (ranging from $2,175/month at Fort Bragg to **$4,518**/month in San Diego), officer BAS ($328.48/month), and the t… |
@@ -276,7 +276,7 @@ data 63 (17 weak) · derived 2 (0 weak) · unbound 52
 | 116 | $2,175 | data (weak) | `bah:AR411/O-1E/w`, `bah:AZ015/O-6/wo`, `bah:CA022/E-1/w`, `bah:CA022/E-2/w`, `bah:CA022/E-3/w` (+30 more) | table | …---------\| \| [Fort Bragg, NC](/bah/fort-bragg) \| 28307 \| ****$2,175**** \| \| [Fort Carson, CO](/bah/fort-carson) \| 80913 \| **$2,5… |
 | 117 | $2,595 | data (weak) | `bah:CA042/W-2/w`, `bah:CO046/O-3/w`, `bah:FL063/O-5/wo`, `bah:IN399/E-9/w`, `bah:MI145/O-5/w` (+7 more) | table | …,175** \| \| [Fort Carson, CO](/bah/fort-carson) \| 80913 \| ****$2,595**** \| \| [Naval Station San Diego, CA](/bah/naval-station-san… |
 | 118 | $4,518 | data (weak) | `bah:CA024/W-5/wo`, `bah:CA038/O-3/w`, `bah:HI408/E-9/w` | table | …on San Diego, CA](/bah/naval-station-san-diego) \| 92134 \| ****$4,518**** \| *Source: 2026 DTMO BAH rates, with-dependent.* Th… |
-| 122 | $2,343 | data (weak) | `bah:AZ014/W-5/w`, `bah:CA032/O-3/wo`, `bah:CA042/W-1/w`, `bah:FL058/O-6/wo`, `bah:ID086/O-7/wo` (+23 more) |  | … That's not a typo. An O-3 stationed in San Diego receives **$2,343** more per month in BAH than one stationed at Fort Bragg — ju… |
+| 122 | $2,343 | data (weak) | `bah:AZ014/W-5/w`, `bah:CA032/O-3/wo`, `bah:CA042/W-1/w`, `bah:FL058/O-6/wo`, `bah:ID086/O-7/wo` (+22 more) |  | … That's not a typo. An O-3 stationed in San Diego receives **$2,343** more per month in BAH than one stationed at Fort Bragg — ju… |
 | 128 | $328.48 | data | `bas:officer` |  | … payment to offset food costs. For 2026, officers receive ****$328.48**/month**. Unlike BAH, it doesn't vary by location or pay gra… |
 | 130 | $476.95 | data | `bas:enlisted` |  | …* than enlisted BAS, not higher. Enlisted members receive ****$476.95**/month** — about $148 more. The two rates are set separately… |
 | 138 | $7,737.00 | data | `pay:O-3@6`, `pay:O-3E@6` | table | …----------\|-----------------\|---------------\| \| Base Pay \| **$7,737.00** \| $7,737.00 \| $7,737.00 \| \| BAH (w/dep) \| $2,175.00 \| $2,5… |
@@ -456,8 +456,8 @@ data 35 (25 weak) · derived 18 (1 weak) · unbound 50
 | 60 | $1,050 | data (weak) | `bah:KS100/E-1/wo`, `bah:KS100/E-2/wo`, `bah:KS100/E-3/wo`, `bah:KS100/E-4/wo`, `bah:NM207/E-1/wo` (+7 more) |  | …it to pay the lease buyout ($5,400) and the overage charge (**$1,050**) — the DLA covered less than 60% of those two mistakes. … |
 | 64 | $179 | data | `pcs:perDiemTotal` |  | …after 5 days in a hotel. They collected 5 days of TLE: 5 × **$179**/day = **$895** *What they didn't know:* They were entitl… |
 | 69 | $2,100 | data (weak) | `bah:AL005/O-3E/w`, `bah:AR010/W-4/w`, `bah:FL065/W-4/wo`, `bah:ID084/E-9/wo`, `bah:KY106/E-6/w` (+15 more) |  | …ore moving. Their Fort Campbell E-6 with dependents BAH was **$2,100**/month. JBLM's rate is $2,919/month — an $819 increase. But … |
-| 69 | $2,919 | data (weak) | `bah:CA032/W-4/w`, `bah:FL059/O-2E/w`, `bah:FL066/O-3/wo`, `bah:FL424/E-6/w`, `bah:MA122/E-5/w` (+9 more) |  | …ll E-6 with dependents BAH was $2,100/month. JBLM's rate is **$2,919**/month — an $819 increase. But BAH doesn't update to the new… |
-| 71 | $2,919 | data (weak) | `bah:CA032/W-4/w`, `bah:FL059/O-2E/w`, `bah:FL066/O-3/wo`, `bah:FL424/E-6/w`, `bah:MA122/E-5/w` (+9 more) |  | …to the unit at JBLM. They had rented an apartment at the **$2,919** rate (Tacoma market), expecting the higher BAH to cover it.… |
+| 69 | $2,919 | data (weak) | `bah:CA032/W-4/w`, `bah:FL059/O-2E/w`, `bah:FL066/O-3/wo`, `bah:FL424/E-6/w`, `bah:MA122/E-5/w` (+10 more) |  | …ll E-6 with dependents BAH was $2,100/month. JBLM's rate is **$2,919**/month — an $819 increase. But BAH doesn't update to the new… |
+| 71 | $2,919 | data (weak) | `bah:CA032/W-4/w`, `bah:FL059/O-2E/w`, `bah:FL066/O-3/wo`, `bah:FL424/E-6/w`, `bah:MA122/E-5/w` (+10 more) |  | …to the unit at JBLM. They had rented an apartment at the **$2,919** rate (Tacoma market), expecting the higher BAH to cover it.… |
 | 77 | $5,400 | data-derived | `12×deployment:hfp`, `12×healthcare:employer.family.bronze.premium`, `bah:NH194/O-6/w`, `bah:NY349/W-1/w` | table | …tem \| Cost \| \|---\|---\| \| Lease break (SCRA not invoked) \| **$5,400** \| \| Weight overage \| $1,050 \| \| Moving supplies and clean… |
 | 78 | $1,050 | data (weak) | `bah:KS100/E-1/wo`, `bah:KS100/E-2/wo`, `bah:KS100/E-3/wo`, `bah:KS100/E-4/wo`, `bah:NM207/E-1/wo` (+7 more) | table | …ase break (SCRA not invoked) \| $5,400 \| \| Weight overage \| **$1,050** \| \| Moving supplies and cleaning fees \| $900 \| \| BAH gap … |
 | 81 | $8,150 | data-derived | `round(pay:W-3@18)` | table | … BAH gap in-transit \| $800 \| \| **Total out-of-pocket** \| ****$8,150**** \| \| DLA received \| −$3,548 \| \| TLE collected (5 days) \|… |
@@ -476,7 +476,7 @@ data 35 (25 weak) · derived 18 (1 weak) · unbound 50
 | 121 | $3,759 | data (weak) | `bah:CA018/E-5/w`, `bah:CA026/O-6/wo`, `bah:CO422/O-7/wo`, `bah:CT050/O-3/w`, `bah:CT051/O-4/wo` (+7 more) |  | …or off-post housing to become available: 21 × $179/day = ****$3,759**** Per diem is designed to offset actual lodging costs, n… |
 | 124 | $179 | data | `pcs:perDiemTotal` |  | …ary lodging at $95/day generates modest surplus: Surplus: (**$179** − $95) × 21 days = **$1,764 above actual lodging cost** … |
 | 124 | $1,764 | data (weak) | `bah:AL002/W-3/wo`, `bah:AL005/W-4/wo`, `bah:AZ016/E-9/wo`, `bah:CA021/O-2/w`, `bah:CA023/E-6/wo` (+31 more) |  | …erates modest surplus: Surplus: ($179 − $95) × 21 days = ****$1,764** above actual lodging cost** **BAH — researched and budge… |
-| 127 | $2,919 | data (weak) | `bah:CA032/W-4/w`, `bah:FL059/O-2E/w`, `bah:FL066/O-3/wo`, `bah:FL424/E-6/w`, `bah:MA122/E-5/w` (+9 more) |  | … researched and budgeted ahead:** They looked up JBLM BAH (**$2,919**/month for E-6 with dependents) before accepting housing. Th… |
+| 127 | $2,919 | data (weak) | `bah:CA032/W-4/w`, `bah:FL059/O-2E/w`, `bah:FL066/O-3/wo`, `bah:FL424/E-6/w`, `bah:MA122/E-5/w` (+10 more) |  | … researched and budgeted ahead:** They looked up JBLM BAH (**$2,919**/month for E-6 with dependents) before accepting housing. Th… |
 | 135 | $3,548 | data-derived | `round(pcs:dla.withDependents.E-1)`, `round(pcs:dla.withDependents.E-2)`, `round(pcs:dla.withDependents.E-3)`, `round(pcs:dla.withDependents.E-4)`, `round(pcs:dla.withDependents.E-5)` (+1 more) | table | …ancial outcome:** \| Item \| Amount \| \|---\|---\| \| DLA \| +**$3,548** \| \| PPM net proceeds (after tax) \| +$6,143 \| \| TLE surplu… |
 | 137 | $1,764 | data (weak) | `bah:AL002/W-3/wo`, `bah:AL005/W-4/wo`, `bah:AZ016/E-9/wo`, `bah:CA021/O-2/w`, `bah:CA023/E-6/wo` (+31 more) | table | …r tax) \| +$6,143 \| \| TLE surplus (above actual lodging) \| +**$1,764** \| \| Out-of-pocket move costs \| −$2,100 \| \| **Net positive… |
 | 138 | $2,100 | data (weak) | `bah:AL005/O-3E/w`, `bah:AR010/W-4/w`, `bah:FL065/W-4/wo`, `bah:ID084/E-9/wo`, `bah:KY106/E-6/w` (+15 more) | table | … actual lodging) \| +$1,764 \| \| Out-of-pocket move costs \| −**$2,100** \| \| **Net positive cash position** \| **+$9,355** \| Befo… |
@@ -489,7 +489,7 @@ data 35 (25 weak) · derived 18 (1 weak) · unbound 50
 | 152 | $3,548 | data-derived | `round(pcs:dla.withDependents.E-1)`, `round(pcs:dla.withDependents.E-2)`, `round(pcs:dla.withDependents.E-3)`, `round(pcs:dla.withDependents.E-4)`, `round(pcs:dla.withDependents.E-5)` (+1 more) | table | …2,864 \| \| DLA net impact \| −$1,952 (absorbed penalties) \| +**$3,548** \| +$5,500 \| \| **Net position** \| **−$7,507** \| **+$13,450*… |
 | 152 | $5,500 | data (weak) | `healthcare:fpl.increment` | table | … DLA net impact \| −$1,952 (absorbed penalties) \| +$3,548 \| +**$5,500** \| \| **Net position** \| **−$7,507** \| **+$13,450** \| **+$20… |
 | 164 | $2,100 | data (weak) | `bah:AL005/O-3E/w`, `bah:AR010/W-4/w`, `bah:FL065/W-4/wo`, `bah:ID084/E-9/wo`, `bah:KY106/E-6/w` (+15 more) |  | …ndents:** - Fort Campbell / Clarksville, TN (ZIP 42223): ****$2,100**/month** - JBLM / Tacoma, WA (ZIP 98433): **$2,919/month** … |
-| 165 | $2,919 | data (weak) | `bah:CA032/W-4/w`, `bah:FL059/O-2E/w`, `bah:FL066/O-3/wo`, `bah:FL424/E-6/w`, `bah:MA122/E-5/w` (+9 more) |  | …2223): **$2,100/month** - JBLM / Tacoma, WA (ZIP 98433): ****$2,919**/month** - Monthly increase: **+$819/month = $9,828/year** … |
+| 165 | $2,919 | data (weak) | `bah:CA032/W-4/w`, `bah:FL059/O-2E/w`, `bah:FL066/O-3/wo`, `bah:FL424/E-6/w`, `bah:MA122/E-5/w` (+10 more) |  | …2223): **$2,100/month** - JBLM / Tacoma, WA (ZIP 98433): ****$2,919**/month** - Monthly increase: **+$819/month = $9,828/year** … |
 
 <details><summary>50 unbound</summary>
 
@@ -801,7 +801,7 @@ data 39 (17 weak) · derived 6 (0 weak) · unbound 37
 | 129 | $10,715 | data-derived | `round(pay:O-5@14)` |  | …&gt;&lt;strong className="text-zinc-800"&gt;O-5 (14 years):&lt;/strong&gt; **$10,715**&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; Most service me… |
 | 154 | $1,185 | data (weak) | `bah:AL001/E-5/w`, `bah:KS105/E-1/wo`, `bah:KS105/E-2/wo`, `bah:KS105/E-3/wo`, `bah:KS105/E-4/wo` (+2 more) |  | …l className="space-y-1 pl-4 list-disc"&gt; &lt;li&gt;E-5: **$1,185**/mo (low-cost) to $5,127/mo (San Francisco area)&lt;/li&gt; … |
 | 154 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` |  | …l-4 list-disc"&gt; &lt;li&gt;E-5: $1,185/mo (low-cost) to **$5,127**/mo (San Francisco area)&lt;/li&gt; &lt;li&gt;O-3: $1,686/mo … |
-| 155 | $1,686 | data (weak) | `bah:AL001/O-3/w`, `bah:ID084/E-5/wo`, `bah:ID086/O-1E/wo`, `bah:IL335/W-3/wo`, `bah:KS101/O-2/w` (+11 more) |  | … to $5,127/mo (San Francisco area)&lt;/li&gt; &lt;li&gt;O-3: **$1,686**/mo to $6,633/mo&lt;/li&gt; &lt;li&gt;O-5: $1,827/mo to $8,06… |
+| 155 | $1,686 | data (weak) | `bah:AL001/O-3/w`, `bah:ID084/E-5/wo`, `bah:ID086/O-1E/wo`, `bah:IL335/W-3/wo`, `bah:KS101/O-2/w` (+10 more) |  | … to $5,127/mo (San Francisco area)&lt;/li&gt; &lt;li&gt;O-3: **$1,686**/mo to $6,633/mo&lt;/li&gt; &lt;li&gt;O-5: $1,827/mo to $8,06… |
 | 155 | $6,633 | data (weak) | `bah:NY349/O-3/w`, `bah:NY349/O-6/wo` |  | … (San Francisco area)&lt;/li&gt; &lt;li&gt;O-3: $1,686/mo to **$6,633**/mo&lt;/li&gt; &lt;li&gt;O-5: $1,827/mo to $8,064/mo&lt;/li&gt; … |
 | 156 | $1,827 | data (weak) | `bah:AK403/E-1/wo`, `bah:AK403/E-2/wo`, `bah:AK403/E-3/wo`, `bah:AK403/E-4/wo`, `bah:AK405/E-5/wo` (+29 more) |  | … &lt;li&gt;O-3: $1,686/mo to $6,633/mo&lt;/li&gt; &lt;li&gt;O-5: **$1,827**/mo to $8,064/mo&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; … |
 | 156 | $8,064 | data (weak) | `bah:NY349/O-5/w` |  | …1,686/mo to $6,633/mo&lt;/li&gt; &lt;li&gt;O-5: $1,827/mo to **$8,064**/mo&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; &lt;strong clas… |
@@ -1017,7 +1017,7 @@ data 37 (7 weak) · derived 3 (2 weak) · unbound 20
 | 94 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` |  | …Danger Pay (IDP) of $275/month or Hostile Fire Pay (HFP) of **$450**/month — one or the other, never both for the same period. T… |
 | 94 | $9.16 | data | `deployment:idpDaily` |  | …s typically paid as a flat monthly rate; IDP is prorated at **$9.16** per day of actual time in a designated area — verify the sp… |
 | 98 | $275 | data | `deployment:idp` |  | … Over a 9-month deployment at the full monthly IDP rate: **$275** × 9 = **$2,475 in additional tax-free pay**. ## How much… |
-| 98 | $2,475 | data (weak) | `bah:AK401/O-2/wo`, `bah:AZ013/E-7/w`, `bah:CA457/E-1/w`, `bah:CA457/E-2/w`, `bah:CA457/E-3/w` (+16 more) |  | …month deployment at the full monthly IDP rate: $275 × 9 = ****$2,475** in additional tax-free pay**. ## How much do expenses dr… |
+| 98 | $2,475 | data (weak) | `bah:AK401/O-2/wo`, `bah:AZ013/E-7/w`, `bah:CA457/E-1/w`, `bah:CA457/E-2/w`, `bah:CA457/E-3/w` (+17 more) |  | …month deployment at the full monthly IDP rate: $275 × 9 = ****$2,475** in additional tax-free pay**. ## How much do expenses dr… |
 | 111 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) | range | …nment spending is minimal For an E-6 who normally spends **$1,500**–$2,000/month on housing, food, transportation, and discreti… |
 | 111 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` | range | …pending is minimal For an E-6 who normally spends $1,500–**$2,000**/month on housing, food, transportation, and discretionary i… |
 | 121 | $4,760 | data-derived (weak) | `round(pay:E-6@10)` | approx, table | …\|---------------\|------------\| \| Base pay (E-6, 10 yrs) \| ~**$4,760** \| CZTE excluded (federal tax-free) \| \| BAH with dependents… |
@@ -1297,7 +1297,7 @@ data 25 (20 weak) · derived 7 (3 weak) · unbound 13
 | 506 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | range | …s rate. Moving to a higher-cost station can increase BAH by **$500**–$1,500/month; moving to a lower-cost station does the oppos… |
 | 506 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) | range | …e. Moving to a higher-cost station can increase BAH by $500–**$1,500**/month; moving to a lower-cost station does the opposite. Pl… |
 | 592 | $2,049 | data (weak) | `bah:AZ016/O-3/w`, `bah:FL058/E-7/wo`, `bah:GA075/O-2E/w`, `bah:GA079/O-1/wo`, `bah:GA080/E-6/wo` (+23 more) |  | …an className="text-sm font-mono tabular-nums text-zinc-800"&gt;**$2,049**&lt;span className="text-zinc-400"&gt;/mo&lt;/span&gt;&lt;/span&gt; … |
-| 608 | $2,919 | data (weak) | `bah:CA032/W-4/w`, `bah:FL059/O-2E/w`, `bah:FL066/O-3/wo`, `bah:FL424/E-6/w`, `bah:MA122/E-5/w` (+9 more) |  | …an className="text-sm font-mono tabular-nums text-zinc-800"&gt;**$2,919**&lt;span className="text-zinc-400"&gt;/mo&lt;/span&gt;&lt;/span&gt; … |
+| 608 | $2,919 | data (weak) | `bah:CA032/W-4/w`, `bah:FL059/O-2E/w`, `bah:FL066/O-3/wo`, `bah:FL424/E-6/w`, `bah:MA122/E-5/w` (+10 more) |  | …an className="text-sm font-mono tabular-nums text-zinc-800"&gt;**$2,919**&lt;span className="text-zinc-400"&gt;/mo&lt;/span&gt;&lt;/span&gt; … |
 
 <details><summary>13 unbound</summary>
 
@@ -3322,7 +3322,7 @@ data 3 (3 weak) · derived 0 (0 weak) · unbound 12
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
 | 51 | $1,710 | data (weak) | `bah:AL005/O-2E/wo`, `bah:KS101/W-1/w`, `bah:KY110/O-1/w`, `bah:LA118/E-9/wo`, `bah:NM205/O-2E/wo` (+6 more) | approx, table | …\| 0% (no income tax or full exemption) \| $0 \| $0 \| \| 3% \| ~**$1,710** \| ~$34,200 \| \| 5% \| ~$2,850 \| ~$57,000 \| \| 7% \| ~$3,990 \|… |
-| 52 | $2,850 | data (weak) | `bah:CA031/W-1/wo`, `bah:FL057/O-3E/w`, `bah:MA126/E-6/w`, `bah:MD133/O-2/wo`, `bah:ME136/E-9/wo` (+11 more) | approx, table | …xemption) \| $0 \| $0 \| \| 3% \| ~$1,710 \| ~$34,200 \| \| 5% \| ~**$2,850** \| ~$57,000 \| \| 7% \| ~$3,990 \| ~$79,800 \| These figures … |
+| 52 | $2,850 | data (weak) | `bah:CA031/W-1/wo`, `bah:FL057/O-3E/w`, `bah:MA126/E-6/w`, `bah:MD133/O-2/wo`, `bah:ME136/E-9/wo` (+12 more) | approx, table | …xemption) \| $0 \| $0 \| \| 3% \| ~$1,710 \| ~$34,200 \| \| 5% \| ~**$2,850** \| ~$57,000 \| \| 7% \| ~$3,990 \| ~$79,800 \| These figures … |
 | 53 | $3,990 | data (weak) | `bah:CA027/W-2/w`, `bah:FL069/W-2/wo` | approx, table | … ~$1,710 \| ~$34,200 \| \| 5% \| ~$2,850 \| ~$57,000 \| \| 7% \| ~**$3,990** \| ~$79,800 \| These figures are rough approximations for … |
 
 <details><summary>12 unbound</summary>
@@ -3352,7 +3352,7 @@ data 3 (3 weak) · derived 0 (0 weak) · unbound 0
 |---:|---|---|---|---|---|
 | 43 | $15,000 | data (weak) | `healthcare:acaNoSubsidy.family.bronze.deductible` |  | …enefits in the military. **Real numbers:** If you have a **$15,000** car loan at 12% from before you enlisted, SCRA can drop you… |
 | 43 | $450 | data (weak) | `deployment:hfp`, `healthcare:employer.family.bronze.premium` | approx, annual | … can drop your rate to 6%. On a 5-year loan, that's roughly **$450**/year in interest savings — about $2,250 over the life of th… |
-| 43 | $2,250 | data (weak) | `bah:AZ014/E-9/w`, `bah:FL056/E-6/wo`, `bah:FL065/E-7/w`, `bah:GA073/O-3/w`, `bah:GA074/E-7/w` (+29 more) | approx | … loan, that's roughly $450/year in interest savings — about **$2,250** over the life of the loan. On a higher-rate credit card bal… |
+| 43 | $2,250 | data (weak) | `bah:AZ014/E-9/w`, `bah:FL056/E-6/wo`, `bah:FL065/E-7/w`, `bah:GA073/O-3/w`, `bah:GA074/E-7/w` (+28 more) | approx | … loan, that's roughly $450/year in interest savings — about **$2,250** over the life of the loan. On a higher-rate credit card bal… |
 
 ### src/content/blog/va-loan-funding-fee-explained.mdx
 
@@ -3488,7 +3488,7 @@ data 2 (2 weak) · derived 0 (0 weak) · unbound 1
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
 | 33 | $2,100 | data (weak) | `bah:AL005/O-3E/w`, `bah:AR010/W-4/w`, `bah:FL065/W-4/wo`, `bah:ID084/E-9/wo`, `bah:KY106/E-6/w` (+15 more) |  | …Fort Campbell → JBLM · with dependents', bahFtCampbell: '**$2,100**/mo', bahJBLM: '$2,919/mo', bahDiff: '+$819/mo', co… |
-| 34 | $2,919 | data (weak) | `bah:CA032/W-4/w`, `bah:FL059/O-2E/w`, `bah:FL066/O-3/wo`, `bah:FL424/E-6/w`, `bah:MA122/E-5/w` (+9 more) |  | …th dependents', bahFtCampbell: '$2,100/mo', bahJBLM: '**$2,919**/mo', bahDiff: '+$819/mo', colDiff: '+25%', insight… |
+| 34 | $2,919 | data (weak) | `bah:CA032/W-4/w`, `bah:FL059/O-2E/w`, `bah:FL066/O-3/wo`, `bah:FL424/E-6/w`, `bah:MA122/E-5/w` (+10 more) |  | …th dependents', bahFtCampbell: '$2,100/mo', bahJBLM: '**$2,919**/mo', bahDiff: '+$819/mo', colDiff: '+25%', insight… |
 
 <details><summary>1 unbound</summary>
 
