@@ -7,8 +7,32 @@ import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import { compareAllBenefits } from '@/lib/calculations/education';
-import { getMHACode, getMHARates, getLocationName } from '@/lib/calculations/bah';
+import { getMHACode, getMHARates, getLocationName, listMHACodes } from '@/lib/calculations/bah';
+import { EDUCATION_RATES } from '@/data/education/2026/constants';
 import { formatCurrency } from '@/lib/utils';
+
+// ── Figures in the page copy, computed from data (no typed-in dollars) ────────
+const usd0 = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
+const usd2 = (n: number) =>
+  `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+/** E-5 with-dependents BAH for every 2026 MHA (territories excluded) — the 100% / full-time MHA basis. */
+const E5_WITH_DEP_BAH = listMHACodes()
+  .filter((code) => !code.startsWith('XX'))
+  .map((code) => getMHARates(code, true)?.['E-5'] ?? 0)
+  .filter((v) => v > 0);
+const MHA_MIN = Math.min(...E5_WITH_DEP_BAH);
+const MHA_MAX = Math.max(...E5_WITH_DEP_BAH);
+const SD_MHA = (() => {
+  const code = getMHACode('92093');
+  return (code && getMHARates(code, true)?.['E-5']) || 0;
+})();
+const MHA_GAP_36_MONTHS = (SD_MHA - MHA_MIN) * EDUCATION_RATES.giBill.entitlementMonths;
+const TA_CAP = usd0(EDUCATION_RATES.ta.annualCap);
+const TA_PER_CREDIT = usd0(EDUCATION_RATES.ta.perCreditHour);
+const PRIVATE_CAP = usd2(EDUCATION_RATES.giBill.privateCapAnnual);
+const MGIB_FULL = usd2(EDUCATION_RATES.mgib.fullTimeMonthly);
+/** Worked-example tuition input (scenario assumption, used for both the copy and the lib call). */
+const EX_TUITION = 15000;
 
 export const metadata: Metadata = {
   title: { absolute: 'Military Education Benefits Comparison Calculator — 2026' },
@@ -49,7 +73,7 @@ export default function EducationCalculatorPage() {
     schoolZip: '92093',
     schoolBAH: eduSchoolBah,
     schoolLocationName: getLocationName('92093'),
-    annualTuition: 15000,
+    annualTuition: EX_TUITION,
     programYears: 4,
     enrollment: 'full',
   });
@@ -97,24 +121,18 @@ export default function EducationCalculatorPage() {
       {/* ── Direct answer ──────────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Military education benefits work very differently from each other: the Post-9/11 GI Bill covers tuition plus a monthly housing allowance equal to E-5 with-dependents BAH at the school&apos;s ZIP code (ranging from $1,200 to over $3,600/month depending on location); VR&amp;E (Chapter 31) covers tuition with no cap without consuming GI Bill months; and Tuition Assistance covers up to $4,500/year while on active duty. This calculator compares total program value side by side for your specific school, eligibility level, and situation.
+          Military education benefits work very differently from each other: the Post-9/11 GI Bill covers tuition plus a monthly housing allowance based on E-5 with-dependents BAH at the school&apos;s ZIP code (at the 100% tier and full time, from {usd0(MHA_MIN)} to {usd0(MHA_MAX)}/month depending on location); VR&amp;E (Chapter 31) covers tuition with no cap without consuming GI Bill months; and Tuition Assistance covers up to {TA_CAP}/year while on active duty. This calculator compares total program value side by side for your specific school, eligibility level, and situation.
         </p>
       </div>
-{/* Example Calculation */}
 
-      {/* ── Direct answer */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
-        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Military education benefits work very differently from each other: the Post-9/11 GI Bill covers tuition plus a monthly housing allowance equal to E-5 with-dependents BAH at the school&apos;s ZIP code (ranging from $1,200 to over $3,600/month depending on location); VR&amp;E (Chapter 31) covers tuition with no cap without consuming GI Bill months; and Tuition Assistance covers up to $4,500/year while on active duty. This calculator compares total program value side by side for your specific school, eligibility level, and situation.
-        </p>
-      </div>
+        {/* Example Calculation */}
         <section className="calc-example mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8">
           <ExampleBox>
             <h2 className="text-xl font-bold text-zinc-900 mb-2">
               How Much Is the Post-9/11 GI Bill Worth at a San Diego University?
             </h2>
             <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-              Scenario: E-5 with 36+ months of qualifying active duty service (100% eligibility), attending UC San Diego or a comparable institution in San Diego, CA (ZIP 92093), full-time. California in-state tuition approximately $15,000/yr. Compared to Montgomery GI Bill (Chapter 30).
+              Scenario: E-5 with 36+ months of qualifying active duty service (100% eligibility), attending UC San Diego or a comparable institution in San Diego, CA (ZIP 92093), full-time. California in-state tuition approximately {usd0(EX_TUITION)}/yr. Compared to Montgomery GI Bill (Chapter 30).
             </p>
             <ExampleTable>
               <ExampleRow label="Tuition &amp; fees covered (100% Post-9/11, in-state public)" value={`~${formatCurrency(eduGiBill.annualTuitionCoverage)}/yr`} />
@@ -147,7 +165,7 @@ export default function EducationCalculatorPage() {
               {[
                 {
                   title: 'Post-9/11 GI Bill (Ch. 33)',
-                  body: 'The most widely used benefit. Covers in-state public tuition at 100% (or up to $30,908.34/year at private schools), plus a monthly housing allowance equal to E-5 with-dependents BAH at your school\'s ZIP code. Value varies enormously by location.',
+                  body: `The most widely used benefit. Covers in-state public tuition at 100% (or up to ${PRIVATE_CAP}/year at private schools), plus a monthly housing allowance based on E-5 with-dependents BAH at your school's ZIP code, prorated by your eligibility tier and rate of pursuit. Value varies enormously by location.`,
                 },
                 {
                   title: 'VR&E — Vocational Rehab (Ch. 31)',
@@ -155,11 +173,11 @@ export default function EducationCalculatorPage() {
                 },
                 {
                   title: 'Tuition Assistance (Active Duty)',
-                  body: 'Available to active duty members only. Covers $250/credit hour up to $4,500/year — does not consume GI Bill months. For many active-duty members, TA is worth comparing first because it does not use GI Bill months and active-duty GI Bill use generally does not include MHA.',
+                  body: `Available to active-duty members; Guard and Reserve eligibility varies by service. Covers ${TA_PER_CREDIT}/credit hour up to ${TA_CAP}/year — does not consume GI Bill months. For many active-duty members, TA is worth comparing first because it does not use GI Bill months and active-duty GI Bill use generally does not include MHA.`,
                 },
                 {
                   title: 'Montgomery GI Bill (Ch. 30)',
-                  body: 'A fixed monthly payment ($2,518/month full-time) paid directly to you — you cover tuition from that amount. Better than Post-9/11 for online programs with low tuition, but usually less total value for in-person students where housing allowance adds up.',
+                  body: `A fixed monthly payment (${MGIB_FULL}/month full-time, effective Oct 1, 2026) paid directly to you — you cover tuition from that amount. Can be better than Post-9/11 for online programs with low tuition, but usually less total value for in-person students where housing allowance adds up.`,
                 },
               ].map((item) => (
                 <div key={item.title} className="rounded-lg border border-zinc-200 bg-white p-4">
@@ -175,9 +193,10 @@ export default function EducationCalculatorPage() {
             <p className="text-sm text-zinc-600 leading-relaxed">
               The GI Bill monthly housing allowance (MHA) is set equal to the E-5 with-dependents BAH
               at the school&apos;s ZIP code. This means two veterans attending the same program at
-              different schools can receive vastly different MHA amounts — a school in San Diego might
-              pay $3,900+/month while the same degree program in a rural area might pay $1,200/month.
-              Over 36 months of enrollment, that gap is worth $96,000+ in housing allowance alone.
+              different schools can receive vastly different MHA amounts — at the 100% tier and full
+              time, a school in San Diego pays {usd0(SD_MHA)}/month while the lowest-BAH area pays{' '}
+              {usd0(MHA_MIN)}/month. Over 36 months of enrollment, that gap is worth{' '}
+              {usd0(MHA_GAP_36_MONTHS)} in housing allowance alone.
             </p>
             <p className="text-sm text-zinc-600 leading-relaxed mt-3">
               If you&apos;re choosing between comparable schools, enter both ZIP codes separately and compare
@@ -192,7 +211,7 @@ export default function EducationCalculatorPage() {
             </p>
             <ul className="mt-3 space-y-2">
               {[
-                'TA covers $4,500/year and resets annually — use it or lose it each fiscal year.',
+                `TA covers ${TA_CAP}/year and resets annually — use it or lose it each fiscal year.`,
                 'Post-9/11 GI Bill generally does not pay MHA to active-duty members — they already receive BAH separately.',
                 'Every GI Bill month used on active duty is a month of MHA not collected post-separation.',
                 'Using TA while on active duty may preserve GI Bill months that could include MHA post-separation — a difference that can be significant over a multi-year program.',
