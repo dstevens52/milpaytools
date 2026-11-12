@@ -6,6 +6,7 @@ import { RetirementCalculator } from '@/components/calculators/retirement/Retire
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import { calculateRetirement } from '@/lib/calculations/retirement';
+import { RETIREMENT_EXAMPLE_INPUT, RETIREMENT_HERO_INPUT, retirementHeroStrip } from '@/components/calculators/retirement/examples';
 import { formatCurrency } from '@/lib/utils';
 
 export const metadata: Metadata = {
@@ -41,18 +42,11 @@ export default function RetirementCalculatorPage() {
   // Assumptions not pinned down by the narrative (flagged): the lib projects TSP
   // contributions at a single grade's pay, so this holds E-7 base pay flat across
   // all 20 years (currentGrade E-7, currentYOS 0) with a $0 starting balance.
-  const exRet = calculateRetirement({
-    retirementSystem: 'brs',
-    currentGrade: 'E-7',
-    currentYOS: 0,
-    retirementYOS: 20,
-    retirementGrade: 'E-7',
-    tspContributionPct: 5,
-    tspCurrentBalance: 0,
-    tspAnnualReturnPct: 7,
-    vaRating: 0,
-  });
+  // Scenario inputs live in examples.ts (shared with the e2e spec).
+  const exRet = calculateRetirement(RETIREMENT_EXAMPLE_INPUT);
   const exBrsAdvantageMonthly = exRet.totalBRSMonthlyIncome - exRet.high3MonthlyPension;
+  // Hero strip: same scenario + 50% VA (CRDP), every figure computed from the lib.
+  const hero = retirementHeroStrip();
 
   return (
     <>
@@ -99,15 +93,15 @@ export default function RetirementCalculatorPage() {
               Sample output
             </span>
             <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
-              E-7 &middot; 20 yrs &middot; BRS &middot; 40% VA
+              E-7 &middot; 20 yrs &middot; BRS &middot; {RETIREMENT_HERO_INPUT.vaRating}% VA (CRDP)
             </p>
             <div className="flex items-baseline gap-3 min-w-0 flex-1 overflow-hidden">
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">Pension <span className="font-semibold text-zinc-700">$2,480/mo</span></span>
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">TSP <span className="font-semibold text-zinc-700">~$190K</span></span>
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">VA <span className="font-semibold text-zinc-700">$796/mo</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">Pension <span className="font-semibold text-zinc-700" data-testid="hero-pension">{hero.pension}</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">TSP <span className="font-semibold text-zinc-700" data-testid="hero-tsp">{hero.tsp}</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">VA <span className="font-semibold text-zinc-700" data-testid="hero-va">{hero.va}</span></span>
             </div>
             <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
-              Civilian equiv: <span className="font-semibold text-red-700">~$50K/yr</span>
+              Civilian equiv: <span className="font-semibold text-red-700" data-testid="hero-civilian">{hero.civilianEquivalent}</span>
             </p>
           </div>
         </div>

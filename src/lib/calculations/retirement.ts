@@ -286,12 +286,25 @@ export function calculateRetirement(input: RetirementInput): RetirementOutput {
   // CRDP: eligible if 20+ years service AND VA rating >= 50%
   const crdpEligible = retirementYOS >= 20 && vaRating >= 50;
 
-  // Total monthly income
-  const totalMonthlyIncome =
-    (retirementSystem === 'brs' ? totalBRSMonthlyIncome : monthlyPension) + monthlyVA;
+  // VA waiver (10 U.S.C. § 1414(a)): without CRDP, retired pay is reduced dollar-for-dollar
+  // by the VA award. Total retired pay + VA becomes max(pension, VA); the VA part is excluded
+  // from federal taxable income. With CRDP (50%+ and 20+ years) both are paid in full.
+  const waiverApplied = monthlyVA > 0 && !crdpEligible;
+  const taxableRetiredPay = waiverApplied
+    ? Math.max(monthlyPension - monthlyVA, 0)
+    : monthlyPension;
+  // Every VA dollar received is excluded from taxable income. When pension >= VA (every case
+  // the UI can reach), this equals min(VA, pension). It stays the full VA amount if VA ever
+  // exceeds the pension, so taxableRetiredPay + vaTaxFree always equals max(pension, VA).
+  const vaTaxFree = monthlyVA;
 
-  // Civilian equivalent (assume state doesn't tax military retirement by default)
-  const civilianEquivalent = calculateCivilianEquivalent(monthlyPension, monthlyVA, false);
+  // Total monthly income — TSP income (BRS) is not retired pay, so the waiver never touches it
+  const tspIncomeForTotal = retirementSystem === 'brs' ? tspMonthlyIncome : 0;
+  const totalMonthlyIncome = tspIncomeForTotal + taxableRetiredPay + vaTaxFree;
+
+  // Civilian equivalent (assume state doesn't tax military retirement by default).
+  // Inputs follow the waiver; the formula itself is unchanged.
+  const civilianEquivalent = calculateCivilianEquivalent(taxableRetiredPay, vaTaxFree, false);
 
   // Stay vs. Go
   const yearsFromVesting = Math.max(0, 20 - currentYOS);
@@ -321,6 +334,9 @@ export function calculateRetirement(input: RetirementInput): RetirementOutput {
     monthlyVA,
     totalMonthlyIncome,
     crdpEligible,
+    waiverApplied,
+    taxableRetiredPay,
+    vaTaxFree,
     civilianEquivalent,
     yearsFromVesting,
     lifetimeValueOfStaying,
