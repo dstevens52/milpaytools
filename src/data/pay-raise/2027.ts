@@ -23,6 +23,7 @@
 
 import type { PayGrade } from '@/types/military';
 import type { PayTable } from '@/data/types';
+import { DATA_LAST_CHECKED } from '@/data/watch';
 
 export type RaiseTier = 'E1-E5' | 'E6-O3' | 'O4-up';
 export type PercentByTier = Record<RaiseTier, number>;
@@ -56,7 +57,7 @@ export interface PayCaps {
 
 export interface PayRaiseConfig {
   status: PayRaiseStatus;
-  /** ISO date Dan last checked the law's status. Shown on the page. */
+  /** ISO date the law's status was last checked. Shown on the page. Live value comes from src/data/watch.ts. */
   lastChecked: string;
   /** Used while status is 'pending'. */
   scenarios: RaiseScenario[];
@@ -116,7 +117,7 @@ export const SOURCES = {
 
 export const PAY_RAISE_2027: PayRaiseConfig = {
   status: 'pending',
-  lastChecked: '2026-11-11',
+  lastChecked: DATA_LAST_CHECKED, // shared with the BAH 2027 notice — edit src/data/watch.ts
   scenarios: [
     {
       id: 'current-plan',
