@@ -25,6 +25,31 @@ each item below must be re-traced against the new source and revised by hand.
   - Test: `tests/e2e/pay-table-dfas.spec.ts` (`npm run test:pay-table`) — update its CSV path,
     its `src/data/pay-tables/` import, and the expected cell count if DFAS changes the table shape.
 
+## CONUS COLA location list (January 2027)
+
+The COLA calculator shows eligibility + the official index only — never a dollar amount — so
+the yearly update is the location list itself.
+
+- [ ] Download `cclocs{YY}.pdf` (e.g. `cclocs27.pdf`) from the DTMO CONUS COLA page:
+  https://www.travel.dod.mil/Allowances/CONUS-Cost-of-Living-Allowance/ (year selector → new year).
+- [ ] Write `docs/sources/conus-cola-locations-{YYYY}.md` in the same format as
+  `conus-cola-locations-2026.md` (every MHA + index exactly as printed, URL, retrieval date,
+  any County Cost Groups). The PDF governs over any announcement or third-party repost.
+- [ ] Add `src/data/cola/{YYYY}/constants.ts` (`{ mhaCode, dtmoName, state, index }` per area,
+  plus `COLA_SOURCE.sourceUrl` / `retrievedDate` / `rateLookupUrl`) and repoint imports from
+  `src/data/cola/2026/constants.ts`. No dollar figures.
+- [ ] Re-run the mapping check: each DTMO name → exactly one MHA code in the new year's
+  `mhaNames` / `zipToMha`, confirmed against DTMO `mhanames{YY}.txt` / `sorted_zipmha{YY}.txt`
+  (name match, ZIP count, one sample ZIP). Hold on any zero or multiple match.
+- [ ] Update `tests/e2e/cola.spec.ts` (`OFFICIAL_2026` table typed from the source doc, sample
+  ZIPs, not-eligible ZIPs, hero/worked-example expectations) and the COLA block in
+  `tests/e2e/data-accuracy.spec.ts`. Check the station-page COLA tests still name a station in /
+  out of the new list.
+- [ ] `/calculators/cola` title, meta, OG/Twitter and JSON-LD use `DATA_YEAR` from the data file;
+  confirm they read the new year. Hand-written area names in page copy
+  (`src/app/calculators/cola/page.tsx` — Monterey, National Capital Region, Fort Bragg,
+  Fort Hood; `src/content/blog/oconus-cola-trap.mdx`) must be re-checked against the new list.
+
 ## Pay posts with inline dollar figures
 
 These blog posts render as raw MDX strings (`next-mdx-remote/rsc` cannot import

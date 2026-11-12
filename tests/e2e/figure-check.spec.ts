@@ -12,7 +12,6 @@ import * as pay2026 from '@/data/pay-tables/2026';
 import * as va2026 from '@/data/va-rates/2026';
 import * as bah2026 from '@/data/bah/2026/mhaRates';
 import * as constants from '@/data/constants';
-import * as cola2026 from '@/data/cola/2026/constants';
 import * as deployment2026 from '@/data/deployment/2026/constants';
 import * as education2026 from '@/data/education/2026/constants';
 import * as healthcare2026 from '@/data/healthcare/2026/constants';
@@ -46,7 +45,6 @@ const MODULES: Record<string, Record<string, unknown>> = {
   va: va2026,
   bah: bah2026,
   const: constants,
-  cola: cola2026,
   deployment: deployment2026,
   education: education2026,
   healthcare: healthcare2026,

@@ -2,55 +2,34 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { lookupCola } from '@/lib/calculations/cola';
+import { colaForMha, type ColaLookupResult } from '@/lib/calculations/colaMha';
+import { COLA_AREAS, COLA_SOURCE } from '@/data/cola/2026/constants';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { COLA_OVERSEAS_LINE } from '@/data/oconus/stationSearchCopy';
 import { useBahLookup } from '@/components/calculators/shared/useBahLookup';
-import type { PayGrade } from '@/types/military';
-import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
+import { parseZip } from '@/lib/urlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
-
-const PAY_GRADES: { group: string; grades: PayGrade[] }[] = [
-  {
-    group: 'Enlisted',
-    grades: ['E-1', 'E-2', 'E-3', 'E-4', 'E-5', 'E-6', 'E-7', 'E-8', 'E-9'],
-  },
-  {
-    group: 'Warrant Officer',
-    grades: ['W-1', 'W-2', 'W-3', 'W-4', 'W-5'],
-  },
-  {
-    group: 'Officer',
-    grades: ['O-1', 'O-2', 'O-3', 'O-4', 'O-5', 'O-6', 'O-7', 'O-8', 'O-9', 'O-10'],
-  },
-];
-
-function formatDollar(n: number): string {
-  return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-}
-
-const TIER_BADGE_STYLES: Record<string, string> = {
-  'high': 'bg-red-50 text-red-700 border-red-200',
-  'moderate-high': 'bg-amber-50 text-amber-700 border-amber-200',
-  'moderate': 'bg-blue-50 text-blue-700 border-blue-200',
-};
+import { COLA_AREA_TABLE_ID } from './ColaAreaTable';
 
 export function ColaCalculator() {
   const [zip, setZip] = useState('');
-  const [payGrade, setPayGrade] = useState<PayGrade>('E-5');
-  const [hasDependents, setHasDependents] = useState(false);
   const [overseasInput, setOverseasInput] = useState(false);
 
-  const isValidZip = zip.length === 5;
+  const isValidZip = /^\d{5}$/.test(zip);
 
-  const result = useMemo(() => {
-    if (!isValidZip) return null;
-    return lookupCola({ zipCode: zip, payGrade, hasDependents });
-  }, [zip, payGrade, hasDependents, isValidZip]);
+  // ZIP → MHA resolved server-side (no client zipToMha), then matched against
+  // the 18-entry 2026 list client-side.
+  const { data: bahData, loading } = useBahLookup(zip);
 
-  // Related station-page link — resolved server-side (no client zipToMha).
-  const { data: bahData } = useBahLookup(zip);
+  const result = useMemo((): ColaLookupResult | null => {
+    if (!isValidZip || !bahData) return null;
+    if (!bahData.valid || bahData.territory || !bahData.mha) {
+      return { status: 'not-found', eligible: false };
+    }
+    return colaForMha(bahData.mha, bahData.locationName ?? bahData.mha);
+  }, [isValidZip, bahData]);
+
   const station = bahData?.stationPages?.[0] ?? null;
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -64,20 +43,33 @@ export function ColaCalculator() {
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
     const gz = parseZip(p.get('zip'));
-    const gr = parseGrade(p.get('rank'));
-    const dep = parseBool(p.get('dependents'));
     if (gz) setZip(gz);
-    if (gr) setPayGrade(gr);
-    if (dep !== null) setHasDependents(dep);
   }, []);
 
   function getShareUrl() {
     const p = new URLSearchParams();
     if (zip) p.set('zip', zip);
-    p.set('rank', gradeToParam(payGrade));
-    p.set('dependents', hasDependents ? 'yes' : 'no');
     return `${window.location.origin}/calculators/cola?${p.toString()}`;
   }
+
+  function showAreaTable(e: React.MouseEvent<HTMLAnchorElement>) {
+    const el = document.getElementById(COLA_AREA_TABLE_ID);
+    if (!el) return;
+    e.preventDefault();
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    history.replaceState(null, '', `#${COLA_AREA_TABLE_ID}`);
+  }
+
+  const areaListLink = (label: string) => (
+    <a
+      href={`#${COLA_AREA_TABLE_ID}`}
+      onClick={showAreaTable}
+      data-testid="cola-area-list-link"
+      className="font-medium text-blue-700 underline hover:text-blue-800"
+    >
+      {label}
+    </a>
+  );
 
   return (
     <div className="bg-white rounded-lg border border-zinc-200 shadow-sm">
@@ -91,255 +83,101 @@ export function ColaCalculator() {
           </Link>
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-          {/* ZIP / base name */}
-          <div>
-            <BaseSearchInput
-              id="zip"
-              label="Base or duty station"
-              value={zip}
-              onZipChange={setZip}
-              overseasVariant="cola"
-              onOverseasChange={(m) => setOverseasInput(m !== null)}
-              placeholder="Try Monterey, Fort Irwin, or 93940"
-            />
-          </div>
-
-          {/* Pay Grade */}
-          <div>
-            <label htmlFor="pay-grade" className="block text-sm font-medium text-zinc-700 mb-1.5">
-              Pay grade
-            </label>
-            <select
-              id="pay-grade"
-              value={payGrade}
-              onChange={(e) => setPayGrade(e.target.value as PayGrade)}
-              className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
-            >
-              {PAY_GRADES.map(({ group, grades }) => (
-                <optgroup key={group} label={group}>
-                  {grades.map((g) => (
-                    <option key={g} value={g}>
-                      {g}
-                    </option>
-                  ))}
-                </optgroup>
-              ))}
-            </select>
-          </div>
-
-          {/* Dependency Status */}
-          <div>
-            <span className="block text-sm font-medium text-zinc-700 mb-1.5">
-              Dependency status
-            </span>
-            <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[38px]">
-              <button
-                onClick={() => setHasDependents(false)}
-                className={[
-                  'flex-1 text-sm font-medium transition-colors',
-                  !hasDependents
-                    ? 'bg-red-700 text-white'
-                    : 'bg-white text-zinc-600 hover:bg-zinc-50',
-                ].join(' ')}
-              >
-                Without
-              </button>
-              <button
-                onClick={() => setHasDependents(true)}
-                className={[
-                  'flex-1 text-sm font-medium border-l border-zinc-300 transition-colors',
-                  hasDependents
-                    ? 'bg-red-700 text-white'
-                    : 'bg-white text-zinc-600 hover:bg-zinc-50',
-                ].join(' ')}
-              >
-                With deps
-              </button>
-            </div>
-          </div>
+        <div className="max-w-md">
+          <BaseSearchInput
+            id="zip"
+            label="Base or duty station ZIP"
+            value={zip}
+            onZipChange={setZip}
+            overseasVariant="cola"
+            onOverseasChange={(m) => setOverseasInput(m !== null)}
+            placeholder="Try Camp Pendleton, Fort Hamilton, or 98101"
+          />
         </div>
       </div>
 
       {/* Results panel */}
-      <div className="p-6">
-        {/* 2026 eligibility change notice — always visible */}
-        <div className="mb-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 leading-relaxed">
-          <span className="font-semibold">2026 update: </span>
-          CONUS COLA eligibility changed significantly for FY2026. Several areas lost eligibility,
-          including Greater Boston and multiple California locations. Seattle/Puget Sound gained
-          eligibility. NYC rates were reduced from 8% to 4%.{' '}
-          <span className="font-semibold">
-            Always verify your specific ZIP code rate at DTMO before relying on this tool.
-          </span>
-        </div>
-
+      <div className="p-6" data-testid="cola-result-area">
         {!isValidZip && (
           <div className="text-sm text-zinc-500 text-center py-6">
-            Enter a 5-digit duty station ZIP code to check CONUS COLA eligibility.
+            Enter a 5-digit duty station ZIP code to check 2026 CONUS COLA eligibility.
           </div>
+        )}
+
+        {isValidZip && !result && loading && (
+          <div className="text-sm text-zinc-500 text-center py-6">Checking the 2026 list…</div>
         )}
 
         {/* Display only: for overseas input the station field's overseas note already
-            explains why there's no CONUS COLA result, so this box would repeat it. */}
-        {isValidZip && result && !result.isColaArea && !overseasInput && (
-          <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-6">
-            <div className="flex items-start gap-4">
-              <span className="text-2xl flex-none">📍</span>
-              <div>
-                <p className="font-semibold text-zinc-900 mb-1">
-                  ZIP {zip} is not a CONUS COLA area
-                </p>
-                <p className="text-sm text-zinc-600 leading-relaxed mb-3">
-                  Most duty stations do not qualify for CONUS COLA — it applies only to a small number
-                  of high-cost locations. CONUS COLA is paid in addition to BAH, which all members
-                  receive based on their duty station.
-                </p>
-                <p className="text-sm text-zinc-600 leading-relaxed mb-3">
-                  CONUS COLA eligibility changes annually. Several areas that previously qualified
-                  (including Greater Boston, MA) lost eligibility in 2026. If your previous station
-                  received CONUS COLA, verify whether your current station still qualifies.
-                </p>
-                <p className="text-sm text-zinc-500">
-                  If you believe your duty station qualifies, verify at{' '}
-                  <a
-                    href="https://www.travel.dod.mil/Pay-Entitlements/CONUS-COLA/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-700 underline hover:text-blue-800"
-                  >
-                    DTMO CONUS COLA
-                  </a>{' '}
-                  — the official source.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-5 pt-4 border-t border-zinc-200">
-              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-2">
-                Related calculator
-              </p>
-              <a
-                href="/bah"
-                className="text-sm text-blue-700 hover:text-blue-800 underline"
-              >
-                Look up your BAH rate for this ZIP code →
-              </a>
-            </div>
+            explains why there's no CONUS COLA result, so these boxes would repeat it. */}
+        {isValidZip && result?.status === 'not-found' && !overseasInput && (
+          <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-6" data-testid="cola-result-not-found">
+            <p className="text-sm text-zinc-700 leading-relaxed">
+              We couldn&apos;t match that ZIP to a military housing area. Check the ZIP or{' '}
+              {areaListLink('see the full list below')}.
+            </p>
           </div>
         )}
 
-        {isValidZip && result?.isColaArea && result.area && (
+        {isValidZip && result?.status === 'not-eligible' && !overseasInput && (
+          <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-6" data-testid="cola-result-not-eligible">
+            <p className="font-semibold text-zinc-900 mb-1">
+              {result.mhaName} is not a 2026 CONUS COLA area.
+            </p>
+            <p className="text-sm text-zinc-600 leading-relaxed mb-3">
+              Only {COLA_AREAS.length} military housing areas qualify for 2026.{' '}
+              {areaListLink(`See all ${COLA_AREAS.length} areas`)}
+            </p>
+            <p className="text-sm text-zinc-600 leading-relaxed">
+              BAH still applies at every CONUS duty station.{' '}
+              <Link href="/bah" className="text-blue-700 underline hover:text-blue-800">
+                Look up your BAH for this ZIP →
+              </Link>
+            </p>
+          </div>
+        )}
+
+        {isValidZip && result?.status === 'eligible' && (
           <div className="space-y-5">
-            {/* Area banner */}
-            <div className="rounded-lg border border-zinc-200 bg-white p-5">
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xl">📍</span>
-                    <h3 className="font-bold text-zinc-900 text-lg">{result.area.name}</h3>
-                    <span className="text-sm text-zinc-500">{result.area.state}</span>
-                  </div>
-                  {result.area.notes && (
-                    <p className="text-sm text-zinc-500 ml-7">{result.area.notes}</p>
-                  )}
-                </div>
-                <span
-                  className={[
-                    'inline-flex self-start items-center px-3 py-1 rounded-full text-xs font-semibold border whitespace-nowrap',
-                    TIER_BADGE_STYLES[result.area.tier] ?? 'bg-zinc-50 text-zinc-700 border-zinc-200',
-                  ].join(' ')}
-                >
-                  {result.tierLabel}
-                </span>
-              </div>
-
-              {/* Rate estimates */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="rounded-md bg-red-50 border border-red-100 p-4 text-center">
-                  <p className="text-2xl font-bold text-red-700 tabular-nums">
-                    {formatDollar(result.approxMonthly!)}
-                  </p>
-                  <p className="text-xs font-semibold text-red-600 mt-1 uppercase tracking-wide">
-                    Est. per month
-                  </p>
-                  <p className="text-xs text-zinc-500 mt-1">
-                    {payGrade} · {hasDependents ? 'with dependents' : 'without dependents'}
-                  </p>
-                </div>
-                <div className="rounded-md bg-zinc-50 border border-zinc-200 p-4 text-center">
-                  <p className="text-2xl font-bold text-zinc-900 tabular-nums">
-                    {formatDollar(result.approxAnnual!)}
-                  </p>
-                  <p className="text-xs font-semibold text-zinc-600 mt-1 uppercase tracking-wide">
-                    Est. per year
-                  </p>
-                  <p className="text-xs text-zinc-500 mt-1">Monthly × 12</p>
-                </div>
-                <div className="rounded-md bg-amber-50 border border-amber-100 p-4 text-center flex flex-col justify-center">
-                  <p className="text-sm font-semibold text-amber-800">Taxable income</p>
-                  <p className="text-xs text-amber-700 mt-1 leading-relaxed">
-                    Unlike BAH/BAS, CONUS COLA is subject to federal and state income tax.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Verify at DTMO callout */}
-            <div className="rounded-lg border border-blue-200 bg-blue-50 p-5">
-              <div className="flex items-start gap-3">
-                <span className="text-xl flex-none">⚠️</span>
-                <div>
-                  <p className="font-semibold text-blue-900 text-sm mb-1">
-                    These are estimates — verify your exact rate at DTMO
-                  </p>
-                  <p className="text-sm text-blue-800 leading-relaxed mb-3">
-                    DTMO publishes the official CONUS COLA rates for every eligible grade and
-                    dependency combination. Rates change annually and the amounts above are approximate
-                    figures based on area cost tier. Your finance office uses the official DTMO table
-                    to calculate your actual entitlement.
-                  </p>
-                  <a
-                    href="https://www.travel.dod.mil/Pay-Entitlements/CONUS-COLA/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-md bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800 transition-colors"
-                  >
-                    Look up your exact rate at DTMO →
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Grade group note */}
-            <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-4">
-              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-2">
-                Grade group used for this estimate
+            <div className="rounded-lg border border-zinc-200 bg-white p-5" data-testid="cola-result-eligible">
+              <h3 className="font-bold text-zinc-900 text-lg mb-3">
+                {result.dtmoName} is a 2026 CONUS COLA area
+              </h3>
+              <p className="text-2xl sm:text-3xl font-bold text-red-700 tabular-nums mb-3" data-testid="cola-result-index">
+                Official 2026 COLA index: {result.index}%
               </p>
-              <p className="text-sm text-zinc-600">
-                {payGrade} falls in the{' '}
-                <span className="font-semibold text-zinc-800">{result.gradeGroup}</span> group.
-                DTMO publishes exact rates by individual grade — use the DTMO link above for your
-                precise amount.
+              <p className="text-sm text-zinc-600 leading-relaxed mb-5">
+                CONUS COLA is a taxable allowance for high-cost U.S. duty stations. Your monthly
+                amount depends on your pay grade, years of service, and number of dependents.
               </p>
+              <a
+                href={COLA_SOURCE.rateLookupUrl}
+                target="_blank"
+                rel="noopener"
+                data-testid="cola-dtmo-rate-lookup"
+                className="inline-flex items-center gap-2 rounded-md bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800 transition-colors"
+              >
+                Get your exact amount from DTMO&apos;s official rate lookup →
+              </a>
             </div>
 
             <SaveOrShareResults
               pageName="cola"
-              headline="Save or share your COLA estimate"
-              supportingText="Useful for comparing cost-of-living at different duty stations or planning your housing budget before a PCS."
+              headline="Save or share this COLA check"
+              supportingText="Useful when comparing duty stations or planning a PCS budget."
               usefulFor={['PCS pay comparison', 'PCS planning', 'Housing budget']}
               getUrl={getShareUrl}
-              shareTitle="My CONUS COLA estimate"
-              shareText="Here's my CONUS COLA estimate from MilPayTools."
+              shareTitle="CONUS COLA eligibility check"
+              shareText="Here's a 2026 CONUS COLA eligibility check from MilPayTools."
             />
           </div>
         )}
+
         {/* Station guide link */}
         {isValidZip && station && (
           <div className="mt-5">
             <Link
-              href={`/bah/${station.slug}?rank=${payGrade}&dep=${hasDependents ? 'yes' : 'no'}`}
+              href={`/bah/${station.slug}`}
               className="group relative flex items-center justify-between gap-3 overflow-hidden rounded-lg border border-zinc-200 bg-white py-3 pl-5 pr-4 text-sm shadow-sm hover:border-zinc-300 hover:shadow transition-all"
             >
               <span className="absolute inset-y-0 left-0 w-[3px] bg-red-600" />

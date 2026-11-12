@@ -230,7 +230,7 @@ export const SOURCE_GROUPS: SourceGroup[] = [
         .flatMap(([k, v]) => walkNumbers(v, k).map(([p, n]) => [`const:${p}`, n] as [string, number])),
     ],
   },
-  { id: 'cola', file: 'src/data/cola/{Y}/constants.ts', entries: walkExports('cola', /^COLA_RATE_ESTIMATES$/) },
+  // No 'cola' group: CONUS COLA data is eligibility + index only (no dollar values) since 2026-11-12.
   { id: 'deployment', file: 'src/data/deployment/{Y}/constants.ts', entries: walkExports('deployment', /^DEPLOYMENT_RATES/) },
   { id: 'education', file: 'src/data/education/{Y}/constants.ts', entries: walkExports('education', /^EDUCATION_RATES$/) },
   { id: 'healthcare', file: 'src/data/healthcare/{Y}/constants.ts', entries: walkExports('healthcare', /^HEALTHCARE_/) },
@@ -309,7 +309,7 @@ export interface ClassifiedFigure extends Figure {
  * values (deductibles, TSP limits, caps) — twelve of those means nothing.
  */
 const MONTHLY_LABEL =
-  /^(?:pay|bas|va|cola):|^deployment:(?:hfp|idp|fsa|hdpLevels\[\d+\]|hdpLTopRatePrior)$|^(?:tricare:reserveSelect\.|healthcare:tricareReserveSelect\.\w+\.premium$|healthcare:\w+\.\w+\.\w+\.premium$)|^education:(?:giBill\.onlineMHAMonthly|mgib\.fullTimeMonthly)$/;
+  /^(?:pay|bas|va):|^deployment:(?:hfp|idp|fsa|hdpLevels\[\d+\]|hdpLTopRatePrior)$|^(?:tricare:reserveSelect\.|healthcare:tricareReserveSelect\.\w+\.premium$|healthcare:\w+\.\w+\.\w+\.premium$)|^education:(?:giBill\.onlineMHAMonthly|mgib\.fullTimeMonthly)$/;
 
 export interface Classifier {
   index: DataIndex;
@@ -344,10 +344,10 @@ export function makeClassifier(index: DataIndex): Classifier {
 
 /**
  * Groups large or round enough that a match on them alone is often a
- * coincidence: BAH (16,000+ values), the COLA estimate bands and the
- * healthcare illustration tables (round numbers like $500 and $2,000).
+ * coincidence: BAH (16,000+ values) and the healthcare illustration tables
+ * (round numbers like $500 and $2,000).
  */
-const WEAK_GROUPS = new Set(['bah', 'cola', 'healthcare']);
+const WEAK_GROUPS = new Set(['bah', 'healthcare']);
 
 /**
  * `weak` when every source is in a WEAK_GROUP, the figure is a whole number

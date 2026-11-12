@@ -18,6 +18,7 @@ import { EmailSignup } from '@/components/EmailSignup';
 import { YoYDelta } from '@/components/calculators/bah/YoYDelta';
 import { bahVsRentClause } from '@/lib/rentCompare';
 import { fireShareEvent } from '@/lib/analytics';
+import { COLA_SOURCE, DATA_YEAR as COLA_YEAR } from '@/data/cola/2026/constants';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -46,7 +47,8 @@ export interface StationPageClientProps {
   locationName: string;
   mhaLabel?: string;
   taxInfo: StateTaxInfo | null;
-  colaArea: { name: string; tier: string } | null;
+  /** 2026 CONUS COLA area (DTMO name + official index), or null. No dollar amounts. */
+  colaArea: { name: string; index: number } | null;
   nearbyData: NearbyStationData[];
   hasRates: boolean;
   /** Rich-data station (drives layout). Passed explicitly so the bahVsHousing
@@ -554,7 +556,7 @@ export function StationPageClient({
                 {colaArea && (
                   <div>
                     <p className="text-xs text-zinc-500 mb-0.5 uppercase tracking-wide">CONUS COLA</p>
-                    <p className="text-sm font-medium text-green-700">Eligible ({colaArea.tier})</p>
+                    <p className="text-sm font-medium text-green-700">{COLA_YEAR} area · {colaArea.index}% index</p>
                   </div>
                 )}
               </div>
@@ -822,9 +824,19 @@ export function StationPageClient({
                 <li className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-700 flex-none mt-1.5" />
                   <p className="text-sm text-zinc-600">
-                    Members at {station.name} are eligible for <strong>CONUS COLA</strong> — a monthly
-                    supplement for high-cost areas ({colaArea.name}, {colaArea.tier} tier). Confirm your
-                    exact rate with your finance office.
+                    {station.name} is in the {colaArea.name}{' '}military housing area, which is on
+                    DTMO&apos;s {COLA_YEAR} <strong>CONUS COLA</strong> list ({colaArea.index}% index). CONUS COLA
+                    is a taxable monthly allowance; the amount depends on pay grade, years of service,
+                    and dependents.{' '}
+                    <a
+                      href={COLA_SOURCE.rateLookupUrl}
+                      target="_blank"
+                      rel="noopener"
+                      className="text-blue-700 underline hover:text-blue-800"
+                    >
+                      Get the exact amount from DTMO&apos;s rate lookup
+                    </a>
+                    .
                   </p>
                 </li>
               )}

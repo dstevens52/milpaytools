@@ -56,7 +56,7 @@ const CALCULATOR_CONFIG = {
   cola: {
     href: '/calculators/cola',
     label: 'CONUS COLA Calculator',
-    defaultText: 'Check whether your duty station qualifies for CONUS COLA and see approximate monthly rates by pay grade and dependency status.',
+    defaultText: "Check whether your duty station is on DTMO's official 2026 CONUS COLA list and see its COLA index.",
   },
   compare: {
     href: '/calculators/compare',

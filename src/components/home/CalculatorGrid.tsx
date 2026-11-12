@@ -102,7 +102,7 @@ const CALCULATORS: CalculatorCardProps[] = [
     href: '/calculators/cola',
     title: 'CONUS COLA Calculator',
     description:
-      'Check if your duty station qualifies for Continental U.S. Cost of Living Allowance and see approximate monthly rates by pay grade.',
+      "Check if your duty station is on DTMO's official 2026 CONUS COLA list and see its COLA index.",
     icon: '📊',
   },
   {

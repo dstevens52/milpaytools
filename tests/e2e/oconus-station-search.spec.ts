@@ -166,15 +166,16 @@ test.describe('COLA — overseas variant', () => {
     await expect(note(page)).not.toContainText('price housing');
   });
 
-  test('APO ZIP → generic note with the overseas COLA DTMO link; no "not a CONUS COLA area" box', async ({ page }) => {
+  test('APO ZIP → generic note with the overseas COLA DTMO link; no not-eligible / not-found box', async ({ page }) => {
     await page.locator('#zip').pressSequentially('96205', { delay: 30 });
     await expectGenericNote(page, 'That looks like an overseas military mail ZIP.', DTMO_COLA);
-    await expect(page.getByText('is not a CONUS COLA area')).toHaveCount(0);
+    await expect(page.getByTestId('cola-result-not-eligible')).toHaveCount(0);
+    await expect(page.getByTestId('cola-result-not-found')).toHaveCount(0);
   });
 
-  test('stateside non-COLA ZIP still shows the "not a CONUS COLA area" box', async ({ page }) => {
+  test('stateside non-COLA ZIP still shows the "not a 2026 CONUS COLA area" box', async ({ page }) => {
     await page.locator('#zip').pressSequentially('28310', { delay: 30 });
-    await expect(page.getByText('ZIP 28310 is not a CONUS COLA area')).toBeVisible();
+    await expect(page.getByTestId('cola-result-not-eligible')).toContainText('Fort Bragg/Pope, NC is not a 2026 CONUS COLA area.');
     await expect(note(page)).toHaveCount(0);
   });
 });

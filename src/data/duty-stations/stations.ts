@@ -259,7 +259,7 @@ export const DUTY_STATIONS: DutyStation[] = [
     installationDetail:
       'JBLM is the largest U.S. Army installation on the West Coast, home to I Corps, the 7th Infantry Division, and the 62nd Airlift Wing flying C-17s.',
     rentalNote:
-      'The Puget Sound housing market is expensive and competitive. BAH rates are high relative to CONUS averages, but the Seattle metro\'s rapidly rising rents mean some lower-grade members face a shortfall. CONUS COLA was added for this area in 2026.',
+      'The Puget Sound housing market is expensive and competitive. BAH rates are high relative to CONUS averages, but the Seattle metro\'s rapidly rising rents mean some lower-grade members face a shortfall.',
     rentalContext:
       'The Puget Sound area runs 10–15% above the national median in overall housing costs, which limits how far BAH stretches compared to CONUS averages.',
     nearby: ['naval-base-kitsap', 'naval-air-station-whidbey-island', 'joint-base-elmendorf-richardson'],

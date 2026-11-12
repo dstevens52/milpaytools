@@ -199,12 +199,12 @@ export const CALCULATORS: CalculatorDetail[] = [
     icon: '📊',
     name: 'CONUS COLA Calculator',
     description:
-      'Check if your duty station qualifies for Continental U.S. Cost of Living Allowance and see approximate monthly rates by pay grade. Covers approximately 18 qualifying high-cost locations.',
+      "Check whether your duty station is on DTMO's official 2026 CONUS COLA list and see its COLA index, with a link to DTMO's rate lookup for your exact amount.",
     features: [
-      'ZIP code eligibility lookup',
-      'Approximate rates by grade group',
-      'High/moderate-high/moderate cost tiers',
-      'DTMO official rate verification link',
+      'ZIP code eligibility lookup by military housing area',
+      'Official 2026 COLA index for each qualifying area',
+      'Full list of 2026 CONUS COLA areas',
+      "Link to DTMO's official rate lookup",
     ],
     group: 'allowances',
     supportsOconus: false,

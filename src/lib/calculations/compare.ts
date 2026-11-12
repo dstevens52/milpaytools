@@ -1,8 +1,10 @@
 // Duty station comparison calculation logic
-// Compares total compensation, BAH, CONUS COLA, and take-home pay between two CONUS duty stations.
+// Compares total compensation, BAH, and take-home pay between two CONUS duty stations.
+// CONUS COLA is shown as eligibility + official 2026 index only. It is NOT added to
+// gross pay, taxes, take-home or the verdict (no dollar estimate — see colaMha.ts).
 
 import { lookupBasePay } from '@/lib/calculations/total-compensation';
-import { lookupColaArea, getGradeGroup, getApproxMonthlyRate } from '@/lib/calculations/cola';
+import { getColaAreaByMha } from '@/data/cola/2026/constants';
 import { BAS_RATES, FED_TAX_BRACKETS_SINGLE, STANDARD_DEDUCTION_SINGLE } from '@/data/constants';
 import { ENLISTED_GRADES } from '@/types/military';
 import { getStateFromZip, STATE_TAX_DATA, StateTaxInfo } from '@/data/compare/stateTax';
@@ -15,6 +17,14 @@ export interface LocationBah {
   monthlyBAH: number;
   locationName: string;
   bahFound: boolean;
+  /** MHA code from /api/bah/lookup (null if the ZIP didn't resolve). Drives CONUS COLA eligibility. */
+  mha: string | null;
+}
+
+/** 2026 CONUS COLA status for one station: eligibility + official index, no dollars. */
+export interface StationCola {
+  dtmoName: string;
+  index: number;
 }
 
 export interface CompareInput {
@@ -37,12 +47,12 @@ export interface LocationData {
   monthlyBAH: number;
   bahFound: boolean;
   monthlyBAS: number;
-  monthlyCOLA: number;
-  colaAreaName: string | null;
+  /** 2026 CONUS COLA area info, or null. Informational only — not in any total. */
+  cola: StationCola | null;
   isColaArea: boolean;
-  // Totals
-  grossMonthly: number;           // basePay + BAH + BAS + COLA
-  annualTaxableIncome: number;    // (basePay + COLA) * 12 — BAH/BAS are tax-free
+  // Totals (CONUS COLA excluded)
+  grossMonthly: number;           // basePay + BAH + BAS
+  annualTaxableIncome: number;    // basePay * 12 — BAH/BAS are tax-free
   annualFederalTax: number;
   monthlyFederalTax: number;
   annualStateTax: number;
@@ -59,7 +69,6 @@ export interface CompareResult {
   isEnlisted: boolean;
   // Differences (B minus A — positive means B is better)
   bahDiffMonthly: number;
-  colaDiffMonthly: number;
   grossDiffMonthly: number;
   stateTaxDiffAnnual: number;    // negative means B saves money on state tax
   federalTaxDiffAnnual: number;
@@ -91,26 +100,18 @@ function calculateFederalTax(annualTaxableIncome: number): number {
 /** Compute all pay components and tax estimates for one location. */
 function computeLocation(
   zip: string,
-  payGrade: PayGrade,
-  yearsOfService: number,
-  hasDependents: boolean,
   monthlyBasePay: number,
   monthlyBAS: number,
   monthlyBAH: number,
   locationName: string,
-  bahFound: boolean
+  bahFound: boolean,
+  mha: string | null
 ): LocationData {
   // BAH — resolved via /api/bah/lookup and injected by the caller.
 
-  // CONUS COLA
-  const colaArea = lookupColaArea(zip);
-  let monthlyCOLA = 0;
-  let colaAreaName: string | null = null;
-  if (colaArea) {
-    const gradeGroup = getGradeGroup(payGrade);
-    monthlyCOLA = getApproxMonthlyRate(colaArea.tier, gradeGroup, hasDependents);
-    colaAreaName = colaArea.name;
-  }
+  // CONUS COLA — eligibility + index by MHA only; never added to pay or taxes.
+  const colaArea = getColaAreaByMha(mha);
+  const cola: StationCola | null = colaArea ? { dtmoName: colaArea.dtmoName, index: colaArea.index } : null;
 
   // State tax
   const state = getStateFromZip(zip);
@@ -118,9 +119,9 @@ function computeLocation(
   const stateRate = stateInfo?.rate ?? 0;
 
   // Totals
-  const grossMonthly = monthlyBasePay + monthlyBAH + monthlyBAS + monthlyCOLA;
-  // Only base pay and CONUS COLA are taxable
-  const annualTaxableIncome = (monthlyBasePay + monthlyCOLA) * 12;
+  const grossMonthly = monthlyBasePay + monthlyBAH + monthlyBAS;
+  // Only base pay is taxable here (BAH/BAS are tax-free; CONUS COLA is excluded from totals)
+  const annualTaxableIncome = monthlyBasePay * 12;
   const annualFederalTax = calculateFederalTax(annualTaxableIncome);
   const monthlyFederalTax = annualFederalTax / 12;
   const annualStateTax = annualTaxableIncome * stateRate;
@@ -136,9 +137,8 @@ function computeLocation(
     monthlyBAH,
     bahFound,
     monthlyBAS,
-    monthlyCOLA,
-    colaAreaName,
-    isColaArea: colaArea !== null,
+    cola,
+    isColaArea: cola !== null,
     grossMonthly,
     annualTaxableIncome,
     annualFederalTax,
@@ -156,7 +156,7 @@ function computeLocation(
  * Returns null if either ZIP is missing or not 5 digits.
  */
 export function compareLocations(input: CompareInput): CompareResult | null {
-  const { payGrade, yearsOfService, hasDependents, zipA, zipB } = input;
+  const { payGrade, yearsOfService, zipA, zipB } = input;
 
   if (zipA.length !== 5 || zipB.length !== 5) return null;
 
@@ -164,11 +164,10 @@ export function compareLocations(input: CompareInput): CompareResult | null {
   const monthlyBasePay = lookupBasePay(payGrade, yearsOfService);
   const monthlyBAS = isEnlisted ? BAS_RATES.enlisted : BAS_RATES.officer;
 
-  const locA = computeLocation(zipA, payGrade, yearsOfService, hasDependents, monthlyBasePay, monthlyBAS, input.bahA.monthlyBAH, input.bahA.locationName, input.bahA.bahFound);
-  const locB = computeLocation(zipB, payGrade, yearsOfService, hasDependents, monthlyBasePay, monthlyBAS, input.bahB.monthlyBAH, input.bahB.locationName, input.bahB.bahFound);
+  const locA = computeLocation(zipA, monthlyBasePay, monthlyBAS, input.bahA.monthlyBAH, input.bahA.locationName, input.bahA.bahFound, input.bahA.mha);
+  const locB = computeLocation(zipB, monthlyBasePay, monthlyBAS, input.bahB.monthlyBAH, input.bahB.locationName, input.bahB.bahFound, input.bahB.mha);
 
   const bahDiffMonthly = locB.monthlyBAH - locA.monthlyBAH;
-  const colaDiffMonthly = locB.monthlyCOLA - locA.monthlyCOLA;
   const grossDiffMonthly = locB.grossMonthly - locA.grossMonthly;
   const stateTaxDiffAnnual = locB.annualStateTax - locA.annualStateTax; // positive = B costs more tax
   const federalTaxDiffAnnual = locB.annualFederalTax - locA.annualFederalTax;
@@ -197,7 +196,6 @@ export function compareLocations(input: CompareInput): CompareResult | null {
     monthlyBAS,
     isEnlisted,
     bahDiffMonthly,
-    colaDiffMonthly,
     grossDiffMonthly,
     stateTaxDiffAnnual,
     federalTaxDiffAnnual,

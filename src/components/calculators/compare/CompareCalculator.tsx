@@ -10,6 +10,7 @@ import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareR
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
+import { COLA_SOURCE, DATA_YEAR as COLA_YEAR } from '@/data/cola/2026/constants';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -228,11 +229,11 @@ export function CompareCalculator() {
   const { data: dataB } = useBahLookup(zipB);
   const bahA = useMemo(() => {
     const r = rateFor(dataA, payGrade, hasDependents);
-    return { monthlyBAH: r ?? 0, locationName: dataA?.locationName ?? zipA, bahFound: r !== null };
+    return { monthlyBAH: r ?? 0, locationName: dataA?.locationName ?? zipA, bahFound: r !== null, mha: dataA?.mha ?? null };
   }, [dataA, payGrade, hasDependents, zipA]);
   const bahB = useMemo(() => {
     const r = rateFor(dataB, payGrade, hasDependents);
-    return { monthlyBAH: r ?? 0, locationName: dataB?.locationName ?? zipB, bahFound: r !== null };
+    return { monthlyBAH: r ?? 0, locationName: dataB?.locationName ?? zipB, bahFound: r !== null, mha: dataB?.mha ?? null };
   }, [dataB, payGrade, hasDependents, zipB]);
 
   const result = useMemo(() => {
@@ -270,8 +271,6 @@ export function CompareCalculator() {
   // Display names for each location
   const nameA = result?.locA.locationName || `ZIP ${zipA}`;
   const nameB = result?.locB.locationName || `ZIP ${zipB}`;
-
-  const showCOLA = result && (result.locA.isColaArea || result.locB.isColaArea);
 
   return (
     <div className="space-y-6">
@@ -444,21 +443,6 @@ export function CompareCalculator() {
               badge={<DiffBadge diff={0} neutral />}
             />
 
-            {/* Row: CONUS COLA (only if at least one location qualifies) */}
-            {showCOLA && (
-              <CompareRow
-                label="CONUS COLA"
-                sublabel="Taxable · approx."
-                valA={result.locA.isColaArea
-                  ? `${fmt(result.locA.monthlyCOLA)}/mo`
-                  : 'Not eligible'}
-                valB={result.locB.isColaArea
-                  ? `${fmt(result.locB.monthlyCOLA)}/mo`
-                  : 'Not eligible'}
-                badge={<DiffBadge diff={result.colaDiffMonthly} />}
-              />
-            )}
-
             {/* Row: Gross Monthly (divider row) */}
             <CompareRow
               label="Gross monthly"
@@ -474,7 +458,7 @@ export function CompareCalculator() {
               label="Est. state income tax"
               sublabel={
                 <>
-                  <span className="hidden sm:inline">On base pay + COLA only · many states exempt military pay</span>
+                  <span className="hidden sm:inline">On base pay only · many states exempt military pay</span>
                   <span className="sm:hidden">On base pay only</span>
                 </>
               }
@@ -503,6 +487,34 @@ export function CompareCalculator() {
               badge={<DiffBadge diff={result.takeHomeDiffMonthly} />}
               highlight
             />
+
+            {/* CONUS COLA: eligibility + official index only — never in the totals above */}
+            <div className="pt-4 mt-1" data-testid="compare-cola-note">
+              <p className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-2">CONUS COLA</p>
+              <ul className="space-y-1.5">
+                {([[nameA, result.locA], [nameB, result.locB]] as const).map(([name, loc], i) => (
+                  <li key={i} className="text-sm text-zinc-600" data-testid={i === 0 ? 'compare-cola-a' : 'compare-cola-b'}>
+                    <span className="font-medium text-zinc-800">{name}:</span>{' '}
+                    {loc.cola ? (
+                      <>
+                        {COLA_YEAR} CONUS COLA area: {loc.cola.index}% index — not included in totals (
+                        <a
+                          href={COLA_SOURCE.rateLookupUrl}
+                          target="_blank"
+                          rel="noopener"
+                          className="text-blue-700 underline hover:text-blue-800"
+                        >
+                          DTMO rate lookup
+                        </a>
+                        )
+                      </>
+                    ) : (
+                      <>Not a {COLA_YEAR} CONUS COLA area</>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           {/* Annual summary strip */}

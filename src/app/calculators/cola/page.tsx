@@ -4,48 +4,86 @@ import Link from 'next/link';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { ColaCalculator } from '@/components/calculators/cola/ColaCalculator';
+import { ColaAreaTable } from '@/components/calculators/cola/ColaAreaTable';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
+import { FaqSection, type FaqItem } from '@/components/FaqSection';
 import { webApplicationSchema } from '@/lib/schema';
 import { lookupCola } from '@/lib/calculations/cola';
-import { formatCurrency } from '@/lib/utils';
+import { COLA_AREAS, COLA_SOURCE, DATA_YEAR, highestIndexArea } from '@/data/cola/2026/constants';
+
+// ── Everything below is computed from src/data/cola/2026/constants.ts ─────────
+const AREA_COUNT = COLA_AREAS.length;
+const COLA_STATES = [...new Set(COLA_AREAS.map((a) => a.state))];
+
+function listJoin(items: string[]): string {
+  if (items.length <= 1) return items.join('');
+  return `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`;
+}
+
+const TITLE = `CONUS COLA Calculator ${DATA_YEAR}: Eligible Locations & Index`;
+const DESCRIPTION = `Check whether your duty station is one of the ${AREA_COUNT} military housing areas on DTMO's official ${DATA_YEAR} CONUS COLA list, see its COLA index, and get your exact amount from DTMO's rate lookup.`;
 
 export const metadata: Metadata = {
-  title: { absolute: 'CONUS COLA Calculator — 2026' },
-  description:
-    'Check whether your duty station qualifies for CONUS Cost of Living Allowance and see approximate monthly rates by grade. Uses DTMO area data for 2026.',
+  title: { absolute: TITLE },
+  description: DESCRIPTION,
   alternates: {
     canonical: '/calculators/cola',
   },
   openGraph: {
-    title: 'CONUS COLA Calculator — 2026',
-    description:
-      'Check whether your duty station qualifies for CONUS Cost of Living Allowance and see approximate monthly rates by grade. Uses DTMO area data for 2026.',
+    title: TITLE,
+    description: DESCRIPTION,
     type: 'website',
     url: '/calculators/cola',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'CONUS COLA Calculator 2026', sub: 'Does your duty station qualify, and what it pays by grade' }),
+    images: ogImage({ type: 'calculator', title: `CONUS COLA Calculator ${DATA_YEAR}`, sub: `Is your duty station on the official ${DATA_YEAR} list, and its index` }),
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CONUS COLA Calculator — 2026',
-    description:
-      'Check whether your duty station qualifies for CONUS Cost of Living Allowance and see approximate monthly rates by grade. Uses DTMO area data for 2026.',
-    images: ogImage({ type: 'calculator', title: 'CONUS COLA Calculator 2026', sub: 'Does your duty station qualify, and what it pays by grade' }),
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ogImage({ type: 'calculator', title: `CONUS COLA Calculator ${DATA_YEAR}`, sub: `Is your duty station on the official ${DATA_YEAR} list, and its index` }),
   },
 };
 
+const COLA_FAQS: FaqItem[] = [
+  {
+    question: "Why doesn't this calculator show a dollar amount?",
+    answer:
+      "CONUS COLA is calculated from your pay grade, years of service, dependents, and DTMO's spendable-income tables. To avoid showing an estimate that could be wrong, we show whether your duty station qualifies and its official index, and link to DTMO's rate lookup for your exact amount.",
+  },
+  {
+    question: 'What does the COLA index mean?',
+    answer:
+      'It reflects how much higher non-housing costs are at that duty station than the national average. A higher index means a larger allowance at the same grade, years of service, and dependents.',
+  },
+  {
+    question: 'Is CONUS COLA taxable?',
+    answer: 'Yes. Unlike BAH and BAS, CONUS COLA is taxable income.',
+  },
+  {
+    question: 'How often does the list change?',
+    answer: `DTMO publishes the CONUS COLA location list each year, and areas can gain or lose eligibility. This page reflects the ${DATA_YEAR} list.`,
+  },
+];
+
 export default function ColaPage() {
-  // ── Worked-example values, computed server-side from the COLA lib ─────────────
-  // Scenario: E-5 at Monterey, CA (ZIP 93940), a high-tier CONUS COLA area.
-  const colaWithDep = lookupCola({ zipCode: '93940', payGrade: 'E-5', hasDependents: true });
-  const colaNoDep = lookupCola({ zipCode: '93940', payGrade: 'E-5', hasDependents: false });
-  // Net of the 12% federal marginal bracket cited in the copy (COLA is taxable).
-  const colaNetAnnualWithDep = (colaWithDep.approxAnnual ?? 0) * (1 - 0.12);
+  // ── Hero sample + worked example, computed from the data file and the lib ────
+  const top = highestIndexArea();
+  const exEligible = lookupCola('98101'); // Seattle
+  const exNotEligible = lookupCola('93940'); // Monterey
+  const exEligibleLabel = exEligible.status === 'eligible' ? exEligible.dtmoName : 'ZIP 98101';
+  const exNotEligibleLabel = exNotEligible.status === 'not-found' ? 'ZIP 93940' : exNotEligible.mhaName;
+  const statusText = (r: typeof exEligible) =>
+    r.status === 'eligible'
+      ? `${DATA_YEAR} COLA area · ${r.index}% index`
+      : r.status === 'not-eligible'
+        ? `Not a ${DATA_YEAR} COLA area`
+        : 'ZIP not found';
 
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'CONUS COLA Calculator 2026', description: 'Check whether your duty station qualifies for CONUS Cost of Living Allowance and see approximate monthly rates by grade. Uses DTMO area data for 2026.', url: '/calculators/cola' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: `CONUS COLA Calculator ${DATA_YEAR}`, description: DESCRIPTION, url: '/calculators/cola' })} />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="border-b border-zinc-200"
@@ -56,39 +94,41 @@ export default function ColaPage() {
           <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
+              Free &middot; No Account &middot; No Personal Info &middot; Official {DATA_YEAR} DTMO Location List
             </span>
           </div>
           <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
             CONUS COLA Calculator
           </h1>
           <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
-            Check if your duty station qualifies for CONUS COLA and see your approximate monthly rate using official 2026 DTMO data.
+            Check whether your duty station is on DTMO&apos;s official {DATA_YEAR}{' '}CONUS COLA list and see
+            its COLA index. Then get your exact monthly amount from DTMO&apos;s rate lookup.
           </p>
         </div>
 
         {/* ── 3-step plan strip ──────────────────────────────────────── */}
         <CalcStepStrip noBg steps={[
-          { title: 'Enter your duty station and pay grade' },
-          { title: 'Check CONUS COLA eligibility' },
-          { title: 'See your full allowance picture with BAH' },
+          { title: 'Enter your duty station ZIP' },
+          { title: `Check ${DATA_YEAR} CONUS COLA eligibility and index` },
+          { title: "Get your exact amount from DTMO's rate lookup" },
         ]} />
 
         {/* ── Proof bar ──────────────────────────────────────────────── */}
         <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
-          <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden">
+          <div className="rounded-lg border border-zinc-200 bg-white px-4 py-2 flex items-center gap-3 overflow-hidden" data-testid="cola-hero-sample">
             <span className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest flex-none whitespace-nowrap border border-zinc-200 rounded px-1.5 py-0.5">
               Sample output
             </span>
             <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
-              E-5 &middot; w/dep &middot; Monterey, CA
+              {top.dtmoName}
             </p>
             <div className="flex items-baseline gap-3 min-w-0 flex-1 overflow-hidden">
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">CONUS COLA <span className="font-semibold text-zinc-700">$430/mo</span></span>
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">High-cost tier</span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">
+                {DATA_YEAR} COLA index <span className="font-semibold text-zinc-700">{top.index}%</span>
+              </span>
             </div>
             <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
-              Annual: <span className="font-semibold text-red-700">$5,160</span> &middot; Taxable
+              Highest {DATA_YEAR}{' '}index &middot; Taxable
             </p>
           </div>
         </div>
@@ -97,24 +137,29 @@ export default function ColaPage() {
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-6 md:py-10 space-y-10">
         <ColaCalculator />
 
+        <ColaAreaTable />
+
         {/* Example Calculation */}
         <div className="calc-example">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
-            How Much CONUS COLA Does an E-5 at Monterey, CA Receive?
+            Example: one duty station on the {DATA_YEAR}{' '}list, one that isn&apos;t
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-5 stationed at the Naval Postgraduate School or Defense Language Institute, Monterey, CA (ZIP 93940). Monterey is one of the highest-tier CONUS COLA locations — one of the most expensive duty stations in the continental U.S.
+            Two ZIP codes run through the calculator above: downtown Seattle (98101) and Monterey
+            (93940), home of the Naval Postgraduate School and the Defense Language Institute.
           </p>
           <ExampleTable>
-            <ExampleRow label="E-5 CONUS COLA — Monterey, CA — with dependents" value={`${formatCurrency(colaWithDep.approxMonthly ?? 0)}/mo`} highlight />
-            <ExampleRow label="E-5 CONUS COLA — Monterey, CA — without dependents" value={`${formatCurrency(colaNoDep.approxMonthly ?? 0)}/mo`} />
-            <ExampleRow label="Annual COLA (with dependents)" value={`${formatCurrency(colaWithDep.approxAnnual ?? 0)}/yr`} highlight />
-            <ExampleRow label="Annual COLA (without dependents)" value={`${formatCurrency(colaNoDep.approxAnnual ?? 0)}/yr`} />
+            <ExampleRow label={`${exEligibleLabel} (ZIP 98101)`} value={statusText(exEligible)} highlight />
+            <ExampleRow label={`${exNotEligibleLabel} (ZIP 93940)`} value={statusText(exNotEligible)} />
             <ExampleRow label="Tax treatment" value="Taxable income" />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> An E-5 with dependents at the Naval Postgraduate School receives {formatCurrency(colaWithDep.approxAnnual ?? 0)}/year in additional pay specifically because Monterey&apos;s cost of living far exceeds the national average — even accounting for BAH. Unlike BAH, CONUS COLA is taxable income, so the net value after federal taxes at the 12% marginal bracket is approximately {formatCurrency(colaNetAnnualWithDep)}/year. It is still a meaningful supplement for one of the most expensive duty stations in the country.
+            <strong>What this means:</strong> A member stationed in {exEligibleLabel} receives CONUS COLA
+            {exEligible.status === 'eligible' ? ` at the area's ${exEligible.index}% index` : ''}; the
+            monthly amount depends on pay grade, years of service, and dependents, and DTMO&apos;s rate
+            lookup gives the exact figure. Monterey is a high-cost area, but it is not on the {DATA_YEAR}{' '}
+            list, so members there don&apos;t receive CONUS COLA this year.
           </p>
         </ExampleBox>
         </div>
@@ -131,8 +176,8 @@ export default function ColaPage() {
             </p>
             <p className="text-zinc-600">
               CONUS COLA is governed by 37 U.S.C. § 403b and administered by the Defense Travel
-              Management Office (DTMO), which publishes official rates by location, grade, and
-              dependency status each fiscal year.
+              Management Office (DTMO), which publishes the qualifying locations and their index
+              each year, and the rates by grade, years of service, and dependents.
             </p>
           </div>
 
@@ -151,10 +196,10 @@ export default function ColaPage() {
                 </thead>
                 <tbody>
                   {[
-                    ['Purpose', 'Offset housing costs', 'Offset overall high cost of living'],
-                    ['Who receives it', 'All members assigned to CONUS duty stations', 'Members at specific high-cost CONUS locations only'],
+                    ['Purpose', 'Offset housing costs', 'Offset high non-housing costs'],
+                    ['Who receives it', 'All members assigned to CONUS duty stations', `Members in the ${AREA_COUNT} qualifying military housing areas only`],
                     ['Taxable?', 'No — tax-free', 'Yes — taxable income'],
-                    ['Basis', 'Pay grade + ZIP code + dependency status', 'Pay grade + qualifying area + dependency status'],
+                    ['Basis', 'Pay grade + ZIP code + dependency status', 'Qualifying area + pay grade + years of service + dependents'],
                     ['Updated', 'January 1 each year', 'Annually by DTMO'],
                     ['Paid together?', 'Yes — both can be paid simultaneously', 'Yes — paid in addition to BAH'],
                   ].map(([feature, bah, cola]) => (
@@ -174,28 +219,27 @@ export default function ColaPage() {
               Which areas qualify for CONUS COLA?
             </h2>
             <p className="text-zinc-600 mb-3">
-              CONUS COLA is authorized for locations where the cost of goods and services exceeds
-              the national average by a threshold defined by DTMO. The qualifying areas are
-              predominantly in California (Bay Area, Monterey, Los Angeles, San Diego, and
-              surrounding counties), the Northeast (New York City metro, Boston, and Connecticut),
-              and the National Capital Region.
+              DTMO&apos;s official {DATA_YEAR} location list names {AREA_COUNT} military housing areas in{' '}
+              {COLA_STATES.length} states: {listJoin(COLA_STATES)}. The full list, with each
+              area&apos;s index, is in the table above. Eligibility follows DTMO&apos;s military housing
+              area boundaries, which don&apos;t always match city or county lines — that&apos;s why this
+              calculator checks by ZIP code.
             </p>
             <p className="text-zinc-600 mb-3">
-              Most CONUS duty stations do not qualify — CONUS COLA is a relatively narrow entitlement
-              compared to BAH. Members stationed at installations like Fort Bragg (Fayetteville,
-              NC), Fort Hood (Killeen, TX), or most Midwest and Southeast installations do not
-              receive CONUS COLA.
+              Most CONUS duty stations do not qualify. Members at installations like Fort Bragg
+              (Fayetteville, NC) or Fort Hood (Killeen, TX) do not receive CONUS COLA, and some
+              high-cost areas — Monterey and the National Capital Region among them — are not on
+              the {DATA_YEAR} list.
             </p>
             <p className="text-zinc-600">
-              DTMO updates the qualifying areas list annually. If your duty station is near a
-              borderline area, verify using the official DTMO tool at{' '}
+              For your exact monthly amount, use{' '}
               <a
-                href="https://www.travel.dod.mil/Pay-Entitlements/CONUS-COLA/"
+                href={COLA_SOURCE.rateLookupUrl}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener"
                 className="text-blue-700 underline hover:text-blue-800"
               >
-                travel.dod.mil
+                DTMO&apos;s CONUS COLA rate lookup
               </a>
               .
             </p>
@@ -211,12 +255,13 @@ export default function ColaPage() {
               compensation.
             </p>
             <p className="text-zinc-600">
-              If you receive $300/month in CONUS COLA and are in the 22% federal tax bracket, your
-              after-tax benefit is approximately $234/month ($300 × 0.78). Factor this in when
-              comparing duty station financial packages — the pre-tax COLA amount overstates the
-              actual take-home value.
+              In the 22% federal tax bracket, you keep about 78 cents of each COLA dollar before
+              state tax. When comparing duty stations, consider the after-tax value — the pre-tax
+              COLA amount overstates what reaches your account.
             </p>
           </div>
+
+          <FaqSection faqs={COLA_FAQS} />
 
           <div>
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">Related calculators</h2>
@@ -243,7 +288,6 @@ export default function ColaPage() {
           </div>
         </div>
 
-        
         {/* Guide links */}
         <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 mt-6">
           <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-2">

@@ -162,7 +162,7 @@ const CALCULATORS: CalcCard[] = [
   {
     href: '/calculators/cola',
     name: 'CONUS COLA',
-    description: 'See if your duty station qualifies for COLA and estimate the monthly amount.',
+    description: 'See if your duty station qualifies for 2026 CONUS COLA and its official index.',
     iconBg: 'bg-cyan-600',
     categories: ['pay', 'pcs'],
     icon: (
