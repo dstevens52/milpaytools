@@ -118,12 +118,6 @@ function resolveFigures(rank: PayPageRank) {
   return { minPay, maxPay, floorKey, distinctCount, isEnlisted, medianBAH, comp, priorEnlisted };
 }
 
-// Append the richest trailing clause that keeps the meta description within
-// `max` characters — same whole-sentence truncation as /bah/[slug].
-function fitDescription(head: string, tails: string[], max = 160): string {
-  return head + (tails.find((t) => head.length + t.length <= max) ?? '');
-}
-
 // contextCopy paragraphs may carry [text](/path) markdown-style links — the
 // only markup the strings support. Rendered as <Link> elements here so the
 // copy stays plain strings in the data file (no JSX, no innerHTML). String
@@ -146,16 +140,87 @@ function renderCopyLinks(text: string): ReactNode[] {
   return parts;
 }
 
-// Single rank name for the title, H1, and meta description — the Army equivalent,
-// taking the first name where the Army title is compound ("Specialist or Corporal"
-// → "Specialist") and stripping any parenthetical abbreviation ("Private (PV1)" →
-// "Private"). Sourced from branchTitles; never hand-keyed. Keeps the composed
-// <title> ≤60 chars where a full cross-branch list would blow past it.
+// Single rank name for the H1 — the Army equivalent, taking the first name where
+// the Army title is compound ("Specialist or Corporal" → "Specialist") and
+// stripping any parenthetical abbreviation ("Private (PV1)" → "Private").
+// Sourced from branchTitles; never hand-keyed.
 function primaryRankName(rank: PayPageRank): string {
   return rank.branchTitles.army
     .split(' or ')[0]
     .replace(/\s*\([^)]*\)\s*/g, '')
     .trim();
+}
+
+// One branch's rank name for the meta description: first name of a compound
+// title ("Master Sergeant or First Sergeant" → "Master Sergeant") with an
+// abbreviation-only parenthetical stripped ("Private (PV1)" → "Private").
+// Word parentheticals stay — "Lieutenant (Junior Grade)" is Navy O-2, while
+// bare "Lieutenant" would read as Navy O-3.
+function branchRankName(title: string): string {
+  return title
+    .split(' or ')[0]
+    .replace(/\s*\([A-Z0-9-]+\)/g, '')
+    .trim();
+}
+
+// E-8/E-9 branch titles are long enough that the standard lead can't fit all
+// four in 160 chars, so these two always use the short lead and may run to 175
+// (limit enforced in tests/e2e/pay-rank-meta.spec.ts; 160 for every other rank).
+const SHORT_LEAD_SLUGS = new Set(['e8', 'e9']);
+
+// Meta description: every branch's rank title, then the pay, then what's on the
+// page. Army, Navy, Air Force and Marine Corps titles and the pay range are
+// never dropped — searchers look for their own branch's name.
+// E-8/E-9: always "E-8 pay 2026: Army …, Navy …, Air Force … & Marine …: $X–$Y/month."
+// Every other rank: candidates run richest-first; the first ≤160 chars wins:
+//   1. all five branches, exact pay, "plus BAH…" tail
+//   2. drop Space Force          3. drop the "plus BAH…" tail
+//   4. whole-dollar pay          5. drop "by years of service"
+function rankDescription(rank: PayPageRank, minPay: number, maxPay: number): string {
+  const t = rank.branchTitles;
+  const [army, navy, airForce, marine, spaceForce] = [
+    t.army, t.navy, t.airForce, t.marines, t.spaceForce,
+  ].map(branchRankName);
+  const four = `Army ${army}, Navy ${navy}, Air Force ${airForce}`;
+  const withSpaceForce = `${four}, Marine ${marine} and Space Force ${spaceForce}`;
+  const withoutSpaceForce = `${four} and Marine ${marine}`;
+  const flat = minPay === maxPay;
+  const amount = (cents: boolean) =>
+    flat
+      ? formatCurrency(minPay, cents)
+      : `${formatCurrency(minPay, cents)}–${formatCurrency(maxPay, cents)}`;
+  const pay = (cents: boolean, detail: boolean) =>
+    `${flat ? 'a flat ' : ''}${amount(cents)}/month basic pay${
+      detail ? (flat ? ' at every year of service' : ' by years of service') : ''
+    }`;
+  if (SHORT_LEAD_SLUGS.has(rank.slug)) {
+    return `${rank.title} pay 2026: ${four} & Marine ${marine}: ${amount(false)}/month.`;
+  }
+
+  const lead = (branches: string) => `2026 ${rank.title} pay for ${branches}: `;
+  const tail = ', plus BAH, BAS and the 2027 raise.';
+  const candidates = [
+    lead(withSpaceForce) + pay(true, true) + tail,
+    lead(withoutSpaceForce) + pay(true, true) + tail,
+    lead(withoutSpaceForce) + pay(true, true) + '.',
+    lead(withoutSpaceForce) + pay(false, true) + '.',
+    lead(withoutSpaceForce) + pay(false, false) + '.',
+  ];
+  return candidates.find((c) => c.length <= 160) ?? candidates[candidates.length - 1];
+}
+
+// Absolute title (no " | MilPayTools" suffix — the template would push it past
+// SERP width), branch-neutral so Navy/Air Force/Marine searchers don't skip an
+// Army rank name. ≤60 chars for every rank; ", All Branches" drops only for a
+// rank that would exceed it (none in 2026).
+function rankTitle(rank: PayPageRank, minPay: number, maxPay: number): string {
+  const range =
+    minPay === maxPay
+      ? formatCurrency(minPay)
+      : `${formatCurrency(minPay)}–${formatCurrency(maxPay)}`;
+  const base = `${rank.title} Pay 2026: ${range}/Month`;
+  const full = `${base}, All Branches`;
+  return full.length <= 60 ? full : base;
 }
 
 // Adjacent-grade nav label. Crossing the enlisted/officer boundary (E-9 ↔ O-1)
@@ -179,45 +244,26 @@ export async function generateMetadata({
   const { rank: slug } = await params;
   const rank = RANK_BY_SLUG[slug];
   if (!rank) return {};
-  const { comp, minPay, maxPay } = resolveFigures(rank);
-  const rankName = primaryRankName(rank);
+  const { minPay, maxPay } = resolveFigures(rank);
 
-  // titleBase omits the site name — the root layout's title template appends
-  // " | MilPayTools". OG/Twitter don't run through that template, so they get
-  // an explicit socialTitle to match the rendered <title>.
-  // Title leads with the paygrade + the Army-equivalent rank name so rank-name
-  // searches ("first lieutenant pay 2026", "colonel pay") get the match signal the
-  // paygrade-only title lacked. One rank name only — the composed <title>
-  // (titleBase + " | MilPayTools") stays ≤60 chars for every rank (worst case ≤49).
-  const titleBase = `${rank.title} (${rankName}) Pay 2026`;
+  // titleBase is absolute (see rankTitle). OG/Twitter carry the site name
+  // explicitly via socialTitle.
+  const titleBase = rankTitle(rank, minPay, maxPay);
   const socialTitle = `${titleBase} | MilPayTools`;
-
-  // Description leads with the paygrade + rank name and stays ≤155 chars. Head
-  // drops "of service" and the tails drop the rank name (both carried above) so
-  // the added rank name never pushes the composed description past the limit.
-  const head =
-    minPay === maxPay
-      ? `2026 ${rank.title} / ${rankName} pay: a flat ${formatCurrency(minPay, true)}/month basic pay at every year of service.`
-      : `2026 ${rank.title} / ${rankName} pay: ${formatCurrency(comp.monthlyBasePay, true)}/month basic pay at ${yosLabel(getYOSBracket(rank.exampleYos)).toLowerCase()}.`;
-  const description = fitDescription(
-    head,
-    [
-      ' Full pay table by years of service, plus BAH, BAS, and total compensation.',
-      ' Full pay table, BAH, BAS, and total compensation.',
-    ],
-    155
-  );
+  const description = rankDescription(rank, minPay, maxPay);
 
   // Static subline: rank descriptions lead with a $/month basic-pay figure,
   // which OG sublines must not carry, so the sub is never description-derived.
+  // The card text keeps the pre-existing grade + Army-name label: image text is
+  // out of scope for title changes and must not carry $ figures.
   const ogImages = ogImage({
     type: 'calculator',
-    title: titleBase,
+    title: `${rank.title} (${primaryRankName(rank)}) Pay 2026`,
     sub: 'Basic pay by years of service, plus BAH, BAS & total compensation',
   });
 
   return {
-    title: titleBase,
+    title: { absolute: titleBase },
     description,
     alternates: { canonical: `/pay/${rank.slug}` },
     openGraph: {
