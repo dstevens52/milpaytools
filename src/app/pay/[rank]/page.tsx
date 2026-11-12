@@ -9,7 +9,7 @@ import {
   PAY_PAGES_PUBLISHED_ISO,
   type PayPageRank,
 } from '@/data/pay-pages/ranks';
-import { payTable } from '@/data/pay-tables/2026';
+import { payTable, E1_UNDER_4_MONTHS } from '@/data/pay-tables/2026';
 import { YOS_BREAKPOINTS, ENLISTED_GRADES, type YearsOfService } from '@/types/military';
 import { BAS_RATES, DATA_AS_OF } from '@/data/constants';
 import { getNationalAverages } from '@/lib/calculations/bah';
@@ -213,11 +213,16 @@ function rankDescription(rank: PayPageRank, minPay: number, maxPay: number): str
 // SERP width), branch-neutral so Navy/Air Force/Marine searchers don't skip an
 // Army rank name. ≤60 chars for every rank; ", All Branches" drops only for a
 // rank that would exceed it (none in 2026).
+// Whole-dollar pay range shared by the title and the branch FAQ, so the two can
+// never show different figures ("$3,343–$4,422", or "$2,407" for a flat grade).
+function payRange(minPay: number, maxPay: number): string {
+  return minPay === maxPay
+    ? formatCurrency(minPay)
+    : `${formatCurrency(minPay)}–${formatCurrency(maxPay)}`;
+}
+
 function rankTitle(rank: PayPageRank, minPay: number, maxPay: number): string {
-  const range =
-    minPay === maxPay
-      ? formatCurrency(minPay)
-      : `${formatCurrency(minPay)}–${formatCurrency(maxPay)}`;
+  const range = payRange(minPay, maxPay);
   const base = `${rank.title} Pay 2026: ${range}/Month`;
   const full = `${base}, All Branches`;
   return full.length <= 60 ? full : base;
@@ -343,6 +348,31 @@ export default async function RankPayPage({
   const marginalRatePct = Math.round(estimateMarginalRate(comp.annualBasePay) * 100);
   const annualCash = comp.totalMonthly * 12;
 
+  // Branch FAQ: same pay in every branch, only the title differs. Full branch
+  // titles from branchTitles (compound titles kept whole). The range comes from
+  // payRange(), the same helper as the page title; the check below fails the
+  // build if the title ever stops carrying it.
+  const branchRange = payRange(minPay, maxPay);
+  const pageTitle = rankTitle(rank, minPay, maxPay);
+  if (!pageTitle.includes(`${branchRange}/Month`)) {
+    throw new Error(
+      `branch FAQ range ${branchRange} not found in ${rank.grade} title "${pageTitle}"`
+    );
+  }
+  const bt = rank.branchTitles;
+  // E-1 also carries the DFAS under-4-months footnote rate, from the same
+  // constant as the table footnote (locked to DFAS in pay-table-dfas.spec.ts).
+  const branchPay =
+    rank.grade === 'E-1'
+      ? `${branchRange} per month in 2026 (members with less than 4 months of service receive a lower DFAS rate of ${formatCurrency(E1_UNDER_4_MONTHS, true)} for those first months)`
+      : isFlat
+        ? `a flat ${branchRange} per month in 2026 — the grade has no longevity steps`
+        : `${branchRange} per month in 2026, depending on years of service`;
+  const branchFaq = {
+    question: `How much does an ${rank.title} make in the Army, Navy, Air Force or Marine Corps?`,
+    answer: `The same basic pay in every branch: ${branchPay}. Only the title differs: Army ${bt.army}, Navy ${bt.navy}, Air Force ${bt.airForce}, Marine ${bt.marines} and Space Force ${bt.spaceForce}.`,
+  };
+
   // ── Unified FAQ: single source for both the visible list and FAQPage schema.
   // Dollar amounts come from the same resolved figures as the table and worked
   // example — one source of truth per render.
@@ -355,6 +385,7 @@ export default async function RankPayPage({
           : `${rank.title} monthly basic pay in 2026 ranges from ${formatCurrency(minPay, true)} to ${formatCurrency(maxPay, true)}, depending on years of service. An ${rank.title} ${yosLabel(exampleBracket).toLowerCase()} of service earns ${formatCurrency(comp.monthlyBasePay, true)}/month in basic pay.`
       } Basic pay is only part of military compensation — most members also receive BAH and BAS on top of it.`,
     },
+    branchFaq,
     {
       question: `What is ${rank.title} total compensation with BAH and BAS?`,
       answer: `Using the 2026 national median BAH ${rank.exampleDependents ? 'with' : 'without'} dependents (${formatCurrency(medianBAH)}/month), an ${exampleProse} receives about ${formatCurrency(comp.totalMonthly)}/month — ${formatCurrency(comp.monthlyBasePay, true)} basic pay, ${formatCurrency(comp.monthlyBAH)} BAH, and ${formatCurrency(comp.monthlyBAS, true)} BAS — roughly ${formatCurrency(annualCash)} per year. Actual totals depend on duty station, since BAH varies by location.`,
@@ -588,7 +619,7 @@ export default async function RankPayPage({
         <section className="space-y-4">
           <h2 className="text-xl font-semibold text-zinc-900">Frequently asked questions</h2>
           {faqs.map(({ question, answer }) => (
-            <div key={question} className="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+            <div key={question} data-faq-question={question} className="rounded-lg border border-zinc-200 bg-white px-5 py-4">
               <p className="text-sm font-semibold text-zinc-900 mb-1">{question}</p>
               <p className="text-sm text-zinc-600 leading-relaxed">{answer}</p>
             </div>

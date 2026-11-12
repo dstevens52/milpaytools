@@ -4,21 +4,38 @@ import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/s
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { PCSCalculator } from '@/components/calculators/pcs/PCSCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
+import { FaqSection, type FaqItem } from '@/components/FaqSection';
 import { webApplicationSchema } from '@/lib/schema';
 import { calculatePCS } from '@/lib/calculations/pcs';
 import { formatCurrency } from '@/lib/utils';
 
+// Absolute title (no " | MilPayTools" suffix) — 54 chars.
+const PCS_TITLE = 'PCS & PPM Calculator 2026: Army, Navy, Air Force, USMC';
+const PCS_DESC =
+  '2026 PCS calculator: DLA, MALT, per diem, TLE and PPM (DITY) proceeds at official DTMO rates. Army, Navy, Air Force, Marines, Space Force and Coast Guard.';
+
+const PCS_FAQS: FaqItem[] = [
+  {
+    question: 'Is there a separate Army, Navy or Air Force PCS calculator?',
+    answer:
+      "No. PCS allowances (DLA, MALT, per diem, TLE) and PPM incentive rules come from the Joint Travel Regulations and DTMO rate tables, which apply to all branches. Your branch's transportation office handles the paperwork, but the allowance rates are the same.",
+  },
+  {
+    question: 'What is a PPM, and is it the same as a DITY move?',
+    answer:
+      'A Personally Procured Move (PPM) is when you move some or all of your belongings yourself and are reimbursed. It replaced the older "DITY" name. Some branches still use the older term informally.',
+  },
+];
+
 export const metadata: Metadata = {
-  title: { absolute: 'PCS Calculator 2026 — Military Move & PPM Estimator' },
-  description:
-    'Free 2026 PCS calculator: estimate DLA, MALT, per diem, TLE and PPM (DITY) move proceeds with official DTMO rates. All branches, all ranks.',
+  title: { absolute: PCS_TITLE },
+  description: PCS_DESC,
   alternates: {
     canonical: '/calculators/pcs',
   },
   openGraph: {
-    title: 'PCS Calculator 2026 — Military Move & PPM Estimator',
-    description:
-      'Free 2026 PCS calculator: estimate DLA, MALT, per diem, TLE and PPM (DITY) move proceeds with official DTMO rates. All branches, all ranks.',
+    title: PCS_TITLE,
+    description: PCS_DESC,
     type: 'website',
     url: '/calculators/pcs',
     siteName: 'MilPayTools',
@@ -26,9 +43,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PCS Calculator 2026 — Military Move & PPM Estimator',
-    description:
-      'Free 2026 PCS calculator: estimate DLA, MALT, per diem, TLE and PPM (DITY) move proceeds with official DTMO rates. All branches, all ranks.',
+    title: PCS_TITLE,
+    description: PCS_DESC,
     images: ogImage({ type: 'calculator', title: 'PCS Calculator 2026', sub: 'DLA, MALT, per diem, TLE, and PPM net proceeds' }),
   },
 };
@@ -54,7 +70,7 @@ export default function PCSPage() {
 
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'PCS Calculator 2026', description: 'Free 2026 PCS calculator: estimate DLA, MALT, per diem, TLE and PPM (DITY) move proceeds with official DTMO rates. All branches, all ranks.', url: '/calculators/pcs' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: 'PCS Calculator 2026', description: PCS_DESC, url: '/calculators/pcs' })} />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="border-b border-zinc-200"
@@ -244,6 +260,8 @@ export default function PCSPage() {
             </p>
           </div>
         </div>
+
+        <FaqSection faqs={PCS_FAQS} />
 
         {/* Cross-link */}
         <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 text-sm text-zinc-600">

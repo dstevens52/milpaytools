@@ -4,21 +4,39 @@ import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/s
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { GuardReserveCalculator } from '@/components/calculators/guard-reserve/GuardReserveCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
+import { FaqSection, type FaqItem } from '@/components/FaqSection';
 import { webApplicationSchema } from '@/lib/schema';
 import { calculateGuardReserve } from '@/lib/calculations/guardReserve';
 import { formatCurrency } from '@/lib/utils';
 
+// Absolute title (no " | MilPayTools" suffix) — 56 chars.
+const GR_TITLE = 'Guard & Reserve Drill Pay Calculator 2026 (All Branches)';
+const GR_DESC =
+  'Estimate 2026 drill pay (MUTA), AT pay and TRS savings: Army Reserve & National Guard, Navy Reserve, Air Force Reserve, Air National Guard, Marine Reserve.';
+
+const GR_FAQS: FaqItem[] = [
+  {
+    question:
+      'Is drill pay the same for the Army Reserve, Navy Reserve, Air National Guard and other components?',
+    answer:
+      'Yes. Drill pay is based on the same basic pay tables for every reserve component. Each drill period (typically four per drill weekend) pays 1/30 of the monthly basic pay for your grade and years of service.',
+  },
+  {
+    question: 'Do I get BAH during Annual Training?',
+    answer:
+      'For orders of 30 days or fewer (most Annual Training), Guard and Reserve members generally receive BAH Reserve Component/Transit (BAH-RC/T), a non-locality rate, rather than the local BAH rate.',
+  },
+];
+
 export const metadata: Metadata = {
-  title: { absolute: 'Guard & Reserve Pay Calculator 2026 | Drill Pay + AT + TRS' },
-  description:
-    'Estimate total Guard and Reserve annual compensation: drill pay (MUTA), Annual Training pay, Tricare Reserve Select savings, and BRS matching. Uses 2026 DFAS pay tables.',
+  title: { absolute: GR_TITLE },
+  description: GR_DESC,
   alternates: {
     canonical: '/calculators/guard-reserve',
   },
   openGraph: {
-    title: 'Guard & Reserve Pay Calculator 2026 | Drill Pay + AT + TRS',
-    description:
-      'Estimate total Guard and Reserve annual compensation: drill pay (MUTA), Annual Training pay, Tricare Reserve Select savings, and BRS matching. Uses 2026 DFAS pay tables.',
+    title: GR_TITLE,
+    description: GR_DESC,
     type: 'website',
     url: '/calculators/guard-reserve',
     siteName: 'MilPayTools',
@@ -26,9 +44,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Guard & Reserve Pay Calculator 2026 | Drill Pay + AT + TRS',
-    description:
-      'Estimate total Guard and Reserve annual compensation: drill pay (MUTA), Annual Training pay, Tricare Reserve Select savings, and BRS matching. Uses 2026 DFAS pay tables.',
+    title: GR_TITLE,
+    description: GR_DESC,
     images: ogImage({ type: 'calculator', title: 'Guard & Reserve Pay Calculator 2026', sub: 'Drill pay, Annual Training, TRS savings, and BRS matching' }),
   },
 };
@@ -52,7 +69,7 @@ export default function GuardReservePage() {
 
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'Guard & Reserve Pay Calculator 2026', description: 'Estimate total Guard and Reserve annual compensation: drill pay (MUTA), Annual Training pay, Tricare Reserve Select savings, and BRS matching. Uses 2026 DFAS pay tables.', url: '/calculators/guard-reserve' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: 'Guard & Reserve Pay Calculator 2026', description: GR_DESC, url: '/calculators/guard-reserve' })} />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="border-b border-zinc-200"
@@ -209,6 +226,8 @@ export default function GuardReservePage() {
             </p>
           </div>
         </div>
+
+        <FaqSection faqs={GR_FAQS} />
 
         {/* Disclaimer */}
         <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-5 text-xs text-zinc-500 leading-relaxed">

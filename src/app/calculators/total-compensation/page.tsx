@@ -6,22 +6,44 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { TotalCompensationCalculator } from '@/components/calculators/total-compensation/TotalCompensationCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
+import { FaqSection, type FaqItem } from '@/components/FaqSection';
 import { webApplicationSchema } from '@/lib/schema';
 import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
 import { getMHACode, getMHARates } from '@/lib/calculations/bah';
 import { formatCurrency, roundToNearest } from '@/lib/utils';
 
+// Absolute title (no " | MilPayTools" suffix) — 57 chars.
+const TC_TITLE = 'Military Pay Calculator 2026: Army, Navy, Air Force, USMC';
+const TC_DESC =
+  '2026 military pay calculator for Army, Navy, Air Force, Marines, Space Force and Coast Guard: base pay, BAH, BAS, TSP match and civilian salary equivalent.';
+
+const TC_FAQS: FaqItem[] = [
+  {
+    question: 'Does this calculator work for the Army, Navy, Air Force, Marine Corps and Space Force?',
+    answer:
+      'Yes. Basic pay, BAH and BAS rates are set by the Department of Defense and are the same in every branch for a given pay grade, years of service, duty station and dependency status. Only the rank titles differ. For example, pay grade E-5 is a Sergeant in the Army and Marine Corps and a Petty Officer Second Class in the Navy.',
+  },
+  {
+    question: 'Does it work for the Coast Guard?',
+    answer:
+      'Yes. Coast Guard members are paid on the same basic pay tables and BAH rates as the DoD services. The difference is administrative: Coast Guard pay is handled by the Coast Guard Pay & Personnel Center rather than DFAS.',
+  },
+  {
+    question: 'Does it work for Guard and Reserve members?',
+    answer:
+      'This calculator models full-time active duty pay. For drill pay and Annual Training, use the [Guard & Reserve Pay Calculator](/calculators/guard-reserve).',
+  },
+];
+
 export const metadata: Metadata = {
-  title: { absolute: 'Military Pay Calculator 2026: Base Pay, BAH, BAS, Total Comp' },
-  description:
-    'Free 2026 military pay calculator: base pay, BAH, BAS, TSP match and tax advantage in one place, plus your civilian salary equivalent. Official DoD rates.',
+  title: { absolute: TC_TITLE },
+  description: TC_DESC,
   alternates: {
     canonical: '/calculators/total-compensation',
   },
   openGraph: {
-    title: 'Military Pay Calculator 2026: Base Pay, BAH, BAS, Total Comp',
-    description:
-      'Free 2026 military pay calculator: base pay, BAH, BAS, TSP match and tax advantage in one place, plus your civilian salary equivalent. Official DoD rates.',
+    title: TC_TITLE,
+    description: TC_DESC,
     type: 'website',
     url: '/calculators/total-compensation',
     siteName: 'MilPayTools',
@@ -29,9 +51,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Military Pay Calculator 2026: Base Pay, BAH, BAS, Total Comp',
-    description:
-      'Free 2026 military pay calculator: base pay, BAH, BAS, TSP match and tax advantage in one place, plus your civilian salary equivalent. Official DoD rates.',
+    title: TC_TITLE,
+    description: TC_DESC,
     images: ogImage({ type: 'calculator', title: 'Military Pay Calculator 2026', sub: 'Base pay, BAH, BAS, and tax advantage in one number' }),
   },
 };
@@ -61,7 +82,7 @@ export default function TotalCompensationPage() {
 
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'Military Pay Calculator 2026', description: 'Free 2026 military pay calculator: base pay, BAH, BAS, TSP match and tax advantage in one place, plus your civilian salary equivalent. Official DoD rates.', url: '/calculators/total-compensation' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: 'Military Pay Calculator 2026', description: TC_DESC, url: '/calculators/total-compensation' })} />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="relative overflow-hidden border-b border-zinc-200 md:min-h-[340px]"
@@ -404,6 +425,10 @@ export default function TotalCompensationPage() {
             </div>
           </details>
 
+        </div>
+
+        <div className="mb-8">
+          <FaqSection faqs={TC_FAQS} />
         </div>
 
         {/* Related calculators */}

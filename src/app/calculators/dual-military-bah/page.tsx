@@ -5,23 +5,59 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { DualMilitaryBAHCalculator } from '@/components/calculators/dual-military-bah/DualMilitaryBAHCalculator';
 import { GuidePromo } from '@/components/calculators/shared/GuidePromo';
 import { JsonLdScript } from '@/components/JsonLdScript';
-import { webApplicationSchema, faqPageSchema } from '@/lib/schema';
+import { webApplicationSchema } from '@/lib/schema';
+import { FaqSection, type FaqItem } from '@/components/FaqSection';
 import { getMHACode, getMHARates } from '@/lib/calculations/bah';
 import { lookupBasePay } from '@/lib/calculations/basePay';
 import { BAS_RATES } from '@/data/constants';
 import { formatCurrency } from '@/lib/utils';
 
+// Absolute title (no " | MilPayTools" suffix) — 52 chars.
+const DUAL_TITLE = 'Dual Military BAH Calculator 2026 + Double BAH Rules';
+const DUAL_DESC =
+  '2026 dual military (mil-to-mil) BAH calculator: see what both members draw, who should claim dependents, and how "double BAH" really works. Official DoD rates.';
+
+// Single source for the FAQPage schema (all 5) and the "Common questions" box
+// (4). The double-BAH question is shown in its own #double-bah section below,
+// so the box skips it (visibleElsewhere).
+const DUAL_FAQS: FaqItem[] = [
+  {
+    question: 'Do dual-military couples get double BAH?',
+    answer:
+      "Each member draws their own BAH, so a dual-military couple living off base can receive two BAH payments. What they don't get is two with-dependents payments for the same children. No children: each member generally draws BAH at the without-dependents rate. With children: one member claims the children and draws the with-dependents rate; the other draws the without-dependents rate. The calculator above shows which arrangement gives your household more. Your finance office confirms what you're entitled to.",
+    visibleElsewhere: true,
+  },
+  {
+    question: 'Can we both get BAH if we live together in the same house?',
+    answer:
+      'Yes. Both members receive their full BAH entitlement regardless of shared housing. The military does not reduce BAH because a couple lives together. This is one of the most significant financial advantages of dual military status.',
+  },
+  {
+    question: "What if we're at the same installation but different ZIP codes?",
+    answer:
+      "BAH is determined by your duty station's Military Housing Area (MHA), not your residential ZIP code. Multiple ZIP codes often map to the same MHA. As long as both members are in the same MHA, they receive the same base rate (adjusted for grade and dependency status). Use any ZIP code associated with your installation.",
+  },
+  {
+    question: 'We just had a child. Do we need to update our BAH?',
+    answer:
+      "Yes — enroll your child in DEERS, then update your dependency status with your unit's finance office. The member claiming dependents will have their BAH adjusted to the with-dependents rate effective the date of enrollment. Don't delay — BAH is not retroactively adjusted more than a limited period.",
+  },
+  {
+    question: 'Are dual-military BAH rules different in the Army, Navy or Air Force?',
+    answer:
+      'No. The BAH entitlement rules for dual-military ("mil-to-mil") couples come from the Joint Travel Regulations, Chapter 10, which apply to every branch. Each service publishes its own procedures for the paperwork, such as how to designate who claims dependents, so your finance office is the place to confirm the process. The rates and the rules on who can draw with-dependents BAH are the same across branches.',
+  },
+];
+
 export const metadata: Metadata = {
-  title: { absolute: 'Dual Military BAH Calculator 2026 + Double BAH Rules' },
-  description:
-    'Free 2026 dual military BAH calculator: see what both members draw, who should claim dependents, and how "double BAH" really works. Official DoD rates.',
+  title: { absolute: DUAL_TITLE },
+  description: DUAL_DESC,
   alternates: {
     canonical: '/calculators/dual-military-bah',
   },
   openGraph: {
-    title: 'Dual Military BAH Calculator 2026 + Double BAH Rules',
-    description:
-      'Free 2026 dual military BAH calculator: see what both members draw, who should claim dependents, and how "double BAH" really works. Official DoD rates.',
+    title: DUAL_TITLE,
+    description: DUAL_DESC,
     type: 'website',
     url: '/calculators/dual-military-bah',
     siteName: 'MilPayTools',
@@ -29,9 +65,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Dual Military BAH Calculator 2026 + Double BAH Rules',
-    description:
-      'Free 2026 dual military BAH calculator: see what both members draw, who should claim dependents, and how "double BAH" really works. Official DoD rates.',
+    title: DUAL_TITLE,
+    description: DUAL_DESC,
     images: ogImage({ type: 'calculator', title: 'Dual Military BAH Calculator 2026', sub: 'Who should claim dependents, and the optimal setup for couples' }),
   },
 };
@@ -55,25 +90,7 @@ export default function DualMilitaryBAHPage() {
 
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'Dual Military BAH Calculator 2026', description: 'Free 2026 dual military BAH calculator: see what both members draw, who should claim dependents, and how "double BAH" really works. Official DoD rates.', url: '/calculators/dual-military-bah' })} />
-      <JsonLdScript schema={faqPageSchema([
-        {
-          question: 'Do dual-military couples get double BAH?',
-          answer: 'Each member draws their own BAH, so a dual-military couple living off base can receive two BAH payments. What they don\'t get is two with-dependents payments for the same children. No children: each member generally draws BAH at the without-dependents rate. With children: one member claims the children and draws the with-dependents rate; the other draws the without-dependents rate. The calculator above shows which arrangement gives your household more. Your finance office confirms what you\'re entitled to.',
-        },
-        {
-          question: 'Can we both get BAH if we live together in the same house?',
-          answer: 'Yes. Both members receive their full BAH entitlement regardless of shared housing. The military does not reduce BAH because a couple lives together. This is one of the most significant financial advantages of dual military status.',
-        },
-        {
-          question: 'What if we are at the same installation but different ZIP codes?',
-          answer: 'BAH is determined by your duty station\'s Military Housing Area (MHA), not your residential ZIP code. Multiple ZIP codes often map to the same MHA. As long as both members are in the same MHA, they receive the same base rate (adjusted for grade and dependency status). Use any ZIP code associated with your installation.',
-        },
-        {
-          question: 'We just had a child. Do we need to update our BAH?',
-          answer: 'Yes — enroll your child in DEERS, then update your dependency status with your unit\'s finance office. The member claiming dependents will have their BAH adjusted to the with-dependents rate effective the date of enrollment. BAH is not retroactively adjusted more than a limited period, so act promptly.',
-        },
-      ])} />
+      <JsonLdScript schema={webApplicationSchema({ name: 'Dual Military BAH Calculator 2026', description: DUAL_DESC, url: '/calculators/dual-military-bah' })} />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="border-b border-zinc-200"
@@ -179,9 +196,9 @@ export default function DualMilitaryBAHPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-8">
         <hr className="border-zinc-200" />
 
-        <div id="double-bah">
+        <div id="double-bah" data-faq-question={DUAL_FAQS[0].question}>
           <h2 className="text-xl font-semibold text-zinc-900 mb-3">
-            Do dual-military couples get double BAH?
+            {DUAL_FAQS[0].question}
           </h2>
           <p className="text-zinc-600 text-sm leading-relaxed mb-3">
             Each member draws their own BAH, so a dual-military couple living off base can receive
@@ -310,44 +327,8 @@ export default function DualMilitaryBAHPage() {
           </div>
         </div>
 
-        {/* FAQ callout */}
-        <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
-          <h3 className="text-base font-semibold text-zinc-900 mb-3">Common questions</h3>
-          <div className="space-y-4">
-            <div>
-              <p className="text-sm font-medium text-zinc-800">
-                Can we both get BAH if we live together in the same house?
-              </p>
-              <p className="text-sm text-zinc-600 mt-1 leading-relaxed">
-                Yes. Both members receive their full BAH entitlement regardless of shared housing.
-                The military does not reduce BAH because a couple lives together. This is one of
-                the most significant financial advantages of dual military status.
-              </p>
-            </div>
-            <div className="border-t border-zinc-200 pt-4">
-              <p className="text-sm font-medium text-zinc-800">
-                What if we&apos;re at the same installation but different ZIP codes?
-              </p>
-              <p className="text-sm text-zinc-600 mt-1 leading-relaxed">
-                BAH is determined by your duty station&apos;s Military Housing Area (MHA), not
-                your residential ZIP code. Multiple ZIP codes often map to the same MHA. As long
-                as both members are in the same MHA, they receive the same base rate (adjusted for
-                grade and dependency status). Use any ZIP code associated with your installation.
-              </p>
-            </div>
-            <div className="border-t border-zinc-200 pt-4">
-              <p className="text-sm font-medium text-zinc-800">
-                We just had a child. Do we need to update our BAH?
-              </p>
-              <p className="text-sm text-zinc-600 mt-1 leading-relaxed">
-                Yes — enroll your child in DEERS, then update your dependency status with your
-                unit&apos;s finance office. The member claiming dependents will have their BAH
-                adjusted to the with-dependents rate effective the date of enrollment. Don&apos;t
-                delay — BAH is not retroactively adjusted more than a limited period.
-              </p>
-            </div>
-          </div>
-        </div>
+        {/* FAQ callout — also emits the FAQPage schema for all DUAL_FAQS */}
+        <FaqSection faqs={DUAL_FAQS} heading="Common questions" variant="callout" />
 
         {/* Blog post link */}
         <div className="rounded-lg bg-blue-50 border border-blue-200 p-4">
