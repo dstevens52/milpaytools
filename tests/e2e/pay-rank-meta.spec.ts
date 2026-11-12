@@ -43,8 +43,12 @@ test.describe('Rank page titles and descriptions', () => {
     await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', expected);
   });
 
+  // E-8/E-9 use the short lead and may run to 175; every other rank stays ≤ 160.
+  const SHORT_LEAD = new Set(['e8', 'e9']);
+
   for (const slug of RANK_SLUGS) {
-    test(`/pay/${slug}: title ≤ 60 chars, description ≤ 160 chars`, async ({ page }) => {
+    const limit = SHORT_LEAD.has(slug) ? 175 : 160;
+    test(`/pay/${slug}: title ≤ 60 chars, description ≤ ${limit} chars`, async ({ page }) => {
       await page.goto(`/pay/${slug}`);
       const title = await page.title();
       const desc = await metaDescription(page);
@@ -52,10 +56,17 @@ test.describe('Rank page titles and descriptions', () => {
       expect(title.length).toBeLessThanOrEqual(60);
       expect(title).not.toContain('MilPayTools');
       expect(desc).not.toBeNull();
-      expect(desc!.length).toBeLessThanOrEqual(160);
-      // Army, Navy, Air Force and Marine titles are never dropped.
+      expect(desc!.length).toBeLessThanOrEqual(limit);
+      // Army, Navy, Air Force and Marine titles and the pay figure are never dropped.
       for (const branch of ['Army ', 'Navy ', 'Air Force ', 'Marine ']) {
         expect(desc).toContain(branch);
+      }
+      expect(desc).toMatch(/\$[\d,]+(\.\d\d)?(–\$[\d,]+(\.\d\d)?)?\/month/);
+      const grade = `${slug[0].toUpperCase()}-${slug[1]}`;
+      if (SHORT_LEAD.has(slug)) {
+        expect(desc).toMatch(new RegExp(`^${grade} pay 2026: Army .+: \\$[\\d,]+–\\$[\\d,]+/month\\.$`));
+      } else {
+        expect(desc!.startsWith(`2026 ${grade} pay for Army `)).toBe(true);
       }
     });
   }

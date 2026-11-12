@@ -163,15 +163,19 @@ function branchRankName(title: string): string {
     .trim();
 }
 
+// E-8/E-9 branch titles are long enough that the standard lead can't fit all
+// four in 160 chars, so these two always use the short lead and may run to 175
+// (limit enforced in tests/e2e/pay-rank-meta.spec.ts; 160 for every other rank).
+const SHORT_LEAD_SLUGS = new Set(['e8', 'e9']);
+
 // Meta description: every branch's rank title, then the pay, then what's on the
-// page. Candidates run richest-first; the first ≤160 chars wins:
+// page. Army, Navy, Air Force and Marine Corps titles and the pay range are
+// never dropped — searchers look for their own branch's name.
+// E-8/E-9: always "E-8 pay 2026: Army …, Navy …, Air Force … & Marine …: $X–$Y/month."
+// Every other rank: candidates run richest-first; the first ≤160 chars wins:
 //   1. all five branches, exact pay, "plus BAH…" tail
 //   2. drop Space Force          3. drop the "plus BAH…" tail
 //   4. whole-dollar pay          5. drop "by years of service"
-//   6. short lead ("E-8 pay 2026: … & Marine …")   7. short lead, "/month." only
-// 6–7 exist for E-8/E-9, whose four titles alone leave no room for the longer lead.
-// Army, Navy, Air Force and Marine Corps titles are never dropped — searchers
-// look for their own branch's name.
 function rankDescription(rank: PayPageRank, minPay: number, maxPay: number): string {
   const t = rank.branchTitles;
   const [army, navy, airForce, marine, spaceForce] = [
@@ -189,18 +193,18 @@ function rankDescription(rank: PayPageRank, minPay: number, maxPay: number): str
     `${flat ? 'a flat ' : ''}${amount(cents)}/month basic pay${
       detail ? (flat ? ' at every year of service' : ' by years of service') : ''
     }`;
-  const lead = (branches: string) => `2026 ${rank.title} pay for ${branches}: `;
-  const shortLead = `${rank.title} pay 2026: ${four} & Marine ${marine}: `;
-  const tail = ', plus BAH, BAS and the 2027 raise.';
+  if (SHORT_LEAD_SLUGS.has(rank.slug)) {
+    return `${rank.title} pay 2026: ${four} & Marine ${marine}: ${amount(false)}/month.`;
+  }
 
+  const lead = (branches: string) => `2026 ${rank.title} pay for ${branches}: `;
+  const tail = ', plus BAH, BAS and the 2027 raise.';
   const candidates = [
     lead(withSpaceForce) + pay(true, true) + tail,
     lead(withoutSpaceForce) + pay(true, true) + tail,
     lead(withoutSpaceForce) + pay(true, true) + '.',
     lead(withoutSpaceForce) + pay(false, true) + '.',
     lead(withoutSpaceForce) + pay(false, false) + '.',
-    shortLead + pay(false, false) + '.',
-    `${shortLead}${amount(false)}/month.`,
   ];
   return candidates.find((c) => c.length <= 160) ?? candidates[candidates.length - 1];
 }
