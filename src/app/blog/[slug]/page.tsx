@@ -341,7 +341,7 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
     },
     {
       question: 'What is AFRH on a military LES?',
-      answer: 'AFRH stands for Armed Forces Retirement Home — a $0.50/month deduction from all active-duty members\' pay, regardless of branch or years of service. It funds the retirement homes in Washington, D.C. and Gulfport, Mississippi. It is not an error and cannot be waived.',
+      answer: 'AFRH stands for Armed Forces Retirement Home — a $0.50/month deduction from the pay of regular enlisted members, warrant officers and limited duty officers (37 U.S.C. 1007(i)). Commissioned officers generally don\'t see it, and Reserve Component members aren\'t subject to it. It funds the retirement homes in Washington, D.C. and Gulfport, Mississippi. It is not an error.',
     },
   ],
   'brs-vs-high-3-difference': [
