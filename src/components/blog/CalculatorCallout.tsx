@@ -1,10 +1,18 @@
+import { calloutText } from '@/lib/calculations/payRaise';
+
 interface CalculatorCalloutProps {
-  calculator: 'total-compensation' | 'bah' | 'va-disability' | 'va-loan' | 'va-refinance' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah' | 'transition-readiness' | 'healthcare-comparison' | 'separation-timeline';
+  calculator: 'pay-raise' | 'total-compensation' | 'bah' | 'va-disability' | 'va-loan' | 'va-refinance' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah' | 'transition-readiness' | 'healthcare-comparison' | 'separation-timeline';
   text?: string;
   ctaText?: string;
 }
 
 const CALCULATOR_CONFIG = {
+  'pay-raise': {
+    href: '/pay/raise',
+    label: '2027 Military Pay Raise Calculator',
+    // Wording follows the raise's status (src/data/pay-raise/2027.ts).
+    defaultText: calloutText(),
+  },
   'total-compensation': {
     href: '/calculators/total-compensation',
     label: 'Total Compensation Calculator',

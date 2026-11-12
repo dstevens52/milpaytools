@@ -373,6 +373,10 @@ export default function TotalCompensationPage() {
                 Want to see where your basic pay falls across all ranks?{' '}
                 <Link href="/pay" className="underline text-blue-700 hover:text-blue-800">
                   View the full 2026 military pay charts →
+                </Link>{' '}
+                This calculator uses 2026 rates; for 2027 base pay, see the{' '}
+                <Link href="/pay/raise" className="underline text-blue-700 hover:text-blue-800">
+                  2027 pay raise calculator →
                 </Link>
               </p>
               <ul className="text-sm text-zinc-600 space-y-1.5 list-disc list-inside">

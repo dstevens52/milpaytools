@@ -9,6 +9,13 @@ import { breadcrumbListSchema, webApplicationSchema, faqPageSchema } from '@/lib
 import { ogImage } from '@/lib/og';
 import { PayChartsClient } from '@/components/calculators/pay-charts/PayChartsClient';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { statusText, pageDescription } from '@/lib/calculations/payRaise';
+
+// Same dated wording as the /pay/raise status box — one source in payRaise.ts.
+const RAISE_2027_FAQ = {
+  question: 'What will the 2027 military pay raise be?',
+  answer: statusText(),
+};
 
 // Hub for both pay intents: the interactive pay charts and the by-rank pages.
 // Absorbed the former standalone pay-charts route (308 → /pay, see next.config.ts).
@@ -67,6 +74,7 @@ export default function PayHubPage() {
       <JsonLdScript schema={webApplicationSchema({ name: '2026 Military Pay Charts', description: 'Official 2026 military pay tables for all ranks E-1 through O-10 and warrant officers. 3.8% pay raise effective January 1, 2026. Monthly basic pay by grade and years of service.', url: '/pay' })} />
       <JsonLdScript schema={faqPageSchema([
         { question: 'What is the 2026 military pay raise?', answer: 'The 2026 military pay raise is 3.8%, effective January 1, 2026. It was authorized by the FY2026 National Defense Authorization Act, signed December 18, 2025.' },
+        RAISE_2027_FAQ,
         { question: 'Is military basic pay taxable?', answer: 'Yes. Military basic pay is subject to federal income tax and generally state income tax. Allowances such as BAH and BAS are excluded from federal taxable income.' },
         { question: 'Is BAH included in basic pay?', answer: 'No. BAH (Basic Allowance for Housing) is a separate allowance paid in addition to basic pay. It is excluded from federal taxable income.' },
         { question: 'Are military pay charts the same for all branches?', answer: 'Yes. Basic pay rates are identical across Army, Navy, Air Force, Marine Corps, Space Force, and Coast Guard. All branches use the same DFAS pay tables.' },
@@ -97,6 +105,19 @@ export default function PayHubPage() {
       {/* ── Interactive tables ─────────────────────────────────────────── */}
       {/* payPages carries only {grade, slug} pairs across the RSC boundary —
           importing PAY_PAGE_RANKS in the client would ship its copy strings. */}
+      {/* ── 2027 raise card ─────────────────────────────────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        <Link
+          href="/pay/raise"
+          className="block rounded-lg border border-red-200 bg-red-50 p-5 hover:border-red-300 transition-colors"
+          data-testid="pay-raise-card"
+        >
+          <p className="text-xs font-semibold text-red-700 uppercase tracking-wide mb-1">2027 Pay Raise Calculator</p>
+          <p className="text-sm text-zinc-700 leading-relaxed">{pageDescription()}</p>
+          <p className="text-sm font-semibold text-red-700 mt-2">See your 2027 base pay →</p>
+        </Link>
+      </div>
+
       <PayChartsClient payPages={PAY_PAGE_RANKS.map(({ grade, slug }) => ({ grade, slug }))} />
 
       {/* ── Pay by rank ───────────────────────────────────────────────── */}
@@ -288,6 +309,7 @@ export default function PayHubPage() {
               q: 'What is the 2026 military pay raise?',
               a: 'The 2026 pay raise is 3.8%, effective January 1, 2026, authorized by the FY2026 National Defense Authorization Act.',
             },
+            { q: RAISE_2027_FAQ.question, a: RAISE_2027_FAQ.answer },
             {
               q: 'Is military basic pay taxable?',
               a: 'Yes. Basic pay is subject to federal income tax and generally state income tax. Allowances such as BAH and BAS are excluded from federal taxable income.',

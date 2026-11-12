@@ -214,6 +214,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 1.0,
     },
+    {
+      url: `${BASE_URL}/pay/raise`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
     ...PAY_PAGE_RANKS.map((r) => ({
       url: `${BASE_URL}/pay/${r.slug}`,
       lastModified: now,

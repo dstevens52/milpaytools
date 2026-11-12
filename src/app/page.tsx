@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ExpandableCalcGrid } from './home-v3/ExpandableCalcGrid';
 import { SAMPLE_SCENARIO } from '@/lib/sample-scenario';
+import { rankPageLinkText } from '@/lib/calculations/payRaise';
 
 const HOME_TITLE = 'MilPayTools — Military Pay & Benefits Calculators';
 const HOME_DESC =
@@ -323,6 +324,11 @@ function CalculatorGridSection() {
             </Link>
           ))}
         </div>
+        <p className="text-center text-sm mt-5">
+          <Link href="/pay/raise" className="font-semibold text-red-700 hover:text-red-800 underline" data-testid="home-pay-raise-link">
+            {rankPageLinkText()}
+          </Link>
+        </p>
         <ExpandableCalcGrid />
       </div>
     </section>
