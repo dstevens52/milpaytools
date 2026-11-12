@@ -1,18 +1,18 @@
 # Dollar-figure report — 2026 data
 
-Generated 2026-11-12 by `npm run check:figures`. 2695 dollar figures in 69 of 72 scanned files.
+Generated 2026-11-12 by `npm run check:figures`. 2693 dollar figures in 69 of 72 scanned files.
 This is a worklist, not a test: `unbound` is not an error. Classes and `weak`: [README](./README.md).
 
 ## Summary
 
 | Class | Figures | of which `weak` |
 |---|---:|---:|
-| `data` | 1136 | 496 |
-| `data-derived` | 162 | 61 |
-| `unbound` | 1397 | — |
-| **Total** | **2695** | 557 |
+| `data` | 1123 | 483 |
+| `data-derived` | 154 | 53 |
+| `unbound` | 1416 | — |
+| **Total** | **2693** | 536 |
 
-Files with at least one `data` or `data-derived` figure: **66**.
+Files with at least one `data` or `data-derived` figure: **65**.
 
 ## Files
 
@@ -22,45 +22,45 @@ Files with at least one `data` or `data-derived` figure: **66**.
 | [src/content/blog/how-much-does-an-o3-really-make-2026.mdx](#src-content-blog-how-much-does-an-o3-really-make-2026-mdx) | 63 | 2 | 52 | 117 |
 | [src/content/blog/deployment-pay-explained.mdx](#src-content-blog-deployment-pay-explained-mdx) | 48 | 6 | 6 | 60 |
 | [src/content/blog/pcs-that-costs-14000-vs-makes-6000.mdx](#src-content-blog-pcs-that-costs-14000-vs-makes-6000-mdx) | 35 | 18 | 50 | 103 |
-| [src/content/blog/best-worst-bah-duty-stations-2026.mdx](#src-content-blog-best-worst-bah-duty-stations-2026-mdx) | 48 | 4 | 28 | 80 |
+| [src/content/blog/best-worst-bah-duty-stations-2026.mdx](#src-content-blog-best-worst-bah-duty-stations-2026-mdx) | 47 | 4 | 29 | 80 |
 | [src/content/blog/tricare-costs-2026-vs-civilian.mdx](#src-content-blog-tricare-costs-2026-vs-civilian-mdx) | 39 | 7 | 65 | 111 |
 | [src/app/guides/military-pay/page.tsx](#src-app-guides-military-pay-page-tsx) | 39 | 6 | 37 | 82 |
-| [src/content/blog/2026-military-pay-raise-explained.mdx](#src-content-blog-2026-military-pay-raise-explained-mdx) | 39 | 5 | 62 | 106 |
-| [src/app/guides/va-disability/page.tsx](#src-app-guides-va-disability-page-tsx) | 30 | 11 | 7 | 48 |
+| [src/content/blog/2026-military-pay-raise-explained.mdx](#src-content-blog-2026-military-pay-raise-explained-mdx) | 38 | 5 | 63 | 106 |
 | [src/content/blog/deployment-financial-planning.mdx](#src-content-blog-deployment-financial-planning-mdx) | 37 | 3 | 20 | 60 |
-| [src/content/blog/bah-rates-2026-complete-guide.mdx](#src-content-blog-bah-rates-2026-complete-guide-mdx) | 36 | 3 | 7 | 46 |
-| [src/content/blog/how-much-does-an-e5-really-make-2026.mdx](#src-content-blog-how-much-does-an-e5-really-make-2026-mdx) | 34 | 5 | 28 | 67 |
+| [src/app/guides/va-disability/page.tsx](#src-app-guides-va-disability-page-tsx) | 28 | 11 | 9 | 48 |
+| [src/content/blog/bah-rates-2026-complete-guide.mdx](#src-content-blog-bah-rates-2026-complete-guide-mdx) | 38 | 1 | 7 | 46 |
+| [src/content/blog/how-much-does-an-e5-really-make-2026.mdx](#src-content-blog-how-much-does-an-e5-really-make-2026-mdx) | 35 | 4 | 28 | 67 |
 | [src/app/guides/pcs/page.tsx](#src-app-guides-pcs-page-tsx) | 25 | 7 | 13 | 45 |
-| [src/content/blog/sgli-vgli-private-life-insurance.mdx](#src-content-blog-sgli-vgli-private-life-insurance-mdx) | 32 | 0 | 55 | 87 |
+| [src/content/blog/sgli-vgli-private-life-insurance.mdx](#src-content-blog-sgli-vgli-private-life-insurance-mdx) | 31 | 0 | 56 | 87 |
 | [src/content/blog/savings-deposit-program-sdp-explained.mdx](#src-content-blog-savings-deposit-program-sdp-explained-mdx) | 29 | 0 | 6 | 35 |
-| [src/content/blog/your-first-military-paycheck-what-to-know.mdx](#src-content-blog-your-first-military-paycheck-what-to-know-mdx) | 23 | 4 | 13 | 40 |
 | [src/content/blog/are-you-financially-ready-to-leave-the-military.mdx](#src-content-blog-are-you-financially-ready-to-leave-the-military-mdx) | 17 | 8 | 33 | 58 |
-| [src/content/blog/dual-military-bah-rules.mdx](#src-content-blog-dual-military-bah-rules-mdx) | 23 | 2 | 18 | 43 |
-| [src/content/blog/military-credit-card-scra-mla-benefits.mdx](#src-content-blog-military-credit-card-scra-mla-benefits-mdx) | 16 | 9 | 12 | 37 |
 | [src/content/blog/roth-tsp-deployment-strategy.mdx](#src-content-blog-roth-tsp-deployment-strategy-mdx) | 24 | 1 | 49 | 74 |
+| [src/content/blog/your-first-military-paycheck-what-to-know.mdx](#src-content-blog-your-first-military-paycheck-what-to-know-mdx) | 20 | 4 | 16 | 40 |
+| [src/content/blog/military-credit-card-scra-mla-benefits.mdx](#src-content-blog-military-credit-card-scra-mla-benefits-mdx) | 16 | 7 | 14 | 37 |
 | [src/content/blog/crdp-vs-crsc-military-retirement.mdx](#src-content-blog-crdp-vs-crsc-military-retirement-mdx) | 16 | 6 | 43 | 65 |
 | [src/content/blog/what-walking-away-at-12-years-costs.mdx](#src-content-blog-what-walking-away-at-12-years-costs-mdx) | 20 | 2 | 53 | 75 |
-| [src/content/blog/roth-tsp-advantage-junior-enlisted.mdx](#src-content-blog-roth-tsp-advantage-junior-enlisted-mdx) | 21 | 0 | 14 | 35 |
+| [src/content/blog/dual-military-bah-rules.mdx](#src-content-blog-dual-military-bah-rules-mdx) | 19 | 2 | 22 | 43 |
 | [src/content/blog/the-47000-gap-bah-duty-station.mdx](#src-content-blog-the-47000-gap-bah-duty-station-mdx) | 20 | 1 | 48 | 69 |
+| [src/content/blog/roth-tsp-advantage-junior-enlisted.mdx](#src-content-blog-roth-tsp-advantage-junior-enlisted-mdx) | 20 | 0 | 15 | 35 |
 | [src/app/guides/education-benefits/page.tsx](#src-app-guides-education-benefits-page-tsx) | 16 | 3 | 3 | 22 |
 | [src/content/blog/gi-bill-housing-allowance-zip-code.mdx](#src-content-blog-gi-bill-housing-allowance-zip-code-mdx) | 17 | 1 | 20 | 38 |
 | [src/content/blog/gi-bill-vs-tuition-assistance.mdx](#src-content-blog-gi-bill-vs-tuition-assistance-mdx) | 18 | 0 | 8 | 26 |
 | [src/content/blog/pcs-financial-planning-guide.mdx](#src-content-blog-pcs-financial-planning-guide-mdx) | 3 | 15 | 4 | 22 |
 | [src/app/guides/retirement-tsp/page.tsx](#src-app-guides-retirement-tsp-page-tsx) | 16 | 1 | 23 | 40 |
-| [src/content/blog/how-to-read-your-les.mdx](#src-content-blog-how-to-read-your-les-mdx) | 17 | 0 | 11 | 28 |
 | [src/content/blog/file-va-disability-before-separation.mdx](#src-content-blog-file-va-disability-before-separation-mdx) | 15 | 1 | 2 | 18 |
+| [src/content/blog/how-to-read-your-les.mdx](#src-content-blog-how-to-read-your-les-mdx) | 16 | 0 | 12 | 28 |
 | [src/content/blog/post-911-gi-bill-explained-2026.mdx](#src-content-blog-post-911-gi-bill-explained-2026-mdx) | 16 | 0 | 15 | 31 |
-| [src/content/blog/what-civilian-salary-do-i-need.mdx](#src-content-blog-what-civilian-salary-do-i-need-mdx) | 12 | 4 | 42 | 58 |
-| [src/content/blog/oconus-cola-trap.mdx](#src-content-blog-oconus-cola-trap-mdx) | 9 | 6 | 16 | 31 |
-| [src/content/blog/dual-military-financial-strategies.mdx](#src-content-blog-dual-military-financial-strategies-mdx) | 13 | 1 | 17 | 31 |
+| [src/content/blog/what-civilian-salary-do-i-need.mdx](#src-content-blog-what-civilian-salary-do-i-need-mdx) | 11 | 4 | 43 | 58 |
+| [src/content/blog/oconus-cola-trap.mdx](#src-content-blog-oconus-cola-trap-mdx) | 8 | 6 | 15 | 29 |
+| [src/content/blog/dual-military-financial-strategies.mdx](#src-content-blog-dual-military-financial-strategies-mdx) | 12 | 1 | 18 | 31 |
 | [src/content/blog/sgli-to-vgli-conversion-after-separation.mdx](#src-content-blog-sgli-to-vgli-conversion-after-separation-mdx) | 13 | 0 | 27 | 40 |
-| [src/content/blog/using-bah-to-buy-a-home.mdx](#src-content-blog-using-bah-to-buy-a-home-mdx) | 12 | 0 | 13 | 25 |
 | [src/content/blog/va-math-costs-you-money.mdx](#src-content-blog-va-math-costs-you-money-mdx) | 9 | 3 | 25 | 37 |
 | [src/content/blog/how-military-retirement-works.mdx](#src-content-blog-how-military-retirement-works-mdx) | 11 | 0 | 23 | 34 |
-| [src/content/blog/what-is-bah-military-housing-allowance.mdx](#src-content-blog-what-is-bah-military-housing-allowance-mdx) | 7 | 4 | 5 | 16 |
+| [src/content/blog/using-bah-to-buy-a-home.mdx](#src-content-blog-using-bah-to-buy-a-home-mdx) | 11 | 0 | 14 | 25 |
+| [src/content/blog/what-is-bah-military-housing-allowance.mdx](#src-content-blog-what-is-bah-military-housing-allowance-mdx) | 9 | 2 | 5 | 16 |
 | [src/content/blog/how-deployment-pay-works.mdx](#src-content-blog-how-deployment-pay-works-mdx) | 10 | 0 | 0 | 10 |
 | [src/content/blog/brs-vs-high-3-retirement.mdx](#src-content-blog-brs-vs-high-3-retirement-mdx) | 9 | 0 | 24 | 33 |
-| [src/content/blog/military-tax-advantages.mdx](#src-content-blog-military-tax-advantages-mdx) | 8 | 1 | 21 | 30 |
+| [src/content/blog/military-tax-advantages.mdx](#src-content-blog-military-tax-advantages-mdx) | 9 | 0 | 21 | 30 |
 | [src/content/blog/pcs-out-of-pocket-costs.mdx](#src-content-blog-pcs-out-of-pocket-costs-mdx) | 9 | 0 | 0 | 9 |
 | [src/content/blog/should-i-stay-to-20-years-military.mdx](#src-content-blog-should-i-stay-to-20-years-military-mdx) | 7 | 2 | 33 | 42 |
 | [src/content/blog/tamp-healthcare-after-military-separation.mdx](#src-content-blog-tamp-healthcare-after-military-separation-mdx) | 8 | 1 | 12 | 21 |
@@ -80,10 +80,10 @@ Files with at least one `data` or `data-derived` figure: **66**.
 | [src/content/blog/va-loan-vs-fha-vs-conventional.mdx](#src-content-blog-va-loan-vs-fha-vs-conventional-mdx) | 3 | 0 | 29 | 32 |
 | [src/app/guides/navigating-service/page.tsx](#src-app-guides-navigating-service-page-tsx) | 2 | 0 | 1 | 3 |
 | [src/content/blog/ppm-dity-move-worth-it.mdx](#src-content-blog-ppm-dity-move-worth-it-mdx) | 1 | 1 | 12 | 14 |
-| [src/content/blog/brs-vs-high-3-difference.mdx](#src-content-blog-brs-vs-high-3-difference-mdx) | 1 | 0 | 3 | 4 |
 | [src/content/blog/les-abbreviations-explained.mdx](#src-content-blog-les-abbreviations-explained-mdx) | 1 | 0 | 3 | 4 |
 | [src/content/blog/tsp-fund-options-explained.mdx](#src-content-blog-tsp-fund-options-explained-mdx) | 1 | 0 | 0 | 1 |
 | [src/content/blog/va-home-loan-basics.mdx](#src-content-blog-va-home-loan-basics-mdx) | 1 | 0 | 28 | 29 |
+| [src/content/blog/brs-vs-high-3-difference.mdx](#src-content-blog-brs-vs-high-3-difference-mdx) | 0 | 0 | 4 | 4 |
 | [src/content/blog/can-i-use-va-loan-again.mdx](#src-content-blog-can-i-use-va-loan-again-mdx) | 0 | 0 | 45 | 45 |
 | [src/content/blog/va-appraisal-what-to-expect.mdx](#src-content-blog-va-appraisal-what-to-expect-mdx) | 0 | 0 | 2 | 2 |
 | [src/content/blog/what-happens-to-tsp-after-military.mdx](#src-content-blog-what-happens-to-tsp-after-military-mdx) | 0 | 0 | 3 | 3 |
@@ -97,27 +97,27 @@ data 90 (13 weak) · derived 3 (0 weak) · unbound 31
 | 14 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` |  | …oyment-related pays changed. Hostile Fire Pay (HFP) rose to **$450**/month. Imminent Danger Pay (IDP) rose to $275/month, prorat… |
 | 14 | $275 | data | `deployment:idp` |  | …(HFP) rose to $450/month. Imminent Danger Pay (IDP) rose to **$275**/month, prorated at $9.16/day. And the top Hardship Duty Pay… |
 | 14 | $9.16 | data | `deployment:idpDaily` |  | …. Imminent Danger Pay (IDP) rose to $275/month, prorated at **$9.16**/day. And the top Hardship Duty Pay–Location (HDP-L) rate we… |
-| 14 | $150 | data | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …p Hardship Duty Pay–Location (HDP-L) rate went *down*, from **$150** to $100/month. Which of those changes reaches a given paych… |
-| 14 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …ip Duty Pay–Location (HDP-L) rate went *down*, from $150 to **$100**/month. Which of those changes reaches a given paycheck depe… |
+| 14 | $150 | data | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …p Hardship Duty Pay–Location (HDP-L) rate went *down*, from **$150** to $100/month. Which of those changes reaches a given paych… |
+| 14 | $100 | data | `deployment:hdpLevels[2]` |  | …ip Duty Pay–Location (HDP-L) rate went *down*, from $150 to **$100**/month. Which of those changes reaches a given paycheck depe… |
 | 17 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` |  | …he new rates. &lt;QuickAnswer&gt; &lt;QAItem&gt;Hostile Fire Pay: **$450**/month, effective October 1, 2026. Paid as a full monthly am… |
 | 18 | $275 | data | `deployment:idp` |  | …unt, not prorated.&lt;/QAItem&gt; &lt;QAItem&gt;Imminent Danger Pay: **$275**/month, effective October 1, 2026. Prorated at $9.16 per day… |
 | 18 | $9.16 | data | `deployment:idpDaily` |  | …ger Pay: $275/month, effective October 1, 2026. Prorated at **$9.16** per day in a designated imminent danger area, up to the $27… |
 | 18 | $275 | data | `deployment:idp` |  | ….16 per day in a designated imminent danger area, up to the **$275** monthly maximum.&lt;/QAItem&gt; &lt;QAItem&gt;Hardship Duty Pay–Loca… |
-| 19 | $150 | data | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …AItem&gt;Hardship Duty Pay–Location: the top rate dropped from **$150** to $100/month, effective October 1, 2026. HDP-L is now $50 … |
-| 19 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …rdship Duty Pay–Location: the top rate dropped from $150 to **$100**/month, effective October 1, 2026. HDP-L is now $50 or $100/… |
+| 19 | $150 | data | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …AItem&gt;Hardship Duty Pay–Location: the top rate dropped from **$150** to $100/month, effective October 1, 2026. HDP-L is now $50 … |
+| 19 | $100 | data | `deployment:hdpLevels[2]` |  | …rdship Duty Pay–Location: the top rate dropped from $150 to **$100**/month, effective October 1, 2026. HDP-L is now $50 or $100/… |
 | 19 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | …$150 to $100/month, effective October 1, 2026. HDP-L is now **$50** or $100/month depending on the location's designation.&lt;/QAI… |
-| 19 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | … $100/month, effective October 1, 2026. HDP-L is now $50 or **$100**/month depending on the location's designation.&lt;/QAItem&gt; … |
+| 19 | $100 | data | `deployment:hdpLevels[2]` |  | … $100/month, effective October 1, 2026. HDP-L is now $50 or **$100**/month depending on the location's designation.&lt;/QAItem&gt; … |
 | 21 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | …op-tier HDP-L location who draw neither HFP nor IDP receive **$50**/month less.&lt;/QAItem&gt; &lt;QAItem&gt;If you draw HDP-L together … |
-| 22 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …(FMR Volume 7A, Chapter 17, paragraph 3.1) limited HDP-L to **$100** and the combined total to $325 a month. That chapter hasn't… |
+| 22 | $100 | data | `deployment:hdpLevels[2]` |  | …(FMR Volume 7A, Chapter 17, paragraph 3.1) limited HDP-L to **$100** and the combined total to $325 a month. That chapter hasn't… |
 | 35 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` | table | …-\|---------------\| \| Hostile Fire Pay (HFP) \| $225/month \| **$450**/month \| Full monthly amount, not prorated \| \| Imminent Dan… |
 | 36 | $275 | data | `deployment:idp` | table | …d \| \| Imminent Danger Pay (IDP) \| Up to $225/month \| Up to **$275**/month \| Prorated at $9.16/day \| \| Hardship Duty Pay–Locati… |
 | 36 | $9.16 | data | `deployment:idpDaily` | table | …y (IDP) \| Up to $225/month \| Up to $275/month \| Prorated at **$9.16**/day \| \| Hardship Duty Pay–Location (HDP-L), top rate \| $15… |
-| 37 | $150 | data | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` | table | ….16/day \| \| Hardship Duty Pay–Location (HDP-L), top rate \| **$150**/month \| $100/month \| Monthly, by location designation \| \| … |
-| 37 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` | table | …Hardship Duty Pay–Location (HDP-L), top rate \| $150/month \| **$100**/month \| Monthly, by location designation \| \| HDP-L, other … |
+| 37 | $150 | data | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` | table | ….16/day \| \| Hardship Duty Pay–Location (HDP-L), top rate \| **$150**/month \| $100/month \| Monthly, by location designation \| \| … |
+| 37 | $100 | data | `deployment:hdpLevels[2]` | table | …Hardship Duty Pay–Location (HDP-L), top rate \| $150/month \| **$100**/month \| Monthly, by location designation \| \| HDP-L, other … |
 | 38 | $50 | data (weak) | `deployment:hdpLevels[1]` | table | … Monthly, by location designation \| \| HDP-L, other rates \| **$50** and $100/month \| $50 and $100/month \| Unchanged \| Pay fo… |
-| 38 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` | table | …, by location designation \| \| HDP-L, other rates \| $50 and **$100**/month \| $50 and $100/month \| Unchanged \| Pay for periods… |
+| 38 | $100 | data | `deployment:hdpLevels[2]` | table | …, by location designation \| \| HDP-L, other rates \| $50 and **$100**/month \| $50 and $100/month \| Unchanged \| Pay for periods… |
 | 38 | $50 | data (weak) | `deployment:hdpLevels[1]` | table | … designation \| \| HDP-L, other rates \| $50 and $100/month \| **$50** and $100/month \| Unchanged \| Pay for periods before Octo… |
-| 38 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` | table | …tion \| \| HDP-L, other rates \| $50 and $100/month \| $50 and **$100**/month \| Unchanged \| Pay for periods before October 1, 20… |
+| 38 | $100 | data | `deployment:hdpLevels[2]` | table | …tion \| \| HDP-L, other rates \| $50 and $100/month \| $50 and **$100**/month \| Unchanged \| Pay for periods before October 1, 20… |
 | 42 | $9.16 | data | `deployment:idpDaily` |  | …ifying hostile fire event occurred. IDP is paid by the day: **$9.16** for each day in a designated imminent danger area, up to $2… |
 | 42 | $275 | data | `deployment:idp` |  | …16 for each day in a designated imminent danger area, up to **$275** for the month. For the full picture of how these fit with t… |
 | 51 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` |  | …. ### Drawing HFP only - Before: $225/month - After: **$450**/month - Change: **+$225/month** ($225 × 12 = $2,700 over a… |
@@ -126,27 +126,27 @@ data 90 (13 weak) · derived 3 (0 weak) · unbound 31
 | 58 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | …: up to $225/month - After: up to $275/month - Change: **+**$50**/month** at the monthly maximum ($50 × 12 = $600 over a full… |
 | 58 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | …275/month - Change: **+$50/month** at the monthly maximum (**$50** × 12 = $600 over a full year) IDP is paid by the day, so… |
 | 58 | $600 | data-derived | `12×deployment:hdpLevels[1]` |  | …- Change: **+$50/month** at the monthly maximum ($50 × 12 = **$600** over a full year) IDP is paid by the day, so the change … |
-| 64 | $150 | data | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …wing HDP-L at the top rate, with no HFP or IDP - Before: **$150**/month - After: $100/month - Change: **−$50/month** ($50 ×… |
-| 65 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | … rate, with no HFP or IDP - Before: $150/month - After: **$100**/month - Change: **−$50/month** ($50 × 12 = $600 less over … |
+| 64 | $150 | data | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …wing HDP-L at the top rate, with no HFP or IDP - Before: **$150**/month - After: $100/month - Change: **−$50/month** ($50 ×… |
+| 65 | $100 | data | `deployment:hdpLevels[2]` |  | … rate, with no HFP or IDP - Before: $150/month - After: **$100**/month - Change: **−$50/month** ($50 × 12 = $600 less over … |
 | 66 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | … - Before: $150/month - After: $100/month - Change: **−**$50**/month** ($50 × 12 = $600 less over a full year) This is … |
 | 66 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | … $150/month - After: $100/month - Change: **−$50/month** (**$50** × 12 = $600 less over a full year) This is the one group… |
 | 66 | $600 | data-derived | `12×deployment:hdpLevels[1]` |  | … - After: $100/month - Change: **−$50/month** ($50 × 12 = **$600** less over a full year) This is the one group whose speci… |
-| 68 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …p whose special pay plainly goes down. The pay regulation's **$100** HDP-L limit applies only when a member is receiving HFP or … |
-| 68 | $150 | data | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …member is receiving HFP or IDP, so without either, the full **$150** was payable before October 1. Now the top rate is $100. … |
-| 68 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …full $150 was payable before October 1. Now the top rate is **$100**. ### Drawing HDP-L at the $50 or $100 rate, with no HFP … |
+| 68 | $100 | data | `deployment:hdpLevels[2]` |  | …p whose special pay plainly goes down. The pay regulation's **$100** HDP-L limit applies only when a member is receiving HFP or … |
+| 68 | $150 | data | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …member is receiving HFP or IDP, so without either, the full **$150** was payable before October 1. Now the top rate is $100. … |
+| 68 | $100 | data | `deployment:hdpLevels[2]` |  | …full $150 was payable before October 1. Now the top rate is **$100**. ### Drawing HDP-L at the $50 or $100 rate, with no HFP … |
 | 70 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | …er 1. Now the top rate is $100. ### Drawing HDP-L at the **$50** or $100 rate, with no HFP or IDP No change. Those rates … |
-| 70 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …ow the top rate is $100. ### Drawing HDP-L at the $50 or **$100** rate, with no HFP or IDP No change. Those rates didn't m… |
-| 82 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …ent Danger Pay (IDP), then the maximum amount of HDP – L is **$100**. The total entitlement of HDP – L plus HFP or IDP in any 1 … |
-| 84 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …he limit in Table 17-2 (Rules 5 and 10: HDP-L is limited to **$100** for a month in which HFP or IDP is payable) and in Table 17… |
-| 86 | $150 | data | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | … a statute. So before October 1, a member at a top-tier (**$150**) location who also drew HFP or IDP could receive at most $1… |
-| 86 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …50) location who also drew HFP or IDP could receive at most **$100** of HDP-L, and at most $325 combined in a month. **After … |
-| 90 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …DP-L monthly entitlement "decreases to a maximum payment of **$100** when Service members are authorized a concurrent payment of… |
-| 91 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | … pay. - The $325 combined ceiling equals the old $225 plus **$100**. The new rates don't fit under it: HFP at $450 is more than… |
+| 70 | $100 | data | `deployment:hdpLevels[2]` |  | …ow the top rate is $100. ### Drawing HDP-L at the $50 or **$100** rate, with no HFP or IDP No change. Those rates didn't m… |
+| 82 | $100 | data | `deployment:hdpLevels[2]` |  | …ent Danger Pay (IDP), then the maximum amount of HDP – L is **$100**. The total entitlement of HDP – L plus HFP or IDP in any 1 … |
+| 84 | $100 | data | `deployment:hdpLevels[2]` |  | …he limit in Table 17-2 (Rules 5 and 10: HDP-L is limited to **$100** for a month in which HFP or IDP is payable) and in Table 17… |
+| 86 | $150 | data | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | … a statute. So before October 1, a member at a top-tier (**$150**) location who also drew HFP or IDP could receive at most $1… |
+| 86 | $100 | data | `deployment:hdpLevels[2]` |  | …50) location who also drew HFP or IDP could receive at most **$100** of HDP-L, and at most $325 combined in a month. **After … |
+| 90 | $100 | data | `deployment:hdpLevels[2]` |  | …DP-L monthly entitlement "decreases to a maximum payment of **$100** when Service members are authorized a concurrent payment of… |
+| 91 | $100 | data | `deployment:hdpLevels[2]` |  | … pay. - The $325 combined ceiling equals the old $225 plus **$100**. The new rates don't fit under it: HFP at $450 is more than… |
 | 91 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` |  | …ld $225 plus $100. The new rates don't fit under it: HFP at **$450** is more than $325 on its own, and the new IDP rate plus the… |
 | 91 | $275 | data | `deployment:idp` |  | …on its own, and the new IDP rate plus the top HDP-L rate is **$275** + $100 = $375. The October 2026 memo says it reduced the… |
-| 91 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …own, and the new IDP rate plus the top HDP-L rate is $275 + **$100** = $375. The October 2026 memo says it reduced the HDP-L … |
-| 95 | $150 | data | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …mbined-payment maximum, but the reduction it states — "from **$150** to $100 per month" — isn't limited to members who also draw… |
-| 95 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …ayment maximum, but the reduction it states — "from $150 to **$100** per month" — isn't limited to members who also draw HFP or … |
+| 91 | $100 | data | `deployment:hdpLevels[2]` |  | …own, and the new IDP rate plus the top HDP-L rate is $275 + **$100** = $375. The October 2026 memo says it reduced the HDP-L … |
+| 95 | $150 | data | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …mbined-payment maximum, but the reduction it states — "from **$150** to $100 per month" — isn't limited to members who also draw… |
+| 95 | $100 | data | `deployment:hdpLevels[2]` |  | …ayment maximum, but the reduction it states — "from $150 to **$100** per month" — isn't limited to members who also draw HFP or … |
 | 95 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | …te generally, which is why the no-HFP/IDP case above shows −**$50**. **What to do with this:** if you draw HDP-L together wi… |
 | 103 | $275 | data | `deployment:idp` |  | …memo. **Partial months — documented.** The memo says the **$275** monthly IDP "is prorated at $9.16 per day based on the actu… |
 | 103 | $9.16 | data | `deployment:idpDaily` |  | …ented.** The memo says the $275 monthly IDP "is prorated at **$9.16** per day based on the actual time spent in a designated immi… |
@@ -160,7 +160,7 @@ data 90 (13 weak) · derived 3 (0 weak) · unbound 31
 | 115 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` |  | … at the daily rate. HFP has no equivalent. It's the full **$450** for a qualifying month. ## What to check on your LES … |
 | 119 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` |  | … hardship location). After October 1, 2026, HFP should show **$450** for a qualifying month, IDP up to $275, and top-tier HDP-L … |
 | 119 | $275 | data | `deployment:idp` |  | …026, HFP should show $450 for a qualifying month, IDP up to **$275**, and top-tier HDP-L $100. - **Expect only one of HFP or ID… |
-| 119 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | … for a qualifying month, IDP up to $275, and top-tier HDP-L **$100**. - **Expect only one of HFP or IDP for a given period.** T… |
+| 119 | $100 | data | `deployment:hdpLevels[2]` |  | … for a qualifying month, IDP up to $275, and top-tier HDP-L **$100**. - **Expect only one of HFP or IDP for a given period.** T… |
 | 122 | $9.16 | data | `deployment:idpDaily` |  | …ial IDP months against the daily rate.** Days in the area × **$9.16**, up to $275. For a whole month, see the note above about $2… |
 | 122 | $275 | data | `deployment:idp` |  | …s against the daily rate.** Days in the area × $9.16, up to **$275**. For a whole month, see the note above about $274.80 versus… |
 | 122 | $275 | data | `deployment:idp` |  | … For a whole month, see the note above about $274.80 versus **$275**. - **If you draw HDP-L with HFP or IDP,** compare your pre… |
@@ -171,22 +171,22 @@ data 90 (13 weak) · derived 3 (0 weak) · unbound 31
 | 140 | $275 | data | `deployment:idp` |  | …es. Effective October 1, 2026, Imminent Danger Pay is up to **$275**/month, up from $225. It's prorated at $9.16 per day in a de… |
 | 140 | $9.16 | data | `deployment:idpDaily` |  | …ger Pay is up to $275/month, up from $225. It's prorated at **$9.16** per day in a designated imminent danger area, up to the $27… |
 | 140 | $275 | data | `deployment:idp` |  | ….16 per day in a designated imminent danger area, up to the **$275** monthly maximum. ### Why did hardship duty pay go down? … |
-| 144 | $150 | data | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …P also reduced the top Hardship Duty Pay–Location rate from **$150** to $100/month. It gives the reason as consistency with the … |
-| 144 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …educed the top Hardship Duty Pay–Location rate from $150 to **$100**/month. It gives the reason as consistency with the maximum … |
+| 144 | $150 | data | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …P also reduced the top Hardship Duty Pay–Location rate from **$150** to $100/month. It gives the reason as consistency with the … |
+| 144 | $100 | data | `deployment:hdpLevels[2]` |  | …educed the top Hardship Duty Pay–Location rate from $150 to **$100**/month. It gives the reason as consistency with the maximum … |
 | 144 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | …top-tier locations who draw neither HFP nor IDP now receive **$50**/month less. For members who draw both: before October 1, th… |
-| 144 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …(FMR Volume 7A, Chapter 17, paragraph 3.1) limited HDP-L to **$100** and the combined total to $325 a month. That chapter hasn't… |
+| 144 | $100 | data | `deployment:hdpLevels[2]` |  | …(FMR Volume 7A, Chapter 17, paragraph 3.1) limited HDP-L to **$100** and the combined total to $325 a month. That chapter hasn't… |
 | 156 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | …tes. ### Does everyone on HDP-L get less now? No. The **$50** and $100 HDP-L rates didn't change; only the top rate dropp… |
-| 156 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …### Does everyone on HDP-L get less now? No. The $50 and **$100** HDP-L rates didn't change; only the top rate dropped from $… |
-| 156 | $150 | data | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …0 HDP-L rates didn't change; only the top rate dropped from **$150** to $100. Members at top-tier locations without HFP or IDP r… |
-| 156 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …rates didn't change; only the top rate dropped from $150 to **$100**. Members at top-tier locations without HFP or IDP receive $… |
+| 156 | $100 | data | `deployment:hdpLevels[2]` |  | …### Does everyone on HDP-L get less now? No. The $50 and **$100** HDP-L rates didn't change; only the top rate dropped from $… |
+| 156 | $150 | data | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …0 HDP-L rates didn't change; only the top rate dropped from **$150** to $100. Members at top-tier locations without HFP or IDP r… |
+| 156 | $100 | data | `deployment:hdpLevels[2]` |  | …rates didn't change; only the top rate dropped from $150 to **$100**. Members at top-tier locations without HFP or IDP receive $… |
 | 156 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | …0. Members at top-tier locations without HFP or IDP receive **$50**/month less. For members who also draw HFP or IDP: before Oc… |
-| 156 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …(FMR Volume 7A, Chapter 17, paragraph 3.1) limited HDP-L to **$100** and the combined total to $325 a month. That chapter hasn't… |
+| 156 | $100 | data | `deployment:hdpLevels[2]` |  | …(FMR Volume 7A, Chapter 17, paragraph 3.1) limited HDP-L to **$100** and the combined total to $325 a month. That chapter hasn't… |
 | 160 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` |  | … Chapter 10 (HFP/IDP) and Chapter 17 (HDP-L). Source of the **$450**, $275, $9.16/day, and $150 → $100 figures, the combined-pay… |
 | 160 | $275 | data | `deployment:idp` |  | …er 10 (HFP/IDP) and Chapter 17 (HDP-L). Source of the $450, **$275**, $9.16/day, and $150 → $100 figures, the combined-payment r… |
 | 160 | $9.16 | data | `deployment:idpDaily` |  | …(HFP/IDP) and Chapter 17 (HDP-L). Source of the $450, $275, **$9.16**/day, and $150 → $100 figures, the combined-payment rational… |
-| 160 | $150 | data | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …hapter 17 (HDP-L). Source of the $450, $275, $9.16/day, and **$150** → $100 figures, the combined-payment rationale, and the sam… |
-| 160 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …17 (HDP-L). Source of the $450, $275, $9.16/day, and $150 → **$100** figures, the combined-payment rationale, and the same-perio… |
-| 161 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …te 3; Table 17-2, Rules 5 and 10. Source of the pre-October **$100** HDP-L limit and $325 combined ceiling. Predates the October… |
+| 160 | $150 | data | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …hapter 17 (HDP-L). Source of the $450, $275, $9.16/day, and **$150** → $100 figures, the combined-payment rationale, and the sam… |
+| 160 | $100 | data | `deployment:hdpLevels[2]` |  | …17 (HDP-L). Source of the $450, $275, $9.16/day, and $150 → **$100** figures, the combined-payment rationale, and the same-perio… |
+| 161 | $100 | data | `deployment:hdpLevels[2]` |  | …te 3; Table 17-2, Rules 5 and 10. Source of the pre-October **$100** HDP-L limit and $325 combined ceiling. Predates the October… |
 
 <details><summary>31 unbound</summary>
 
@@ -365,12 +365,12 @@ data 48 (12 weak) · derived 6 (2 weak) · unbound 6
 |---:|---|---|---|---|---|
 | 16 | $275 | data | `deployment:idp` |  | …come tax on all enlisted base pay; Imminent Danger Pay adds **$275**/month (or Hostile Fire Pay $450/month instead, effective Oc… |
 | 16 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` |  | …y; Imminent Danger Pay adds $275/month (or Hostile Fire Pay **$450**/month instead, effective October 1, 2026); Family Separatio… |
-| 16 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ctive October 1, 2026); Family Separation Allowance may add **$300**/month for qualifying members with dependents; and the Savin… |
+| 16 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ctive October 1, 2026); Family Separation Allowance may add **$300**/month for qualifying members with dependents; and the Savin… |
 | 16 | $10,000 | data | `deployment:sdpMaxDeposit`, `healthcare:employer.family.gold.oopMax`, `healthcare:acaNoSubsidy.family.silver.deductible` |  | …eposit Program pays 10% guaranteed annual interest on up to **$10,000**. The total financial impact of a 12-month combat deployment… |
 | 20 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` |  | …QAItem&gt;Effective October 1, 2026, Hostile Fire Pay (HFP) is **$450**/month and Imminent Danger Pay (IDP) is $275/month. You rece… |
 | 20 | $275 | data | `deployment:idp` |  | …re Pay (HFP) is $450/month and Imminent Danger Pay (IDP) is **$275**/month. You receive one or the other for a given period, nev… |
 | 20 | $9.16 | data | `deployment:idpDaily` |  | …he other for a given period, never both. IDP is prorated at **$9.16**/day; HFP is paid as the full monthly amount when you qualif… |
-| 21 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …fy.&lt;/QAItem&gt; &lt;QAItem&gt;Family Separation Allowance may add **$300**/month if you have qualifying dependents and meet the separa… |
+| 21 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …fy.&lt;/QAItem&gt; &lt;QAItem&gt;Family Separation Allowance may add **$300**/month if you have qualifying dependents and meet the separa… |
 | 22 | $10,000 | data | `deployment:sdpMaxDeposit`, `healthcare:employer.family.gold.oopMax`, `healthcare:acaNoSubsidy.family.silver.deductible` |  | … &lt;QAItem&gt;The Savings Deposit Program lets you deposit up to **$10,000** at 10% annual interest — guaranteed by the U.S. government … |
 | 23 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` |  | …AItem&gt; &lt;QAItem&gt;The normal TSP elective deferral limit is **$24,500**. During combat zone months, traditional contributions from … |
 | 23 | $72,000 | data | `deployment:tspCombatZoneLimit`, `tsp:annualAdditionsLimit` | annual | …butions from tax-exempt pay can exceed that limit up to the **$72,000** annual additions limit. Roth TSP contributions remain subje… |
@@ -380,14 +380,14 @@ data 48 (12 weak) · derived 6 (2 weak) · unbound 6
 | 53 | $9.16 | data | `deployment:idpDaily` |  | …e same period, and the mechanics differ: IDP is prorated at **$9.16** per day of actual time in a designated imminent danger area… |
 | 53 | $275 | data | `deployment:idp` |  | … of actual time in a designated imminent danger area (up to **$275**/month), while HFP is paid as the full $450 monthly amount w… |
 | 53 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` |  | …nger area (up to $275/month), while HFP is paid as the full **$450** monthly amount when you qualify based on hostile fire expos… |
-| 61 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ion qualifies. ## Family Separation Allowance (FSA) ****$300**/month** FSA may apply when a service member with qualify… |
-| 63 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …tions for more than 30 continuous days. The current rate is **$300**/month. Confirm the start date and payment timing with your … |
-| 67 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …E for months in which the combat zone exclusion applies. **$300**/month across a 12-month deployment is $3,600 if you qualify… |
-| 67 | $3,600 | data-derived | `12×cola:moderate-high.W1-W5[1]`, `12×deployment:fsa`, `bah:CA025/O-1/w`, `bah:CA392/W-3/wo`, `bah:NY217/E-8/wo` (+2 more) |  | …sion applies. $300/month across a 12-month deployment is **$3,600** if you qualify for the full period — fully tax-free. ## … |
+| 61 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ion qualifies. ## Family Separation Allowance (FSA) ****$300**/month** FSA may apply when a service member with qualify… |
+| 63 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …tions for more than 30 continuous days. The current rate is **$300**/month. Confirm the start date and payment timing with your … |
+| 67 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …E for months in which the combat zone exclusion applies. **$300**/month across a 12-month deployment is $3,600 if you qualify… |
+| 67 | $3,600 | data-derived | `12×deployment:fsa`, `bah:CA025/O-1/w`, `bah:CA392/W-3/wo`, `bah:NY217/E-8/wo`, `bah:NY218/E-5/wo` (+1 more) |  | …sion applies. $300/month across a 12-month deployment is **$3,600** if you qualify for the full period — fully tax-free. ## … |
 | 73 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | …n, not simply being deployed. Location-based HDP (HDP-L) is **$50** or $100/month — the top rate dropped from $150 to $100 effe… |
-| 73 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …simply being deployed. Location-based HDP (HDP-L) is $50 or **$100**/month — the top rate dropped from $150 to $100 effective Oc… |
-| 73 | $150 | data | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …DP (HDP-L) is $50 or $100/month — the top rate dropped from **$150** to $100 effective October 1, 2026 — but HDP varies by categ… |
-| 73 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …L) is $50 or $100/month — the top rate dropped from $150 to **$100** effective October 1, 2026 — but HDP varies by category (HDP… |
+| 73 | $100 | data | `deployment:hdpLevels[2]` |  | …simply being deployed. Location-based HDP (HDP-L) is $50 or **$100**/month — the top rate dropped from $150 to $100 effective Oc… |
+| 73 | $150 | data | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …DP (HDP-L) is $50 or $100/month — the top rate dropped from **$150** to $100 effective October 1, 2026 — but HDP varies by categ… |
+| 73 | $100 | data | `deployment:hdpLevels[2]` |  | …L) is $50 or $100/month — the top rate dropped from $150 to **$100** effective October 1, 2026 — but HDP varies by category (HDP… |
 | 81 | $600 | data-derived (weak) | `12×deployment:hdpLevels[1]` | range | …level, the federal income tax on base pay runs roughly $400–**$600**/month depending on filing status and withholding. Eliminate… |
 | 81 | $4,800 | data (weak) | `bah:MA120/W-2/wo` | range | … that for 12 months of deployment, and you've kept an extra **$4,800**–$7,200 that would have otherwise gone to the IRS. For a … |
 | 87 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | approx, range | …: ~$5,591/month - Estimated federal tax in normal months: ~**$500**–650/month - CZTE savings over 12 months: approximately $6,… |
@@ -408,8 +408,8 @@ data 48 (12 weak) · derived 6 (2 weak) · unbound 6
 | 136 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` | approx, table | …$4,759 \| $57,108 \| \| Federal tax savings (CZTE) \| ~$500 \| ~**$6,000** \| \| Imminent Danger Pay (IDP) \| $275 \| $3,300 \| \| Family … |
 | 137 | $275 | data | `deployment:idp` | table | …s (CZTE) \| ~$500 \| ~$6,000 \| \| Imminent Danger Pay (IDP) \| **$275** \| $3,300 \| \| Family Separation Allowance \| $300 \| $3,600 \|… |
 | 137 | $3,300 | data-derived | `12×deployment:idp`, `bah:AK400/O-2E/w`, `bah:CA027/O-1E/wo`, `bah:FL057/O-6/w`, `bah:MD128/O-4/wo` (+4 more) | table | …) \| ~$500 \| ~$6,000 \| \| Imminent Danger Pay (IDP) \| $275 \| **$3,300** \| \| Family Separation Allowance \| $300 \| $3,600 \| \| Hards… |
-| 138 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` | table | …ay (IDP) \| $275 \| $3,300 \| \| Family Separation Allowance \| **$300** \| $3,600 \| \| Hardship Duty Pay (varies by category/locatio… |
-| 138 | $3,600 | data-derived | `12×cola:moderate-high.W1-W5[1]`, `12×deployment:fsa`, `bah:CA025/O-1/w`, `bah:CA392/W-3/wo`, `bah:NY217/E-8/wo` (+2 more) | table | …) \| $275 \| $3,300 \| \| Family Separation Allowance \| $300 \| **$3,600** \| \| Hardship Duty Pay (varies by category/location) \| vari… |
+| 138 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` | table | …ay (IDP) \| $275 \| $3,300 \| \| Family Separation Allowance \| **$300** \| $3,600 \| \| Hardship Duty Pay (varies by category/locatio… |
+| 138 | $3,600 | data-derived | `12×deployment:fsa`, `bah:CA025/O-1/w`, `bah:CA392/W-3/wo`, `bah:NY217/E-8/wo`, `bah:NY218/E-5/wo` (+1 more) | table | …) \| $275 \| $3,300 \| \| Family Separation Allowance \| $300 \| **$3,600** \| \| Hardship Duty Pay (varies by category/location) \| vari… |
 | 140 | $10,000 | data | `deployment:sdpMaxDeposit`, `healthcare:employer.family.gold.oopMax`, `healthcare:acaNoSubsidy.family.silver.deductible` | table | … category/location) \| varies \| varies \| \| SDP interest (on **$10,000**) \| — \| ~$1,000 \| **Tax savings alone: approximately $6,0… |
 | 140 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | approx, table | …on) \| varies \| varies \| \| SDP interest (on $10,000) \| — \| ~**$1,000** \| **Tax savings alone: approximately $6,000 over 12 mont… |
 | 142 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` | approx | …,000) \| — \| ~$1,000 \| **Tax savings alone: approximately **$6,000** over 12 months.** **Special pays (HFP + FSA): $6,300 ove… |
@@ -442,10 +442,10 @@ data 35 (25 weak) · derived 18 (1 weak) · unbound 50
 | 19 | $3,548.02 | data | `pcs:dla.withDependents.E-1`, `pcs:dla.withDependents.E-2`, `pcs:dla.withDependents.E-3`, `pcs:dla.withDependents.E-4`, `pcs:dla.withDependents.E-5` (+1 more) |  | …(Dislocation Allowance) for an E-6 with dependents in 2026: **$3,548.02** — paid once per PCS, no receipts required&lt;/QAItem&gt; &lt;QAIt… |
 | 21 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` | range | …cured Move) on a 2,100-mile CONUS-to-CONUS PCS can generate **$4,000**–$5,000 in net proceeds by moving under the government's wei… |
 | 21 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` | range | …ove) on a 2,100-mile CONUS-to-CONUS PCS can generate $4,000–**$5,000** in net proceeds by moving under the government's weight est… |
-| 22 | $1,800 | data-derived | `12×cola:moderate.W1-W5[1]`, `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo` (+19 more) |  | …ht estimate&lt;/QAItem&gt; &lt;QAItem&gt;An unplanned lease break at **$1,800**/month with 3 months remaining costs $5,400 — timing a PCS m… |
+| 22 | $1,800 | data-derived | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) |  | …ht estimate&lt;/QAItem&gt; &lt;QAItem&gt;An unplanned lease break at **$1,800**/month with 3 months remaining costs $5,400 — timing a PCS m… |
 | 22 | $5,400 | data-derived | `12×deployment:hfp`, `12×healthcare:employer.family.bronze.premium`, `bah:NH194/O-6/w`, `bah:NY349/W-1/w` |  | …d lease break at $1,800/month with 3 months remaining costs **$5,400** — timing a PCS move to align with lease end can avoid this … |
 | 29 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` |  | …e same PCS move cost one family $14,000 while another makes **$6,000**? An E-6 with dependents receives orders from [Fort Campb… |
-| 48 | $1,800 | data-derived | `12×cola:moderate.W1-W5[1]`, `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo` (+19 more) |  | …vely. **The lease break:** They have 8 months left on a **$1,800**/month apartment lease at Fort Campbell. Their landlord offe… |
+| 48 | $1,800 | data-derived | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) |  | …vely. **The lease break:** They have 8 months left on a **$1,800**/month apartment lease at Fort Campbell. Their landlord offe… |
 | 48 | $5,400 | data-derived | `12×deployment:hfp`, `12×healthcare:employer.family.bronze.premium`, `bah:NH194/O-6/w`, `bah:NY349/W-1/w` |  | …heir landlord offers a 3-month buyout to terminate early: ****$5,400** out of pocket.** *What they didn't know:* Military claus… |
 | 50 | $5,400 | data-derived | `12×deployment:hfp`, `12×healthcare:employer.family.bronze.premium`, `bah:NH194/O-6/w`, `bah:NY349/W-1/w` |  | …s without pushback when presented with official orders. The **$5,400** could have been $0. **The government move and the overag… |
 | 55 | $210 | data | `pcs:ppmPerCWT` |  | …1,000 lbs. They're 500 lbs over. Overage charge: 5 cwt × **$210**/cwt = **$1,050 out of pocket.** *What they didn't know:*… |
@@ -468,7 +468,7 @@ data 35 (25 weak) · derived 18 (1 weak) · unbound 50
 | 105 | $210 | data | `pcs:ppmPerCWT` |  | … miles (at 2026 PPM rates via PPTAS): 5,000 lbs = 50 cwt × **$210**/cwt = $10,500 gross estimated cost PPM reimbursement: 95% … |
 | 108 | $1,200 | data | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` |  | …5% of $10,500 = **$9,975** They rent a 20-foot truck for **$1,200**, spend $600 on fuel for the 2,100-mile drive, pay $300 in l… |
 | 108 | $600 | data-derived | `12×deployment:hdpLevels[1]` |  | …= **$9,975** They rent a 20-foot truck for $1,200, spend **$600** on fuel for the 2,100-mile drive, pay $300 in lodging over … |
-| 108 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …or $1,200, spend $600 on fuel for the 2,100-mile drive, pay **$300** in lodging over 4 driving days, and load/unload themselves … |
+| 108 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …or $1,200, spend $600 on fuel for the 2,100-mile drive, pay **$300** in lodging over 4 driving days, and load/unload themselves … |
 | 109 | $2,100 | data (weak) | `bah:AL005/O-3E/w`, `bah:AR010/W-4/w`, `bah:FL065/W-4/wo`, `bah:ID084/E-9/wo`, `bah:KY106/E-6/w` (+15 more) |  | …oad themselves with help from friends: Actual move cost: ****$2,100**** PPM net proceeds: $9,975 − $2,100 = **$7,875** (before… |
 | 111 | $2,100 | data (weak) | `bah:AL005/O-3E/w`, `bah:AR010/W-4/w`, `bah:FL065/W-4/wo`, `bah:ID084/E-9/wo`, `bah:KY106/E-6/w` (+15 more) |  | … Actual move cost: **$2,100** PPM net proceeds: $9,975 − **$2,100** = **$7,875** (before tax) After 22% federal tax: $7,875 × … |
 | 117 | $3,548.02 | data | `pcs:dla.withDependents.E-1`, `pcs:dla.withDependents.E-2`, `pcs:dla.withDependents.E-3`, `pcs:dla.withDependents.E-4`, `pcs:dla.withDependents.E-5` (+1 more) |  | … and kept:** With no lease break penalty eating into it: ****$3,548.02**** deposited and available. **TLE — used fully:** The fa… |
@@ -550,7 +550,7 @@ data 35 (25 weak) · derived 18 (1 weak) · unbound 50
 
 ### src/content/blog/best-worst-bah-duty-stations-2026.mdx
 
-data 48 (47 weak) · derived 4 (3 weak) · unbound 28
+data 47 (46 weak) · derived 4 (3 weak) · unbound 29
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
@@ -561,7 +561,7 @@ data 48 (47 weak) · derived 4 (3 weak) · unbound 28
 | 22 | $1,806 | data (weak) | `bah:GA074/E-5/wo`, `bah:MI153/E-5/w`, `bah:MO160/W-1/wo`, `bah:MS168/W-5/wo`, `bah:NC177/E-1/w` (+22 more) |  | …&gt; &lt;QAItem&gt;E-5 with-dependents BAH ranges: Fort Bragg NC (**$1,806**) → San Francisco CA ($5,127)&lt;/QAItem&gt; &lt;QAItem&gt;BAH rate p… |
 | 22 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` |  | …ents BAH ranges: Fort Bragg NC ($1,806) → San Francisco CA (**$5,127**)&lt;/QAItem&gt; &lt;QAItem&gt;BAH rate protection means your rate wo… |
 | 34 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` |  | … second definition is more useful for financial planning. A **$5,000**/month BAH at UCSF where a 2-bedroom apartment costs $5,200 … |
-| 34 | $1,800 | data-derived | `12×cola:moderate.W1-W5[1]`, `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo` (+19 more) |  | …-bedroom apartment costs $5,200 is worse financially than a **$1,800**/month BAH at [Fort Campbell](/bah/fort-campbell) where a co… |
+| 34 | $1,800 | data-derived | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) |  | …-bedroom apartment costs $5,200 is worse financially than a **$1,800**/month BAH at [Fort Campbell](/bah/fort-campbell) where a co… |
 | 44 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` | table | …------------------\|-------\| \| San Francisco Bay Area, CA \| **$5,127** \| Includes Oakland, Berkeley, San Jose \| \| New York City, … |
 | 45 | $5,070 | data (weak) | `bah:CA044/O-1E/w`, `bah:NJ202/W-1/w`, `bah:NJ202/O-5/wo`, `bah:NY219/E-5/w`, `bah:NY219/E-6/wo` | table | …cludes Oakland, Berkeley, San Jose \| \| New York City, NY \| **$5,070** \| All five boroughs \| \| Northern New Jersey, NJ \| $4,749 \|… |
 | 46 | $4,749 | data (weak) | `bah:NJ202/E-5/w`, `bah:NY349/E-8/wo` | table | …\| $5,070 \| All five boroughs \| \| Northern New Jersey, NJ \| **$4,749** \| NYC metro overflow \| \| Westchester County, NY \| $4,479 \|… |
@@ -590,7 +590,6 @@ data 48 (47 weak) · derived 4 (3 weak) · unbound 28
 | 89 | $1,716 | data (weak) | `bah:AZ014/O-1E/wo`, `bah:GA075/E-5/w`, `bah:IN094/W-1/wo`, `bah:IN399/W-1/wo`, `bah:KY107/E-7/wo` (+14 more) | table | …, TX \| $1,695 \| ~$1,250 \| **~$445** \| \| Fort Benning, GA \| **$1,716** \| ~$1,300 \| **~$416** \| \| Fort Bragg, NC \| $1,806 \| ~$1,40… |
 | 90 | $1,806 | data (weak) | `bah:GA074/E-5/wo`, `bah:MI153/E-5/w`, `bah:MO160/W-1/wo`, `bah:MS168/W-5/wo`, `bah:NC177/E-1/w` (+22 more) | table | …ng, GA \| $1,716 \| ~$1,300 \| **~$416** \| \| Fort Bragg, NC \| **$1,806** \| ~$1,400 \| **~$406** \| In these markets, an E-5 renting… |
 | 94 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) | range | …00 home in these markets often produces a payment of $1,100–**$1,500**/month, leaving $200–$400+ monthly surplus even after mortga… |
-| 94 | $200 | data (weak) | `cola:high.E1-E4[0]`, `cola:moderate-high.E5-E9[0]`, `cola:moderate-high.O1-O3[0]` | range | …ts often produces a payment of $1,100–$1,500/month, leaving **$200**–$400+ monthly surplus even after mortgage payments. ## W… |
 | 102 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` | table | …-----------\|-------------------\| \| San Francisco Bay, CA \| **$5,127** \| ~$4,800–$5,500 \| **Roughly even** \| \| New York City, NY … |
 | 102 | $4,800 | data (weak) | `bah:MA120/W-2/wo` | approx, range, table | …-\|-------------------\| \| San Francisco Bay, CA \| $5,127 \| ~**$4,800**–$5,500 \| **Roughly even** \| \| New York City, NY \| $5,070 \|… |
 | 102 | $5,500 | data (weak) | `healthcare:fpl.increment` | range, table | …--------------\| \| San Francisco Bay, CA \| $5,127 \| ~$4,800–**$5,500** \| **Roughly even** \| \| New York City, NY \| $5,070 \| ~$4,50… |
@@ -603,11 +602,11 @@ data 48 (47 weak) · derived 4 (3 weak) · unbound 28
 | 105 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` | range, table | …**Tight to negative** \| \| San Diego, CA \| $3,975 \| ~$3,400–**$4,000** \| **Roughly even** \| \| Honolulu, HI \| $3,663 \| ~$3,200–$3,… |
 | 106 | $3,663 | data (weak) | `bah:CA041/E-8/w`, `bah:HI408/E-5/w`, `bah:MA151/E-1/w`, `bah:MA151/E-2/w`, `bah:MA151/E-3/w` (+2 more) | table | …975 \| ~$3,400–$4,000 \| **Roughly even** \| \| Honolulu, HI \| **$3,663** \| ~$3,200–$3,800 \| **Roughly even** \| \| Camp Pendleton, CA… |
 | 107 | $3,963 | data (weak) | `bah:CA024/E-5/w`, `bah:CO422/W-5/w`, `bah:CT051/E-9/w`, `bah:MA122/W-4/w` | table | …~$3,200–$3,800 \| **Roughly even** \| \| Camp Pendleton, CA \| **$3,963** \| ~$3,600–$4,200 \| **Tight** \| This doesn't mean these a… |
-| 107 | $3,600 | data-derived (weak) | `12×cola:moderate-high.W1-W5[1]`, `12×deployment:fsa`, `bah:CA025/O-1/w`, `bah:CA392/W-3/wo`, `bah:NY217/E-8/wo` (+2 more) | approx, range, table | …,800 \| **Roughly even** \| \| Camp Pendleton, CA \| $3,963 \| ~**$3,600**–$4,200 \| **Tight** \| This doesn't mean these are bad dut… |
+| 107 | $3,600 | data-derived (weak) | `12×deployment:fsa`, `bah:CA025/O-1/w`, `bah:CA392/W-3/wo`, `bah:NY217/E-8/wo`, `bah:NY218/E-5/wo` (+1 more) | approx, range, table | …,800 \| **Roughly even** \| \| Camp Pendleton, CA \| $3,963 \| ~**$3,600**–$4,200 \| **Tight** \| This doesn't mean these are bad dut… |
 | 107 | $4,200 | data-derived (weak) | `12×healthcare:acaNoSubsidy.single.bronze.premium`, `bah:CA025/O-2E/w`, `bah:CA392/O-2E/w`, `bah:NJ201/E-8/w`, `bah:RI256/O-7/wo` (+1 more) | range, table | …**Roughly even** \| \| Camp Pendleton, CA \| $3,963 \| ~$3,600–**$4,200** \| **Tight** \| This doesn't mean these are bad duty stati… |
-| 139 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …tate tax guidance 3. **Invest or save the surplus** — even **$300**/month in surplus, invested consistently across a career, co… |
+| 139 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …tate tax guidance 3. **Invest or save the surplus** — even **$300**/month in surplus, invested consistently across a career, co… |
 
-<details><summary>28 unbound</summary>
+<details><summary>29 unbound</summary>
 
 | Line | Figure | Flags | Context |
 |---:|---|---|---|
@@ -634,6 +633,7 @@ data 48 (47 weak) · derived 4 (3 weak) · unbound 28
 | 94 | $200,000 | range | …VA loan math is even more favorable: a 30-year VA loan on a **$200,000**–$250,000 home in these markets often produces a payment of … |
 | 94 | $250,000 | range | …ath is even more favorable: a 30-year VA loan on a $200,000–**$250,000** home in these markets often produces a payment of $1,100–$1… |
 | 94 | $1,100 | range | …–$250,000 home in these markets often produces a payment of **$1,100**–$1,500/month, leaving $200–$400+ monthly surplus even after… |
+| 94 | $200 | range | …ts often produces a payment of $1,100–$1,500/month, leaving **$200**–$400+ monthly surplus even after mortgage payments. ## W… |
 | 94 | $400 | range | …ten produces a payment of $1,100–$1,500/month, leaving $200–**$400**+ monthly surplus even after mortgage payments. ## Which … |
 | 103 | $5,800 | range, table | … **Roughly even** \| \| New York City, NY \| $5,070 \| ~$4,500–**$5,800** \| **Tight to negative** \| \| Monterey, CA \| $3,465 \| ~$3,50… |
 | 105 | $3,400 | approx, range, table | …,200 \| **Tight to negative** \| \| San Diego, CA \| $3,975 \| ~**$3,400**–$4,000 \| **Roughly even** \| \| Honolulu, HI \| $3,663 \| ~$3,… |
@@ -683,12 +683,12 @@ data 39 (32 weak) · derived 7 (4 weak) · unbound 65
 | 106 | $600 | data-derived (weak) | `12×deployment:hdpLevels[1]` | range | …comparison:** - Individual plan (employer-sponsored): $400–**$600**/month employee share - Family plan (employer-sponsored): $… |
 | 107 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) | range | …0/month employee share - Family plan (employer-sponsored): **$1,500**–$2,000/month employee share - Individual plan (ACA marketp… |
 | 107 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` | range | … employee share - Family plan (employer-sponsored): $1,500–**$2,000**/month employee share - Individual plan (ACA marketplace): … |
-| 108 | $300 | data (weak) | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` | range | …/month employee share - Individual plan (ACA marketplace): **$300**–$800/month depending on age and location - Family plan (AC… |
+| 108 | $300 | data (weak) | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` | range | …/month employee share - Individual plan (ACA marketplace): **$300**–$800/month depending on age and location - Family plan (AC… |
 | 109 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | …nding on age and location - Family plan (ACA marketplace): **$1,000**–$2,500/month **Annual TRS savings for a Guard/Reserve me… |
 | 115 | $3,440 | data-derived | `12×healthcare:tricareReserveSelect.family.premium`, `12×tricare:reserveSelect.memberAndFamily` | table | …lan \| Annual Cost \| \|------\|-------------\| \| TRS family \| **$3,440** \| \| Typical civilian employer family plan \| $18,000–$24,00… |
 | 119 | $15,000 | data (weak) | `healthcare:acaNoSubsidy.family.bronze.deductible` | range | …0,560** \| A Guard/Reserve member with a family is saving **$15,000**–$20,000 per year in health insurance costs by maintaining T… |
-| 121 | $150 | data | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …litary treatment facilities, a defined annual deductible of **$150**/individual ($300/family), and the same catastrophic protect… |
-| 121 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …facilities, a defined annual deductible of $150/individual (**$300**/family), and the same catastrophic protection as active-dut… |
+| 121 | $150 | data | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | …litary treatment facilities, a defined annual deductible of **$150**/individual ($300/family), and the same catastrophic protect… |
+| 121 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …facilities, a defined annual deductible of $150/individual (**$300**/family), and the same catastrophic protection as active-dut… |
 | 141 | $1,191.00 | data (weak) | `bah:AL001/E-7/wo`, `bah:LA115/O-1/wo`, `bah:MO165/O-1/wo`, `bah:OH233/E-5/w`, `bah:ZZ680/E-5/wo` | annual | …ber only): $594.96/year ($49.58/month) - Group B (family): **$1,191.00**/year ($99.25/month) Even at retiree rates, TRICARE is dr… |
 | 143 | $8,000 | data (weak) | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` | range | … 45 years old buying comparable civilian coverage would pay **$8,000**–$20,000/year more for similar family coverage. **TRICARE… |
 | 179 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | approx, annual | …year employee cost. Military healthcare (TRICARE retiree): ~**$1,000**/year. Net healthcare impact on compensation: -$17,000/ye… |
@@ -780,7 +780,7 @@ data 39 (17 weak) · derived 6 (0 weak) · unbound 37
 | 47 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` |  | …endents can receive from $1,185/month in a low-cost area to **$5,127**/month in high-cost markets. At the 22% federal bracket, $2,… |
 | 52 | $476.95 | data | `bas:enlisted` |  | …llowance for Subsistence) is a flat monthly food allowance: **$476.95** for enlisted, $328.48 for officers in 2026. It is excluded … |
 | 52 | $328.48 | data | `bas:officer` |  | …ce) is a flat monthly food allowance: $476.95 for enlisted, **$328.48** for officers in 2026. It is excluded from federal taxable i… |
-| 52 | $150 | data (weak) | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` | range | …ial. Special and incentive pays include Hazardous Duty Pay (**$150**–$275/month), Special Duty Assignment Pay ($75–$675/month), … |
+| 52 | $150 | data (weak) | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` | range | …ial. Special and incentive pays include Hazardous Duty Pay (**$150**–$275/month), Special Duty Assignment Pay ($75–$675/month), … |
 | 52 | $275 | data (weak) | `deployment:idp` | range | …Special and incentive pays include Hazardous Duty Pay ($150–**$275**/month), Special Duty Assignment Pay ($75–$675/month), Aviat… |
 | 52 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` |  | … Pay ($75–$675/month), Aviation Career Incentive Pay (up to **$1,000**/month), and Career Sea Pay ($70–$805/month).', }, { … |
 | 62 | $4,612.80 | data | `pay:E-6@8` |  | … consists of four drill periods. Example: E-6 with 8 years (**$4,612.80**/month active base pay) earns $153.76 per drill period, $615… |
@@ -807,7 +807,7 @@ data 39 (17 weak) · derived 6 (0 weak) · unbound 37
 | 156 | $8,064 | data (weak) | `bah:NY349/O-5/w` |  | …1,686/mo to $6,633/mo&lt;/li&gt; &lt;li&gt;O-5: $1,827/mo to **$8,064**/mo&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; &lt;strong clas… |
 | 187 | $476.95 | data | `bas:enlisted` |  | …26 rates:{' '} &lt;strong className="text-zinc-800"&gt;**$476.95**/month enlisted&lt;/strong&gt;,{' '} &lt;strong className=… |
 | 188 | $328.48 | data | `bas:officer` |  | …/strong&gt;,{' '} &lt;strong className="text-zinc-800"&gt;**$328.48**/month officers&lt;/strong&gt;. Like BAH, it is exclude… |
-| 199 | $150 | data (weak) | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` | range | …ace-y-1 pl-4 list-disc"&gt; &lt;li&gt;Hazardous Duty Pay: **$150**–$275/month&lt;/li&gt; &lt;li&gt;Special Duty Assignment Pay … |
+| 199 | $150 | data (weak) | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` | range | …ace-y-1 pl-4 list-disc"&gt; &lt;li&gt;Hazardous Duty Pay: **$150**–$275/month&lt;/li&gt; &lt;li&gt;Special Duty Assignment Pay … |
 | 199 | $275 | data (weak) | `deployment:idp` | range | …-1 pl-4 list-disc"&gt; &lt;li&gt;Hazardous Duty Pay: $150–**$275**/month&lt;/li&gt; &lt;li&gt;Special Duty Assignment Pay (SDAP… |
 | 201 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` |  | …th&lt;/li&gt; &lt;li&gt;Aviation Career Incentive Pay: up to **$1,000**/month&lt;/li&gt; &lt;li&gt;Career Sea Pay: $70–$805/month by… |
 | 252 | $4,612.80 | data | `pay:E-6@8` |  | …rgeant (E-6) with 8 years service&lt;/strong&gt;{' '} (**$4,612.80**/month active base pay): &lt;/p&gt; &lt;ul classNam… |
@@ -865,17 +865,17 @@ data 39 (17 weak) · derived 6 (0 weak) · unbound 37
 
 ### src/content/blog/2026-military-pay-raise-explained.mdx
 
-data 39 (8 weak) · derived 5 (0 weak) · unbound 62
+data 38 (7 weak) · derived 5 (0 weak) · unbound 63
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
-| 17 | $150 | data (weak) | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` | approx | … 5.2% raise in 2024. In dollar terms, that is approximately **$150**/month more for an E-5 with 6 years of service, $214/month m… |
-| 17 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ly 4.2% on average, and Family Separation Allowance rose to **$300**/month for the first time since 2002 — so the total compensa… |
+| 17 | $150 | data (weak) | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` | approx | … 5.2% raise in 2024. In dollar terms, that is approximately **$150**/month more for an E-5 with 6 years of service, $214/month m… |
+| 17 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ly 4.2% on average, and Family Separation Allowance rose to **$300**/month for the first time since 2002 — so the total compensa… |
 | 21 | $4,110.00 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | …Item&gt;E-5 with 6 years: base pay increased from $3,959.40 to **$4,110.00**/month — a gain of $150.60/month ($1,807/year)&lt;/QAItem&gt; &lt;… |
 | 22 | $5,835.00 | data | `pay:E-7@14` |  | …tem&gt;E-7 with 14 years: base pay increased from $5,621.40 to **$5,835.00**/month — a gain of $213.60/month ($2,563/year)&lt;/QAItem&gt; &lt;… |
 | 23 | $7,737.00 | data | `pay:O-3@6`, `pay:O-3E@6` |  | …Item&gt;O-3 with 6 years: base pay increased from $7,453.76 to **$7,737.00**/month — a gain of $283.24/month ($3,399/year)&lt;/QAItem&gt; &lt;… |
 | 23 | $3,399 | data (weak) | `bah:AK401/E-8/w`, `bah:CA026/E-8/wo`, `bah:CA031/E-7/w`, `bah:CA036/W-2/wo`, `bah:FL056/O-3/w` (+6 more) | annual | …rom $7,453.76 to $7,737.00/month — a gain of $283.24/month (**$3,399**/year)&lt;/QAItem&gt; &lt;QAItem&gt;BAH also increased ~4.2% on avera… |
-| 25 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …QAItem&gt; &lt;QAItem&gt;Family Separation Allowance increased to **$300**/month — first increase since 2002&lt;/QAItem&gt; &lt;/QuickAnswer&gt; … |
+| 25 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …QAItem&gt; &lt;QAItem&gt;Family Separation Allowance increased to **$300**/month — first increase since 2002&lt;/QAItem&gt; &lt;/QuickAnswer&gt; … |
 | 51 | $2,407.20 | data | `pay:E-1@0` | table | …------\|-------------\| \| [E-1](/pay/e1) \| &lt; 2 \| $2,319.08 \| **$2,407.20** \| +$88.12 \| +$1,057 \| \| E-3 \| 2 \| $2,904.60 \| $3,015.00 \| … |
 | 52 | $3,015.00 | data | `pay:E-3@2`, `bah:CA022/E-9/w`, `bah:CA034/O-6/wo`, `bah:CA041/W-1/wo`, `bah:FL423/E-8/w` (+13 more) | table | … \| $2,407.20 \| +$88.12 \| +$1,057 \| \| E-3 \| 2 \| $2,904.60 \| **$3,015.00** \| +$110.40 \| +$1,325 \| \| [E-5](/pay/e5) \| 6 \| $3,959.40 \| … |
 | 53 | $4,110.00 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) | table | … \| +$110.40 \| +$1,325 \| \| [E-5](/pay/e5) \| 6 \| $3,959.40 \| **$4,110.00** \| +$150.60 \| +$1,807 \| \| E-6 \| 8 \| $4,443.93 \| $4,612.80 \|… |
@@ -897,15 +897,14 @@ data 39 (8 weak) · derived 5 (0 weak) · unbound 62
 | 68 | $10,715 | data-derived | `round(pay:O-5@14)` |  | …rank. A 3.8% raise on $2,407 is very different from 3.8% on **$10,715**. ## Does the 3.8% pay raise affect BAH and BAS as well a… |
 | 76 | $476.95 | data | `bas:enlisted` |  | …):** BAS increased by **2.4%** in 2026. Enlisted BAS is now **$476.95**/month; officer BAS is $328.48/month. BAS is indexed to the … |
 | 76 | $328.48 | data | `bas:officer` |  | … in 2026. Enlisted BAS is now $476.95/month; officer BAS is **$328.48**/month. BAS is indexed to the USDA food cost survey and typi… |
-| 80 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …r more than 30 days due to military orders — increased to ****$300**/month** in 2026, up from $250/month. This is the **first FS… |
+| 80 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …r more than 30 days due to military orders — increased to ****$300**/month** in 2026, up from $250/month. This is the **first FS… |
 | 80 | $250 | data | `education:ta.perCreditHour`, `healthcare:employer.single.gold.premium` |  | …itary orders — increased to **$300/month** in 2026, up from **$250**/month. This is the **first FSA increase since 2002**. The p… |
-| 80 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ozen for 23 years while inflation eroded its real value. At **$300**/month, FSA is still modest relative to the actual costs of … |
-| 88 | $1,800 | data-derived | `12×cola:moderate.W1-W5[1]`, `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo` (+19 more) |  | … Basic pay: $4,443.93 - BAH (with dependents, hypothetical **$1,800** rate): $1,800.00 - BAS (enlisted): ~$465.36 - **Approxima… |
-| 88 | $1,800.00 | data-derived | `12×cola:moderate.W1-W5[1]`, `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo` (+19 more) |  | …,443.93 - BAH (with dependents, hypothetical $1,800 rate): **$1,800.00** - BAS (enlisted): ~$465.36 - **Approximate total:** ~$6,7… |
+| 80 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ozen for 23 years while inflation eroded its real value. At **$300**/month, FSA is still modest relative to the actual costs of … |
+| 88 | $1,800 | data-derived | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) |  | … Basic pay: $4,443.93 - BAH (with dependents, hypothetical **$1,800** rate): $1,800.00 - BAS (enlisted): ~$465.36 - **Approxima… |
+| 88 | $1,800.00 | data-derived | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) |  | …,443.93 - BAH (with dependents, hypothetical $1,800 rate): **$1,800.00** - BAS (enlisted): ~$465.36 - **Approximate total:** ~$6,7… |
 | 93 | $4,612.80 | data | `pay:E-6@8` |  | …9 **FY2026 monthly total (same profile):** - Basic pay: **$4,612.80** (+$168.87) - BAH (hypothetical 4.2% increase on $1,800): ~… |
-| 94 | $1,800 | data-derived | `12×cola:moderate.W1-W5[1]`, `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo` (+19 more) |  | … $4,612.80 (+$168.87) - BAH (hypothetical 4.2% increase on **$1,800**): ~$1,875.60 (+$75.60) - BAS (enlisted): $476.95 (+$11.59)… |
+| 94 | $1,800 | data-derived | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) |  | … $4,612.80 (+$168.87) - BAH (hypothetical 4.2% increase on **$1,800**): ~$1,875.60 (+$75.60) - BAS (enlisted): $476.95 (+$11.59)… |
 | 95 | $476.95 | data | `bas:enlisted` |  | …ncrease on $1,800): ~$1,875.60 (+$75.60) - BAS (enlisted): **$476.95** (+$11.59) - **Approximate total:** ~$6,965 **Total mont… |
-| 100 | $340 | data (weak) | `cola:high.W1-W5[0]` | approx | …rease is even higher: a civilian would need to earn roughly **$340**+ in additional gross salary to net the same $256/month afte… |
 | 108 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` |  | … changed independently. The 2026 elective deferral limit is **$24,500** (for traditional or Roth TSP); the total additions limit is… |
 | 108 | $72,000 | data | `deployment:tspCombatZoneLimit`, `tsp:annualAdditionsLimit` |  | …(for traditional or Roth TSP); the total additions limit is **$72,000** (applies during combat zone months with CZTE-excluded pay).… |
 | 112 | $0.05 | data | `const:SGLI_PREMIUM_PER_1000` |  | …Department of Defense actuarial review. The current rate is **$0.05** per $1,000 of coverage per month (effective July 2025), plu… |
@@ -914,7 +913,7 @@ data 39 (8 weak) · derived 5 (0 weak) · unbound 62
 | 112 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …lus $1.00/month for TSGLI — $26/month total for the maximum **$500,000** in coverage. **Combat zone exclusion cap (officers):** O… |
 | 126 | $4,110.00 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | …/month in basic pay in January 2023. The same E-5 now earns **$4,110.00** — an increase of $546.60/month, or $6,559 per year in basic… |
 
-<details><summary>62 unbound</summary>
+<details><summary>63 unbound</summary>
 
 | Line | Figure | Flags | Context |
 |---:|---|---|---|
@@ -973,6 +972,7 @@ data 39 (8 weak) · derived 5 (0 weak) · unbound 62
 | 98 | $3,070 | approx, annual | …total:** ~$6,965 **Total monthly increase: ~$256/month (~**$3,070**/year)** The combined increase is roughly **$256/month** … |
 | 100 | $256 |  | …onth (~$3,070/year)** The combined increase is roughly ****$256**/month** — substantially more than the $169/month base pay i… |
 | 100 | $169 |  | …ase is roughly **$256/month** — substantially more than the **$169**/month base pay increase alone. Because BAH and BAS are tax-… |
+| 100 | $340 | approx | …rease is even higher: a civilian would need to earn roughly **$340**+ in additional gross salary to net the same $256/month afte… |
 | 100 | $256 |  | …rn roughly $340+ in additional gross salary to net the same **$256**/month after taxes. &lt;CalculatorCallout calculator="total-… |
 | 112 | $26 |  | …r month (effective July 2025), plus $1.00/month for TSGLI — **$26**/month total for the maximum $500,000 in coverage. **Comb… |
 | 126 | $3,563.40 |  | …gned. For context: an E-5 with 6 years of service earned **$3,563.40**/month in basic pay in January 2023. The same E-5 now earns … |
@@ -980,68 +980,6 @@ data 39 (8 weak) · derived 5 (0 weak) · unbound 62
 | 126 | $6,559 | annual | … E-5 now earns $4,110.00 — an increase of $546.60/month, or **$6,559** per year in basic pay alone, over three years. That does… |
 | 132 | $20,000 | range | …-free BAH, BAS, and the value of benefits like TRICARE — is **$20,000**–$40,000 per year higher than the base pay number alone.&lt;/Ke… |
 | 132 | $40,000 | range, annual | …H, BAS, and the value of benefits like TRICARE — is $20,000–**$40,000** per year higher than the base pay number alone.&lt;/KeyFact&gt; … |
-
-</details>
-
-### src/app/guides/va-disability/page.tsx
-
-data 30 (6 weak) · derived 11 (0 weak) · unbound 7
-
-| Line | Figure | Class | Sources | Flags | Context |
-|---:|---|---|---|---|---|
-| 52 | $180.42 | data | `va:10%/veteranAlone`, `va:10%/withSpouse`, `va:10%/withSpouseAnd1Parent`, `va:10%/withSpouseAnd2Parents`, `va:10%/with1Parent` (+7 more) |  | … answer: '2026 monthly rates (veteran alone): 10% = **$180.42**; 20% = $356.66; 30% = $552.47; 40% = $795.84; 50% = $1,132.… |
-| 52 | $356.66 | data | `va:20%/veteranAlone`, `va:20%/withSpouse`, `va:20%/withSpouseAnd1Parent`, `va:20%/withSpouseAnd2Parents`, `va:20%/with1Parent` (+7 more) |  | … '2026 monthly rates (veteran alone): 10% = $180.42; 20% = **$356.66**; 30% = $552.47; 40% = $795.84; 50% = $1,132.90; 60% = $1,43… |
-| 52 | $552.47 | data | `va:30%/veteranAlone` |  | … rates (veteran alone): 10% = $180.42; 20% = $356.66; 30% = **$552.47**; 40% = $795.84; 50% = $1,132.90; 60% = $1,435.02; 70% = $1,… |
-| 52 | $795.84 | data | `va:40%/veteranAlone` |  | … alone): 10% = $180.42; 20% = $356.66; 30% = $552.47; 40% = **$795.84**; 50% = $1,132.90; 60% = $1,435.02; 70% = $1,808.45; 80% = $… |
-| 52 | $1,132.90 | data | `va:50%/veteranAlone` |  | …$180.42; 20% = $356.66; 30% = $552.47; 40% = $795.84; 50% = **$1,132.90**; 60% = $1,435.02; 70% = $1,808.45; 80% = $2,102.15; 90% = $… |
-| 52 | $1,435.02 | data | `va:60%/veteranAlone` |  | …56.66; 30% = $552.47; 40% = $795.84; 50% = $1,132.90; 60% = **$1,435.02**; 70% = $1,808.45; 80% = $2,102.15; 90% = $2,362.30; 100% = … |
-| 52 | $1,808.45 | data | `va:70%/veteranAlone` |  | ….47; 40% = $795.84; 50% = $1,132.90; 60% = $1,435.02; 70% = **$1,808.45**; 80% = $2,102.15; 90% = $2,362.30; 100% = $3,938.58. VA dis… |
-| 52 | $2,102.15 | data | `va:80%/veteranAlone` |  | …4; 50% = $1,132.90; 60% = $1,435.02; 70% = $1,808.45; 80% = **$2,102.15**; 90% = $2,362.30; 100% = $3,938.58. VA disability compensat… |
-| 52 | $2,362.30 | data | `va:90%/veteranAlone` |  | …0; 60% = $1,435.02; 70% = $1,808.45; 80% = $2,102.15; 90% = **$2,362.30**; 100% = $3,938.58. VA disability compensation is excluded f… |
-| 52 | $3,938.58 | data | `va:100%/veteranAlone` |  | …; 70% = $1,808.45; 80% = $2,102.15; 90% = $2,362.30; 100% = **$3,938.58**. VA disability compensation is excluded from federal taxabl… |
-| 135 | $1,435.02 | data | `va:60%/veteranAlone` |  | …4 and 65 is the difference between a 60% rating (**$1,435.02**/month) and a 70% rating ($1,808.45/month) — a ga… |
-| 136 | $1,808.45 | data | `va:70%/veteranAlone` |  | …a 60% rating ($1,435.02/month) and a 70% rating (**$1,808.45**/month) — a gap of $373.43/month or $4,481/year. Knowing you… |
-| 196 | $180.42 | data | `va:10%/veteranAlone`, `va:10%/withSpouse`, `va:10%/withSpouseAnd1Parent`, `va:10%/withSpouseAnd2Parents`, `va:10%/with1Parent` (+7 more) |  | …vide-zinc-100"&gt; {[ ['10%', '**$180.42**', '$2,165'], ['20%', '$356.66', '$4,280'],… |
-| 196 | $2,165 | data-derived | `12×va:10%/veteranAlone`, `12×va:10%/withSpouse`, `12×va:10%/withSpouseAnd1Parent`, `12×va:10%/withSpouseAnd2Parents`, `12×va:10%/with1Parent` (+7 more) |  | …00"&gt; {[ ['10%', '$180.42', '**$2,165**'], ['20%', '$356.66', '$4,280'], … |
-| 197 | $356.66 | data | `va:20%/veteranAlone`, `va:20%/withSpouse`, `va:20%/withSpouseAnd1Parent`, `va:20%/withSpouseAnd2Parents`, `va:20%/with1Parent` (+7 more) |  | … ['10%', '$180.42', '$2,165'], ['20%', '**$356.66**', '$4,280'], ['30%', '$552.47', '$6,630'],… |
-| 197 | $4,280 | data-derived | `12×va:20%/veteranAlone`, `12×va:20%/withSpouse`, `12×va:20%/withSpouseAnd1Parent`, `12×va:20%/withSpouseAnd2Parents`, `12×va:20%/with1Parent` (+7 more) |  | … '$180.42', '$2,165'], ['20%', '$356.66', '**$4,280**'], ['30%', '$552.47', '$6,630'], … |
-| 198 | $552.47 | data | `va:30%/veteranAlone` |  | … ['20%', '$356.66', '$4,280'], ['30%', '**$552.47**', '$6,630'], ['40%', '$795.84', '$9,550'],… |
-| 198 | $6,630 | data-derived | `12×va:30%/veteranAlone` |  | … '$356.66', '$4,280'], ['30%', '$552.47', '**$6,630**'], ['40%', '$795.84', '$9,550'], … |
-| 199 | $795.84 | data | `va:40%/veteranAlone` |  | … ['30%', '$552.47', '$6,630'], ['40%', '**$795.84**', '$9,550'], ['50%', '$1,132.90', '$13,595… |
-| 199 | $9,550 | data-derived | `12×va:40%/veteranAlone` |  | … '$552.47', '$6,630'], ['40%', '$795.84', '**$9,550**'], ['50%', '$1,132.90', '$13,595'], … |
-| 200 | $1,132.90 | data | `va:50%/veteranAlone` |  | … ['40%', '$795.84', '$9,550'], ['50%', '**$1,132.90**', '$13,595'], ['60%', '$1,435.02', '$17,22… |
-| 200 | $13,595 | data-derived | `12×va:50%/veteranAlone` |  | …$795.84', '$9,550'], ['50%', '$1,132.90', '**$13,595**'], ['60%', '$1,435.02', '$17,220'], … |
-| 201 | $1,435.02 | data | `va:60%/veteranAlone` |  | … ['50%', '$1,132.90', '$13,595'], ['60%', '**$1,435.02**', '$17,220'], ['70%', '$1,808.45', '$21,70… |
-| 201 | $17,220 | data-derived | `12×va:60%/veteranAlone` |  | …132.90', '$13,595'], ['60%', '$1,435.02', '**$17,220**'], ['70%', '$1,808.45', '$21,701'], … |
-| 202 | $1,808.45 | data | `va:70%/veteranAlone` |  | … ['60%', '$1,435.02', '$17,220'], ['70%', '**$1,808.45**', '$21,701'], ['80%', '$2,102.15', '$25,22… |
-| 202 | $21,701 | data-derived | `12×va:70%/veteranAlone` |  | …435.02', '$17,220'], ['70%', '$1,808.45', '**$21,701**'], ['80%', '$2,102.15', '$25,226'], … |
-| 203 | $2,102.15 | data | `va:80%/veteranAlone` |  | … ['70%', '$1,808.45', '$21,701'], ['80%', '**$2,102.15**', '$25,226'], ['90%', '$2,362.30', '$28,34… |
-| 203 | $25,226 | data-derived | `12×va:80%/veteranAlone` |  | …808.45', '$21,701'], ['80%', '$2,102.15', '**$25,226**'], ['90%', '$2,362.30', '$28,348'], … |
-| 204 | $2,362.30 | data | `va:90%/veteranAlone` |  | … ['80%', '$2,102.15', '$25,226'], ['90%', '**$2,362.30**', '$28,348'], ['100%', '$3,938.58', '$47,2… |
-| 204 | $28,348 | data-derived | `12×va:90%/veteranAlone` |  | …102.15', '$25,226'], ['90%', '$2,362.30', '**$28,348**'], ['100%', '$3,938.58', '$47,263'], … |
-| 205 | $3,938.58 | data | `va:100%/veteranAlone` |  | …['90%', '$2,362.30', '$28,348'], ['100%', '**$3,938.58**', '$47,263'], ].map(([r, m, a]) =&gt; ( … |
-| 205 | $47,263 | data-derived | `12×va:100%/veteranAlone` |  | …62.30', '$28,348'], ['100%', '$3,938.58', '**$47,263**'], ].map(([r, m, a]) =&gt; ( &lt;… |
-| 220 | $32 | data (weak) | `va:30%/additionalChild` | range | …d dependent-parent additions apply and can add **$32**–$220 per month depending on rating and family … |
-| 220 | $220 | data (weak) | `cola:moderate-high.W1-W5[0]` | range | … dependent-parent additions apply and can add $32–**$220** per month depending on rating and family size.… |
-| 227 | $65 | data (weak) | `va:60%/additionalChild` | approx, range | …s of dependents. Additions include approximately **$65**–$220/month for a spouse, $32–$147/month per child … |
-| 227 | $220 | data (weak) | `cola:moderate-high.W1-W5[0]` | range | … dependents. Additions include approximately $65–**$220**/month for a spouse, $32–$147/month per child und… |
-| 227 | $32 | data (weak) | `va:30%/additionalChild` | range | …dditions include approximately $65–$220/month for a spouse, **$32**–$147/month per child under 18, and $52–$176/mont… |
-| 228 | $176 | data (weak) | `va:50%/additionalSchoolChild` | range | …ouse, $32–$147/month per child under 18, and $52–**$176**/month per dependent parent, depending on rating tier. … |
-| 436 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | … (Servicemembers&amp;apos; Group Life Insurance) provides up to **$500,000** in coverage at{' '} &lt;strong className="text-zinc… |
-| 685 | $1,808.45 | data | `va:70%/veteranAlone` |  | … &lt;p className="text-sm font-semibold text-zinc-700"&gt;**$1,808.45**&lt;/p&gt; &lt;/div&gt; &lt;div class… |
-| 689 | $21,701 | data-derived | `12×va:70%/veteranAlone` |  | … &lt;p className="text-sm font-semibold text-zinc-700"&gt;**$21,701**&lt;/p&gt; &lt;/div&gt; &lt;/div&gt; … |
-
-<details><summary>7 unbound</summary>
-
-| Line | Figure | Flags | Context |
-|---:|---|---|---|
-| 136 | $373.43 |  | …h) and a 70% rating ($1,808.45/month) — a gap of **$373.43**/month or $4,481/year. Knowing your exact combine… |
-| 136 | $4,481 | annual | …ng ($1,808.45/month) — a gap of $373.43/month or **$4,481**/year. Knowing your exact combined value tells yo… |
-| 227 | $147 | range | …ions include approximately $65–$220/month for a spouse, $32–**$147**/month per child under 18, and $52–$176/month per… |
-| 228 | $52 | range | …a spouse, $32–$147/month per child under 18, and **$52**–$176/month per dependent parent, depending on rating tier. … |
-| 437 | $26 |  | …verage at{' '} &lt;strong className="text-zinc-800"&gt;**$26**/month for most service members with maximum coverage&lt;/stron… |
-| 564 | $373 |  | …d 70% is{' '} &lt;span className="text-red-700"&gt;**$373**/month — $4,481/year, excluded from federal taxable income.&lt;… |
-| 564 | $4,481 | annual | … &lt;span className="text-red-700"&gt;$373/month — **$4,481**/year, excluded from federal taxable income.&lt;/span&gt;{' '} … |
 
 </details>
 
@@ -1085,7 +1023,7 @@ data 37 (7 weak) · derived 3 (2 weak) · unbound 20
 | 121 | $4,760 | data-derived (weak) | `round(pay:E-6@10)` | approx, table | …\|---------------\|------------\| \| Base pay (E-6, 10 yrs) \| ~**$4,760** \| CZTE excluded (federal tax-free) \| \| BAH with dependents… |
 | 123 | $477 | data-derived | `round(bas:enlisted)` | table | …st area) \| ~$1,900 \| Already tax-free \| \| BAS (enlisted) \| **$477** \| Already tax-free \| \| Imminent Danger Pay \| $275 \| CZTE e… |
 | 124 | $275 | data | `deployment:idp` | table | …isted) \| $477 \| Already tax-free \| \| Imminent Danger Pay \| **$275** \| CZTE excluded \| \| **Total monthly** \| **~$7,412** \| \| … |
-| 129 | $300 | data (weak) | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` | range | …ns, any stateside bills) vary by family situation. Estimate **$300**–$600/month in ongoing commitments. **Monthly savings pot… |
+| 129 | $300 | data (weak) | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` | range | …ns, any stateside bills) vary by family situation. Estimate **$300**–$600/month in ongoing commitments. **Monthly savings pot… |
 | 129 | $600 | data-derived (weak) | `12×deployment:hdpLevels[1]` | range | …ny stateside bills) vary by family situation. Estimate $300–**$600**/month in ongoing commitments. **Monthly savings potentia… |
 | 139 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` | table | …--------\|--------\|-------\| \| TSP contributions (Roth up to **$24,500**; excess to traditional) \| up to $72,000 combined \| Roth cap… |
 | 139 | $72,000 | data | `deployment:tspCombatZoneLimit`, `tsp:annualAdditionsLimit` | table | …butions (Roth up to $24,500; excess to traditional) \| up to **$72,000** combined \| Roth capped at $24,500; contributions above that… |
@@ -1119,9 +1057,71 @@ data 37 (7 weak) · derived 3 (2 weak) · unbound 20
 
 </details>
 
+### src/app/guides/va-disability/page.tsx
+
+data 28 (4 weak) · derived 11 (0 weak) · unbound 9
+
+| Line | Figure | Class | Sources | Flags | Context |
+|---:|---|---|---|---|---|
+| 52 | $180.42 | data | `va:10%/veteranAlone`, `va:10%/withSpouse`, `va:10%/withSpouseAnd1Parent`, `va:10%/withSpouseAnd2Parents`, `va:10%/with1Parent` (+7 more) |  | … answer: '2026 monthly rates (veteran alone): 10% = **$180.42**; 20% = $356.66; 30% = $552.47; 40% = $795.84; 50% = $1,132.… |
+| 52 | $356.66 | data | `va:20%/veteranAlone`, `va:20%/withSpouse`, `va:20%/withSpouseAnd1Parent`, `va:20%/withSpouseAnd2Parents`, `va:20%/with1Parent` (+7 more) |  | … '2026 monthly rates (veteran alone): 10% = $180.42; 20% = **$356.66**; 30% = $552.47; 40% = $795.84; 50% = $1,132.90; 60% = $1,43… |
+| 52 | $552.47 | data | `va:30%/veteranAlone` |  | … rates (veteran alone): 10% = $180.42; 20% = $356.66; 30% = **$552.47**; 40% = $795.84; 50% = $1,132.90; 60% = $1,435.02; 70% = $1,… |
+| 52 | $795.84 | data | `va:40%/veteranAlone` |  | … alone): 10% = $180.42; 20% = $356.66; 30% = $552.47; 40% = **$795.84**; 50% = $1,132.90; 60% = $1,435.02; 70% = $1,808.45; 80% = $… |
+| 52 | $1,132.90 | data | `va:50%/veteranAlone` |  | …$180.42; 20% = $356.66; 30% = $552.47; 40% = $795.84; 50% = **$1,132.90**; 60% = $1,435.02; 70% = $1,808.45; 80% = $2,102.15; 90% = $… |
+| 52 | $1,435.02 | data | `va:60%/veteranAlone` |  | …56.66; 30% = $552.47; 40% = $795.84; 50% = $1,132.90; 60% = **$1,435.02**; 70% = $1,808.45; 80% = $2,102.15; 90% = $2,362.30; 100% = … |
+| 52 | $1,808.45 | data | `va:70%/veteranAlone` |  | ….47; 40% = $795.84; 50% = $1,132.90; 60% = $1,435.02; 70% = **$1,808.45**; 80% = $2,102.15; 90% = $2,362.30; 100% = $3,938.58. VA dis… |
+| 52 | $2,102.15 | data | `va:80%/veteranAlone` |  | …4; 50% = $1,132.90; 60% = $1,435.02; 70% = $1,808.45; 80% = **$2,102.15**; 90% = $2,362.30; 100% = $3,938.58. VA disability compensat… |
+| 52 | $2,362.30 | data | `va:90%/veteranAlone` |  | …0; 60% = $1,435.02; 70% = $1,808.45; 80% = $2,102.15; 90% = **$2,362.30**; 100% = $3,938.58. VA disability compensation is excluded f… |
+| 52 | $3,938.58 | data | `va:100%/veteranAlone` |  | …; 70% = $1,808.45; 80% = $2,102.15; 90% = $2,362.30; 100% = **$3,938.58**. VA disability compensation is excluded from federal taxabl… |
+| 135 | $1,435.02 | data | `va:60%/veteranAlone` |  | …4 and 65 is the difference between a 60% rating (**$1,435.02**/month) and a 70% rating ($1,808.45/month) — a ga… |
+| 136 | $1,808.45 | data | `va:70%/veteranAlone` |  | …a 60% rating ($1,435.02/month) and a 70% rating (**$1,808.45**/month) — a gap of $373.43/month or $4,481/year. Knowing you… |
+| 196 | $180.42 | data | `va:10%/veteranAlone`, `va:10%/withSpouse`, `va:10%/withSpouseAnd1Parent`, `va:10%/withSpouseAnd2Parents`, `va:10%/with1Parent` (+7 more) |  | …vide-zinc-100"&gt; {[ ['10%', '**$180.42**', '$2,165'], ['20%', '$356.66', '$4,280'],… |
+| 196 | $2,165 | data-derived | `12×va:10%/veteranAlone`, `12×va:10%/withSpouse`, `12×va:10%/withSpouseAnd1Parent`, `12×va:10%/withSpouseAnd2Parents`, `12×va:10%/with1Parent` (+7 more) |  | …00"&gt; {[ ['10%', '$180.42', '**$2,165**'], ['20%', '$356.66', '$4,280'], … |
+| 197 | $356.66 | data | `va:20%/veteranAlone`, `va:20%/withSpouse`, `va:20%/withSpouseAnd1Parent`, `va:20%/withSpouseAnd2Parents`, `va:20%/with1Parent` (+7 more) |  | … ['10%', '$180.42', '$2,165'], ['20%', '**$356.66**', '$4,280'], ['30%', '$552.47', '$6,630'],… |
+| 197 | $4,280 | data-derived | `12×va:20%/veteranAlone`, `12×va:20%/withSpouse`, `12×va:20%/withSpouseAnd1Parent`, `12×va:20%/withSpouseAnd2Parents`, `12×va:20%/with1Parent` (+7 more) |  | … '$180.42', '$2,165'], ['20%', '$356.66', '**$4,280**'], ['30%', '$552.47', '$6,630'], … |
+| 198 | $552.47 | data | `va:30%/veteranAlone` |  | … ['20%', '$356.66', '$4,280'], ['30%', '**$552.47**', '$6,630'], ['40%', '$795.84', '$9,550'],… |
+| 198 | $6,630 | data-derived | `12×va:30%/veteranAlone` |  | … '$356.66', '$4,280'], ['30%', '$552.47', '**$6,630**'], ['40%', '$795.84', '$9,550'], … |
+| 199 | $795.84 | data | `va:40%/veteranAlone` |  | … ['30%', '$552.47', '$6,630'], ['40%', '**$795.84**', '$9,550'], ['50%', '$1,132.90', '$13,595… |
+| 199 | $9,550 | data-derived | `12×va:40%/veteranAlone` |  | … '$552.47', '$6,630'], ['40%', '$795.84', '**$9,550**'], ['50%', '$1,132.90', '$13,595'], … |
+| 200 | $1,132.90 | data | `va:50%/veteranAlone` |  | … ['40%', '$795.84', '$9,550'], ['50%', '**$1,132.90**', '$13,595'], ['60%', '$1,435.02', '$17,22… |
+| 200 | $13,595 | data-derived | `12×va:50%/veteranAlone` |  | …$795.84', '$9,550'], ['50%', '$1,132.90', '**$13,595**'], ['60%', '$1,435.02', '$17,220'], … |
+| 201 | $1,435.02 | data | `va:60%/veteranAlone` |  | … ['50%', '$1,132.90', '$13,595'], ['60%', '**$1,435.02**', '$17,220'], ['70%', '$1,808.45', '$21,70… |
+| 201 | $17,220 | data-derived | `12×va:60%/veteranAlone` |  | …132.90', '$13,595'], ['60%', '$1,435.02', '**$17,220**'], ['70%', '$1,808.45', '$21,701'], … |
+| 202 | $1,808.45 | data | `va:70%/veteranAlone` |  | … ['60%', '$1,435.02', '$17,220'], ['70%', '**$1,808.45**', '$21,701'], ['80%', '$2,102.15', '$25,22… |
+| 202 | $21,701 | data-derived | `12×va:70%/veteranAlone` |  | …435.02', '$17,220'], ['70%', '$1,808.45', '**$21,701**'], ['80%', '$2,102.15', '$25,226'], … |
+| 203 | $2,102.15 | data | `va:80%/veteranAlone` |  | … ['70%', '$1,808.45', '$21,701'], ['80%', '**$2,102.15**', '$25,226'], ['90%', '$2,362.30', '$28,34… |
+| 203 | $25,226 | data-derived | `12×va:80%/veteranAlone` |  | …808.45', '$21,701'], ['80%', '$2,102.15', '**$25,226**'], ['90%', '$2,362.30', '$28,348'], … |
+| 204 | $2,362.30 | data | `va:90%/veteranAlone` |  | … ['80%', '$2,102.15', '$25,226'], ['90%', '**$2,362.30**', '$28,348'], ['100%', '$3,938.58', '$47,2… |
+| 204 | $28,348 | data-derived | `12×va:90%/veteranAlone` |  | …102.15', '$25,226'], ['90%', '$2,362.30', '**$28,348**'], ['100%', '$3,938.58', '$47,263'], … |
+| 205 | $3,938.58 | data | `va:100%/veteranAlone` |  | …['90%', '$2,362.30', '$28,348'], ['100%', '**$3,938.58**', '$47,263'], ].map(([r, m, a]) =&gt; ( … |
+| 205 | $47,263 | data-derived | `12×va:100%/veteranAlone` |  | …62.30', '$28,348'], ['100%', '$3,938.58', '**$47,263**'], ].map(([r, m, a]) =&gt; ( &lt;… |
+| 220 | $32 | data (weak) | `va:30%/additionalChild` | range | …d dependent-parent additions apply and can add **$32**–$220 per month depending on rating and family … |
+| 227 | $65 | data (weak) | `va:60%/additionalChild` | approx, range | …s of dependents. Additions include approximately **$65**–$220/month for a spouse, $32–$147/month per child … |
+| 227 | $32 | data (weak) | `va:30%/additionalChild` | range | …dditions include approximately $65–$220/month for a spouse, **$32**–$147/month per child under 18, and $52–$176/mont… |
+| 228 | $176 | data (weak) | `va:50%/additionalSchoolChild` | range | …ouse, $32–$147/month per child under 18, and $52–**$176**/month per dependent parent, depending on rating tier. … |
+| 436 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | … (Servicemembers&amp;apos; Group Life Insurance) provides up to **$500,000** in coverage at{' '} &lt;strong className="text-zinc… |
+| 685 | $1,808.45 | data | `va:70%/veteranAlone` |  | … &lt;p className="text-sm font-semibold text-zinc-700"&gt;**$1,808.45**&lt;/p&gt; &lt;/div&gt; &lt;div class… |
+| 689 | $21,701 | data-derived | `12×va:70%/veteranAlone` |  | … &lt;p className="text-sm font-semibold text-zinc-700"&gt;**$21,701**&lt;/p&gt; &lt;/div&gt; &lt;/div&gt; … |
+
+<details><summary>9 unbound</summary>
+
+| Line | Figure | Flags | Context |
+|---:|---|---|---|
+| 136 | $373.43 |  | …h) and a 70% rating ($1,808.45/month) — a gap of **$373.43**/month or $4,481/year. Knowing your exact combine… |
+| 136 | $4,481 | annual | …ng ($1,808.45/month) — a gap of $373.43/month or **$4,481**/year. Knowing your exact combined value tells yo… |
+| 220 | $220 | range | … dependent-parent additions apply and can add $32–**$220** per month depending on rating and family size.… |
+| 227 | $220 | range | … dependents. Additions include approximately $65–**$220**/month for a spouse, $32–$147/month per child und… |
+| 227 | $147 | range | …ions include approximately $65–$220/month for a spouse, $32–**$147**/month per child under 18, and $52–$176/month per… |
+| 228 | $52 | range | …a spouse, $32–$147/month per child under 18, and **$52**–$176/month per dependent parent, depending on rating tier. … |
+| 437 | $26 |  | …verage at{' '} &lt;strong className="text-zinc-800"&gt;**$26**/month for most service members with maximum coverage&lt;/stron… |
+| 564 | $373 |  | …d 70% is{' '} &lt;span className="text-red-700"&gt;**$373**/month — $4,481/year, excluded from federal taxable income.&lt;… |
+| 564 | $4,481 | annual | … &lt;span className="text-red-700"&gt;$373/month — **$4,481**/year, excluded from federal taxable income.&lt;/span&gt;{' '} … |
+
+</details>
+
 ### src/content/blog/bah-rates-2026-complete-guide.mdx
 
-data 36 (35 weak) · derived 3 (2 weak) · unbound 7
+data 38 (37 weak) · derived 1 (0 weak) · unbound 7
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
@@ -1160,9 +1160,9 @@ data 36 (35 weak) · derived 3 (2 weak) · unbound 7
 | 116 | $3,963 | data (weak) | `bah:CA024/E-5/w`, `bah:CO422/W-5/w`, `bah:CT051/E-9/w`, `bah:MA122/W-4/w` |  | … your favor. Pendleton to Fort Stewart is the reverse: from **$3,963** to $2,310 — a $1,653/month drop. Run the comparison before … |
 | 116 | $2,310 | data (weak) | `bah:AK404/O-1E/wo`, `bah:DE054/O-1/w`, `bah:FL063/W-3/wo`, `bah:GA080/E-5/w`, `bah:IA082/W-5/wo` (+24 more) |  | …r. Pendleton to Fort Stewart is the reverse: from $3,963 to **$2,310** — a $1,653/month drop. Run the comparison before you make a… |
 | 116 | $1,653 | data (weak) | `bah:IL092/E-1/wo`, `bah:IL092/E-2/wo`, `bah:IL092/E-3/wo`, `bah:IL092/E-4/wo`, `bah:LA114/E-6/wo` (+13 more) |  | …n to Fort Stewart is the reverse: from $3,963 to $2,310 — a **$1,653**/month drop. Run the comparison before you make any financia… |
-| 126 | $2,400 | data-derived (weak) | `12×cola:high.E1-E4[0]`, `12×cola:moderate-high.E5-E9[0]`, `12×cola:moderate-high.O1-O3[0]`, `bah:AL006/O-6/wo`, `bah:AR012/O-7/w` (+23 more) |  | …ualifying income. Here's what that means: if your BAH is **$2,400**/month, the lender treats it as $3,000/month in qualifying i… |
+| 126 | $2,400 | data (weak) | `bah:AL006/O-6/wo`, `bah:AR012/O-7/w`, `bah:AZ015/O-4/w`, `bah:FL068/W-4/wo`, `bah:GA074/O-2E/w` (+20 more) |  | …ualifying income. Here's what that means: if your BAH is **$2,400**/month, the lender treats it as $3,000/month in qualifying i… |
 | 126 | $3,000 | data (weak) | `bah:CA018/E-5/wo`, `bah:CA034/O-1E/w`, `bah:CA034/W-5/wo`, `bah:FL062/W-3/w`, `bah:FL062/O-7/wo` (+8 more) |  | …means: if your BAH is $2,400/month, the lender treats it as **$3,000**/month in qualifying income ($2,400 × 1.25). This increases … |
-| 126 | $2,400 | data-derived (weak) | `12×cola:high.E1-E4[0]`, `12×cola:moderate-high.E5-E9[0]`, `12×cola:moderate-high.O1-O3[0]`, `bah:AL006/O-6/wo`, `bah:AR012/O-7/w` (+23 more) |  | … the lender treats it as $3,000/month in qualifying income (**$2,400** × 1.25). This increases your maximum loan amount and can be… |
+| 126 | $2,400 | data (weak) | `bah:AL006/O-6/wo`, `bah:AR012/O-7/w`, `bah:AZ015/O-4/w`, `bah:FL068/W-4/wo`, `bah:GA074/O-2E/w` (+20 more) |  | … the lender treats it as $3,000/month in qualifying income (**$2,400** × 1.25). This increases your maximum loan amount and can be… |
 | 149 | $2,379 | data (weak) | `bah:AL006/O-2E/w`, `bah:CO046/E-8/wo`, `bah:CO047/O-2E/wo`, `bah:DE054/E-9/wo`, `bah:FL057/W-4/wo` (+17 more) |  | …ton and an E-5 at Camp Lejeune have the same base pay — but **$2,379**/month difference in monthly compensation. Before PCS, be… |
 
 <details><summary>7 unbound</summary>
@@ -1181,7 +1181,7 @@ data 36 (35 weak) · derived 3 (2 weak) · unbound 7
 
 ### src/content/blog/how-much-does-an-e5-really-make-2026.mdx
 
-data 34 (12 weak) · derived 5 (2 weak) · unbound 28
+data 35 (13 weak) · derived 4 (1 weak) · unbound 28
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
@@ -1219,10 +1219,10 @@ data 34 (12 weak) · derived 5 (2 weak) · unbound 28
 | 82 | $476.95 | data | `bas:enlisted` | table | …p) \| $1,806.00 \| $1,869.00 \| $3,975.00 \| \| BAS \| $476.95 \| **$476.95** \| $476.95 \| \| **Monthly Total** \| **$6,229.75** \| **$6,292… |
 | 82 | $476.95 | data | `bas:enlisted` | table | …6.00 \| $1,869.00 \| $3,975.00 \| \| BAS \| $476.95 \| $476.95 \| **$476.95** \| \| **Monthly Total** \| **$6,229.75** \| **$6,292.75** \| **… |
 | 108 | $3,946.80 | data | `pay:E-5@4` |  | …p of your pay. At **5% contribution** for an E-5 earning **$3,946.80**/month: - **Auto 1%**: $39.47/month (free, even if you co… |
-| 126 | $1,800 | data-derived (weak) | `12×cola:moderate.W1-W5[1]`, `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo` (+19 more) | range | …ns. But once you account for: - **Tax-free BAH** (worth **$1,800**–$4,000/month depending on location) - **Tax-free BAS** ($4… |
+| 126 | $1,800 | data-derived (weak) | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) | range | …ns. But once you account for: - **Tax-free BAH** (worth **$1,800**–$4,000/month depending on location) - **Tax-free BAS** ($4… |
 | 126 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` | range | …But once you account for: - **Tax-free BAH** (worth $1,800–**$4,000**/month depending on location) - **Tax-free BAS** ($477/mont… |
 | 127 | $477 | data-derived | `round(bas:enlisted)` |  | …00–$4,000/month depending on location) - **Tax-free BAS** (**$477**/month) - **Zero-premium TRICARE healthcare** (often worth … |
-| 129 | $2,400 | data-derived (weak) | `12×cola:high.E1-E4[0]`, `12×cola:moderate-high.E5-E9[0]`, `12×cola:moderate-high.O1-O3[0]`, `bah:AL006/O-6/wo`, `bah:AR012/O-7/w` (+23 more) | annual | …/healthcare-comparison)) - **BRS matching contributions** (**$2,400**/year) - **No commute costs, no work wardrobe costs**, etc.… |
+| 129 | $2,400 | data (weak) | `bah:AL006/O-6/wo`, `bah:AR012/O-7/w`, `bah:AZ015/O-4/w`, `bah:FL068/W-4/wo`, `bah:GA074/O-2E/w` (+20 more) | annual | …/healthcare-comparison)) - **BRS matching contributions** (**$2,400**/year) - **No commute costs, no work wardrobe costs**, etc.… |
 | 138 | $3,946.80 | data | `pay:E-5@4` |  | …ry equivalent." /&gt; ## The bottom line E-5 base pay is **$3,946.80**/month. But nobody should stop there. Your total compensa… |
 
 <details><summary>28 unbound</summary>
@@ -1272,7 +1272,7 @@ data 25 (20 weak) · derived 7 (3 weak) · unbound 13
 | 47 | $8,000 | data (weak) | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` | range | …n move for less. Typical PPM net proceeds range from $1,000–**$8,000** depending on move distance and how efficiently you move. PP… |
 | 52 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | …on. Moving from San Diego to Fort Bragg could reduce BAH by **$1,000**–$2,000/month; moving from rural Georgia to Northern Virgini… |
 | 52 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` | range | …ing from San Diego to Fort Bragg could reduce BAH by $1,000–**$2,000**/month; moving from rural Georgia to Northern Virginia could… |
-| 72 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ce members may qualify for a Family Separation Allowance of **$300**/month.', }, { question: 'How can BAH build wealt… |
+| 72 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ce members may qualify for a Family Separation Allowance of **$300**/month.', }, { question: 'How can BAH build wealt… |
 | 91 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) |  | … bullets: [ 'San Diego → Fort Bragg: BAH could drop **$1,500**+/mo', 'Rural GA → Northern VA: BAH could jump $1,000… |
 | 92 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` |  | …$1,500+/mo', 'Rural GA → Northern VA: BAH could jump **$1,000**+/mo', 'Biggest ongoing financial impact of any PCS',… |
 | 105 | $2,389 | data-derived | `round(pcs:dla.withoutDependents.E-4)`, `round(pcs:dla.withoutDependents.E-5)`, `round(pcs:dla.withoutDependents.E-6)` |  | … expense of a military move.', bullets: [ 'DLA: **$2,389** (E-6, no dep) / $3,548 (E-6, w/ dep) — varies by rank', … |
@@ -1289,7 +1289,7 @@ data 25 (20 weak) · derived 7 (3 weak) · unbound 13
 | 219 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | …&lt;li&gt;Moving from San Diego to Fort Bragg could reduce BAH by **$1,000**–$2,000/month&lt;/li&gt; &lt;li&gt;Moving from rural Georgia … |
 | 219 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` | range | …ing from San Diego to Fort Bragg could reduce BAH by $1,000–**$2,000**/month&lt;/li&gt; &lt;li&gt;Moving from rural Georgia to Nort… |
 | 225 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) |  | …fore&lt;/em&gt; signing a lease or accepting orders. A **$1,500**/month BAH drop you didn't budget for will hurt far more tha… |
-| 342 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …) may qualify for Family Separation Allowance of **$300**/month. &lt;/p&gt; &lt;div className="flex flex-col… |
+| 342 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …) may qualify for Family Separation Allowance of **$300**/month. &lt;/p&gt; &lt;div className="flex flex-col… |
 | 392 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` |  | …title: 'The PCS That Costs $14,000 — And the One That Makes **$6,000**', description: 'Two scenarios for the same E-6 family … |
 | 461 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` |  | … &lt;span className="text-red-700"&gt;lose $14,000 — or profit **$6,000**.&lt;/span&gt;{' '} The difference is knowing the e… |
 | 497 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | range | …s rate. Moving to a higher-cost station can increase BAH by **$500**–$1,500/month; moving to a lower-cost station does the oppos… |
@@ -1321,7 +1321,7 @@ data 25 (20 weak) · derived 7 (3 weak) · unbound 13
 
 ### src/content/blog/sgli-vgli-private-life-insurance.mdx
 
-data 32 (5 weak) · derived 0 (0 weak) · unbound 55
+data 31 (4 weak) · derived 0 (0 weak) · unbound 56
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
@@ -1351,14 +1351,13 @@ data 32 (5 weak) · derived 0 (0 weak) · unbound 55
 | 79 | $250.00 | data | `education:ta.perCreditHour`, `healthcare:employer.single.gold.premium` | table | …70.00 \| \| 45–49 \| $95.00 \| \| 50–54 \| $145.00 \| \| 55–59 \| **$250.00** \| \| 60–64 \| $425.00 \| \| 65–69 \| $690.00 \| \| 70–74 \| $1,0… |
 | 88 | $250 | data (weak) | `education:ta.perCreditHour`, `healthcare:employer.single.gold.premium` | range | …, state, and carrier). By the mid-50s, VGLI is running $145–**$250**/month — substantially more than a locked-in term rate. By t… |
 | 100 | $500,000 | data | `const:SGLI_MAX_COVERAGE` | table | …better when you're young and healthy:** \| Age \| Health \| **$500,000** / 20-Year Term (illustrative monthly estimate) \| \|-----\|--… |
-| 107 | $165 | data (weak) | `cola:moderate.O4-O6[1]` | range, table | … $55–75 \| \| 45 \| Excellent \| $95–130 \| \| 50 \| Excellent \| **$165**–220 \| *These are illustrative estimates only. Actual pre… |
 | 121 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …l coverage. The higher premiums are a real cost, but having **$500,000** in coverage at any price may be better than being declined … |
 | 143 | $10,000 | data | `deployment:sdpMaxDeposit`, `healthcare:employer.family.gold.oopMax`, `healthcare:acaNoSubsidy.family.silver.deductible` |  | …'t cover:** Dependent children are covered automatically at **$10,000** — meaningful if the concern is final expenses, but not a re… |
 | 165 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …our SGLI coverage level on your LES** — make sure you're at **$500,000** and that TSGLI is enrolled. 2. **Estimate your life insu… |
 | 167 | $500,000 | data (weak) | `const:SGLI_MAX_COVERAGE` | range | …spousal income. Most military families with dependents need **$500,000**–$1,000,000 in coverage. 3. **If you're within 2 years of… |
 | 183 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …lications develop — is the one who arrives at 50 or 55 with **$500,000** in coverage that costs $28/month, locked in two decades ear… |
 
-<details><summary>55 unbound</summary>
+<details><summary>56 unbound</summary>
 
 | Line | Figure | Flags | Context |
 |---:|---|---|---|
@@ -1406,6 +1405,7 @@ data 32 (5 weak) · derived 0 (0 weak) · unbound 55
 | 104 | $34 | range, table | …\| $18–22 \| \| 30 \| Excellent \| $25–35 \| \| 35 \| Excellent \| **$34**–45 \| \| 40 \| Excellent \| $55–75 \| \| 45 \| Excellent \| $95–1… |
 | 105 | $55 | range, table | …\| $25–35 \| \| 35 \| Excellent \| $34–45 \| \| 40 \| Excellent \| **$55**–75 \| \| 45 \| Excellent \| $95–130 \| \| 50 \| Excellent \| $165… |
 | 106 | $95 | range, table | …\| $34–45 \| \| 40 \| Excellent \| $55–75 \| \| 45 \| Excellent \| **$95**–130 \| \| 50 \| Excellent \| $165–220 \| *These are illustra… |
+| 107 | $165 | range, table | … $55–75 \| \| 45 \| Excellent \| $95–130 \| \| 50 \| Excellent \| **$165**–220 \| *These are illustrative estimates only. Actual pre… |
 | 113 | $28 |  | …ums. A 30-year-old who locks in a 20-year term policy at **$28**/month keeps that rate from age 30 to age 50. That same pers… |
 | 133 | $26 |  | …verage in place, even alongside private life insurance. The **$26**/month is the cheapest combat-zone life insurance available … |
 | 141 | $100,000 |  | …ouse deserves its own consideration. **Coverage:** Up to **$100,000** in coverage. Premium is based on the spouse's age. For $100… |
@@ -1466,60 +1466,6 @@ data 29 (8 weak) · derived 0 (0 weak) · unbound 6
 | 58 | $11,000 | approx, table | …hs \| ~$750 \| ~$10,750 \| \| $10,000 \| 12 months \| ~$1,000 \| ~**$11,000** \| It is difficult to find another government-backed savi… |
 | 113 | $30,000 | range | …d E-5 or E-6 on a 9-month deployment can realistically bank **$30,000**–$50,000 in new savings — most of it with significant tax ad… |
 | 113 | $50,000 | range | … E-6 on a 9-month deployment can realistically bank $30,000–**$50,000** in new savings — most of it with significant tax advantages… |
-
-</details>
-
-### src/content/blog/your-first-military-paycheck-what-to-know.mdx
-
-data 23 (11 weak) · derived 4 (1 weak) · unbound 13
-
-| Line | Figure | Class | Sources | Flags | Context |
-|---:|---|---|---|---|---|
-| 19 | $2,407 | data-derived | `round(pay:E-1@0)` |  | …is the taxable part of your military pay. As an E-1, that's **$2,407**/month in 2026 ($2,225.70 during your first four months) — b… |
-| 19 | $2,225.70 | data | `pay:E-1@<4mo` |  | … your military pay. As an E-1, that's $2,407/month in 2026 (**$2,225.70** during your first four months) — but it's only part of your… |
-| 21 | $476.95 | data | `bas:enlisted` |  | …y don't receive BAH&lt;/QAItem&gt; &lt;QAItem&gt;BAS for enlisted is **$476.95**/month — if you have a meal card in the barracks, a meal ded… |
-| 23 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | … (Servicemembers' Group Life Insurance) costs $26/month for **$500,000** of coverage — it appears as a deduction on your LES&lt;/QAItem… |
-| 34 | $2,225.70 | data | `pay:E-1@<4mo` |  | … how long you've been in service. In 2026, an E-1 starts at **$2,225.70**/month for the first four months of service, then $2,407.20/… |
-| 34 | $2,407.20 | data | `pay:E-1@0` |  | … $2,225.70/month for the first four months of service, then **$2,407.20**/month. An E-3 with two years of service earns $3,015/month.… |
-| 34 | $3,015 | data | `pay:E-3@2`, `bah:CA022/E-9/w`, `bah:CA034/O-6/wo`, `bah:CA041/W-1/wo`, `bah:FL423/E-8/w` (+13 more) |  | …hen $2,407.20/month. An E-3 with two years of service earns **$3,015**/month. This is the number on your W-2 at tax time. It go… |
-| 42 | $1,200 | data | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` |  | …g allowance — BAH can be substantial. It ranges from around **$1,200**/month to $5,100+/month depending on where you're stationed.… |
-| 42 | $5,100 | data (weak) | `bah:CA044/O-5/wo`, `bah:NY219/W-1/w`, `bah:NY219/E-8/wo` |  | …H can be substantial. It ranges from around $1,200/month to **$5,100**+/month depending on where you're stationed. And because it'… |
-| 48 | $476.95 | data | `bas:enlisted` |  | …nce BAS is your food allowance. Enlisted members receive **$476.95**/month in 2026. Here's something that trips up a lot of n… |
-| 50 | $476.95 | data | `bas:enlisted` |  | …LES will show a meal deduction that offsets your BAS.** The **$476.95** comes in, and a similar amount goes back out. You're not mi… |
-| 78 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …nce provided through the military. The standard coverage is **$500,000**, which costs $26/month. That breaks down to $25 for the cov… |
-| 78 | $1 | data (weak) | `const:SGLI_TSGLI_PREMIUM` |  | …month. That breaks down to $25 for the coverage itself plus **$1** for TSGLI (Traumatic Servicemembers' Group Life Insurance),… |
-| 80 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …ate payment for traumatic injuries. That's $26/month for **$500,000** of life insurance. A comparable civilian policy for a healt… |
-| 80 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …ld cost significantly more. If you're enrolled at less than **$500,000**, there's rarely a good reason — the premium difference betw… |
-| 86 | $600 | data-derived (weak) | `12×deployment:hdpLevels[1]` | range | …for it. A civilian in their 20s would typically pay $400–**$600**/month for comparable employer-sponsored health coverage. Th… |
-| 94 | $2,407 | data-derived | `round(pay:E-1@0)` |  | … section. ### Putting it together If your base pay is **$2,407**/month as an E-1, expect roughly **$1,900–$2,000 in take-hom… |
-| 94 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` | range | …base pay is $2,407/month as an E-1, expect roughly **$1,900–**$2,000** in take-home pay** after standard deductions — depending on… |
-| 102 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | …is now, before habits form. ### 1. Start your TSP — even **$50**/month The TSP (Thrift Savings Plan) is the military's re… |
-| 108 | $2,407 | data-derived | `round(pay:E-1@0)` |  | … contributing at least 5% yourself.** At E-1 base pay of **$2,407**/month, 5% is about $120/month. The military adds another $1… |
-| 108 | $120 | data (weak) | `cola:moderate-high.E1-E4[0]`, `cola:moderate.O4-O6[0]` | approx | …yourself.** At E-1 base pay of $2,407/month, 5% is about **$120**/month. The military adds another $120. That's $240/month go… |
-| 108 | $120 | data (weak) | `cola:moderate-high.E1-E4[0]`, `cola:moderate.O4-O6[0]` |  | …07/month, 5% is about $120/month. The military adds another **$120**. That's $240/month going into your retirement account — hal… |
-| 108 | $240 | data (weak) | `cola:moderate-high.O4-O6[0]` |  | …is about $120/month. The military adds another $120. That's **$240**/month going into your retirement account — half of it free.… |
-| 116 | $50 | data (weak) | `deployment:hdpLevels[1]` | range | …ough myPay or the TSP website (tsp.gov). "You won't miss **$50**–100/month now. You will miss the compounding growth of that… |
-| 124 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` |  | …t. The same vehicle at 6% APR costs about $29,000. That's a **$6,000** difference for the same car. If you need a vehicle, get … |
-| 140 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` |  | …o-read-your-les) "Five minutes twice a month can catch a **$500**/month error before it becomes a $3,000 problem." ## The … |
-| 140 | $3,000 | data (weak) | `bah:CA018/E-5/wo`, `bah:CA034/O-1E/w`, `bah:CA034/W-5/wo`, `bah:FL062/W-3/w`, `bah:FL062/O-7/wo` (+8 more) |  | …ce a month can catch a $500/month error before it becomes a **$3,000** problem." ## The bottom line Your military compensati… |
-
-<details><summary>13 unbound</summary>
-
-| Line | Figure | Flags | Context |
-|---:|---|---|---|
-| 15 | $26 |  | …rprises for new members are SGLI life insurance deducted at **$26**/month, federal taxes withheld on base pay, and the absence … |
-| 23 | $26 |  | … &lt;QAItem&gt;SGLI (Servicemembers' Group Life Insurance) costs **$26**/month for $500,000 of coverage — it appears as a deduction … |
-| 78 | $26 |  | …he military. The standard coverage is $500,000, which costs **$26**/month. That breaks down to $25 for the coverage itself plus… |
-| 78 | $25 |  | …age is $500,000, which costs $26/month. That breaks down to **$25** for the coverage itself plus $1 for TSGLI (Traumatic Servic… |
-| 80 | $26 |  | …ovides a separate payment for traumatic injuries. That's **$26**/month for $500,000 of life insurance. A comparable civilian… |
-| 84 | $0 |  | …h insurance system. For active-duty members, the premium is **$0**. You pay nothing for it. A civilian in their 20s would t… |
-| 86 | $400 | range | …hing for it. A civilian in their 20s would typically pay **$400**–$600/month for comparable employer-sponsored health coverag… |
-| 94 | $1,900 | range | …f your base pay is $2,407/month as an E-1, expect roughly ****$1,900**–$2,000 in take-home pay** after standard deductions — depen… |
-| 110 | $24.07 |  | …ntribute zero, the military still puts in the automatic 1% (**$24.07**/month). But you're leaving $96/month on the table. Every mo… |
-| 110 | $96 |  | …puts in the automatic 1% ($24.07/month). But you're leaving **$96**/month on the table. Every month. &lt;CalculatorCallout calc… |
-| 124 | $25,000 |  | …en at 18–24% APR. Here's the math on why that matters. A **$25,000** vehicle financed at 22% APR over 60 months costs roughly **… |
-| 124 | $35,000 |  | … vehicle financed at 22% APR over 60 months costs roughly ****$35,000** total** after interest. The same vehicle at 6% APR costs ab… |
-| 124 | $29,000 | approx | …al** after interest. The same vehicle at 6% APR costs about **$29,000**. That's a $6,000 difference for the same car. If you nee… |
 
 </details>
 
@@ -1595,114 +1541,6 @@ data 17 (17 weak) · derived 8 (4 weak) · unbound 33
 
 </details>
 
-### src/content/blog/dual-military-bah-rules.mdx
-
-data 23 (23 weak) · derived 2 (0 weak) · unbound 18
-
-| Line | Figure | Class | Sources | Flags | Context |
-|---:|---|---|---|---|---|
-| 57 | $4,518 | data (weak) | `bah:CA024/W-5/wo`, `bah:CA038/O-3/w`, `bah:HI408/E-9/w` | table | …ts \| Without Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| **$4,518**/mo \| $4,248/mo \| $270 \| \| E-5 \| $3,975/mo \| $3,147/mo \| **… |
-| 57 | $4,248 | data-derived | `round(pcs:dla.withoutDependents.O-4)`, `bah:CA038/O-3/wo`, `bah:MA124/O-5/wo`, `bah:MA377/W-2/wo` | table | … Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| $4,518/mo \| **$4,248**/mo \| $270 \| \| E-5 \| $3,975/mo \| $3,147/mo \| **$828** \| … |
-| 57 | $270 | data (weak) | `cola:high.E1-E4[1]`, `cola:moderate-high.E5-E9[1]`, `cola:moderate-high.O1-O3[1]` | table | …\| Gap \| \|---\|---\|---\|---\| \| O-3 \| $4,518/mo \| $4,248/mo \| **$270** \| \| E-5 \| $3,975/mo \| $3,147/mo \| **$828** \| *Source: 2… |
-| 58 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` | table | …-\|---\|---\| \| O-3 \| $4,518/mo \| $4,248/mo \| $270 \| \| E-5 \| **$3,975**/mo \| $3,147/mo \| **$828** \| *Source: 2026 DTMO BAH rate … |
-| 58 | $3,147 | data (weak) | `bah:CA033/W-1/w`, `bah:CA038/E-5/wo`, `bah:MA123/O-1/w`, `bah:MD130/W-5/wo` | table | …\| O-3 \| $4,518/mo \| $4,248/mo \| $270 \| \| E-5 \| $3,975/mo \| **$3,147**/mo \| **$828** \| *Source: 2026 DTMO BAH rate tables, San … |
-| 62 | $270 | data (weak) | `cola:high.E1-E4[1]`, `cola:moderate-high.E5-E9[1]`, `cola:moderate-high.O1-O3[1]` |  | …he official 2026 DTMO BAH lookup tool.* The O-3's gap is **$270**. The E-5's gap is $828 — three times larger. Run both co… |
-| 68 | $4,518 | data (weak) | `bah:CA024/W-5/wo`, `bah:CA038/O-3/w`, `bah:HI408/E-9/w` | table | …nthly Total \| \|---\|---\|---\|---\| \| O-3 claims dependents \| **$4,518** (w/dep) \| $3,147 (wo/dep) \| $7,665 \| \| **E-5 claims depend… |
-| 68 | $3,147 | data (weak) | `bah:CA033/W-1/w`, `bah:CA038/E-5/wo`, `bah:MA123/O-1/w`, `bah:MD130/W-5/wo` | table | …--\|---\|---\|---\| \| O-3 claims dependents \| $4,518 (w/dep) \| **$3,147** (wo/dep) \| $7,665 \| \| **E-5 claims dependents** \| $4,248 (… |
-| 69 | $4,248 | data-derived | `round(pcs:dla.withoutDependents.O-4)`, `bah:CA038/O-3/wo`, `bah:MA124/O-5/wo`, `bah:MA377/W-2/wo` | table | …\| $3,147 (wo/dep) \| $7,665 \| \| **E-5 claims dependents** \| **$4,248** (wo/dep) \| $3,975 (w/dep) \| **$8,223** \| **The E-5 claim… |
-| 69 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` | table | …\| $7,665 \| \| **E-5 claims dependents** \| $4,248 (wo/dep) \| **$3,975** (w/dep) \| **$8,223** \| **The E-5 claiming produces $558/… |
-| 81 | $2,496 | data (weak) | `bah:CA033/O-1/wo`, `bah:CO046/O-1E/w`, `bah:FL070/E-6/w`, `bah:GA076/O-4/w`, `bah:IL092/W-2/wo` (+23 more) | table | …ts \| Without Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| **$2,496**/mo \| $1,995/mo \| **$501** \| \| E-5 \| $1,815/mo \| $1,593/mo … |
-| 81 | $1,995 | data (weak) | `bah:AZ015/O-2E/wo`, `bah:CA021/O-5/wo`, `bah:CO422/E-1/wo`, `bah:CO422/E-2/wo`, `bah:CO422/E-3/wo` (+29 more) | table | … Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| $2,496/mo \| **$1,995**/mo \| **$501** \| \| E-5 \| $1,815/mo \| $1,593/mo \| $222 \| … |
-| 82 | $1,815 | data (weak) | `bah:AL005/O-4/wo`, `bah:AZ014/W-2/wo`, `bah:FL065/O-2/wo`, `bah:GA072/E-8/w`, `bah:IL335/O-3E/wo` (+16 more) | table | …-\|---\| \| O-3 \| $2,496/mo \| $1,995/mo \| **$501** \| \| E-5 \| **$1,815**/mo \| $1,593/mo \| $222 \| *Source: 2026 DTMO BAH rate tabl… |
-| 82 | $1,593 | data (weak) | `bah:IA082/E-1/w`, `bah:IA082/E-2/w`, `bah:IA082/E-3/w`, `bah:IA082/E-4/w`, `bah:IL335/E-8/wo` (+14 more) | table | …3 \| $2,496/mo \| $1,995/mo \| **$501** \| \| E-5 \| $1,815/mo \| **$1,593**/mo \| $222 \| *Source: 2026 DTMO BAH rate tables, Fort Cam… |
-| 88 | $2,496 | data (weak) | `bah:CA033/O-1/wo`, `bah:CO046/O-1E/w`, `bah:FL070/E-6/w`, `bah:GA076/O-4/w`, `bah:IL092/W-2/wo` (+23 more) | table | …y Total \| \|---\|---\|---\|---\| \| **O-3 claims dependents** \| **$2,496** (w/dep) \| $1,593 (wo/dep) \| **$4,089** \| \| E-5 claims depe… |
-| 88 | $1,593 | data (weak) | `bah:IA082/E-1/w`, `bah:IA082/E-2/w`, `bah:IA082/E-3/w`, `bah:IA082/E-4/w`, `bah:IL335/E-8/wo` (+14 more) | table | …--\|---\|---\| \| **O-3 claims dependents** \| $2,496 (w/dep) \| **$1,593** (wo/dep) \| **$4,089** \| \| E-5 claims dependents \| $1,995 (… |
-| 88 | $4,089 | data (weak) | `bah:CA392/W-2/w`, `bah:MA119/O-1/wo`, `bah:MA125/O-1E/w` | table | … claims dependents** \| $2,496 (w/dep) \| $1,593 (wo/dep) \| ****$4,089**** \| \| E-5 claims dependents \| $1,995 (wo/dep) \| $1,815 (w/… |
-| 89 | $1,995 | data (weak) | `bah:AZ015/O-2E/wo`, `bah:CA021/O-5/wo`, `bah:CO422/E-1/wo`, `bah:CO422/E-2/wo`, `bah:CO422/E-3/wo` (+29 more) | table | …\| $1,593 (wo/dep) \| **$4,089** \| \| E-5 claims dependents \| **$1,995** (wo/dep) \| $1,815 (w/dep) \| $3,810 \| **Here, the O-3 cla… |
-| 89 | $1,815 | data (weak) | `bah:AL005/O-4/wo`, `bah:AZ014/W-2/wo`, `bah:FL065/O-2/wo`, `bah:GA072/E-8/w`, `bah:IL335/O-3E/wo` (+16 more) | table | …\| **$4,089** \| \| E-5 claims dependents \| $1,995 (wo/dep) \| **$1,815** (w/dep) \| $3,810 \| **Here, the O-3 claiming produces $27… |
-| 89 | $3,810 | data (weak) | `bah:CT050/O-7/wo`, `bah:IL325/O-3E/w`, `bah:ZZ890/O-6/wo` | table | … E-5 claims dependents \| $1,995 (wo/dep) \| $1,815 (w/dep) \| **$3,810** \| **Here, the O-3 claiming produces $279/month more — $3… |
-| 91 | $3,348 | data (weak) | `bah:AK401/O-5/wo`, `bah:AK403/O-3E/w`, `bah:AK404/O-6/wo`, `bah:CA041/O-1E/wo`, `bah:CA392/E-8/wo` (+5 more) | annual | …10 \| **Here, the O-3 claiming produces $279/month more — **$3,348**/year.** Conventional wisdom is correct at Fort Campbell. Th… |
-| 103 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` | range | …al-military couple can be substantial — sometimes exceeding **$6,000**–$8,000/month combined at higher-cost installations. If you'… |
-| 103 | $8,000 | data (weak) | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` | range | …tary couple can be substantial — sometimes exceeding $6,000–**$8,000**/month combined at higher-cost installations. If you're in t… |
-| 111 | $270 | data (weak) | `cola:high.E1-E4[1]`, `cola:moderate-high.E5-E9[1]`, `cola:moderate-high.O1-O3[1]` |  | …ess of who claims. O-3 and O-3, same station: the gap is **$270** either way, and your combined total is $270 higher than if … |
-| 111 | $270 | data (weak) | `cola:high.E1-E4[1]`, `cola:moderate-high.E5-E9[1]`, `cola:moderate-high.O1-O3[1]` |  | …ion: the gap is $270 either way, and your combined total is **$270** higher than if neither claimed — but it doesn't matter whic… |
-
-<details><summary>18 unbound</summary>
-
-| Line | Figure | Flags | Context |
-|---:|---|---|---|
-| 20 | $558 |  | …ty&lt;/QAItem&gt; &lt;QAItem&gt;In San Diego, an O-3/E-5 couple gets **$558**/month more by having the E-5 claim dependents — not the O-3… |
-| 20 | $8,223 |  | …onth more by having the E-5 claim dependents — not the O-3 (**$8,223** vs. $7,665/month combined)&lt;/QAItem&gt; &lt;QAItem&gt;The with/wit… |
-| 20 | $7,665 |  | …y having the E-5 claim dependents — not the O-3 ($8,223 vs. **$7,665**/month combined)&lt;/QAItem&gt; &lt;QAItem&gt;The with/without rate g… |
-| 21 | $279 |  | …ation — at Fort Campbell, the same O-3/E-5 pairing produces **$279**/month more when the O-3 claims&lt;/QAItem&gt; &lt;QAItem&gt;You can'… |
-| 58 | $828 | table | …/mo \| $4,248/mo \| $270 \| \| E-5 \| $3,975/mo \| $3,147/mo \| ****$828**** \| *Source: 2026 DTMO BAH rate tables, San Diego, CA MH… |
-| 62 | $828 |  | …AH lookup tool.* The O-3's gap is $270. The E-5's gap is **$828** — three times larger. Run both configurations side by si… |
-| 68 | $7,665 | table | … O-3 claims dependents \| $4,518 (w/dep) \| $3,147 (wo/dep) \| **$7,665** \| \| **E-5 claims dependents** \| $4,248 (wo/dep) \| $3,975 (… |
-| 69 | $8,223 | table | … claims dependents** \| $4,248 (wo/dep) \| $3,975 (w/dep) \| ****$8,223**** \| **The E-5 claiming produces $558/month more — $6,696… |
-| 71 | $558 |  | …3,975 (w/dep) \| **$8,223** \| **The E-5 claiming produces **$558**/month more — $6,696/year.** Over a three-year San Diego tou… |
-| 71 | $6,696 | annual | …$8,223** \| **The E-5 claiming produces $558/month more — **$6,696**/year.** Over a three-year San Diego tour, that's $20,088 a … |
-| 71 | $20,088 |  | …e — $6,696/year.** Over a three-year San Diego tour, that's **$20,088** a couple would leave behind by defaulting to the higher-ran… |
-| 81 | $501 | table | …Gap \| \|---\|---\|---\|---\| \| O-3 \| $2,496/mo \| $1,995/mo \| ****$501**** \| \| E-5 \| $1,815/mo \| $1,593/mo \| $222 \| *Source: 202… |
-| 82 | $222 | table | …o \| $1,995/mo \| **$501** \| \| E-5 \| $1,815/mo \| $1,593/mo \| **$222** \| *Source: 2026 DTMO BAH rate tables, Fort Campbell, KY … |
-| 91 | $279 |  | …815 (w/dep) \| $3,810 \| **Here, the O-3 claiming produces **$279**/month more — $3,348/year.** Conventional wisdom is correct … |
-| 91 | $501 |  | …entional wisdom is correct at Fort Campbell. The O-3's gap (**$501**) is more than double the E-5's gap ($222), so senior claims… |
-| 91 | $222 |  | …ll. The O-3's gap ($501) is more than double the E-5's gap (**$222**), so senior claims. Same rank pairing. Different market.… |
-| 127 | $0 |  | …, so don't assume the change is immediate. The gap might be **$0**. It might be $558/month. You won't know until you check. … |
-| 127 | $558 |  | …e the change is immediate. The gap might be $0. It might be **$558**/month. You won't know until you check. For more on the b… |
-
-</details>
-
-### src/content/blog/military-credit-card-scra-mla-benefits.mdx
-
-data 16 (14 weak) · derived 9 (5 weak) · unbound 12
-
-| Line | Figure | Class | Sources | Flags | Context |
-|---:|---|---|---|---|---|
-| 14 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | …mium travel cards for active-duty members — a benefit worth **$1,000**–$3,000+ per year in avoided fees and travel credits. These … |
-| 14 | $3,000 | data (weak) | `bah:CA018/E-5/wo`, `bah:CA034/O-1E/w`, `bah:CA034/W-5/wo`, `bah:FL062/W-3/w`, `bah:FL062/O-7/wo` (+8 more) | range | …avel cards for active-duty members — a benefit worth $1,000–**$3,000**+ per year in avoided fees and travel credits. These benefit… |
-| 20 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | …An active-duty member holding 2-3 premium cards can receive **$1,000**–$3,000+ in annual travel credits and rewards with $0 in fee… |
-| 20 | $3,000 | data (weak) | `bah:CA018/E-5/wo`, `bah:CA034/O-1E/w`, `bah:CA034/W-5/wo`, `bah:FL062/W-3/w`, `bah:FL062/O-7/wo` (+8 more) | range | …ve-duty member holding 2-3 premium cards can receive $1,000–**$3,000**+ in annual travel credits and rewards with $0 in fees&lt;/QAIt… |
-| 48 | $695 | data-derived | `12×healthcare:tricareReserveSelect.single.premium`, `12×tricare:reserveSelect.memberOnly` | annual | … and can change. When the benefit applies, a card with a **$695** annual fee costs $0 per year while you're on active duty. A… |
-| 62 | $695 | data-derived | `12×healthcare:tricareReserveSelect.single.premium`, `12×tricare:reserveSelect.memberOnly` | annual | …ee cards simultaneously: **Card A — premium travel card, **$695** annual fee:** Benefits with $0 fee (typical for this categ… |
-| 64 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` | annual | …ee:** Benefits with $0 fee (typical for this category): - **$300** annual travel credit - Airport lounge access (2 guests inc… |
-| 66 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …ge access (2 guests included) - Global Entry / TSC credit (**$100** every 4.5 years) - Points on spending: roughly $500–$800/y… |
-| 67 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | approx, range | …redit ($100 every 4.5 years) - Points on spending: roughly **$500**–$800/year for a typical household - Travel delay/cancellat… |
-| 69 | $1,200 | data (weak) | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` | range | …insurance, rental car coverage - **Estimated annual value: **$1,200**–$1,600** **Card B — premium cashback or travel card, $55… |
-| 69 | $1,600 | data (weak) | `healthcare:acaNoSubsidy.family.silver.premium` | range | …ce, rental car coverage - **Estimated annual value: $1,200–**$1,600**** **Card B — premium cashback or travel card, $550 annua… |
-| 73 | $200 | data (weak) | `cola:high.E1-E4[0]`, `cola:moderate-high.E5-E9[0]`, `cola:moderate-high.O1-O3[0]` | annual | …ee:** Benefits with $0 fee (typical for this category): - **$200** annual airline credit - $200 hotel credit - Rental car st… |
-| 74 | $200 | data (weak) | `cola:high.E1-E4[0]`, `cola:moderate-high.E5-E9[0]`, `cola:moderate-high.O1-O3[0]` |  | …ypical for this category): - $200 annual airline credit - **$200** hotel credit - Rental car status and insurance - Points o… |
-| 76 | $600 | data-derived (weak) | `12×deployment:hdpLevels[1]` | range, annual | …ar status and insurance - Points on spending: roughly $400–**$600**/year - **Estimated annual value: $900–$1,200** **Card C… |
-| 77 | $1,200 | data (weak) | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` | range | …g: roughly $400–$600/year - **Estimated annual value: $900–**$1,200**** **Card C — mid-tier travel card, $95 annual fee:** Be… |
-| 83 | $300 | data (weak) | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` | range | …d rates - Annual points bonus - **Estimated annual value: **$300**–$500** **Total household value (one service member):** $… |
-| 83 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | range | …es - Annual points bonus - **Estimated annual value: $300–**$500**** **Total household value (one service member):** $2,400… |
-| 85 | $2,400 | data-derived (weak) | `12×cola:high.E1-E4[0]`, `12×cola:moderate-high.E5-E9[0]`, `12×cola:moderate-high.O1-O3[0]`, `bah:AL006/O-6/wo`, `bah:AR012/O-7/w` (+23 more) | range | …0–$500** **Total household value (one service member):** **$2,400**–$3,300/year **Total annual fee cost:** $0 **Net benef… |
-| 85 | $3,300 | data-derived (weak) | `12×deployment:idp`, `bah:AK400/O-2E/w`, `bah:CA027/O-1E/wo`, `bah:FL057/O-6/w`, `bah:MD128/O-4/wo` (+4 more) | range, annual | …* **Total household value (one service member):** $2,400–**$3,300**/year **Total annual fee cost:** $0 **Net benefit:** $… |
-| 87 | $2,400 | data-derived (weak) | `12×cola:high.E1-E4[0]`, `12×cola:moderate-high.E5-E9[0]`, `12×cola:moderate-high.O1-O3[0]`, `bah:AL006/O-6/wo`, `bah:AR012/O-7/w` (+23 more) | range | …0/year **Total annual fee cost:** $0 **Net benefit:** **$2,400**–$3,300/year If a spouse also qualifies under the issuer'… |
-| 87 | $3,300 | data-derived (weak) | `12×deployment:idp`, `bah:AK400/O-2E/w`, `bah:CA027/O-1E/wo`, `bah:FL057/O-6/w`, `bah:MD128/O-4/wo` (+4 more) | range, annual | … **Total annual fee cost:** $0 **Net benefit:** $2,400–**$3,300**/year If a spouse also qualifies under the issuer's polic… |
-| 124 | $695 | data-derived | `12×healthcare:tricareReserveSelect.single.premium`, `12×tricare:reserveSelect.memberOnly` | annual | …uty, you lose the relationship. Once you're a civilian, the **$695** annual fee is real. Maintain the cards with small recurring… |
-| 136 | $695 | data-derived | `12×healthcare:tricareReserveSelect.single.premium`, `12×tricare:reserveSelect.memberOnly` |  | …his decision before you separate — don't get surprised by a **$695** charge the first year as a civilian. **Positioning:** Th… |
-| 150 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` | range | …fee premium credit card benefits available — and that turns **$2,000**–$6,000 in annual card value into a real part of your financ… |
-| 150 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` | range | …mium credit card benefits available — and that turns $2,000–**$6,000** in annual card value into a real part of your financial pic… |
-
-<details><summary>12 unbound</summary>
-
-| Line | Figure | Flags | Context |
-|---:|---|---|---|
-| 20 | $0 |  | …ve $1,000–$3,000+ in annual travel credits and rewards with **$0** in fees&lt;/QAItem&gt; &lt;QAItem&gt;Spouse of an active-duty member… |
-| 48 | $0 | annual | …en the benefit applies, a card with a $695 annual fee costs **$0** per year while you're on active duty. Apply for the card, c… |
-| 63 | $0 |  | … A — premium travel card, $695 annual fee:** Benefits with **$0** fee (typical for this category): - $300 annual travel cred… |
-| 67 | $800 | range, annual | … ($100 every 4.5 years) - Points on spending: roughly $500–**$800**/year for a typical household - Travel delay/cancellation i… |
-| 71 | $550 | annual | …200–$1,600** **Card B — premium cashback or travel card, **$550** annual fee:** Benefits with $0 fee (typical for this categ… |
-| 72 | $0 |  | … cashback or travel card, $550 annual fee:** Benefits with **$0** fee (typical for this category): - $200 annual airline cre… |
-| 76 | $400 | approx, range | …tal car status and insurance - Points on spending: roughly **$400**–$600/year - **Estimated annual value: $900–$1,200** **C… |
-| 77 | $900 | range | …ending: roughly $400–$600/year - **Estimated annual value: **$900**–$1,200** **Card C — mid-tier travel card, $95 annual fee… |
-| 79 | $95 | annual | …al value: $900–$1,200** **Card C — mid-tier travel card, **$95** annual fee:** Benefits with $0 fee (typical for this categ… |
-| 80 | $0 |  | … C — mid-tier travel card, $95 annual fee:** Benefits with **$0** fee (typical for this category): - Points on dining/travel… |
-| 86 | $0 |  | …member):** $2,400–$3,300/year **Total annual fee cost:** **$0** **Net benefit:** $2,400–$3,300/year If a spouse also … |
-| 150 | $0 |  | … members with good credit, they're the mechanism that makes **$0**-fee premium credit card benefits available — and that turns… |
-
-</details>
-
 ### src/content/blog/roth-tsp-deployment-strategy.mdx
 
 data 24 (1 weak) · derived 1 (0 weak) · unbound 49
@@ -1717,7 +1555,7 @@ data 24 (1 weak) · derived 1 (0 weak) · unbound 49
 | 48 | $4,110.00 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) | table | …nthly Amount \| \|---\|---\| \| Base pay (CZTE — tax-exempt) \| **$4,110.00** \| \| Imminent Danger Pay (IDP; Hostile Fire Pay is $450.00 … |
 | 49 | $450.00 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` | table | …4,110.00 \| \| Imminent Danger Pay (IDP; Hostile Fire Pay is **$450.00** instead), effective Oct 1, 2026 \| $275.00 \| \| Family Separ… |
 | 49 | $275.00 | data | `deployment:idp` | table | …stile Fire Pay is $450.00 instead), effective Oct 1, 2026 \| **$275.00** \| \| Family Separation Allowance (FSA, if applicable) \| $30… |
-| 50 | $300.00 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` | table | ….00 \| \| Family Separation Allowance (FSA, if applicable) \| **$300.00**/mo ($10/day, prorated) \| \| BAH and BAS (continue, tax-free… |
+| 50 | $300.00 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` | table | ….00 \| \| Family Separation Allowance (FSA, if applicable) \| **$300.00**/mo ($10/day, prorated) \| \| BAH and BAS (continue, tax-free… |
 | 56 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` | annual | …ntribution limits:** - Roth TSP elective deferral limit: ****$24,500**/year** (applies to all members, including during combat zon… |
 | 57 | $72,000 | data | `deployment:tspCombatZoneLimit`, `tsp:annualAdditionsLimit` | annual | …one deployments) - Annual additions limit (combat zone): ****$72,000**/year** — contributions above the $24,500 elective deferral … |
 | 57 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` |  | …t (combat zone): **$72,000/year** — contributions above the **$24,500** elective deferral limit from combat zone tax-exempt pay go … |
@@ -1791,14 +1629,119 @@ data 24 (1 weak) · derived 1 (0 weak) · unbound 49
 
 </details>
 
+### src/content/blog/your-first-military-paycheck-what-to-know.mdx
+
+data 20 (8 weak) · derived 4 (1 weak) · unbound 16
+
+| Line | Figure | Class | Sources | Flags | Context |
+|---:|---|---|---|---|---|
+| 19 | $2,407 | data-derived | `round(pay:E-1@0)` |  | …is the taxable part of your military pay. As an E-1, that's **$2,407**/month in 2026 ($2,225.70 during your first four months) — b… |
+| 19 | $2,225.70 | data | `pay:E-1@<4mo` |  | … your military pay. As an E-1, that's $2,407/month in 2026 (**$2,225.70** during your first four months) — but it's only part of your… |
+| 21 | $476.95 | data | `bas:enlisted` |  | …y don't receive BAH&lt;/QAItem&gt; &lt;QAItem&gt;BAS for enlisted is **$476.95**/month — if you have a meal card in the barracks, a meal ded… |
+| 23 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | … (Servicemembers' Group Life Insurance) costs $26/month for **$500,000** of coverage — it appears as a deduction on your LES&lt;/QAItem… |
+| 34 | $2,225.70 | data | `pay:E-1@<4mo` |  | … how long you've been in service. In 2026, an E-1 starts at **$2,225.70**/month for the first four months of service, then $2,407.20/… |
+| 34 | $2,407.20 | data | `pay:E-1@0` |  | … $2,225.70/month for the first four months of service, then **$2,407.20**/month. An E-3 with two years of service earns $3,015/month.… |
+| 34 | $3,015 | data | `pay:E-3@2`, `bah:CA022/E-9/w`, `bah:CA034/O-6/wo`, `bah:CA041/W-1/wo`, `bah:FL423/E-8/w` (+13 more) |  | …hen $2,407.20/month. An E-3 with two years of service earns **$3,015**/month. This is the number on your W-2 at tax time. It go… |
+| 42 | $1,200 | data | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` |  | …g allowance — BAH can be substantial. It ranges from around **$1,200**/month to $5,100+/month depending on where you're stationed.… |
+| 42 | $5,100 | data (weak) | `bah:CA044/O-5/wo`, `bah:NY219/W-1/w`, `bah:NY219/E-8/wo` |  | …H can be substantial. It ranges from around $1,200/month to **$5,100**+/month depending on where you're stationed. And because it'… |
+| 48 | $476.95 | data | `bas:enlisted` |  | …nce BAS is your food allowance. Enlisted members receive **$476.95**/month in 2026. Here's something that trips up a lot of n… |
+| 50 | $476.95 | data | `bas:enlisted` |  | …LES will show a meal deduction that offsets your BAS.** The **$476.95** comes in, and a similar amount goes back out. You're not mi… |
+| 78 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …nce provided through the military. The standard coverage is **$500,000**, which costs $26/month. That breaks down to $25 for the cov… |
+| 78 | $1 | data (weak) | `const:SGLI_TSGLI_PREMIUM` |  | …month. That breaks down to $25 for the coverage itself plus **$1** for TSGLI (Traumatic Servicemembers' Group Life Insurance),… |
+| 80 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …ate payment for traumatic injuries. That's $26/month for **$500,000** of life insurance. A comparable civilian policy for a healt… |
+| 80 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …ld cost significantly more. If you're enrolled at less than **$500,000**, there's rarely a good reason — the premium difference betw… |
+| 86 | $600 | data-derived (weak) | `12×deployment:hdpLevels[1]` | range | …for it. A civilian in their 20s would typically pay $400–**$600**/month for comparable employer-sponsored health coverage. Th… |
+| 94 | $2,407 | data-derived | `round(pay:E-1@0)` |  | … section. ### Putting it together If your base pay is **$2,407**/month as an E-1, expect roughly **$1,900–$2,000 in take-hom… |
+| 94 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` | range | …base pay is $2,407/month as an E-1, expect roughly **$1,900–**$2,000** in take-home pay** after standard deductions — depending on… |
+| 102 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | …is now, before habits form. ### 1. Start your TSP — even **$50**/month The TSP (Thrift Savings Plan) is the military's re… |
+| 108 | $2,407 | data-derived | `round(pay:E-1@0)` |  | … contributing at least 5% yourself.** At E-1 base pay of **$2,407**/month, 5% is about $120/month. The military adds another $1… |
+| 116 | $50 | data (weak) | `deployment:hdpLevels[1]` | range | …ough myPay or the TSP website (tsp.gov). "You won't miss **$50**–100/month now. You will miss the compounding growth of that… |
+| 124 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` |  | …t. The same vehicle at 6% APR costs about $29,000. That's a **$6,000** difference for the same car. If you need a vehicle, get … |
+| 140 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` |  | …o-read-your-les) "Five minutes twice a month can catch a **$500**/month error before it becomes a $3,000 problem." ## The … |
+| 140 | $3,000 | data (weak) | `bah:CA018/E-5/wo`, `bah:CA034/O-1E/w`, `bah:CA034/W-5/wo`, `bah:FL062/W-3/w`, `bah:FL062/O-7/wo` (+8 more) |  | …ce a month can catch a $500/month error before it becomes a **$3,000** problem." ## The bottom line Your military compensati… |
+
+<details><summary>16 unbound</summary>
+
+| Line | Figure | Flags | Context |
+|---:|---|---|---|
+| 15 | $26 |  | …rprises for new members are SGLI life insurance deducted at **$26**/month, federal taxes withheld on base pay, and the absence … |
+| 23 | $26 |  | … &lt;QAItem&gt;SGLI (Servicemembers' Group Life Insurance) costs **$26**/month for $500,000 of coverage — it appears as a deduction … |
+| 78 | $26 |  | …he military. The standard coverage is $500,000, which costs **$26**/month. That breaks down to $25 for the coverage itself plus… |
+| 78 | $25 |  | …age is $500,000, which costs $26/month. That breaks down to **$25** for the coverage itself plus $1 for TSGLI (Traumatic Servic… |
+| 80 | $26 |  | …ovides a separate payment for traumatic injuries. That's **$26**/month for $500,000 of life insurance. A comparable civilian… |
+| 84 | $0 |  | …h insurance system. For active-duty members, the premium is **$0**. You pay nothing for it. A civilian in their 20s would t… |
+| 86 | $400 | range | …hing for it. A civilian in their 20s would typically pay **$400**–$600/month for comparable employer-sponsored health coverag… |
+| 94 | $1,900 | range | …f your base pay is $2,407/month as an E-1, expect roughly ****$1,900**–$2,000 in take-home pay** after standard deductions — depen… |
+| 108 | $120 | approx | …yourself.** At E-1 base pay of $2,407/month, 5% is about **$120**/month. The military adds another $120. That's $240/month go… |
+| 108 | $120 |  | …07/month, 5% is about $120/month. The military adds another **$120**. That's $240/month going into your retirement account — hal… |
+| 108 | $240 |  | …is about $120/month. The military adds another $120. That's **$240**/month going into your retirement account — half of it free.… |
+| 110 | $24.07 |  | …ntribute zero, the military still puts in the automatic 1% (**$24.07**/month). But you're leaving $96/month on the table. Every mo… |
+| 110 | $96 |  | …puts in the automatic 1% ($24.07/month). But you're leaving **$96**/month on the table. Every month. &lt;CalculatorCallout calc… |
+| 124 | $25,000 |  | …en at 18–24% APR. Here's the math on why that matters. A **$25,000** vehicle financed at 22% APR over 60 months costs roughly **… |
+| 124 | $35,000 |  | … vehicle financed at 22% APR over 60 months costs roughly ****$35,000** total** after interest. The same vehicle at 6% APR costs ab… |
+| 124 | $29,000 | approx | …al** after interest. The same vehicle at 6% APR costs about **$29,000**. That's a $6,000 difference for the same car. If you nee… |
+
+</details>
+
+### src/content/blog/military-credit-card-scra-mla-benefits.mdx
+
+data 16 (14 weak) · derived 7 (3 weak) · unbound 14
+
+| Line | Figure | Class | Sources | Flags | Context |
+|---:|---|---|---|---|---|
+| 14 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | …mium travel cards for active-duty members — a benefit worth **$1,000**–$3,000+ per year in avoided fees and travel credits. These … |
+| 14 | $3,000 | data (weak) | `bah:CA018/E-5/wo`, `bah:CA034/O-1E/w`, `bah:CA034/W-5/wo`, `bah:FL062/W-3/w`, `bah:FL062/O-7/wo` (+8 more) | range | …avel cards for active-duty members — a benefit worth $1,000–**$3,000**+ per year in avoided fees and travel credits. These benefit… |
+| 20 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | …An active-duty member holding 2-3 premium cards can receive **$1,000**–$3,000+ in annual travel credits and rewards with $0 in fee… |
+| 20 | $3,000 | data (weak) | `bah:CA018/E-5/wo`, `bah:CA034/O-1E/w`, `bah:CA034/W-5/wo`, `bah:FL062/W-3/w`, `bah:FL062/O-7/wo` (+8 more) | range | …ve-duty member holding 2-3 premium cards can receive $1,000–**$3,000**+ in annual travel credits and rewards with $0 in fees&lt;/QAIt… |
+| 48 | $695 | data-derived | `12×healthcare:tricareReserveSelect.single.premium`, `12×tricare:reserveSelect.memberOnly` | annual | … and can change. When the benefit applies, a card with a **$695** annual fee costs $0 per year while you're on active duty. A… |
+| 62 | $695 | data-derived | `12×healthcare:tricareReserveSelect.single.premium`, `12×tricare:reserveSelect.memberOnly` | annual | …ee cards simultaneously: **Card A — premium travel card, **$695** annual fee:** Benefits with $0 fee (typical for this categ… |
+| 64 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` | annual | …ee:** Benefits with $0 fee (typical for this category): - **$300** annual travel credit - Airport lounge access (2 guests inc… |
+| 66 | $100 | data | `deployment:hdpLevels[2]` |  | …ge access (2 guests included) - Global Entry / TSC credit (**$100** every 4.5 years) - Points on spending: roughly $500–$800/y… |
+| 67 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | approx, range | …redit ($100 every 4.5 years) - Points on spending: roughly **$500**–$800/year for a typical household - Travel delay/cancellat… |
+| 69 | $1,200 | data (weak) | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` | range | …insurance, rental car coverage - **Estimated annual value: **$1,200**–$1,600** **Card B — premium cashback or travel card, $55… |
+| 69 | $1,600 | data (weak) | `healthcare:acaNoSubsidy.family.silver.premium` | range | …ce, rental car coverage - **Estimated annual value: $1,200–**$1,600**** **Card B — premium cashback or travel card, $550 annua… |
+| 76 | $600 | data-derived (weak) | `12×deployment:hdpLevels[1]` | range, annual | …ar status and insurance - Points on spending: roughly $400–**$600**/year - **Estimated annual value: $900–$1,200** **Card C… |
+| 77 | $1,200 | data (weak) | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` | range | …g: roughly $400–$600/year - **Estimated annual value: $900–**$1,200**** **Card C — mid-tier travel card, $95 annual fee:** Be… |
+| 83 | $300 | data (weak) | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` | range | …d rates - Annual points bonus - **Estimated annual value: **$300**–$500** **Total household value (one service member):** $… |
+| 83 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | range | …es - Annual points bonus - **Estimated annual value: $300–**$500**** **Total household value (one service member):** $2,400… |
+| 85 | $2,400 | data (weak) | `bah:AL006/O-6/wo`, `bah:AR012/O-7/w`, `bah:AZ015/O-4/w`, `bah:FL068/W-4/wo`, `bah:GA074/O-2E/w` (+20 more) | range | …0–$500** **Total household value (one service member):** **$2,400**–$3,300/year **Total annual fee cost:** $0 **Net benef… |
+| 85 | $3,300 | data-derived (weak) | `12×deployment:idp`, `bah:AK400/O-2E/w`, `bah:CA027/O-1E/wo`, `bah:FL057/O-6/w`, `bah:MD128/O-4/wo` (+4 more) | range, annual | …* **Total household value (one service member):** $2,400–**$3,300**/year **Total annual fee cost:** $0 **Net benefit:** $… |
+| 87 | $2,400 | data (weak) | `bah:AL006/O-6/wo`, `bah:AR012/O-7/w`, `bah:AZ015/O-4/w`, `bah:FL068/W-4/wo`, `bah:GA074/O-2E/w` (+20 more) | range | …0/year **Total annual fee cost:** $0 **Net benefit:** **$2,400**–$3,300/year If a spouse also qualifies under the issuer'… |
+| 87 | $3,300 | data-derived (weak) | `12×deployment:idp`, `bah:AK400/O-2E/w`, `bah:CA027/O-1E/wo`, `bah:FL057/O-6/w`, `bah:MD128/O-4/wo` (+4 more) | range, annual | … **Total annual fee cost:** $0 **Net benefit:** $2,400–**$3,300**/year If a spouse also qualifies under the issuer's polic… |
+| 124 | $695 | data-derived | `12×healthcare:tricareReserveSelect.single.premium`, `12×tricare:reserveSelect.memberOnly` | annual | …uty, you lose the relationship. Once you're a civilian, the **$695** annual fee is real. Maintain the cards with small recurring… |
+| 136 | $695 | data-derived | `12×healthcare:tricareReserveSelect.single.premium`, `12×tricare:reserveSelect.memberOnly` |  | …his decision before you separate — don't get surprised by a **$695** charge the first year as a civilian. **Positioning:** Th… |
+| 150 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` | range | …fee premium credit card benefits available — and that turns **$2,000**–$6,000 in annual card value into a real part of your financ… |
+| 150 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` | range | …mium credit card benefits available — and that turns $2,000–**$6,000** in annual card value into a real part of your financial pic… |
+
+<details><summary>14 unbound</summary>
+
+| Line | Figure | Flags | Context |
+|---:|---|---|---|
+| 20 | $0 |  | …ve $1,000–$3,000+ in annual travel credits and rewards with **$0** in fees&lt;/QAItem&gt; &lt;QAItem&gt;Spouse of an active-duty member… |
+| 48 | $0 | annual | …en the benefit applies, a card with a $695 annual fee costs **$0** per year while you're on active duty. Apply for the card, c… |
+| 63 | $0 |  | … A — premium travel card, $695 annual fee:** Benefits with **$0** fee (typical for this category): - $300 annual travel cred… |
+| 67 | $800 | range, annual | … ($100 every 4.5 years) - Points on spending: roughly $500–**$800**/year for a typical household - Travel delay/cancellation i… |
+| 71 | $550 | annual | …200–$1,600** **Card B — premium cashback or travel card, **$550** annual fee:** Benefits with $0 fee (typical for this categ… |
+| 72 | $0 |  | … cashback or travel card, $550 annual fee:** Benefits with **$0** fee (typical for this category): - $200 annual airline cre… |
+| 73 | $200 | annual | …ee:** Benefits with $0 fee (typical for this category): - **$200** annual airline credit - $200 hotel credit - Rental car st… |
+| 74 | $200 |  | …ypical for this category): - $200 annual airline credit - **$200** hotel credit - Rental car status and insurance - Points o… |
+| 76 | $400 | approx, range | …tal car status and insurance - Points on spending: roughly **$400**–$600/year - **Estimated annual value: $900–$1,200** **C… |
+| 77 | $900 | range | …ending: roughly $400–$600/year - **Estimated annual value: **$900**–$1,200** **Card C — mid-tier travel card, $95 annual fee… |
+| 79 | $95 | annual | …al value: $900–$1,200** **Card C — mid-tier travel card, **$95** annual fee:** Benefits with $0 fee (typical for this categ… |
+| 80 | $0 |  | … C — mid-tier travel card, $95 annual fee:** Benefits with **$0** fee (typical for this category): - Points on dining/travel… |
+| 86 | $0 |  | …member):** $2,400–$3,300/year **Total annual fee cost:** **$0** **Net benefit:** $2,400–$3,300/year If a spouse also … |
+| 150 | $0 |  | … members with good credit, they're the mechanism that makes **$0**-fee premium credit card benefits available — and that turns… |
+
+</details>
+
 ### src/content/blog/crdp-vs-crsc-military-retirement.mdx
 
 data 16 (1 weak) · derived 6 (0 weak) · unbound 43
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
-| 29 | $1,800 | data-derived | `12×cola:moderate.W1-W5[1]`, `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo` (+19 more) |  | …lar-for-dollar by their VA disability compensation. Receive **$1,800**/month in VA compensation, and your retirement pay dropped b… |
-| 29 | $1,800 | data-derived | `12×cola:moderate.W1-W5[1]`, `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo` (+19 more) |  | …onth in VA compensation, and your retirement pay dropped by **$1,800**. You weren't collecting both — you were just choosing which… |
+| 29 | $1,800 | data-derived | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) |  | …lar-for-dollar by their VA disability compensation. Receive **$1,800**/month in VA compensation, and your retirement pay dropped b… |
+| 29 | $1,800 | data-derived | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) |  | …onth in VA compensation, and your retirement pay dropped by **$1,800**. You weren't collecting both — you were just choosing which… |
 | 69 | $1,808 | data-derived | `round(va:70%/veteranAlone)` |  | …mount your retirement pay was offset. If your VA offset was **$1,808**/month and your combat-related VA compensation is also $1,80… |
 | 69 | $1,808 | data-derived | `round(va:70%/veteranAlone)` |  | …1,808/month and your combat-related VA compensation is also **$1,808**/month, you receive $1,808 in CRSC. If your combat-related p… |
 | 69 | $1,808 | data-derived | `round(va:70%/veteranAlone)` |  | …t-related VA compensation is also $1,808/month, you receive **$1,808** in CRSC. If your combat-related portion is only $796/month,… |
@@ -1959,52 +1902,60 @@ data 20 (10 weak) · derived 2 (0 weak) · unbound 53
 
 </details>
 
-### src/content/blog/roth-tsp-advantage-junior-enlisted.mdx
+### src/content/blog/dual-military-bah-rules.mdx
 
-data 21 (1 weak) · derived 0 (0 weak) · unbound 14
+data 19 (19 weak) · derived 2 (0 weak) · unbound 22
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
-| 5 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …e Roth TSP. Here's the math on why starting early — even at **$100**/month — creates a tax-free windfall." category: Retirement… |
-| 15 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ing the Roth-vs-Traditional tradeoff strongly favor Roth. A **$300**/month Roth TSP contribution starting at age 20, growing at … |
-| 18 | $3,015.00 | data | `pay:E-3@2`, `bah:CA022/E-9/w`, `bah:CA034/O-6/wo`, `bah:CA041/W-1/wo`, `bah:FL423/E-8/w` (+13 more) |  | …-free. &lt;QuickAnswer&gt; &lt;QAItem&gt;E-3 (2+ years) base pay: **$3,015.00**/month — likely in the 10–12% federal marginal tax bracket&lt;/… |
-| 20 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …hdraw everything tax-free in retirement&lt;/QAItem&gt; &lt;QAItem&gt;**$300**/month in Roth TSP at age 20, 10% average return (C Fund his… |
-| 24 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` | annual | …onths&lt;/QAItem&gt; &lt;QAItem&gt;2026 TSP elective deferral limit: **$24,500**/year ($2,041.67/month max)&lt;/QAItem&gt; &lt;/QuickAnswer&gt; ## W… |
-| 33 | $3,015.00 | data | `pay:E-3@2`, `bah:CA022/E-9/w`, `bah:CA034/O-6/wo`, `bah:CA041/W-1/wo`, `bah:FL423/E-8/w` (+13 more) |  | …lain why. An E-3 with two or more years of service earns **$3,015.00**/month in base pay. After the 2026 standard deduction ($16,1… |
-| 33 | $16,100 | data | `const:STANDARD_DEDUCTION_SINGLE` |  | …15.00/month in base pay. After the 2026 standard deduction (**$16,100**), their federal taxable income is roughly $20,080. That put… |
-| 47 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …" ### Concrete example for an E-3 An E-3 contributing **$300**/month to **Traditional TSP** saves $36/month in federal tax… |
-| 47 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …s $36/month in federal taxes right now (12% marginal rate × **$300**). That's $432/year. But in retirement, every dollar they… |
-| 49 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ar they withdraw gets taxed — including the growth. If that **$300**/month grew to $500,000 over 30+ years, they'll owe income t… |
-| 49 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …ts taxed — including the growth. If that $300/month grew to **$500,000** over 30+ years, they'll owe income tax on the full $500,000… |
-| 49 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …$500,000 over 30+ years, they'll owe income tax on the full **$500,000** as they draw it down. An E-3 contributing $300/month to … |
-| 51 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | … full $500,000 as they draw it down. An E-3 contributing **$300**/month to **Roth TSP** pays that $36/month in taxes now. The… |
-| 51 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …month to **Roth TSP** pays that $36/month in taxes now. The **$300** goes in after tax. And the entire balance — however large i… |
-| 55 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …2% bracket, paying taxes later costs much more. &lt;KeyFact&gt;**$300**/month in Roth TSP at age 20, earning 10% average annual ret… |
-| 67 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` |  | …lt: a deployment where you max Roth TSP contributions means **$24,500** (the 2026 annual limit) in money that was never taxed going… |
-| 75 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …nvention used by TSP.gov. All figures are approximate. ****$300**/month Roth TSP contribution, starting at age 20:** \| Age… |
-| 92 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` |  | …contributions? The annual TSP elective deferral limit is **$24,500** in 2026 ($2,041.67/month). Some members — especially during… |
-| 96 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` | annual | …r. **Don't do this if you're on BRS.** If you hit the **$24,500** annual limit before December, your contributions stop and y… |
-| 126 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …igher, and you have decades of compounding ahead of you. **$100**/month, $200/month, whatever you can start with — the key is… |
-| 126 | $200 | data (weak) | `cola:high.E1-E4[0]`, `cola:moderate-high.E5-E9[0]`, `cola:moderate-high.O1-O3[0]` |  | …ou have decades of compounding ahead of you. $100/month, **$200**/month, whatever you can start with — the key is starting. E… |
+| 57 | $4,518 | data (weak) | `bah:CA024/W-5/wo`, `bah:CA038/O-3/w`, `bah:HI408/E-9/w` | table | …ts \| Without Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| **$4,518**/mo \| $4,248/mo \| $270 \| \| E-5 \| $3,975/mo \| $3,147/mo \| **… |
+| 57 | $4,248 | data-derived | `round(pcs:dla.withoutDependents.O-4)`, `bah:CA038/O-3/wo`, `bah:MA124/O-5/wo`, `bah:MA377/W-2/wo` | table | … Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| $4,518/mo \| **$4,248**/mo \| $270 \| \| E-5 \| $3,975/mo \| $3,147/mo \| **$828** \| … |
+| 58 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` | table | …-\|---\|---\| \| O-3 \| $4,518/mo \| $4,248/mo \| $270 \| \| E-5 \| **$3,975**/mo \| $3,147/mo \| **$828** \| *Source: 2026 DTMO BAH rate … |
+| 58 | $3,147 | data (weak) | `bah:CA033/W-1/w`, `bah:CA038/E-5/wo`, `bah:MA123/O-1/w`, `bah:MD130/W-5/wo` | table | …\| O-3 \| $4,518/mo \| $4,248/mo \| $270 \| \| E-5 \| $3,975/mo \| **$3,147**/mo \| **$828** \| *Source: 2026 DTMO BAH rate tables, San … |
+| 68 | $4,518 | data (weak) | `bah:CA024/W-5/wo`, `bah:CA038/O-3/w`, `bah:HI408/E-9/w` | table | …nthly Total \| \|---\|---\|---\|---\| \| O-3 claims dependents \| **$4,518** (w/dep) \| $3,147 (wo/dep) \| $7,665 \| \| **E-5 claims depend… |
+| 68 | $3,147 | data (weak) | `bah:CA033/W-1/w`, `bah:CA038/E-5/wo`, `bah:MA123/O-1/w`, `bah:MD130/W-5/wo` | table | …--\|---\|---\|---\| \| O-3 claims dependents \| $4,518 (w/dep) \| **$3,147** (wo/dep) \| $7,665 \| \| **E-5 claims dependents** \| $4,248 (… |
+| 69 | $4,248 | data-derived | `round(pcs:dla.withoutDependents.O-4)`, `bah:CA038/O-3/wo`, `bah:MA124/O-5/wo`, `bah:MA377/W-2/wo` | table | …\| $3,147 (wo/dep) \| $7,665 \| \| **E-5 claims dependents** \| **$4,248** (wo/dep) \| $3,975 (w/dep) \| **$8,223** \| **The E-5 claim… |
+| 69 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` | table | …\| $7,665 \| \| **E-5 claims dependents** \| $4,248 (wo/dep) \| **$3,975** (w/dep) \| **$8,223** \| **The E-5 claiming produces $558/… |
+| 81 | $2,496 | data (weak) | `bah:CA033/O-1/wo`, `bah:CO046/O-1E/w`, `bah:FL070/E-6/w`, `bah:GA076/O-4/w`, `bah:IL092/W-2/wo` (+23 more) | table | …ts \| Without Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| **$2,496**/mo \| $1,995/mo \| **$501** \| \| E-5 \| $1,815/mo \| $1,593/mo … |
+| 81 | $1,995 | data (weak) | `bah:AZ015/O-2E/wo`, `bah:CA021/O-5/wo`, `bah:CO422/E-1/wo`, `bah:CO422/E-2/wo`, `bah:CO422/E-3/wo` (+29 more) | table | … Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| $2,496/mo \| **$1,995**/mo \| **$501** \| \| E-5 \| $1,815/mo \| $1,593/mo \| $222 \| … |
+| 82 | $1,815 | data (weak) | `bah:AL005/O-4/wo`, `bah:AZ014/W-2/wo`, `bah:FL065/O-2/wo`, `bah:GA072/E-8/w`, `bah:IL335/O-3E/wo` (+16 more) | table | …-\|---\| \| O-3 \| $2,496/mo \| $1,995/mo \| **$501** \| \| E-5 \| **$1,815**/mo \| $1,593/mo \| $222 \| *Source: 2026 DTMO BAH rate tabl… |
+| 82 | $1,593 | data (weak) | `bah:IA082/E-1/w`, `bah:IA082/E-2/w`, `bah:IA082/E-3/w`, `bah:IA082/E-4/w`, `bah:IL335/E-8/wo` (+14 more) | table | …3 \| $2,496/mo \| $1,995/mo \| **$501** \| \| E-5 \| $1,815/mo \| **$1,593**/mo \| $222 \| *Source: 2026 DTMO BAH rate tables, Fort Cam… |
+| 88 | $2,496 | data (weak) | `bah:CA033/O-1/wo`, `bah:CO046/O-1E/w`, `bah:FL070/E-6/w`, `bah:GA076/O-4/w`, `bah:IL092/W-2/wo` (+23 more) | table | …y Total \| \|---\|---\|---\|---\| \| **O-3 claims dependents** \| **$2,496** (w/dep) \| $1,593 (wo/dep) \| **$4,089** \| \| E-5 claims depe… |
+| 88 | $1,593 | data (weak) | `bah:IA082/E-1/w`, `bah:IA082/E-2/w`, `bah:IA082/E-3/w`, `bah:IA082/E-4/w`, `bah:IL335/E-8/wo` (+14 more) | table | …--\|---\|---\| \| **O-3 claims dependents** \| $2,496 (w/dep) \| **$1,593** (wo/dep) \| **$4,089** \| \| E-5 claims dependents \| $1,995 (… |
+| 88 | $4,089 | data (weak) | `bah:CA392/W-2/w`, `bah:MA119/O-1/wo`, `bah:MA125/O-1E/w` | table | … claims dependents** \| $2,496 (w/dep) \| $1,593 (wo/dep) \| ****$4,089**** \| \| E-5 claims dependents \| $1,995 (wo/dep) \| $1,815 (w/… |
+| 89 | $1,995 | data (weak) | `bah:AZ015/O-2E/wo`, `bah:CA021/O-5/wo`, `bah:CO422/E-1/wo`, `bah:CO422/E-2/wo`, `bah:CO422/E-3/wo` (+29 more) | table | …\| $1,593 (wo/dep) \| **$4,089** \| \| E-5 claims dependents \| **$1,995** (wo/dep) \| $1,815 (w/dep) \| $3,810 \| **Here, the O-3 cla… |
+| 89 | $1,815 | data (weak) | `bah:AL005/O-4/wo`, `bah:AZ014/W-2/wo`, `bah:FL065/O-2/wo`, `bah:GA072/E-8/w`, `bah:IL335/O-3E/wo` (+16 more) | table | …\| **$4,089** \| \| E-5 claims dependents \| $1,995 (wo/dep) \| **$1,815** (w/dep) \| $3,810 \| **Here, the O-3 claiming produces $27… |
+| 89 | $3,810 | data (weak) | `bah:CT050/O-7/wo`, `bah:IL325/O-3E/w`, `bah:ZZ890/O-6/wo` | table | … E-5 claims dependents \| $1,995 (wo/dep) \| $1,815 (w/dep) \| **$3,810** \| **Here, the O-3 claiming produces $279/month more — $3… |
+| 91 | $3,348 | data (weak) | `bah:AK401/O-5/wo`, `bah:AK403/O-3E/w`, `bah:AK404/O-6/wo`, `bah:CA041/O-1E/wo`, `bah:CA392/E-8/wo` (+5 more) | annual | …10 \| **Here, the O-3 claiming produces $279/month more — **$3,348**/year.** Conventional wisdom is correct at Fort Campbell. Th… |
+| 103 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` | range | …al-military couple can be substantial — sometimes exceeding **$6,000**–$8,000/month combined at higher-cost installations. If you'… |
+| 103 | $8,000 | data (weak) | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` | range | …tary couple can be substantial — sometimes exceeding $6,000–**$8,000**/month combined at higher-cost installations. If you're in t… |
 
-<details><summary>14 unbound</summary>
+<details><summary>22 unbound</summary>
 
 | Line | Figure | Flags | Context |
 |---:|---|---|---|
-| 24 | $2,041.67 |  | … &lt;QAItem&gt;2026 TSP elective deferral limit: $24,500/year (**$2,041.67**/month max)&lt;/QAItem&gt; &lt;/QuickAnswer&gt; ## What tax position… |
-| 33 | $20,080 | approx | …eduction ($16,100), their federal taxable income is roughly **$20,080**. That puts the marginal federal rate at **12%** — and the e… |
-| 47 | $36 |  | …An E-3 contributing $300/month to **Traditional TSP** saves **$36**/month in federal taxes right now (12% marginal rate × $300)… |
-| 47 | $432 | annual | … federal taxes right now (12% marginal rate × $300). That's **$432**/year. But in retirement, every dollar they withdraw gets… |
-| 51 | $36 |  | … An E-3 contributing $300/month to **Roth TSP** pays that **$36**/month in taxes now. The $300 goes in after tax. And the ent… |
-| 67 | $427,000 |  | …ears, that single year's contribution may grow to roughly ****$427,000**** — with qualified withdrawals tax-free. This triple adv… |
-| 79 | $61,000 | approx, table | …----------\|--------------------------\| \| 30 \| 10 years \| ~**$61,000** \| \| 40 \| 20 years \| ~$229,000 \| \| 50 \| 30 years \| ~$678… |
-| 80 | $229,000 | approx, table | …------\| \| 30 \| 10 years \| ~$61,000 \| \| 40 \| 20 years \| ~**$229,000** \| \| 50 \| 30 years \| ~$678,000 \| \| 60 \| 40 years \| ~$1,9… |
-| 81 | $678,000 | approx, table | …,000 \| \| 40 \| 20 years \| ~$229,000 \| \| 50 \| 30 years \| ~**$678,000** \| \| 60 \| 40 years \| ~$1,900,000 \| At age 60, you could… |
-| 82 | $1,900,000 | approx, table | …,000 \| \| 50 \| 30 years \| ~$678,000 \| \| 60 \| 40 years \| ~**$1,900,000** \| At age 60, you could have roughly $1.9 million — with … |
-| 92 | $2,041.67 |  | … The annual TSP elective deferral limit is $24,500 in 2026 (**$2,041.67**/month). Some members — especially during high-income deploy… |
-| 96 | $0 |  | …BRS matching is calculated monthly — if you're contributing **$0** in September through December, the government matches $0 fo… |
-| 96 | $0 |  | …ng $0 in September through December, the government matches **$0** for those months. You can lose up to four months of gove… |
-| 100 | $2,041.67 |  | …hs. If you want to max the annual limit, contribute exactly **$2,041.67**/month (or the closest whole dollar your branch's system all… |
+| 20 | $558 |  | …ty&lt;/QAItem&gt; &lt;QAItem&gt;In San Diego, an O-3/E-5 couple gets **$558**/month more by having the E-5 claim dependents — not the O-3… |
+| 20 | $8,223 |  | …onth more by having the E-5 claim dependents — not the O-3 (**$8,223** vs. $7,665/month combined)&lt;/QAItem&gt; &lt;QAItem&gt;The with/wit… |
+| 20 | $7,665 |  | …y having the E-5 claim dependents — not the O-3 ($8,223 vs. **$7,665**/month combined)&lt;/QAItem&gt; &lt;QAItem&gt;The with/without rate g… |
+| 21 | $279 |  | …ation — at Fort Campbell, the same O-3/E-5 pairing produces **$279**/month more when the O-3 claims&lt;/QAItem&gt; &lt;QAItem&gt;You can'… |
+| 57 | $270 | table | …\| Gap \| \|---\|---\|---\|---\| \| O-3 \| $4,518/mo \| $4,248/mo \| **$270** \| \| E-5 \| $3,975/mo \| $3,147/mo \| **$828** \| *Source: 2… |
+| 58 | $828 | table | …/mo \| $4,248/mo \| $270 \| \| E-5 \| $3,975/mo \| $3,147/mo \| ****$828**** \| *Source: 2026 DTMO BAH rate tables, San Diego, CA MH… |
+| 62 | $270 |  | …he official 2026 DTMO BAH lookup tool.* The O-3's gap is **$270**. The E-5's gap is $828 — three times larger. Run both co… |
+| 62 | $828 |  | …AH lookup tool.* The O-3's gap is $270. The E-5's gap is **$828** — three times larger. Run both configurations side by si… |
+| 68 | $7,665 | table | … O-3 claims dependents \| $4,518 (w/dep) \| $3,147 (wo/dep) \| **$7,665** \| \| **E-5 claims dependents** \| $4,248 (wo/dep) \| $3,975 (… |
+| 69 | $8,223 | table | … claims dependents** \| $4,248 (wo/dep) \| $3,975 (w/dep) \| ****$8,223**** \| **The E-5 claiming produces $558/month more — $6,696… |
+| 71 | $558 |  | …3,975 (w/dep) \| **$8,223** \| **The E-5 claiming produces **$558**/month more — $6,696/year.** Over a three-year San Diego tou… |
+| 71 | $6,696 | annual | …$8,223** \| **The E-5 claiming produces $558/month more — **$6,696**/year.** Over a three-year San Diego tour, that's $20,088 a … |
+| 71 | $20,088 |  | …e — $6,696/year.** Over a three-year San Diego tour, that's **$20,088** a couple would leave behind by defaulting to the higher-ran… |
+| 81 | $501 | table | …Gap \| \|---\|---\|---\|---\| \| O-3 \| $2,496/mo \| $1,995/mo \| ****$501**** \| \| E-5 \| $1,815/mo \| $1,593/mo \| $222 \| *Source: 202… |
+| 82 | $222 | table | …o \| $1,995/mo \| **$501** \| \| E-5 \| $1,815/mo \| $1,593/mo \| **$222** \| *Source: 2026 DTMO BAH rate tables, Fort Campbell, KY … |
+| 91 | $279 |  | …815 (w/dep) \| $3,810 \| **Here, the O-3 claiming produces **$279**/month more — $3,348/year.** Conventional wisdom is correct … |
+| 91 | $501 |  | …entional wisdom is correct at Fort Campbell. The O-3's gap (**$501**) is more than double the E-5's gap ($222), so senior claims… |
+| 91 | $222 |  | …ll. The O-3's gap ($501) is more than double the E-5's gap (**$222**), so senior claims. Same rank pairing. Different market.… |
+| 111 | $270 |  | …ess of who claims. O-3 and O-3, same station: the gap is **$270** either way, and your combined total is $270 higher than if … |
+| 111 | $270 |  | …ion: the gap is $270 either way, and your combined total is **$270** higher than if neither claimed — but it doesn't matter whic… |
+| 127 | $0 |  | …, so don't assume the change is immediate. The gap might be **$0**. It might be $558/month. You won't know until you check. … |
+| 127 | $558 |  | …e the change is immediate. The gap might be $0. It might be **$558**/month. You won't know until you check. For more on the b… |
 
 </details>
 
@@ -2033,7 +1984,7 @@ data 20 (12 weak) · derived 1 (0 weak) · unbound 48
 | 87 | $1,200 | data | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` |  | …on the size of the BAH number.** An E-5 at Fort Hood paying **$1,200**/month rent keeps $495/month of their $1,695 BAH. An E-5 in … |
 | 87 | $1,695 | data (weak) | `bah:AZ015/E-1/w`, `bah:AZ015/E-2/w`, `bah:AZ015/E-3/w`, `bah:AZ015/E-4/w`, `bah:AZ016/E-5/w` (+20 more) |  | …ort Hood paying $1,200/month rent keeps $495/month of their **$1,695** BAH. An E-5 in San Diego paying $3,100/month keeps $875/mon… |
 | 87 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` |  | … in San Diego paying $3,100/month keeps $875/month of their **$3,975** — but at a $3,600 San Diego rent, that surplus drops to $37… |
-| 87 | $3,600 | data-derived | `12×cola:moderate-high.W1-W5[1]`, `12×deployment:fsa`, `bah:CA025/O-1/w`, `bah:CA392/W-3/wo`, `bah:NY217/E-8/wo` (+2 more) |  | …ng $3,100/month keeps $875/month of their $3,975 — but at a **$3,600** San Diego rent, that surplus drops to $375. Whether a stati… |
+| 87 | $3,600 | data-derived | `12×deployment:fsa`, `bah:CA025/O-1/w`, `bah:CA392/W-3/wo`, `bah:NY217/E-8/wo`, `bah:NY218/E-5/wo` (+1 more) |  | …ng $3,100/month keeps $875/month of their $3,975 — but at a **$3,600** San Diego rent, that surplus drops to $375. Whether a stati… |
 | 105 | $50,400 | data | `const:FED_TAX_BRACKETS_SINGLE[1].upTo` |  | …alysis. A $1,400/month BAH difference over a 3-year tour is **$50,400** in direct pay, tax-free. The [BAH Calculator](/bah) lets yo… |
 
 <details><summary>48 unbound</summary>
@@ -2091,6 +2042,55 @@ data 20 (12 weak) · derived 1 (0 weak) · unbound 48
 
 </details>
 
+### src/content/blog/roth-tsp-advantage-junior-enlisted.mdx
+
+data 20 (0 weak) · derived 0 (0 weak) · unbound 15
+
+| Line | Figure | Class | Sources | Flags | Context |
+|---:|---|---|---|---|---|
+| 5 | $100 | data | `deployment:hdpLevels[2]` |  | …e Roth TSP. Here's the math on why starting early — even at **$100**/month — creates a tax-free windfall." category: Retirement… |
+| 15 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ing the Roth-vs-Traditional tradeoff strongly favor Roth. A **$300**/month Roth TSP contribution starting at age 20, growing at … |
+| 18 | $3,015.00 | data | `pay:E-3@2`, `bah:CA022/E-9/w`, `bah:CA034/O-6/wo`, `bah:CA041/W-1/wo`, `bah:FL423/E-8/w` (+13 more) |  | …-free. &lt;QuickAnswer&gt; &lt;QAItem&gt;E-3 (2+ years) base pay: **$3,015.00**/month — likely in the 10–12% federal marginal tax bracket&lt;/… |
+| 20 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …hdraw everything tax-free in retirement&lt;/QAItem&gt; &lt;QAItem&gt;**$300**/month in Roth TSP at age 20, 10% average return (C Fund his… |
+| 24 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` | annual | …onths&lt;/QAItem&gt; &lt;QAItem&gt;2026 TSP elective deferral limit: **$24,500**/year ($2,041.67/month max)&lt;/QAItem&gt; &lt;/QuickAnswer&gt; ## W… |
+| 33 | $3,015.00 | data | `pay:E-3@2`, `bah:CA022/E-9/w`, `bah:CA034/O-6/wo`, `bah:CA041/W-1/wo`, `bah:FL423/E-8/w` (+13 more) |  | …lain why. An E-3 with two or more years of service earns **$3,015.00**/month in base pay. After the 2026 standard deduction ($16,1… |
+| 33 | $16,100 | data | `const:STANDARD_DEDUCTION_SINGLE` |  | …15.00/month in base pay. After the 2026 standard deduction (**$16,100**), their federal taxable income is roughly $20,080. That put… |
+| 47 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …" ### Concrete example for an E-3 An E-3 contributing **$300**/month to **Traditional TSP** saves $36/month in federal tax… |
+| 47 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …s $36/month in federal taxes right now (12% marginal rate × **$300**). That's $432/year. But in retirement, every dollar they… |
+| 49 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ar they withdraw gets taxed — including the growth. If that **$300**/month grew to $500,000 over 30+ years, they'll owe income t… |
+| 49 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …ts taxed — including the growth. If that $300/month grew to **$500,000** over 30+ years, they'll owe income tax on the full $500,000… |
+| 49 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …$500,000 over 30+ years, they'll owe income tax on the full **$500,000** as they draw it down. An E-3 contributing $300/month to … |
+| 51 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | … full $500,000 as they draw it down. An E-3 contributing **$300**/month to **Roth TSP** pays that $36/month in taxes now. The… |
+| 51 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …month to **Roth TSP** pays that $36/month in taxes now. The **$300** goes in after tax. And the entire balance — however large i… |
+| 55 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …2% bracket, paying taxes later costs much more. &lt;KeyFact&gt;**$300**/month in Roth TSP at age 20, earning 10% average annual ret… |
+| 67 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` |  | …lt: a deployment where you max Roth TSP contributions means **$24,500** (the 2026 annual limit) in money that was never taxed going… |
+| 75 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …nvention used by TSP.gov. All figures are approximate. ****$300**/month Roth TSP contribution, starting at age 20:** \| Age… |
+| 92 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` |  | …contributions? The annual TSP elective deferral limit is **$24,500** in 2026 ($2,041.67/month). Some members — especially during… |
+| 96 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` | annual | …r. **Don't do this if you're on BRS.** If you hit the **$24,500** annual limit before December, your contributions stop and y… |
+| 126 | $100 | data | `deployment:hdpLevels[2]` |  | …igher, and you have decades of compounding ahead of you. **$100**/month, $200/month, whatever you can start with — the key is… |
+
+<details><summary>15 unbound</summary>
+
+| Line | Figure | Flags | Context |
+|---:|---|---|---|
+| 24 | $2,041.67 |  | … &lt;QAItem&gt;2026 TSP elective deferral limit: $24,500/year (**$2,041.67**/month max)&lt;/QAItem&gt; &lt;/QuickAnswer&gt; ## What tax position… |
+| 33 | $20,080 | approx | …eduction ($16,100), their federal taxable income is roughly **$20,080**. That puts the marginal federal rate at **12%** — and the e… |
+| 47 | $36 |  | …An E-3 contributing $300/month to **Traditional TSP** saves **$36**/month in federal taxes right now (12% marginal rate × $300)… |
+| 47 | $432 | annual | … federal taxes right now (12% marginal rate × $300). That's **$432**/year. But in retirement, every dollar they withdraw gets… |
+| 51 | $36 |  | … An E-3 contributing $300/month to **Roth TSP** pays that **$36**/month in taxes now. The $300 goes in after tax. And the ent… |
+| 67 | $427,000 |  | …ears, that single year's contribution may grow to roughly ****$427,000**** — with qualified withdrawals tax-free. This triple adv… |
+| 79 | $61,000 | approx, table | …----------\|--------------------------\| \| 30 \| 10 years \| ~**$61,000** \| \| 40 \| 20 years \| ~$229,000 \| \| 50 \| 30 years \| ~$678… |
+| 80 | $229,000 | approx, table | …------\| \| 30 \| 10 years \| ~$61,000 \| \| 40 \| 20 years \| ~**$229,000** \| \| 50 \| 30 years \| ~$678,000 \| \| 60 \| 40 years \| ~$1,9… |
+| 81 | $678,000 | approx, table | …,000 \| \| 40 \| 20 years \| ~$229,000 \| \| 50 \| 30 years \| ~**$678,000** \| \| 60 \| 40 years \| ~$1,900,000 \| At age 60, you could… |
+| 82 | $1,900,000 | approx, table | …,000 \| \| 50 \| 30 years \| ~$678,000 \| \| 60 \| 40 years \| ~**$1,900,000** \| At age 60, you could have roughly $1.9 million — with … |
+| 92 | $2,041.67 |  | … The annual TSP elective deferral limit is $24,500 in 2026 (**$2,041.67**/month). Some members — especially during high-income deploy… |
+| 96 | $0 |  | …BRS matching is calculated monthly — if you're contributing **$0** in September through December, the government matches $0 fo… |
+| 96 | $0 |  | …ng $0 in September through December, the government matches **$0** for those months. You can lose up to four months of gove… |
+| 100 | $2,041.67 |  | …hs. If you want to max the annual limit, contribute exactly **$2,041.67**/month (or the closest whole dollar your branch's system all… |
+| 126 | $200 |  | …ou have decades of compounding ahead of you. $100/month, **$200**/month, whatever you can start with — the key is starting. E… |
+
+</details>
+
 ### src/app/guides/education-benefits/page.tsx
 
 data 16 (1 weak) · derived 3 (3 weak) · unbound 3
@@ -2111,7 +2111,7 @@ data 16 (1 weak) · derived 3 (3 weak) · unbound 3
 | 269 | $250 | data | `education:ta.perCreditHour`, `healthcare:employer.single.gold.premium` |  | …&gt;Why TA on active duty:&lt;/strong&gt; TA covers up to **$250**/credit hour, capped at $4,500/year. It is funded by your br… |
 | 269 | $4,500 | data | `bah:MA119/E-8/wo`, `bah:NY218/E-8/wo`, `education:ta.annualCap` | annual | …ong&gt; TA covers up to $250/credit hour, capped at **$4,500**/year. It is funded by your branch&amp;apos;s education … |
 | 275 | $1,200 | data (weak) | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` | range | …&gt;Why GI Bill after separation:&lt;/strong&gt; The MHA (**$1,200**–$3,600/month depending on school location) replaces some of… |
-| 275 | $3,600 | data-derived (weak) | `12×cola:moderate-high.W1-W5[1]`, `12×deployment:fsa`, `bah:CA025/O-1/w`, `bah:CA392/W-3/wo`, `bah:NY217/E-8/wo` (+2 more) | range | … Bill after separation:&lt;/strong&gt; The MHA ($1,200–**$3,600**/month depending on school location) replaces some of the in… |
+| 275 | $3,600 | data-derived (weak) | `12×deployment:fsa`, `bah:CA025/O-1/w`, `bah:CA392/W-3/wo`, `bah:NY217/E-8/wo`, `bah:NY218/E-5/wo` (+1 more) | range | … Bill after separation:&lt;/strong&gt; The MHA ($1,200–**$3,600**/month depending on school location) replaces some of the in… |
 | 322 | $1,261 | data | `education:giBill.onlineMHAMonthly` |  | …f the national average BAH rate&lt;/strong&gt; — up to **$1,261**/month for the 2026-2027 academic year, subject to eligibili… |
 | 347 | $1,200 | data | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` |  | …rvice members who entered after 1985 contributed **$1,200** toward MGIB during their first year of service. … |
 | 352 | $2,518 | data | `education:mgib.fullTimeMonthly` |  | … works:&lt;/strong&gt; MGIB pays a flat monthly rate — **$2,518**/month for full-time enrollment with 3+ years of service (Oc… |
@@ -2144,7 +2144,7 @@ data 17 (14 weak) · derived 1 (1 weak) · unbound 20
 | 54 | $5,100 | data (weak) | `bah:CA044/O-5/wo`, `bah:NY219/W-1/w`, `bah:NY219/E-8/wo` | approx, table | …\|--------------------------------\| \| San Francisco area \| ~**$5,100**/month \| \| San Diego \| ~$3,975/month \| \| Boston area \| ~$4… |
 | 55 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` | approx, table | …--\| \| San Francisco area \| ~$5,100/month \| \| San Diego \| ~**$3,975**/month \| \| Boston area \| ~$4,800/month \| \| Austin, TX \| ~$… |
 | 56 | $4,800 | data (weak) | `bah:MA120/W-2/wo` | approx, table | …00/month \| \| San Diego \| ~$3,975/month \| \| Boston area \| ~**$4,800**/month \| \| Austin, TX \| ~$2,200/month \| \| Fayetteville, NC… |
-| 58 | $1,800 | data-derived (weak) | `12×cola:moderate.W1-W5[1]`, `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo` (+19 more) | approx, table | …th \| \| Austin, TX \| ~$2,200/month \| \| Fayetteville, NC \| ~**$1,800**/month \| \| Rural Midwest/South \| ~$1,100–$1,400/month \| \| … |
+| 58 | $1,800 | data-derived (weak) | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) | approx, table | …th \| \| Austin, TX \| ~$2,200/month \| \| Fayetteville, NC \| ~**$1,800**/month \| \| Rural Midwest/South \| ~$1,100–$1,400/month \| \| … |
 | 60 | $1,261 | data (weak) | `education:giBill.onlineMHAMonthly` | approx, table | …uth \| ~$1,100–$1,400/month \| \| Online-only (any school) \| ~**$1,261**/month \| The difference between attending a school in San… |
 | 62 | $3,840 | data (weak) | `bah:CA027/W-1/w`, `bah:CA457/O-5/w`, `bah:FL061/W-4/wo`, `bah:HI409/W-4/wo` | approx | …ng a school in San Francisco versus online is approximately **$3,840**/month. Over 33 months of enrollment, that gap is **$126,720… |
 | 72 | $1,261 | data | `education:giBill.onlineMHAMonthly` |  | …ay qualify you for the campus ZIP code rate rather than the **$1,261**/month online-only rate. The difference in housing allowance… |
@@ -2201,7 +2201,7 @@ data 18 (1 weak) · derived 0 (0 weak) · unbound 8
 | 89 | $250 | data | `education:ta.perCreditHour`, `healthcare:employer.single.gold.premium` |  | …Chapter 33 benefits to cover tuition costs that exceed TA's **$250**/credit-hour cap. If a course costs $350 per credit hour, TA… |
 | 89 | $350 | data (weak) | `healthcare:acaNoSubsidy.single.bronze.premium` |  | …ts that exceed TA's $250/credit-hour cap. If a course costs **$350** per credit hour, TA covers $250 and GI Bill top-up covers t… |
 | 89 | $250 | data | `education:ta.perCreditHour`, `healthcare:employer.single.gold.premium` |  | …hour cap. If a course costs $350 per credit hour, TA covers **$250** and GI Bill top-up covers the remaining $100. The proble… |
-| 89 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …our, TA covers $250 and GI Bill top-up covers the remaining **$100**. The problem: top-up burns GI Bill months at the same ra… |
+| 89 | $100 | data | `deployment:hdpLevels[2]` |  | …our, TA covers $250 and GI Bill top-up covers the remaining **$100**. The problem: top-up burns GI Bill months at the same ra… |
 | 111 | $4,500 | data | `bah:MA119/E-8/wo`, `bah:NY218/E-8/wo`, `education:ta.annualCap` | annual | …using allowance adds real value. TA covers tuition up to **$4,500**/year and resets annually. Unused TA is simply gone. GI Bill… |
 
 <details><summary>8 unbound</summary>
@@ -2309,48 +2309,6 @@ data 16 (4 weak) · derived 1 (1 weak) · unbound 23
 
 </details>
 
-### src/content/blog/how-to-read-your-les.mdx
-
-data 17 (3 weak) · derived 0 (0 weak) · unbound 11
-
-| Line | Figure | Class | Sources | Flags | Context |
-|---:|---|---|---|---|---|
-| 51 | $3,946.80 | data | `pay:E-5@4` |  | …ears-of-service bracket: in 2026 an E-5 under 6 years earns **$3,946.80**/month but $4,110.00/month at 6+ years — so a wrong PEBD can… |
-| 51 | $4,110.00 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | …ket: in 2026 an E-5 under 6 years earns $3,946.80/month but **$4,110.00**/month at 6+ years — so a wrong PEBD can cost $150+ per mont… |
-| 51 | $150 | data | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | … but $4,110.00/month at 6+ years — so a wrong PEBD can cost **$150**+ per month. Confirm the PEBD on your LES reflects your actu… |
-| 57 | $476.95 | data | `bas:enlisted` |  | …ded to offset meal costs. In 2026, enlisted members receive **$476.95**/month and officers receive $328.48/month. (BAS adjusts annu… |
-| 57 | $328.48 | data | `bas:officer` |  | …enlisted members receive $476.95/month and officers receive **$328.48**/month. (BAS adjusts annually — verify current rates at DFAS… |
-| 60 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` |  | …/ Imminent Danger Pay)** Effective October 1, 2026: HFP is **$450**/month and IDP is $275/month (prorated at $9.16/day), never … |
-| 60 | $275 | data | `deployment:idp` |  | …** Effective October 1, 2026: HFP is $450/month and IDP is **$275**/month (prorated at $9.16/day), never both for the same peri… |
-| 60 | $9.16 | data | `deployment:idpDaily` |  | … 2026: HFP is $450/month and IDP is $275/month (prorated at **$9.16**/day), never both for the same period. Tax-exempt during com… |
-| 62 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …P and IDP differ. **FSA** — Family Separation Allowance. **$300**/month when separated from qualifying dependents for more th… |
-| 65 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | …ion designation and category. Location-based HDP (HDP-L) is **$50** or $100/month effective October 1, 2026; other HDP categori… |
-| 65 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …ignation and category. Location-based HDP (HDP-L) is $50 or **$100**/month effective October 1, 2026; other HDP categories diffe… |
-| 93 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …SGLI (Servicemembers Group Life Insurance)** In 2026, full **$500,000** SGLI coverage is generally $26/month. Your deduction should… |
-| 107 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …ou opted into the Montgomery GI Bill (Chapter 30), you paid **$100**/month for 12 months when you entered service. That deductio… |
-| 169 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` | table | …contribution \| \| HFP \| Hostile Fire Pay \| Combat area pay (**$450**/mo from Oct 1, 2026) \| \| IDP \| Imminent Danger Pay \| Dange… |
-| 170 | $275 | data | `deployment:idp` | table | …26) \| \| IDP \| Imminent Danger Pay \| Danger area pay (up to **$275**/mo from Oct 1, 2026) \| \| FSA \| Family Separation Allowance… |
-| 196 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` |  | … percentage you elected. If you set 5% and your base pay is **$4,000**, you should see approximately $200 in TSP deductions. The m… |
-| 196 | $200 | data (weak) | `cola:high.E1-E4[0]`, `cola:moderate-high.E5-E9[0]`, `cola:moderate-high.O1-O3[0]` | approx | …% and your base pay is $4,000, you should see approximately **$200** in TSP deductions. The most common issue: a myPay election … |
-
-<details><summary>11 unbound</summary>
-
-| Line | Figure | Flags | Context |
-|---:|---|---|---|
-| 22 | $0.50 |  | …w it in myPay (myPay.dfas.mil).&lt;/QAItem&gt; &lt;QAItem&gt;AFRH: a **$0.50**/month deduction that funds the Armed Forces Retirement Home… |
-| 85 | $0 |  | …ing combat zone months with CZTE, FITW on base pay drops to **$0** for enlisted members and warrant officers on qualifying pay… |
-| 88 | $0 |  | …f it's not your state of legal residence.) Some states have **$0** military pay tax. If you live in Texas, Florida, or another… |
-| 88 | $0 |  | …lorida, or another no-income-tax state, this line should be **$0**. **FICA** — Social Security and Medicare taxes. Generall… |
-| 90 | $0 |  | …ill apply even when federal income tax withholding drops to **$0**. **SGLI (Servicemembers Group Life Insurance)** In 2026… |
-| 93 | $26 |  | …rance)** In 2026, full $500,000 SGLI coverage is generally **$26**/month. Your deduction should match the coverage level you e… |
-| 98 | $0.50 |  | …ilds over time. **AFRH (Armed Forces Retirement Home)** **$0.50**/month — a flat deduction from the pay of regular enlisted m… |
-| 101 | $0 |  | …t it. **TRICARE** For most active duty members, this is **$0**. If you see a TRICARE deduction, you may be a Reserve membe… |
-| 155 | $0 |  | …fund. During combat zone months, you'll see FITW drop to **$0** for qualifying pay — and the tax-exempt wages appear separa… |
-| 181 | $0.50 | table | …dging during PCS \| \| AFRH \| Armed Forces Retirement Home \| **$0.50**/month; enlisted, warrant officers, LDOs \| \| MGIB \| Montgom… |
-| 199 | $0 |  | …tate. If you moved to a no-income-tax state, SITW should be **$0**. States don't always update automatically — you may need to… |
-
-</details>
-
 ### src/content/blog/file-va-disability-before-separation.mdx
 
 data 15 (0 weak) · derived 1 (0 weak) · unbound 2
@@ -2380,6 +2338,48 @@ data 15 (0 weak) · derived 1 (0 weak) · unbound 2
 |---:|---|---|---|
 | 21 | $296,000 | approx | …onth — over 40 years at current rates, that's approximately **$296,000** in tax-free compensation (assumes current rates with COLA a… |
 | 119 | $296,000 | approx | … 2026. Over 40 years at current rates, that's approximately **$296,000** in tax-free compensation — assuming current compensation ra… |
+
+</details>
+
+### src/content/blog/how-to-read-your-les.mdx
+
+data 16 (2 weak) · derived 0 (0 weak) · unbound 12
+
+| Line | Figure | Class | Sources | Flags | Context |
+|---:|---|---|---|---|---|
+| 51 | $3,946.80 | data | `pay:E-5@4` |  | …ears-of-service bracket: in 2026 an E-5 under 6 years earns **$3,946.80**/month but $4,110.00/month at 6+ years — so a wrong PEBD can… |
+| 51 | $4,110.00 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | …ket: in 2026 an E-5 under 6 years earns $3,946.80/month but **$4,110.00**/month at 6+ years — so a wrong PEBD can cost $150+ per mont… |
+| 51 | $150 | data | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | … but $4,110.00/month at 6+ years — so a wrong PEBD can cost **$150**+ per month. Confirm the PEBD on your LES reflects your actu… |
+| 57 | $476.95 | data | `bas:enlisted` |  | …ded to offset meal costs. In 2026, enlisted members receive **$476.95**/month and officers receive $328.48/month. (BAS adjusts annu… |
+| 57 | $328.48 | data | `bas:officer` |  | …enlisted members receive $476.95/month and officers receive **$328.48**/month. (BAS adjusts annually — verify current rates at DFAS… |
+| 60 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` |  | …/ Imminent Danger Pay)** Effective October 1, 2026: HFP is **$450**/month and IDP is $275/month (prorated at $9.16/day), never … |
+| 60 | $275 | data | `deployment:idp` |  | …** Effective October 1, 2026: HFP is $450/month and IDP is **$275**/month (prorated at $9.16/day), never both for the same peri… |
+| 60 | $9.16 | data | `deployment:idpDaily` |  | … 2026: HFP is $450/month and IDP is $275/month (prorated at **$9.16**/day), never both for the same period. Tax-exempt during com… |
+| 62 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …P and IDP differ. **FSA** — Family Separation Allowance. **$300**/month when separated from qualifying dependents for more th… |
+| 65 | $50 | data (weak) | `deployment:hdpLevels[1]` |  | …ion designation and category. Location-based HDP (HDP-L) is **$50** or $100/month effective October 1, 2026; other HDP categori… |
+| 65 | $100 | data | `deployment:hdpLevels[2]` |  | …ignation and category. Location-based HDP (HDP-L) is $50 or **$100**/month effective October 1, 2026; other HDP categories diffe… |
+| 93 | $500,000 | data | `const:SGLI_MAX_COVERAGE` |  | …SGLI (Servicemembers Group Life Insurance)** In 2026, full **$500,000** SGLI coverage is generally $26/month. Your deduction should… |
+| 107 | $100 | data | `deployment:hdpLevels[2]` |  | …ou opted into the Montgomery GI Bill (Chapter 30), you paid **$100**/month for 12 months when you entered service. That deductio… |
+| 169 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` | table | …contribution \| \| HFP \| Hostile Fire Pay \| Combat area pay (**$450**/mo from Oct 1, 2026) \| \| IDP \| Imminent Danger Pay \| Dange… |
+| 170 | $275 | data | `deployment:idp` | table | …26) \| \| IDP \| Imminent Danger Pay \| Danger area pay (up to **$275**/mo from Oct 1, 2026) \| \| FSA \| Family Separation Allowance… |
+| 196 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` |  | … percentage you elected. If you set 5% and your base pay is **$4,000**, you should see approximately $200 in TSP deductions. The m… |
+
+<details><summary>12 unbound</summary>
+
+| Line | Figure | Flags | Context |
+|---:|---|---|---|
+| 22 | $0.50 |  | …w it in myPay (myPay.dfas.mil).&lt;/QAItem&gt; &lt;QAItem&gt;AFRH: a **$0.50**/month deduction that funds the Armed Forces Retirement Home… |
+| 85 | $0 |  | …ing combat zone months with CZTE, FITW on base pay drops to **$0** for enlisted members and warrant officers on qualifying pay… |
+| 88 | $0 |  | …f it's not your state of legal residence.) Some states have **$0** military pay tax. If you live in Texas, Florida, or another… |
+| 88 | $0 |  | …lorida, or another no-income-tax state, this line should be **$0**. **FICA** — Social Security and Medicare taxes. Generall… |
+| 90 | $0 |  | …ill apply even when federal income tax withholding drops to **$0**. **SGLI (Servicemembers Group Life Insurance)** In 2026… |
+| 93 | $26 |  | …rance)** In 2026, full $500,000 SGLI coverage is generally **$26**/month. Your deduction should match the coverage level you e… |
+| 98 | $0.50 |  | …ilds over time. **AFRH (Armed Forces Retirement Home)** **$0.50**/month — a flat deduction from the pay of regular enlisted m… |
+| 101 | $0 |  | …t it. **TRICARE** For most active duty members, this is **$0**. If you see a TRICARE deduction, you may be a Reserve membe… |
+| 155 | $0 |  | …fund. During combat zone months, you'll see FITW drop to **$0** for qualifying pay — and the tax-exempt wages appear separa… |
+| 181 | $0.50 | table | …dging during PCS \| \| AFRH \| Armed Forces Retirement Home \| **$0.50**/month; enlisted, warrant officers, LDOs \| \| MGIB \| Montgom… |
+| 196 | $200 | approx | …% and your base pay is $4,000, you should see approximately **$200** in TSP deductions. The most common issue: a myPay election … |
+| 199 | $0 |  | …tate. If you moved to a no-income-tax state, SITW should be **$0**. States don't always update automatically — you may need to… |
 
 </details>
 
@@ -2430,15 +2430,14 @@ data 16 (7 weak) · derived 0 (0 weak) · unbound 15
 
 ### src/content/blog/what-civilian-salary-do-i-need.mdx
 
-data 12 (7 weak) · derived 4 (0 weak) · unbound 42
+data 11 (6 weak) · derived 4 (0 weak) · unbound 43
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
 | 19 | $4,759.50 | data | `pay:E-6@10` |  | … with 10 years at a mid-range duty station (JBSA, TX): base **$4,759.50** + BAH $2,094 + BAS $476.95 = $7,330/month ($87,965/year)&lt;/Q… |
 | 19 | $2,094 | data (weak) | `bah:AL006/W-5/wo`, `bah:CA032/W-2/wo`, `bah:FL424/E-1/wo`, `bah:FL424/E-2/wo`, `bah:FL424/E-3/wo` (+22 more) |  | …t a mid-range duty station (JBSA, TX): base $4,759.50 + BAH **$2,094** + BAS $476.95 = $7,330/month ($87,965/year)&lt;/QAItem&gt; &lt;QA… |
 | 19 | $476.95 | data | `bas:enlisted` |  | … duty station (JBSA, TX): base $4,759.50 + BAH $2,094 + BAS **$476.95** = $7,330/month ($87,965/year)&lt;/QAItem&gt; &lt;QAItem&gt;TRICARE f… |
-| 22 | $90 | data (weak) | `cola:moderate.E1-E4[1]` | range | …QAItem&gt;Rough civilian salary targets: E-5 → $75–100K; E-6 → **$90**–120K; E-7 → $100–135K; O-3 → $125–160K; O-4 → $145–180K&lt;/QA… |
-| 22 | $100 | data (weak) | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` | range | …ilian salary targets: E-5 → $75–100K; E-6 → $90–120K; E-7 → **$100**–135K; O-3 → $125–160K; O-4 → $145–180K&lt;/QAItem&gt; &lt;QAItem&gt;… |
+| 22 | $100 | data (weak) | `deployment:hdpLevels[2]` | range | …ilian salary targets: E-5 → $75–100K; E-6 → $90–120K; E-7 → **$100**–135K; O-3 → $125–160K; O-4 → $145–180K&lt;/QAItem&gt; &lt;QAItem&gt;… |
 | 41 | $4,759.50 | data | `pay:E-6@10` | table | …----------\|---------\|--------\| \| Base Pay (E-6, over 10) \| **$4,759.50** \| $57,114.00 \| \| BAH (w/dep, ZIP 78234) \| $2,094.00 \| $25,… |
 | 41 | $57,114.00 | data-derived | `12×pay:E-6@10` | table | …--------\|--------\| \| Base Pay (E-6, over 10) \| $4,759.50 \| **$57,114.00** \| \| BAH (w/dep, ZIP 78234) \| $2,094.00 \| $25,128.00 \| \| B… |
 | 42 | $2,094.00 | data (weak) | `bah:AL006/W-5/wo`, `bah:CA032/W-2/wo`, `bah:FL424/E-1/wo`, `bah:FL424/E-2/wo`, `bah:FL424/E-3/wo` (+22 more) | table | … 10) \| $4,759.50 \| $57,114.00 \| \| BAH (w/dep, ZIP 78234) \| **$2,094.00** \| $25,128.00 \| \| BAS (enlisted) \| $476.95 \| $5,723.40 \| \|… |
@@ -2451,7 +2450,7 @@ data 12 (7 weak) · derived 4 (0 weak) · unbound 42
 | 113 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` |  | …cost of living. An E-5 stationed in San Diego has BAH of **$3,975**/month with dependents — versus $1,806/month at Fort Bragg, … |
 | 113 | $1,806 | data (weak) | `bah:GA074/E-5/wo`, `bah:MI153/E-5/w`, `bah:MO160/W-1/wo`, `bah:MS168/W-5/wo`, `bah:NC177/E-1/w` (+22 more) |  | … San Diego has BAH of $3,975/month with dependents — versus **$1,806**/month at Fort Bragg, NC. That's a $26,028/year difference i… |
 
-<details><summary>42 unbound</summary>
+<details><summary>43 unbound</summary>
 
 | Line | Figure | Flags | Context |
 |---:|---|---|---|
@@ -2462,6 +2461,7 @@ data 12 (7 weak) · derived 4 (0 weak) · unbound 42
 | 19 | $7,330 |  | …ion (JBSA, TX): base $4,759.50 + BAH $2,094 + BAS $476.95 = **$7,330**/month ($87,965/year)&lt;/QAItem&gt; &lt;QAItem&gt;TRICARE family cov… |
 | 19 | $87,965 | annual | …: base $4,759.50 + BAH $2,094 + BAS $476.95 = $7,330/month (**$87,965**/year)&lt;/QAItem&gt; &lt;QAItem&gt;TRICARE family coverage costs alm… |
 | 22 | $75 | range | …ue&lt;/QAItem&gt; &lt;QAItem&gt;Rough civilian salary targets: E-5 → **$75**–100K; E-6 → $90–120K; E-7 → $100–135K; O-3 → $125–160K; O-4… |
+| 22 | $90 | range | …QAItem&gt;Rough civilian salary targets: E-5 → $75–100K; E-6 → **$90**–120K; E-7 → $100–135K; O-3 → $125–160K; O-4 → $145–180K&lt;/QA… |
 | 22 | $125 | range | …ets: E-5 → $75–100K; E-6 → $90–120K; E-7 → $100–135K; O-3 → **$125**–160K; O-4 → $145–180K&lt;/QAItem&gt; &lt;QAItem&gt;These ranges depe… |
 | 22 | $145 | range | …0K; E-6 → $90–120K; E-7 → $100–135K; O-3 → $125–160K; O-4 → **$145**–180K&lt;/QAItem&gt; &lt;QAItem&gt;These ranges depend heavily on loc… |
 | 29 | $60,000 | range | …y they need? Most veterans accept civilian job offers at **$60,000**–$75,000 and think they're doing roughly the same as they we… |
@@ -2502,12 +2502,12 @@ data 12 (7 weak) · derived 4 (0 weak) · unbound 42
 
 ### src/content/blog/oconus-cola-trap.mdx
 
-data 9 (6 weak) · derived 6 (5 weak) · unbound 16
+data 8 (5 weak) · derived 6 (5 weak) · unbound 15
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
-| 5 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | range | …trap date: "2026-04-10" description: "OCONUS COLA can add **$500**–$1,500/month to your pay — but most service members spend i… |
-| 5 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) | range | … date: "2026-04-10" description: "OCONUS COLA can add $500–**$1,500**/month to your pay — but most service members spend it all a… |
+| 5 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | range | …a-trap date: "2026-04-10" description: "OCONUS COLA can add **$500**–$1,500/month to your pay — but most service members spend i… |
+| 5 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) | range | …p date: "2026-04-10" description: "OCONUS COLA can add $500–**$1,500**/month to your pay — but most service members spend it all a… |
 | 15 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) | range | … in Japan, Korea, Germany, and Italy typically receive $400–**$1,500**/month in OCONUS COLA depending on pay grade and location; s… |
 | 19 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) | range | … in Japan, Korea, Germany, and Italy typically receive $400–**$1,500**+/month in OCONUS COLA depending on grade and location&lt;/QAIt… |
 | 42 | $600 | data-derived | `12×deployment:hdpLevels[1]` |  | …s:** You receive OCONUS COLA and see your total pay jump by **$600**/month (or $1,200 if you're at a particularly expensive loca… |
@@ -2515,30 +2515,28 @@ data 9 (6 weak) · derived 6 (5 weak) · unbound 16
 | 46 | $600 | data-derived (weak) | `12×deployment:hdpLevels[1]` | range | …replaces your overseas OHA, and your take-home pay drops by **$600**–$1,200/month. Your standard of living feels worse even thou… |
 | 46 | $1,200 | data (weak) | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` | range | …ces your overseas OHA, and your take-home pay drops by $600–**$1,200**/month. Your standard of living feels worse even though it's… |
 | 56 | $700 | data-derived (weak) | `round(va:30%/with1ChildAnd2Parents)` | range | …okosuka/Atsugi, Japan at the E-6 level runs approximately ****$700**–$900/month** depending on dependency status. Over a 36-mont… |
-| 56 | $25,200 | data-derived (weak) | `12×healthcare:acaNoSubsidy.family.gold.premium` | range | …ending on dependency status. Over a 36-month tour, that's ****$25,200**–$32,400** in OCONUS COLA received. Scenario A (spend it … |
+| 56 | $25,200 | data-derived (weak) | `12×healthcare:acaNoSubsidy.family.gold.premium` | range | …ending on dependency status. Over a 36-month tour, that's ****$25,200**–$32,400** in OCONUS COLA received. Scenario A (spend it al… |
 | 60 | $14,400 | data-derived (weak) | `12×healthcare:acaNoSubsidy.family.bronze.premium` |  | …ings or investments throughout the tour. After 36 months: ****$14,400** accumulated**. At a 7% average return over 20 years to reti… |
-| 60 | $14,400 | data-derived (weak) | `12×healthcare:acaNoSubsidy.family.bronze.premium` |  | …*. At a 7% average return over 20 years to retirement, that **$14,400** grows to approximately **$55,000+**. Scenario C (save al… |
+| 60 | $14,400 | data-derived (weak) | `12×healthcare:acaNoSubsidy.family.bronze.premium` |  | …*. At a 7% average return over 20 years to retirement, that **$14,400** grows to approximately **$55,000+**. Scenario C (save all … |
 | 72 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` | annual | …ur take-home needs. The 2026 TSP elective deferral limit is **$24,500**/year — consider increasing your contribution percentage whi… |
 | 76 | $7,500 | data | `healthcare:acaNoSubsidy.single.bronze.deductible`, `tricare:civilianComparison.individualAnnual` | annual | …RA provides tax-free growth. The 2026 contribution limit is **$7,500**/year ($8,500 age 50+). Since OCONUS COLA is non-taxable and… |
-| 90 | $100 | data (weak) | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` | range | … stationed in one of these areas, you receive an additional **$100**–$400/month depending on pay grade. **Important distincti… |
 
-<details><summary>16 unbound</summary>
+<details><summary>15 unbound</summary>
 
 | Line | Figure | Flags | Context |
 |---:|---|---|---|
 | 15 | $400 | range | …ioned in Japan, Korea, Germany, and Italy typically receive **$400**–$1,500/month in OCONUS COLA depending on pay grade and loca… |
 | 19 | $400 | range | …ioned in Japan, Korea, Germany, and Italy typically receive **$400**–$1,500+/month in OCONUS COLA depending on grade and locatio… |
 | 56 | $900 | range | …ka/Atsugi, Japan at the E-6 level runs approximately **$700–**$900**/month** depending on dependency status. Over a 36-month tou… |
-| 56 | $32,400 | range | …n dependency status. Over a 36-month tour, that's **$25,200–**$32,400**** in OCONUS COLA received. Scenario A (spend it all): Af… |
+| 56 | $32,400 | range | …n dependency status. Over a 36-month tour, that's **$25,200–**$32,400**** in OCONUS COLA received. Scenario A (spend it all): Afte… |
 | 58 | $0 |  | …After the tour, net financial gain from the OCONUS COLA = ****$0****. The allowance equalized your purchasing power. You broke… |
-| 60 | $400 |  | … power. You broke even. Scenario B (save half): Redirect **$400**/month to savings or investments throughout the tour. After … |
-| 60 | $55,000 |  | … years to retirement, that $14,400 grows to approximately ****$55,000**+**. Scenario C (save all of it): Treat OCONUS COLA as in… |
+| 60 | $400 |  | …ng power. You broke even. Scenario B (save half): Redirect **$400**/month to savings or investments throughout the tour. After … |
+| 60 | $55,000 |  | … years to retirement, that $14,400 grows to approximately ****$55,000**+**. Scenario C (save all of it): Treat OCONUS COLA as invi… |
 | 62 | $800 |  | …base pay and OHA/housing as if the COLA doesn't exist. Save **$800**/month for 36 months: **$28,800 accumulated**. Same 7% growt… |
 | 62 | $28,800 |  | …if the COLA doesn't exist. Save $800/month for 36 months: ****$28,800** accumulated**. Same 7% growth over 20 years: approximately … |
-| 62 | $110,000 |  | …ccumulated**. Same 7% growth over 20 years: approximately ****$110,000**+**. Two of the three scenarios are identical in lifestyl… |
+| 62 | $110,000 |  | …ccumulated**. Same 7% growth over 20 years: approximately ****$110,000**+**. Two of the three scenarios are identical in lifestyle … |
 | 76 | $236,000 |  | …n the Roth IRA income limits (married filing jointly: under **$236,000** MAGI in 2026), a Roth IRA provides tax-free growth. The 202… |
 | 76 | $8,500 |  | …ax-free growth. The 2026 contribution limit is $7,500/year (**$8,500** age 50+). Since OCONUS COLA is non-taxable and doesn't add … |
-| 90 | $400 | range | …ioned in one of these areas, you receive an additional $100–**$400**/month depending on pay grade. **Important distinction: C… |
 | 104 | $50,000 | range | … this consistently across 2–3 overseas tours can accumulate **$50,000**–$150,000+ in additional retirement savings that their peers… |
 | 104 | $150,000 | range | …nsistently across 2–3 overseas tours can accumulate $50,000–**$150,000**+ in additional retirement savings that their peers who "spe… |
 | 115 | $50,000 |  | …o return from 3-year tours in Japan, Germany, or Korea with **$50,000**+ in new savings aren't doing anything exotic — they're just… |
@@ -2547,7 +2545,7 @@ data 9 (6 weak) · derived 6 (5 weak) · unbound 16
 
 ### src/content/blog/dual-military-financial-strategies.mdx
 
-data 13 (10 weak) · derived 1 (1 weak) · unbound 17
+data 12 (9 weak) · derived 1 (1 weak) · unbound 18
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
@@ -2555,18 +2553,17 @@ data 13 (10 weak) · derived 1 (1 weak) · unbound 17
 | 43 | $3,500 | data (weak) | `healthcare:employer.single.bronze.deductible` |  | …substantial. An O-3 at a high-cost California installation (**$3,500**+/month) and an E-7 at a moderate-cost East Coast installati… |
 | 43 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | …nth) and an E-7 at a moderate-cost East Coast installation (**$2,000**/month) receive a combined **$5,500+/month in tax-free housi… |
 | 43 | $5,500 | data (weak) | `healthcare:fpl.increment` |  | …East Coast installation ($2,000/month) receive a combined ****$5,500**+/month in tax-free housing allowance** while being geograph… |
-| 49 | $300 | data (weak) | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` | range | …n co-located than when geographically separated — typically **$300**–$600/month less, depending on the duty station. Budget acco… |
+| 49 | $300 | data (weak) | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` | range | …n co-located than when geographically separated — typically **$300**–$600/month less, depending on the duty station. Budget acco… |
 | 49 | $600 | data-derived (weak) | `12×deployment:hdpLevels[1]` | range | …located than when geographically separated — typically $300–**$600**/month less, depending on the duty station. Budget according… |
 | 55 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` | annual | … accounts? In 2026, the TSP elective deferral limit is ****$24,500**/year** per member. A dual military couple can contribute a … |
 | 63 | $72,000 | data | `deployment:tspCombatZoneLimit`, `tsp:annualAdditionsLimit` |  | …tal annual additions limit for the deployed member rises to **$72,000** — though Roth TSP contributions remain capped at $24,500; e… |
 | 63 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` |  | …to $72,000 — though Roth TSP contributions remain capped at **$24,500**; excess tax-exempt contributions above that go into the tra… |
-| 88 | $120 | data (weak) | `cola:moderate-high.E1-E4[0]`, `cola:moderate.O4-O6[0]` | range | …es based on total family income, typically ranging from $40–**$120**/week per child depending on income tier. However, CDC slots… |
 | 90 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | … Off-post childcare in the surrounding civilian market runs **$1,000**–$2,500/month per child in most markets — and higher in HCOL… |
 | 90 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` | range | …s. For a family with two children in full-time care, that's **$2,000**–$5,000/month in childcare costs. At these costs, for a j… |
 | 90 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` | range | …a family with two children in full-time care, that's $2,000–**$5,000**/month in childcare costs. At these costs, for a junior e… |
 | 98 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` | annual | …re FSA: the military Flexible Spending Account allows up to **$5,000**/year pre-tax for childcare - Family support network: proxi… |
 
-<details><summary>17 unbound</summary>
+<details><summary>18 unbound</summary>
 
 | Line | Figure | Flags | Context |
 |---:|---|---|---|
@@ -2586,6 +2583,7 @@ data 13 (10 weak) · derived 1 (1 weak) · unbound 17
 | 82 | $400,000 | range | …lation. Add TSP distributions (two accounts, potentially **$400,000**–$800,000+ combined at retirement), and a dual military coup… |
 | 82 | $800,000 | range | … Add TSP distributions (two accounts, potentially $400,000–**$800,000**+ combined at retirement), and a dual military couple can re… |
 | 88 | $40 | range | … rates based on total family income, typically ranging from **$40**–$120/week per child depending on income tier. However, CDC … |
+| 88 | $120 | range | …es based on total family income, typically ranging from $40–**$120**/week per child depending on income tier. However, CDC slots… |
 | 90 | $2,500 | range | …st childcare in the surrounding civilian market runs $1,000–**$2,500**/month per child in most markets — and higher in HCOL areas.… |
 
 </details>
@@ -2641,45 +2639,6 @@ data 13 (2 weak) · derived 0 (0 weak) · unbound 27
 | 75 | $40 |  | …y insurer, health, and state). At that same age, VGLI costs **$40**/month for $500,000 of coverage. The gap seems small. But a … |
 | 113 | $25,000 | range | …ur SGLI coverage — separate from the death benefit. It pays **$25,000**–$100,000 if you suffer a qualifying traumatic injury such a… |
 | 113 | $100,000 | range | …coverage — separate from the death benefit. It pays $25,000–**$100,000** if you suffer a qualifying traumatic injury such as loss of… |
-
-</details>
-
-### src/content/blog/using-bah-to-buy-a-home.mdx
-
-data 12 (11 weak) · derived 0 (0 weak) · unbound 13
-
-| Line | Figure | Class | Sources | Flags | Context |
-|---:|---|---|---|---|---|
-| 19 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | …igher than the same dollar amount earned as gross wages — a **$2,000**/month BAH at the 22% tax bracket is equivalent to roughly $… |
-| 50 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | … A service member in the 22% federal tax bracket receiving **$2,000**/month in BAH keeps all $2,000 for housing. A civilian earni… |
-| 50 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | …federal tax bracket receiving $2,000/month in BAH keeps all **$2,000** for housing. A civilian earning $2,000/month in gross wages… |
-| 50 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | …nth in BAH keeps all $2,000 for housing. A civilian earning **$2,000**/month in gross wages keeps approximately $1,560 after feder… |
-| 50 | $1,560 | data (weak) | `bah:AL001/E-7/w`, `bah:CA021/O-1E/wo`, `bah:IL093/O-2/wo`, `bah:MI156/E-8/wo`, `bah:MO162/O-2/wo` (+6 more) | approx | …ian earning $2,000/month in gross wages keeps approximately **$1,560** after federal income tax (22% bracket) — before state taxes… |
-| 50 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | … income tax (22% bracket) — before state taxes. To generate **$2,000** in after-tax housing money, that civilian needs to earn rou… |
-| 75 | $1,518 | data (weak) | `bah:KS100/O-2E/wo`, `bah:NC179/E-1/wo`, `bah:NC179/E-2/wo`, `bah:NC179/E-3/wo`, `bah:NC179/E-4/wo` (+16 more) |  | …nts in 2026). A $240,000 VA loan at 6.5% (30-year): PI = **$1,518**/month Property taxes at 1% annually: $200/month Homeowner… |
-| 76 | $200 | data (weak) | `cola:high.E1-E4[0]`, `cola:moderate-high.E5-E9[0]`, `cola:moderate-high.O1-O3[0]` |  | …30-year): PI = $1,518/month Property taxes at 1% annually: **$200**/month Homeowner's insurance: $100/month **Total housing c… |
-| 77 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …ty taxes at 1% annually: $200/month Homeowner's insurance: **$100**/month **Total housing cost: ~$1,818/month** BAH of $2,0… |
-| 78 | $1,818 | data (weak) | `bah:AL005/E-7/w`, `bah:AZ014/E-8/wo`, `bah:CA420/O-1/wo`, `bah:GA076/O-1/w`, `bah:IL088/O-3/wo` (+22 more) | approx | … Homeowner's insurance: $100/month **Total housing cost: ~**$1,818**/month** BAH of $2,050 covers all of it, leaving roughly … |
-| 92 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` | range | …ity rating exempts you from the funding fee** — eliminating **$6,000**–$11,000 in upfront cost significantly improves the math 4.… |
-| 149 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` | range | …ying decision: 1. **Funding fee exemption** — eliminates **$6,000**–$11,000 in upfront cost on most purchase loans 2. **Post-s… |
-
-<details><summary>13 unbound</summary>
-
-| Line | Figure | Flags | Context |
-|---:|---|---|---|
-| 19 | $2,564 | approx | …0/month BAH at the 22% tax bracket is equivalent to roughly **$2,564**/month in pretax wages&lt;/QAItem&gt; &lt;QAItem&gt;At many moderate-… |
-| 28 | $0 |  | …n. At many duty stations, the combination of a VA loan's **$0** down and competitive rate brings the monthly payment close … |
-| 50 | $2,564 | approx | …fter-tax housing money, that civilian needs to earn roughly **$2,564**/month. This is one reason the VA loan + BAH combination … |
-| 73 | $2,050 |  | …pendents at a moderate-cost duty station** Assume BAH of **$2,050**/month (roughly the national median for E-5 with dependents … |
-| 75 | $240,000 |  | … the national median for E-5 with dependents in 2026). A **$240,000** VA loan at 6.5% (30-year): PI = $1,518/month Property taxe… |
-| 80 | $2,050 |  | …$100/month **Total housing cost: ~$1,818/month** BAH of **$2,050** covers all of it, leaving roughly $232/month. That margin c… |
-| 80 | $232 | approx | …/month** BAH of $2,050 covers all of it, leaving roughly **$232**/month. That margin can help build equity when the full owne… |
-| 92 | $11,000 | range | …ing exempts you from the funding fee** — eliminating $6,000–**$11,000** in upfront cost significantly improves the math 4. **The l… |
-| 114 | $0 |  | …ent does not mean no cash to close A VA loan can require **$0** down, but that is not the same as $0 cash needed. The VA fu… |
-| 114 | $0 |  | … A VA loan can require $0 down, but that is not the same as **$0** cash needed. The VA funding fee may be financed unless exem… |
-| 114 | $0 |  | …er and lender credits can help but should not be assumed. A **$0**-down loan can still leave you cash-poor after moving in. … |
-| 149 | $11,000 | range | …cision: 1. **Funding fee exemption** — eliminates $6,000–**$11,000** in upfront cost on most purchase loans 2. **Post-separatio… |
-| 171 | $0 |  | … improve affordability — especially paired with a VA loan's **$0** down and no PMI. At the right duty station with the right t… |
 
 </details>
 
@@ -2782,18 +2741,57 @@ data 11 (4 weak) · derived 0 (0 weak) · unbound 23
 
 </details>
 
+### src/content/blog/using-bah-to-buy-a-home.mdx
+
+data 11 (10 weak) · derived 0 (0 weak) · unbound 14
+
+| Line | Figure | Class | Sources | Flags | Context |
+|---:|---|---|---|---|---|
+| 19 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | …igher than the same dollar amount earned as gross wages — a **$2,000**/month BAH at the 22% tax bracket is equivalent to roughly $… |
+| 50 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | … A service member in the 22% federal tax bracket receiving **$2,000**/month in BAH keeps all $2,000 for housing. A civilian earni… |
+| 50 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | …federal tax bracket receiving $2,000/month in BAH keeps all **$2,000** for housing. A civilian earning $2,000/month in gross wages… |
+| 50 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | …nth in BAH keeps all $2,000 for housing. A civilian earning **$2,000**/month in gross wages keeps approximately $1,560 after feder… |
+| 50 | $1,560 | data (weak) | `bah:AL001/E-7/w`, `bah:CA021/O-1E/wo`, `bah:IL093/O-2/wo`, `bah:MI156/E-8/wo`, `bah:MO162/O-2/wo` (+6 more) | approx | …ian earning $2,000/month in gross wages keeps approximately **$1,560** after federal income tax (22% bracket) — before state taxes… |
+| 50 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | … income tax (22% bracket) — before state taxes. To generate **$2,000** in after-tax housing money, that civilian needs to earn rou… |
+| 75 | $1,518 | data (weak) | `bah:KS100/O-2E/wo`, `bah:NC179/E-1/wo`, `bah:NC179/E-2/wo`, `bah:NC179/E-3/wo`, `bah:NC179/E-4/wo` (+16 more) |  | …nts in 2026). A $240,000 VA loan at 6.5% (30-year): PI = **$1,518**/month Property taxes at 1% annually: $200/month Homeowner… |
+| 77 | $100 | data | `deployment:hdpLevels[2]` |  | …ty taxes at 1% annually: $200/month Homeowner's insurance: **$100**/month **Total housing cost: ~$1,818/month** BAH of $2,0… |
+| 78 | $1,818 | data (weak) | `bah:AL005/E-7/w`, `bah:AZ014/E-8/wo`, `bah:CA420/O-1/wo`, `bah:GA076/O-1/w`, `bah:IL088/O-3/wo` (+22 more) | approx | … Homeowner's insurance: $100/month **Total housing cost: ~**$1,818**/month** BAH of $2,050 covers all of it, leaving roughly … |
+| 92 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` | range | …ity rating exempts you from the funding fee** — eliminating **$6,000**–$11,000 in upfront cost significantly improves the math 4.… |
+| 149 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` | range | …ying decision: 1. **Funding fee exemption** — eliminates **$6,000**–$11,000 in upfront cost on most purchase loans 2. **Post-s… |
+
+<details><summary>14 unbound</summary>
+
+| Line | Figure | Flags | Context |
+|---:|---|---|---|
+| 19 | $2,564 | approx | …0/month BAH at the 22% tax bracket is equivalent to roughly **$2,564**/month in pretax wages&lt;/QAItem&gt; &lt;QAItem&gt;At many moderate-… |
+| 28 | $0 |  | …n. At many duty stations, the combination of a VA loan's **$0** down and competitive rate brings the monthly payment close … |
+| 50 | $2,564 | approx | …fter-tax housing money, that civilian needs to earn roughly **$2,564**/month. This is one reason the VA loan + BAH combination … |
+| 73 | $2,050 |  | …pendents at a moderate-cost duty station** Assume BAH of **$2,050**/month (roughly the national median for E-5 with dependents … |
+| 75 | $240,000 |  | … the national median for E-5 with dependents in 2026). A **$240,000** VA loan at 6.5% (30-year): PI = $1,518/month Property taxe… |
+| 76 | $200 |  | …30-year): PI = $1,518/month Property taxes at 1% annually: **$200**/month Homeowner's insurance: $100/month **Total housing c… |
+| 80 | $2,050 |  | …$100/month **Total housing cost: ~$1,818/month** BAH of **$2,050** covers all of it, leaving roughly $232/month. That margin c… |
+| 80 | $232 | approx | …/month** BAH of $2,050 covers all of it, leaving roughly **$232**/month. That margin can help build equity when the full owne… |
+| 92 | $11,000 | range | …ing exempts you from the funding fee** — eliminating $6,000–**$11,000** in upfront cost significantly improves the math 4. **The l… |
+| 114 | $0 |  | …ent does not mean no cash to close A VA loan can require **$0** down, but that is not the same as $0 cash needed. The VA fu… |
+| 114 | $0 |  | … A VA loan can require $0 down, but that is not the same as **$0** cash needed. The VA funding fee may be financed unless exem… |
+| 114 | $0 |  | …er and lender credits can help but should not be assumed. A **$0**-down loan can still leave you cash-poor after moving in. … |
+| 149 | $11,000 | range | …cision: 1. **Funding fee exemption** — eliminates $6,000–**$11,000** in upfront cost on most purchase loans 2. **Post-separatio… |
+| 171 | $0 |  | … improve affordability — especially paired with a VA loan's **$0** down and no PMI. At the right duty station with the right t… |
+
+</details>
+
 ### src/content/blog/what-is-bah-military-housing-allowance.mdx
 
-data 7 (7 weak) · derived 4 (2 weak) · unbound 5
+data 9 (9 weak) · derived 2 (0 weak) · unbound 5
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
 | 15 | $1,600 | data (weak) | `healthcare:acaNoSubsidy.family.silver.premium` |  | …hey are stationed. E-5 with-dependent BAH ranges from under **$1,600**/month at some installations to nearly $4,000/month at high-… |
 | 15 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` |  | …ges from under $1,600/month at some installations to nearly **$4,000**/month at high-cost stations, which is why looking up the sp… |
-| 68 | $2,400 | data-derived (weak) | `12×cola:high.E1-E4[0]`, `12×cola:moderate-high.E5-E9[0]`, `12×cola:moderate-high.O1-O3[0]`, `bah:AL006/O-6/wo`, `bah:AR012/O-7/w` (+23 more) |  | …ost financially significant features of BAH. If your BAH is **$2,400**/month and you find an apartment for $1,800/month, that $600… |
-| 68 | $1,800 | data-derived | `12×cola:moderate.W1-W5[1]`, `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo` (+19 more) |  | …. If your BAH is $2,400/month and you find an apartment for **$1,800**/month, that $600 difference goes into your pocket — not bac… |
+| 68 | $2,400 | data (weak) | `bah:AL006/O-6/wo`, `bah:AR012/O-7/w`, `bah:AZ015/O-4/w`, `bah:FL068/W-4/wo`, `bah:GA074/O-2E/w` (+20 more) |  | …ost financially significant features of BAH. If your BAH is **$2,400**/month and you find an apartment for $1,800/month, that $600… |
+| 68 | $1,800 | data-derived | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) |  | …. If your BAH is $2,400/month and you find an apartment for **$1,800**/month, that $600 difference goes into your pocket — not bac… |
 | 68 | $600 | data-derived | `12×deployment:hdpLevels[1]` |  | …,400/month and you find an apartment for $1,800/month, that **$600** difference goes into your pocket — not back to the governme… |
-| 95 | $2,400 | data-derived (weak) | `12×cola:high.E1-E4[0]`, `12×cola:moderate-high.E5-E9[0]`, `12×cola:moderate-high.O1-O3[0]`, `bah:AL006/O-6/wo`, `bah:AR012/O-7/w` (+23 more) |  | …% to FICA. **Example:** An E-6 with dependents receiving **$2,400**/month in BAH is receiving the after-tax equivalent of appro… |
+| 95 | $2,400 | data (weak) | `bah:AL006/O-6/wo`, `bah:AR012/O-7/w`, `bah:AZ015/O-4/w`, `bah:FL068/W-4/wo`, `bah:GA074/O-2E/w` (+20 more) |  | …% to FICA. **Example:** An E-6 with dependents receiving **$2,400**/month in BAH is receiving the after-tax equivalent of appro… |
 | 127 | $1,218 | data (weak) | `bah:LA115/E-5/w`, `bah:LA370/E-6/wo`, `bah:OH233/O-1/w`, `bah:OK236/E-7/wo`, `bah:ZZ510/E-6/wo` | table | …s rates: \| MHA \| BAH \| \|-----\|-----\| \| Fort Polk, LA \| **$1,218**/month \| \| San Francisco, CA \| $5,127/month \| \| **Differen… |
 | 128 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` | table | …-\| \| Fort Polk, LA \| $1,218/month \| \| San Francisco, CA \| **$5,127**/month \| \| **Difference** \| **$3,909/month ($46,908/year)**… |
 | 129 | $3,909 | data (weak) | `bah:DC053/O-5/wo`, `bah:HI408/O-2/w`, `bah:MA122/E-9/w` | table | … \| San Francisco, CA \| $5,127/month \| \| **Difference** \| ****$3,909**/month ($46,908/year)** \| An E-5 at JBLM in Tacoma receiv… |
@@ -2820,11 +2818,11 @@ data 10 (0 weak) · derived 0 (0 weak) · unbound 0
 |---:|---|---|---|---|---|
 | 14 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` |  | … several pay elements change or activate: Hostile Fire Pay (**$450**/month) or Imminent Danger Pay ($275/month) at rates effecti… |
 | 14 | $275 | data | `deployment:idp` |  | …vate: Hostile Fire Pay ($450/month) or Imminent Danger Pay (**$275**/month) at rates effective October 1, 2026, Family Separatio… |
-| 14 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …tes effective October 1, 2026, Family Separation Allowance (**$300**/month if separated from dependents for 30+ days), and the C… |
+| 14 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …tes effective October 1, 2026, Family Separation Allowance (**$300**/month if separated from dependents for 30+ days), and the C… |
 | 24 | $450 | data | `deployment:hfp`, `healthcare:employer.family.bronze.premium` |  | …llowance? Effective October 1, 2026, Hostile Fire Pay is **$450**/month and Imminent Danger Pay is $275/month. The practical … |
 | 24 | $275 | data | `deployment:idp` |  | …, Hostile Fire Pay is $450/month and Imminent Danger Pay is **$275**/month. The practical distinction: HFP is typically paid for… |
 | 24 | $9.16 | data | `deployment:idpDaily` |  | …f you qualify for any day of that month; IDP is prorated at **$9.16** per day in qualifying areas. A member generally cannot rece… |
-| 26 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ies to your deployment. Family Separation Allowance adds **$300**/month when you have qualifying dependents and are separated… |
+| 26 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ies to your deployment. Family Separation Allowance adds **$300**/month when you have qualifying dependents and are separated… |
 | 30 | $10,000 | data | `deployment:sdpMaxDeposit`, `healthcare:employer.family.gold.oopMax`, `healthcare:acaNoSubsidy.family.silver.deductible` |  | …ual interest — guaranteed by the U.S. government — on up to **$10,000** deposited while deployed to a qualifying combat zone for 30… |
 | 32 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` |  | …at zone month. The 2026 Roth TSP elective deferral limit is **$24,500**, with the total annual additions limit rising to $72,000 in… |
 | 32 | $72,000 | data | `deployment:tspCombatZoneLimit`, `tsp:annualAdditionsLimit` |  | …is $24,500, with the total annual additions limit rising to **$72,000** in combat zone months. ## What stays the same? BAH ge… |
@@ -2878,7 +2876,7 @@ data 9 (3 weak) · derived 0 (0 weak) · unbound 24
 
 ### src/content/blog/military-tax-advantages.mdx
 
-data 8 (4 weak) · derived 1 (1 weak) · unbound 21
+data 9 (5 weak) · derived 0 (0 weak) · unbound 21
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
@@ -2886,7 +2884,7 @@ data 8 (4 weak) · derived 1 (1 weak) · unbound 21
 | 19 | $476.95 | data | `bas:enlisted` |  | …axes&lt;/QAItem&gt; &lt;QAItem&gt;E-5 at San Diego: BAH $3,975 + BAS **$476.95** = $4,452/month tax-free — saves approximately $15,800/year … |
 | 42 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` |  | …5 stationed in San Diego in 2026: - BAH (with dependents): **$3,975**/month - BAS (enlisted): $476.95/month - **Combined tax-fr… |
 | 43 | $476.95 | data | `bas:enlisted` |  | …: - BAH (with dependents): $3,975/month - BAS (enlisted): **$476.95**/month - **Combined tax-free: $4,451.95/month ($53,423.40/y… |
-| 51 | $1,320 | data-derived (weak) | `12×cola:moderate.W1-W5[0]`, `bah:AR012/O-1/w`, `bah:GA081/E-1/wo`, `bah:GA081/E-2/wo`, `bah:GA081/E-3/wo` (+17 more) |  | … **Total taxes avoided: ~$15,840/year** That's roughly ****$1,320**/month in tax savings** — just from the exclusion of BAH and… |
+| 51 | $1,320 | data (weak) | `bah:AR012/O-1/w`, `bah:GA081/E-1/wo`, `bah:GA081/E-2/wo`, `bah:GA081/E-3/wo`, `bah:GA081/E-4/wo` (+16 more) |  | … **Total taxes avoided: ~$15,840/year** That's roughly ****$1,320**/month in tax savings** — just from the exclusion of BAH and… |
 | 63 | $4,759.50 | data | `pay:E-6@10` |  | …rs. Practically, what this means: a deployed E-6 earning **$4,759.50**/month in base pay plus BAH and BAS pays **$0 in federal inc… |
 | 79 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` |  | … A single deployment where you max Roth TSP contributions (**$24,500** for 2026) creates a pool of money that may never be taxed. … |
 | 135 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` | range, table | …nces \| ~$4,087 avoided \| \| No-tax state domicile \| ~$2,500–**$5,000**+ (varies by state) \| \| Roth TSP deployment \| Depends on de… |
@@ -3091,9 +3089,9 @@ data 6 (5 weak) · derived 1 (0 weak) · unbound 27
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
 | 36 | $2,100 | data (weak) | `bah:AL005/O-3E/w`, `bah:AR010/W-4/w`, `bah:FL065/W-4/wo`, `bah:ID084/E-9/wo`, `bah:KY106/E-6/w` (+15 more) |  | …actually means BAH is a fixed allowance. If your rate is **$2,100**/month and you find housing that costs $1,700/month, you kee… |
-| 40 | $1,800 | data-derived | `12×cola:moderate.W1-W5[1]`, `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo` (+19 more) |  | …rvice members in moderate-cost areas. When your mortgage is **$1,800** and your BAH is $2,100, many service members find they pock… |
+| 40 | $1,800 | data-derived | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) |  | …rvice members in moderate-cost areas. When your mortgage is **$1,800** and your BAH is $2,100, many service members find they pock… |
 | 40 | $2,100 | data (weak) | `bah:AL005/O-3E/w`, `bah:AR010/W-4/w`, `bah:FL065/W-4/wo`, `bah:ID084/E-9/wo`, `bah:KY106/E-6/w` (+15 more) |  | …te-cost areas. When your mortgage is $1,800 and your BAH is **$2,100**, many service members find they pocket the $300 difference … |
-| 40 | $300 | data | `cola:moderate-high.W1-W5[1]`, `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ur BAH is $2,100, many service members find they pocket the **$300** difference tax-free while part of each mortgage payment bui… |
+| 40 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ur BAH is $2,100, many service members find they pocket the **$300** difference tax-free while part of each mortgage payment bui… |
 | 52 | $1,650 | data (weak) | `bah:AZ016/O-2/wo`, `bah:CA021/O-2E/wo`, `bah:LA116/O-1/wo`, `bah:LA326/E-6/w`, `bah:LA326/O-3E/wo` (+19 more) | range | …nthly payment (30-year, ~6.5% rate):** approximately $1,580–**$1,650** including property taxes and homeowner's insurance - **BAH… |
 | 56 | $1,650 | data (weak) | `bah:AZ016/O-2/wo`, `bah:CA021/O-2E/wo`, `bah:LA116/O-1/wo`, `bah:LA326/E-6/w`, `bah:LA326/O-3E/wo` (+19 more) | range | …gap you keep:** $400–$470 Each month, part of the $1,580–**$1,650** mortgage payment goes toward principal paydown, building eq… |
 | 99 | $5,100 | data (weak) | `bah:CA044/O-5/wo`, `bah:NY219/W-1/w`, `bah:NY219/E-8/wo` |  | …erate-cost markets. In San Francisco, where an E-5 receives **$5,100**+/month in BAH, home prices are so high that even a VA loan … |
@@ -3176,7 +3174,7 @@ data 7 (1 weak) · derived 0 (0 weak) · unbound 0
 | 17 | $4,500 | data | `bah:MA119/E-8/wo`, `bah:NY218/E-8/wo`, `education:ta.annualCap` |  | …istance pays up to $250 per semester credit hour, capped at **$4,500** per fiscal year (October 1 through September 30). It covers… |
 | 23 | $350 | data (weak) | `healthcare:acaNoSubsidy.single.bronze.premium` |  | …A pays and your actual tuition cost. If your school charges **$350** per credit hour and TA covers $250, Top-Up can fill the rem… |
 | 23 | $250 | data | `education:ta.perCreditHour`, `healthcare:employer.single.gold.premium` |  | …. If your school charges $350 per credit hour and TA covers **$250**, Top-Up can fill the remaining $100. The cost of using Top… |
-| 23 | $100 | data | `cola:moderate.E5-E9[0]`, `cola:moderate.O1-O3[0]`, `deployment:hdpLevels[2]` |  | …edit hour and TA covers $250, Top-Up can fill the remaining **$100**. The cost of using Top-Up: Top-Up reduces your remaining G… |
+| 23 | $100 | data | `deployment:hdpLevels[2]` |  | …edit hour and TA covers $250, Top-Up can fill the remaining **$100**. The cost of using Top-Up: Top-Up reduces your remaining G… |
 
 ### src/content/blog/skillbridge-program-guide.mdx
 
@@ -3186,7 +3184,7 @@ data 3 (3 weak) · derived 3 (1 weak) · unbound 3
 |---:|---|---|---|---|---|
 | 15 | $15,000 | data (weak) | `healthcare:acaNoSubsidy.family.bronze.deductible` | range | …earch gap that typically follows separation, which is worth **$15,000**–$30,000 or more in avoided income loss depending on target … |
 | 50 | $4,759 | data-derived | `round(pcs:dla.withoutDependents.O-6)` | table | …---------------\|--------------\| \| Base pay (E-6, 10 YOS) \| **$4,759** \| \| BAH (moderate-cost area, with dependents) \| ~$1,800 \| … |
-| 51 | $1,800 | data-derived (weak) | `12×cola:moderate.W1-W5[1]`, `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo` (+19 more) | approx, table | … \| $4,759 \| \| BAH (moderate-cost area, with dependents) \| ~**$1,800** \| \| BAS (enlisted) \| $477 \| \| TRICARE (healthcare value) … |
+| 51 | $1,800 | data-derived (weak) | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) | approx, table | … \| $4,759 \| \| BAH (moderate-cost area, with dependents) \| ~**$1,800** \| \| BAS (enlisted) \| $477 \| \| TRICARE (healthcare value) … |
 | 52 | $477 | data-derived | `round(bas:enlisted)` | table | …cost area, with dependents) \| ~$1,800 \| \| BAS (enlisted) \| **$477** \| \| TRICARE (healthcare value) \| ~$500+ \| \| **Approximate… |
 | 53 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | approx, table | … \| BAS (enlisted) \| $477 \| \| TRICARE (healthcare value) \| ~**$500**+ \| \| **Approximate monthly total** \| **~$7,500+** \| Dur… |
 | 54 | $7,500 | data (weak) | `healthcare:acaNoSubsidy.single.bronze.deductible`, `tricare:civilianComparison.individualAnnual` | approx, table | …are value) \| ~$500+ \| \| **Approximate monthly total** \| **~**$7,500**+** \| During SkillBridge, you continue receiving this sam… |
@@ -3250,7 +3248,7 @@ data 4 (0 weak) · derived 1 (0 weak) · unbound 10
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
 | 35 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` | table | …cally when you're eligible \| \| Annual contribution limit \| **$24,500** (2026) \| You're contributing well below this at 5% — that's… |
-| 71 | $150 | data | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | … **What this means over 20 years:** An E-4 contributing **$150**/month starting at age 20 for 20 years (contributions would … |
+| 71 | $150 | data | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` |  | … **What this means over 20 years:** An E-4 contributing **$150**/month starting at age 20 for 20 years (contributions would … |
 | 123 | $3,947 | data-derived | `round(pay:E-5@4)` |  | …t contribution is capped at 5% total. For an E-5 earning **$3,947**/month in base pay (2026), the full government match represe… |
 | 147 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` |  | …ons still count toward the regular elective deferral limit (**$24,500** in 2026). The extra room above that limit generally comes f… |
 | 197 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` |  | …n rate above 5% if your budget allows — the annual limit is **$24,500** in 2026 3. Review Roth vs. Traditional: if you expect a hi… |
@@ -3289,8 +3287,8 @@ data 3 (3 weak) · derived 0 (0 weak) · unbound 17
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
-| 90 | $150 | data (weak) | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` | approx, range | …tgage insurance at any LTV', 'Conventional PMI runs ~**$150**–400/mo', 'No prepayment penalty', ], cta: … |
-| 272 | $150 | data (weak) | `cola:moderate.W1-W5[1]`, `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` | range | … &lt;li&gt;Low down payment scenarios — conventional PMI adds **$150**–$400/month until 20% equity is reached&lt;/li&gt; &lt;li&gt;… |
+| 90 | $150 | data (weak) | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` | approx, range | …tgage insurance at any LTV', 'Conventional PMI runs ~**$150**–400/mo', 'No prepayment penalty', ], cta: … |
+| 272 | $150 | data (weak) | `deployment:hdpLTopRatePrior`, `healthcare:tricareReserveSelect.single.deductible` | range | … &lt;li&gt;Low down payment scenarios — conventional PMI adds **$150**–$400/month until 20% equity is reached&lt;/li&gt; &lt;li&gt;… |
 | 763 | $1,806 | data (weak) | `bah:GA074/E-5/wo`, `bah:MI153/E-5/w`, `bah:MO160/W-1/wo`, `bah:MS168/W-5/wo`, `bah:NC177/E-1/w` (+22 more) |  | … &lt;p className="text-sm font-semibold text-zinc-700"&gt;**$1,806**/mo&lt;/p&gt; &lt;p className="text-xs text-emer… |
 
 <details><summary>17 unbound</summary>
@@ -3528,24 +3526,6 @@ data 1 (0 weak) · derived 1 (0 weak) · unbound 12
 
 </details>
 
-### src/content/blog/brs-vs-high-3-difference.mdx
-
-data 1 (1 weak) · derived 0 (0 weak) · unbound 3
-
-| Line | Figure | Class | Sources | Flags | Context |
-|---:|---|---|---|---|---|
-| 23 | $610 | data (weak) | `cola:high.O7-O10[1]` |  | …$3,050/month under High-3 versus $2,440/month under BRS — a **$610**/month difference for life, starting immediately at retireme… |
-
-<details><summary>3 unbound</summary>
-
-| Line | Figure | Flags | Context |
-|---:|---|---|---|
-| 23 | $6,100 | approx | …r an [E-7](/pay/e7) with a High-36 average of approximately **$6,100**/month, that's roughly $3,050/month under High-3 versus $2,4… |
-| 23 | $3,050 | approx | …gh-36 average of approximately $6,100/month, that's roughly **$3,050**/month under High-3 versus $2,440/month under BRS — a $610/m… |
-| 23 | $2,440 |  | …,100/month, that's roughly $3,050/month under High-3 versus **$2,440**/month under BRS — a $610/month difference for life, startin… |
-
-</details>
-
 ### src/content/blog/les-abbreviations-explained.mdx
 
 data 1 (0 weak) · derived 0 (0 weak) · unbound 3
@@ -3612,6 +3592,21 @@ data 1 (1 weak) · derived 0 (0 weak) · unbound 28
 | 151 | $60,000 |  | …ed home when using a VA loan: - No down payment means no **$60,000** cash outlay before the mortgage calculation - Lower rate m… |
 | 155 | $280,000 |  | … E-6 at a moderate-cost station with BAH of $2,100/month. A **$280,000** home financed with a VA loan at 6.0% (30-year): principal a… |
 | 155 | $1,679 |  | … with a VA loan at 6.0% (30-year): principal and interest ≈ **$1,679**/month, plus taxes and insurance. BAH may cover that payment… |
+
+</details>
+
+### src/content/blog/brs-vs-high-3-difference.mdx
+
+data 0 (0 weak) · derived 0 (0 weak) · unbound 4
+
+<details><summary>4 unbound</summary>
+
+| Line | Figure | Flags | Context |
+|---:|---|---|---|
+| 23 | $6,100 | approx | …r an [E-7](/pay/e7) with a High-36 average of approximately **$6,100**/month, that's roughly $3,050/month under High-3 versus $2,4… |
+| 23 | $3,050 | approx | …gh-36 average of approximately $6,100/month, that's roughly **$3,050**/month under High-3 versus $2,440/month under BRS — a $610/m… |
+| 23 | $2,440 |  | …,100/month, that's roughly $3,050/month under High-3 versus **$2,440**/month under BRS — a $610/month difference for life, startin… |
+| 23 | $610 |  | …$3,050/month under High-3 versus $2,440/month under BRS — a **$610**/month difference for life, starting immediately at retireme… |
 
 </details>
 

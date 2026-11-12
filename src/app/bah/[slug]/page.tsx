@@ -9,7 +9,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema, breadcrumbListSchema } from '@/lib/schema';
 import { formatCurrency } from '@/lib/utils';
 import { STATE_TAX_DATA } from '@/data/compare/stateTax';
-import { COLA_AREAS } from '@/data/cola/2026/constants';
+import { getColaAreaByMha } from '@/data/cola/2026/constants';
 import { StationPageClient } from '@/components/calculators/bah/StationPageClient';
 import { ogImage } from '@/lib/og';
 import { OCONUS_V2_STATIONS, getRenderableOconusV2, oconusTitle, oconusDescription, OCONUS_OG_SUB } from '@/data/oconus';
@@ -190,8 +190,9 @@ export default async function StationPage({
   const ratesWOPrev = mhaCode ? getMHARatesForYear(mhaCode, false, PRIOR_BAH_YEAR) : null;
 
   const taxInfo = STATE_TAX_DATA[station.state] ?? null;
-  const colaAreaFull = COLA_AREAS.find((a) => a.zipPrefixes.includes(station.zip.slice(0, 3))) ?? null;
-  const colaArea = colaAreaFull ? { name: colaAreaFull.name, tier: colaAreaFull.tier } : null;
+  // CONUS COLA: keyed by the station ZIP's MHA against the official 2026 DTMO list.
+  const colaAreaFull = getColaAreaByMha(mhaCode);
+  const colaArea = colaAreaFull ? { name: colaAreaFull.dtmoName, index: colaAreaFull.index } : null;
 
   const nearbyData = nearbyDeltas(station.slug);
 

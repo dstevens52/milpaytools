@@ -51,8 +51,8 @@ export default function ComparePage() {
     hasDependents: true,
     zipA: '65473',
     zipB: '96857',
-    bahA: { monthlyBAH: cmpFlwBah, locationName: getLocationName('65473') ?? 'Fort Leonard Wood', bahFound: true },
-    bahB: { monthlyBAH: cmpSchBah, locationName: getLocationName('96857') ?? 'Schofield Barracks', bahFound: true },
+    bahA: { monthlyBAH: cmpFlwBah, locationName: getLocationName('65473') ?? 'Fort Leonard Wood', bahFound: true, mha: cmpFlwMha },
+    bahB: { monthlyBAH: cmpSchBah, locationName: getLocationName('96857') ?? 'Schofield Barracks', bahFound: true, mha: cmpSchMha },
   })!;
   const cmpBahAdvantage = cmp.locB.monthlyBAH - cmp.locA.monthlyBAH; // Schofield over Fort Leonard Wood
   const cmpAnnualAdvantage = (cmp.locB.grossMonthly - cmp.locA.grossMonthly) * 12;
@@ -182,12 +182,13 @@ export default function ComparePage() {
                 $328.48 officer)
               </li>
               <li>
-                <strong>CONUS COLA</strong> — Approximate monthly allowance if either duty station
-                is in a qualifying high-cost CONUS area
+                <strong>CONUS COLA</strong> — Whether either duty station is on DTMO&apos;s 2026 CONUS
+                COLA list, with its official index. COLA is not added to the totals; DTMO&apos;s rate
+                lookup gives the exact amount
               </li>
               <li>
                 <strong>State income tax</strong> — Approximate effective rate on taxable income
-                (base pay + CONUS COLA) — BAH and BAS are excluded from federal taxable income. Most
+                (base pay) — BAH and BAS are excluded from federal taxable income. Most
                 states also exclude them, but state treatment varies — verify with your state tax
                 guidance.
               </li>

@@ -310,16 +310,19 @@ test.describe('Dual Military BAH — known answers', () => {
 // ─── 13. CONUS COLA ──────────────────────────────────────────────────────────
 
 test.describe('CONUS COLA — known answers', () => {
-  test('COLA: ZIP 93446 (Paso Robles area) is eligible and shows monthly amount', async ({ page }) => {
-    await page.goto('/calculators/cola');
-    await page.locator('#zip').fill('93446');
-    await expect(page.getByText(/\$\d+.*\/mo|monthly.*COLA/i).first()).toBeVisible();
-  });
-
-  test('COLA: ZIP 60601 (Chicago) is not a CONUS COLA area', async ({ page }) => {
+  // Official 2026 DTMO list (docs/sources/conus-cola-locations-2026.md). Assertions are on
+  // the computed result card, not on static page copy.
+  test('COLA: ZIP 60601 (Chicago, IL325) is a 2026 COLA area at 1%', async ({ page }) => {
     await page.goto('/calculators/cola');
     await page.locator('#zip').pressSequentially('60601', { delay: 50 });
-    await expect(page.getByText(/not a CONUS COLA area|not eligible|no COLA/i).first()).toBeVisible();
+    await expect(page.getByTestId('cola-result-eligible')).toContainText('Chicago is a 2026 CONUS COLA area');
+    await expect(page.getByTestId('cola-result-index')).toHaveText('Official 2026 COLA index: 1%');
+  });
+
+  test('COLA: ZIP 93446 (Paso Robles area) is not a 2026 COLA area', async ({ page }) => {
+    await page.goto('/calculators/cola');
+    await page.locator('#zip').pressSequentially('93446', { delay: 50 });
+    await expect(page.getByTestId('cola-result-not-eligible')).toContainText('is not a 2026 CONUS COLA area.');
   });
 });
 

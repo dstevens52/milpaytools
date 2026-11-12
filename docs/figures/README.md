@@ -35,7 +35,7 @@ value, it is classed `data-derived` and keeps both kinds of source.
 
 A `data` or `data-derived` match is marked `weak` when it may be a coincidence:
 
-- every source is BAH (16,000+ values), a COLA estimate band, or a healthcare illustration value
+- every source is BAH (16,000+ values) or a healthcare illustration value
   (round numbers like $500 and $2,000), or
 - the figure is a whole number under $100, or
 - the figure is approximate (`~`, "about", "approximately", "roughly" just before it), or

@@ -1,84 +1,36 @@
-// CONUS COLA calculation logic
-// Source: DTMO — https://www.travel.dod.mil/Pay-Entitlements/CONUS-COLA/
-// Rates are approximate — always verify at DTMO for your specific grade and dependency status.
+// CONUS COLA eligibility lookup — 2026 official DTMO location list.
+//
+// Eligibility is keyed by Military Housing Area (MHA): ZIP → MHA (DTMO
+// sorted_zipmha26) → is that MHA on the 2026 COLA list? No dollar amounts:
+// the monthly amount depends on pay grade, years of service and dependents,
+// and users get it from DTMO's official rate lookup (COLA_SOURCE.rateLookupUrl).
+//
+// SERVER / TESTS ONLY for lookupCola(): it imports the full zipToMha table.
+// Client components must NOT import this file: they resolve the MHA via
+// /api/bah/lookup (useBahLookup) and import colaForMha from './colaMha'.
 
-import {
-  ColaArea,
-  GradeGroup,
-  ColaTier,
-  COLA_RATE_ESTIMATES,
-  ZIP_PREFIX_MAP,
-  TIER_LABELS,
-} from '@/data/cola/2026/constants';
-import type { PayGrade } from '@/types/military';
+import { zipToMha } from '@/data/bah/2026/zipToMha';
+import { mhaNames } from '@/data/bah/2026/mhaNames';
+import { colaForMha, type ColaLookupResult } from './colaMha';
 
-export interface ColaInput {
-  zipCode: string;
-  payGrade: PayGrade;
-  hasDependents: boolean;
-}
+export { colaForMha };
+export type { ColaLookupResult, ColaEligible, ColaNotEligible, ColaNotFound } from './colaMha';
 
-export interface ColaResult {
-  isColaArea: boolean;
-  area?: ColaArea;
-  tierLabel?: string;
-  approxMonthly?: number;
-  approxAnnual?: number;
-  gradeGroup?: GradeGroup;
-  taxNote: string;
-}
+/** Territory MHA (OHA areas) — no BAH, no CONUS COLA. */
+const TERRITORY_MHA = 'XX499';
 
-/** Map a military pay grade to the grade group used for COLA rate lookups */
-export function getGradeGroup(payGrade: PayGrade): GradeGroup {
-  if (['E-1', 'E-2', 'E-3', 'E-4'].includes(payGrade)) return 'E1-E4';
-  if (['E-5', 'E-6', 'E-7', 'E-8', 'E-9'].includes(payGrade)) return 'E5-E9';
-  if (['W-1', 'W-2', 'W-3', 'W-4', 'W-5'].includes(payGrade)) return 'W1-W5';
-  if (['O-1', 'O-2', 'O-3'].includes(payGrade)) return 'O1-O3';
-  if (['O-4', 'O-5', 'O-6'].includes(payGrade)) return 'O4-O6';
-  return 'O7-O10'; // O-7 through O-10
-}
-
-/** Look up CONUS COLA area by ZIP code */
-export function lookupColaArea(zipCode: string): ColaArea | null {
-  const prefix = zipCode.replace(/\D/g, '').slice(0, 3);
-  if (prefix.length < 3) return null;
-  return ZIP_PREFIX_MAP.get(prefix) ?? null;
-}
-
-/** Get approximate monthly COLA for a given tier, grade, and dependency status */
-export function getApproxMonthlyRate(
-  tier: ColaTier,
-  gradeGroup: GradeGroup,
-  hasDependents: boolean
-): number {
-  const [withoutDeps, withDeps] = COLA_RATE_ESTIMATES[tier][gradeGroup];
-  return hasDependents ? withDeps : withoutDeps;
-}
-
-/** Main COLA lookup — returns result with area info and approximate rate */
-export function lookupCola(input: ColaInput): ColaResult {
-  const { zipCode, payGrade, hasDependents } = input;
-
-  const area = lookupColaArea(zipCode);
-
-  if (!area) {
-    return {
-      isColaArea: false,
-      taxNote: 'CONUS COLA is taxable income — unlike BAH and BAS, which are tax-free.',
-    };
-  }
-
-  const gradeGroup = getGradeGroup(payGrade);
-  const approxMonthly = getApproxMonthlyRate(area.tier, gradeGroup, hasDependents);
-  const approxAnnual = approxMonthly * 12;
-
-  return {
-    isColaArea: true,
-    area,
-    tierLabel: TIER_LABELS[area.tier],
-    approxMonthly,
-    approxAnnual,
-    gradeGroup,
-    taxNote: 'CONUS COLA is taxable income — unlike BAH and BAS, which are tax-free.',
-  };
+/**
+ * Look up 2026 CONUS COLA eligibility for a duty-station ZIP.
+ * - eligible:     the ZIP's MHA is on the 2026 list → DTMO name + official index
+ * - not-eligible: the ZIP maps to an MHA that isn't on the list
+ * - not-found:    malformed ZIP, ZIP not in the DTMO dataset, or a U.S. territory
+ */
+export function lookupCola(zip: string): ColaLookupResult {
+  const z = zip.trim();
+  if (!/^\d{5}$/.test(z)) return { status: 'not-found', eligible: false };
+  const mhaCode = zipToMha[z];
+  if (!mhaCode || mhaCode === TERRITORY_MHA) return { status: 'not-found', eligible: false };
+  const mhaName = mhaNames[mhaCode];
+  if (!mhaName) return { status: 'not-found', eligible: false };
+  return colaForMha(mhaCode, mhaName);
 }

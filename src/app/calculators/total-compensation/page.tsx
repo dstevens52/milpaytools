@@ -408,7 +408,7 @@ export default function TotalCompensationPage() {
                 <li>VA loan eligibility and education benefits (GI Bill)</li>
                 <li>The value of the military pension itself (not just the TSP match)</li>
                 <li>
-                  CONUS COLA — if your duty station is in a high-cost area (parts of CA, NY, MA, CT, NJ, or the NCR),
+                  CONUS COLA — if your duty station is in one of the high-cost areas on DTMO&apos;s 2026 list,
                   you may receive additional taxable allowance.{' '}
                   <a href="/calculators/cola" className="underline text-blue-700 hover:text-blue-800">
                     Check CONUS COLA eligibility →

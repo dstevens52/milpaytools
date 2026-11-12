@@ -91,7 +91,7 @@ const EXTRA_CALCULATORS = [
   {
     href: '/calculators/cola',
     title: 'CONUS COLA',
-    description: 'Check if your duty station qualifies for COLA and estimate the monthly amount.',
+    description: 'Check if your duty station qualifies for 2026 CONUS COLA and its official index.',
     icon: (
       <div className="w-10 h-10 rounded-full bg-cyan-700 flex items-center justify-center">
         <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
