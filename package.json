@@ -16,7 +16,9 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report",
     "test:pay-table": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/pay-table-dfas.spec.ts --project=chromium",
-    "test:pay-raise": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/pay-raise-2027.spec.ts --project=chromium"
+    "test:pay-raise": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/pay-raise-2027.spec.ts --project=chromium",
+    "check:figures": "tsx scripts/check-figures.ts",
+    "test:figures": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/figure-check.spec.ts --project=chromium"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",

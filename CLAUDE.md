@@ -55,8 +55,9 @@ browser; cross-browser bugs come from shared UI. Test accordingly.
 1. **While iterating:** only the specs for what you changed, Chromium only
    (`npx playwright test <specs> --project=chromium`). 1–3 minutes.
    Always also run `npm run test:pay-table` (data-only: locks `src/data/pay-tables/2026.ts` to
-   `docs/sources/dfas-2026-basic-pay.csv`, no browser or server, ~2 seconds) and
-   `npm run test:pay-raise` (data-only: 2027 raise golden values, tiers, caps and status modes).
+   `docs/sources/dfas-2026-basic-pay.csv`, no browser or server, ~2 seconds),
+   `npm run test:pay-raise` (data-only: 2027 raise golden values, tiers, caps and status modes) and
+   `npm run test:figures` (data-only: guards the `check:figures` dollar-figure report tool).
 2. **Before the PR (once per branch):** affected specs on all three browsers + the full suite on
    Chromium only. ~8–10 minutes. This is the default pre-merge gate for calculator logic, data,
    content and template changes.
