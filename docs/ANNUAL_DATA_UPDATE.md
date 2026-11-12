@@ -6,6 +6,17 @@ replacement. This file tracks **content that hard-codes dollar figures inline**
 and therefore does NOT update automatically when the data layer is replaced —
 each item below must be re-traced against the new source and revised by hand.
 
+## Dollar figures in posts and guides (January 2027)
+
+- [ ] After loading each 2027 dataset, run `npm run check:figures -- --next-year 2027` and work
+  the list file by file. Recompute derived figures (annual totals, differences) in any file the
+  list names.
+  - Output: `docs/figures/year-change-2027.md`. It lists sources still skipped (no 2027 file
+    yet), so re-run as each dataset lands. Add `--traffic <gsc-pages.csv>` to sort the worklist
+    by Search Console clicks.
+  - Baseline it compares against: `docs/figures/2026-baseline.md`. How it classifies figures:
+    `docs/figures/README.md`.
+
 ## Basic pay table (January 2027)
 
 - [ ] Replace docs/sources/dfas-2027-basic-pay.csv from the DFAS pages, add 2027.ts, point the

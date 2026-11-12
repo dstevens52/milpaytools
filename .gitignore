@@ -61,3 +61,7 @@ next-env.d.ts
 
 # OG image render artifacts (local verification only)
 og-verify/
+
+# Dollar-figure report working copies (npm run check:figures); the baseline is committed
+/docs/figures/report.md
+/docs/figures/report.json
