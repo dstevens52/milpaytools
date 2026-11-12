@@ -16,6 +16,7 @@ import {
   type RaiseTier,
 } from '@/data/pay-raise/2027';
 import { payTable } from '@/data/pay-tables/2026';
+import { DATA_LAST_CHECKED } from '@/data/watch';
 import type { PayTable } from '@/data/types';
 import { ALL_PAY_GRADES, YOS_BREAKPOINTS, type PayGrade } from '@/types/military';
 import {
@@ -31,6 +32,7 @@ import {
   rankPageLinkText,
   isAssumedTier,
   pay2026,
+  formatIsoDate,
   type RaiseResult,
 } from '@/lib/calculations/payRaise';
 
@@ -185,8 +187,11 @@ test.describe('2027 pay raise — status modes', () => {
     expect(pageDescription()).toBe(
       "See your 2027 base pay under the current 7-6-5 plan and the Senate's 3.6% version, by grade and years of service. Not final yet; updated as Congress acts.",
     );
+    // lastChecked comes from the shared watch date (updated weekly), not a literal.
+    expect(PAY_RAISE_2027.lastChecked).toBe(DATA_LAST_CHECKED);
+    expect(formatIsoDate('2026-11-11')).toBe('November 11, 2026');
     expect(statusText()).toBe(
-      "Not final as of November 11, 2026. The current plan (7% E-1 to E-5, 6% E-6 to O-3, 5% O-4 and above) takes effect January 1, 2027 unless Congress enacts a different raise. The Senate's version would set 3.6% for everyone.",
+      `Not final as of ${formatIsoDate(DATA_LAST_CHECKED)}. The current plan (7% E-1 to E-5, 6% E-6 to O-3, 5% O-4 and above) takes effect January 1, 2027 unless Congress enacts a different raise. The Senate's version would set 3.6% for everyone.`,
     );
     expect(getColumns().map((c) => c.label)).toEqual(['Current plan (7-6-5)', 'Senate version (3.6%)']);
     expect(rankPageLinkText()).toBe("2027 raise: see what you'd make under each plan →");

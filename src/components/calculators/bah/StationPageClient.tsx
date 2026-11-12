@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, type ReactNode } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatCurrency } from '@/lib/utils';
@@ -61,6 +61,8 @@ export interface StationPageClientProps {
   fmr2br?: { p25: number; median: number; p75: number } | null;
   siblings?: SiblingInstallation[];
   faqs?: { question: string; answer: string }[];
+  /** Server-rendered dated notice slot (2027 BAH status), shown under the rate summary. */
+  notice?: ReactNode;
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -377,6 +379,7 @@ export function StationPageClient({
   fmr2br = null,
   siblings = [],
   faqs = [],
+  notice = null,
 }: StationPageClientProps) {
   const [selectedGrade, setSelectedGrade] = useState<PayGrade>('E-5');
   const [hasDependents, setHasDependents] = useState(true);
@@ -511,6 +514,9 @@ export function StationPageClient({
                 </p>
               )}
           </div>
+
+          {/* Dated next-year notice (2027 BAH status) — directly under the rate summary */}
+          {hasRates && notice}
 
           {/* Quick Facts — for stations WITHOUT rich data */}
           {!hasRichData && (

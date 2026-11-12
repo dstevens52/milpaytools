@@ -10,6 +10,7 @@ import { BAHCalculator } from '@/components/calculators/bah/BAHCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import { formatCurrency } from '@/lib/utils';
+import { Bah2027Notice } from '@/components/bah-stations/Bah2027Notice';
 
 // Hub for both BAH intents: the ZIP calculator and the by-installation browse.
 // Absorbed the former standalone BAH calculator route (308 → /bah, see next.config.ts).
@@ -94,6 +95,9 @@ export default function BahHubPage() {
           <p className="text-zinc-600 text-sm leading-relaxed">
             Look up your BAH rate by ZIP code, rank, and dependency status — with PCS comparison mode.
           </p>
+          <div className="mt-3">
+            <Bah2027Notice />
+          </div>
         </div>
       </div>
 

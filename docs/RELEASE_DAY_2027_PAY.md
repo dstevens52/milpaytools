@@ -4,7 +4,8 @@ Everything on `/pay/raise`, the `/pay` hub FAQ, the rank-page links, the homepag
 the blog callout reads its wording from `src/data/pay-raise/2027.ts`. Edit only that file
 (plus `src/data/pay-tables/2027.ts` once DFAS publishes the table).
 
-1. **Edit `src/data/pay-raise/2027.ts`.** Set `lastChecked` to today. Then either:
+1. **Edit `src/data/pay-raise/2027.ts`.** Set `DATA_LAST_CHECKED` in `src/data/watch.ts` to today
+   (`lastChecked` reads from it; the same date also shows on the BAH 2027 notice). Then either:
    - **Law signed, no DFAS table yet:** `status: 'enacted'` and fill `enacted`:
      `{ percentByTier, lawName, signedDate, sourceUrl }`. If the 2027 Executive Schedule is out,
      update `caps` (`levelII`, `levelV`, `capYear: 2027`, `pending: false`).

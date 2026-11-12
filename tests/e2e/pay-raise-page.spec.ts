@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import { DATA_LAST_CHECKED } from '@/data/watch';
+import { formatIsoDate } from '@/lib/calculations/payRaise';
 
 // /pay/raise — the 2027 pay raise calculator page (figures locked separately
 // by the data-only pay-raise-2027.spec.ts).
@@ -10,7 +12,8 @@ test.describe('/pay/raise page', () => {
     await expect(page.locator('h1')).toHaveText('2027 Military Pay Raise Calculator: 7-6-5 Plan vs 3.6%');
     const status = page.getByTestId('raise-status');
     await expect(status).toBeVisible();
-    await expect(status).toContainText('Not final as of November 11, 2026.');
+    // Same shared last-checked date as the BAH 2027 notice (src/data/watch.ts).
+    await expect(status).toContainText(`Not final as of ${formatIsoDate(DATA_LAST_CHECKED)}.`);
     await expect(status).toContainText('Your 2026 pay is the only guaranteed figure.');
     // Above the fold at the default 1280×800 viewport.
     const box = await status.boundingBox();

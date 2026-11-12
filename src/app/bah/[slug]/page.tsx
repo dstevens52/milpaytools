@@ -15,6 +15,8 @@ import { ogImage } from '@/lib/og';
 import { OCONUS_V2_STATIONS, getRenderableOconusV2, oconusTitle, oconusDescription, OCONUS_OG_SUB } from '@/data/oconus';
 import { OconusStationPage } from '@/components/oconus/OconusStationPage';
 import { oconusFaqs } from '@/data/oconus/sharedCopy';
+import { bah2027FaqQuestion, bah2027FaqAnswer } from '@/data/bah/2027-status';
+import { Bah2027Notice } from '@/components/bah-stations/Bah2027Notice';
 
 function ordinal(n: number): string {
   const s = ['th', 'st', 'nd', 'rd'];
@@ -272,6 +274,10 @@ export default async function StationPage({
       answer: `For 2026, an E-5 with dependents at ${station.name} receives ${formatCurrency(ratesW['E-5'] ?? 0)}/month in BAH (${mhaLabel} MHA). Other grades with dependents: E-6 ${formatCurrency(ratesW['E-6'] ?? 0)}/month, E-7 ${formatCurrency(ratesW['E-7'] ?? 0)}/month, O-3 ${formatCurrency(ratesW['O-3'] ?? 0)}/month. E-5 without dependents is ${formatCurrency(ratesWO['E-5'] ?? 0)}/month. BAH is excluded from federal taxable income.`,
     });
     faqs.push({
+      question: bah2027FaqQuestion(station.name),
+      answer: bah2027FaqAnswer(station.name),
+    });
+    faqs.push({
       question: `Which Military Housing Area (MHA) is used for ${station.name} BAH?`,
       answer: `${station.name} is assigned to the ${mhaLabel} Military Housing Area (MHA). Every installation and address in the same MHA receives the same rate, regardless of exact ZIP or neighborhood. Rates are published annually by the Defense Travel Management Office (DTMO) and take effect January 1.`,
     });
@@ -360,6 +366,7 @@ export default async function StationPage({
         fmr2br={fmr2br}
         siblings={siblings}
         faqs={faqs}
+        notice={<Bah2027Notice stationName={station.name} />}
       />
     </>
   );
