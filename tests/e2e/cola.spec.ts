@@ -114,7 +114,7 @@ test.describe('PCS Compare — CONUS COLA excluded from totals (CMP-02)', () => 
     expect(r.grossDiffMonthly).toBe(0);
     expect(r.federalTaxDiffAnnual).toBe(0);
     expect(r.stateTaxDiffAnnual).toBe(0);
-    expect(r.takeHomeDiffMonthly).toBe(0);
+    expect(r.afterTaxDiffMonthly).toBe(0);
     expect(r.verdict).toBe('similar');
     expect(r).not.toHaveProperty('colaDiffMonthly');
     expect(r.locB).not.toHaveProperty('monthlyCOLA');

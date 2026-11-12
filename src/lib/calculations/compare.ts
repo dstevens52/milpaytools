@@ -1,7 +1,18 @@
 // Duty station comparison calculation logic
-// Compares total compensation, BAH, and take-home pay between two CONUS duty stations.
+// Compares BAH, gross pay, and pay after estimated income taxes between two CONUS
+// duty stations.
+//
+// STATE TAX (SCRA, 50 U.S.C. § 4001): a PCS move doesn't change which state taxes
+// military pay — the member's state of legal residence taxes it at both stations.
+// By default, state income tax is therefore identical at both stations (or left out
+// entirely when no residence is chosen). Station B uses its own state's rate only
+// when the user explicitly opts in to changing legal residence to that state.
+//
 // CONUS COLA is shown as eligibility + official 2026 index only. It is NOT added to
-// gross pay, taxes, take-home or the verdict (no dollar estimate — see colaMha.ts).
+// gross pay, taxes, after-tax pay or the verdict (no dollar estimate — see colaMha.ts).
+//
+// "After income tax" excludes Social Security and Medicare (FICA is not deducted).
+// Federal tax is estimated as a single filer with the standard deduction.
 
 import { lookupBasePay } from '@/lib/calculations/total-compensation';
 import { getColaAreaByMha } from '@/data/cola/2026/constants';
@@ -35,13 +46,27 @@ export interface CompareInput {
   zipB: string;
   bahA: LocationBah;
   bahB: LocationBah;
+  /**
+   * State of legal residence for taxes (2-letter code in STATE_TAX_DATA), or null/omitted
+   * for "Not sure / don't include state tax". Applied to base pay at BOTH stations.
+   */
+  residenceState?: string | null;
+  /**
+   * Opt-in: the member plans to change legal residence to station B's state. Only then
+   * does station B use its own state's rate. Ignored unless residenceState is set.
+   */
+  changeResidenceToB?: boolean;
 }
 
 export interface LocationData {
   zip: string;
   locationName: string;           // From BAH MHA data, or ZIP if not found
-  state: string | null;
-  stateInfo: StateTaxInfo | null;
+  /** State the duty station is in (display + opt-in residence change). */
+  stationState: string | null;
+  stationStateInfo: StateTaxInfo | null;
+  /** State whose income tax applies at this station (legal residence), or null = not included. */
+  taxState: string | null;
+  taxStateInfo: StateTaxInfo | null;
   // Monthly pay components
   monthlyBasePay: number;
   monthlyBAH: number;
@@ -57,7 +82,8 @@ export interface LocationData {
   monthlyFederalTax: number;
   annualStateTax: number;
   monthlyStateTax: number;
-  monthlyTakeHome: number;        // gross - monthly fed tax - monthly state tax
+  /** gross − federal − state income tax. Before Social Security and Medicare. */
+  monthlyAfterIncomeTax: number;
 }
 
 export interface CompareResult {
@@ -67,13 +93,19 @@ export interface CompareResult {
   monthlyBasePay: number;
   monthlyBAS: number;
   isEnlisted: boolean;
+  /** true when a state of legal residence was chosen (state tax included in totals). */
+  stateTaxIncluded: boolean;
+  /** true when station B is taxed at its own state's rate (opt-in residence change applied). */
+  residenceChangeApplied: boolean;
+  /** Federal tax filing-status assumption, for display. */
+  federalFilingStatus: 'single';
   // Differences (B minus A — positive means B is better)
   bahDiffMonthly: number;
   grossDiffMonthly: number;
-  stateTaxDiffAnnual: number;    // negative means B saves money on state tax
+  stateTaxDiffAnnual: number;    // positive = B costs more state tax
   federalTaxDiffAnnual: number;
-  takeHomeDiffMonthly: number;
-  takeHomeDiffAnnual: number;
+  afterTaxDiffMonthly: number;
+  afterTaxDiffAnnual: number;
   // Summary
   verdict: 'B_better' | 'A_better' | 'similar';
   betterLabel: string;            // "Location B" or "Location A"
@@ -97,45 +129,48 @@ function calculateFederalTax(annualTaxableIncome: number): number {
   return tax;
 }
 
+/** A 2-letter code that has a STATE_TAX_DATA entry, else null. */
+export function validStateCode(code: string | null | undefined): string | null {
+  if (!code) return null;
+  const c = code.toUpperCase();
+  return Object.prototype.hasOwnProperty.call(STATE_TAX_DATA, c) ? c : null;
+}
+
 /** Compute all pay components and tax estimates for one location. */
 function computeLocation(
   zip: string,
   monthlyBasePay: number,
   monthlyBAS: number,
-  monthlyBAH: number,
-  locationName: string,
-  bahFound: boolean,
-  mha: string | null
+  bah: LocationBah,
+  taxState: string | null,
 ): LocationData {
-  // BAH — resolved via /api/bah/lookup and injected by the caller.
-
   // CONUS COLA — eligibility + index by MHA only; never added to pay or taxes.
-  const colaArea = getColaAreaByMha(mha);
+  const colaArea = getColaAreaByMha(bah.mha);
   const cola: StationCola | null = colaArea ? { dtmoName: colaArea.dtmoName, index: colaArea.index } : null;
 
-  // State tax
-  const state = getStateFromZip(zip);
-  const stateInfo = state ? (STATE_TAX_DATA[state] ?? null) : null;
-  const stateRate = stateInfo?.rate ?? 0;
+  const stationState = validStateCode(getStateFromZip(zip));
+  const taxStateInfo = taxState ? STATE_TAX_DATA[taxState] : null;
 
   // Totals
-  const grossMonthly = monthlyBasePay + monthlyBAH + monthlyBAS;
+  const grossMonthly = monthlyBasePay + bah.monthlyBAH + monthlyBAS;
   // Only base pay is taxable here (BAH/BAS are tax-free; CONUS COLA is excluded from totals)
   const annualTaxableIncome = monthlyBasePay * 12;
   const annualFederalTax = calculateFederalTax(annualTaxableIncome);
   const monthlyFederalTax = annualFederalTax / 12;
-  const annualStateTax = annualTaxableIncome * stateRate;
+  const annualStateTax = annualTaxableIncome * (taxStateInfo?.rate ?? 0);
   const monthlyStateTax = annualStateTax / 12;
-  const monthlyTakeHome = grossMonthly - monthlyFederalTax - monthlyStateTax;
+  const monthlyAfterIncomeTax = grossMonthly - monthlyFederalTax - monthlyStateTax;
 
   return {
     zip,
-    locationName,
-    state,
-    stateInfo,
+    locationName: bah.locationName,
+    stationState,
+    stationStateInfo: stationState ? STATE_TAX_DATA[stationState] : null,
+    taxState,
+    taxStateInfo,
     monthlyBasePay,
-    monthlyBAH,
-    bahFound,
+    monthlyBAH: bah.monthlyBAH,
+    bahFound: bah.bahFound,
     monthlyBAS,
     cola,
     isColaArea: cola !== null,
@@ -145,14 +180,16 @@ function computeLocation(
     monthlyFederalTax,
     annualStateTax,
     monthlyStateTax,
-    monthlyTakeHome,
+    monthlyAfterIncomeTax,
   };
 }
 
 // ─── Main comparison function ─────────────────────────────────────────────────
 
+export const SIMILAR_THRESHOLD = 100; // < $100/month difference = "financially similar"
+
 /**
- * Compare total compensation between two duty station ZIP codes.
+ * Compare pay between two duty station ZIP codes.
  * Returns null if either ZIP is missing or not 5 digits.
  */
 export function compareLocations(input: CompareInput): CompareResult | null {
@@ -164,24 +201,31 @@ export function compareLocations(input: CompareInput): CompareResult | null {
   const monthlyBasePay = lookupBasePay(payGrade, yearsOfService);
   const monthlyBAS = isEnlisted ? BAS_RATES.enlisted : BAS_RATES.officer;
 
-  const locA = computeLocation(zipA, monthlyBasePay, monthlyBAS, input.bahA.monthlyBAH, input.bahA.locationName, input.bahA.bahFound, input.bahA.mha);
-  const locB = computeLocation(zipB, monthlyBasePay, monthlyBAS, input.bahB.monthlyBAH, input.bahB.locationName, input.bahB.bahFound, input.bahB.mha);
+  // State of legal residence applies at both stations (SCRA). Station B switches to its
+  // own state only on the explicit opt-in, and only if that state is known.
+  const residence = validStateCode(input.residenceState);
+  const stationStateB = validStateCode(getStateFromZip(zipB));
+  const residenceChangeApplied = !!(residence && input.changeResidenceToB && stationStateB);
+  const taxStateA = residence;
+  const taxStateB = residenceChangeApplied ? stationStateB : residence;
+
+  const locA = computeLocation(zipA, monthlyBasePay, monthlyBAS, input.bahA, taxStateA);
+  const locB = computeLocation(zipB, monthlyBasePay, monthlyBAS, input.bahB, taxStateB);
 
   const bahDiffMonthly = locB.monthlyBAH - locA.monthlyBAH;
   const grossDiffMonthly = locB.grossMonthly - locA.grossMonthly;
-  const stateTaxDiffAnnual = locB.annualStateTax - locA.annualStateTax; // positive = B costs more tax
+  const stateTaxDiffAnnual = locB.annualStateTax - locA.annualStateTax;
   const federalTaxDiffAnnual = locB.annualFederalTax - locA.annualFederalTax;
-  const takeHomeDiffMonthly = locB.monthlyTakeHome - locA.monthlyTakeHome;
-  const takeHomeDiffAnnual = takeHomeDiffMonthly * 12;
+  const afterTaxDiffMonthly = locB.monthlyAfterIncomeTax - locA.monthlyAfterIncomeTax;
+  const afterTaxDiffAnnual = afterTaxDiffMonthly * 12;
 
-  const SIMILAR_THRESHOLD = 100; // < $100/month difference = "financially similar"
-  const absDiff = Math.abs(takeHomeDiffMonthly);
+  const absDiff = Math.abs(afterTaxDiffMonthly);
   let verdict: CompareResult['verdict'];
   let betterLabel: string;
   if (absDiff < SIMILAR_THRESHOLD) {
     verdict = 'similar';
-    betterLabel = takeHomeDiffMonthly >= 0 ? 'Location B' : 'Location A';
-  } else if (takeHomeDiffMonthly > 0) {
+    betterLabel = afterTaxDiffMonthly >= 0 ? 'Location B' : 'Location A';
+  } else if (afterTaxDiffMonthly > 0) {
     verdict = 'B_better';
     betterLabel = 'Location B';
   } else {
@@ -195,12 +239,15 @@ export function compareLocations(input: CompareInput): CompareResult | null {
     monthlyBasePay,
     monthlyBAS,
     isEnlisted,
+    stateTaxIncluded: residence !== null,
+    residenceChangeApplied,
+    federalFilingStatus: 'single',
     bahDiffMonthly,
     grossDiffMonthly,
     stateTaxDiffAnnual,
     federalTaxDiffAnnual,
-    takeHomeDiffMonthly,
-    takeHomeDiffAnnual,
+    afterTaxDiffMonthly,
+    afterTaxDiffAnnual,
     verdict,
     betterLabel,
     similarThreshold: SIMILAR_THRESHOLD,

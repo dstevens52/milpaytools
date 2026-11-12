@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { compareLocations } from '@/lib/calculations/compare';
+import { compareLocations, validStateCode } from '@/lib/calculations/compare';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import type { CompareResult, LocationData } from '@/lib/calculations/compare';
 import type { PayGrade } from '@/types/military';
@@ -11,6 +11,12 @@ import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
 import { COLA_SOURCE, DATA_YEAR as COLA_YEAR } from '@/data/cola/2026/constants';
+import { STATE_TAX_DATA } from '@/data/compare/stateTax';
+
+/** States for the legal-residence dropdown, sorted by name. */
+const RESIDENCE_OPTIONS = Object.entries(STATE_TAX_DATA)
+  .map(([code, info]) => ({ code, name: info.name }))
+  .sort((a, b) => a.name.localeCompare(b.name));
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -104,9 +110,9 @@ function CompareRow({ label, sublabel, valA, valB, badge, highlight }: RowProps)
 // ─── Summary card ─────────────────────────────────────────────────────────────
 
 function SummaryCard({ result, nameA, nameB }: { result: CompareResult; nameA: string; nameB: string }) {
-  const { verdict, takeHomeDiffMonthly, takeHomeDiffAnnual } = result;
-  const absDiff = Math.abs(takeHomeDiffMonthly);
-  const absAnnual = Math.abs(takeHomeDiffAnnual);
+  const { verdict, afterTaxDiffMonthly, afterTaxDiffAnnual } = result;
+  const absDiff = Math.abs(afterTaxDiffMonthly);
+  const absAnnual = Math.abs(afterTaxDiffAnnual);
 
   let headline: React.ReactNode;
   let subline: string;
@@ -119,7 +125,7 @@ function SummaryCard({ result, nameA, nameB }: { result: CompareResult; nameA: s
         {nameA} and {nameB} are <span className="text-zinc-700">financially similar</span>
       </>
     );
-    subline = `Estimated take-home difference: less than ${fmt(result.similarThreshold)}/month`;
+    subline = `Estimated difference after income taxes: less than ${fmt(result.similarThreshold)}/month`;
     accentColor = 'border-zinc-300';
     icon = '≈';
   } else {
@@ -130,21 +136,23 @@ function SummaryCard({ result, nameA, nameB }: { result: CompareResult; nameA: s
         <span className="text-green-700">{fmt(absDiff)} more per month</span>
       </>
     );
-    subline = `${fmt(absAnnual)} more per year after estimated federal and state taxes`;
+    subline = result.stateTaxIncluded
+      ? `${fmt(absAnnual)} more per year after estimated federal and state income taxes`
+      : `${fmt(absAnnual)} more per year after estimated federal income tax`;
     accentColor = 'border-green-400';
     icon = '$';
   }
 
-  // State tax narrative
+  // State tax narrative (SCRA): a PCS alone doesn't change which state taxes military pay.
   const { locA, locB, stateTaxDiffAnnual } = result;
-  const showTaxNarrative =
-    (locA.stateInfo?.noTax !== locB.stateInfo?.noTax) && Math.abs(stateTaxDiffAnnual) > 200;
-  let taxNarrative = '';
-  if (showTaxNarrative) {
-    const noTaxSide = locA.stateInfo?.noTax ? nameA : nameB;
-    const taxSide = locA.stateInfo?.noTax ? nameB : nameA;
-    const saved = fmt(Math.abs(stateTaxDiffAnnual));
-    taxNarrative = `${noTaxSide} has no state income tax — that saves approximately ${saved}/year vs. ${taxSide}.`;
+  let taxNarrative = 'Your state income tax doesn\'t change with a PCS move. Military pay is taxed by your state of legal residence (SCRA).';
+  if (result.residenceChangeApplied && locB.taxStateInfo && locA.taxStateInfo) {
+    const newState = locB.taxStateInfo.name;
+    const oldState = locA.taxStateInfo.name;
+    taxNarrative =
+      Math.abs(stateTaxDiffAnnual) < 1
+        ? `If you change your legal residence to ${newState}, estimated state income tax stays about the same as in ${oldState}.`
+        : `If you change your legal residence to ${newState}, estimated state income tax would be ${fmt(Math.abs(stateTaxDiffAnnual))}/year ${stateTaxDiffAnnual < 0 ? 'lower' : 'higher'} than in ${oldState}.`;
   }
 
   return (
@@ -156,13 +164,17 @@ function SummaryCard({ result, nameA, nameB }: { result: CompareResult; nameA: s
         <div>
           <h2 className="text-xl font-bold text-zinc-900 leading-snug mb-1">{headline}</h2>
           <p className="text-sm text-zinc-500">{subline}</p>
-          {taxNarrative && (
-            <p className="mt-2 text-sm text-blue-700 font-medium">{taxNarrative}</p>
-          )}
+          <p className="mt-2 text-sm text-blue-700 font-medium" data-testid="compare-tax-narrative">{taxNarrative}</p>
         </div>
       </div>
     </div>
   );
+}
+
+function stateTaxCell(loc: LocationData, included: boolean): string {
+  if (!included || !loc.taxStateInfo) return '—';
+  if (loc.taxStateInfo.noTax) return `No state tax (${loc.taxState})`;
+  return `${fmt(loc.monthlyStateTax)}/mo (${loc.taxState} ${fmtRate(loc.taxStateInfo.rate)})`;
 }
 
 // ─── Location column header ────────────────────────────────────────────────────
@@ -174,11 +186,8 @@ function LocationHeader({ loc, label }: { loc: LocationData; label: string }) {
       <p className="font-semibold text-zinc-900 text-sm leading-tight mt-0.5">
         {loc.locationName}
       </p>
-      {loc.state && (
-        <p className="text-xs text-zinc-400">
-          {loc.stateInfo?.name ?? loc.state}
-          {loc.stateInfo?.noTax ? ' · No state income tax' : loc.stateInfo ? ` · ~${fmtRate(loc.stateInfo.rate)} est. state tax` : ''}
-        </p>
+      {loc.stationState && (
+        <p className="text-xs text-zinc-400">{loc.stationStateInfo?.name ?? loc.stationState}</p>
       )}
     </div>
   );
@@ -192,6 +201,10 @@ export function CompareCalculator() {
   const [hasDependents, setHasDependents] = useState(true);
   const [zipA, setZipA] = useState('28310');
   const [zipB, setZipB] = useState('98433');
+  // State of legal residence (SCRA). null = "Not sure / don't include state tax".
+  const [residenceState, setResidenceState] = useState<string | null>(null);
+  const [changeResidence, setChangeResidence] = useState(false);
+  const [taxOpen, setTaxOpen] = useState(false);
 
   // Pre-populate from URL params on mount
   // ?zip1=28310&zip2=98433&rank=E5&dependents=yes&yos=6
@@ -202,6 +215,14 @@ export function CompareCalculator() {
     const gr = parseGrade(params.get('rank'));
     const dep = parseBool(params.get('dependents'));
     const yosRaw = params.get('yos');
+    // Optional state-tax inputs; anything unrecognized keeps the defaults.
+    const residence = validStateCode(params.get('residence'));
+    const change = parseBool(params.get('change'));
+    if (residence) {
+      setResidenceState(residence);
+      setTaxOpen(true);
+      if (change === true) setChangeResidence(true);
+    }
     if (z1) setZipA(z1);
     if (z2) setZipB(z2);
     if (gr) setPayGrade(gr);
@@ -219,6 +240,10 @@ export function CompareCalculator() {
     p.set('rank', gradeToParam(payGrade));
     p.set('dependents', hasDependents ? 'yes' : 'no');
     p.set('yos', String(yos));
+    if (residenceState) {
+      p.set('residence', residenceState);
+      if (changeResidence) p.set('change', 'yes');
+    }
     return `${window.location.origin}/calculators/compare?${p.toString()}`;
   }
 
@@ -246,8 +271,10 @@ export function CompareCalculator() {
       zipB,
       bahA,
       bahB,
+      residenceState,
+      changeResidenceToB: changeResidence,
     });
-  }, [payGrade, yos, hasDependents, zipA, zipB, bothReady, dataA, dataB, bahA, bahB]);
+  }, [payGrade, yos, hasDependents, zipA, zipB, bothReady, dataA, dataB, bahA, bahB, residenceState, changeResidence]);
 
   // Station pages resolved server-side (no client zipToMha).
   const stationPagesA = useMemo(
@@ -336,6 +363,60 @@ export function CompareCalculator() {
           </div>
         </div>
 
+        {/* State of legal residence (optional, collapsed) */}
+        <details
+          className="mb-6 rounded-md border border-zinc-200 px-4 py-3"
+          open={taxOpen}
+          onToggle={(e) => setTaxOpen((e.currentTarget as HTMLDetailsElement).open)}
+          data-testid="compare-residence"
+        >
+          <summary className="cursor-pointer text-sm font-medium text-zinc-700">
+            State income tax (optional)
+          </summary>
+          <div className="mt-3 space-y-3">
+            <div>
+              <label htmlFor="residence-state" className="block text-sm font-medium text-zinc-700 mb-1.5">
+                Your state of legal residence (for taxes)
+              </label>
+              <select
+                id="residence-state"
+                value={residenceState ?? ''}
+                onChange={(e) => {
+                  const v = validStateCode(e.target.value);
+                  setResidenceState(v);
+                  if (!v) setChangeResidence(false);
+                }}
+                className="w-full sm:w-80 rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+              >
+                <option value="">Not sure / don&apos;t include state tax</option>
+                {RESIDENCE_OPTIONS.map(({ code, name }) => (
+                  <option key={code} value={code}>{name}</option>
+                ))}
+              </select>
+              <p className="text-xs text-zinc-500 mt-1">
+                Applied to base pay at both stations — a PCS move doesn&apos;t change which state taxes military pay.
+              </p>
+            </div>
+            {residenceState && (
+              <div>
+                <label className="flex items-start gap-2 text-sm text-zinc-700">
+                  <input
+                    type="checkbox"
+                    id="change-residence"
+                    checked={changeResidence}
+                    onChange={(e) => setChangeResidence(e.target.checked)}
+                    className="mt-0.5"
+                  />
+                  <span>I plan to change my legal residence to the new duty station&apos;s state.</span>
+                </label>
+                <p className="text-xs text-zinc-500 mt-1 ml-6">
+                  Changing your state of legal residence is a personal legal decision with requirements; this only shows the tax effect.
+                </p>
+              </div>
+            )}
+          </div>
+        </details>
+
         {/* Location inputs */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {/* Current Station */}
@@ -373,7 +454,7 @@ export function CompareCalculator() {
 
       {/* ── Results ── */}
       {bothReady && result && (
-        <>
+        <div className="space-y-6" data-testid="compare-results">
           {/* Summary */}
           <SummaryCard result={result} nameA={nameA} nameB={nameB} />
 
@@ -453,40 +534,44 @@ export function CompareCalculator() {
               highlight
             />
 
-            {/* Row: State Tax */}
+            {/* Row: Federal income tax (same base pay at both stations) */}
+            <CompareRow
+              label="Est. federal income tax"
+              sublabel="Federal tax estimated as a single filer"
+              valA={`${fmt(result.locA.monthlyFederalTax)}/mo`}
+              valB={`${fmt(result.locB.monthlyFederalTax)}/mo`}
+              badge={<DiffBadge diff={result.federalTaxDiffAnnual / 12} invert suffix="/mo" />}
+            />
+
+            {/* Row: State income tax — state of legal residence (SCRA), not the duty station */}
             <CompareRow
               label="Est. state income tax"
-              sublabel={
-                <>
-                  <span className="hidden sm:inline">On base pay only · many states exempt military pay</span>
-                  <span className="sm:hidden">On base pay only</span>
-                </>
-              }
-              valA={result.locA.stateInfo?.noTax
-                ? 'No state tax'
-                : result.locA.stateInfo
-                  ? `${fmt(result.locA.monthlyStateTax)}/mo (${fmtRate(result.locA.stateInfo.rate)})`
-                  : `${fmt(result.locA.monthlyStateTax)}/mo`}
-              valB={result.locB.stateInfo?.noTax
-                ? 'No state tax'
-                : result.locB.stateInfo
-                  ? `${fmt(result.locB.monthlyStateTax)}/mo (${fmtRate(result.locB.stateInfo.rate)})`
-                  : `${fmt(result.locB.monthlyStateTax)}/mo`}
+              sublabel={result.stateTaxIncluded ? 'State of legal residence · on base pay' : 'Not included — add your state of legal residence above'}
+              valA={stateTaxCell(result.locA, result.stateTaxIncluded)}
+              valB={stateTaxCell(result.locB, result.stateTaxIncluded)}
               badge={
                 // Higher state tax at B = bad for B (invert)
                 <DiffBadge diff={result.stateTaxDiffAnnual / 12} invert suffix="/mo" />
               }
             />
+            {result.stateTaxIncluded && (
+              <p className="text-xs text-zinc-400 py-1" data-testid="compare-state-exemption-note">
+                Some states exempt or partly exempt military pay; this estimate uses the state&apos;s general income tax rate.
+              </p>
+            )}
 
-            {/* Row: Estimated Take-Home */}
+            {/* Row: After income taxes */}
             <CompareRow
-              label="Est. take-home"
-              sublabel="After fed + state taxes"
-              valA={`${fmt(result.locA.monthlyTakeHome)}/mo`}
-              valB={`${fmt(result.locB.monthlyTakeHome)}/mo`}
-              badge={<DiffBadge diff={result.takeHomeDiffMonthly} />}
+              label="After income taxes"
+              sublabel="Before Social Security and Medicare"
+              valA={`${fmt(result.locA.monthlyAfterIncomeTax)}/mo`}
+              valB={`${fmt(result.locB.monthlyAfterIncomeTax)}/mo`}
+              badge={<DiffBadge diff={result.afterTaxDiffMonthly} />}
               highlight
             />
+            <p className="text-xs text-zinc-400 pt-2" data-testid="compare-fica-note">
+              After-tax figures subtract estimated federal{result.stateTaxIncluded ? ' and state' : ''} income tax only — Social Security and Medicare are not deducted.
+            </p>
 
             {/* CONUS COLA: eligibility + official index only — never in the totals above */}
             <div className="pt-4 mt-1" data-testid="compare-cola-note">
@@ -526,7 +611,7 @@ export function CompareCalculator() {
               {[
                 { label: 'BAH difference/yr', val: result.bahDiffMonthly * 12 },
                 { label: 'State tax difference/yr', val: -result.stateTaxDiffAnnual, invert: false },
-                { label: 'Take-home difference/yr', val: result.takeHomeDiffAnnual },
+                { label: 'After-tax difference/yr', val: result.afterTaxDiffAnnual },
               ].map(({ label, val }) => {
                 const isPos = val >= 0;
                 return (
@@ -549,12 +634,14 @@ export function CompareCalculator() {
 
           {/* State tax notice */}
           <div className="rounded-lg bg-amber-50 border border-amber-200 p-4 text-sm text-amber-800 leading-relaxed">
-            <p className="font-semibold mb-1">State tax estimates are approximate</p>
+            <p className="font-semibold mb-1">How state income tax is handled</p>
             <p className="mb-2">
-              State tax is estimated using the duty station&apos;s state rate. Under SCRA,
-              service members are generally taxed by their state of legal residence, not their
-              duty station. If your legal residence is a different state, your actual state tax
-              may differ from this estimate.
+              Under the Servicemembers Civil Relief Act (SCRA), military pay is taxed by your
+              state of legal residence, not by the state you&apos;re stationed in, so a PCS move by
+              itself doesn&apos;t change your state income tax. This comparison applies the same state
+              treatment at both stations: the state you choose above, or no state tax if you
+              don&apos;t choose one. Station B uses its own state&apos;s rate only if you check that you
+              plan to change your legal residence.
             </p>
             <p className="mb-2">
               Many states offer partial or full exemptions for active-duty military pay. For
@@ -615,7 +702,7 @@ export function CompareCalculator() {
               ))}
             </div>
           </div>
-        </>
+        </div>
       )}
 
       {/* No BAH data warning */}

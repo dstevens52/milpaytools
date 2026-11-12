@@ -19,7 +19,7 @@ const EXTRA_CALCULATORS = [
   {
     href: '/calculators/compare',
     title: 'Compare Your PCS Move',
-    description: 'Compare BAH, COLA, state tax, and take-home between current and new station.',
+    description: 'Compare BAH, COLA, and after-tax pay between current and new station.',
     icon: (
       <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center">
         <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">

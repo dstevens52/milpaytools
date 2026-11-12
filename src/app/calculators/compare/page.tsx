@@ -14,25 +14,25 @@ import { formatCurrency } from '@/lib/utils';
 export const metadata: Metadata = {
   title: { absolute: 'Compare Your PCS Move — 2026' },
   description:
-    'Compare BAH, take-home pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.',
+    'Compare BAH, after-tax pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.',
   alternates: {
     canonical: '/calculators/compare',
   },
   openGraph: {
     title: 'Compare Your PCS Move — 2026',
     description:
-      'Compare BAH, take-home pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.',
+      'Compare BAH, after-tax pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.',
     type: 'website',
     url: '/calculators/compare',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'Compare Your PCS Move 2026', sub: 'BAH, take-home pay, and total comp between two duty stations' }),
+    images: ogImage({ type: 'calculator', title: 'Compare Your PCS Move 2026', sub: 'BAH, after-tax pay, and total comp between two duty stations' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Compare Your PCS Move — 2026',
     description:
-      'Compare BAH, take-home pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.',
-    images: ogImage({ type: 'calculator', title: 'Compare Your PCS Move 2026', sub: 'BAH, take-home pay, and total comp between two duty stations' }),
+      'Compare BAH, after-tax pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.',
+    images: ogImage({ type: 'calculator', title: 'Compare Your PCS Move 2026', sub: 'BAH, after-tax pay, and total comp between two duty stations' }),
   },
 };
 
@@ -57,9 +57,34 @@ export default function ComparePage() {
   const cmpBahAdvantage = cmp.locB.monthlyBAH - cmp.locA.monthlyBAH; // Schofield over Fort Leonard Wood
   const cmpAnnualAdvantage = (cmp.locB.grossMonthly - cmp.locA.grossMonthly) * 12;
 
+  // ── Hero sample + explainer: Fort Bragg (28310) → JBLM (98433), E-5, 8 yrs, with dependents ──
+  // Default comparison (no state of legal residence chosen): state tax is the same at both
+  // stations under SCRA, so the after-tax difference equals the BAH difference.
+  const bahAt = (zip: string) => {
+    const mha = getMHACode(zip);
+    return {
+      monthlyBAH: (mha && getMHARates(mha, true)?.['E-5']) || 0,
+      locationName: getLocationName(zip) ?? zip,
+      bahFound: !!mha,
+      mha,
+    };
+  };
+  const hero = compareLocations({
+    payGrade: 'E-5',
+    yearsOfService: 8,
+    hasDependents: true,
+    zipA: '28310',
+    zipB: '98433',
+    bahA: bahAt('28310'),
+    bahB: bahAt('98433'),
+  })!;
+  const signed = (n: number) => `${n >= 0 ? '+' : '−'}${formatCurrency(Math.abs(n))}`;
+  // San Diego (92106) vs Fort Bragg (28310), E-5 with dependents — annual BAH difference.
+  const sdVsBraggAnnual = (bahAt('92106').monthlyBAH - bahAt('28310').monthlyBAH) * 12;
+
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'Compare Your PCS Move 2026', description: 'Compare BAH, take-home pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.', url: '/calculators/compare' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: 'Compare Your PCS Move 2026', description: 'Compare BAH, after-tax pay, and total compensation between your current and new duty station. See the real financial difference of your PCS move using 2026 official data.', url: '/calculators/compare' })} />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="border-b border-zinc-200"
@@ -77,14 +102,14 @@ export default function ComparePage() {
             Compare Your PCS Move
           </h1>
           <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
-            Compare your current and new station side by side — BAH, CONUS COLA, state income tax, and estimated take-home pay.
+            Compare your current and new station side by side — BAH, CONUS COLA eligibility, and estimated pay after income taxes.
           </p>
         </div>
 
         {/* ── 3-step plan strip ──────────────────────────────────────── */}
         <CalcStepStrip noBg steps={[
           { title: 'Enter your current and new station, plus your rank' },
-          { title: 'See side-by-side BAH, COLA, and tax differences' },
+          { title: 'See side-by-side BAH, COLA, and after-tax pay' },
           { title: 'Make an informed PCS preference decision' },
         ]} />
 
@@ -93,7 +118,7 @@ export default function ComparePage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100 hidden md:block">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Comparing two duty stations financially requires looking beyond base pay — BAH differences of $1,000–$2,000/month between assignments are common, state income tax treatment varies significantly, and CONUS COLA may apply at some stations. An E-5 with dependents stationed in San Diego receives approximately $26,000 more per year in BAH than the same rank at Fort Bragg, before factoring in state taxes and cost of living. This calculator produces a side-by-side comparison of total compensation at two stations using official 2026 DTMO and DFAS data.
+          Comparing two duty stations financially requires looking beyond base pay — BAH differences of $1,000–$2,000/month between assignments are common, and CONUS COLA may apply at some stations. Your state income tax doesn&apos;t change with a PCS move: military pay is taxed by your state of legal residence (SCRA). An E-5 with dependents stationed in San Diego receives approximately {formatCurrency(sdVsBraggAnnual)} more per year in BAH than the same rank at Fort Bragg, before factoring in cost of living. This calculator produces a side-by-side comparison of total compensation at two stations using official 2026 DTMO and DFAS data.
         </p>
       </div>
         <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
@@ -105,11 +130,11 @@ export default function ComparePage() {
               E-5 &middot; 8 yrs &middot; w/dep &middot; Fort Bragg &rarr; JBLM
             </p>
             <div className="flex items-baseline gap-3 min-w-0 flex-1 overflow-hidden">
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">BAH diff <span className="font-semibold text-zinc-700">+$750/mo</span></span>
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">State tax savings <span className="font-semibold text-zinc-700">+$172/mo</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">BAH diff <span className="font-semibold text-zinc-700">{signed(hero.bahDiffMonthly)}/mo</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">State tax <span className="font-semibold text-zinc-700">same (SCRA)</span></span>
             </div>
-            <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
-              JBLM ahead: <span className="font-semibold text-red-700">+$922/mo</span>
+            <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none" data-testid="compare-hero-after-tax">
+              After income taxes: <span className="font-semibold text-red-700">{signed(hero.afterTaxDiffMonthly)}/mo</span>
             </p>
           </div>
         </div>
@@ -151,17 +176,18 @@ export default function ComparePage() {
               Why the duty station you accept matters financially
             </h2>
             <p className="text-zinc-600 mb-3">
-              Two service members at the same rank and years of service can have dramatically
-              different take-home pay depending on where they&apos;re stationed. The differences come
-              from three places: BAH (which varies by local housing costs), CONUS COLA (available
-              at a small number of high-cost duty stations), and state income tax (nine states have
-              no income tax on wages).
+              Two service members at the same rank and years of service can have very different
+              pay depending on where they&apos;re stationed. The differences come from BAH (which
+              varies by local housing costs) and CONUS COLA (available at a small number of
+              high-cost duty stations). State income tax isn&apos;t one of them: under the
+              Servicemembers Civil Relief Act (SCRA), your state of legal residence taxes your
+              military pay wherever you&apos;re stationed.
             </p>
             <p className="text-zinc-600">
-              A single PCS move between Fort Bragg, NC and Joint Base Lewis-McChord, WA can mean
-              more than $500/month in additional take-home pay — not from a raise, but from the
-              combination of higher BAH in the Pacific Northwest and Washington&apos;s lack of state
-              income tax.
+              A PCS move from Fort Bragg, NC to Joint Base Lewis-McChord, WA changes BAH for an
+              E-5 with dependents by {signed(hero.bahDiffMonthly)}/month — not from a raise, but
+              from the difference in local housing costs. Your state income tax stays the same
+              unless you change your legal residence.
             </p>
           </div>
 
@@ -187,14 +213,15 @@ export default function ComparePage() {
                 lookup gives the exact amount
               </li>
               <li>
-                <strong>State income tax</strong> — Approximate effective rate on taxable income
-                (base pay) — BAH and BAS are excluded from federal taxable income. Most
-                states also exclude them, but state treatment varies — verify with your state tax
-                guidance.
+                <strong>State income tax</strong> — Optional. Choose your state of legal residence
+                and its approximate rate is applied to base pay at both stations (a PCS move
+                doesn&apos;t change it). An opt-in shows the effect of changing your legal residence
+                to the new station&apos;s state. BAH and BAS are excluded from federal taxable income.
               </li>
               <li>
                 <strong>Federal income tax</strong> — Simplified progressive calculation using 2026
-                brackets and standard deduction
+                brackets and the standard deduction, estimated as a single filer. After-tax figures
+                don&apos;t subtract Social Security or Medicare
               </li>
             </ul>
           </div>
@@ -210,9 +237,7 @@ export default function ComparePage() {
             </p>
             <p className="text-zinc-600">
               The BAH difference between duty stations can be substantial — $500 to $1,000+/month
-              between low-cost and high-cost areas. Combined with state tax differences, two
-              comparable-looking sets of orders can mean a $6,000–$15,000/year difference in
-              take-home pay.
+              between low-cost and high-cost areas, or $6,000 to $12,000+ a year.
             </p>
           </div>
 
@@ -221,10 +246,17 @@ export default function ComparePage() {
               State income tax and military pay
             </h2>
             <p className="text-zinc-600 mb-3">
+              Under the Servicemembers Civil Relief Act (50 U.S.C. § 4001), you don&apos;t gain or
+              lose a state of legal residence for tax purposes just by being stationed somewhere on
+              military orders, and your military pay isn&apos;t taxed by the state you&apos;re stationed
+              in unless that&apos;s also your legal residence. A PCS move by itself doesn&apos;t change
+              which state taxes your military pay.
+            </p>
+            <p className="text-zinc-600 mb-3">
               Nine states have no individual income tax on wages: Alaska, Florida, Nevada, New
-              Hampshire (wages only), South Dakota, Tennessee, Texas, Washington, and Wyoming. A
-              service member stationed in one of these states pays no state tax on their base pay,
-              regardless of their home state of record (domicile) in many cases.
+              Hampshire (wages only), South Dakota, Tennessee, Texas, Washington, and Wyoming.
+              Being stationed in one of them doesn&apos;t remove your own state&apos;s tax; what matters is
+              your state of legal residence.
             </p>
             <p className="text-zinc-600 mb-3">
               Many other states offer partial or full exemptions for active duty military pay,

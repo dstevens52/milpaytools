@@ -62,7 +62,7 @@ const FLAGSHIP_SECTIONS = [
     body: 'PCS moves create both one-time costs and long-term budget changes. Families often focus on the move itself and miss the housing, tax, and cost-of-living reset that follows.',
     tools: [
       { href: '/calculators/pcs', name: 'PCS Cost Estimator', desc: 'DLA, MALT mileage, per diem, TLE, and PPM net proceeds — 2026 DTMO rates' },
-      { href: '/calculators/compare', name: 'Duty Station Comparison', desc: 'Side-by-side BAH, state taxes, COLA, and take-home between current and new station' },
+      { href: '/calculators/compare', name: 'Duty Station Comparison', desc: 'Side-by-side BAH, COLA, and after-tax pay between current and new station' },
     ],
   },
   {

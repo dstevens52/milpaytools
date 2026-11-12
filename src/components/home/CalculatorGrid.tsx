@@ -116,7 +116,7 @@ const CALCULATORS: CalculatorCardProps[] = [
     href: '/calculators/compare',
     title: 'Compare Your PCS Move',
     description:
-      'Compare BAH, CONUS COLA, state tax, and take-home pay between your current and new duty station. The "Should I take these orders?" tool.',
+      'Compare BAH, CONUS COLA, and after-tax pay between your current and new duty station. The "Should I take these orders?" tool.',
     icon: '⚖️',
   },
 ];

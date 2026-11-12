@@ -259,12 +259,12 @@ export const CALCULATORS: CalculatorDetail[] = [
     icon: '⚖️',
     name: 'Compare Your PCS Move',
     description:
-      'Compare total compensation between your current and new duty station side by side. Shows BAH difference, CONUS COLA eligibility, estimated state income tax, and real take-home pay at each location — the financial answer to "Should I take these orders?"',
+      'Compare pay between your current and new duty station side by side. Shows BAH difference, CONUS COLA eligibility, and estimated pay after income taxes at each location, with state income tax at your state of legal residence — the financial answer to "Should I take these orders?"',
     features: [
       'Side-by-side BAH comparison by ZIP code',
-      'State income tax impact (9 no-tax states)',
+      'State income tax at your state of legal residence (SCRA)',
       'CONUS COLA eligibility for both stations',
-      'Estimated monthly and annual take-home difference',
+      'Estimated monthly and annual after-tax difference',
     ],
     group: 'allowances',
     supportsOconus: false,
