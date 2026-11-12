@@ -14,8 +14,12 @@ import {
   type ServiceTier,
   type SchoolType,
   type EnrollmentStatus,
+  type OnlineInstitution,
 } from '@/lib/calculations/education';
-import { SERVICE_TIER_LABELS } from '@/data/education/2026/constants';
+import { SERVICE_TIER_LABELS, GI_BILL_TIERS, EDUCATION_RATES, tierRange } from '@/data/education/2026/constants';
+
+const TIER_RANGE = tierRange();
+const VA_RATINGS = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 
 // ─── Formatters ────────────────────────────────────────────────────────────
@@ -76,19 +80,46 @@ function RadioGroup<T extends string>({
 
 // ─── Benefit Card ──────────────────────────────────────────────────────────
 
+function housingLabel(benefit: BenefitResult): string {
+  switch (benefit.housingBasis) {
+    case 'online':
+      return 'Monthly housing (online rate)';
+    case 'vre-p911':
+      return 'Monthly subsistence (Post-9/11 rate)';
+    case 'vre-standard':
+      return 'Monthly subsistence (standard, no dependents)';
+    case 'location':
+      return 'Monthly housing (MHA)';
+    default:
+      return 'Monthly housing';
+  }
+}
+
+function housingZeroText(benefit: BenefitResult): string {
+  switch (benefit.housingBasis) {
+    case 'active-duty':
+      return 'BAH on active duty';
+    case 'zip-needed':
+      return 'Enter a valid school ZIP to estimate housing';
+    case 'pursuit-too-low':
+      return 'Not paid at half time or less';
+    default:
+      return '—';
+  }
+}
+
 function BenefitCard({
   benefit,
   isBest,
   mhaMonthsPerYear,
-  isOnline,
 }: {
   benefit: BenefitResult;
   isBest: boolean;
   mhaMonthsPerYear: number;
-  isOnline: boolean;
 }) {
   const isMGIB = benefit.id === 'mgib';
   const isTA = benefit.id === 'ta';
+  const housingPending = benefit.housingBasis === 'zip-needed';
 
   if (!benefit.eligible) {
     return (
@@ -101,8 +132,15 @@ function BenefitCard({
         </div>
         <div className="flex items-center gap-2 mt-auto">
           <span className="text-red-500 text-sm">✕</span>
-          <p className="text-xs text-zinc-500 leading-snug">{benefit.ineligibleReason}</p>
+          <p className="text-xs text-zinc-500 leading-snug" data-testid={`ineligible-${benefit.id}`}>{benefit.ineligibleReason}</p>
         </div>
+        {benefit.notes.length > 0 && (
+          <div className="mt-2 space-y-1">
+            {benefit.notes.map((note, i) => (
+              <p key={i} className="text-xs text-zinc-500 leading-snug">· {note}</p>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
@@ -132,15 +170,26 @@ function BenefitCard({
       </div>
 
       {/* Total program value — headline */}
-      <div className="mb-4 pb-4 border-b border-zinc-100">
-        <p className="text-xs text-zinc-500 mb-0.5">Total program value</p>
-        <p className="text-3xl font-black tabular-nums text-zinc-900">{fmt(benefit.totalProgramValue)}</p>
-        <p className="text-xs text-zinc-400">{fmt(benefit.totalAnnualValue)}/year</p>
-      </div>
+      {benefit.valued ? (
+        <div className="mb-4 pb-4 border-b border-zinc-100">
+          <p className="text-xs text-zinc-500 mb-0.5">Total program value</p>
+          <p className="text-3xl font-black tabular-nums text-zinc-900">{fmt(benefit.totalProgramValue)}</p>
+          <p className="text-xs text-zinc-400">
+            {fmt(benefit.totalAnnualValue)}/year{housingPending ? ' · housing not included yet' : ''}
+          </p>
+        </div>
+      ) : (
+        <div className="mb-4 pb-4 border-b border-zinc-100" data-testid="mgib-active-duty-note">
+          <p className="text-xs text-zinc-500 mb-0.5">While on active duty</p>
+          <p className="text-sm font-semibold text-zinc-800 leading-snug">
+            Generally limited to tuition and fees — no monthly stipend total shown
+          </p>
+        </div>
+      )}
 
-      {/* Active duty MHA notice */}
-      {!isMGIB && !isTA && benefit.monthlyMHA === 0 && (
-        <div className="mb-3 rounded bg-amber-50 border border-amber-100 px-3 py-2 text-xs text-amber-800 leading-snug">
+      {/* Active duty MHA notice — keyed on status, never on a $0 figure */}
+      {benefit.id === 'gi-bill' && benefit.housingBasis === 'active-duty' && (
+        <div className="mb-3 rounded bg-amber-50 border border-amber-100 px-3 py-2 text-xs text-amber-800 leading-snug" data-testid="active-duty-mha-notice">
           Active-duty members using Post-9/11 GI Bill generally do not receive MHA — they already receive BAH.
         </div>
       )}
@@ -154,7 +203,9 @@ function BenefitCard({
           </span>
           <span className="text-sm font-semibold text-zinc-800 tabular-nums">
             {isMGIB
-              ? `${fmtD(benefit.monthlyMHA)}/mo`
+              ? benefit.valued
+                ? `${fmtD(benefit.monthlyMHA)}/mo`
+                : <span className="text-zinc-400 font-normal text-xs">Not modeled on active duty</span>
               : benefit.annualTuitionCoverage === 0 && !isTA
               ? '—'
               : fmt(benefit.annualTuitionCoverage)
@@ -167,19 +218,20 @@ function BenefitCard({
           <div className="flex items-start justify-between gap-2">
             <div>
               <span className="text-xs text-zinc-500">
-                {benefit.monthlyMHA === 0
-                  ? 'Monthly housing'
-                  : isOnline && (benefit.id === 'gi-bill' || benefit.id === 'vre')
-                  ? 'Monthly housing (online rate)'
-                  : 'Monthly housing (MHA)'}
+                {benefit.monthlyMHA === 0 ? 'Monthly housing' : housingLabel(benefit)}
               </span>
-              {isOnline && benefit.monthlyMHA > 0 && (benefit.id === 'gi-bill' || benefit.id === 'vre') && (
-                <p className="text-xs text-zinc-400">2026–2027 AY · flat rate</p>
+              {benefit.housingBasis === 'online' && benefit.monthlyMHA > 0 && (
+                <p className="text-xs text-zinc-400">{EDUCATION_RATES.academicYear} AY · online-only rate</p>
+              )}
+              {benefit.housingBasis === 'vre-standard' && (
+                <p className="text-xs text-zinc-400">FY2027 · higher with dependents</p>
               )}
             </div>
-            <span className="text-sm font-semibold tabular-nums text-zinc-800">
+            <span className="text-sm font-semibold tabular-nums text-zinc-800 text-right" data-testid={`housing-${benefit.id}`}>
               {benefit.monthlyMHA === 0
-                ? <span className="text-zinc-400 font-normal text-xs">BAH on active duty</span>
+                ? <span className="text-zinc-400 font-normal text-xs">{housingZeroText(benefit)}</span>
+                : benefit.housingBasis === 'vre-standard'
+                ? `${fmtD(benefit.monthlyMHA)}/mo`
                 : `${fmt(benefit.monthlyMHA)}/mo`
               }
             </span>
@@ -232,7 +284,7 @@ function BenefitCard({
       {/* Notes */}
       {benefit.notes.length > 0 && (
         <div className="mt-4 pt-3 border-t border-zinc-100 space-y-1">
-          {benefit.notes.slice(0, 3).map((note, i) => (
+          {benefit.notes.slice(0, 4).map((note, i) => (
             <p key={i} className="text-xs text-zinc-500 leading-snug">
               · {note}
             </p>
@@ -251,6 +303,7 @@ export function EducationCalculator() {
   const [serviceTier, setServiceTier] = useState<ServiceTier>('36mo+');
   const [vaRating, setVaRating] = useState<number>(0);
   const [schoolType, setSchoolType] = useState<SchoolType>('public');
+  const [onlineInstitution, setOnlineInstitution] = useState<OnlineInstitution>('private');
   const [schoolZip, setSchoolZip] = useState('92101'); // San Diego default
   const [annualTuition, setAnnualTuition] = useState(12000);
   const [programYears, setProgramYears] = useState(4);
@@ -269,13 +322,14 @@ export function EducationCalculator() {
     serviceTier,
     vaRating,
     schoolType,
+    onlineInstitution,
     schoolZip: schoolZip.padStart(5, '0'),
     schoolBAH,
     schoolLocationName,
     annualTuition,
     programYears,
     enrollment,
-  }), [status, serviceTier, vaRating, schoolType, schoolZip, schoolBAH, schoolLocationName, annualTuition, programYears, enrollment]);
+  }), [status, serviceTier, vaRating, schoolType, onlineInstitution, schoolZip, schoolBAH, schoolLocationName, annualTuition, programYears, enrollment]);
 
   const result = useMemo(() => compareAllBenefits(input), [input]);
 
@@ -298,10 +352,13 @@ export function EducationCalculator() {
     const tuition = p.get('tuition');
     const years = p.get('years');
     const enroll = p.get('enrollment') as EnrollmentStatus | null;
+    const online = p.get('online');
     if (s === 'veteran' || s === 'active-duty' || s === 'guard-reserve') setStatus(s);
-    if (t) setServiceTier(t);
-    if (va) { const n = parseInt(va, 10); if (!isNaN(n)) setVaRating(n); }
+    // Only accept known values; anything else keeps the default.
+    if (t && Object.prototype.hasOwnProperty.call(GI_BILL_TIERS, t)) setServiceTier(t);
+    if (va && /^[0-9]{1,3}$/.test(va) && VA_RATINGS.includes(Number(va))) setVaRating(Number(va));
     if (school === 'public' || school === 'private' || school === 'online') setSchoolType(school);
+    if (online === 'public' || online === 'private') setOnlineInstitution(online);
     if (zip) setSchoolZip(zip);
     if (tuition) { const n = parseInt(tuition, 10); if (!isNaN(n) && n >= 0) setAnnualTuition(n); }
     if (years) { const n = parseInt(years, 10); if (n >= 1 && n <= 4) setProgramYears(n); }
@@ -314,6 +371,7 @@ export function EducationCalculator() {
     p.set('tier', serviceTier);
     p.set('va', String(vaRating));
     p.set('school', schoolType);
+    if (schoolType === 'online') p.set('online', onlineInstitution);
     if (schoolType !== 'online') p.set('zip', schoolZip);
     p.set('tuition', String(annualTuition));
     p.set('years', String(programYears));
@@ -321,7 +379,8 @@ export function EducationCalculator() {
     return `${window.location.origin}/calculators/education?${p.toString()}`;
   }
 
-  const mhaMonthsPerYear = 9; // display constant (matches EDUCATION_RATES.giBill.mhaMonthsPerYear)
+  const mhaMonthsPerYear = EDUCATION_RATES.giBill.mhaMonthsPerYear;
+  const tierPct = GI_BILL_TIERS[serviceTier] ?? 0;
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -359,7 +418,7 @@ export function EducationCalculator() {
                 ))}
               </select>
               <p className="text-xs text-zinc-400 mt-1">
-                Determines Post-9/11 GI Bill eligibility tier (40%–100%)
+                Determines Post-9/11 GI Bill eligibility tier ({TIER_RANGE.min}%–{TIER_RANGE.max}%)
               </p>
             </div>
 
@@ -373,7 +432,7 @@ export function EducationCalculator() {
                 className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
               >
                 <option value={0}>None</option>
-                {[10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((r) => (
+                {VA_RATINGS.filter((r) => r > 0).map((r) => (
                   <option key={r} value={r}>{r}%</option>
                 ))}
               </select>
@@ -397,6 +456,18 @@ export function EducationCalculator() {
               value={schoolType}
               onChange={setSchoolType}
             />
+
+            {schoolType === 'online' && (
+              <RadioGroup<OnlineInstitution>
+                label="Online program offered by"
+                options={[
+                  { value: 'public', label: 'Public school' },
+                  { value: 'private', label: 'Private school' },
+                ]}
+                value={onlineInstitution}
+                onChange={setOnlineInstitution}
+              />
+            )}
 
             {schoolType !== 'online' && (
               <div>
@@ -424,11 +495,11 @@ export function EducationCalculator() {
                     {result.mhaMonthly ? `${fmt(result.mhaMonthly)}/mo` : 'not found'}
                   </p>
                 )}
-                {schoolZip.length === 5 && !zipValid && (
-                  <p className="text-xs text-amber-600 mt-1">ZIP code not found in BAH dataset</p>
+                {schoolZip.length === 5 && (!zipValid || (bahData && (!bahData.valid || bahData.territory))) && (
+                  <p className="text-xs text-amber-600 mt-1" data-testid="school-zip-not-found">ZIP code not found in BAH dataset</p>
                 )}
                 <p className="text-xs text-zinc-400 mt-1">
-                  GI Bill MHA = E-5 with-dependents BAH at your school's location
+                  GI Bill MHA = E-5 with-dependents BAH at your school&apos;s location, × your tier and rate of pursuit
                 </p>
               </div>
             )}
@@ -489,7 +560,7 @@ export function EducationCalculator() {
       {/* ── MHA note ───────────────────────────────────────────────────── */}
       {schoolType !== 'online' && result.mhaMonthly && (
         <div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-800 leading-relaxed">
-          MHA shown using 2026 BAH rates (effective Jan 1, 2026). The current academic year (through Jul 31, 2026) uses 2025 BAH rates, which may differ slightly. Post-9/11 GI Bill MHA for in-person training is based on E-5 with-dependent BAH at the school ZIP. VR&amp;E participants may receive a subsistence allowance, and some may qualify to elect the Post-9/11 subsistence allowance if they have remaining GI Bill entitlement — VR&amp;E housing/subsistence rules depend on counselor approval and individual eligibility.
+          MHA shown using 2026 BAH rates for the {EDUCATION_RATES.academicYear} academic year. Post-9/11 GI Bill MHA for in-person training is based on E-5 with-dependent BAH at the school ZIP, prorated by your eligibility tier and rate of pursuit (no MHA at half time or less). VR&amp;E participants may receive a subsistence allowance, and some may qualify to elect the Post-9/11 subsistence allowance if they have remaining GI Bill entitlement — VR&amp;E housing/subsistence rules depend on counselor approval and individual eligibility.
         </div>
       )}
 
@@ -508,7 +579,6 @@ export function EducationCalculator() {
               benefit={b}
               isBest={b.id === result.bestBenefitId}
               mhaMonthsPerYear={mhaMonthsPerYear}
-              isOnline={schoolType === 'online'}
             />
           ))}
         </div>
@@ -520,8 +590,8 @@ export function EducationCalculator() {
       </div>
 
       {/* ── Yellow Ribbon note for private schools ──────────────────────── */}
-      {schoolType === 'private' && (
-        <div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-800 leading-relaxed">
+      {schoolType === 'private' && tierPct === 100 && (
+        <div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-800 leading-relaxed" data-testid="yellow-ribbon-note">
           <span className="font-semibold">Yellow Ribbon program:</span> If tuition exceeds the Post-9/11 private-school cap, Yellow Ribbon participation at your school may help close the gap. Yellow Ribbon matching varies by school and program — check with your school&apos;s VA certifying official.
         </div>
       )}

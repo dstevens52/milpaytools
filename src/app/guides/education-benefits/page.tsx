@@ -24,6 +24,10 @@ const GMU_MHA = mhaRateFor('22030'); // George Mason University
 const MIZZOU_MHA = mhaRateFor('65211'); // University of Missouri (Columbia)
 const ONLINE_MHA = EDUCATION_RATES.giBill.onlineMHAMonthly;
 const fmtUsd = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
+const fmtUsd2 = (n: number) =>
+  `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+/** MGIB Chapter 30 full-time monthly rate (effective Oct 1, 2026). */
+const MGIB_FULL = fmtUsd2(EDUCATION_RATES.mgib.fullTimeMonthly);
 const perAY = (monthly: number) => monthly * MHA_MONTHS;
 const per4Yr = (monthly: number) => monthly * MHA_MONTHS * 4;
 const MHA_DIFF_MONTHLY = SDSU_MHA - MIZZOU_MHA;
@@ -63,7 +67,7 @@ const FAQS = [
   {
     question: 'What does the Post-9/11 GI Bill cover?',
     answer:
-      'At 100% eligibility, Post-9/11 GI Bill (Chapter 33) covers: full tuition at public in-state institutions (private/out-of-state capped at ~$30,908/year in 2026–2027); a Monthly Housing Allowance (MHA) based on BAH for an E-5 with dependents at the school\'s ZIP code; and a book and supply stipend up to $1,000/year. Entitlement is 36 months. Online-only MHA is up to $1,261/month for the 2026-2027 academic year, subject to eligibility tier and rate of pursuit.',
+      'At 100% eligibility, Post-9/11 GI Bill (Chapter 33) covers: full tuition at public in-state institutions (private/out-of-state capped at ~$30,908/year in 2026–2027); a Monthly Housing Allowance (MHA) based on BAH for an E-5 with dependents at the school\'s ZIP code; and a book and supply stipend up to $1,000/year. Entitlement is 36 months. Online-only MHA is up to ' + fmtUsd(ONLINE_MHA) + '/month for the 2026-2027 academic year, subject to eligibility tier and rate of pursuit.',
   },
   {
     question: 'Why does my school\'s ZIP code matter for GI Bill?',
@@ -88,12 +92,12 @@ const FAQS = [
   {
     question: 'How do online programs affect GI Bill housing allowance?',
     answer:
-      'Students enrolled exclusively in online courses receive online-only MHA of up to $1,261/month for the 2026-2027 academic year, subject to eligibility tier and rate of pursuit — regardless of where they physically live or the school\'s ZIP code. Hybrid programs with any in-person attendance qualify for the full school ZIP code rate.',
+      'Students enrolled exclusively in online courses receive online-only MHA of up to ' + fmtUsd(ONLINE_MHA) + '/month for the 2026-2027 academic year, subject to eligibility tier and rate of pursuit — regardless of where they physically live or the school\'s ZIP code. Hybrid programs with any in-person attendance qualify for the full school ZIP code rate.',
   },
   {
     question: 'What is the Montgomery GI Bill (MGIB)?',
     answer:
-      'MGIB (Chapter 30) pays a flat monthly rate ($2,518/month for full-time enrollment with 3+ years of service (Oct 2025–Sept 2026)) regardless of school or location. Unlike Post-9/11, it doesn\'t cover tuition separately. For nearly all service members at standard four-year programs, Post-9/11 GI Bill is more valuable. MGIB can be advantageous at very low-cost schools where the flat rate exceeds what GI Bill tuition coverage would provide.',
+      'MGIB (Chapter 30) pays a flat monthly rate (' + MGIB_FULL + '/month for full-time enrollment with 3+ years of service (effective Oct 1, 2026)) regardless of school or location. Unlike Post-9/11, it doesn\'t cover tuition separately. For nearly all service members at standard four-year programs, Post-9/11 GI Bill is more valuable. MGIB can be advantageous at very low-cost schools where the flat rate exceeds what GI Bill tuition coverage would provide.',
   },
   {
     question: 'How should I sequence my education benefits?',
@@ -156,7 +160,7 @@ const ACCORDION = [
         <p><strong className="text-zinc-800">At 100% eligibility, the GI Bill covers:</strong></p>
         <ul className="space-y-1 pl-4 list-disc">
           <li><strong className="text-zinc-800">Tuition:</strong> Full tuition at public in-state institutions. Private/out-of-state capped at ~$30,908/year (2026–2027). Yellow Ribbon may cover the gap at participating schools.</li>
-          <li><strong className="text-zinc-800">Monthly Housing Allowance (MHA):</strong> BAH rate for an E-5 with dependents at the school&apos;s primary campus ZIP code. Online-only MHA is up to $1,261/month for the 2026-2027 academic year, subject to eligibility tier and rate of pursuit.</li>
+          <li><strong className="text-zinc-800">Monthly Housing Allowance (MHA):</strong> BAH rate for an E-5 with dependents at the school&apos;s primary campus ZIP code. Online-only MHA is up to {fmtUsd(ONLINE_MHA)}/month for the 2026-2027 academic year, subject to eligibility tier and rate of pursuit.</li>
           <li><strong className="text-zinc-800">Book stipend:</strong> Up to $1,000/year.</li>
           <li><strong className="text-zinc-800">Entitlement:</strong> 36 months (4 academic years).</li>
         </ul>
@@ -319,7 +323,7 @@ const ACCORDION = [
         <p>
           GI Bill MHA for fully online programs is paid at{' '}
           <strong className="text-zinc-800">50% of the national average BAH rate</strong> —
-          up to $1,261/month for the 2026-2027 academic year, subject to eligibility tier and
+          up to {fmtUsd(ONLINE_MHA)}/month for the 2026-2027 academic year, subject to eligibility tier and
           rate of pursuit — regardless of where you physically live or the school&apos;s ZIP code.
         </p>
         <p>
@@ -348,8 +352,8 @@ const ACCORDION = [
           service.
         </p>
         <p>
-          <strong className="text-zinc-800">How it works:</strong> MGIB pays a flat monthly rate —
-          $2,518/month for full-time enrollment with 3+ years of service (Oct 2025–Sept 2026) — regardless of school or location. It
+          <strong className="text-zinc-800">How it works:</strong> MGIB pays a flat monthly rate —{' '}
+          {MGIB_FULL}/month for full-time enrollment with 3+ years of service (effective Oct 1, 2026) — regardless of school or location. It
           doesn&apos;t cover tuition separately; you receive the flat monthly payment and use it for
           tuition plus living expenses.
         </p>
