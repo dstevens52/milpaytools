@@ -8,6 +8,7 @@ import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/s
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { BAHCalculator } from '@/components/calculators/bah/BAHCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
+import { FaqSection, type FaqItem } from '@/components/FaqSection';
 import { webApplicationSchema } from '@/lib/schema';
 import { formatCurrency } from '@/lib/utils';
 import { Bah2027Notice } from '@/components/bah-stations/Bah2027Notice';
@@ -16,7 +17,25 @@ import { Bah2027Notice } from '@/components/bah-stations/Bah2027Notice';
 // Absorbed the former standalone BAH calculator route (308 → /bah, see next.config.ts).
 const BAH_TITLE = 'BAH Calculator 2026: Rates by Duty Station';
 const BAH_DESC =
-  'Look up your 2026 BAH rate by ZIP code, pay grade, and dependency status, or browse rates by military installation. Official DTMO data for all 40,959 ZIP codes.';
+  'Look up your 2026 BAH rate for any branch by ZIP code, pay grade and dependency status, or browse by duty station. Official DTMO data for all 40,959 ZIP codes.';
+
+const BAH_FAQS: FaqItem[] = [
+  {
+    question: 'Is there a separate Army, Navy, Air Force or Marine Corps BAH calculator?',
+    answer:
+      "No. BAH rates are set by the Defense Travel Management Office for all uniformed services, based on your duty station ZIP code, pay grade and dependency status. Your branch doesn't change your rate, so this one calculator covers the Army, Navy, Air Force, Marine Corps, Space Force and Coast Guard.",
+  },
+  {
+    question: 'Do Guard and Reserve members get the same BAH?',
+    answer:
+      'When called to active duty for more than 30 days, Guard and Reserve members generally receive the same BAH rate as active duty at that location. For orders of 30 days or fewer, they generally receive BAH Reserve Component/Transit (BAH-RC/T), a lower non-locality rate. Orders supporting a contingency operation are an exception.',
+  },
+  {
+    question: 'Why is my BAH different from what a friend in another branch gets at the same base?',
+    answer:
+      "Branch isn't the cause. The usual reasons are pay grade, dependency status, or a duty station ZIP code that falls in a different Military Housing Area.",
+  },
+];
 const BAH_OG = ogImage({ type: 'calculator', title: 'BAH Calculator 2026', sub: '2026 housing allowance for any ZIP, with station compare' });
 const BAH_LAST_REVIEWED = 'September 18, 2026';
 
@@ -286,6 +305,8 @@ export default function BahHubPage() {
             <li>Members under the Basic Allowance for Housing Reserve Component (BAH-RC) have different rules</li>
           </ul>
         </div>
+
+        <FaqSection faqs={BAH_FAQS} />
 
         <div className="rounded-lg bg-slate-50 border border-slate-200 p-4 text-xs text-slate-500 leading-relaxed">
           <p className="font-semibold text-slate-600 mb-1">Disclaimer</p>
