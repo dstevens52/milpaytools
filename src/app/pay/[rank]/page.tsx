@@ -19,7 +19,18 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema, breadcrumbListSchema } from '@/lib/schema';
 import { ogImage } from '@/lib/og';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
-import { rankPageLinkText } from '@/lib/calculations/payRaise';
+import {
+  rankPageLinkText,
+  getColumns,
+  resultFor,
+  statusText,
+  rankRaiseHeading,
+  rankRaiseSentence,
+  rankRaiseFaq,
+  ESTIMATE_NOTE,
+  CAP_NOTE_PENDING,
+} from '@/lib/calculations/payRaise';
+import { PAY_RAISE_2027 } from '@/data/pay-raise/2027';
 import { gradeToParam } from '@/lib/urlParams';
 
 export async function generateStaticParams() {
@@ -395,7 +406,21 @@ export default async function RankPayPage({
       question: `Is ${rank.title} pay taxable?`,
       answer: `Basic pay is subject to federal income tax and, in most states, state income tax. BAH and BAS are excluded from federal taxable income, which is why the real value of an ${rank.title}'s package is higher than the base-pay number alone suggests. In designated combat zones, ${isEnlisted ? 'enlisted pay is excluded from federal income tax under the Combat Zone Tax Exclusion' : 'the Combat Zone Tax Exclusion applies to officers as well, capped at the highest enlisted pay rate'}.`,
     },
+    // 2027 raise FAQ — appended last so every existing entry stays byte-identical.
+    rankRaiseFaq(rank.grade, exampleBracket),
   ];
+
+  // ── 2027 pay raise section: same rows as the 2026 table, one column per
+  // scenario (or the official column), all values from the pay-raise lib.
+  const raiseConfig = PAY_RAISE_2027;
+  const raiseColumns = getColumns(raiseConfig);
+  const raiseRows = tableRows.map((row) => ({
+    row,
+    results: raiseColumns.map((c) => resultFor(c, rank.grade, row.bp, raiseConfig)),
+  }));
+  const raiseHasCap = raiseRows.some((r) => r.results.some((x) => x.applicable && x.capped));
+  const raiseHasEstimate = raiseColumns.some((c) => c.kind !== 'official-table');
+  const raiseSentence = rankRaiseSentence(rank.grade, exampleBracket, raiseConfig);
 
   const pageUrl = `/pay/${rank.slug}`;
   const schema = articleSchema({
@@ -519,6 +544,81 @@ export default async function RankPayPage({
           {rank.tableFootnote && (
             <p className="text-xs text-zinc-500 mt-2 leading-relaxed">{rank.tableFootnote}</p>
           )}
+        </section>
+
+        {/* ── 2027 pay raise (flips with src/data/pay-raise/2027.ts status) ─ */}
+        <section data-testid="rank-raise-2027">
+          <h2 className="text-xl font-semibold text-zinc-900 mb-1">
+            {rankRaiseHeading(rank.grade, raiseConfig)}
+          </h2>
+          <p className="text-sm text-zinc-600 leading-relaxed mb-4">{statusText(raiseConfig)}</p>
+          <div className="overflow-x-auto rounded-lg border border-zinc-200">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-zinc-50 border-b border-zinc-200 text-left">
+                  <th className="px-4 py-2.5 font-semibold text-zinc-700">Years of service</th>
+                  <th className="px-4 py-2.5 font-semibold text-zinc-700 text-right">2026 official</th>
+                  {raiseColumns.map((c) => (
+                    <th key={c.id} className="px-4 py-2.5 font-semibold text-zinc-700 text-right">
+                      {c.label}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {raiseRows.map(({ row, results }) => {
+                  const isCollapsedRow = collapsePlateau && row.bp === collapsedBp;
+                  return (
+                    <tr key={row.bp} className="border-b border-zinc-100 last:border-b-0" data-raise-row={row.bp}>
+                      <td className="px-4 py-2 text-zinc-700">
+                        {isCollapsedRow ? `${row.label} and beyond` : row.label}
+                      </td>
+                      <td className="px-4 py-2 text-right text-zinc-700 tabular-nums">
+                        {row.monthly !== null ? formatCurrency(row.monthly, true) : <span className="text-zinc-300">—</span>}
+                      </td>
+                      {results.map((r, i) => (
+                        <td key={raiseColumns[i].id} className="px-4 py-2 text-right font-medium text-zinc-900 tabular-nums">
+                          {r.applicable ? (
+                            <>
+                              {formatCurrency(r.projected, true)}
+                              {r.capped && <span className="text-amber-700">†</span>}
+                            </>
+                          ) : (
+                            <span className="text-zinc-300">—</span>
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          {(raiseHasEstimate || raiseHasCap) && (
+            <div className="text-xs text-zinc-500 mt-2 space-y-1 leading-relaxed">
+              {raiseHasEstimate && <p>{`2027 figures: ${ESTIMATE_NOTE}`}</p>}
+              {raiseHasCap && (
+                <p data-testid="rank-raise-cap-note">
+                  {raiseConfig.caps.pending
+                    ? `† ${CAP_NOTE_PENDING} Shown at the ${raiseConfig.caps.capYear} cap.`
+                    : `† Held at the ${raiseConfig.caps.capYear} pay cap.`}
+                </p>
+              )}
+            </div>
+          )}
+          {raiseSentence && (
+            <p className="text-sm text-zinc-700 leading-relaxed mt-4" data-testid="rank-raise-sentence">
+              {raiseSentence}
+            </p>
+          )}
+          <p className="mt-3 text-sm">
+            <Link
+              href={`/pay/raise?grade=${gradeToParam(rank.grade)}`}
+              className="font-semibold text-red-700 hover:text-red-800 underline"
+            >
+              Compare every grade and year on the 2027 pay raise calculator →
+            </Link>
+          </p>
         </section>
 
         {/* ── Worked total-comp example ───────────────────────────────── */}

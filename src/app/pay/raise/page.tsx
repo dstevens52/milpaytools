@@ -5,6 +5,7 @@ import {
   SOURCES,
   TIER_ASSUMPTION_NOTE,
 } from '@/data/pay-raise/2027';
+import { RETIREE_COLA_2027 } from '@/data/retiree-cola/2027';
 import {
   getColumns,
   resultFor,
@@ -290,6 +291,8 @@ export default function PayRaisePage() {
               { name: `${SOURCES.usc1009.name} (annual pay adjustment)`, url: SOURCES.usc1009.url },
               { name: `${SOURCES.usc203.name} (pay caps)`, url: SOURCES.usc203.url },
               { name: 'DFAS 2026 basic pay tables', url: SOURCES.dfas.url },
+              // Retiree COLA FAQ
+              ...RETIREE_COLA_2027.sources,
             ].map((s, i, arr) => (
               <span key={s.url}>
                 <a href={s.url} target="_blank" rel="noopener noreferrer" className="underline">

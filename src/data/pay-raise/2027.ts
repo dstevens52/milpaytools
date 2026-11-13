@@ -8,14 +8,17 @@
  * The page title, status box, FAQ, /pay hub FAQ, rank-page links and the blog
  * callout all read their wording from here through src/lib/calculations/payRaise.ts.
  *
- * Facts verified Nov 11, 2026:
+ * Facts verified Nov 13, 2026 (source record: docs/sources/pay-raise-cola-2027.md):
  *   - Alternative pay plan, 37 U.S.C. 1009(e), sent Aug 26, 2026 (H. Doc. 119-189):
  *     7.0% E-1–E-5, 6.0% E-6–O-3, 5.0% O-4 and above, "subject to the caps
  *     established by 37 U.S.C. 203", effective Jan 1, 2027. Takes effect unless
  *     Congress enacts a different raise.
  *   - SASC FY2027 NDAA: 3.6% for all grades (= the 37 U.S.C. 1009(c) ECI figure).
  *     House committee version supports 7-6-5. Source: CRS Insight IN12706 (Jul 14, 2026).
- *   - Final FY2027 NDAA not enacted.
+ *   - Senate cloture on the motion to proceed to S. 4784 failed Jul 14, 2026 (50-46).
+ *     No Senate passage, no conference report and no enacted FY2027 NDAA as of Nov 13, 2026.
+ *   - Under the plan, the other uniformed services (NOAA Corps, Public Health Service;
+ *     not Armed Forces) get 3.6% — see otherUniformedServicesPercent.
  *   - Caps (37 U.S.C. 203): O-7–O-10 at Executive Schedule Level II, all other
  *     grades at Level V. 2026 values from the DFAS officer table notes; 2027
  *     Executive Schedule rates not yet published.
@@ -35,6 +38,12 @@ export interface RaiseScenario {
   percentByTier: PercentByTier;
   sourceName: string;
   sourceUrl: string;
+  /**
+   * Raise for the uniformed services that are not Armed Forces (NOAA Corps, Public
+   * Health Service Commissioned Corps), when the scenario sets one. Shown only in
+   * the pending-mode "every branch" FAQ.
+   */
+  otherUniformedServicesPercent?: number;
 }
 
 export interface EnactedRaise {
@@ -125,6 +134,9 @@ export const PAY_RAISE_2027: PayRaiseConfig = {
       percentByTier: { 'E1-E5': 7.0, 'E6-O3': 6.0, 'O4-up': 5.0 },
       sourceName: SOURCES.plan.name,
       sourceUrl: SOURCES.plan.url,
+      // NOAA Corps / PHS under the plan letter, as quoted by MeriTalk, FedManager and
+      // Federal News Network (Aug 2026) — docs/sources/pay-raise-cola-2027.md §1.
+      otherUniformedServicesPercent: 3.6,
     },
     {
       id: 'senate-3-6',

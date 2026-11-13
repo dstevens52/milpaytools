@@ -33,6 +33,12 @@ import {
   isAssumedTier,
   pay2026,
   formatIsoDate,
+  raiseFaqs,
+  branchFaq,
+  retireeColaFaq,
+  rankRaiseHeading,
+  rankRaiseSentence,
+  rankRaiseFaq,
   type RaiseResult,
 } from '@/lib/calculations/payRaise';
 
@@ -229,5 +235,103 @@ test.describe('2027 pay raise — status modes', () => {
   test('misconfigured modes fail loudly', () => {
     expect(() => getColumns({ ...PAY_RAISE_2027, status: 'enacted' })).toThrow();
     expect(() => getColumns({ ...PAY_RAISE_2027, status: 'official-table' })).toThrow();
+  });
+});
+
+// ─── 2027 pass: branch / retiree FAQs, rank-page section (feat/pay-raise-2027-pass) ──
+// Golden values hand-computed from docs/sources/dfas-2026-basic-pay.csv (× (1 + %),
+// nearest $0.10, then the 2026 Level V cap $15,408.30). Literals, not lib output.
+
+test.describe('2027 pay raise — rank pages and new FAQs', () => {
+  const GOLDEN: [PayGrade, number, number, number, number, boolean][] = [
+    // grade, yos, 2026, current plan, senate 3.6%, capped
+    ['E-5', 6, 4110.0, 4397.7, 4258.0, false],
+    ['E-1', 0, 2407.2, 2575.7, 2493.9, false],
+    ['O-3', 6, 7737.0, 8201.2, 8015.5, false],
+    ['O-6', 24, 14479.2, 15203.2, 15000.5, false],
+    ['O-6', 26, 15188.7, 15408.3, 15408.3, true],
+  ];
+
+  for (const [grade, yos, v26, plan, senate, capped] of GOLDEN) {
+    test(`golden ${grade} over ${yos}: 2026 ${v26} / plan ${plan} / senate ${senate}${capped ? ' (capped)' : ''}`, () => {
+      const [cPlan, cSenate] = getColumns();
+      const p = applicable(resultFor(cPlan, grade, yos));
+      const s = applicable(resultFor(cSenate, grade, yos));
+      expect(cents(p.pay2026)).toBe(cents(v26));
+      expect(cents(p.projected)).toBe(cents(plan));
+      expect(cents(s.projected)).toBe(cents(senate));
+      expect(p.capped).toBe(capped);
+      expect(s.capped).toBe(capped);
+    });
+  }
+
+  // /pay/raise title + description are deliberately unchanged in this pass (they
+  // already earn clicks); only length limits are checked here. The enacted-mode
+  // description on main is 169 chars — flagged for release day, not changed here.
+  test('title ≤ 60 in every mode; live (pending) description ≤ 160', () => {
+    for (const cfg of [PAY_RAISE_2027, ENACTED_FIXTURE, OFFICIAL_FIXTURE]) {
+      expect(pageTitle(cfg).length).toBeLessThanOrEqual(60);
+    }
+    expect(pageDescription().length).toBeLessThanOrEqual(160);
+  });
+
+  test('pending: FAQ order puts branch + retiree right after "When will…"', () => {
+    expect(raiseFaqs().map((f) => f.question).slice(0, 3)).toEqual([
+      'When will the 2027 raise be final?',
+      'Is the 2027 raise the same in every branch?',
+      'Do military retirees get the 2027 pay raise?',
+    ]);
+  });
+
+  test('pending: retiree FAQ has 3.6%, 2.6%, December 1, 2026, January 2027', () => {
+    const a = retireeColaFaq().answer;
+    for (const s of ['3.6%', '2.6%', 'December 1, 2026', 'January 2027', 'October 14, 2026']) expect(a).toContain(s);
+    expect(a).not.toMatch(/VA disability|you should/i);
+  });
+
+  test('pending: branch FAQ has Coast Guard and the NOAA/PHS 3.6% line', () => {
+    const a = branchFaq().answer;
+    expect(a).toContain('Coast Guard');
+    expect(a).toContain('NOAA Corps');
+    expect(a).toContain('would get 3.6% under the plan');
+  });
+
+  test('pending: E-5 rank heading, sentence and FAQ', () => {
+    expect(rankRaiseHeading('E-5')).toBe('2027 pay raise for an E-5 (not final)');
+    expect(rankRaiseSentence('E-5', 6)).toBe(
+      'An E-5 with over 6 years of service would get $4,397.70 a month under the current plan (+$287.70) or $4,258.00 under the Senate version (+$148.00).',
+    );
+    const f = rankRaiseFaq('E-5', 6);
+    expect(f.question).toBe('What will the 2027 pay raise be for an E-5?');
+    expect(f.answer).toBe(
+      `Not final as of ${formatIsoDate(DATA_LAST_CHECKED)}. Under the current plan, E-5s get 7%: an E-5 with over 6 years of service would go from $4,110.00 to $4,397.70 a month. Under the Senate version (3.6%), it would be $4,258.00. The raise takes effect January 1, 2027.`,
+    );
+  });
+
+  test('pending: O-6 at a capped YOS mentions the pay cap', () => {
+    expect(rankRaiseFaq('O-6', 26).answer).toContain('may be limited by the pay cap');
+    expect(rankRaiseSentence('O-6', 26)).toContain('may be limited by the pay cap');
+  });
+
+  for (const [name, cfg] of [['enacted', ENACTED_FIXTURE], ['official-table', OFFICIAL_FIXTURE]] as const) {
+    test(`${name}: rank heading, sentence and FAQ render; no "not final"; branch FAQ has no NOAA/PHS`, () => {
+      const parts = [
+        rankRaiseHeading('E-5', cfg),
+        rankRaiseSentence('E-5', 6, cfg) ?? '',
+        rankRaiseFaq('E-5', 6, cfg).answer,
+        rankRaiseFaq('O-6', 26, cfg).answer,
+        branchFaq(cfg).answer,
+      ];
+      for (const p of parts) expect(p.toLowerCase()).not.toContain('not final');
+      expect(branchFaq(cfg).answer).not.toMatch(/NOAA|Public Health/);
+      expect(retireeColaFaq().answer).toContain('3.6%');
+    });
+  }
+
+  test('enacted: E-5 figures; official-table: heading "2027 E-5 basic pay"', () => {
+    expect(rankRaiseHeading('E-5', ENACTED_FIXTURE)).toBe('2027 pay raise for an E-5');
+    expect(rankRaiseFaq('E-5', 6, ENACTED_FIXTURE).answer).toContain('$4,397.70');
+    expect(rankRaiseHeading('E-5', OFFICIAL_FIXTURE)).toBe('2027 E-5 basic pay');
+    expect(rankRaiseSentence('E-5', 6, OFFICIAL_FIXTURE)).toContain('$4,210.00'); // stub = 2026 + $100
   });
 });

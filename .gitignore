@@ -65,3 +65,6 @@ og-verify/
 # Dollar-figure report working copies (npm run check:figures); the baseline is committed
 /docs/figures/report.md
 /docs/figures/report.json
+
+# Step 0 baseline for the /pay meta guard (feat/pay-raise-2027-pass)
+/PAY_META_BASELINE.json

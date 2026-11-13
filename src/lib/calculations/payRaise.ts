@@ -17,6 +17,7 @@ import {
   type PayCaps,
 } from '@/data/pay-raise/2027';
 import type { PayTable } from '@/data/types';
+import { RETIREE_COLA_2027, reduxPercent, type RetireeCola } from '@/data/retiree-cola/2027';
 import { payTable as payTable2026 } from '@/data/pay-tables/2026';
 import { ALL_PAY_GRADES, YOS_BREAKPOINTS, type PayGrade } from '@/types/military';
 import { lookupBasePay } from '@/lib/calculations/basePay';
@@ -381,6 +382,8 @@ export function raiseFaqs(config: PayRaiseConfig = PAY_RAISE_2027): { question: 
         question: 'When will the 2027 raise be final?',
         answer: `The raise becomes final when Congress enacts the FY2027 National Defense Authorization Act (NDAA) with a pay raise in it, or on January 1, 2027, when the current plan takes effect if Congress has not enacted a different raise. ${statusText(config)}`,
       },
+      branchFaq(config),
+      retireeColaFaq(),
       {
         question: 'Why is the raise different by rank?',
         answer: `The President's alternative pay plan under 37 U.S.C. 1009(e) sets different percentages by grade: ${describePercents(plan.percentByTier)}. The Senate version uses one rate, ${shortPercentLabel(senate.percentByTier)}, for every grade, which is the statutory Employment Cost Index figure under 37 U.S.C. 1009(c).`,
@@ -400,6 +403,8 @@ export function raiseFaqs(config: PayRaiseConfig = PAY_RAISE_2027): { question: 
   const enacted = config.enacted;
   return [
     { question: 'When will the 2027 raise be final?', answer: statusText(config) },
+    branchFaq(config),
+    retireeColaFaq(),
     {
       question: 'Why is the raise different by rank?',
       answer: enacted
@@ -428,3 +433,123 @@ const BAH_FAQ = {
   answer:
     'No. BAH is set separately from basic pay, based on local housing costs, grade and dependency status. 2027 BAH rates are usually announced in December.',
 };
+
+// ─── Branch + retiree COLA FAQs (/pay/raise) ────────────────────────────────
+
+/** "Is the 2027 raise the same in every branch?" — the NOAA/PHS line appears in pending mode only. */
+export function branchFaq(config: PayRaiseConfig = PAY_RAISE_2027): { question: string; answer: string } {
+  const question = 'Is the 2027 raise the same in every branch?';
+  if (config.status === 'pending') {
+    const plan = planScenario(config);
+    const other = plan.otherUniformedServicesPercent;
+    const otherLine =
+      other !== undefined
+        ? ` Officers in the NOAA Corps and the Public Health Service, which are uniformed services but not Armed Forces, would get ${formatPercent(other)} under the plan.`
+        : '';
+    return {
+      question,
+      answer: `Yes. The plan sets the raise for members of the Armed Forces: the Army, Navy, Marine Corps, Air Force, Space Force and Coast Guard. All six use the same basic pay table, so a Coast Guard E-5 gets the same raise as an Army E-5. Only the rank titles differ.${otherLine}`,
+    };
+  }
+  return {
+    question,
+    answer:
+      'Yes. The Army, Navy, Marine Corps, Air Force, Space Force and Coast Guard all use the same basic pay table, so pay by grade and years of service is identical. Only the rank titles differ.',
+  };
+}
+
+/** "Do military retirees get the 2027 pay raise?" — every figure from RETIREE_COLA_2027. */
+export function retireeColaFaq(cola: RetireeCola = RETIREE_COLA_2027): { question: string; answer: string } {
+  return {
+    question: 'Do military retirees get the 2027 pay raise?',
+    answer: `No. The pay raise is for basic pay of members who are serving. Military retired pay gets the annual cost-of-living adjustment instead: ${formatPercent(cola.percent)} for 2027, effective ${formatIsoDate(cola.effectiveDate)} and first paid in ${cola.firstPaidMonth}. It's the same CPI-W increase Social Security announced on ${formatIsoDate(cola.announcedDate)}. Retirees who took the Career Status Bonus (REDUX) get 1 percentage point less (${formatPercent(reduxPercent(cola))}). If your retired pay started during ${cola.effectiveDate.slice(0, 4)}, your first increase is generally smaller.`,
+  };
+}
+
+// ─── /pay/[rank] "2027 pay raise" section ───────────────────────────────────
+
+const money2 = (n: number) =>
+  `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+/** "over 6 years" / "2 years or less" — matches the DFAS column wording. */
+export function yosPhrase(yos: number): string {
+  return yos === 0 ? '2 years or less' : `over ${yos} years`;
+}
+
+/** Section heading on /pay/[rank]. Grades all start with a vowel sound, hence "an". */
+export function rankRaiseHeading(grade: PayGrade, config: PayRaiseConfig = PAY_RAISE_2027): string {
+  if (config.status === 'official-table') return `2027 ${grade} basic pay`;
+  if (config.status === 'enacted') return `2027 pay raise for an ${grade}`;
+  return `2027 pay raise for an ${grade} (not final)`;
+}
+
+/** One computed sentence for the page's example years of service, or null when no rate applies. */
+export function rankRaiseSentence(grade: PayGrade, yos: number, config: PayRaiseConfig = PAY_RAISE_2027): string | null {
+  const columns = getColumns(config);
+  const who = `An ${grade} with ${yosPhrase(yos)} of service`;
+  const inc = (r: RaiseResult) =>
+    r.applicable ? `(+${money2(r.monthlyIncrease)}${r.capped ? ', may be limited by the pay cap' : ''})` : '';
+  if (config.status === 'pending') {
+    const [first, second] = columns.map((c) => resultFor(c, grade, yos, config));
+    if (!first?.applicable) return null;
+    const firstPart = `${money2(first.projected)} a month under the current plan ${inc(first)}`;
+    const secondPart =
+      second && second.applicable ? ` or ${money2(second.projected)} under the Senate version ${inc(second)}` : '';
+    return `${who} would get ${firstPart}${secondPart}.`;
+  }
+  const r = resultFor(columns[0], grade, yos, config);
+  if (!r.applicable) return null;
+  if (config.status === 'official-table') {
+    return `${who} gets ${money2(r.projected)} a month in 2027 (+${money2(r.monthlyIncrease)} over 2026).`;
+  }
+  return `${who} gets ${money2(r.projected)} a month under the official raise ${inc(r)}.`;
+}
+
+/** FAQ appended to /pay/[rank] (visible list + schema). */
+export function rankRaiseFaq(
+  grade: PayGrade,
+  yos: number,
+  config: PayRaiseConfig = PAY_RAISE_2027,
+): { question: string; answer: string } {
+  const question = `What will the 2027 pay raise be for an ${grade}?`;
+  const columns = getColumns(config);
+  const who = `an ${grade} with ${yosPhrase(yos)} of service`;
+  const capClause = (r: RaiseResult) =>
+    r.applicable && r.capped ? ` (${CAP_NOTE_PENDING.charAt(0).toLowerCase()}${CAP_NOTE_PENDING.slice(1, -1)})` : '';
+
+  if (config.status === 'pending') {
+    const plan = planScenario(config);
+    const senate = senateScenario(config);
+    const planCol = columns.find((c) => c.id === plan.id) ?? columns[0];
+    const senateCol = columns.find((c) => c.id === senate.id) ?? columns[1];
+    const p = resultFor(planCol, grade, yos, config);
+    const s = senateCol ? resultFor(senateCol, grade, yos, config) : ({ applicable: false } as RaiseResult);
+    const pct = formatPercent(tierPercent(grade, plan.percentByTier));
+    const lead = `Not final as of ${formatIsoDate(config.lastChecked)}. Under the current plan, ${grade}s get ${pct}`;
+    const planPart = p.applicable
+      ? `: ${who} would go from ${money2(p.pay2026)} to ${money2(p.projected)} a month${capClause(p)}.`
+      : '.';
+    const senatePart = s.applicable
+      ? ` Under the Senate version (${shortPercentLabel(senate.percentByTier)}), it would be ${money2(s.projected)}${capClause(s)}.`
+      : '';
+    return { question, answer: `${lead}${planPart}${senatePart} The raise takes effect January 1, 2027.` };
+  }
+
+  const r = resultFor(columns[0], grade, yos, config);
+  if (config.status === 'official-table') {
+    return {
+      question,
+      answer: r.applicable
+        ? `Under the official DFAS 2027 table, ${who} gets ${money2(r.projected)} a month, up from ${money2(r.pay2026)} in 2026.`
+        : `The official DFAS 2027 table sets ${grade} pay by years of service; see the 2027 pay raise calculator for each year.`,
+    };
+  }
+  const enacted = config.enacted!;
+  const pct = formatPercent(tierPercent(grade, enacted.percentByTier));
+  return {
+    question,
+    answer: r.applicable
+      ? `The ${enacted.lawName} sets the 2027 raise for ${grade}s at ${pct}: ${who} goes from ${money2(r.pay2026)} to ${money2(r.projected)} a month${capClause(r)}, effective January 1, 2027.`
+      : `The ${enacted.lawName} sets the 2027 raise for ${grade}s at ${pct}, effective January 1, 2027.`,
+  };
+}
