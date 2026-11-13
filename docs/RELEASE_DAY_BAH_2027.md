@@ -30,7 +30,9 @@ Measured in the rehearsal (machine time; the human review steps are estimates):
 | 6 | Same week: figures, calendar, status | Code, Chat | 1–2 h |
 | 7 | January 1: notice off → IndexNow | Code | 15 min |
 
-Rehearsal total from zip to preview: see the PR (#26) rehearsal comment.
+Rehearsal (2026-11-13), zip to preview: 41 min wall clock, of which the 1-worker gate was 29 min
+and the rehearsal's own fixes about 8 min. Release day adds the human review in steps 2, 4 and 5
+(about 1–1.5 h), so plan on 2 hours from DoD's posting to merge.
 
 ## 0. (Optional) DoD has posted but the import isn't live yet
 
