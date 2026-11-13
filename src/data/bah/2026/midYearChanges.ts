@@ -21,5 +21,11 @@ export const BAH_MID_YEAR_CHANGES: BahMidYearChanges = {
     effective: '2026-05-16',
     dtmoLabel: '2026 Abilene Temporary Increase (Effective 05/16/2026)',
     sourceDoc: 'docs/sources/bah-2026-abilene-temporary-increase.md',
+    temporary: {
+      expires: '2026-12-31',
+      noticeTitle: 'Temporary BAH Increase for Abilene/Dyess AFB',
+      noticeDate: '2026-05-13',
+      noticeUrl: 'https://www.travel.dod.mil/About/News/Article/Article/4485972/temporary-bah-increase-for-abilenedyess-afb/',
+    },
   },
 };

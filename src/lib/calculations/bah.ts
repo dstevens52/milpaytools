@@ -55,10 +55,17 @@ export const BAH_ZIP_COUNT = Object.keys(zipToMha).length;
 /** Military Housing Areas with published rates in the current year. */
 export const BAH_MHA_COUNT = Object.keys(mhaRates).length;
 
-/** DTMO mid-year change for an MHA in the current BAH year, or null. */
-export function getBahMidYearChange(mhaCode: string | null | undefined): BahMidYearChange | null {
+/**
+ * DTMO mid-year change for an MHA in `year` (default: the current BAH year), or
+ * null. Pass PRIOR_BAH_YEAR after the year switch to find a prior-year temporary
+ * increase that the new rates replace (e.g. TX270's 2026 increase).
+ */
+export function getBahMidYearChange(
+  mhaCode: string | null | undefined,
+  year: BahYear = CURRENT_BAH_YEAR,
+): BahMidYearChange | null {
   if (!mhaCode) return null;
-  return BAH_MID_YEAR_CHANGES_BY_YEAR[CURRENT_BAH_YEAR]?.[mhaCode] ?? null;
+  return BAH_MID_YEAR_CHANGES_BY_YEAR[year]?.[mhaCode] ?? null;
 }
 
 /**

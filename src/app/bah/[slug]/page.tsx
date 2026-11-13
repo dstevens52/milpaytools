@@ -18,9 +18,20 @@ import { oconusFaqs } from '@/data/oconus/sharedCopy';
 import { bah2027FaqQuestion, bah2027FaqAnswer } from '@/data/bah/2027-status';
 import { Bah2027Notice } from '@/components/bah-stations/Bah2027Notice';
 import { BahTransitionNotice } from '@/components/bah-stations/BahTransitionNotice';
-import { formatBahDate } from '@/data/bah/midYear';
+import { formatBahDate, temporaryIncreaseEndingText, temporaryIncreasePendingText } from '@/data/bah/midYear';
+import { RATE_PROTECTION_RULE, TEMPORARY_INCREASE_SOURCES } from '@/data/bah/rateProtection';
+import { EmailSignup } from '@/components/EmailSignup';
 import { BAH_EFFECTIVE_DATE_LABEL } from '@/data/bah/current';
-import { bahNoticeMode, bahTransitionText, CURRENT_BAH_CONFIG } from '@/lib/calculations/bahTransition';
+import {
+  bahAlertHeadline,
+  bahAlertSource,
+  bahDecreaseNotice,
+  bahE5RateFaqAnswer,
+  bahE5RateLead,
+  bahNoticeMode,
+  bahTransitionText,
+  CURRENT_BAH_CONFIG,
+} from '@/lib/calculations/bahTransition';
 
 function ordinal(n: number): string {
   const s = ['th', 'st', 'nd', 'rd'];
@@ -190,6 +201,11 @@ export default async function StationPage({
   // DTMO mid-year change for this MHA in the current BAH year (e.g. TX270 Abilene,
   // May 16, 2026), or null.
   const midYearChange = getBahMidYearChange(mhaCode);
+  // A temporary increase in the PRIOR year (e.g. TX270's 2026 increase, once 2027
+  // rates load): rate protection doesn't apply to it, so the decrease paragraph and
+  // FAQ say the temporary rates ended instead. Data-driven, no MHA check.
+  const priorMidYear = getBahMidYearChange(mhaCode, PRIOR_BAH_YEAR);
+  const priorTemporary = priorMidYear?.temporary ? priorMidYear : null;
 
   // Prior-year rates for year-over-year deltas — resolved at build time only.
   // Small resolved objects (~24 grades) become props; the dataset never ships.
@@ -248,13 +264,17 @@ export default async function StationPage({
   let yoySummary = '';
   if (e5YoY) {
     const annual = formatCurrency(Math.abs(e5YoY.abs) * 12);
-    const prior = formatCurrency(e5YoY.prior);
+    // After a prior-year temporary increase, the comparison base is the rate in
+    // effect on December 31 of the prior year (the temporary rate); say so.
+    const prior = priorTemporary?.temporary
+      ? `${PRIOR_BAH_YEAR}'s temporary rate of ${formatCurrency(e5YoY.prior)}/month (in effect through ${formatBahDate(priorTemporary.temporary.expires)})`
+      : `${PRIOR_BAH_YEAR}'s ${formatCurrency(e5YoY.prior)}/month`;
     if (e5YoY.abs === 0) {
-      yoySummary = `For ${CURRENT_BAH_YEAR}, the E-5 with-dependents rate at ${station.name} is unchanged from ${PRIOR_BAH_YEAR}'s ${prior}/month.`;
+      yoySummary = `For ${CURRENT_BAH_YEAR}, the E-5 with-dependents rate at ${station.name} is unchanged from ${prior}.`;
     } else if (e5YoY.abs > 0) {
-      yoySummary = `For ${CURRENT_BAH_YEAR}, the E-5 with-dependents rate at ${station.name} rose ${formatCurrency(e5YoY.abs)} (+${e5YoY.pct.toFixed(1)}%) from ${PRIOR_BAH_YEAR}'s ${prior}/month — about ${annual} more over the year, excluded from federal taxable income.`;
+      yoySummary = `For ${CURRENT_BAH_YEAR}, the E-5 with-dependents rate at ${station.name} rose ${formatCurrency(e5YoY.abs)} (+${e5YoY.pct.toFixed(1)}%) from ${prior} — about ${annual} more over the year, excluded from federal taxable income.`;
     } else {
-      yoySummary = `For ${CURRENT_BAH_YEAR}, the E-5 with-dependents rate at ${station.name} fell ${formatCurrency(Math.abs(e5YoY.abs))} (−${Math.abs(e5YoY.pct).toFixed(1)}%) from ${PRIOR_BAH_YEAR}'s ${prior}/month — about ${annual} less over the year.`;
+      yoySummary = `For ${CURRENT_BAH_YEAR}, the E-5 with-dependents rate at ${station.name} fell ${formatCurrency(Math.abs(e5YoY.abs))} (−${Math.abs(e5YoY.pct).toFixed(1)}%) from ${prior} — about ${annual} less over the year.`;
     }
     if (e5YoYComparison) {
       yoySummary += ` That's ${e5YoYComparison.relation} the national average BAH increase of ${e5YoYComparison.nationalPct}% for ${CURRENT_BAH_YEAR}.`;
@@ -278,12 +298,20 @@ export default async function StationPage({
   const noticeMode = bahNoticeMode();
   const priorE5W = ratesWPrev?.['E-5'];
 
+  // Where any grade fell: the rate-protection paragraph, or — after a prior-year
+  // temporary increase — the "temporary rates ended" paragraph instead.
+  const temporaryEnding = priorTemporary ? temporaryIncreaseEndingText(priorTemporary, CURRENT_BAH_YEAR) : null;
+  const decreaseNotice = bahDecreaseNotice(station.name, CURRENT_BAH_CONFIG, hasDecrease, priorTemporary);
+  // Current-year temporary increase, before the next year loads (Dyess, pending).
+  const temporaryPending =
+    midYearChange && noticeMode === 'next-year-status' ? temporaryIncreasePendingText(midYearChange) : null;
+
   // ── Unified FAQ: single source for both the visible list and FAQPage schema ──
   const faqs: { question: string; answer: string }[] = [];
   if (ratesW && ratesWO) {
     faqs.push({
       question: `What is the ${CURRENT_BAH_YEAR} BAH rate for an E-5 with dependents at ${station.name}?`,
-      answer: `For ${CURRENT_BAH_YEAR}, an E-5 with dependents at ${station.name} receives ${formatCurrency(ratesW['E-5'] ?? 0)}/month in BAH (${mhaLabel} MHA). Other grades with dependents: E-6 ${formatCurrency(ratesW['E-6'] ?? 0)}/month, E-7 ${formatCurrency(ratesW['E-7'] ?? 0)}/month, O-3 ${formatCurrency(ratesW['O-3'] ?? 0)}/month. E-5 without dependents is ${formatCurrency(ratesWO['E-5'] ?? 0)}/month. BAH is excluded from federal taxable income.`,
+      answer: bahE5RateFaqAnswer(CURRENT_BAH_CONFIG, station.name, mhaLabel, ratesW, ratesWO),
     });
     // Next-year status FAQ: only until the new year's rates are loaded.
     if (noticeMode === 'next-year-status') {
@@ -299,7 +327,7 @@ export default async function StationPage({
     if (yoySummary) {
       faqs.push({
         question: `How much did ${station.name} BAH change from ${PRIOR_BAH_YEAR} to ${CURRENT_BAH_YEAR}?`,
-        answer: `${yoySummary} Rate protection means a member who stays at the same location with the same dependency status keeps their rate even if the published table rate falls.`,
+        answer: `${yoySummary} ${temporaryEnding ?? RATE_PROTECTION_RULE}`,
       });
     }
     faqs.push({
@@ -315,7 +343,7 @@ export default async function StationPage({
     if (fmr2br && e5W !== undefined && e5W > 0) {
       faqs.push({
         question: `How does BAH at ${station.name} compare with local rent?`,
-        answer: `For ${CURRENT_BAH_YEAR}, an E-5 with dependents at ${station.name} receives ${formatCurrency(e5W)}/month in BAH. Across the ${mhaLabel} area, 2-bedroom Fair Market Rent (HUD, FY2026) runs about ${formatCurrency(fmr2br.p25)}–${formatCurrency(fmr2br.p75)} (median ${formatCurrency(fmr2br.median)}). ${bahVsRentClause(e5W, fmr2br, 'an E-5 with dependents')} BAH is designed to cover about 95% of typical local housing costs — rent plus utilities — for a member's pay grade and dependency status.`,
+        answer: `${bahE5RateLead(CURRENT_BAH_CONFIG, station.name)} ${formatCurrency(e5W)}/month in BAH. Across the ${mhaLabel} area, 2-bedroom Fair Market Rent (HUD, FY2026) runs about ${formatCurrency(fmr2br.p25)}–${formatCurrency(fmr2br.p75)} (median ${formatCurrency(fmr2br.median)}). ${bahVsRentClause(e5W, fmr2br, 'an E-5 with dependents')} BAH is designed to cover about 95% of typical local housing costs — rent plus utilities — for a member's pay grade and dependency status.`,
       });
     }
     faqs.push({
@@ -378,6 +406,7 @@ export default async function StationPage({
         percentileSentence={percentileSentence}
         yoySummary={yoySummary}
         hasDecrease={hasDecrease}
+        decreaseNotice={decreaseNotice}
         fmr2br={fmr2br}
         siblings={siblings}
         faqs={faqs}
@@ -388,10 +417,34 @@ export default async function StationPage({
                 DTMO increased {midYearChange.areaName} BAH effective {formatBahDate(midYearChange.effective)}.
               </p>
             )}
+            {temporaryPending && midYearChange?.temporary && (
+              <p className="text-sm text-zinc-700 mt-2" data-testid="bah-temporary-increase">
+                {temporaryPending}{' '}
+                <span className="text-xs text-zinc-500">
+                  Sources:{' '}
+                  <a href={midYearChange.temporary.noticeUrl} target="_blank" rel="noopener noreferrer" className="underline text-blue-700 hover:text-blue-800">
+                    {`DTMO, ${midYearChange.temporary.noticeTitle} (${formatBahDate(midYearChange.temporary.noticeDate)})`}
+                  </a>
+                  {'; '}
+                  <a href={TEMPORARY_INCREASE_SOURCES[0].url} target="_blank" rel="noopener noreferrer" className="underline text-blue-700 hover:text-blue-800">
+                    {TEMPORARY_INCREASE_SOURCES[0].label}
+                  </a>
+                  .
+                </span>
+              </p>
+            )}
             {noticeMode === 'next-year-status' && <Bah2027Notice stationName={station.name} />}
             {noticeMode === 'transition' && (
               <BahTransitionNotice text={bahTransitionText(CURRENT_BAH_CONFIG, priorE5W ?? null)} />
             )}
+            {/* Station email alert: CONUS station pages only (this template), one per page. */}
+            <div className="mt-3" data-testid="bah-station-alert">
+              <EmailSignup
+                variant="card"
+                headline={bahAlertHeadline(station.name, noticeMode)}
+                source={bahAlertSource(station.slug)}
+              />
+            </div>
           </>
         }
         ratesEffectiveLabel={

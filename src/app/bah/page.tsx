@@ -17,6 +17,8 @@ import { BahTransitionNotice } from '@/components/bah-stations/BahTransitionNoti
 import { bahNoticeMode, bahTransitionText, CURRENT_BAH_CONFIG } from '@/lib/calculations/bahTransition';
 import Link from 'next/link';
 import { KEY_DATES_HREF } from '@/data/calendar-2027';
+import { Bah2027Section } from '@/components/bah-stations/Bah2027Section';
+import { bah2027HubFaqs } from '@/data/bah/2027-status';
 
 // Hub for both BAH intents: the ZIP calculator and the by-installation browse.
 // Absorbed the former standalone BAH calculator route (308 → /bah, see next.config.ts).
@@ -200,6 +202,11 @@ export default function BahHubPage() {
         </div>
       </section>
 
+      {/* ── 2027 BAH: release status, increase history, rate protection (#2027) ── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+        <Bah2027Section />
+      </div>
+
       {/* ── Explainer ────────────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-12 space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -229,20 +236,6 @@ export default function BahHubPage() {
               Because surveys lag the market by roughly a year, BAH may not perfectly match current
               rents in rapidly changing markets — but it is always benchmarked against real local
               data, not a flat national rate.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-xl font-semibold text-zinc-900 mb-3">Rate protection</h2>
-            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              If BAH rates decrease in a future year, your rate is protected — you keep your current
-              rate as long as your pay grade, duty station, and dependency status stay the same. This
-              is called &ldquo;rate protection&rdquo; or &ldquo;grandfathering.&rdquo;
-            </p>
-            <p className="text-zinc-600 text-sm leading-relaxed">
-              Rate protection resets when your dependency status changes (e.g., you gain or lose
-              dependents) or when you PCS to a new duty station. In those cases, you receive the
-              current rate for your new situation.
             </p>
           </div>
 
@@ -325,7 +318,7 @@ export default function BahHubPage() {
           </ul>
         </div>
 
-        <FaqSection faqs={BAH_FAQS} />
+        <FaqSection faqs={[...BAH_FAQS, ...bah2027HubFaqs()]} />
 
         <div className="rounded-lg bg-slate-50 border border-slate-200 p-4 text-xs text-slate-500 leading-relaxed">
           <p className="font-semibold text-slate-600 mb-1">Disclaimer</p>

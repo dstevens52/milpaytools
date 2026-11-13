@@ -15,6 +15,7 @@ import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
 import { BAH_YEAR } from '@/data/bah/current';
 import { bahPriorRateSubline } from '@/lib/calculations/bahTransition';
+import { RATE_PROTECTION_CALC_TAIL } from '@/data/bah/rateProtection';
 
 // BAH data resolves via /api/bah/lookup (cached, server-side) — this calculator
 // no longer ships the ~166KB dataset. Returned values are identical to the
@@ -135,7 +136,7 @@ function buildActionSteps(
   // Rate protection note
   steps.push({
     label: 'Understand rate protection',
-    description: `BAH rates in ${locationName} are protected — if the rate drops in a future year, you keep your current rate as long as your dependency status and duty station don't change.`,
+    description: `If the published BAH rate for ${locationName} drops in a future year, ${RATE_PROTECTION_CALC_TAIL}`,
     priority: 'low',
   });
 

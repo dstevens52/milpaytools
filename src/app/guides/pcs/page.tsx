@@ -227,7 +227,8 @@ const ACCORDION = [
         <p>
           <strong className="text-zinc-800">Rate protection only applies within the same duty
           station,</strong> year-over-year. It protects you from DTMO reducing rates for your MHA
-          in a new calendar year — as long as your grade and dependency status haven't changed.
+          in a new calendar year — as long as you have no reduction in pay grade and no change in
+          dependency status (a promotion doesn't end it).
           Once you PCS, you start fresh at the new location's current rate.
         </p>
         <ul className="space-y-1 pl-4 list-disc">

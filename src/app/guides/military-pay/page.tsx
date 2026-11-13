@@ -162,9 +162,10 @@ const ACCORDION = [
           federal bracket. Over a career, this exclusion is worth tens of thousands of dollars.
         </p>
         <p>
-          <strong className="text-zinc-800">Rate protection:</strong> If DTMO reduces BAH rates for
-          your area, you keep your current rate as long as your grade, duty station, and dependent
-          status don&apos;t change. This grandfathering resets when you PCS.
+          <strong className="text-zinc-800">Rate protection:</strong> If DTMO lowers the published
+          BAH rate for your area, you keep the higher prior rate as long as you have no reduction in
+          pay grade and no change in dependency status; a promotion doesn&apos;t end the protection.
+          It doesn&apos;t carry over when you PCS.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 pt-1">
           <Link href="/bah" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">

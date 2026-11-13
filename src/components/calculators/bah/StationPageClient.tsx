@@ -14,7 +14,6 @@ import {
 } from '@/types/military';
 import type { DutyStation } from '@/data/duty-stations/stations';
 import type { StateTaxInfo } from '@/data/compare/stateTax';
-import { EmailSignup } from '@/components/EmailSignup';
 import { YoYDelta } from '@/components/calculators/bah/YoYDelta';
 import { bahVsRentClause } from '@/lib/rentCompare';
 import { fireShareEvent } from '@/lib/analytics';
@@ -61,6 +60,12 @@ export interface StationPageClientProps {
   percentileSentence?: string;
   yoySummary?: string;
   hasDecrease?: boolean;
+  /**
+   * Server-built paragraph shown where any grade decreased: the rate-protection
+   * wording (src/data/bah/rateProtection.ts), or, after a prior-year temporary
+   * increase, the "temporary rates ended" wording (src/data/bah/midYear.ts).
+   */
+  decreaseNotice?: { kind: 'rate-protection' | 'temporary-ending'; text: string } | null;
   fmr2br?: { p25: number; median: number; p75: number } | null;
   siblings?: SiblingInstallation[];
   faqs?: { question: string; answer: string }[];
@@ -381,6 +386,7 @@ export function StationPageClient({
   percentileSentence = '',
   yoySummary = '',
   hasDecrease = false,
+  decreaseNotice = null,
   fmr2br = null,
   siblings = [],
   faqs = [],
@@ -712,13 +718,12 @@ export function StationPageClient({
             </p>
           )}
 
-          {/* Rate-protection context — only where one or more grades decreased.
-              Supersedes the generic rate-protection footnote on those pages. */}
-          {hasRates && hasDecrease && (
-            <div className="rounded-lg bg-amber-50 border border-amber-100 p-4">
-              <p className="text-sm text-zinc-700 leading-relaxed">
-                Some pay grades at {station.name}{` decreased for ${currentYear} compared with ${priorYear}. Under individual rate protection, service members who have remained at this duty station with the same pay grade and dependency status keep their higher prior-year rate. The lower ${currentYear} rate applies to members who arrive at this location or whose dependency status changes in ${currentYear}.`}
-              </p>
+          {/* Decrease context — only where one or more grades decreased. Rate
+              protection, or the end of a prior-year temporary increase (built on
+              the server). Supersedes the generic rate-protection footnote. */}
+          {hasRates && hasDecrease && decreaseNotice && (
+            <div className="rounded-lg bg-amber-50 border border-amber-100 p-4" data-testid="bah-decrease-notice" data-kind={decreaseNotice.kind}>
+              <p className="text-sm text-zinc-700 leading-relaxed">{decreaseNotice.text}</p>
             </div>
           )}
 
@@ -925,17 +930,7 @@ export function StationPageClient({
                 How much does an E-5 really make in 2026? →
               </Link>
             </div>
-            {/* Email signup */}
-            <div className="border-t border-white/10 mt-5 pt-5">
-              <EmailSignup
-                variant="inline"
-                darkBg
-                // Next year's rates: follows the BAH year switch (2027 while BAH_YEAR is 2026).
-                headline={`Get notified when ${Number(currentYear) + 1} BAH rates update for ${station.name}`}
-                source={`bah-${station.slug}`}
-                subtext="Updates when rates change. No spam."
-              />
-            </div>
+            {/* The station email alert lives under the dated notice (page.tsx), one per page. */}
           </div>
 
           {/* Nearby Stations */}

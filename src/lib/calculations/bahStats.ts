@@ -9,6 +9,7 @@
  */
 
 import { DUTY_STATIONS } from '@/data/duty-stations/stations';
+import { NATIONAL_AVG_BAH_INCREASE_BY_YEAR } from '@/data/bah/releaseHistory';
 import {
   getMHARatesForYear,
   getMHACode,
@@ -19,14 +20,13 @@ import {
 } from '@/lib/calculations/bah';
 
 /**
- * Official DTMO national-average BAH increase, by year. This is the
- * authoritative, recognizable figure DTMO publishes with each annual release —
- * NOT a computed median change (which would not match it). Update annually.
- * Source: DTMO 2026 BAH release.
+ * DoD's official national-average BAH increase, by rates year. This is the
+ * authoritative, recognizable figure DoD publishes with each annual release —
+ * NOT a computed median change (which would not match it). One source of truth:
+ * src/data/bah/releaseHistory.ts (docs/sources/bah-release-history.md); on
+ * release day the 2027 row added there flows here.
  */
-export const NATIONAL_AVG_BAH_INCREASE: Record<string, number> = {
-  '2026': 4.2,
-};
+export const NATIONAL_AVG_BAH_INCREASE: Readonly<Record<string, number>> = NATIONAL_AVG_BAH_INCREASE_BY_YEAR;
 
 /** Treat a base's % change within this band of the national figure as "in line". */
 const NATIONAL_INCREASE_TOLERANCE = 0.3;
@@ -52,6 +52,20 @@ export function nationalIncreaseComparison(
         ? 'above'
         : 'below';
   return { nationalPct, relation };
+}
+
+/** True if any grade (with or without dependents) is lower in `cur` than in `prior`. Pure. */
+export function hasDecreaseBetween(
+  cur: { w: Record<string, number>; wo: Record<string, number> },
+  prior: { w: Record<string, number>; wo: Record<string, number> },
+): boolean {
+  for (const dep of ['w', 'wo'] as const) {
+    for (const [grade, v] of Object.entries(cur[dep])) {
+      const p = prior[dep][grade];
+      if (p !== undefined && v < p) return true;
+    }
+  }
+  return false;
 }
 
 /**

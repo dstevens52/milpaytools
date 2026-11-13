@@ -316,13 +316,13 @@ export default function DualMilitaryBAHPage() {
               Rate protection and annual updates
             </h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              BAH rate protection applies independently to each member. If one member&apos;s BAH
-              rate decreases in a future year, that member keeps their current rate as long as their
-              pay grade, duty station, and dependency status don&apos;t change. The other member is
-              unaffected.
+              BAH rate protection applies to each member separately. If one member&apos;s published
+              BAH rate falls in a future year, that member keeps the higher prior rate as long as they
+              have no reduction in pay grade and no change in dependency status; a promotion
+              doesn&apos;t end the protection. The other member is unaffected.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              {`Rate protection resets when you PCS, change dependency status, or change pay grade. This calculator uses the ${BAH_YEAR} DTMO rates published effective January 1, ${BAH_YEAR}.`}
+              {`Rate protection doesn't carry over when you PCS: at a new duty station, each member receives that location's current rate. This calculator uses the ${BAH_YEAR} DTMO rates published effective January 1, ${BAH_YEAR}.`}
             </p>
           </div>
         </div>

@@ -20,6 +20,7 @@ import {
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { BAH_YEAR } from '@/data/bah/current';
+import { RATE_PROTECTION_CALC_TAIL } from '@/data/bah/rateProtection';
 
 // BAH year label — follows the BAH year switch (src/data/bah/current.ts).
 const DATA_YEAR = BAH_YEAR;
@@ -262,7 +263,7 @@ export function DualMilitaryBAHCalculator() {
     steps.push({
       label: 'Understand rate protection for dual military',
       description:
-        "If one member's BAH rate decreases in a future year, that member keeps their current rate as long as their pay grade, duty station, and dependency status don't change. Rate protection applies independently to each member.",
+        `If either member's published BAH rate drops in a future year, ${RATE_PROTECTION_CALC_TAIL} Rate protection applies to each member separately.`,
       priority: 'low',
     });
 
