@@ -7,7 +7,8 @@ import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import { compareAllBenefits } from '@/lib/calculations/education';
-import { getMHACode, getMHARates, getLocationName, listMHACodes } from '@/lib/calculations/bah';
+import { getLocationName } from '@/lib/calculations/bah';
+import { giBillBahAtZip, giBillBahAllMhas } from '@/lib/calculations/educationBah';
 import { EDUCATION_RATES } from '@/data/education/2026/constants';
 import { formatCurrency } from '@/lib/utils';
 
@@ -15,17 +16,12 @@ import { formatCurrency } from '@/lib/utils';
 const usd0 = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
 const usd2 = (n: number) =>
   `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-/** E-5 with-dependents BAH for every 2026 MHA (territories excluded) — the 100% / full-time MHA basis. */
-const E5_WITH_DEP_BAH = listMHACodes()
-  .filter((code) => !code.startsWith('XX'))
-  .map((code) => getMHARates(code, true)?.['E-5'] ?? 0)
-  .filter((v) => v > 0);
+/** E-5 with-dependents BAH for every MHA (territories excluded) in the GI Bill's BAH year
+ *  (EDUCATION_BAH_YEAR, not the site's current BAH year) — the 100% / full-time MHA basis. */
+const E5_WITH_DEP_BAH = giBillBahAllMhas();
 const MHA_MIN = Math.min(...E5_WITH_DEP_BAH);
 const MHA_MAX = Math.max(...E5_WITH_DEP_BAH);
-const SD_MHA = (() => {
-  const code = getMHACode('92093');
-  return (code && getMHARates(code, true)?.['E-5']) || 0;
-})();
+const SD_MHA = giBillBahAtZip('92093') ?? 0;
 const MHA_GAP_36_MONTHS = (SD_MHA - MHA_MIN) * EDUCATION_RATES.giBill.entitlementMonths;
 const TA_CAP = usd0(EDUCATION_RATES.ta.annualCap);
 const TA_PER_CREDIT = usd0(EDUCATION_RATES.ta.perCreditHour);
@@ -62,9 +58,9 @@ export default function EducationCalculatorPage() {
   // Scenario: E-5 veteran (100% tier = '36mo+'), in-state public in San Diego
   // (92093), ~$15k/yr tuition, full-time, vs Montgomery GI Bill.
   // NOTE: the GI Bill MHA is ALWAYS the E-5-with-dependents BAH at the school ZIP,
-  // regardless of the veteran's own rank — resolve it at E-5/with-dependents.
-  const eduMha = getMHACode('92093');
-  const eduSchoolBah = (eduMha && getMHARates(eduMha, true)?.['E-5']) || 0;
+  // regardless of the veteran's own rank — resolve it at E-5/with-dependents,
+  // for the GI Bill's BAH year (EDUCATION_BAH_YEAR).
+  const eduSchoolBah = giBillBahAtZip('92093') ?? 0;
   const edu = compareAllBenefits({
     status: 'veteran',
     serviceTier: '36mo+',

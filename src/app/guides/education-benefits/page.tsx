@@ -5,20 +5,18 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
-import { getMHACode, getMHARates } from '@/lib/calculations/bah';
-import { EDUCATION_RATES } from '@/data/education/2026/constants';
+import { giBillBahAtZip } from '@/lib/calculations/educationBah';
+import { EDUCATION_RATES, EDUCATION_BAH_YEAR } from '@/data/education/2026/constants';
 
 // ── MHA example schools — one source of truth for every mirror on this page ──
 // GI Bill MHA = the E-5 with-dependents BAH rate at the school's primary-campus
-// ZIP code, resolved from the 2026 BAH dataset at build time (server-side only).
+// ZIP code, resolved at build time from the BAH year VA uses for the academic
+// year (EDUCATION_BAH_YEAR), not the site's current BAH year.
 // Academic-year totals use EDUCATION_RATES.giBill.mhaMonthsPerYear (9 months);
 // "4-year degree" = four academic years (36 months). Illustrative estimates —
 // actual MHA depends on eligibility tier, enrollment status, term dates, and proration.
 const MHA_MONTHS = EDUCATION_RATES.giBill.mhaMonthsPerYear;
-const mhaRateFor = (zip: string): number => {
-  const mha = getMHACode(zip);
-  return (mha ? getMHARates(mha, true)?.['E-5'] : 0) ?? 0;
-};
+const mhaRateFor = (zip: string): number => giBillBahAtZip(zip) ?? 0;
 const SDSU_MHA = mhaRateFor('92182'); // San Diego State University
 const GMU_MHA = mhaRateFor('22030'); // George Mason University
 const MIZZOU_MHA = mhaRateFor('65211'); // University of Missouri (Columbia)
@@ -214,7 +212,7 @@ const ACCORDION = [
           </table>
         </div>
         <p className="text-xs text-zinc-400 italic">
-          2026 BAH dataset, E-5 with-dependents rate at each ZIP; annual figures assume a 9-month academic year. Illustrative estimates — actual MHA depends on eligibility tier, enrollment status, term dates, and proration.
+          {`${EDUCATION_BAH_YEAR} BAH dataset, E-5 with-dependents rate at each ZIP; annual figures assume a 9-month academic year. Illustrative estimates — actual MHA depends on eligibility tier, enrollment status, term dates, and proration.`}
         </p>
         <p>
           {`The San Diego State ZIP produces `}<strong className="text-zinc-800">{fmtUsd(MHA_DIFF_AY)} more per academic year</strong>{` in MHA than the Missouri ZIP — even if tuition is identical. Over a 4-year degree, that's a `}

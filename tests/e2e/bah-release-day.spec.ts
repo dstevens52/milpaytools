@@ -19,6 +19,8 @@ import {
   CURRENT_BAH_YEAR,
   PRIOR_BAH_YEAR,
   priorYearRates,
+  isBahYear,
+  currentZipToMha,
 } from '../../src/lib/calculations/bah';
 import {
   bahNoticeMode,
@@ -27,6 +29,9 @@ import {
   type BahYearConfig,
 } from '../../src/lib/calculations/bahTransition';
 import { BAH_EXPECTED as X } from './fixtures/bah-expected';
+import { EDUCATION_BAH_YEAR } from '../../src/data/education/2026/constants';
+import { giBillBahAtZip } from '../../src/lib/calculations/educationBah';
+import { calculatePostGIBill } from '../../src/lib/calculations/education';
 
 const ROOT = process.cwd();
 const node = (args: string[]) =>
@@ -187,5 +192,57 @@ test.describe('llms.txt', () => {
     expect(r.status, r.stderr + r.stdout).toBe(0);
     const txt = readFileSync(path.join(ROOT, 'public', 'llms.txt'), 'utf8');
     expect(txt).toContain(`${BAH_YEAR} BAH rates for all ${BAH_ZIP_COUNT.toLocaleString('en-US')} ZIP codes`);
+  });
+});
+
+test.describe('Education: GI Bill MHA uses EDUCATION_BAH_YEAR, not BAH_YEAR', () => {
+  // VA: "We use the 2026 rates to calculate the monthly payment you get between
+  // August 1, 2026, and July 31, 2027." The 2026 E-5 with-dependents rate at
+  // ZIP 92134 (CA038) is $3,975 (data/sources/dtmo/2026/bahw26.txt).
+  const ZIP = '92134';
+  const E5W_2026 = 3975;
+
+  test('EDUCATION_BAH_YEAR is a registered BAH year', () => {
+    expect(EDUCATION_BAH_YEAR).toBe('2026');
+    expect(isBahYear(EDUCATION_BAH_YEAR)).toBe(true);
+  });
+
+  test('with a BAH_YEAR=2027 fixture, education MHA at 92134 still equals the 2026 E-5 w/dep rate', () => {
+    // Fixture: registry after the 2027 flip, with every 2027 rate $100 higher than 2026.
+    const rates2026 = BAH_RATES_BY_YEAR['2026'];
+    const bump = (set: Record<string, number>) =>
+      Object.fromEntries(Object.entries(set).map(([g, v]) => [g, v + 100]));
+    const rates2027 = Object.fromEntries(
+      Object.entries(rates2026).map(([m, s]) => [m, { w: bump(s.w), wo: bump(s.wo) }]),
+    );
+    const flipped = { zipToMha: currentZipToMha(), ratesByYear: { '2026': rates2026, '2027': rates2027 } };
+    const current2027 = flipped.ratesByYear['2027'][flipped.zipToMha[ZIP]].w['E-5'];
+    expect(current2027).toBe(E5W_2026 + 100); // the site's (fixture) BAH_YEAR rate differs
+
+    const schoolBAH = giBillBahAtZip(ZIP, EDUCATION_BAH_YEAR, flipped);
+    expect(schoolBAH).toBe(E5W_2026);
+    // 100% tier, full time, in person: MHA = the E-5 with-dependents BAH.
+    const gi = calculatePostGIBill({
+      status: 'veteran', serviceTier: '36mo+', vaRating: 0, schoolType: 'public',
+      schoolZip: ZIP, schoolBAH, schoolLocationName: 'San Diego, CA',
+      annualTuition: 12000, programYears: 4, enrollment: 'full',
+    });
+    expect(gi.monthlyMHA).toBe(E5W_2026);
+  });
+
+  test('today, education and the BAH pages read the same 2026 rate', () => {
+    expect(giBillBahAtZip(ZIP)).toBe(E5W_2026);
+  });
+
+  test('lookup API serves EDUCATION_BAH_YEAR rates on request; rejects unregistered years', async () => {
+    const { GET } = await import('../../src/app/api/bah/lookup/route');
+    const res = await GET(new Request(`http://localhost/api/bah/lookup?zip=${ZIP}&y=${BAH_YEAR}&ratesYear=${EDUCATION_BAH_YEAR}`));
+    const body = await res.json();
+    expect(body.ratesYear).toBe(EDUCATION_BAH_YEAR);
+    expect(body.ratesW['E-5']).toBe(E5W_2026);
+    expect(res.headers.get('cache-control')).toContain('immutable');
+    const bad = await GET(new Request(`http://localhost/api/bah/lookup?zip=${ZIP}&ratesYear=1999`));
+    expect(bad.status).toBe(400);
+    expect(bad.headers.get('cache-control')).toBe('no-store');
   });
 });

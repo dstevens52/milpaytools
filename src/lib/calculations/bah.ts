@@ -76,6 +76,11 @@ export function getMHARatesForYear(
   return hasDependents ? yearData.w : yearData.wo;
 }
 
+/** True if `year` has rates registered in src/data/bah/registry.ts. */
+export function isBahYear(year: string): year is BahYear {
+  return Object.prototype.hasOwnProperty.call(RATES_BY_YEAR, year);
+}
+
 /** Prior-year (BAH_PRIOR_YEAR) rates for an MHA: the rates still paid until January 1. */
 export interface PriorYearRates {
   year: string;

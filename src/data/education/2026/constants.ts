@@ -14,9 +14,21 @@
  *   https://www.benefits.va.gov/vocrehab/subsistence_allowance_rates.asp
  * Tuition Assistance: DoD Voluntary Education policies (DoDI 1322.25)
  *
- * Location-based GI Bill MHA = E-5 with-dependents BAH at the school ZIP, from
- * the 2026 BAH data (src/data/bah/2026).
+ * Location-based GI Bill MHA = E-5 with-dependents BAH at the school ZIP, for
+ * EDUCATION_BAH_YEAR (below), read from the BAH registry.
  */
+
+/**
+ * The BAH year behind Post-9/11 GI Bill MHA for this academic year
+ * (Aug 1, 2026 – Jul 31, 2027). Independent of BAH_YEAR (src/data/bah/current.ts):
+ * it stays '2026' after the 2027 BAH release, until VA's Aug 1, 2027 rate change.
+ * VA: "We use the 2026 rates to calculate the monthly payment you get between
+ * August 1, 2026, and July 31, 2027."
+ * https://www.va.gov/education/benefit-rates/post-9-11-gi-bill-rates/
+ * (confirmed by Claude Chat 2026-11-13). Must be a year registered in
+ * src/data/bah/registry.ts (BAH_RATES_BY_YEAR).
+ */
+export const EDUCATION_BAH_YEAR = '2026';
 
 export const EDUCATION_RATES = {
   dataYear: '2026',

@@ -34,6 +34,16 @@ export interface BahLookupData {
    * → Dec 31): the rates still being paid until January 1.
    */
   prior?: { year: string; ratesW: Record<string, number> | null; ratesWO: Record<string, number> | null };
+  /** Set when the caller asked for another registered year's rates (`ratesYear`). */
+  ratesYear?: string;
+}
+
+export interface BahLookupOptions {
+  /**
+   * Rates for this registered BAH year instead of BAH_YEAR (ZIP → MHA still from
+   * the current year). The education calculator passes EDUCATION_BAH_YEAR.
+   */
+  ratesYear?: string;
 }
 
 const NOT_FOUND: BahLookupData = {
@@ -80,12 +90,18 @@ function normalize(json: Partial<BahLookupData> & { valid: boolean }): BahLookup
     ratesWO: json.ratesWO ?? null,
     stationPages: json.stationPages ?? [],
     ...(json.prior ? { prior: json.prior } : {}),
+    ...(json.ratesYear ? { ratesYear: json.ratesYear } : {}),
   };
 }
 
-export function useBahLookup(zip: string): { data: BahLookupData | null; loading: boolean } {
+export function useBahLookup(
+  zip: string,
+  options: BahLookupOptions = {},
+): { data: BahLookupData | null; loading: boolean } {
+  const { ratesYear } = options;
+  const key = ratesYear ? `${zip}|${ratesYear}` : zip;
   const [data, setData] = useState<BahLookupData | null>(() =>
-    isFiveDigitZip(zip) ? cache.get(zip) ?? null : null,
+    isFiveDigitZip(zip) ? cache.get(key) ?? null : null,
   );
   const [loading, setLoading] = useState(false);
   const seqRef = useRef(0);
@@ -97,7 +113,7 @@ export function useBahLookup(zip: string): { data: BahLookupData | null; loading
       return;
     }
 
-    const cached = cache.get(zip);
+    const cached = cache.get(key);
     if (cached) {
       setData(cached);
       setLoading(false);
@@ -109,11 +125,12 @@ export function useBahLookup(zip: string): { data: BahLookupData | null; loading
     setData(null); // clear stale rate while the new ZIP resolves
     setLoading(true);
 
-    fetch(`/api/bah/lookup?zip=${zip}&y=${BAH_YEAR}`, { signal: controller.signal })
+    const url = `/api/bah/lookup?zip=${zip}&y=${BAH_YEAR}${ratesYear ? `&ratesYear=${ratesYear}` : ''}`;
+    fetch(url, { signal: controller.signal })
       .then((r) => r.json() as Promise<Partial<BahLookupData> & { valid: boolean }>)
       .then((json) => {
         const result = normalize(json);
-        cache.set(zip, result);
+        cache.set(key, result);
         if (seq === seqRef.current) {
           setData(result);
           setLoading(false);
@@ -129,7 +146,7 @@ export function useBahLookup(zip: string): { data: BahLookupData | null; loading
       });
 
     return () => controller.abort();
-  }, [zip]);
+  }, [zip, key, ratesYear]);
 
   return { data, loading };
 }

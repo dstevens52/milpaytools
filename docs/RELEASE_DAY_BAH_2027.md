@@ -8,14 +8,15 @@ test, preview → merge → IndexNow.** Rehearsed on `rehearsal/bah-2027` (see t
 Who does what: **Claude Chat** verifies sources and figures, **Claude Code** runs the steps, and
 **Dan** merges.
 
-**Blockers to clear before release day** (found in the 2026-11-13 rehearsal; both in
-`docs/audits/FIX_QUEUE.md`):
-- Rate-protection wording is wrong (step 5 below).
-- The education calculator and `/guides/education-benefits` label their GI Bill housing figure
-  "2026 BAH rates for the 2026–2027 academic year" but read the *current* BAH year. After the
-  flip they would show 2027 rates under a 2026 label. Claude Chat confirms which BAH year VA uses
-  for the 2026–27 academic year; if it's 2026 until August 1, 2027, those two pages must be
-  pinned to their academic year's BAH before the flip.
+**Blocker to clear before release day** (found in the 2026-11-13 rehearsal; in
+`docs/audits/FIX_QUEUE.md`): the rate-protection wording is wrong (step 5 below).
+
+**Education stays on 2026 BAH until VA's August 1, 2027 rate change.** GI Bill MHA follows
+`EDUCATION_BAH_YEAR` (`src/data/education/2026/constants.ts`), not `BAH_YEAR`. VA: "We use the
+2026 rates to calculate the monthly payment you get between August 1, 2026, and July 31, 2027."
+So on release day the education calculator and `/guides/education-benefits` keep showing 2026
+BAH, correctly. Keep `'2026'` in `BAH_RATES_BY_YEAR` (step 3 does). On **August 1, 2027**, with
+VA's 2027–28 rates: set `EDUCATION_BAH_YEAR = '2027'` and update `EDUCATION_RATES`.
 
 Measured in the rehearsal (machine time; the human review steps are estimates):
 
@@ -29,6 +30,7 @@ Measured in the rehearsal (machine time; the human review steps are estimates):
 | 5 | Preview → verify → rate-protection check → merge → IndexNow | Code, Chat, Dan | preview ≈5 min after push; review 20–30 min |
 | 6 | Same week: figures, calendar, status | Code, Chat | 1–2 h |
 | 7 | January 1: notice off → IndexNow | Code | 15 min |
+| 8 | August 1, 2027: GI Bill MHA moves to 2027 BAH (`EDUCATION_BAH_YEAR`) | Code (Chat: VA rates) | 30 min |
 
 Rehearsal (2026-11-13), zip to preview: 41 min wall clock, of which the 1-worker gate was 29 min
 and the rehearsal's own fixes about 8 min. Release day adds the human review in steps 2, 4 and 5
@@ -92,7 +94,8 @@ print a loud warning into the report. The zip may also contain "old" files (e.g.
 
 - `src/data/bah/registry.ts`:
   - import `./2027/mhaRates` into `BAH_RATES_BY_YEAR` (`'2027': rates2027`); drop `'2025'` and
-    its import (the prior year is now 2026)
+    its import (the prior year is now 2026). **Keep `'2026'`**: it's the prior year and the GI
+    Bill year (`EDUCATION_BAH_YEAR`) until August 1, 2027.
   - **move** the `BAH_LOOKUP_TABLES` entry to 2027
     (`'2027': { zipToMha: zipToMha2027, mhaNames: mhaNames2027 }`) and delete the 2026
     zipToMha/mhaNames imports. Only one year's ZIP map may be registered; a test enforces it.
@@ -201,6 +204,13 @@ station pages.
   returning prior-year rates.
 - Build, Chromium tier 1 on `bah-release-day`, `bah-station`, `bah`, `api-bah-lookup`; PR; merge;
   `npm run bah:urls` → IndexNow.
+
+## 8. August 1, 2027: GI Bill year
+
+- VA's 2027–28 Post-9/11 rates take effect and use 2027 BAH. In `src/data/education/2026/constants.ts`
+  (or a new `2027/` folder): `EDUCATION_BAH_YEAR = '2027'` and the new `EDUCATION_RATES`, with
+  VA's source. Build; Chromium tier 1 on `education`, `bah-release-day`; IndexNow `/calculators/education`
+  and `/guides/education-benefits`.
 
 ## Reference
 
