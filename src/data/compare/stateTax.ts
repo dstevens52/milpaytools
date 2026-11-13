@@ -66,6 +66,16 @@ export const STATE_TAX_DATA: Record<string, StateTaxInfo> = {
   WV: { name: 'West Virginia',   rate: 0.065,  noTax: false },
 };
 
+/** 3-digit ZIP prefixes outside their surrounding state range (see getStateFromZip). */
+const ZIP3_STATE_OVERRIDES: Record<number, string> = {
+  5: 'NY',   // 005xx — Holtsville, NY
+  55: 'MA',  // 055xx — Andover, MA
+  201: 'VA', // 201xx — Northern Virginia (Herndon, Dulles, Manassas), not DC
+  399: 'GA', // 399xx — Atlanta, GA, not MS
+  733: 'TX', // 733xx — Austin, TX, not OK
+  885: 'TX', // 885xx — El Paso, TX
+};
+
 /**
  * Map a 5-digit ZIP code to a 2-letter state abbreviation.
  * Uses ZIP prefix ranges — approximate and covers all 50 states + DC.
@@ -76,6 +86,14 @@ export function getStateFromZip(zipCode: string): string | null {
   if (digits.length < 5) return null;
   const p = parseInt(digits.slice(0, 3), 10);
   if (isNaN(p)) return null;
+
+  // Special 3-digit prefixes whose state differs from the surrounding range. Each is
+  // confirmed against DTMO's 2026 ZIP→MHA data (sorted_zipmha26): every ZIP in the
+  // prefix that sits in a single-state MHA maps to this state (e.g. 201 → 62/62 VA,
+  // 885 → 76/76 TX). (Not the MHA code itself: metro MHAs cross state lines, e.g.
+  // Kansas City KS suburbs sit in an MO-coded MHA.)
+  const override = ZIP3_STATE_OVERRIDES[p];
+  if (override) return override;
 
   if (p >= 10  && p <= 27)  return 'MA';
   if (p >= 28  && p <= 29)  return 'RI';

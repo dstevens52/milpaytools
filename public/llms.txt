@@ -11,7 +11,7 @@
 - [Guard/Reserve Pay](/calculators/guard-reserve): Drill pay, annual training, and TRICARE Reserve Select
 - [Education Benefits](/calculators/education): GI Bill vs VR&E vs TA comparison by school
 - [CONUS COLA](/calculators/cola): Cost of living allowance lookup by ZIP
-- [Compare Your PCS Move](/calculators/compare): Side-by-side BAH, taxes, COLA, and take-home between current and new station
+- [Compare Your PCS Move](/calculators/compare): Side-by-side BAH, COLA, and after-tax pay between current and new station (state income tax at your state of legal residence, per SCRA)
 - [Deployment Pay Calculator](/calculators/deployment): For every branch (Army, Navy, Air Force, Marine Corps, Space Force) — HFP/IDP, Hardship Duty Pay, FSA, combat zone tax exclusion, and Savings Deposit Program interest
 - [2026 Pay Charts](/pay): Full pay tables for all ranks and years of service, plus the index of per-rank pay pages
 - [Dual Military BAH Calculator](/calculators/dual-military-bah): What both members draw, who should claim dependents, and how "double BAH" works for military couples
