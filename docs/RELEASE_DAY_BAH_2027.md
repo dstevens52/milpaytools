@@ -8,16 +8,29 @@ test, preview → merge → IndexNow.** Rehearsed on `rehearsal/bah-2027` (see t
 Who does what: **Claude Chat** verifies sources and figures, **Claude Code** runs the steps, and
 **Dan** merges.
 
+**Blockers to clear before release day** (found in the 2026-11-13 rehearsal; both in
+`docs/audits/FIX_QUEUE.md`):
+- Rate-protection wording is wrong (step 5 below).
+- The education calculator and `/guides/education-benefits` label their GI Bill housing figure
+  "2026 BAH rates for the 2026–2027 academic year" but read the *current* BAH year. After the
+  flip they would show 2027 rates under a 2026 label. Claude Chat confirms which BAH year VA uses
+  for the 2026–27 academic year; if it's 2026 until August 1, 2027, those two pages must be
+  pinned to their academic year's BAH before the flip.
+
+Measured in the rehearsal (machine time; the human review steps are estimates):
+
 | | Step | Who | Time |
 |---|---|---|---|
 | 0 | (optional) "released" notice while the import is in progress | Code | 5 min |
-| 1 | Download, record and place the DTMO package | Chat → Code | 10 min |
-| 2 | Import + review the report + spot-check | Code, Chat | 25–35 min |
-| 3 | Flip the year switch + registry + national average | Code (Chat supplies the %) | 5 min |
-| 4 | 2027 test fixture + tiered gate | Chat (values), Code | 30 min |
-| 5 | Preview → verify → rate-protection check → merge → IndexNow | Code, Chat, Dan | 20–30 min |
-| 6 | Same week: figures, llms.txt, calendar, status | Code, Chat | 1–2 h |
+| 1 | Download, record and place the DTMO package | Chat → Code | 10 min (rehearsal: 1 min) |
+| 2 | Import + review the report + spot-check | Code, Chat | import 2 s; review + spot-check 25–35 min |
+| 3 | Flip the year switch + registry + national average + llms.txt | Code (Chat supplies the %) | 5 min (rehearsal: 1 min incl. type check) |
+| 4 | 2027 test fixture + build + tiered gate | Chat (values), Code | fixture 15–30 min; build 1 min; gate 30 min at 1 worker |
+| 5 | Preview → verify → rate-protection check → merge → IndexNow | Code, Chat, Dan | preview ≈5 min after push; review 20–30 min |
+| 6 | Same week: figures, calendar, status | Code, Chat | 1–2 h |
 | 7 | January 1: notice off → IndexNow | Code | 15 min |
+
+Rehearsal total from zip to preview: see the PR (#26) rehearsal comment.
 
 ## 0. (Optional) DoD has posted but the import isn't live yet
 
@@ -53,9 +66,11 @@ The report has counts, MHAs added/removed, remapped ZIPs, the E-5 with-dependent
 distribution, the top/bottom 10, every decrease (station-page MHAs listed), the station-page MHA
 table, and 10 seeded sample cells.
 
-- Claude Chat spot-checks the **10 sample cells** and **5 station MHAs** (pick Fort Bragg NC182,
-  Fort Hood, San Diego CA038, JBLM WA311, Dyess TX270) against the DTMO online BAH lookup, and
-  ticks them in the report.
+- Claude Chat spot-checks the **10 sample cells** and **5 station MHAs** against the DTMO online
+  BAH lookup and ticks them in the report. The lookup takes a **ZIP**, not an MHA code: use the
+  report's "lookup ZIP" column for the samples, and these for the stations: Fort Bragg 28310
+  (NC182), Fort Hood 76544 (TX286), San Diego 92134 (CA038), JBLM 98433 (WA311), Dyess 79607
+  (TX270).
 - If any MHA was **added, removed or renamed**, check it against the CONUS COLA list: COLA
   eligibility is keyed by MHA code (`src/data/cola/2026/constants.ts`).
 - If any **station-page ZIP was remapped**, note it for the PR.
@@ -85,11 +100,16 @@ print a loud warning into the report. The zip may also contain "old" files (e.g.
   `BAH_EFFECTIVE_NOTICE = true`.
 - `src/lib/calculations/bahStats.ts`: add `NATIONAL_AVG_BAH_INCREASE['2027']`. **Only** the
   figure from DoD's release; Claude Chat supplies it with the source URL. Keep `'2026': 4.2`.
+- `npm run bah:llms` rewrites `public/llms.txt`'s BAH lines (hub, station lines, sources line)
+  to the new year and ZIP count. Do it here: `bah-release-day.spec.ts` fails the step-4 gate until
+  it's run.
+- `npx tsc --noEmit`: an unregistered year or a missing lookup table fails here.
 
 What flips by itself: every title, meta description, FAQ, JSON-LD, OG footer, rate table, YoY
 ("2026 → 2027"), the decrease block, `/pay/[rank]` BAH lines, the `/calculators` grid, the
 blog callout default, and the ZIP lookup's cache key (`&y=2027`). The "2027 BAH rates: not yet
-published" notice and its "When will…" FAQ disappear. Station pages and `/bah` show one line instead:
+published" notice and its "When will…" FAQ disappear, and the station email signup asks about
+2028 rates. Station pages and `/bah` show one line instead:
 "2027 rates take effect January 1, 2027. Until then, the 2026 rate applies: $X for an E-5 with
 dependents." The ZIP calculator shows "2026 rate (through Dec 31, 2026): $X" under each result.
 
@@ -99,17 +119,33 @@ dependents." The ZIP calculator shows "2026 rate (through Dec 31, 2026): $X" und
   `tests/e2e/fixtures/bah-expected.ts`. **Claude Chat supplies every value from the 2027 ASCII
   rows** (and the national median/rank from the report's data); never copy them from lib output.
   Without it, every BAH spec fails at load with "no expected fixture for 2027", by design.
-- Some 2026 assertions describe 2026 facts and may need the 2027 equivalent picked fresh:
-  Fort Bragg / San Antonio "has a decrease", Norfolk "no decrease", the YoY sign in
-  `bah-station.spec.ts` (written for an increase at Fort Bragg). Pick stations that match 2027.
+- In the 2027 fixture, every `prior…` value is the **2026 rate as shipped** (Dyess/TX270 with
+  its temporary increase), and `nationalAvgIncreasePct` is DoD's 2027 figure.
+- Some 2026 assertions describe 2026 facts and may need the 2027 equivalent picked fresh. In the
+  rehearsal (every 2027 rate = 2026 January, so every YoY was "unchanged") these failed only
+  because of the fixture/data, on all three browsers:
+  `bah-stats.spec.ts` (Fort Bragg rank, Fort Bragg YoY, "has a decrease" for Fort Bragg / San
+  Antonio / Norfolk, both annualized changes), `bah-station.spec.ts` (Fort Bragg YoY card + FAQ,
+  Norfolk "increase page", San Antonio "decrease page", Fort Bragg "mixed page") and
+  `bah-release-day.spec.ts` (prior-year rate). `bah-station.spec.ts` is written for an increase
+  at Fort Bragg and Norfolk and a decrease at San Antonio; pick 2027 stations that match, or
+  adjust the sign.
 - `npm run build`, then the tiered gate (CLAUDE.md, tier 2: affected specs on 3 browsers + full
   Chromium) plus `npm run test:pay-table`, `npm run test:pay-raise`, `npm run test:figures`.
+  Use `--workers=1` if memory is tight (a 2-worker run was killed for low memory on 2026-11-13).
+  Rehearsal times at 1 worker: full Chromium 9.5 min, BAH specs on Firefox 12.5 min, on WebKit
+  6.5 min.
   `tests/e2e/bah-release-day.spec.ts` checks the registry, counts, importer and URL list.
 
 ## 5. Preview → verify → merge → IndexNow (≈20–30 min)
 
-- Push, open the PR, get the Vercel preview. Claude Chat checks `/bah`, `/bah/fort-hood`,
-  `/bah/dyess-afb`, the ZIP calculator with 76549, and `/calculators/dual-military-bah`.
+- Push, open the PR, get the Vercel preview (deployment status on the commit, ≈5 min). Previews
+  sit behind Vercel login, so Claude Chat's built-in browser must be signed in to Vercel. Claude
+  Chat checks `/bah`, `/bah/fort-hood`, `/bah/dyess-afb`, the ZIP calculator with 76549 (expect
+  the "2026 rate (through Dec 31, 2026)" line under the result), and
+  `/calculators/dual-military-bah`.
+- Also review the present tense during the transition: station FAQs say "For 2027, an E-5 …
+  receives $X/month" while the 2026 rate is still being paid until January 1.
 - **Claude Chat verifies the rate-protection wording, and whether it applies to the end of
   TX270's temporary increase, before release-day merge.** The decrease block on station pages
   (`StationPageClient.tsx`, shown wherever any grade fell) reads: "Some pay grades at {station}
@@ -147,8 +183,6 @@ station pages.
 
 - `npm run check:figures -- --next-year 2027` for inline BAH figures in blog posts and guides;
   work the list (`docs/figures/year-change-2027.md`).
-- `npm run bah:llms` rewrites `public/llms.txt`'s BAH lines (hub, station lines, sources line)
-  to BAH_YEAR and the ZIP count. `bah-release-day.spec.ts` fails until it's run.
 - Calendar: the 2027 BAH entry in `src/data/calendar-2027.ts` → official, with the released date.
 - `src/data/bah/2027-status.ts`: set `status: 'released'` and `releasedDate` so the key-dates
   calendar shows the real date (the notice itself is already gone because `BAH_YEAR` is '2027').

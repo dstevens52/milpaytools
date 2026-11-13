@@ -930,7 +930,8 @@ export function StationPageClient({
               <EmailSignup
                 variant="inline"
                 darkBg
-                stationName={station.name}
+                // Next year's rates: follows the BAH year switch (2027 while BAH_YEAR is 2026).
+                headline={`Get notified when ${Number(currentYear) + 1} BAH rates update for ${station.name}`}
                 source={`bah-${station.slug}`}
                 subtext="Updates when rates change. No spam."
               />

@@ -5,7 +5,7 @@ import { test, expect } from '@playwright/test';
 import { GET } from '../../src/app/api/bah/lookup/route';
 import { getBAH, getLocationName } from './helpers/data';
 import { BAH_EXPECTED as X } from './fixtures/bah-expected';
-import { BAH_YEAR } from '../../src/data/bah/current';
+import { BAH_YEAR, BAH_PRIOR_YEAR, BAH_EFFECTIVE_NOTICE } from '../../src/data/bah/current';
 
 async function call(qs: string) {
   const res = await GET(new Request(`http://localhost/api/bah/lookup${qs ? `?${qs}` : ''}`));
@@ -112,9 +112,16 @@ test.describe('API /api/bah/lookup — contract', () => {
     expect(legacy.body).toEqual(current.body);
   });
 
-  test('no prior-year rates outside the effective-date window (BAH_EFFECTIVE_NOTICE off)', async () => {
-    const { body } = await call(`zip=28310&y=${BAH_YEAR}`);
-    expect(body).not.toHaveProperty('prior');
+  test('prior-year rates only inside the effective-date window (BAH_EFFECTIVE_NOTICE)', async () => {
+    const { body } = await call(`zip=${X.bragg.zip}&y=${BAH_YEAR}`);
+    if (!BAH_EFFECTIVE_NOTICE) {
+      expect(body).not.toHaveProperty('prior');
+      return;
+    }
+    // Release day → Dec 31: the rates still paid until January 1.
+    expect(body.prior.year).toBe(BAH_PRIOR_YEAR);
+    expect(body.prior.ratesW['E-5']).toBe(X.bragg.priorE5W);
+    expect(Object.keys(body.prior.ratesWO)).toHaveLength(24);
   });
 
   test('400 responses are not cached (no-store)', async () => {

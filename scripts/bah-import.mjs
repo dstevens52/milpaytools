@@ -464,13 +464,20 @@ async function main() {
   }
 
   const stationByMha = {};
+  const stationZipByMha = {};
   if (stations) {
     for (const s of stations) {
       const m = zipToMha[s.zip];
       if (!m) continue;
       (stationByMha[m] ??= []).push(s.name);
+      stationZipByMha[m] ??= s.zip;
     }
   }
+  // DTMO's online lookup takes a ZIP, not an MHA code: give one ZIP per MHA
+  // (a station ZIP where there is one, else the lowest ZIP in the MHA).
+  const lookupZip = {};
+  for (const z of Object.keys(zipToMha).sort()) lookupZip[zipToMha[z]] ??= z;
+  Object.assign(lookupZip, stationZipByMha);
   const stationMhas = Object.keys(stationByMha).sort();
 
   if (p) {
@@ -544,11 +551,11 @@ async function main() {
 
     if (stations) {
       h('## Station-page MHAs: E-5 old → new');
-      R.push('| MHA | name | stations | E-5 w/dep | E-5 w/o dep |', '|---|---|---|---|---|');
+      R.push('| MHA | name | stations | lookup ZIP | E-5 w/dep | E-5 w/o dep |', '|---|---|---|---|---|---|');
       for (const m of stationMhas) {
         const o = p.rates[m];
         const cell = (dep) => (o ? `${fmt$(o[dep]['E-5'])} → ${fmt$((dep === 'w' ? w : wo)[m]['E-5'])}` : `new: ${fmt$((dep === 'w' ? w : wo)[m]['E-5'])}`);
-        R.push(`| ${m} | ${mhaNames[m]} | ${stationByMha[m].join(', ')} | ${cell('w')} | ${cell('wo')} |`);
+        R.push(`| ${m} | ${mhaNames[m]} | ${stationByMha[m].join(', ')} | ${lookupZip[m]} | ${cell('w')} | ${cell('wo')} |`);
       }
     }
   }
@@ -570,9 +577,9 @@ async function main() {
     samples.push({ m, g, dep, v: (dep === 'w' ? w : wo)[m][g] });
   }
   h('## Spot-check sample (verify against the DTMO online BAH lookup)');
-  R.push(`10 cells chosen by a PRNG seeded from the rate files' SHA-256 (\`${seed.slice(0, 8)}\`), so a re-run picks the same cells.`);
-  R.push('', '| # | MHA | name | grade | dependents | monthly | ✓ |', '|---|---|---|---|---|---|---|');
-  samples.forEach((s, i) => R.push(`| ${i + 1} | ${s.m} | ${mhaNames[s.m]} | ${s.g} | ${s.dep === 'w' ? 'with' : 'without'} | ${fmt$(s.v)} | ☐ |`));
+  R.push(`10 cells chosen by a PRNG seeded from the rate files' SHA-256 (\`${seed.slice(0, 8)}\`), so a re-run picks the same cells. Enter the lookup ZIP in DTMO's BAH calculator (it takes a ZIP, not an MHA code).`);
+  R.push('', '| # | MHA | name | lookup ZIP | grade | dependents | monthly | ✓ |', '|---|---|---|---|---|---|---|---|');
+  samples.forEach((s, i) => R.push(`| ${i + 1} | ${s.m} | ${mhaNames[s.m]} | ${lookupZip[s.m]} | ${s.g} | ${s.dep === 'w' ? 'with' : 'without'} | ${fmt$(s.v)} | ☐ |`));
   R.push('');
 
   const reportPath = abs(args.report);
