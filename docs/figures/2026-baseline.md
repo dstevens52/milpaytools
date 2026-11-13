@@ -1,16 +1,16 @@
 # Dollar-figure report — 2026 data
 
-Generated 2026-11-12 by `npm run check:figures`. 2687 dollar figures in 69 of 72 scanned files.
+Generated 2026-11-13 by `npm run check:figures`. 2681 dollar figures in 69 of 72 scanned files.
 This is a worklist, not a test: `unbound` is not an error. Classes and `weak`: [README](./README.md).
 
 ## Summary
 
 | Class | Figures | of which `weak` |
 |---|---:|---:|
-| `data` | 1111 | 478 |
+| `data` | 1120 | 477 |
 | `data-derived` | 155 | 54 |
-| `unbound` | 1421 | — |
-| **Total** | **2687** | 532 |
+| `unbound` | 1406 | — |
+| **Total** | **2681** | 531 |
 
 Files with at least one `data` or `data-derived` figure: **65**.
 
@@ -30,8 +30,8 @@ Files with at least one `data` or `data-derived` figure: **65**.
 | [src/app/guides/va-disability/page.tsx](#src-app-guides-va-disability-page-tsx) | 28 | 11 | 9 | 48 |
 | [src/content/blog/bah-rates-2026-complete-guide.mdx](#src-content-blog-bah-rates-2026-complete-guide-mdx) | 38 | 1 | 7 | 46 |
 | [src/content/blog/how-much-does-an-e5-really-make-2026.mdx](#src-content-blog-how-much-does-an-e5-really-make-2026-mdx) | 35 | 4 | 28 | 67 |
-| [src/app/guides/pcs/page.tsx](#src-app-guides-pcs-page-tsx) | 25 | 7 | 13 | 45 |
 | [src/content/blog/sgli-vgli-private-life-insurance.mdx](#src-content-blog-sgli-vgli-private-life-insurance-mdx) | 31 | 0 | 56 | 87 |
+| [src/app/guides/pcs/page.tsx](#src-app-guides-pcs-page-tsx) | 23 | 7 | 7 | 37 |
 | [src/content/blog/savings-deposit-program-sdp-explained.mdx](#src-content-blog-savings-deposit-program-sdp-explained-mdx) | 29 | 0 | 6 | 35 |
 | [src/content/blog/are-you-financially-ready-to-leave-the-military.mdx](#src-content-blog-are-you-financially-ready-to-leave-the-military-mdx) | 17 | 8 | 33 | 58 |
 | [src/content/blog/roth-tsp-deployment-strategy.mdx](#src-content-blog-roth-tsp-deployment-strategy-mdx) | 24 | 1 | 49 | 74 |
@@ -43,16 +43,16 @@ Files with at least one `data` or `data-derived` figure: **65**.
 | [src/content/blog/the-47000-gap-bah-duty-station.mdx](#src-content-blog-the-47000-gap-bah-duty-station-mdx) | 20 | 1 | 48 | 69 |
 | [src/content/blog/roth-tsp-advantage-junior-enlisted.mdx](#src-content-blog-roth-tsp-advantage-junior-enlisted-mdx) | 20 | 0 | 15 | 35 |
 | [src/content/blog/how-to-read-your-les.mdx](#src-content-blog-how-to-read-your-les-mdx) | 19 | 0 | 9 | 28 |
+| [src/content/blog/gi-bill-housing-allowance-zip-code.mdx](#src-content-blog-gi-bill-housing-allowance-zip-code-mdx) | 17 | 1 | 21 | 39 |
 | [src/content/blog/gi-bill-vs-tuition-assistance.mdx](#src-content-blog-gi-bill-vs-tuition-assistance-mdx) | 18 | 0 | 8 | 26 |
 | [src/content/blog/pcs-financial-planning-guide.mdx](#src-content-blog-pcs-financial-planning-guide-mdx) | 3 | 15 | 4 | 22 |
 | [src/app/guides/retirement-tsp/page.tsx](#src-app-guides-retirement-tsp-page-tsx) | 16 | 1 | 23 | 40 |
 | [src/content/blog/file-va-disability-before-separation.mdx](#src-content-blog-file-va-disability-before-separation-mdx) | 15 | 1 | 2 | 18 |
+| [src/content/blog/post-911-gi-bill-explained-2026.mdx](#src-content-blog-post-911-gi-bill-explained-2026-mdx) | 16 | 0 | 15 | 31 |
 | [src/content/blog/what-civilian-salary-do-i-need.mdx](#src-content-blog-what-civilian-salary-do-i-need-mdx) | 11 | 4 | 43 | 58 |
 | [src/content/blog/oconus-cola-trap.mdx](#src-content-blog-oconus-cola-trap-mdx) | 8 | 6 | 15 | 29 |
 | [src/app/guides/education-benefits/page.tsx](#src-app-guides-education-benefits-page-tsx) | 10 | 3 | 3 | 16 |
 | [src/content/blog/dual-military-financial-strategies.mdx](#src-content-blog-dual-military-financial-strategies-mdx) | 12 | 1 | 18 | 31 |
-| [src/content/blog/gi-bill-housing-allowance-zip-code.mdx](#src-content-blog-gi-bill-housing-allowance-zip-code-mdx) | 12 | 1 | 25 | 38 |
-| [src/content/blog/post-911-gi-bill-explained-2026.mdx](#src-content-blog-post-911-gi-bill-explained-2026-mdx) | 13 | 0 | 18 | 31 |
 | [src/content/blog/sgli-to-vgli-conversion-after-separation.mdx](#src-content-blog-sgli-to-vgli-conversion-after-separation-mdx) | 13 | 0 | 27 | 40 |
 | [src/content/blog/va-math-costs-you-money.mdx](#src-content-blog-va-math-costs-you-money-mdx) | 9 | 3 | 25 | 37 |
 | [src/content/blog/how-military-retirement-works.mdx](#src-content-blog-how-military-retirement-works-mdx) | 11 | 0 | 23 | 34 |
@@ -65,12 +65,12 @@ Files with at least one `data` or `data-derived` figure: **65**.
 | [src/content/blog/should-i-stay-to-20-years-military.mdx](#src-content-blog-should-i-stay-to-20-years-military-mdx) | 7 | 2 | 33 | 42 |
 | [src/content/blog/tamp-healthcare-after-military-separation.mdx](#src-content-blog-tamp-healthcare-after-military-separation-mdx) | 8 | 1 | 12 | 21 |
 | [src/content/blog/va-disability-math-explained.mdx](#src-content-blog-va-disability-math-explained-mdx) | 9 | 0 | 8 | 17 |
+| [src/content/blog/va-gi-bill-comparison-tool-guide.mdx](#src-content-blog-va-gi-bill-comparison-tool-guide-mdx) | 9 | 0 | 4 | 13 |
 | [src/content/blog/how-bah-builds-wealth.mdx](#src-content-blog-how-bah-builds-wealth-mdx) | 6 | 1 | 27 | 34 |
 | [src/content/blog/is-sgli-enough-life-insurance.mdx](#src-content-blog-is-sgli-enough-life-insurance-mdx) | 7 | 0 | 11 | 18 |
 | [src/content/blog/tuition-assistance-and-gi-bill-together.mdx](#src-content-blog-tuition-assistance-and-gi-bill-together-mdx) | 7 | 0 | 0 | 7 |
 | [src/content/blog/skillbridge-program-guide.mdx](#src-content-blog-skillbridge-program-guide-mdx) | 3 | 3 | 3 | 9 |
 | [src/content/blog/tsp-for-beginners-what-happens-if-you-do-nothing.mdx](#src-content-blog-tsp-for-beginners-what-happens-if-you-do-nothing-mdx) | 5 | 1 | 9 | 15 |
-| [src/content/blog/va-gi-bill-comparison-tool-guide.mdx](#src-content-blog-va-gi-bill-comparison-tool-guide-mdx) | 6 | 0 | 6 | 12 |
 | [src/content/blog/va-loan-assumptions-explained.mdx](#src-content-blog-va-loan-assumptions-explained-mdx) | 6 | 0 | 22 | 28 |
 | [src/content/blog/vre-chapter-31-vs-gi-bill.mdx](#src-content-blog-vre-chapter-31-vs-gi-bill-mdx) | 4 | 0 | 0 | 4 |
 | [src/app/guides/va-home-loans/page.tsx](#src-app-guides-va-home-loans-page-tsx) | 3 | 0 | 17 | 20 |
@@ -554,91 +554,91 @@ data 47 (46 weak) · derived 5 (4 weak) · unbound 28
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
-| 15 | $1,584 | data (weak) | `bah:LA118/E-5/w`, `bah:NC178/E-5/w`, `bah:NM207/O-3E/wo`, `bah:NV211/W-1/wo`, `bah:TX285/O-1/wo` (+3 more) |  | …onthly surplus. In 2026, E-5 with-dependent BAH ranges from **$1,584**/month at Camp Lejeune to $3,975/month in San Diego, but a h… |
-| 15 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` |  | …h-dependent BAH ranges from $1,584/month at Camp Lejeune to **$3,975**/month in San Diego, but a high BAH rate in a high-cost mark… |
-| 18 | $1,600 | data (weak) | `healthcare:acaNoSubsidy.family.silver.premium` |  | …to spare. &lt;QuickAnswer&gt; &lt;QAItem&gt;BAH ranges from under **$1,600**/month at some Southern installations to over $5,000/month i… |
-| 18 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` |  | …m under $1,600/month at some Southern installations to over **$5,000**/month in San Francisco and New York&lt;/QAItem&gt; &lt;QAItem&gt;"Be… |
-| 22 | $1,806 | data (weak) | `bah:GA074/E-5/wo`, `bah:MI153/E-5/w`, `bah:MO160/W-1/wo`, `bah:MS168/W-5/wo`, `bah:NC177/E-1/w` (+22 more) |  | …&gt; &lt;QAItem&gt;E-5 with-dependents BAH ranges: Fort Bragg NC (**$1,806**) → San Francisco CA ($5,127)&lt;/QAItem&gt; &lt;QAItem&gt;BAH rate p… |
-| 22 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` |  | …ents BAH ranges: Fort Bragg NC ($1,806) → San Francisco CA (**$5,127**)&lt;/QAItem&gt; &lt;QAItem&gt;BAH rate protection means your rate wo… |
-| 34 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` |  | … second definition is more useful for financial planning. A **$5,000**/month BAH at UCSF where a 2-bedroom apartment costs $5,200 … |
-| 34 | $1,800 | data-derived | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) |  | …-bedroom apartment costs $5,200 is worse financially than a **$1,800**/month BAH at [Fort Campbell](/bah/fort-campbell) where a co… |
-| 44 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` | table | …------------------\|-------\| \| San Francisco Bay Area, CA \| **$5,127** \| Includes Oakland, Berkeley, San Jose \| \| New York City, … |
-| 45 | $5,070 | data (weak) | `bah:CA044/O-1E/w`, `bah:NJ202/W-1/w`, `bah:NJ202/O-5/wo`, `bah:NY219/E-5/w`, `bah:NY219/E-6/wo` | table | …cludes Oakland, Berkeley, San Jose \| \| New York City, NY \| **$5,070** \| All five boroughs \| \| Northern New Jersey, NJ \| $4,749 \|… |
-| 46 | $4,749 | data (weak) | `bah:NJ202/E-5/w`, `bah:NY349/E-8/wo` | table | …\| $5,070 \| All five boroughs \| \| Northern New Jersey, NJ \| **$4,749** \| NYC metro overflow \| \| Westchester County, NY \| $4,479 \|… |
-| 47 | $4,479 | data (weak) | `bah:MA377/E-6/w`, `bah:NY349/E-5/w` | table | …\| $4,749 \| NYC metro overflow \| \| Westchester County, NY \| **$4,479** \| Hudson Valley near NYC \| \| Santa Clara County, CA \| $4,6… |
-| 48 | $4,659 | data (weak) | `bah:CA024/O-3/w`, `bah:CA044/E-5/w`, `bah:FL069/O-5/wo` | table | …,479 \| Hudson Valley near NYC \| \| Santa Clara County, CA \| **$4,659** \| Silicon Valley \| \| Boston, MA \| $4,791 \| Hanscom AFB are… |
-| 49 | $4,791 | data (weak) | `bah:FL061/O-3E/w`, `bah:MA120/E-5/w`, `bah:MA151/W-5/wo`, `bah:NJ202/O-1/w`, `bah:NY218/W-1/w` (+1 more) | table | …lara County, CA \| $4,659 \| Silicon Valley \| \| Boston, MA \| **$4,791** \| Hanscom AFB area \| \| Honolulu County, HI \| $3,663 \| JBPH… |
-| 50 | $3,663 | data (weak) | `bah:CA041/E-8/w`, `bah:HI408/E-5/w`, `bah:MA151/E-1/w`, `bah:MA151/E-2/w`, `bah:MA151/E-3/w` (+2 more) | table | …, MA \| $4,791 \| Hanscom AFB area \| \| Honolulu County, HI \| **$3,663** \| JBPHH, Schofield \| \| [San Diego, CA](/bah/naval-station-… |
-| 51 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` | table | …ofield \| \| [San Diego, CA](/bah/naval-station-san-diego) \| **$3,975** \| All Navy/Marine San Diego installations \| \| [Camp Pendle… |
-| 52 | $3,963 | data (weak) | `bah:CA024/E-5/w`, `bah:CO422/W-5/w`, `bah:CT051/E-9/w`, `bah:MA122/W-4/w` | table | …tallations \| \| [Camp Pendleton, CA](/bah/camp-pendleton) \| **$3,963** \| Northern San Diego County \| \| Monterey, CA \| $3,465 \| NP… |
-| 53 | $3,465 | data (weak) | `bah:AK401/W-3/w`, `bah:CA022/O-7/w`, `bah:CA026/O-2E/wo`, `bah:CA031/E-9/w`, `bah:CA039/E-5/w` (+11 more) | table | …n) \| $3,963 \| Northern San Diego County \| \| Monterey, CA \| **$3,465** \| NPS / DLI \| The common thread: all of these markets ha… |
-| 63 | $1,815 | data (weak) | `bah:AL005/O-4/wo`, `bah:AZ014/W-2/wo`, `bah:FL065/O-2/wo`, `bah:GA072/E-8/w`, `bah:IL335/O-3E/wo` (+16 more) | table | …--\|-------\| \| [Fort Campbell, KY/TN](/bah/fort-campbell) \| **$1,815** \| Clarksville, TN market \| \| [Fort Bragg, NC](/bah/fort-br… |
-| 64 | $1,806 | data (weak) | `bah:GA074/E-5/wo`, `bah:MI153/E-5/w`, `bah:MO160/W-1/wo`, `bah:MS168/W-5/wo`, `bah:NC177/E-1/w` (+22 more) | table | …ksville, TN market \| \| [Fort Bragg, NC](/bah/fort-bragg) \| **$1,806** \| Fayetteville, NC market \| \| [Fort Hood, TX](/bah/fort-ho… |
-| 65 | $1,695 | data (weak) | `bah:AZ015/E-1/w`, `bah:AZ015/E-2/w`, `bah:AZ015/E-3/w`, `bah:AZ015/E-4/w`, `bah:AZ016/E-5/w` (+20 more) | table | …etteville, NC market \| \| [Fort Hood, TX](/bah/fort-hood) \| **$1,695** \| Killeen, TX market \| \| [Fort Benning, GA](/bah/fort-benn… |
-| 66 | $1,716 | data (weak) | `bah:AZ014/O-1E/wo`, `bah:GA075/E-5/w`, `bah:IN094/W-1/wo`, `bah:IN399/W-1/wo`, `bah:KY107/E-7/wo` (+14 more) | table | …een, TX market \| \| [Fort Benning, GA](/bah/fort-benning) \| **$1,716** \| Columbus, GA market \| \| [Fort Jackson, SC](/bah/fort-jac… |
-| 67 | $1,878 | data (weak) | `bah:AL006/E-9/wo`, `bah:AL007/E-5/wo`, `bah:FL065/E-8/wo`, `bah:GA075/O-3/wo`, `bah:GA076/E-6/w` (+23 more) | table | …bus, GA market \| \| [Fort Jackson, SC](/bah/fort-jackson) \| **$1,878** \| Columbia, SC market \| \| [Fort Sill, OK](/bah/fort-sill) … |
-| 68 | $1,233 | data (weak) | `bah:IL093/E-1/wo`, `bah:IL093/E-2/wo`, `bah:IL093/E-3/wo`, `bah:IL093/E-4/wo`, `bah:IN338/E-5/wo` (+15 more) | table | … Columbia, SC market \| \| [Fort Sill, OK](/bah/fort-sill) \| **$1,233** \| Lawton, OK market \| \| [Fort Leonard Wood, MO](/bah/fort-… |
-| 69 | $1,479 | data (weak) | `bah:GA081/E-6/wo`, `bah:MO163/E-5/w`, `bah:NC183/E-6/wo`, `bah:SC260/E-1/wo`, `bah:SC260/E-2/wo` (+7 more) | table | …rket \| \| [Fort Leonard Wood, MO](/bah/fort-leonard-wood) \| **$1,479** \| Waynesville, MO market \| \| [Fort Drum, NY](/bah/fort-dru… |
-| 70 | $1,665 | data (weak) | `bah:AL001/O-6/wo`, `bah:AR010/O-1/wo`, `bah:AZ014/E-7/wo`, `bah:KY339/O-3/wo`, `bah:LA326/W-1/w` (+17 more) | table | …ynesville, MO market \| \| [Fort Drum, NY](/bah/fort-drum) \| **$1,665** \| Watertown, NY market \| These numbers look small next t… |
-| 72 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` |  | …arket \| These numbers look small next to San Francisco's **$5,127** — but in many of these markets, $1,479/month buys a comfort… |
-| 72 | $1,479 | data (weak) | `bah:GA081/E-6/wo`, `bah:MO163/E-5/w`, `bah:NC183/E-6/wo`, `bah:SC260/E-1/wo`, `bah:SC260/E-2/wo` (+7 more) |  | …t to San Francisco's $5,127 — but in many of these markets, **$1,479**/month buys a comfortable 3-bedroom house or apartment. The … |
-| 84 | $1,479 | data (weak) | `bah:GA081/E-6/wo`, `bah:MO163/E-5/w`, `bah:NC183/E-6/wo`, `bah:SC260/E-1/wo`, `bah:SC260/E-2/wo` (+7 more) | table | …---------\|---------------------\| \| Fort Leonard Wood, MO \| **$1,479** \| ~$850 \| **~$629** \| \| Fort Sill, OK \| $1,233 \| ~$950 \| *… |
-| 84 | $629 | data-derived (weak) | `round(education:vre.standardSubsistence.three-quarter.noDependents)` | approx, table | …-----------\| \| Fort Leonard Wood, MO \| $1,479 \| ~$850 \| **~**$629**** \| \| Fort Sill, OK \| $1,233 \| ~$950 \| **~$283** \| \| Fort… |
-| 85 | $1,233 | data (weak) | `bah:IL093/E-1/wo`, `bah:IL093/E-2/wo`, `bah:IL093/E-3/wo`, `bah:IL093/E-4/wo`, `bah:IN338/E-5/wo` (+15 more) | table | … Wood, MO \| $1,479 \| ~$850 \| **~$629** \| \| Fort Sill, OK \| **$1,233** \| ~$950 \| **~$283** \| \| Fort Campbell, KY \| $1,815 \| ~$1,1… |
-| 86 | $1,815 | data (weak) | `bah:AL005/O-4/wo`, `bah:AZ014/W-2/wo`, `bah:FL065/O-2/wo`, `bah:GA072/E-8/w`, `bah:IL335/O-3E/wo` (+16 more) | table | …l, OK \| $1,233 \| ~$950 \| **~$283** \| \| Fort Campbell, KY \| **$1,815** \| ~$1,100 \| **~$715** \| \| [Joint Base San Antonio, TX](/ba… |
-| 87 | $1,869 | data (weak) | `bah:AR010/O-1/w`, `bah:IL090/W-4/wo`, `bah:KS105/E-6/w`, `bah:KY430/O-3E/wo`, `bah:MI156/E-9/w` (+14 more) | table | …[Joint Base San Antonio, TX](/bah/joint-base-san-antonio) \| **$1,869** \| ~$1,400 \| **~$469** \| \| Fort Hood, TX \| $1,695 \| ~$1,250… |
-| 88 | $1,695 | data (weak) | `bah:AZ015/E-1/w`, `bah:AZ015/E-2/w`, `bah:AZ015/E-3/w`, `bah:AZ015/E-4/w`, `bah:AZ016/E-5/w` (+20 more) | table | …ntonio) \| $1,869 \| ~$1,400 \| **~$469** \| \| Fort Hood, TX \| **$1,695** \| ~$1,250 \| **~$445** \| \| Fort Benning, GA \| $1,716 \| ~$1,… |
-| 89 | $1,716 | data (weak) | `bah:AZ014/O-1E/wo`, `bah:GA075/E-5/w`, `bah:IN094/W-1/wo`, `bah:IN399/W-1/wo`, `bah:KY107/E-7/wo` (+14 more) | table | …, TX \| $1,695 \| ~$1,250 \| **~$445** \| \| Fort Benning, GA \| **$1,716** \| ~$1,300 \| **~$416** \| \| Fort Bragg, NC \| $1,806 \| ~$1,40… |
-| 90 | $1,806 | data (weak) | `bah:GA074/E-5/wo`, `bah:MI153/E-5/w`, `bah:MO160/W-1/wo`, `bah:MS168/W-5/wo`, `bah:NC177/E-1/w` (+22 more) | table | …ng, GA \| $1,716 \| ~$1,300 \| **~$416** \| \| Fort Bragg, NC \| **$1,806** \| ~$1,400 \| **~$406** \| In these markets, an E-5 renting… |
-| 94 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) | range | …00 home in these markets often produces a payment of $1,100–**$1,500**/month, leaving $200–$400+ monthly surplus even after mortga… |
-| 102 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` | table | …-----------\|-------------------\| \| San Francisco Bay, CA \| **$5,127** \| ~$4,800–$5,500 \| **Roughly even** \| \| New York City, NY … |
-| 102 | $4,800 | data (weak) | `bah:MA120/W-2/wo` | approx, range, table | …-\|-------------------\| \| San Francisco Bay, CA \| $5,127 \| ~**$4,800**–$5,500 \| **Roughly even** \| \| New York City, NY \| $5,070 \|… |
-| 102 | $5,500 | data (weak) | `healthcare:fpl.increment` | range, table | …--------------\| \| San Francisco Bay, CA \| $5,127 \| ~$4,800–**$5,500** \| **Roughly even** \| \| New York City, NY \| $5,070 \| ~$4,50… |
-| 103 | $5,070 | data (weak) | `bah:CA044/O-1E/w`, `bah:NJ202/W-1/w`, `bah:NJ202/O-5/wo`, `bah:NY219/E-5/w`, `bah:NY219/E-6/wo` | table | … ~$4,800–$5,500 \| **Roughly even** \| \| New York City, NY \| **$5,070** \| ~$4,500–$5,800 \| **Tight to negative** \| \| Monterey, CA … |
-| 103 | $4,500 | data (weak) | `bah:MA119/E-8/wo`, `bah:NY218/E-8/wo`, `education:ta.annualCap` | approx, range, table | …5,500 \| **Roughly even** \| \| New York City, NY \| $5,070 \| ~**$4,500**–$5,800 \| **Tight to negative** \| \| Monterey, CA \| $3,465 \|… |
-| 104 | $3,465 | data (weak) | `bah:AK401/W-3/w`, `bah:CA022/O-7/w`, `bah:CA026/O-2E/wo`, `bah:CA031/E-9/w`, `bah:CA039/E-5/w` (+11 more) | table | … ~$4,500–$5,800 \| **Tight to negative** \| \| Monterey, CA \| **$3,465** \| ~$3,500–$4,200 \| **Tight to negative** \| \| San Diego, CA… |
-| 104 | $3,500 | data (weak) | `healthcare:employer.single.bronze.deductible` | approx, range, table | …5,800 \| **Tight to negative** \| \| Monterey, CA \| $3,465 \| ~**$3,500**–$4,200 \| **Tight to negative** \| \| San Diego, CA \| $3,975 … |
-| 104 | $4,200 | data-derived (weak) | `12×healthcare:acaNoSubsidy.single.bronze.premium`, `bah:CA025/O-2E/w`, `bah:CA392/O-2E/w`, `bah:NJ201/E-8/w`, `bah:RI256/O-7/wo` (+1 more) | range, table | … **Tight to negative** \| \| Monterey, CA \| $3,465 \| ~$3,500–**$4,200** \| **Tight to negative** \| \| San Diego, CA \| $3,975 \| ~$3,4… |
-| 105 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` | table | …~$3,500–$4,200 \| **Tight to negative** \| \| San Diego, CA \| **$3,975** \| ~$3,400–$4,000 \| **Roughly even** \| \| Honolulu, HI \| $3,… |
-| 105 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` | range, table | …**Tight to negative** \| \| San Diego, CA \| $3,975 \| ~$3,400–**$4,000** \| **Roughly even** \| \| Honolulu, HI \| $3,663 \| ~$3,200–$3,… |
-| 106 | $3,663 | data (weak) | `bah:CA041/E-8/w`, `bah:HI408/E-5/w`, `bah:MA151/E-1/w`, `bah:MA151/E-2/w`, `bah:MA151/E-3/w` (+2 more) | table | …975 \| ~$3,400–$4,000 \| **Roughly even** \| \| Honolulu, HI \| **$3,663** \| ~$3,200–$3,800 \| **Roughly even** \| \| Camp Pendleton, CA… |
-| 107 | $3,963 | data (weak) | `bah:CA024/E-5/w`, `bah:CO422/W-5/w`, `bah:CT051/E-9/w`, `bah:MA122/W-4/w` | table | …~$3,200–$3,800 \| **Roughly even** \| \| Camp Pendleton, CA \| **$3,963** \| ~$3,600–$4,200 \| **Tight** \| This doesn't mean these a… |
-| 107 | $3,600 | data-derived (weak) | `12×deployment:fsa`, `bah:CA025/O-1/w`, `bah:CA392/W-3/wo`, `bah:NY217/E-8/wo`, `bah:NY218/E-5/wo` (+1 more) | approx, range, table | …,800 \| **Roughly even** \| \| Camp Pendleton, CA \| $3,963 \| ~**$3,600**–$4,200 \| **Tight** \| This doesn't mean these are bad dut… |
-| 107 | $4,200 | data-derived (weak) | `12×healthcare:acaNoSubsidy.single.bronze.premium`, `bah:CA025/O-2E/w`, `bah:CA392/O-2E/w`, `bah:NJ201/E-8/w`, `bah:RI256/O-7/wo` (+1 more) | range, table | …**Roughly even** \| \| Camp Pendleton, CA \| $3,963 \| ~$3,600–**$4,200** \| **Tight** \| This doesn't mean these are bad duty stati… |
-| 139 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …tate tax guidance 3. **Invest or save the surplus** — even **$300**/month in surplus, invested consistently across a career, co… |
+| 16 | $1,584 | data (weak) | `bah:LA118/E-5/w`, `bah:NC178/E-5/w`, `bah:NM207/O-3E/wo`, `bah:NV211/W-1/wo`, `bah:TX285/O-1/wo` (+3 more) |  | …onthly surplus. In 2026, E-5 with-dependent BAH ranges from **$1,584**/month at Camp Lejeune to $3,975/month in San Diego, but a h… |
+| 16 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` |  | …h-dependent BAH ranges from $1,584/month at Camp Lejeune to **$3,975**/month in San Diego, but a high BAH rate in a high-cost mark… |
+| 19 | $1,600 | data (weak) | `healthcare:acaNoSubsidy.family.silver.premium` |  | …to spare. &lt;QuickAnswer&gt; &lt;QAItem&gt;BAH ranges from under **$1,600**/month at some Southern installations to over $5,000/month i… |
+| 19 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` |  | …m under $1,600/month at some Southern installations to over **$5,000**/month in San Francisco and New York&lt;/QAItem&gt; &lt;QAItem&gt;"Be… |
+| 23 | $1,806 | data (weak) | `bah:GA074/E-5/wo`, `bah:MI153/E-5/w`, `bah:MO160/W-1/wo`, `bah:MS168/W-5/wo`, `bah:NC177/E-1/w` (+22 more) |  | …&gt; &lt;QAItem&gt;E-5 with-dependents BAH ranges: Fort Bragg NC (**$1,806**) → San Francisco CA ($5,127)&lt;/QAItem&gt; &lt;QAItem&gt;BAH rate p… |
+| 23 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` |  | …ents BAH ranges: Fort Bragg NC ($1,806) → San Francisco CA (**$5,127**)&lt;/QAItem&gt; &lt;QAItem&gt;BAH rate protection means your rate wo… |
+| 35 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` |  | … second definition is more useful for financial planning. A **$5,000**/month BAH at UCSF where a 2-bedroom apartment costs $5,200 … |
+| 35 | $1,800 | data-derived | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) |  | …-bedroom apartment costs $5,200 is worse financially than a **$1,800**/month BAH at [Fort Campbell](/bah/fort-campbell) where a co… |
+| 45 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` | table | …------------------\|-------\| \| San Francisco Bay Area, CA \| **$5,127** \| Includes Oakland, Berkeley, San Jose \| \| New York City, … |
+| 46 | $5,070 | data (weak) | `bah:CA044/O-1E/w`, `bah:NJ202/W-1/w`, `bah:NJ202/O-5/wo`, `bah:NY219/E-5/w`, `bah:NY219/E-6/wo` | table | …cludes Oakland, Berkeley, San Jose \| \| New York City, NY \| **$5,070** \| All five boroughs \| \| Northern New Jersey, NJ \| $4,749 \|… |
+| 47 | $4,749 | data (weak) | `bah:NJ202/E-5/w`, `bah:NY349/E-8/wo` | table | …\| $5,070 \| All five boroughs \| \| Northern New Jersey, NJ \| **$4,749** \| NYC metro overflow \| \| Westchester County, NY \| $4,479 \|… |
+| 48 | $4,479 | data (weak) | `bah:MA377/E-6/w`, `bah:NY349/E-5/w` | table | …\| $4,749 \| NYC metro overflow \| \| Westchester County, NY \| **$4,479** \| Hudson Valley near NYC \| \| Santa Clara County, CA \| $4,6… |
+| 49 | $4,659 | data (weak) | `bah:CA024/O-3/w`, `bah:CA044/E-5/w`, `bah:FL069/O-5/wo` | table | …,479 \| Hudson Valley near NYC \| \| Santa Clara County, CA \| **$4,659** \| Silicon Valley \| \| Boston, MA \| $4,791 \| Hanscom AFB are… |
+| 50 | $4,791 | data (weak) | `bah:FL061/O-3E/w`, `bah:MA120/E-5/w`, `bah:MA151/W-5/wo`, `bah:NJ202/O-1/w`, `bah:NY218/W-1/w` (+1 more) | table | …lara County, CA \| $4,659 \| Silicon Valley \| \| Boston, MA \| **$4,791** \| Hanscom AFB area \| \| Honolulu County, HI \| $3,663 \| JBPH… |
+| 51 | $3,663 | data (weak) | `bah:CA041/E-8/w`, `bah:HI408/E-5/w`, `bah:MA151/E-1/w`, `bah:MA151/E-2/w`, `bah:MA151/E-3/w` (+2 more) | table | …, MA \| $4,791 \| Hanscom AFB area \| \| Honolulu County, HI \| **$3,663** \| JBPHH, Schofield \| \| [San Diego, CA](/bah/naval-station-… |
+| 52 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` | table | …ofield \| \| [San Diego, CA](/bah/naval-station-san-diego) \| **$3,975** \| All Navy/Marine San Diego installations \| \| [Camp Pendle… |
+| 53 | $3,963 | data (weak) | `bah:CA024/E-5/w`, `bah:CO422/W-5/w`, `bah:CT051/E-9/w`, `bah:MA122/W-4/w` | table | …tallations \| \| [Camp Pendleton, CA](/bah/camp-pendleton) \| **$3,963** \| Northern San Diego County \| \| Monterey, CA \| $3,465 \| NP… |
+| 54 | $3,465 | data (weak) | `bah:AK401/W-3/w`, `bah:CA022/O-7/w`, `bah:CA026/O-2E/wo`, `bah:CA031/E-9/w`, `bah:CA039/E-5/w` (+11 more) | table | …n) \| $3,963 \| Northern San Diego County \| \| Monterey, CA \| **$3,465** \| NPS / DLI \| The common thread: all of these markets ha… |
+| 64 | $1,815 | data (weak) | `bah:AL005/O-4/wo`, `bah:AZ014/W-2/wo`, `bah:FL065/O-2/wo`, `bah:GA072/E-8/w`, `bah:IL335/O-3E/wo` (+16 more) | table | …--\|-------\| \| [Fort Campbell, KY/TN](/bah/fort-campbell) \| **$1,815** \| Clarksville, TN market \| \| [Fort Bragg, NC](/bah/fort-br… |
+| 65 | $1,806 | data (weak) | `bah:GA074/E-5/wo`, `bah:MI153/E-5/w`, `bah:MO160/W-1/wo`, `bah:MS168/W-5/wo`, `bah:NC177/E-1/w` (+22 more) | table | …ksville, TN market \| \| [Fort Bragg, NC](/bah/fort-bragg) \| **$1,806** \| Fayetteville, NC market \| \| [Fort Hood, TX](/bah/fort-ho… |
+| 66 | $1,695 | data (weak) | `bah:AZ015/E-1/w`, `bah:AZ015/E-2/w`, `bah:AZ015/E-3/w`, `bah:AZ015/E-4/w`, `bah:AZ016/E-5/w` (+20 more) | table | …etteville, NC market \| \| [Fort Hood, TX](/bah/fort-hood) \| **$1,695** \| Killeen, TX market \| \| [Fort Benning, GA](/bah/fort-benn… |
+| 67 | $1,716 | data (weak) | `bah:AZ014/O-1E/wo`, `bah:GA075/E-5/w`, `bah:IN094/W-1/wo`, `bah:IN399/W-1/wo`, `bah:KY107/E-7/wo` (+14 more) | table | …een, TX market \| \| [Fort Benning, GA](/bah/fort-benning) \| **$1,716** \| Columbus, GA market \| \| [Fort Jackson, SC](/bah/fort-jac… |
+| 68 | $1,878 | data (weak) | `bah:AL006/E-9/wo`, `bah:AL007/E-5/wo`, `bah:FL065/E-8/wo`, `bah:GA075/O-3/wo`, `bah:GA076/E-6/w` (+23 more) | table | …bus, GA market \| \| [Fort Jackson, SC](/bah/fort-jackson) \| **$1,878** \| Columbia, SC market \| \| [Fort Sill, OK](/bah/fort-sill) … |
+| 69 | $1,233 | data (weak) | `bah:IL093/E-1/wo`, `bah:IL093/E-2/wo`, `bah:IL093/E-3/wo`, `bah:IL093/E-4/wo`, `bah:IN338/E-5/wo` (+15 more) | table | … Columbia, SC market \| \| [Fort Sill, OK](/bah/fort-sill) \| **$1,233** \| Lawton, OK market \| \| [Fort Leonard Wood, MO](/bah/fort-… |
+| 70 | $1,479 | data (weak) | `bah:GA081/E-6/wo`, `bah:MO163/E-5/w`, `bah:NC183/E-6/wo`, `bah:SC260/E-1/wo`, `bah:SC260/E-2/wo` (+7 more) | table | …rket \| \| [Fort Leonard Wood, MO](/bah/fort-leonard-wood) \| **$1,479** \| Waynesville, MO market \| \| [Fort Drum, NY](/bah/fort-dru… |
+| 71 | $1,665 | data (weak) | `bah:AL001/O-6/wo`, `bah:AR010/O-1/wo`, `bah:AZ014/E-7/wo`, `bah:KY339/O-3/wo`, `bah:LA326/W-1/w` (+17 more) | table | …ynesville, MO market \| \| [Fort Drum, NY](/bah/fort-drum) \| **$1,665** \| Watertown, NY market \| These numbers look small next t… |
+| 73 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` |  | …arket \| These numbers look small next to San Francisco's **$5,127** — but in many of these markets, $1,479/month buys a comfort… |
+| 73 | $1,479 | data (weak) | `bah:GA081/E-6/wo`, `bah:MO163/E-5/w`, `bah:NC183/E-6/wo`, `bah:SC260/E-1/wo`, `bah:SC260/E-2/wo` (+7 more) |  | …t to San Francisco's $5,127 — but in many of these markets, **$1,479**/month buys a comfortable 3-bedroom house or apartment. The … |
+| 85 | $1,479 | data (weak) | `bah:GA081/E-6/wo`, `bah:MO163/E-5/w`, `bah:NC183/E-6/wo`, `bah:SC260/E-1/wo`, `bah:SC260/E-2/wo` (+7 more) | table | …---------\|---------------------\| \| Fort Leonard Wood, MO \| **$1,479** \| ~$850 \| **~$629** \| \| Fort Sill, OK \| $1,233 \| ~$950 \| *… |
+| 85 | $629 | data-derived (weak) | `round(education:vre.standardSubsistence.three-quarter.noDependents)` | approx, table | …-----------\| \| Fort Leonard Wood, MO \| $1,479 \| ~$850 \| **~**$629**** \| \| Fort Sill, OK \| $1,233 \| ~$950 \| **~$283** \| \| Fort… |
+| 86 | $1,233 | data (weak) | `bah:IL093/E-1/wo`, `bah:IL093/E-2/wo`, `bah:IL093/E-3/wo`, `bah:IL093/E-4/wo`, `bah:IN338/E-5/wo` (+15 more) | table | … Wood, MO \| $1,479 \| ~$850 \| **~$629** \| \| Fort Sill, OK \| **$1,233** \| ~$950 \| **~$283** \| \| Fort Campbell, KY \| $1,815 \| ~$1,1… |
+| 87 | $1,815 | data (weak) | `bah:AL005/O-4/wo`, `bah:AZ014/W-2/wo`, `bah:FL065/O-2/wo`, `bah:GA072/E-8/w`, `bah:IL335/O-3E/wo` (+16 more) | table | …l, OK \| $1,233 \| ~$950 \| **~$283** \| \| Fort Campbell, KY \| **$1,815** \| ~$1,100 \| **~$715** \| \| [Joint Base San Antonio, TX](/ba… |
+| 88 | $1,869 | data (weak) | `bah:AR010/O-1/w`, `bah:IL090/W-4/wo`, `bah:KS105/E-6/w`, `bah:KY430/O-3E/wo`, `bah:MI156/E-9/w` (+14 more) | table | …[Joint Base San Antonio, TX](/bah/joint-base-san-antonio) \| **$1,869** \| ~$1,400 \| **~$469** \| \| Fort Hood, TX \| $1,695 \| ~$1,250… |
+| 89 | $1,695 | data (weak) | `bah:AZ015/E-1/w`, `bah:AZ015/E-2/w`, `bah:AZ015/E-3/w`, `bah:AZ015/E-4/w`, `bah:AZ016/E-5/w` (+20 more) | table | …ntonio) \| $1,869 \| ~$1,400 \| **~$469** \| \| Fort Hood, TX \| **$1,695** \| ~$1,250 \| **~$445** \| \| Fort Benning, GA \| $1,716 \| ~$1,… |
+| 90 | $1,716 | data (weak) | `bah:AZ014/O-1E/wo`, `bah:GA075/E-5/w`, `bah:IN094/W-1/wo`, `bah:IN399/W-1/wo`, `bah:KY107/E-7/wo` (+14 more) | table | …, TX \| $1,695 \| ~$1,250 \| **~$445** \| \| Fort Benning, GA \| **$1,716** \| ~$1,300 \| **~$416** \| \| Fort Bragg, NC \| $1,806 \| ~$1,40… |
+| 91 | $1,806 | data (weak) | `bah:GA074/E-5/wo`, `bah:MI153/E-5/w`, `bah:MO160/W-1/wo`, `bah:MS168/W-5/wo`, `bah:NC177/E-1/w` (+22 more) | table | …ng, GA \| $1,716 \| ~$1,300 \| **~$416** \| \| Fort Bragg, NC \| **$1,806** \| ~$1,400 \| **~$406** \| In these markets, an E-5 renting… |
+| 95 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) | range | …00 home in these markets often produces a payment of $1,100–**$1,500**/month, leaving $200–$400+ monthly surplus even after mortga… |
+| 103 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` | table | …-----------\|-------------------\| \| San Francisco Bay, CA \| **$5,127** \| ~$4,800–$5,500 \| **Roughly even** \| \| New York City, NY … |
+| 103 | $4,800 | data (weak) | `bah:MA120/W-2/wo` | approx, range, table | …-\|-------------------\| \| San Francisco Bay, CA \| $5,127 \| ~**$4,800**–$5,500 \| **Roughly even** \| \| New York City, NY \| $5,070 \|… |
+| 103 | $5,500 | data (weak) | `healthcare:fpl.increment` | range, table | …--------------\| \| San Francisco Bay, CA \| $5,127 \| ~$4,800–**$5,500** \| **Roughly even** \| \| New York City, NY \| $5,070 \| ~$4,50… |
+| 104 | $5,070 | data (weak) | `bah:CA044/O-1E/w`, `bah:NJ202/W-1/w`, `bah:NJ202/O-5/wo`, `bah:NY219/E-5/w`, `bah:NY219/E-6/wo` | table | … ~$4,800–$5,500 \| **Roughly even** \| \| New York City, NY \| **$5,070** \| ~$4,500–$5,800 \| **Tight to negative** \| \| Monterey, CA … |
+| 104 | $4,500 | data (weak) | `bah:MA119/E-8/wo`, `bah:NY218/E-8/wo`, `education:ta.annualCap` | approx, range, table | …5,500 \| **Roughly even** \| \| New York City, NY \| $5,070 \| ~**$4,500**–$5,800 \| **Tight to negative** \| \| Monterey, CA \| $3,465 \|… |
+| 105 | $3,465 | data (weak) | `bah:AK401/W-3/w`, `bah:CA022/O-7/w`, `bah:CA026/O-2E/wo`, `bah:CA031/E-9/w`, `bah:CA039/E-5/w` (+11 more) | table | … ~$4,500–$5,800 \| **Tight to negative** \| \| Monterey, CA \| **$3,465** \| ~$3,500–$4,200 \| **Tight to negative** \| \| San Diego, CA… |
+| 105 | $3,500 | data (weak) | `healthcare:employer.single.bronze.deductible` | approx, range, table | …5,800 \| **Tight to negative** \| \| Monterey, CA \| $3,465 \| ~**$3,500**–$4,200 \| **Tight to negative** \| \| San Diego, CA \| $3,975 … |
+| 105 | $4,200 | data-derived (weak) | `12×healthcare:acaNoSubsidy.single.bronze.premium`, `bah:CA025/O-2E/w`, `bah:CA392/O-2E/w`, `bah:NJ201/E-8/w`, `bah:RI256/O-7/wo` (+1 more) | range, table | … **Tight to negative** \| \| Monterey, CA \| $3,465 \| ~$3,500–**$4,200** \| **Tight to negative** \| \| San Diego, CA \| $3,975 \| ~$3,4… |
+| 106 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` | table | …~$3,500–$4,200 \| **Tight to negative** \| \| San Diego, CA \| **$3,975** \| ~$3,400–$4,000 \| **Roughly even** \| \| Honolulu, HI \| $3,… |
+| 106 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` | range, table | …**Tight to negative** \| \| San Diego, CA \| $3,975 \| ~$3,400–**$4,000** \| **Roughly even** \| \| Honolulu, HI \| $3,663 \| ~$3,200–$3,… |
+| 107 | $3,663 | data (weak) | `bah:CA041/E-8/w`, `bah:HI408/E-5/w`, `bah:MA151/E-1/w`, `bah:MA151/E-2/w`, `bah:MA151/E-3/w` (+2 more) | table | …975 \| ~$3,400–$4,000 \| **Roughly even** \| \| Honolulu, HI \| **$3,663** \| ~$3,200–$3,800 \| **Roughly even** \| \| Camp Pendleton, CA… |
+| 108 | $3,963 | data (weak) | `bah:CA024/E-5/w`, `bah:CO422/W-5/w`, `bah:CT051/E-9/w`, `bah:MA122/W-4/w` | table | …~$3,200–$3,800 \| **Roughly even** \| \| Camp Pendleton, CA \| **$3,963** \| ~$3,600–$4,200 \| **Tight** \| This doesn't mean these a… |
+| 108 | $3,600 | data-derived (weak) | `12×deployment:fsa`, `bah:CA025/O-1/w`, `bah:CA392/W-3/wo`, `bah:NY217/E-8/wo`, `bah:NY218/E-5/wo` (+1 more) | approx, range, table | …,800 \| **Roughly even** \| \| Camp Pendleton, CA \| $3,963 \| ~**$3,600**–$4,200 \| **Tight** \| This doesn't mean these are bad dut… |
+| 108 | $4,200 | data-derived (weak) | `12×healthcare:acaNoSubsidy.single.bronze.premium`, `bah:CA025/O-2E/w`, `bah:CA392/O-2E/w`, `bah:NJ201/E-8/w`, `bah:RI256/O-7/wo` (+1 more) | range, table | …**Roughly even** \| \| Camp Pendleton, CA \| $3,963 \| ~$3,600–**$4,200** \| **Tight** \| This doesn't mean these are bad duty stati… |
+| 140 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …tate tax guidance 3. **Invest or save the surplus** — even **$300**/month in surplus, invested consistently across a career, co… |
 
 <details><summary>28 unbound</summary>
 
 | Line | Figure | Flags | Context |
 |---:|---|---|---|
-| 34 | $5,200 |  | … $5,000/month BAH at UCSF where a 2-bedroom apartment costs **$5,200** is worse financially than a $1,800/month BAH at [Fort Campb… |
-| 34 | $1,400 |  | …ell](/bah/fort-campbell) where a comparable apartment costs **$1,400**. &lt;CalculatorCallout calculator="bah" text="Look up your … |
-| 84 | $850 | approx, table | …---------------------\| \| Fort Leonard Wood, MO \| $1,479 \| ~**$850** \| **~$629** \| \| Fort Sill, OK \| $1,233 \| ~$950 \| **~$283**… |
-| 85 | $950 | approx, table | …\| $1,479 \| ~$850 \| **~$629** \| \| Fort Sill, OK \| $1,233 \| ~**$950** \| **~$283** \| \| Fort Campbell, KY \| $1,815 \| ~$1,100 \| **~… |
-| 85 | $283 | approx, table | … ~$850 \| **~$629** \| \| Fort Sill, OK \| $1,233 \| ~$950 \| **~**$283**** \| \| Fort Campbell, KY \| $1,815 \| ~$1,100 \| **~$715** \| … |
-| 86 | $1,100 | approx, table | …,233 \| ~$950 \| **~$283** \| \| Fort Campbell, KY \| $1,815 \| ~**$1,100** \| **~$715** \| \| [Joint Base San Antonio, TX](/bah/joint-ba… |
-| 86 | $715 | approx, table | … \| **~$283** \| \| Fort Campbell, KY \| $1,815 \| ~$1,100 \| **~**$715**** \| \| [Joint Base San Antonio, TX](/bah/joint-base-san-ant… |
-| 87 | $1,400 | approx, table | …e San Antonio, TX](/bah/joint-base-san-antonio) \| $1,869 \| ~**$1,400** \| **~$469** \| \| Fort Hood, TX \| $1,695 \| ~$1,250 \| **~$445… |
-| 87 | $469 | approx, table | …o, TX](/bah/joint-base-san-antonio) \| $1,869 \| ~$1,400 \| **~**$469**** \| \| Fort Hood, TX \| $1,695 \| ~$1,250 \| **~$445** \| \| Fo… |
-| 88 | $1,250 | approx, table | …$1,869 \| ~$1,400 \| **~$469** \| \| Fort Hood, TX \| $1,695 \| ~**$1,250** \| **~$445** \| \| Fort Benning, GA \| $1,716 \| ~$1,300 \| **~$… |
-| 88 | $445 | approx, table | …,400 \| **~$469** \| \| Fort Hood, TX \| $1,695 \| ~$1,250 \| **~**$445**** \| \| Fort Benning, GA \| $1,716 \| ~$1,300 \| **~$416** \| \|… |
-| 89 | $1,300 | approx, table | …695 \| ~$1,250 \| **~$445** \| \| Fort Benning, GA \| $1,716 \| ~**$1,300** \| **~$416** \| \| Fort Bragg, NC \| $1,806 \| ~$1,400 \| **~$40… |
-| 89 | $416 | approx, table | …0 \| **~$445** \| \| Fort Benning, GA \| $1,716 \| ~$1,300 \| **~**$416**** \| \| Fort Bragg, NC \| $1,806 \| ~$1,400 \| **~$406** \| I… |
-| 90 | $1,400 | approx, table | …1,716 \| ~$1,300 \| **~$416** \| \| Fort Bragg, NC \| $1,806 \| ~**$1,400** \| **~$406** \| In these markets, an E-5 renting a market-… |
-| 90 | $406 | approx, table | …300 \| **~$416** \| \| Fort Bragg, NC \| $1,806 \| ~$1,400 \| **~**$406**** \| In these markets, an E-5 renting a market-rate 3-bed… |
-| 92 | $283 | range | … markets, an E-5 renting a market-rate 3-bedroom home keeps **$283**–$715/month of their BAH as tax-free income — $3,400–$8,600/… |
-| 92 | $715 | range | …ets, an E-5 renting a market-rate 3-bedroom home keeps $283–**$715**/month of their BAH as tax-free income — $3,400–$8,600/year … |
-| 92 | $3,400 | range | …ome keeps $283–$715/month of their BAH as tax-free income — **$3,400**–$8,600/year of money that never gets taxed. And if they'… |
-| 92 | $8,600 | range, annual | …ps $283–$715/month of their BAH as tax-free income — $3,400–**$8,600**/year of money that never gets taxed. And if they're buyi… |
-| 94 | $200,000 | range | …VA loan math is even more favorable: a 30-year VA loan on a **$200,000**–$250,000 home in these markets often produces a payment of … |
-| 94 | $250,000 | range | …ath is even more favorable: a 30-year VA loan on a $200,000–**$250,000** home in these markets often produces a payment of $1,100–$1… |
-| 94 | $1,100 | range | …–$250,000 home in these markets often produces a payment of **$1,100**–$1,500/month, leaving $200–$400+ monthly surplus even after… |
-| 94 | $200 | range | …ts often produces a payment of $1,100–$1,500/month, leaving **$200**–$400+ monthly surplus even after mortgage payments. ## W… |
-| 94 | $400 | range | …ten produces a payment of $1,100–$1,500/month, leaving $200–**$400**+ monthly surplus even after mortgage payments. ## Which … |
-| 103 | $5,800 | range, table | … **Roughly even** \| \| New York City, NY \| $5,070 \| ~$4,500–**$5,800** \| **Tight to negative** \| \| Monterey, CA \| $3,465 \| ~$3,50… |
-| 105 | $3,400 | approx, range, table | …,200 \| **Tight to negative** \| \| San Diego, CA \| $3,975 \| ~**$3,400**–$4,000 \| **Roughly even** \| \| Honolulu, HI \| $3,663 \| ~$3,… |
-| 106 | $3,200 | approx, range, table | …400–$4,000 \| **Roughly even** \| \| Honolulu, HI \| $3,663 \| ~**$3,200**–$3,800 \| **Roughly even** \| \| Camp Pendleton, CA \| $3,963 … |
-| 106 | $3,800 | range, table | …000 \| **Roughly even** \| \| Honolulu, HI \| $3,663 \| ~$3,200–**$3,800** \| **Roughly even** \| \| Camp Pendleton, CA \| $3,963 \| ~$3,6… |
+| 35 | $5,200 |  | … $5,000/month BAH at UCSF where a 2-bedroom apartment costs **$5,200** is worse financially than a $1,800/month BAH at [Fort Campb… |
+| 35 | $1,400 |  | …ell](/bah/fort-campbell) where a comparable apartment costs **$1,400**. &lt;CalculatorCallout calculator="bah" text="Look up your … |
+| 85 | $850 | approx, table | …---------------------\| \| Fort Leonard Wood, MO \| $1,479 \| ~**$850** \| **~$629** \| \| Fort Sill, OK \| $1,233 \| ~$950 \| **~$283**… |
+| 86 | $950 | approx, table | …\| $1,479 \| ~$850 \| **~$629** \| \| Fort Sill, OK \| $1,233 \| ~**$950** \| **~$283** \| \| Fort Campbell, KY \| $1,815 \| ~$1,100 \| **~… |
+| 86 | $283 | approx, table | … ~$850 \| **~$629** \| \| Fort Sill, OK \| $1,233 \| ~$950 \| **~**$283**** \| \| Fort Campbell, KY \| $1,815 \| ~$1,100 \| **~$715** \| … |
+| 87 | $1,100 | approx, table | …,233 \| ~$950 \| **~$283** \| \| Fort Campbell, KY \| $1,815 \| ~**$1,100** \| **~$715** \| \| [Joint Base San Antonio, TX](/bah/joint-ba… |
+| 87 | $715 | approx, table | … \| **~$283** \| \| Fort Campbell, KY \| $1,815 \| ~$1,100 \| **~**$715**** \| \| [Joint Base San Antonio, TX](/bah/joint-base-san-ant… |
+| 88 | $1,400 | approx, table | …e San Antonio, TX](/bah/joint-base-san-antonio) \| $1,869 \| ~**$1,400** \| **~$469** \| \| Fort Hood, TX \| $1,695 \| ~$1,250 \| **~$445… |
+| 88 | $469 | approx, table | …o, TX](/bah/joint-base-san-antonio) \| $1,869 \| ~$1,400 \| **~**$469**** \| \| Fort Hood, TX \| $1,695 \| ~$1,250 \| **~$445** \| \| Fo… |
+| 89 | $1,250 | approx, table | …$1,869 \| ~$1,400 \| **~$469** \| \| Fort Hood, TX \| $1,695 \| ~**$1,250** \| **~$445** \| \| Fort Benning, GA \| $1,716 \| ~$1,300 \| **~$… |
+| 89 | $445 | approx, table | …,400 \| **~$469** \| \| Fort Hood, TX \| $1,695 \| ~$1,250 \| **~**$445**** \| \| Fort Benning, GA \| $1,716 \| ~$1,300 \| **~$416** \| \|… |
+| 90 | $1,300 | approx, table | …695 \| ~$1,250 \| **~$445** \| \| Fort Benning, GA \| $1,716 \| ~**$1,300** \| **~$416** \| \| Fort Bragg, NC \| $1,806 \| ~$1,400 \| **~$40… |
+| 90 | $416 | approx, table | …0 \| **~$445** \| \| Fort Benning, GA \| $1,716 \| ~$1,300 \| **~**$416**** \| \| Fort Bragg, NC \| $1,806 \| ~$1,400 \| **~$406** \| I… |
+| 91 | $1,400 | approx, table | …1,716 \| ~$1,300 \| **~$416** \| \| Fort Bragg, NC \| $1,806 \| ~**$1,400** \| **~$406** \| In these markets, an E-5 renting a market-… |
+| 91 | $406 | approx, table | …300 \| **~$416** \| \| Fort Bragg, NC \| $1,806 \| ~$1,400 \| **~**$406**** \| In these markets, an E-5 renting a market-rate 3-bed… |
+| 93 | $283 | range | … markets, an E-5 renting a market-rate 3-bedroom home keeps **$283**–$715/month of their BAH as tax-free income — $3,400–$8,600/… |
+| 93 | $715 | range | …ets, an E-5 renting a market-rate 3-bedroom home keeps $283–**$715**/month of their BAH as tax-free income — $3,400–$8,600/year … |
+| 93 | $3,400 | range | …ome keeps $283–$715/month of their BAH as tax-free income — **$3,400**–$8,600/year of money that never gets taxed. And if they'… |
+| 93 | $8,600 | range, annual | …ps $283–$715/month of their BAH as tax-free income — $3,400–**$8,600**/year of money that never gets taxed. And if they're buyi… |
+| 95 | $200,000 | range | …VA loan math is even more favorable: a 30-year VA loan on a **$200,000**–$250,000 home in these markets often produces a payment of … |
+| 95 | $250,000 | range | …ath is even more favorable: a 30-year VA loan on a $200,000–**$250,000** home in these markets often produces a payment of $1,100–$1… |
+| 95 | $1,100 | range | …–$250,000 home in these markets often produces a payment of **$1,100**–$1,500/month, leaving $200–$400+ monthly surplus even after… |
+| 95 | $200 | range | …ts often produces a payment of $1,100–$1,500/month, leaving **$200**–$400+ monthly surplus even after mortgage payments. ## W… |
+| 95 | $400 | range | …ten produces a payment of $1,100–$1,500/month, leaving $200–**$400**+ monthly surplus even after mortgage payments. ## Which … |
+| 104 | $5,800 | range, table | … **Roughly even** \| \| New York City, NY \| $5,070 \| ~$4,500–**$5,800** \| **Tight to negative** \| \| Monterey, CA \| $3,465 \| ~$3,50… |
+| 106 | $3,400 | approx, range, table | …,200 \| **Tight to negative** \| \| San Diego, CA \| $3,975 \| ~**$3,400**–$4,000 \| **Roughly even** \| \| Honolulu, HI \| $3,663 \| ~$3,… |
+| 107 | $3,200 | approx, range, table | …400–$4,000 \| **Roughly even** \| \| Honolulu, HI \| $3,663 \| ~**$3,200**–$3,800 \| **Roughly even** \| \| Camp Pendleton, CA \| $3,963 … |
+| 107 | $3,800 | range, table | …000 \| **Roughly even** \| \| Honolulu, HI \| $3,663 \| ~$3,200–**$3,800** \| **Roughly even** \| \| Camp Pendleton, CA \| $3,963 \| ~$3,6… |
 
 </details>
 
@@ -1260,65 +1260,6 @@ data 35 (13 weak) · derived 4 (1 weak) · unbound 28
 
 </details>
 
-### src/app/guides/pcs/page.tsx
-
-data 25 (20 weak) · derived 7 (3 weak) · unbound 13
-
-| Line | Figure | Class | Sources | Flags | Context |
-|---:|---|---|---|---|---|
-| 42 | $2,389 | data-derived | `round(pcs:dla.withoutDependents.E-4)`, `round(pcs:dla.withoutDependents.E-5)`, `round(pcs:dla.withoutDependents.E-6)` |  | …e (DLA) — amounts vary by rank and dependency status (e.g., **$2,389** without dependents and $3,548 with dependents for E-6 in 20… |
-| 42 | $3,548 | data-derived | `round(pcs:dla.withDependents.E-1)`, `round(pcs:dla.withDependents.E-2)`, `round(pcs:dla.withDependents.E-3)`, `round(pcs:dla.withDependents.E-4)`, `round(pcs:dla.withDependents.E-5)` (+1 more) |  | … and dependency status (e.g., $2,389 without dependents and **$3,548** with dependents for E-6 in 2026); MALT mileage at $0.205/mi… |
-| 47 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | … you can move for less. Typical PPM net proceeds range from **$1,000**–$8,000 depending on move distance and how efficiently you m… |
-| 47 | $8,000 | data (weak) | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` | range | …n move for less. Typical PPM net proceeds range from $1,000–**$8,000** depending on move distance and how efficiently you move. PP… |
-| 52 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | …on. Moving from San Diego to Fort Bragg could reduce BAH by **$1,000**–$2,000/month; moving from rural Georgia to Northern Virgini… |
-| 52 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` | range | …ing from San Diego to Fort Bragg could reduce BAH by $1,000–**$2,000**/month; moving from rural Georgia to Northern Virginia could… |
-| 72 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ce members may qualify for a Family Separation Allowance of **$300**/month.', }, { question: 'How can BAH build wealt… |
-| 91 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) |  | … bullets: [ 'San Diego → Fort Bragg: BAH could drop **$1,500**+/mo', 'Rural GA → Northern VA: BAH could jump $1,000… |
-| 92 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` |  | …$1,500+/mo', 'Rural GA → Northern VA: BAH could jump **$1,000**+/mo', 'Biggest ongoing financial impact of any PCS',… |
-| 105 | $2,389 | data-derived | `round(pcs:dla.withoutDependents.E-4)`, `round(pcs:dla.withoutDependents.E-5)`, `round(pcs:dla.withoutDependents.E-6)` |  | … expense of a military move.', bullets: [ 'DLA: **$2,389** (E-6, no dep) / $3,548 (E-6, w/ dep) — varies by rank', … |
-| 105 | $3,548 | data-derived | `round(pcs:dla.withDependents.E-1)`, `round(pcs:dla.withDependents.E-2)`, `round(pcs:dla.withDependents.E-3)`, `round(pcs:dla.withDependents.E-4)`, `round(pcs:dla.withDependents.E-5)` (+1 more) |  | …move.', bullets: [ 'DLA: $2,389 (E-6, no dep) / **$3,548** (E-6, w/ dep) — varies by rank', 'MALT: $0.205/mile … |
-| 107 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | … less than actual driving costs', 'PPM net proceeds: **$1,000**–$8,000 if you move yourself', ], cta: 'Estimate m… |
-| 107 | $8,000 | data (weak) | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` | range | …han actual driving costs', 'PPM net proceeds: $1,000–**$8,000** if you move yourself', ], cta: 'Estimate my move … |
-| 145 | $2,389.42 | data | `pcs:dla.withoutDependents.E-4`, `pcs:dla.withoutDependents.E-5`, `pcs:dla.withoutDependents.E-6` |  | …ace-y-1 pl-4 list-disc"&gt; &lt;li&gt;Without dependents: **$2,389.42** (E-6) — ranges from ~$1,871 (E-1) to ~$5,187 (O-7+)&lt;/li&gt; … |
-| 145 | $1,871 | data-derived (weak) | `round(pcs:dla.withoutDependents.E-1)` | approx | … &lt;li&gt;Without dependents: $2,389.42 (E-6) — ranges from ~**$1,871** (E-1) to ~$5,187 (O-7+)&lt;/li&gt; &lt;li&gt;With dependents… |
-| 145 | $5,187 | data-derived (weak) | `round(pcs:dla.withoutDependents.O-7)`, `round(pcs:dla.withoutDependents.O-8)`, `round(pcs:dla.withoutDependents.O-9)`, `round(pcs:dla.withoutDependents.O-10)`, `bah:NY218/E-9/w` | approx | …dependents: $2,389.42 (E-6) — ranges from ~$1,871 (E-1) to ~**$5,187** (O-7+)&lt;/li&gt; &lt;li&gt;With dependents: $3,548.02 (E-1–… |
-| 146 | $3,548.02 | data | `pcs:dla.withDependents.E-1`, `pcs:dla.withDependents.E-2`, `pcs:dla.withDependents.E-3`, `pcs:dla.withDependents.E-4`, `pcs:dla.withDependents.E-5` (+1 more) |  | …E-1) to ~$5,187 (O-7+)&lt;/li&gt; &lt;li&gt;With dependents: **$3,548.02** (E-1–E-6) — ranges up to ~$6,386 (O-7+)&lt;/li&gt; &lt;/ul&gt;… |
-| 146 | $6,386 | data-derived (weak) | `round(pcs:dla.withDependents.O-7)`, `round(pcs:dla.withDependents.O-8)`, `round(pcs:dla.withDependents.O-9)`, `round(pcs:dla.withDependents.O-10)` | approx | … &lt;li&gt;With dependents: $3,548.02 (E-1–E-6) — ranges up to ~**$6,386** (O-7+)&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; &lt;strong … |
-| 185 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | …M net proceeds range from &lt;strong className="text-zinc-800"&gt;**$1,000**–$8,000&lt;/strong&gt; depending on distance and how efficiently y… |
-| 185 | $8,000 | data (weak) | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` | range | …roceeds range from &lt;strong className="text-zinc-800"&gt;$1,000–**$8,000**&lt;/strong&gt; depending on distance and how efficiently you move… |
-| 219 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | …&lt;li&gt;Moving from San Diego to Fort Bragg could reduce BAH by **$1,000**–$2,000/month&lt;/li&gt; &lt;li&gt;Moving from rural Georgia … |
-| 219 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` | range | …ing from San Diego to Fort Bragg could reduce BAH by $1,000–**$2,000**/month&lt;/li&gt; &lt;li&gt;Moving from rural Georgia to Nort… |
-| 225 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) |  | …fore&lt;/em&gt; signing a lease or accepting orders. A **$1,500**/month BAH drop you didn't budget for will hurt far more tha… |
-| 342 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …) may qualify for Family Separation Allowance of **$300**/month. &lt;/p&gt; &lt;div className="flex flex-col… |
-| 392 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` |  | …title: 'The PCS That Costs $14,000 — And the One That Makes **$6,000**', description: 'Two scenarios for the same E-6 family … |
-| 461 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` |  | … &lt;span className="text-red-700"&gt;lose $14,000 — or profit **$6,000**.&lt;/span&gt;{' '} The difference is knowing the e… |
-| 497 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | range | …s rate. Moving to a higher-cost station can increase BAH by **$500**–$1,500/month; moving to a lower-cost station does the oppos… |
-| 497 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) | range | …e. Moving to a higher-cost station can increase BAH by $500–**$1,500**/month; moving to a lower-cost station does the opposite. Pl… |
-| 506 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | range | …s rate. Moving to a higher-cost station can increase BAH by **$500**–$1,500/month; moving to a lower-cost station does the oppos… |
-| 506 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) | range | …e. Moving to a higher-cost station can increase BAH by $500–**$1,500**/month; moving to a lower-cost station does the opposite. Pl… |
-| 592 | $2,049 | data (weak) | `bah:AZ016/O-3/w`, `bah:FL058/E-7/wo`, `bah:GA075/O-2E/w`, `bah:GA079/O-1/wo`, `bah:GA080/E-6/wo` (+23 more) |  | …an className="text-sm font-mono tabular-nums text-zinc-800"&gt;**$2,049**&lt;span className="text-zinc-400"&gt;/mo&lt;/span&gt;&lt;/span&gt; … |
-| 608 | $2,919 | data (weak) | `bah:CA032/W-4/w`, `bah:FL059/O-2E/w`, `bah:FL066/O-3/wo`, `bah:FL424/E-6/w`, `bah:MA122/E-5/w` (+10 more) |  | …an className="text-sm font-mono tabular-nums text-zinc-800"&gt;**$2,919**&lt;span className="text-zinc-400"&gt;/mo&lt;/span&gt;&lt;/span&gt; … |
-
-<details><summary>13 unbound</summary>
-
-| Line | Figure | Flags | Context |
-|---:|---|---|---|
-| 42 | $0.20 |  | …nd $3,548 with dependents for E-6 in 2026); MALT mileage at **$0.20**5/mile for the official distance; per diem for authorized tr… |
-| 57 | $4,900 | approx, annual | …e between a zero-income-tax state and California is roughly **$4,900**/year — often more than the BAH difference.', }, { … |
-| 106 | $0.20 |  | …ep) / $3,548 (E-6, w/ dep) — varies by rank', 'MALT: **$0.20**5/mile — less than actual driving costs', 'PPM net pr… |
-| 117 | $4,900 | approx, annual | …. Moving from Texas to California could cost an O-3 roughly **$4,900**/year in state taxes alone.', bullets: [ 'No-tax… |
-| 150 | $0.20 |  | … flat travel allowance of &lt;strong className="text-zinc-800"&gt;**$0.20**5/mile&lt;/strong&gt; based on the official DoD distanc… |
-| 152 | $553.50 |  | …rom Virginia to California (~2,700 miles) yields **$553.50** — meaningfully less than actual fuel and vehicle costs. … |
-| 244 | $75,000 |  | … and California — have rates of 5–13%. For an O-3 earning **$75,000** in base pay, the difference between a zero-tax s… |
-| 246 | $4,900 | annual | …s roughly{' '} &lt;strong className="text-zinc-800"&gt;**$4,900**/year&lt;/strong&gt; — often more than the BAH difference. … |
-| 392 | $14,000 |  | … label: 'PCS PLANNING', title: 'The PCS That Costs **$14,000** — And the One That Makes $6,000', description: 'Two sc… |
-| 393 | $20,000 |  | …: 'Two scenarios for the same E-6 family on the same move — **$20,000** apart based purely on knowing the entitlements.', }, … |
-| 461 | $14,000 |  | …can{' '} &lt;span className="text-red-700"&gt;lose **$14,000** — or profit $6,000.&lt;/span&gt;{' '} The differen… |
-| 624 | $870 |  | …p className="text-2xl font-bold tabular-nums text-red-700"&gt;+**$870**/mo&lt;/p&gt; &lt;/div&gt; &lt;div cl… |
-| 628 | $10,440 | annual | … &lt;p className="text-sm font-semibold text-zinc-700"&gt;+**$10,440**/yr&lt;/p&gt; &lt;/div&gt; &lt;/div&gt; … |
-
-</details>
-
 ### src/content/blog/sgli-vgli-private-life-insurance.mdx
 
 data 31 (4 weak) · derived 0 (0 weak) · unbound 56
@@ -1417,6 +1358,57 @@ data 31 (4 weak) · derived 0 (0 weak) · unbound 56
 | 167 | $1,000,000 | range | …ncome. Most military families with dependents need $500,000–**$1,000,000** in coverage. 3. **If you're within 2 years of separation… |
 | 179 | $26 |  | …ng, immediate enrollment, and genuine combat protection for **$26**/month. Use it fully while you have it. The mistake is tr… |
 | 183 | $28 |  | …ho arrives at 50 or 55 with $500,000 in coverage that costs **$28**/month, locked in two decades earlier. The one who waits unt… |
+
+</details>
+
+### src/app/guides/pcs/page.tsx
+
+data 23 (18 weak) · derived 7 (3 weak) · unbound 7
+
+| Line | Figure | Class | Sources | Flags | Context |
+|---:|---|---|---|---|---|
+| 57 | $2,389 | data-derived | `round(pcs:dla.withoutDependents.E-4)`, `round(pcs:dla.withoutDependents.E-5)`, `round(pcs:dla.withoutDependents.E-6)` |  | …e (DLA) — amounts vary by rank and dependency status (e.g., **$2,389** without dependents and $3,548 with dependents for E-6 in 20… |
+| 57 | $3,548 | data-derived | `round(pcs:dla.withDependents.E-1)`, `round(pcs:dla.withDependents.E-2)`, `round(pcs:dla.withDependents.E-3)`, `round(pcs:dla.withDependents.E-4)`, `round(pcs:dla.withDependents.E-5)` (+1 more) |  | … and dependency status (e.g., $2,389 without dependents and **$3,548** with dependents for E-6 in 2026); MALT mileage at $0.205/mi… |
+| 62 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | … you can move for less. Typical PPM net proceeds range from **$1,000**–$8,000 depending on move distance and how efficiently you m… |
+| 62 | $8,000 | data (weak) | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` | range | …n move for less. Typical PPM net proceeds range from $1,000–**$8,000** depending on move distance and how efficiently you move. PP… |
+| 67 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | …on. Moving from San Diego to Fort Bragg could reduce BAH by **$1,000**–$2,000/month; moving from rural Georgia to Northern Virgini… |
+| 67 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` | range | …ing from San Diego to Fort Bragg could reduce BAH by $1,000–**$2,000**/month; moving from rural Georgia to Northern Virginia could… |
+| 87 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …ce members may qualify for a Family Separation Allowance of **$300**/month.', }, { question: 'How can BAH build wealt… |
+| 106 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) |  | … bullets: [ 'San Diego → Fort Bragg: BAH could drop **$1,500**+/mo', 'Rural GA → Northern VA: BAH could jump $1,000… |
+| 107 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` |  | …$1,500+/mo', 'Rural GA → Northern VA: BAH could jump **$1,000**+/mo', 'Biggest ongoing financial impact of any PCS',… |
+| 120 | $2,389 | data-derived | `round(pcs:dla.withoutDependents.E-4)`, `round(pcs:dla.withoutDependents.E-5)`, `round(pcs:dla.withoutDependents.E-6)` |  | … expense of a military move.', bullets: [ 'DLA: **$2,389** (E-6, no dep) / $3,548 (E-6, w/ dep) — varies by rank', … |
+| 120 | $3,548 | data-derived | `round(pcs:dla.withDependents.E-1)`, `round(pcs:dla.withDependents.E-2)`, `round(pcs:dla.withDependents.E-3)`, `round(pcs:dla.withDependents.E-4)`, `round(pcs:dla.withDependents.E-5)` (+1 more) |  | …move.', bullets: [ 'DLA: $2,389 (E-6, no dep) / **$3,548** (E-6, w/ dep) — varies by rank', 'MALT: $0.205/mile … |
+| 122 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | … less than actual driving costs', 'PPM net proceeds: **$1,000**–$8,000 if you move yourself', ], cta: 'Estimate m… |
+| 122 | $8,000 | data (weak) | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` | range | …han actual driving costs', 'PPM net proceeds: $1,000–**$8,000** if you move yourself', ], cta: 'Estimate my move … |
+| 160 | $2,389.42 | data | `pcs:dla.withoutDependents.E-4`, `pcs:dla.withoutDependents.E-5`, `pcs:dla.withoutDependents.E-6` |  | …ace-y-1 pl-4 list-disc"&gt; &lt;li&gt;Without dependents: **$2,389.42** (E-6) — ranges from ~$1,871 (E-1) to ~$5,187 (O-7+)&lt;/li&gt; … |
+| 160 | $1,871 | data-derived (weak) | `round(pcs:dla.withoutDependents.E-1)` | approx | … &lt;li&gt;Without dependents: $2,389.42 (E-6) — ranges from ~**$1,871** (E-1) to ~$5,187 (O-7+)&lt;/li&gt; &lt;li&gt;With dependents… |
+| 160 | $5,187 | data-derived (weak) | `round(pcs:dla.withoutDependents.O-7)`, `round(pcs:dla.withoutDependents.O-8)`, `round(pcs:dla.withoutDependents.O-9)`, `round(pcs:dla.withoutDependents.O-10)`, `bah:NY218/E-9/w` | approx | …dependents: $2,389.42 (E-6) — ranges from ~$1,871 (E-1) to ~**$5,187** (O-7+)&lt;/li&gt; &lt;li&gt;With dependents: $3,548.02 (E-1–… |
+| 161 | $3,548.02 | data | `pcs:dla.withDependents.E-1`, `pcs:dla.withDependents.E-2`, `pcs:dla.withDependents.E-3`, `pcs:dla.withDependents.E-4`, `pcs:dla.withDependents.E-5` (+1 more) |  | …E-1) to ~$5,187 (O-7+)&lt;/li&gt; &lt;li&gt;With dependents: **$3,548.02** (E-1–E-6) — ranges up to ~$6,386 (O-7+)&lt;/li&gt; &lt;/ul&gt;… |
+| 161 | $6,386 | data-derived (weak) | `round(pcs:dla.withDependents.O-7)`, `round(pcs:dla.withDependents.O-8)`, `round(pcs:dla.withDependents.O-9)`, `round(pcs:dla.withDependents.O-10)` | approx | … &lt;li&gt;With dependents: $3,548.02 (E-1–E-6) — ranges up to ~**$6,386** (O-7+)&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; &lt;strong … |
+| 200 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | …M net proceeds range from &lt;strong className="text-zinc-800"&gt;**$1,000**–$8,000&lt;/strong&gt; depending on distance and how efficiently y… |
+| 200 | $8,000 | data (weak) | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` | range | …roceeds range from &lt;strong className="text-zinc-800"&gt;$1,000–**$8,000**&lt;/strong&gt; depending on distance and how efficiently you move… |
+| 234 | $1,000 | data (weak) | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | range | …&lt;li&gt;Moving from San Diego to Fort Bragg could reduce BAH by **$1,000**–$2,000/month&lt;/li&gt; &lt;li&gt;Moving from rural Georgia … |
+| 234 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` | range | …ing from San Diego to Fort Bragg could reduce BAH by $1,000–**$2,000**/month&lt;/li&gt; &lt;li&gt;Moving from rural Georgia to Nort… |
+| 240 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) |  | …fore&lt;/em&gt; signing a lease or accepting orders. A **$1,500**/month BAH drop you didn't budget for will hurt far more tha… |
+| 356 | $300 | data | `deployment:fsa`, `healthcare:tricareReserveSelect.family.deductible` |  | …) may qualify for Family Separation Allowance of **$300**/month. &lt;/p&gt; &lt;div className="flex flex-col… |
+| 406 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` |  | …title: 'The PCS That Costs $14,000 — And the One That Makes **$6,000**', description: 'Two scenarios for the same E-6 family … |
+| 475 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` |  | … &lt;span className="text-red-700"&gt;lose $14,000 — or profit **$6,000**.&lt;/span&gt;{' '} The difference is knowing the e… |
+| 511 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | range | …s rate. Moving to a higher-cost station can increase BAH by **$500**–$1,500/month; moving to a lower-cost station does the oppos… |
+| 511 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) | range | …e. Moving to a higher-cost station can increase BAH by $500–**$1,500**/month; moving to a lower-cost station does the opposite. Pl… |
+| 520 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | range | …s rate. Moving to a higher-cost station can increase BAH by **$500**–$1,500/month; moving to a lower-cost station does the oppos… |
+| 520 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) | range | …e. Moving to a higher-cost station can increase BAH by $500–**$1,500**/month; moving to a lower-cost station does the opposite. Pl… |
+
+<details><summary>7 unbound</summary>
+
+| Line | Figure | Flags | Context |
+|---:|---|---|---|
+| 57 | $0.20 |  | …nd $3,548 with dependents for E-6 in 2026); MALT mileage at **$0.20**5/mile for the official distance; per diem for authorized tr… |
+| 121 | $0.20 |  | …ep) / $3,548 (E-6, w/ dep) — varies by rank', 'MALT: **$0.20**5/mile — less than actual driving costs', 'PPM net pr… |
+| 165 | $0.20 |  | … flat travel allowance of &lt;strong className="text-zinc-800"&gt;**$0.20**5/mile&lt;/strong&gt; based on the official DoD distanc… |
+| 167 | $553.50 |  | …rom Virginia to California (~2,700 miles) yields **$553.50** — meaningfully less than actual fuel and vehicle costs. … |
+| 406 | $14,000 |  | … label: 'PCS PLANNING', title: 'The PCS That Costs **$14,000** — And the One That Makes $6,000', description: 'Two sc… |
+| 407 | $20,000 |  | …: 'Two scenarios for the same E-6 family on the same move — **$20,000** apart based purely on knowing the entitlements.', }, … |
+| 475 | $14,000 |  | …can{' '} &lt;span className="text-red-700"&gt;lose **$14,000** — or profit $6,000.&lt;/span&gt;{' '} The differen… |
 
 </details>
 
@@ -1908,54 +1900,54 @@ data 19 (19 weak) · derived 2 (0 weak) · unbound 22
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
-| 57 | $4,518 | data (weak) | `bah:CA024/W-5/wo`, `bah:CA038/O-3/w`, `bah:HI408/E-9/w` | table | …ts \| Without Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| **$4,518**/mo \| $4,248/mo \| $270 \| \| E-5 \| $3,975/mo \| $3,147/mo \| **… |
-| 57 | $4,248 | data-derived | `round(pcs:dla.withoutDependents.O-4)`, `bah:CA038/O-3/wo`, `bah:MA124/O-5/wo`, `bah:MA377/W-2/wo` | table | … Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| $4,518/mo \| **$4,248**/mo \| $270 \| \| E-5 \| $3,975/mo \| $3,147/mo \| **$828** \| … |
-| 58 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` | table | …-\|---\|---\| \| O-3 \| $4,518/mo \| $4,248/mo \| $270 \| \| E-5 \| **$3,975**/mo \| $3,147/mo \| **$828** \| *Source: 2026 DTMO BAH rate … |
-| 58 | $3,147 | data (weak) | `bah:CA033/W-1/w`, `bah:CA038/E-5/wo`, `bah:MA123/O-1/w`, `bah:MD130/W-5/wo` | table | …\| O-3 \| $4,518/mo \| $4,248/mo \| $270 \| \| E-5 \| $3,975/mo \| **$3,147**/mo \| **$828** \| *Source: 2026 DTMO BAH rate tables, San … |
-| 68 | $4,518 | data (weak) | `bah:CA024/W-5/wo`, `bah:CA038/O-3/w`, `bah:HI408/E-9/w` | table | …nthly Total \| \|---\|---\|---\|---\| \| O-3 claims dependents \| **$4,518** (w/dep) \| $3,147 (wo/dep) \| $7,665 \| \| **E-5 claims depend… |
-| 68 | $3,147 | data (weak) | `bah:CA033/W-1/w`, `bah:CA038/E-5/wo`, `bah:MA123/O-1/w`, `bah:MD130/W-5/wo` | table | …--\|---\|---\|---\| \| O-3 claims dependents \| $4,518 (w/dep) \| **$3,147** (wo/dep) \| $7,665 \| \| **E-5 claims dependents** \| $4,248 (… |
-| 69 | $4,248 | data-derived | `round(pcs:dla.withoutDependents.O-4)`, `bah:CA038/O-3/wo`, `bah:MA124/O-5/wo`, `bah:MA377/W-2/wo` | table | …\| $3,147 (wo/dep) \| $7,665 \| \| **E-5 claims dependents** \| **$4,248** (wo/dep) \| $3,975 (w/dep) \| **$8,223** \| **The E-5 claim… |
-| 69 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` | table | …\| $7,665 \| \| **E-5 claims dependents** \| $4,248 (wo/dep) \| **$3,975** (w/dep) \| **$8,223** \| **The E-5 claiming produces $558/… |
-| 81 | $2,496 | data (weak) | `bah:CA033/O-1/wo`, `bah:CO046/O-1E/w`, `bah:FL070/E-6/w`, `bah:GA076/O-4/w`, `bah:IL092/W-2/wo` (+23 more) | table | …ts \| Without Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| **$2,496**/mo \| $1,995/mo \| **$501** \| \| E-5 \| $1,815/mo \| $1,593/mo … |
-| 81 | $1,995 | data (weak) | `bah:AZ015/O-2E/wo`, `bah:CA021/O-5/wo`, `bah:CO422/E-1/wo`, `bah:CO422/E-2/wo`, `bah:CO422/E-3/wo` (+29 more) | table | … Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| $2,496/mo \| **$1,995**/mo \| **$501** \| \| E-5 \| $1,815/mo \| $1,593/mo \| $222 \| … |
-| 82 | $1,815 | data (weak) | `bah:AL005/O-4/wo`, `bah:AZ014/W-2/wo`, `bah:FL065/O-2/wo`, `bah:GA072/E-8/w`, `bah:IL335/O-3E/wo` (+16 more) | table | …-\|---\| \| O-3 \| $2,496/mo \| $1,995/mo \| **$501** \| \| E-5 \| **$1,815**/mo \| $1,593/mo \| $222 \| *Source: 2026 DTMO BAH rate tabl… |
-| 82 | $1,593 | data (weak) | `bah:IA082/E-1/w`, `bah:IA082/E-2/w`, `bah:IA082/E-3/w`, `bah:IA082/E-4/w`, `bah:IL335/E-8/wo` (+14 more) | table | …3 \| $2,496/mo \| $1,995/mo \| **$501** \| \| E-5 \| $1,815/mo \| **$1,593**/mo \| $222 \| *Source: 2026 DTMO BAH rate tables, Fort Cam… |
-| 88 | $2,496 | data (weak) | `bah:CA033/O-1/wo`, `bah:CO046/O-1E/w`, `bah:FL070/E-6/w`, `bah:GA076/O-4/w`, `bah:IL092/W-2/wo` (+23 more) | table | …y Total \| \|---\|---\|---\|---\| \| **O-3 claims dependents** \| **$2,496** (w/dep) \| $1,593 (wo/dep) \| **$4,089** \| \| E-5 claims depe… |
-| 88 | $1,593 | data (weak) | `bah:IA082/E-1/w`, `bah:IA082/E-2/w`, `bah:IA082/E-3/w`, `bah:IA082/E-4/w`, `bah:IL335/E-8/wo` (+14 more) | table | …--\|---\|---\| \| **O-3 claims dependents** \| $2,496 (w/dep) \| **$1,593** (wo/dep) \| **$4,089** \| \| E-5 claims dependents \| $1,995 (… |
-| 88 | $4,089 | data (weak) | `bah:CA392/W-2/w`, `bah:MA119/O-1/wo`, `bah:MA125/O-1E/w` | table | … claims dependents** \| $2,496 (w/dep) \| $1,593 (wo/dep) \| ****$4,089**** \| \| E-5 claims dependents \| $1,995 (wo/dep) \| $1,815 (w/… |
-| 89 | $1,995 | data (weak) | `bah:AZ015/O-2E/wo`, `bah:CA021/O-5/wo`, `bah:CO422/E-1/wo`, `bah:CO422/E-2/wo`, `bah:CO422/E-3/wo` (+29 more) | table | …\| $1,593 (wo/dep) \| **$4,089** \| \| E-5 claims dependents \| **$1,995** (wo/dep) \| $1,815 (w/dep) \| $3,810 \| **Here, the O-3 cla… |
-| 89 | $1,815 | data (weak) | `bah:AL005/O-4/wo`, `bah:AZ014/W-2/wo`, `bah:FL065/O-2/wo`, `bah:GA072/E-8/w`, `bah:IL335/O-3E/wo` (+16 more) | table | …\| **$4,089** \| \| E-5 claims dependents \| $1,995 (wo/dep) \| **$1,815** (w/dep) \| $3,810 \| **Here, the O-3 claiming produces $27… |
-| 89 | $3,810 | data (weak) | `bah:CT050/O-7/wo`, `bah:IL325/O-3E/w`, `bah:ZZ890/O-6/wo` | table | … E-5 claims dependents \| $1,995 (wo/dep) \| $1,815 (w/dep) \| **$3,810** \| **Here, the O-3 claiming produces $279/month more — $3… |
-| 91 | $3,348 | data (weak) | `bah:AK401/O-5/wo`, `bah:AK403/O-3E/w`, `bah:AK404/O-6/wo`, `bah:CA041/O-1E/wo`, `bah:CA392/E-8/wo` (+5 more) | annual | …10 \| **Here, the O-3 claiming produces $279/month more — **$3,348**/year.** Conventional wisdom is correct at Fort Campbell. Th… |
-| 103 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` | range | …al-military couple can be substantial — sometimes exceeding **$6,000**–$8,000/month combined at higher-cost installations. If you'… |
-| 103 | $8,000 | data (weak) | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` | range | …tary couple can be substantial — sometimes exceeding $6,000–**$8,000**/month combined at higher-cost installations. If you're in t… |
+| 58 | $4,518 | data (weak) | `bah:CA024/W-5/wo`, `bah:CA038/O-3/w`, `bah:HI408/E-9/w` | table | …ts \| Without Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| **$4,518**/mo \| $4,248/mo \| $270 \| \| E-5 \| $3,975/mo \| $3,147/mo \| **… |
+| 58 | $4,248 | data-derived | `round(pcs:dla.withoutDependents.O-4)`, `bah:CA038/O-3/wo`, `bah:MA124/O-5/wo`, `bah:MA377/W-2/wo` | table | … Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| $4,518/mo \| **$4,248**/mo \| $270 \| \| E-5 \| $3,975/mo \| $3,147/mo \| **$828** \| … |
+| 59 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` | table | …-\|---\|---\| \| O-3 \| $4,518/mo \| $4,248/mo \| $270 \| \| E-5 \| **$3,975**/mo \| $3,147/mo \| **$828** \| *Source: 2026 DTMO BAH rate … |
+| 59 | $3,147 | data (weak) | `bah:CA033/W-1/w`, `bah:CA038/E-5/wo`, `bah:MA123/O-1/w`, `bah:MD130/W-5/wo` | table | …\| O-3 \| $4,518/mo \| $4,248/mo \| $270 \| \| E-5 \| $3,975/mo \| **$3,147**/mo \| **$828** \| *Source: 2026 DTMO BAH rate tables, San … |
+| 69 | $4,518 | data (weak) | `bah:CA024/W-5/wo`, `bah:CA038/O-3/w`, `bah:HI408/E-9/w` | table | …nthly Total \| \|---\|---\|---\|---\| \| O-3 claims dependents \| **$4,518** (w/dep) \| $3,147 (wo/dep) \| $7,665 \| \| **E-5 claims depend… |
+| 69 | $3,147 | data (weak) | `bah:CA033/W-1/w`, `bah:CA038/E-5/wo`, `bah:MA123/O-1/w`, `bah:MD130/W-5/wo` | table | …--\|---\|---\|---\| \| O-3 claims dependents \| $4,518 (w/dep) \| **$3,147** (wo/dep) \| $7,665 \| \| **E-5 claims dependents** \| $4,248 (… |
+| 70 | $4,248 | data-derived | `round(pcs:dla.withoutDependents.O-4)`, `bah:CA038/O-3/wo`, `bah:MA124/O-5/wo`, `bah:MA377/W-2/wo` | table | …\| $3,147 (wo/dep) \| $7,665 \| \| **E-5 claims dependents** \| **$4,248** (wo/dep) \| $3,975 (w/dep) \| **$8,223** \| **The E-5 claim… |
+| 70 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` | table | …\| $7,665 \| \| **E-5 claims dependents** \| $4,248 (wo/dep) \| **$3,975** (w/dep) \| **$8,223** \| **The E-5 claiming produces $558/… |
+| 82 | $2,496 | data (weak) | `bah:CA033/O-1/wo`, `bah:CO046/O-1E/w`, `bah:FL070/E-6/w`, `bah:GA076/O-4/w`, `bah:IL092/W-2/wo` (+23 more) | table | …ts \| Without Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| **$2,496**/mo \| $1,995/mo \| **$501** \| \| E-5 \| $1,815/mo \| $1,593/mo … |
+| 82 | $1,995 | data (weak) | `bah:AZ015/O-2E/wo`, `bah:CA021/O-5/wo`, `bah:CO422/E-1/wo`, `bah:CO422/E-2/wo`, `bah:CO422/E-3/wo` (+29 more) | table | … Dependents \| Gap \| \|---\|---\|---\|---\| \| O-3 \| $2,496/mo \| **$1,995**/mo \| **$501** \| \| E-5 \| $1,815/mo \| $1,593/mo \| $222 \| … |
+| 83 | $1,815 | data (weak) | `bah:AL005/O-4/wo`, `bah:AZ014/W-2/wo`, `bah:FL065/O-2/wo`, `bah:GA072/E-8/w`, `bah:IL335/O-3E/wo` (+16 more) | table | …-\|---\| \| O-3 \| $2,496/mo \| $1,995/mo \| **$501** \| \| E-5 \| **$1,815**/mo \| $1,593/mo \| $222 \| *Source: 2026 DTMO BAH rate tabl… |
+| 83 | $1,593 | data (weak) | `bah:IA082/E-1/w`, `bah:IA082/E-2/w`, `bah:IA082/E-3/w`, `bah:IA082/E-4/w`, `bah:IL335/E-8/wo` (+14 more) | table | …3 \| $2,496/mo \| $1,995/mo \| **$501** \| \| E-5 \| $1,815/mo \| **$1,593**/mo \| $222 \| *Source: 2026 DTMO BAH rate tables, Fort Cam… |
+| 89 | $2,496 | data (weak) | `bah:CA033/O-1/wo`, `bah:CO046/O-1E/w`, `bah:FL070/E-6/w`, `bah:GA076/O-4/w`, `bah:IL092/W-2/wo` (+23 more) | table | …y Total \| \|---\|---\|---\|---\| \| **O-3 claims dependents** \| **$2,496** (w/dep) \| $1,593 (wo/dep) \| **$4,089** \| \| E-5 claims depe… |
+| 89 | $1,593 | data (weak) | `bah:IA082/E-1/w`, `bah:IA082/E-2/w`, `bah:IA082/E-3/w`, `bah:IA082/E-4/w`, `bah:IL335/E-8/wo` (+14 more) | table | …--\|---\|---\| \| **O-3 claims dependents** \| $2,496 (w/dep) \| **$1,593** (wo/dep) \| **$4,089** \| \| E-5 claims dependents \| $1,995 (… |
+| 89 | $4,089 | data (weak) | `bah:CA392/W-2/w`, `bah:MA119/O-1/wo`, `bah:MA125/O-1E/w` | table | … claims dependents** \| $2,496 (w/dep) \| $1,593 (wo/dep) \| ****$4,089**** \| \| E-5 claims dependents \| $1,995 (wo/dep) \| $1,815 (w/… |
+| 90 | $1,995 | data (weak) | `bah:AZ015/O-2E/wo`, `bah:CA021/O-5/wo`, `bah:CO422/E-1/wo`, `bah:CO422/E-2/wo`, `bah:CO422/E-3/wo` (+29 more) | table | …\| $1,593 (wo/dep) \| **$4,089** \| \| E-5 claims dependents \| **$1,995** (wo/dep) \| $1,815 (w/dep) \| $3,810 \| **Here, the O-3 cla… |
+| 90 | $1,815 | data (weak) | `bah:AL005/O-4/wo`, `bah:AZ014/W-2/wo`, `bah:FL065/O-2/wo`, `bah:GA072/E-8/w`, `bah:IL335/O-3E/wo` (+16 more) | table | …\| **$4,089** \| \| E-5 claims dependents \| $1,995 (wo/dep) \| **$1,815** (w/dep) \| $3,810 \| **Here, the O-3 claiming produces $27… |
+| 90 | $3,810 | data (weak) | `bah:CT050/O-7/wo`, `bah:IL325/O-3E/w`, `bah:ZZ890/O-6/wo` | table | … E-5 claims dependents \| $1,995 (wo/dep) \| $1,815 (w/dep) \| **$3,810** \| **Here, the O-3 claiming produces $279/month more — $3… |
+| 92 | $3,348 | data (weak) | `bah:AK401/O-5/wo`, `bah:AK403/O-3E/w`, `bah:AK404/O-6/wo`, `bah:CA041/O-1E/wo`, `bah:CA392/E-8/wo` (+5 more) | annual | …10 \| **Here, the O-3 claiming produces $279/month more — **$3,348**/year.** Conventional wisdom is correct at Fort Campbell. Th… |
+| 104 | $6,000 | data (weak) | `healthcare:tricareReserveSelect.family.oopMax` | range | …al-military couple can be substantial — sometimes exceeding **$6,000**–$8,000/month combined at higher-cost installations. If you'… |
+| 104 | $8,000 | data (weak) | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` | range | …tary couple can be substantial — sometimes exceeding $6,000–**$8,000**/month combined at higher-cost installations. If you're in t… |
 
 <details><summary>22 unbound</summary>
 
 | Line | Figure | Flags | Context |
 |---:|---|---|---|
-| 20 | $558 |  | …ty&lt;/QAItem&gt; &lt;QAItem&gt;In San Diego, an O-3/E-5 couple gets **$558**/month more by having the E-5 claim dependents — not the O-3… |
-| 20 | $8,223 |  | …onth more by having the E-5 claim dependents — not the O-3 (**$8,223** vs. $7,665/month combined)&lt;/QAItem&gt; &lt;QAItem&gt;The with/wit… |
-| 20 | $7,665 |  | …y having the E-5 claim dependents — not the O-3 ($8,223 vs. **$7,665**/month combined)&lt;/QAItem&gt; &lt;QAItem&gt;The with/without rate g… |
-| 21 | $279 |  | …ation — at Fort Campbell, the same O-3/E-5 pairing produces **$279**/month more when the O-3 claims&lt;/QAItem&gt; &lt;QAItem&gt;You can'… |
-| 57 | $270 | table | …\| Gap \| \|---\|---\|---\|---\| \| O-3 \| $4,518/mo \| $4,248/mo \| **$270** \| \| E-5 \| $3,975/mo \| $3,147/mo \| **$828** \| *Source: 2… |
-| 58 | $828 | table | …/mo \| $4,248/mo \| $270 \| \| E-5 \| $3,975/mo \| $3,147/mo \| ****$828**** \| *Source: 2026 DTMO BAH rate tables, San Diego, CA MH… |
-| 62 | $270 |  | …he official 2026 DTMO BAH lookup tool.* The O-3's gap is **$270**. The E-5's gap is $828 — three times larger. Run both co… |
-| 62 | $828 |  | …AH lookup tool.* The O-3's gap is $270. The E-5's gap is **$828** — three times larger. Run both configurations side by si… |
-| 68 | $7,665 | table | … O-3 claims dependents \| $4,518 (w/dep) \| $3,147 (wo/dep) \| **$7,665** \| \| **E-5 claims dependents** \| $4,248 (wo/dep) \| $3,975 (… |
-| 69 | $8,223 | table | … claims dependents** \| $4,248 (wo/dep) \| $3,975 (w/dep) \| ****$8,223**** \| **The E-5 claiming produces $558/month more — $6,696… |
-| 71 | $558 |  | …3,975 (w/dep) \| **$8,223** \| **The E-5 claiming produces **$558**/month more — $6,696/year.** Over a three-year San Diego tou… |
-| 71 | $6,696 | annual | …$8,223** \| **The E-5 claiming produces $558/month more — **$6,696**/year.** Over a three-year San Diego tour, that's $20,088 a … |
-| 71 | $20,088 |  | …e — $6,696/year.** Over a three-year San Diego tour, that's **$20,088** a couple would leave behind by defaulting to the higher-ran… |
-| 81 | $501 | table | …Gap \| \|---\|---\|---\|---\| \| O-3 \| $2,496/mo \| $1,995/mo \| ****$501**** \| \| E-5 \| $1,815/mo \| $1,593/mo \| $222 \| *Source: 202… |
-| 82 | $222 | table | …o \| $1,995/mo \| **$501** \| \| E-5 \| $1,815/mo \| $1,593/mo \| **$222** \| *Source: 2026 DTMO BAH rate tables, Fort Campbell, KY … |
-| 91 | $279 |  | …815 (w/dep) \| $3,810 \| **Here, the O-3 claiming produces **$279**/month more — $3,348/year.** Conventional wisdom is correct … |
-| 91 | $501 |  | …entional wisdom is correct at Fort Campbell. The O-3's gap (**$501**) is more than double the E-5's gap ($222), so senior claims… |
-| 91 | $222 |  | …ll. The O-3's gap ($501) is more than double the E-5's gap (**$222**), so senior claims. Same rank pairing. Different market.… |
-| 111 | $270 |  | …ess of who claims. O-3 and O-3, same station: the gap is **$270** either way, and your combined total is $270 higher than if … |
-| 111 | $270 |  | …ion: the gap is $270 either way, and your combined total is **$270** higher than if neither claimed — but it doesn't matter whic… |
-| 127 | $0 |  | …, so don't assume the change is immediate. The gap might be **$0**. It might be $558/month. You won't know until you check. … |
-| 127 | $558 |  | …e the change is immediate. The gap might be $0. It might be **$558**/month. You won't know until you check. For more on the b… |
+| 21 | $558 |  | …ty&lt;/QAItem&gt; &lt;QAItem&gt;In San Diego, an O-3/E-5 couple gets **$558**/month more by having the E-5 claim dependents — not the O-3… |
+| 21 | $8,223 |  | …onth more by having the E-5 claim dependents — not the O-3 (**$8,223** vs. $7,665/month combined)&lt;/QAItem&gt; &lt;QAItem&gt;The with/wit… |
+| 21 | $7,665 |  | …y having the E-5 claim dependents — not the O-3 ($8,223 vs. **$7,665**/month combined)&lt;/QAItem&gt; &lt;QAItem&gt;The with/without rate g… |
+| 22 | $279 |  | …ation — at Fort Campbell, the same O-3/E-5 pairing produces **$279**/month more when the O-3 claims&lt;/QAItem&gt; &lt;QAItem&gt;You can'… |
+| 58 | $270 | table | …\| Gap \| \|---\|---\|---\|---\| \| O-3 \| $4,518/mo \| $4,248/mo \| **$270** \| \| E-5 \| $3,975/mo \| $3,147/mo \| **$828** \| *Source: 2… |
+| 59 | $828 | table | …/mo \| $4,248/mo \| $270 \| \| E-5 \| $3,975/mo \| $3,147/mo \| ****$828**** \| *Source: 2026 DTMO BAH rate tables, San Diego, CA MH… |
+| 63 | $270 |  | …he official 2026 DTMO BAH lookup tool.* The O-3's gap is **$270**. The E-5's gap is $828 — three times larger. Run both co… |
+| 63 | $828 |  | …AH lookup tool.* The O-3's gap is $270. The E-5's gap is **$828** — three times larger. Run both configurations side by si… |
+| 69 | $7,665 | table | … O-3 claims dependents \| $4,518 (w/dep) \| $3,147 (wo/dep) \| **$7,665** \| \| **E-5 claims dependents** \| $4,248 (wo/dep) \| $3,975 (… |
+| 70 | $8,223 | table | … claims dependents** \| $4,248 (wo/dep) \| $3,975 (w/dep) \| ****$8,223**** \| **The E-5 claiming produces $558/month more — $6,696… |
+| 72 | $558 |  | …3,975 (w/dep) \| **$8,223** \| **The E-5 claiming produces **$558**/month more — $6,696/year.** Over a three-year San Diego tou… |
+| 72 | $6,696 | annual | …$8,223** \| **The E-5 claiming produces $558/month more — **$6,696**/year.** Over a three-year San Diego tour, that's $20,088 a … |
+| 72 | $20,088 |  | …e — $6,696/year.** Over a three-year San Diego tour, that's **$20,088** a couple would leave behind by defaulting to the higher-ran… |
+| 82 | $501 | table | …Gap \| \|---\|---\|---\|---\| \| O-3 \| $2,496/mo \| $1,995/mo \| ****$501**** \| \| E-5 \| $1,815/mo \| $1,593/mo \| $222 \| *Source: 202… |
+| 83 | $222 | table | …o \| $1,995/mo \| **$501** \| \| E-5 \| $1,815/mo \| $1,593/mo \| **$222** \| *Source: 2026 DTMO BAH rate tables, Fort Campbell, KY … |
+| 92 | $279 |  | …815 (w/dep) \| $3,810 \| **Here, the O-3 claiming produces **$279**/month more — $3,348/year.** Conventional wisdom is correct … |
+| 92 | $501 |  | …entional wisdom is correct at Fort Campbell. The O-3's gap (**$501**) is more than double the E-5's gap ($222), so senior claims… |
+| 92 | $222 |  | …ll. The O-3's gap ($501) is more than double the E-5's gap (**$222**), so senior claims. Same rank pairing. Different market.… |
+| 112 | $270 |  | …ess of who claims. O-3 and O-3, same station: the gap is **$270** either way, and your combined total is $270 higher than if … |
+| 112 | $270 |  | …ion: the gap is $270 either way, and your combined total is **$270** higher than if neither claimed — but it doesn't matter whic… |
+| 128 | $0 |  | …, so don't assume the change is immediate. The gap might be **$0**. It might be $558/month. You won't know until you check. … |
+| 128 | $558 |  | …e the change is immediate. The gap might be $0. It might be **$558**/month. You won't know until you check. For more on the b… |
 
 </details>
 
@@ -2133,6 +2125,59 @@ data 19 (2 weak) · derived 0 (0 weak) · unbound 9
 
 </details>
 
+### src/content/blog/gi-bill-housing-allowance-zip-code.mdx
+
+data 17 (11 weak) · derived 1 (1 weak) · unbound 21
+
+| Line | Figure | Class | Sources | Flags | Context |
+|---:|---|---|---|---|---|
+| 6 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` |  | …gle factor can mean the difference between $1,100/month and **$5,000**+/month." category: Education Benefits calculators: - b… |
+| 15 | $1,200 | data | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` |  | …national average. In 2026, that means MHA ranges from under **$1,200**/month at rural schools to over $4,000/month at schools in h… |
+| 15 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` |  | …MHA ranges from under $1,200/month at rural schools to over **$4,000**/month at schools in high-cost urban markets, making school … |
+| 15 | $1,198 | data | `education:giBill.onlineMHAMonthly` |  | …es in using the GI Bill. Online-only students receive up to **$1,198**/month (2026–27) regardless of location, which is why taking… |
+| 20 | $1,198 | data | `education:giBill.onlineMHAMonthly` |  | …2,522/month&lt;/QAItem&gt; &lt;QAItem&gt;Online-only students: up to **$1,198**/month for 2026–27 (based on half the national average), reg… |
+| 33 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` | range | …e a school in a high-cost metro area, and you could receive **$4,000**–$5,000+ per month in housing payments on top of free tuitio… |
+| 33 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` | range | …ool in a high-cost metro area, and you could receive $4,000–**$5,000**+ per month in housing payments on top of free tuition. Choo… |
+| 33 | $1,198 | data | `education:giBill.onlineMHAMonthly` |  | …ition. Choose the same school online, and you receive up to **$1,198**/month in housing (2026–27) — the same amount regardless of … |
+| 55 | $5,100 | data (weak) | `bah:CA044/O-5/wo`, `bah:NY219/W-1/w`, `bah:NY219/E-8/wo` | approx, table | …\|--------------------------------\| \| San Francisco area \| ~**$5,100**/month \| \| San Diego \| ~$3,975/month \| \| Boston area \| ~$4… |
+| 56 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` | approx, table | …--\| \| San Francisco area \| ~$5,100/month \| \| San Diego \| ~**$3,975**/month \| \| Boston area \| ~$4,800/month \| \| Austin, TX \| ~$… |
+| 57 | $4,800 | data (weak) | `bah:MA120/W-2/wo` | approx, table | …00/month \| \| San Diego \| ~$3,975/month \| \| Boston area \| ~**$4,800**/month \| \| Austin, TX \| ~$2,200/month \| \| Fayetteville, NC… |
+| 59 | $1,800 | data-derived (weak) | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) | approx, table | …th \| \| Austin, TX \| ~$2,200/month \| \| Fayetteville, NC \| ~**$1,800**/month \| \| Rural Midwest/South \| ~$1,100–$1,400/month \| \| … |
+| 61 | $1,198 | data | `education:giBill.onlineMHAMonthly` | table | … ~$1,100–$1,400/month \| \| Online-only (any school) \| up to **$1,198**/month (2026–27) \| The difference between attending a sch… |
+| 63 | $3,840 | data (weak) | `bah:CA027/W-1/w`, `bah:CA457/O-5/w`, `bah:FL061/W-4/wo`, `bah:HI409/W-4/wo` | approx | …ng a school in San Francisco versus online is approximately **$3,840**/month. Over 33 months of enrollment, that gap is **$126,720… |
+| 73 | $1,198 | data | `education:giBill.onlineMHAMonthly` |  | …ampus ZIP code rate rather than the online-only rate (up to **$1,198**/month for 2026–27). The difference in housing allowance ove… |
+| 119 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` |  | … allowance total: **$83,226** - Books stipend (4 years): ****$4,000**** - Tuition (in-state public): **$0 out-of-pocket** - **T… |
+| 123 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` |  | …$87,000+** — tax-free At a school where E-5 w/dep BAH is **$4,000**/month for 33 months: - Housing allowance total: **$132,0… |
+| 126 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` |  | …- Housing allowance total: **$132,000** - Books stipend: ****$4,000**** - Tuition (in-state public): **$0 out-of-pocket** - **T… |
+
+<details><summary>21 unbound</summary>
+
+| Line | Figure | Flags | Context |
+|---:|---|---|---|
+| 6 | $1,100 |  | …IP code. This single factor can mean the difference between **$1,100**/month and $5,000+/month." category: Education Benefits ca… |
+| 19 | $2,522 | approx | …onal average MHA for 2025–2026 academic year: approximately **$2,522**/month&lt;/QAItem&gt; &lt;QAItem&gt;Online-only students: up to $1,19… |
+| 23 | $0 |  | …est 10% — 9 of 12 credits = 80% of MHA; half time or less = **$0** MHA&lt;/QAItem&gt; &lt;QAItem&gt;Over a 33-month degree at $2,522/mo… |
+| 24 | $2,522 |  | …less = $0 MHA&lt;/QAItem&gt; &lt;QAItem&gt;Over a 33-month degree at **$2,522**/month national average, MHA alone totals approximately $83,… |
+| 24 | $83,226 | approx | …,522/month national average, MHA alone totals approximately **$83,226** — tax-free&lt;/QAItem&gt; &lt;/QuickAnswer&gt; ## Why is the GI Bil… |
+| 35 | $140,000 |  | … York City or rural Kansas. That's a difference of up to **$140,000** over a 33-month degree. The school you choose, and whether … |
+| 58 | $2,200 | approx, table | …5/month \| \| Boston area \| ~$4,800/month \| \| Austin, TX \| ~**$2,200**/month \| \| Fayetteville, NC \| ~$1,800/month \| \| Rural Midw… |
+| 60 | $1,100 | approx, range, table | …ayetteville, NC \| ~$1,800/month \| \| Rural Midwest/South \| ~**$1,100**–$1,400/month \| \| Online-only (any school) \| up to $1,198/m… |
+| 60 | $1,400 | range, table | …ille, NC \| ~$1,800/month \| \| Rural Midwest/South \| ~$1,100–**$1,400**/month \| \| Online-only (any school) \| up to $1,198/month (2… |
+| 63 | $126,720 |  | …y $3,840/month. Over 33 months of enrollment, that gap is ****$126,720**** — just in housing allowance, before considering tuition d… |
+| 93 | $0 | table | … (9 of 12 credits) \| 80% of applicable MHA \| \| Half-time \| **$0** — no MHA \| \| Less than half-time \| $0 — no MHA \| "Full-… |
+| 94 | $0 | table | …MHA \| \| Half-time \| $0 — no MHA \| \| Less than half-time \| **$0** — no MHA \| "Full-time" is defined by your school — typic… |
+| 116 | $2,522 |  | …er a full degree program? At the national average MHA of **$2,522**/month for 33 months: - Housing allowance total: **$83,22… |
+| 118 | $83,226 |  | …$2,522/month for 33 months: - Housing allowance total: ****$83,226**** - Books stipend (4 years): **$4,000** - Tuition (in-sta… |
+| 120 | $0 |  | …ipend (4 years): **$4,000** - Tuition (in-state public): ****$0** out-of-pocket** - **Total benefit: ~$87,000+** — tax-free … |
+| 121 | $87,000 | approx | …in-state public): **$0 out-of-pocket** - **Total benefit: ~**$87,000**+** — tax-free At a school where E-5 w/dep BAH is $4,000/… |
+| 125 | $132,000 |  | …$4,000/month for 33 months: - Housing allowance total: ****$132,000**** - Books stipend: **$4,000** - Tuition (in-state public)… |
+| 127 | $0 |  | …- Books stipend: **$4,000** - Tuition (in-state public): ****$0** out-of-pocket** - **Total benefit: ~$136,000+** — tax-free… |
+| 128 | $136,000 | approx | …in-state public): **$0 out-of-pocket** - **Total benefit: ~**$136,000**+** — tax-free The MHA is the variable that makes the dif… |
+| 130 | $75,000 |  | …The MHA is the variable that makes the difference between a **$75,000** benefit and a $136,000+ benefit. Your school's ZIP code det… |
+| 130 | $136,000 |  | …e that makes the difference between a $75,000 benefit and a **$136,000**+ benefit. Your school's ZIP code determines that variable. … |
+
+</details>
+
 ### src/content/blog/gi-bill-vs-tuition-assistance.mdx
 
 data 18 (1 weak) · derived 0 (0 weak) · unbound 8
@@ -2179,33 +2224,33 @@ data 3 (3 weak) · derived 15 (14 weak) · unbound 4
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
-| 16 | $3,000 | data (weak) | `bah:CA018/E-5/wo`, `bah:CA034/O-1E/w`, `bah:CA034/W-5/wo`, `bah:FL062/W-3/w`, `bah:FL062/O-7/wo` (+8 more) | range | …e math, and timing a lease exit to avoid overlap can make a **$3,000**–$5,000 difference in the final financial outcome. Most of t… |
-| 16 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` | range | … and timing a lease exit to avoid overlap can make a $3,000–**$5,000** difference in the final financial outcome. Most of the mone… |
-| 71 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | … PPM produces net proceeds (reimbursement &gt; actual costs by **$2,000**+), request the 60% advance at TMO before you move. ## 3 … |
-| 100 | $1,871 | data-derived (weak) | `round(pcs:dla.withoutDependents.E-1)` | range, table | …-----\|-------------------\|-----------------\| \| E-1 – E-4 \| **$1,871** – $2,389 \| $3,548 \| \| E-5 – E-9 \| $2,389 – $3,148 \| $3,548… |
-| 100 | $2,389 | data-derived (weak) | `round(pcs:dla.withoutDependents.E-4)`, `round(pcs:dla.withoutDependents.E-5)`, `round(pcs:dla.withoutDependents.E-6)` | range, table | …----------------\|-----------------\| \| E-1 – E-4 \| $1,871 – **$2,389** \| $3,548 \| \| E-5 – E-9 \| $2,389 – $3,148 \| $3,548 – $4,150… |
-| 100 | $3,548 | data-derived | `round(pcs:dla.withDependents.E-1)`, `round(pcs:dla.withDependents.E-2)`, `round(pcs:dla.withDependents.E-3)`, `round(pcs:dla.withDependents.E-4)`, `round(pcs:dla.withDependents.E-5)` (+1 more) | table | …-------\|-----------------\| \| E-1 – E-4 \| $1,871 – $2,389 \| **$3,548** \| \| E-5 – E-9 \| $2,389 – $3,148 \| $3,548 – $4,150 \| \| O-1… |
-| 101 | $2,389 | data-derived (weak) | `round(pcs:dla.withoutDependents.E-4)`, `round(pcs:dla.withoutDependents.E-5)`, `round(pcs:dla.withoutDependents.E-6)` | range, table | …-\| \| E-1 – E-4 \| $1,871 – $2,389 \| $3,548 \| \| E-5 – E-9 \| **$2,389** – $3,148 \| $3,548 – $4,150 \| \| O-1 – O-3 \| $2,274 – $3,404… |
-| 101 | $3,148 | data-derived (weak) | `round(pcs:dla.withoutDependents.E-9)` | range, table | … – E-4 \| $1,871 – $2,389 \| $3,548 \| \| E-5 – E-9 \| $2,389 – **$3,148** \| $3,548 – $4,150 \| \| O-1 – O-3 \| $2,274 – $3,404 \| $3,085… |
-| 101 | $3,548 | data-derived (weak) | `round(pcs:dla.withDependents.E-1)`, `round(pcs:dla.withDependents.E-2)`, `round(pcs:dla.withDependents.E-3)`, `round(pcs:dla.withDependents.E-4)`, `round(pcs:dla.withDependents.E-5)` (+1 more) | range, table | …$1,871 – $2,389 \| $3,548 \| \| E-5 – E-9 \| $2,389 – $3,148 \| **$3,548** – $4,150 \| \| O-1 – O-3 \| $2,274 – $3,404 \| $3,085 – $4,042… |
-| 101 | $4,150 | data-derived (weak) | `round(pay:O-1@0)`, `round(pcs:dla.withDependents.E-9)` | range, table | …$2,389 \| $3,548 \| \| E-5 – E-9 \| $2,389 – $3,148 \| $3,548 – **$4,150** \| \| O-1 – O-3 \| $2,274 – $3,404 \| $3,085 – $4,042 \| \| O-4… |
-| 102 | $2,274 | data-derived (weak) | `round(pcs:dla.withoutDependents.O-1)`, `bah:AL006/E-8/w`, `bah:AR010/W-5/w`, `bah:AZ015/W-4/w`, `bah:CA023/O-2/w` (+16 more) | range, table | … – E-9 \| $2,389 – $3,148 \| $3,548 – $4,150 \| \| O-1 – O-3 \| **$2,274** – $3,404 \| $3,085 – $4,042 \| \| O-4 – O-6 \| $4,248 – $4,759… |
-| 102 | $3,404 | data-derived (weak) | `round(pcs:dla.withoutDependents.O-3)` | range, table | …$2,389 – $3,148 \| $3,548 – $4,150 \| \| O-1 – O-3 \| $2,274 – **$3,404** \| $3,085 – $4,042 \| \| O-4 – O-6 \| $4,248 – $4,759 \| $4,885… |
-| 102 | $3,085 | data-derived (weak) | `round(pcs:dla.withDependents.O-1)` | range, table | …$3,148 \| $3,548 – $4,150 \| \| O-1 – O-3 \| $2,274 – $3,404 \| **$3,085** – $4,042 \| \| O-4 – O-6 \| $4,248 – $4,759 \| $4,885 – $5,750… |
-| 102 | $4,042 | data-derived (weak) | `round(pcs:dla.withDependents.O-3)` | range, table | …$3,548 – $4,150 \| \| O-1 – O-3 \| $2,274 – $3,404 \| $3,085 – **$4,042** \| \| O-4 – O-6 \| $4,248 – $4,759 \| $4,885 – $5,750 \| ###… |
-| 103 | $4,248 | data-derived (weak) | `round(pcs:dla.withoutDependents.O-4)`, `bah:CA038/O-3/wo`, `bah:MA124/O-5/wo`, `bah:MA377/W-2/wo` | range, table | … – O-3 \| $2,274 – $3,404 \| $3,085 – $4,042 \| \| O-4 – O-6 \| **$4,248** – $4,759 \| $4,885 – $5,750 \| ### MALT (Monetary Allowanc… |
-| 103 | $4,759 | data-derived (weak) | `round(pcs:dla.withoutDependents.O-6)` | range, table | …$2,274 – $3,404 \| $3,085 – $4,042 \| \| O-4 – O-6 \| $4,248 – **$4,759** \| $4,885 – $5,750 \| ### MALT (Monetary Allowance in Lieu… |
-| 103 | $4,885 | data-derived (weak) | `round(pcs:dla.withDependents.O-4)` | range, table | …$3,404 \| $3,085 – $4,042 \| \| O-4 – O-6 \| $4,248 – $4,759 \| **$4,885** – $5,750 \| ### MALT (Monetary Allowance in Lieu of Trans… |
-| 103 | $5,750 | data-derived (weak) | `round(pcs:dla.withDependents.O-6)` | range, table | …$3,085 – $4,042 \| \| O-4 – O-6 \| $4,248 – $4,759 \| $4,885 – **$5,750** \| ### MALT (Monetary Allowance in Lieu of Transportation… |
+| 17 | $3,000 | data (weak) | `bah:CA018/E-5/wo`, `bah:CA034/O-1E/w`, `bah:CA034/W-5/wo`, `bah:FL062/W-3/w`, `bah:FL062/O-7/wo` (+8 more) | range | …e math, and timing a lease exit to avoid overlap can make a **$3,000**–$5,000 difference in the final financial outcome. Most of t… |
+| 17 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` | range | … and timing a lease exit to avoid overlap can make a $3,000–**$5,000** difference in the final financial outcome. Most of the mone… |
+| 72 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | … PPM produces net proceeds (reimbursement &gt; actual costs by **$2,000**+), request the 60% advance at TMO before you move. ## 3 … |
+| 101 | $1,871 | data-derived (weak) | `round(pcs:dla.withoutDependents.E-1)` | range, table | …-----\|-------------------\|-----------------\| \| E-1 – E-4 \| **$1,871** – $2,389 \| $3,548 \| \| E-5 – E-9 \| $2,389 – $3,148 \| $3,548… |
+| 101 | $2,389 | data-derived (weak) | `round(pcs:dla.withoutDependents.E-4)`, `round(pcs:dla.withoutDependents.E-5)`, `round(pcs:dla.withoutDependents.E-6)` | range, table | …----------------\|-----------------\| \| E-1 – E-4 \| $1,871 – **$2,389** \| $3,548 \| \| E-5 – E-9 \| $2,389 – $3,148 \| $3,548 – $4,150… |
+| 101 | $3,548 | data-derived | `round(pcs:dla.withDependents.E-1)`, `round(pcs:dla.withDependents.E-2)`, `round(pcs:dla.withDependents.E-3)`, `round(pcs:dla.withDependents.E-4)`, `round(pcs:dla.withDependents.E-5)` (+1 more) | table | …-------\|-----------------\| \| E-1 – E-4 \| $1,871 – $2,389 \| **$3,548** \| \| E-5 – E-9 \| $2,389 – $3,148 \| $3,548 – $4,150 \| \| O-1… |
+| 102 | $2,389 | data-derived (weak) | `round(pcs:dla.withoutDependents.E-4)`, `round(pcs:dla.withoutDependents.E-5)`, `round(pcs:dla.withoutDependents.E-6)` | range, table | …-\| \| E-1 – E-4 \| $1,871 – $2,389 \| $3,548 \| \| E-5 – E-9 \| **$2,389** – $3,148 \| $3,548 – $4,150 \| \| O-1 – O-3 \| $2,274 – $3,404… |
+| 102 | $3,148 | data-derived (weak) | `round(pcs:dla.withoutDependents.E-9)` | range, table | … – E-4 \| $1,871 – $2,389 \| $3,548 \| \| E-5 – E-9 \| $2,389 – **$3,148** \| $3,548 – $4,150 \| \| O-1 – O-3 \| $2,274 – $3,404 \| $3,085… |
+| 102 | $3,548 | data-derived (weak) | `round(pcs:dla.withDependents.E-1)`, `round(pcs:dla.withDependents.E-2)`, `round(pcs:dla.withDependents.E-3)`, `round(pcs:dla.withDependents.E-4)`, `round(pcs:dla.withDependents.E-5)` (+1 more) | range, table | …$1,871 – $2,389 \| $3,548 \| \| E-5 – E-9 \| $2,389 – $3,148 \| **$3,548** – $4,150 \| \| O-1 – O-3 \| $2,274 – $3,404 \| $3,085 – $4,042… |
+| 102 | $4,150 | data-derived (weak) | `round(pay:O-1@0)`, `round(pcs:dla.withDependents.E-9)` | range, table | …$2,389 \| $3,548 \| \| E-5 – E-9 \| $2,389 – $3,148 \| $3,548 – **$4,150** \| \| O-1 – O-3 \| $2,274 – $3,404 \| $3,085 – $4,042 \| \| O-4… |
+| 103 | $2,274 | data-derived (weak) | `round(pcs:dla.withoutDependents.O-1)`, `bah:AL006/E-8/w`, `bah:AR010/W-5/w`, `bah:AZ015/W-4/w`, `bah:CA023/O-2/w` (+16 more) | range, table | … – E-9 \| $2,389 – $3,148 \| $3,548 – $4,150 \| \| O-1 – O-3 \| **$2,274** – $3,404 \| $3,085 – $4,042 \| \| O-4 – O-6 \| $4,248 – $4,759… |
+| 103 | $3,404 | data-derived (weak) | `round(pcs:dla.withoutDependents.O-3)` | range, table | …$2,389 – $3,148 \| $3,548 – $4,150 \| \| O-1 – O-3 \| $2,274 – **$3,404** \| $3,085 – $4,042 \| \| O-4 – O-6 \| $4,248 – $4,759 \| $4,885… |
+| 103 | $3,085 | data-derived (weak) | `round(pcs:dla.withDependents.O-1)` | range, table | …$3,148 \| $3,548 – $4,150 \| \| O-1 – O-3 \| $2,274 – $3,404 \| **$3,085** – $4,042 \| \| O-4 – O-6 \| $4,248 – $4,759 \| $4,885 – $5,750… |
+| 103 | $4,042 | data-derived (weak) | `round(pcs:dla.withDependents.O-3)` | range, table | …$3,548 – $4,150 \| \| O-1 – O-3 \| $2,274 – $3,404 \| $3,085 – **$4,042** \| \| O-4 – O-6 \| $4,248 – $4,759 \| $4,885 – $5,750 \| ###… |
+| 104 | $4,248 | data-derived (weak) | `round(pcs:dla.withoutDependents.O-4)`, `bah:CA038/O-3/wo`, `bah:MA124/O-5/wo`, `bah:MA377/W-2/wo` | range, table | … – O-3 \| $2,274 – $3,404 \| $3,085 – $4,042 \| \| O-4 – O-6 \| **$4,248** – $4,759 \| $4,885 – $5,750 \| ### MALT (Monetary Allowanc… |
+| 104 | $4,759 | data-derived (weak) | `round(pcs:dla.withoutDependents.O-6)` | range, table | …$2,274 – $3,404 \| $3,085 – $4,042 \| \| O-4 – O-6 \| $4,248 – **$4,759** \| $4,885 – $5,750 \| ### MALT (Monetary Allowance in Lieu… |
+| 104 | $4,885 | data-derived (weak) | `round(pcs:dla.withDependents.O-4)` | range, table | …$3,404 \| $3,085 – $4,042 \| \| O-4 – O-6 \| $4,248 – $4,759 \| **$4,885** – $5,750 \| ### MALT (Monetary Allowance in Lieu of Trans… |
+| 104 | $5,750 | data-derived (weak) | `round(pcs:dla.withDependents.O-6)` | range, table | …$3,085 – $4,042 \| \| O-4 – O-6 \| $4,248 – $4,759 \| $4,885 – **$5,750** \| ### MALT (Monetary Allowance in Lieu of Transportation… |
 
 <details><summary>4 unbound</summary>
 
 | Line | Figure | Flags | Context |
 |---:|---|---|---|
-| 61 | $0 |  | …age payment on a reasonably-priced home near base (VA loan, **$0** down, current rates) - Local rental market rates - How lo… |
-| 107 | $0.20 |  | …eimburses you for driving your privately-owned vehicle at ****$0.20**5/mile** (2026 rate). The reimbursable distance is the offic… |
-| 177 | $30,000 | range | … net-positive PPM moves where applicable — can easily total **$30,000**–$50,000 in additional payments that many members partially … |
-| 177 | $50,000 | range | …itive PPM moves where applicable — can easily total $30,000–**$50,000** in additional payments that many members partially or fully… |
+| 62 | $0 |  | …age payment on a reasonably-priced home near base (VA loan, **$0** down, current rates) - Local rental market rates - How lo… |
+| 108 | $0.20 |  | …eimburses you for driving your privately-owned vehicle at ****$0.20**5/mile** (2026 rate). The reimbursable distance is the offic… |
+| 178 | $30,000 | range | … net-positive PPM moves where applicable — can easily total **$30,000**–$50,000 in additional payments that many members partially … |
+| 178 | $50,000 | range | …itive PPM moves where applicable — can easily total $30,000–**$50,000** in additional payments that many members partially or fully… |
 
 </details>
 
@@ -2295,6 +2340,51 @@ data 15 (0 weak) · derived 1 (0 weak) · unbound 2
 
 </details>
 
+### src/content/blog/post-911-gi-bill-explained-2026.mdx
+
+data 16 (5 weak) · derived 0 (0 weak) · unbound 15
+
+| Line | Figure | Class | Sources | Flags | Context |
+|---:|---|---|---|---|---|
+| 16 | $30,908.34 | data | `education:giBill.privateCapAnnual` | annual | …, 2001 — it covers 100% of in-state public tuition or up to **$30,908.34** per year at private schools, plus a monthly housing allowan… |
+| 16 | $1,198 | data | `education:giBill.onlineMHAMonthly` |  | …ationally for 2025–2026. Online-only students receive up to **$1,198**/month for 2026–27 regardless of location, which is one of t… |
+| 20 | $30,908.34 | data | `education:giBill.privateCapAnnual` | annual | … &lt;QAItem&gt;Tuition: 100% of in-state public tuition; up to **$30,908.34**/year at private or out-of-state schools for the 2026–2027 a… |
+| 22 | $1,198 | data | `education:giBill.onlineMHAMonthly` |  | …s receive an MHA based on half the national average — up to **$1,198**/month for 2026–2027&lt;/QAItem&gt; &lt;QAItem&gt;Books and supplies:… |
+| 23 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | annual | …for 2026–2027&lt;/QAItem&gt; &lt;QAItem&gt;Books and supplies: up to **$1,000**/year (paid proportionally per term)&lt;/QAItem&gt; &lt;QAItem&gt;Eli… |
+| 37 | $30,908.34 | data | `education:giBill.privateCapAnnual` |  | …hools, and out-of-state public schools: the VA pays up to ****$30,908.34** per academic year** for the 2026–2027 academic year (effect… |
+| 43 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` |  | … location — from around $1,100/month in rural areas to over **$5,000**/month at schools in high-cost cities. The national average … |
+| 45 | $1,198 | data | `education:giBill.onlineMHAMonthly` |  | …tional average instead of the location-based rate — up to ****$1,198**/month** for 2026–2027 (based on national BAH averages). Tak… |
+| 49 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` |  | …based rate. **3. Books and supplies stipend** Up to ****$1,000** per academic year**, paid proportionally at the start of ea… |
+| 49 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | approx | … student in a two-semester year would receive approximately **$500** per semester at the start of each term. ## What are the … |
+| 72 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` |  | …n like a school in the San Francisco area, the MHA could be **$5,000**+/month, pushing the housing total over $165,000 for a full … |
+| 86 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` |  | …onth × 33 months**: $72,600 - **Books stipend × 4 years**: **$4,000** - **Total benefit**: approximately **$76,600** — all tax-f… |
+| 89 | $4,500 | data | `bah:MA119/E-8/wo`, `bah:NY218/E-8/wo`, `education:ta.annualCap` |  | … all tax-free At a school in a high-cost metro area with **$4,500**/month MHA: - **MHA at $4,500/month × 33 months**: $148,5… |
+| 91 | $4,500 | data | `bah:MA119/E-8/wo`, `bah:NY218/E-8/wo`, `education:ta.annualCap` |  | …a high-cost metro area with $4,500/month MHA: - **MHA at **$4,500**/month × 33 months**: $148,500 - **Books stipend**: $4,000 … |
+| 92 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` |  | … $4,500/month × 33 months**: $148,500 - **Books stipend**: **$4,000** - **Total benefit**: approximately **$152,500+** — all tax… |
+| 118 | $30,908.34 | data | `education:giBill.privateCapAnnual` | annual | …ols often charge tuition above the VA's private school cap (**$30,908.34**/year for 2026–2027). The **Yellow Ribbon Program** fills th… |
+
+<details><summary>15 unbound</summary>
+
+| Line | Figure | Flags | Context |
+|---:|---|---|---|
+| 16 | $2,522 | approx | …dents BAH at the school's ZIP code, averaging approximately **$2,522**/month nationally for 2025–2026. Online-only students receiv… |
+| 21 | $2,522 | approx | …pendents at your school's ZIP code — averages approximately **$2,522**/month nationally for 2026–2027&lt;/QAItem&gt; &lt;QAItem&gt;Online-o… |
+| 43 | $1,100 |  | …*. That rate varies enormously by location — from around **$1,100**/month in rural areas to over $5,000/month at schools in hig… |
+| 43 | $2,522 |  | …rage MHA for the 2026–2027 academic year is approximately ****$2,522**/month** (based on national BAH averages). If you attend … |
+| 70 | $2,522 |  | …st area, the MHA is worth more than the tuition benefit. At **$2,522**/month for 33 months of enrollment (a typical undergraduate … |
+| 70 | $83,226 |  | …egree uses approximately 33–36 months of benefit), that's ****$83,226** in housing payments** — before counting a dollar of tuition… |
+| 72 | $165,000 |  | … MHA could be $5,000+/month, pushing the housing total over **$165,000** for a full 33-month run. Because MHA is based on your sc… |
+| 84 | $0 |  | …state school in a mid-cost area: - **Tuition and fees**: **$0** (covered in full at in-state public rates) - **MHA at $2,2… |
+| 85 | $2,200 |  | …: $0 (covered in full at in-state public rates) - **MHA at **$2,200**/month × 33 months**: $72,600 - **Books stipend × 4 years**… |
+| 85 | $72,600 |  | …state public rates) - **MHA at $2,200/month × 33 months**: **$72,600** - **Books stipend × 4 years**: $4,000 - **Total benefit**… |
+| 87 | $76,600 |  | …d × 4 years**: $4,000 - **Total benefit**: approximately ****$76,600**** — all tax-free At a school in a high-cost metro area w… |
+| 91 | $148,500 |  | …$4,500/month MHA: - **MHA at $4,500/month × 33 months**: **$148,500** - **Books stipend**: $4,000 - **Total benefit**: approxim… |
+| 93 | $152,500 |  | …oks stipend**: $4,000 - **Total benefit**: approximately ****$152,500**+** — all tax-free These amounts are excluded from federa… |
+| 144 | $75,000 |  | …tending a school in a moderate-cost area receives well over **$75,000** in tax-free education benefits for a four-year degree. In h… |
+| 144 | $150,000 |  | …our-year degree. In high-cost areas, that number can exceed **$150,000**. Before choosing a school, look up the E-5 with dependen… |
+
+</details>
+
 ### src/content/blog/what-civilian-salary-do-i-need.mdx
 
 data 11 (6 weak) · derived 4 (0 weak) · unbound 43
@@ -2369,7 +2459,7 @@ data 11 (6 weak) · derived 4 (0 weak) · unbound 43
 
 ### src/content/blog/oconus-cola-trap.mdx
 
-data 8 (5 weak) · derived 6 (5 weak) · unbound 15
+data 8 (6 weak) · derived 6 (5 weak) · unbound 15
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
@@ -2386,7 +2476,7 @@ data 8 (5 weak) · derived 6 (5 weak) · unbound 15
 | 60 | $14,400 | data-derived (weak) | `12×healthcare:acaNoSubsidy.family.bronze.premium` |  | …ings or investments throughout the tour. After 36 months: ****$14,400** accumulated**. At a 7% average return over 20 years to reti… |
 | 60 | $14,400 | data-derived (weak) | `12×healthcare:acaNoSubsidy.family.bronze.premium` |  | …*. At a 7% average return over 20 years to retirement, that **$14,400** grows to approximately **$55,000+**. Scenario C (save al… |
 | 72 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `deployment:tspNormalLimit`, `tsp:electiveDeferralLimit` | annual | …ur take-home needs. The 2026 TSP elective deferral limit is **$24,500**/year — consider increasing your contribution percentage whi… |
-| 76 | $7,500 | data | `healthcare:acaNoSubsidy.single.bronze.deductible`, `tricare:civilianComparison.individualAnnual` | annual | …RA provides tax-free growth. The 2026 contribution limit is **$7,500**/year ($8,500 age 50+). Since OCONUS COLA is non-taxable and… |
+| 76 | $7,500 | data (weak) | `healthcare:acaNoSubsidy.single.bronze.deductible` | annual | …RA provides tax-free growth. The 2026 contribution limit is **$7,500**/year ($8,500 age 50+). Since OCONUS COLA is non-taxable and… |
 
 <details><summary>15 unbound</summary>
 
@@ -2419,24 +2509,24 @@ data 10 (1 weak) · derived 3 (3 weak) · unbound 3
 | 70 | $30,908 | data-derived (weak) | `round(education:giBill.privateCapAnnual)` | approx, annual | …blic in-state institutions (private/out-of-state capped at ~**$30,908**/year in 2026–2027); a Monthly Housing Allowance (MHA) based… |
 | 70 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | annual | …the school\'s ZIP code; and a book and supply stipend up to **$1,000**/year. Entitlement is 36 months. Online-only MHA is up to ' … |
 | 85 | $4,500 | data | `bah:MA119/E-8/wo`, `bah:NY218/E-8/wo`, `education:ta.annualCap` | annual | …sistance is often worth considering first — it covers up to **$4,500**/year and costs zero GI Bill months. Preserving GI Bill mont… |
-| 124 | $4,500 | data | `bah:MA119/E-8/wo`, `bah:NY218/E-8/wo`, `education:ta.annualCap` | annual | … not use GI Bill months', description: 'TA covers **$4,500**/year while on active duty and costs zero GI Bill months. Pr… |
+| 124 | $4,500 | data | `bah:MA119/E-8/wo`, `bah:NY218/E-8/wo`, `education:ta.annualCap` | annual | …ot use GI Bill months', description: 'TA covers **$4,500**/year while on active duty and costs zero GI Bill months. Pr… |
 | 162 | $30,908 | data-derived (weak) | `round(education:giBill.privateCapAnnual)` | approx, annual | …blic in-state institutions. Private/out-of-state capped at ~**$30,908**/year (2026–2027). Yellow Ribbon may cover the gap at partic… |
-| 164 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | annual | …rong className="text-zinc-800"&gt;Book stipend:&lt;/strong&gt; Up to **$1,000**/year.&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"&gt;… |
-| 179 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` |  | …le in GI Bill planning — and it can be worth over **$1,000**/month. MHA is paid at the BAH rate for an E-5 with dependen… |
-| 273 | $250 | data | `education:ta.perCreditHour`, `healthcare:employer.single.gold.premium` |  | …"&gt;Why TA on active duty:&lt;/strong&gt; TA covers up to **$250**/credit hour, capped at $4,500/year. It is funded by your br… |
-| 273 | $4,500 | data | `bah:MA119/E-8/wo`, `bah:NY218/E-8/wo`, `education:ta.annualCap` | annual | …rong&gt; TA covers up to $250/credit hour, capped at **$4,500**/year. It is funded by your branch&amp;apos;s education … |
-| 279 | $1,200 | data (weak) | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` | range | …"&gt;Why GI Bill after separation:&lt;/strong&gt; The MHA (**$1,200**–$3,600/month depending on school location) replaces some of… |
-| 279 | $3,600 | data-derived (weak) | `12×deployment:fsa`, `bah:CA025/O-1/w`, `bah:CA392/W-3/wo`, `bah:NY217/E-8/wo`, `bah:NY218/E-5/wo` (+1 more) | range | …I Bill after separation:&lt;/strong&gt; The MHA ($1,200–**$3,600**/month depending on school location) replaces some of the in… |
-| 351 | $1,200 | data | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` |  | …ervice members who entered after 1985 contributed **$1,200** toward MGIB during their first year of service. … |
+| 164 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | annual | …rong className="text-zinc-800"&gt;Book stipend:&lt;/strong&gt; Up to **$1,000**/year.&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"… |
+| 179 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` |  | …e in GI Bill planning — and it can be worth over **$1,000**/month. MHA is paid at the BAH rate for an E-5 with dependen… |
+| 273 | $250 | data | `education:ta.perCreditHour`, `healthcare:employer.single.gold.premium` |  | …&gt;Why TA on active duty:&lt;/strong&gt; TA covers up to **$250**/credit hour, capped at $4,500/year. It is funded by your br… |
+| 273 | $4,500 | data | `bah:MA119/E-8/wo`, `bah:NY218/E-8/wo`, `education:ta.annualCap` | annual | …ong&gt; TA covers up to $250/credit hour, capped at **$4,500**/year. It is funded by your branch&amp;apos;s education … |
+| 279 | $1,200 | data (weak) | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` | range | …&gt;Why GI Bill after separation:&lt;/strong&gt; The MHA (**$1,200**–$3,600/month depending on school location) replaces some of… |
+| 279 | $3,600 | data-derived (weak) | `12×deployment:fsa`, `bah:CA025/O-1/w`, `bah:CA392/W-3/wo`, `bah:NY217/E-8/wo`, `bah:NY218/E-5/wo` (+1 more) | range | … Bill after separation:&lt;/strong&gt; The MHA ($1,200–**$3,600**/month depending on school location) replaces some of the in… |
+| 351 | $1,200 | data | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` |  | …rvice members who entered after 1985 contributed **$1,200** toward MGIB during their first year of service. … |
 | 587 | $4,500 | data | `bah:MA119/E-8/wo`, `bah:NY218/E-8/wo`, `education:ta.annualCap` | annual | …ithout consuming GI Bill months), Tuition Assistance (up to **$4,500**/year for active-duty members), and the Montgomery GI Bill. … |
 
 <details><summary>3 unbound</summary>
 
 | Line | Figure | Flags | Context |
 |---:|---|---|---|
-| 313 | $100,000 | range | … dependent child&amp;apos;s four-year degree is worth **$100,000**–$200,000 in avoided tuition and loans. The 4-year service c… |
-| 313 | $200,000 | range | …t child&amp;apos;s four-year degree is worth $100,000–**$200,000** in avoided tuition and loans. The 4-year service commitment… |
-| 492 | $100,000 |  | …ld be worth{' '} &lt;span className="text-red-700"&gt;**$100,000**+.&lt;/span&gt;{' '} Make sure you use them in the rig… |
+| 313 | $100,000 | range | …dependent child&amp;apos;s four-year degree is worth **$100,000**–$200,000 in avoided tuition and loans. The 4-year service c… |
+| 313 | $200,000 | range | … child&amp;apos;s four-year degree is worth $100,000–**$200,000** in avoided tuition and loans. The 4-year service commitment… |
+| 492 | $100,000 |  | …d be worth{' '} &lt;span className="text-red-700"&gt;**$100,000**+.&lt;/span&gt;{' '} Make sure you use them in the ri… |
 
 </details>
 
@@ -2482,103 +2572,6 @@ data 12 (9 weak) · derived 1 (1 weak) · unbound 18
 | 88 | $40 | range | … rates based on total family income, typically ranging from **$40**–$120/week per child depending on income tier. However, CDC … |
 | 88 | $120 | range | …es based on total family income, typically ranging from $40–**$120**/week per child depending on income tier. However, CDC slots… |
 | 90 | $2,500 | range | …st childcare in the surrounding civilian market runs $1,000–**$2,500**/month per child in most markets — and higher in HCOL areas.… |
-
-</details>
-
-### src/content/blog/gi-bill-housing-allowance-zip-code.mdx
-
-data 12 (11 weak) · derived 1 (1 weak) · unbound 25
-
-| Line | Figure | Class | Sources | Flags | Context |
-|---:|---|---|---|---|---|
-| 5 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` |  | …gle factor can mean the difference between $1,100/month and **$5,000**+/month." category: Education Benefits calculators: - b… |
-| 14 | $1,200 | data | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` |  | …national average. In 2026, that means MHA ranges from under **$1,200**/month at rural schools to over $4,000/month at schools in h… |
-| 14 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` |  | …MHA ranges from under $1,200/month at rural schools to over **$4,000**/month at schools in high-cost urban markets, making school … |
-| 32 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` | range | …e a school in a high-cost metro area, and you could receive **$4,000**–$5,000+ per month in housing payments on top of free tuitio… |
-| 32 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` | range | …ool in a high-cost metro area, and you could receive $4,000–**$5,000**+ per month in housing payments on top of free tuition. Choo… |
-| 54 | $5,100 | data (weak) | `bah:CA044/O-5/wo`, `bah:NY219/W-1/w`, `bah:NY219/E-8/wo` | approx, table | …\|--------------------------------\| \| San Francisco area \| ~**$5,100**/month \| \| San Diego \| ~$3,975/month \| \| Boston area \| ~$4… |
-| 55 | $3,975 | data (weak) | `bah:CA038/E-5/w`, `bah:FL067/O-3/w`, `bah:NH194/E-7/w`, `bah:NY413/E-9/wo` | approx, table | …--\| \| San Francisco area \| ~$5,100/month \| \| San Diego \| ~**$3,975**/month \| \| Boston area \| ~$4,800/month \| \| Austin, TX \| ~$… |
-| 56 | $4,800 | data (weak) | `bah:MA120/W-2/wo` | approx, table | …00/month \| \| San Diego \| ~$3,975/month \| \| Boston area \| ~**$4,800**/month \| \| Austin, TX \| ~$2,200/month \| \| Fayetteville, NC… |
-| 58 | $1,800 | data-derived (weak) | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) | approx, table | …th \| \| Austin, TX \| ~$2,200/month \| \| Fayetteville, NC \| ~**$1,800**/month \| \| Rural Midwest/South \| ~$1,100–$1,400/month \| \| … |
-| 62 | $3,840 | data (weak) | `bah:CA027/W-1/w`, `bah:CA457/O-5/w`, `bah:FL061/W-4/wo`, `bah:HI409/W-4/wo` | approx | …ng a school in San Francisco versus online is approximately **$3,840**/month. Over 33 months of enrollment, that gap is **$126,720… |
-| 118 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` |  | … allowance total: **$83,226** - Books stipend (4 years): ****$4,000**** - Tuition (in-state public): **$0 out-of-pocket** - **T… |
-| 122 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` |  | …$87,000+** — tax-free At a school where E-5 w/dep BAH is **$4,000**/month for 33 months: - Housing allowance total: **$132,0… |
-| 125 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` |  | …- Housing allowance total: **$132,000** - Books stipend: ****$4,000**** - Tuition (in-state public): **$0 out-of-pocket** - **T… |
-
-<details><summary>25 unbound</summary>
-
-| Line | Figure | Flags | Context |
-|---:|---|---|---|
-| 5 | $1,100 |  | …IP code. This single factor can mean the difference between **$1,100**/month and $5,000+/month." category: Education Benefits ca… |
-| 14 | $1,261 | approx | …ing the GI Bill. Online-only students receive approximately **$1,261**/month regardless of location, which is why taking even a si… |
-| 18 | $2,522 | approx | …onal average MHA for 2025–2026 academic year: approximately **$2,522**/month&lt;/QAItem&gt; &lt;QAItem&gt;Online-only students: approximate… |
-| 19 | $1,261 | approx | …nth&lt;/QAItem&gt; &lt;QAItem&gt;Online-only students: approximately **$1,261**/month (half the national average), regardless of location&lt;/… |
-| 22 | $0 |  | …r time = 75% of MHA, half-time = 50%, less than half-time = **$0** MHA&lt;/QAItem&gt; &lt;QAItem&gt;Over a 33-month degree at $2,522/mo… |
-| 23 | $2,522 |  | …time = $0 MHA&lt;/QAItem&gt; &lt;QAItem&gt;Over a 33-month degree at **$2,522**/month national average, MHA alone totals approximately $83,… |
-| 23 | $83,226 | approx | …,522/month national average, MHA alone totals approximately **$83,226** — tax-free&lt;/QAItem&gt; &lt;/QuickAnswer&gt; ## Why is the GI Bil… |
-| 32 | $1,261 |  | …ree tuition. Choose the same school online, and you receive **$1,261**/month in housing — the same amount regardless of whether th… |
-| 34 | $140,000 |  | … York City or rural Kansas. That's a difference of up to **$140,000** over a 33-month degree. The school you choose, and whether … |
-| 57 | $2,200 | approx, table | …5/month \| \| Boston area \| ~$4,800/month \| \| Austin, TX \| ~**$2,200**/month \| \| Fayetteville, NC \| ~$1,800/month \| \| Rural Midw… |
-| 59 | $1,100 | approx, range, table | …ayetteville, NC \| ~$1,800/month \| \| Rural Midwest/South \| ~**$1,100**–$1,400/month \| \| Online-only (any school) \| ~$1,261/month … |
-| 59 | $1,400 | range, table | …ille, NC \| ~$1,800/month \| \| Rural Midwest/South \| ~$1,100–**$1,400**/month \| \| Online-only (any school) \| ~$1,261/month \| Th… |
-| 60 | $1,261 | approx, table | …uth \| ~$1,100–$1,400/month \| \| Online-only (any school) \| ~**$1,261**/month \| The difference between attending a school in San… |
-| 62 | $126,720 |  | …y $3,840/month. Over 33 months of enrollment, that gap is ****$126,720**** — just in housing allowance, before considering tuition d… |
-| 72 | $1,261 |  | …ay qualify you for the campus ZIP code rate rather than the **$1,261**/month online-only rate. The difference in housing allowance… |
-| 93 | $0 | table | …alf-time \| 50% of applicable MHA \| \| Less than half-time \| **$0** — no MHA \| "Full-time" is defined by your school — typic… |
-| 115 | $2,522 |  | …er a full degree program? At the national average MHA of **$2,522**/month for 33 months: - Housing allowance total: **$83,22… |
-| 117 | $83,226 |  | …$2,522/month for 33 months: - Housing allowance total: ****$83,226**** - Books stipend (4 years): **$4,000** - Tuition (in-sta… |
-| 119 | $0 |  | …ipend (4 years): **$4,000** - Tuition (in-state public): ****$0** out-of-pocket** - **Total benefit: ~$87,000+** — tax-free … |
-| 120 | $87,000 | approx | …in-state public): **$0 out-of-pocket** - **Total benefit: ~**$87,000**+** — tax-free At a school where E-5 w/dep BAH is $4,000/… |
-| 124 | $132,000 |  | …$4,000/month for 33 months: - Housing allowance total: ****$132,000**** - Books stipend: **$4,000** - Tuition (in-state public)… |
-| 126 | $0 |  | …- Books stipend: **$4,000** - Tuition (in-state public): ****$0** out-of-pocket** - **Total benefit: ~$136,000+** — tax-free… |
-| 127 | $136,000 | approx | …in-state public): **$0 out-of-pocket** - **Total benefit: ~**$136,000**+** — tax-free The MHA is the variable that makes the dif… |
-| 129 | $75,000 |  | …The MHA is the variable that makes the difference between a **$75,000** benefit and a $136,000+ benefit. Your school's ZIP code det… |
-| 129 | $136,000 |  | …e that makes the difference between a $75,000 benefit and a **$136,000**+ benefit. Your school's ZIP code determines that variable. … |
-
-</details>
-
-### src/content/blog/post-911-gi-bill-explained-2026.mdx
-
-data 13 (5 weak) · derived 0 (0 weak) · unbound 18
-
-| Line | Figure | Class | Sources | Flags | Context |
-|---:|---|---|---|---|---|
-| 15 | $30,908.34 | data | `education:giBill.privateCapAnnual` | annual | …, 2001 — it covers 100% of in-state public tuition or up to **$30,908.34** per year at private schools, plus a monthly housing allowan… |
-| 19 | $30,908.34 | data | `education:giBill.privateCapAnnual` | annual | … &lt;QAItem&gt;Tuition: 100% of in-state public tuition; up to **$30,908.34**/year at private or out-of-state schools for the 2026–2027 a… |
-| 22 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` | annual | …for 2026–2027&lt;/QAItem&gt; &lt;QAItem&gt;Books and supplies: up to **$1,000**/year (paid proportionally per term)&lt;/QAItem&gt; &lt;QAItem&gt;Eli… |
-| 36 | $30,908.34 | data | `education:giBill.privateCapAnnual` |  | …hools, and out-of-state public schools: the VA pays up to ****$30,908.34** per academic year** for the 2026–2027 academic year (effect… |
-| 42 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` |  | … location — from around $1,100/month in rural areas to over **$5,000**/month at schools in high-cost cities. The national average … |
-| 48 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` |  | …based rate. **3. Books and supplies stipend** Up to ****$1,000** per academic year**, paid proportionally at the start of ea… |
-| 48 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | approx | … student in a two-semester year would receive approximately **$500** per semester at the start of each term. ## What are the … |
-| 72 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` |  | …n like a school in the San Francisco area, the MHA could be **$5,000**+/month, pushing the housing total over $165,000 for a full … |
-| 86 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` |  | …onth × 33 months**: $72,600 - **Books stipend × 4 years**: **$4,000** - **Total benefit**: approximately **$76,600** — all tax-f… |
-| 89 | $4,500 | data | `bah:MA119/E-8/wo`, `bah:NY218/E-8/wo`, `education:ta.annualCap` |  | … all tax-free At a school in a high-cost metro area with **$4,500**/month MHA: - **MHA at $4,500/month × 33 months**: $148,5… |
-| 91 | $4,500 | data | `bah:MA119/E-8/wo`, `bah:NY218/E-8/wo`, `education:ta.annualCap` |  | …a high-cost metro area with $4,500/month MHA: - **MHA at **$4,500**/month × 33 months**: $148,500 - **Books stipend**: $4,000 … |
-| 92 | $4,000 | data (weak) | `healthcare:employer.family.silver.deductible`, `healthcare:acaNoSubsidy.family.gold.deductible` |  | … $4,500/month × 33 months**: $148,500 - **Books stipend**: **$4,000** - **Total benefit**: approximately **$152,500+** — all tax… |
-| 118 | $30,908.34 | data | `education:giBill.privateCapAnnual` | annual | …ols often charge tuition above the VA's private school cap (**$30,908.34**/year for 2026–2027). The **Yellow Ribbon Program** fills th… |
-
-<details><summary>18 unbound</summary>
-
-| Line | Figure | Flags | Context |
-|---:|---|---|---|
-| 15 | $2,522 | approx | …dents BAH at the school's ZIP code, averaging approximately **$2,522**/month nationally for 2025–2026. Online-only students receiv… |
-| 15 | $1,261 | approx | …y for 2025–2026. Online-only students receive approximately **$1,261**/month regardless of location, which is one of the most fina… |
-| 20 | $2,522 | approx | …pendents at your school's ZIP code — averages approximately **$2,522**/month nationally for 2026–2027&lt;/QAItem&gt; &lt;QAItem&gt;Online-o… |
-| 21 | $1,261 | approx | …dents receive half the national average MHA — approximately **$1,261**/month for 2026–2027&lt;/QAItem&gt; &lt;QAItem&gt;Books and supplies:… |
-| 42 | $1,100 |  | …*. That rate varies enormously by location — from around **$1,100**/month in rural areas to over $5,000/month at schools in hig… |
-| 42 | $2,522 |  | …rage MHA for the 2026–2027 academic year is approximately ****$2,522**/month** (based on national BAH averages). If you attend … |
-| 44 | $1,261 |  | …verage instead of the location-based rate — approximately ****$1,261**/month** for 2026–2027 (based on national BAH averages). Tak… |
-| 70 | $2,522 |  | …st area, the MHA is worth more than the tuition benefit. At **$2,522**/month for 33 months of enrollment (a typical undergraduate … |
-| 70 | $83,226 |  | …egree uses approximately 33–36 months of benefit), that's ****$83,226** in housing payments** — before counting a dollar of tuition… |
-| 72 | $165,000 |  | … MHA could be $5,000+/month, pushing the housing total over **$165,000** for a full 33-month run. Because MHA is based on your sc… |
-| 84 | $0 |  | …state school in a mid-cost area: - **Tuition and fees**: **$0** (covered in full at in-state public rates) - **MHA at $2,2… |
-| 85 | $2,200 |  | …: $0 (covered in full at in-state public rates) - **MHA at **$2,200**/month × 33 months**: $72,600 - **Books stipend × 4 years**… |
-| 85 | $72,600 |  | …state public rates) - **MHA at $2,200/month × 33 months**: **$72,600** - **Books stipend × 4 years**: $4,000 - **Total benefit**… |
-| 87 | $76,600 |  | …d × 4 years**: $4,000 - **Total benefit**: approximately ****$76,600**** — all tax-free At a school in a high-cost metro area w… |
-| 91 | $148,500 |  | …$4,500/month MHA: - **MHA at $4,500/month × 33 months**: **$148,500** - **Books stipend**: $4,000 - **Total benefit**: approxim… |
-| 93 | $152,500 |  | …oks stipend**: $4,000 - **Total benefit**: approximately ****$152,500**+** — all tax-free These amounts are excluded from federa… |
-| 144 | $75,000 |  | …tending a school in a moderate-cost area receives well over **$75,000** in tax-free education benefits for a four-year degree. In h… |
-| 144 | $150,000 |  | …our-year degree. In high-cost areas, that number can exceed **$150,000**. Before choosing a school, look up the E-5 with dependen… |
 
 </details>
 
@@ -3050,6 +3043,33 @@ data 9 (0 weak) · derived 0 (0 weak) · unbound 8
 
 </details>
 
+### src/content/blog/va-gi-bill-comparison-tool-guide.mdx
+
+data 9 (3 weak) · derived 0 (0 weak) · unbound 4
+
+| Line | Figure | Class | Sources | Flags | Context |
+|---:|---|---|---|---|---|
+| 16 | $1,198 | data | `education:giBill.onlineMHAMonthly` |  | … at the school's ZIP code for in-person students, and up to **$1,198**/month (2026–27) for online-only enrollment — a difference t… |
+| 20 | $1,198 | data | `education:giBill.onlineMHAMonthly` |  | …IP code — online-only students get a national rate of up to **$1,198**/month (2026–27) instead&lt;/QAItem&gt; &lt;QAItem&gt;The tool doesn'… |
+| 35 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` |  | …n-person students - **Books and supplies stipend** — up to **$1,000** per academic year - **Yellow Ribbon participation** — whet… |
+| 83 | $30,908.34 | data | `education:giBill.privateCapAnnual` |  | …academic year, the private or foreign school tuition cap is **$30,908.34**. For current-year planning, always verify the active rate p… |
+| 83 | $10,000 | data (weak) | `deployment:sdpMaxDeposit`, `healthcare:employer.family.gold.oopMax`, `healthcare:acaNoSubsidy.family.silver.deductible` | range | …. At many private universities, tuition exceeds this cap by **$10,000**–$30,000+ per year. The tool shows the VA's maximum contribu… |
+| 85 | $250 | data | `education:ta.perCreditHour`, `healthcare:employer.single.gold.premium` |  | …ths. If you're still active duty, Tuition Assistance covers **$250** per credit hour while you're serving, letting you preserve … |
+| 91 | $1,198 | data | `education:giBill.onlineMHAMonthly` |  | … rate — $1,169/month for the 2025–2026 academic year (up to **$1,198** for 2026–27). At a school where the in-person BAH rate is $… |
+| 118 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` |  | … housing allowance.** A school in San Francisco will show a **$5,000**+/month housing allowance. But living in San Francisco costs… |
+| 118 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | … significantly more than a school in a mid-cost city with a **$2,000**/month MHA. Your net financial position after rent often fav… |
+
+<details><summary>4 unbound</summary>
+
+| Line | Figure | Flags | Context |
+|---:|---|---|---|
+| 83 | $30,000 | range | …y private universities, tuition exceeds this cap by $10,000–**$30,000**+ per year. The tool shows the VA's maximum contribution and… |
+| 91 | $1,169 |  | …drops from the location-based BAH rate to a national rate — **$1,169**/month for the 2025–2026 academic year (up to $1,198 for 202… |
+| 91 | $2,200 |  | …8 for 2026–27). At a school where the in-person BAH rate is **$2,200**/month, that's a $1,031/month difference. The tool shows bot… |
+| 91 | $1,031 |  | …hool where the in-person BAH rate is $2,200/month, that's a **$1,031**/month difference. The tool shows both rates, but the conseq… |
+
+</details>
+
 ### src/content/blog/how-bah-builds-wealth.mdx
 
 data 6 (5 weak) · derived 1 (0 weak) · unbound 27
@@ -3155,7 +3175,7 @@ data 3 (3 weak) · derived 3 (1 weak) · unbound 3
 | 51 | $1,800 | data-derived (weak) | `12×deployment:hdpLTopRatePrior`, `bah:AL001/O-3E/w`, `bah:AL002/W-4/wo`, `bah:FL057/E-5/wo`, `bah:GA076/E-5/w` (+18 more) | approx, table | … \| $4,759 \| \| BAH (moderate-cost area, with dependents) \| ~**$1,800** \| \| BAS (enlisted) \| $477 \| \| TRICARE (healthcare value) … |
 | 52 | $477 | data-derived | `round(bas:enlisted)` | table | …cost area, with dependents) \| ~$1,800 \| \| BAS (enlisted) \| **$477** \| \| TRICARE (healthcare value) \| ~$500+ \| \| **Approximate… |
 | 53 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | approx, table | … \| BAS (enlisted) \| $477 \| \| TRICARE (healthcare value) \| ~**$500**+ \| \| **Approximate monthly total** \| **~$7,500+** \| Dur… |
-| 54 | $7,500 | data (weak) | `healthcare:acaNoSubsidy.single.bronze.deductible`, `tricare:civilianComparison.individualAnnual` | approx, table | …are value) \| ~$500+ \| \| **Approximate monthly total** \| **~**$7,500**+** \| During SkillBridge, you continue receiving this sam… |
+| 54 | $7,500 | data (weak) | `healthcare:acaNoSubsidy.single.bronze.deductible` | approx, table | …are value) \| ~$500+ \| \| **Approximate monthly total** \| **~**$7,500**+** \| During SkillBridge, you continue receiving this sam… |
 
 <details><summary>3 unbound</summary>
 
@@ -3193,32 +3213,6 @@ data 5 (0 weak) · derived 1 (0 weak) · unbound 9
 | 77 | $105,000 | range, table | …–$85,000 \| \| 60% C / 20% S / 20% I Fund \| ~8–9% \| ~$90,000–**$105,000** \| *These are simplified projections for illustration. Ac… |
 | 123 | $197 | approx | … (2026), the full government match represents approximately **$197**/month in free contributions. Over a 20-year career at that … |
 | 123 | $47,000 | approx | …. Over a 20-year career at that match level, that's roughly **$47,000** in government contributions alone — before any investment g… |
-
-</details>
-
-### src/content/blog/va-gi-bill-comparison-tool-guide.mdx
-
-data 6 (3 weak) · derived 0 (0 weak) · unbound 6
-
-| Line | Figure | Class | Sources | Flags | Context |
-|---:|---|---|---|---|---|
-| 34 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible` |  | …n-person students - **Books and supplies stipend** — up to **$1,000** per academic year - **Yellow Ribbon participation** — whet… |
-| 82 | $30,908.34 | data | `education:giBill.privateCapAnnual` |  | …academic year, the private or foreign school tuition cap is **$30,908.34**. For current-year planning, always verify the active rate p… |
-| 82 | $10,000 | data (weak) | `deployment:sdpMaxDeposit`, `healthcare:employer.family.gold.oopMax`, `healthcare:acaNoSubsidy.family.silver.deductible` | range | …. At many private universities, tuition exceeds this cap by **$10,000**–$30,000+ per year. The tool shows the VA's maximum contribu… |
-| 84 | $250 | data | `education:ta.perCreditHour`, `healthcare:employer.single.gold.premium` |  | …ths. If you're still active duty, Tuition Assistance covers **$250** per credit hour while you're serving, letting you preserve … |
-| 117 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` |  | … housing allowance.** A school in San Francisco will show a **$5,000**+/month housing allowance. But living in San Francisco costs… |
-| 117 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | … significantly more than a school in a mid-cost city with a **$2,000**/month MHA. Your net financial position after rent often fav… |
-
-<details><summary>6 unbound</summary>
-
-| Line | Figure | Flags | Context |
-|---:|---|---|---|
-| 15 | $1,261 |  | …at the school's ZIP code for in-person students, and a flat **$1,261**/month for online-only enrollment — a difference that can to… |
-| 19 | $1,261 |  | … at the school's ZIP code — online-only students get a flat **$1,261**/month national rate instead&lt;/QAItem&gt; &lt;QAItem&gt;The tool do… |
-| 82 | $30,000 | range | …y private universities, tuition exceeds this cap by $10,000–**$30,000**+ per year. The tool shows the VA's maximum contribution and… |
-| 90 | $1,261 |  | … from the location-based BAH rate to a flat national rate — **$1,261**/month for the 2025–2026 academic year. At a school where th… |
-| 90 | $2,200 |  | … academic year. At a school where the in-person BAH rate is **$2,200**/month, that's a $939/month difference. The tool shows both … |
-| 90 | $939 |  | …hool where the in-person BAH rate is $2,200/month, that's a **$939**/month difference. The tool shows both rates, but the conseq… |
 
 </details>
 
@@ -3315,26 +3309,26 @@ data 3 (3 weak) · derived 0 (0 weak) · unbound 12
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
-| 51 | $1,710 | data (weak) | `bah:AL005/O-2E/wo`, `bah:KS101/W-1/w`, `bah:KY110/O-1/w`, `bah:LA118/E-9/wo`, `bah:NM205/O-2E/wo` (+6 more) | approx, table | …\| 0% (no income tax or full exemption) \| $0 \| $0 \| \| 3% \| ~**$1,710** \| ~$34,200 \| \| 5% \| ~$2,850 \| ~$57,000 \| \| 7% \| ~$3,990 \|… |
-| 52 | $2,850 | data (weak) | `bah:CA031/W-1/wo`, `bah:FL057/O-3E/w`, `bah:MA126/E-6/w`, `bah:MD133/O-2/wo`, `bah:ME136/E-9/wo` (+12 more) | approx, table | …xemption) \| $0 \| $0 \| \| 3% \| ~$1,710 \| ~$34,200 \| \| 5% \| ~**$2,850** \| ~$57,000 \| \| 7% \| ~$3,990 \| ~$79,800 \| These figures … |
-| 53 | $3,990 | data (weak) | `bah:CA027/W-2/w`, `bah:FL069/W-2/wo` | approx, table | … ~$1,710 \| ~$34,200 \| \| 5% \| ~$2,850 \| ~$57,000 \| \| 7% \| ~**$3,990** \| ~$79,800 \| These figures are rough approximations for … |
+| 52 | $1,710 | data (weak) | `bah:AL005/O-2E/wo`, `bah:KS101/W-1/w`, `bah:KY110/O-1/w`, `bah:LA118/E-9/wo`, `bah:NM205/O-2E/wo` (+6 more) | approx, table | …\| 0% (no income tax or full exemption) \| $0 \| $0 \| \| 3% \| ~**$1,710** \| ~$34,200 \| \| 5% \| ~$2,850 \| ~$57,000 \| \| 7% \| ~$3,990 \|… |
+| 53 | $2,850 | data (weak) | `bah:CA031/W-1/wo`, `bah:FL057/O-3E/w`, `bah:MA126/E-6/w`, `bah:MD133/O-2/wo`, `bah:ME136/E-9/wo` (+12 more) | approx, table | …xemption) \| $0 \| $0 \| \| 3% \| ~$1,710 \| ~$34,200 \| \| 5% \| ~**$2,850** \| ~$57,000 \| \| 7% \| ~$3,990 \| ~$79,800 \| These figures … |
+| 54 | $3,990 | data (weak) | `bah:CA027/W-2/w`, `bah:FL069/W-2/wo` | approx, table | … ~$1,710 \| ~$34,200 \| \| 5% \| ~$2,850 \| ~$57,000 \| \| 7% \| ~**$3,990** \| ~$79,800 \| These figures are rough approximations for … |
 
 <details><summary>12 unbound</summary>
 
 | Line | Figure | Flags | Context |
 |---:|---|---|---|
-| 15 | $57,000 | approx | …, Washington, and Wyoming. For an E-6 earning approximately **$57,000** in base pay, establishing legal residence in a no-income-ta… |
-| 15 | $2,800 | approx, annual | …a no-income-tax state versus a 5% state saves approximately **$2,800** per year — roughly $56,000 over a 20-year career. &lt;Quick… |
-| 15 | $56,000 | approx | …us a 5% state saves approximately $2,800 per year — roughly **$56,000** over a 20-year career. &lt;QuickAnswer&gt; &lt;QAItem&gt;For mili… |
-| 21 | $57,000 | approx | … years&lt;/QAItem&gt; &lt;QAItem&gt;For an E-6 earning approximately **$57,000** in base pay, moving from a 5% income tax state to a no-inco… |
-| 21 | $2,800 | approx, annual | …come tax state to a no-income-tax state saves approximately **$2,800**/year — roughly $56,000 over a 20-year career&lt;/QAItem&gt; &lt;Q… |
-| 21 | $56,000 | approx | …-income-tax state saves approximately $2,800/year — roughly **$56,000** over a 20-year career&lt;/QAItem&gt; &lt;QAItem&gt;State tax laws ch… |
-| 46 | $57,000 | approx | … For an E-6 with 10 years of service earning approximately **$57,000** in base pay: \| State Income Tax Rate \| Annual Tax on Mil… |
-| 50 | $0 | table | … \| \|---\|---\|---\| \| 0% (no income tax or full exemption) \| **$0** \| $0 \| \| 3% \| ~$1,710 \| ~$34,200 \| \| 5% \| ~$2,850 \| ~$57,… |
-| 50 | $0 | table | …---\|---\|---\| \| 0% (no income tax or full exemption) \| $0 \| **$0** \| \| 3% \| ~$1,710 \| ~$34,200 \| \| 5% \| ~$2,850 \| ~$57,000 \|… |
-| 51 | $34,200 | approx, table | …ncome tax or full exemption) \| $0 \| $0 \| \| 3% \| ~$1,710 \| ~**$34,200** \| \| 5% \| ~$2,850 \| ~$57,000 \| \| 7% \| ~$3,990 \| ~$79,800 \|… |
-| 52 | $57,000 | approx, table | …\| $0 \| $0 \| \| 3% \| ~$1,710 \| ~$34,200 \| \| 5% \| ~$2,850 \| ~**$57,000** \| \| 7% \| ~$3,990 \| ~$79,800 \| These figures are rough a… |
-| 53 | $79,800 | approx, table | … ~$34,200 \| \| 5% \| ~$2,850 \| ~$57,000 \| \| 7% \| ~$3,990 \| ~**$79,800** \| These figures are rough approximations for illustratio… |
+| 16 | $57,000 | approx | …, Washington, and Wyoming. For an E-6 earning approximately **$57,000** in base pay, establishing legal residence in a no-income-ta… |
+| 16 | $2,800 | approx, annual | …a no-income-tax state versus a 5% state saves approximately **$2,800** per year — roughly $56,000 over a 20-year career. &lt;Quick… |
+| 16 | $56,000 | approx | …us a 5% state saves approximately $2,800 per year — roughly **$56,000** over a 20-year career. &lt;QuickAnswer&gt; &lt;QAItem&gt;For mili… |
+| 22 | $57,000 | approx | … years&lt;/QAItem&gt; &lt;QAItem&gt;For an E-6 earning approximately **$57,000** in base pay, moving from a 5% income tax state to a no-inco… |
+| 22 | $2,800 | approx, annual | …come tax state to a no-income-tax state saves approximately **$2,800**/year — roughly $56,000 over a 20-year career&lt;/QAItem&gt; &lt;Q… |
+| 22 | $56,000 | approx | …-income-tax state saves approximately $2,800/year — roughly **$56,000** over a 20-year career&lt;/QAItem&gt; &lt;QAItem&gt;State tax laws ch… |
+| 47 | $57,000 | approx | … For an E-6 with 10 years of service earning approximately **$57,000** in base pay: \| State Income Tax Rate \| Annual Tax on Mil… |
+| 51 | $0 | table | … \| \|---\|---\|---\| \| 0% (no income tax or full exemption) \| **$0** \| $0 \| \| 3% \| ~$1,710 \| ~$34,200 \| \| 5% \| ~$2,850 \| ~$57,… |
+| 51 | $0 | table | …---\|---\|---\| \| 0% (no income tax or full exemption) \| $0 \| **$0** \| \| 3% \| ~$1,710 \| ~$34,200 \| \| 5% \| ~$2,850 \| ~$57,000 \|… |
+| 52 | $34,200 | approx, table | …ncome tax or full exemption) \| $0 \| $0 \| \| 3% \| ~$1,710 \| ~**$34,200** \| \| 5% \| ~$2,850 \| ~$57,000 \| \| 7% \| ~$3,990 \| ~$79,800 \|… |
+| 53 | $57,000 | approx, table | …\| $0 \| $0 \| \| 3% \| ~$1,710 \| ~$34,200 \| \| 5% \| ~$2,850 \| ~**$57,000** \| \| 7% \| ~$3,990 \| ~$79,800 \| These figures are rough a… |
+| 54 | $79,800 | approx, table | … ~$34,200 \| \| 5% \| ~$2,850 \| ~$57,000 \| \| 7% \| ~$3,990 \| ~**$79,800** \| These figures are rough approximations for illustratio… |
 
 </details>
 

@@ -91,7 +91,7 @@ test.describe('Branch-term titles and descriptions', () => {
     {
       path: '/calculators/guard-reserve',
       title: 'Guard & Reserve Drill Pay Calculator 2026 (All Branches)',
-      desc: 'Estimate 2026 drill pay (MUTA), AT pay and TRS savings: Army Reserve & National Guard, Navy Reserve, Air Force Reserve, Air National Guard, Marine Reserve.',
+      desc: 'Estimate 2026 drill pay (MUTA), AT pay, BAS and BRS TSP: Army Reserve & National Guard, Navy Reserve, Air Force Reserve, Air National Guard, Marine Reserve.',
     },
     {
       path: '/calculators/dual-military-bah',

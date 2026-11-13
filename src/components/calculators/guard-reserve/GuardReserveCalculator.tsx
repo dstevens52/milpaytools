@@ -39,6 +39,13 @@ const GRADE_GROUPS = [
   { label: 'Officer', options: OFFICER_GRADES.map((g) => ({ value: g, label: RANK_DISPLAY[g] })) },
 ];
 
+/** Every pay grade the rank select offers — used to validate ?rank=. */
+const ALL_GRADES: readonly string[] = [...ENLISTED_GRADES, ...WARRANT_GRADES, ...OFFICER_GRADES];
+
+const DTMO_BAH_URL = 'https://www.travel.dod.mil/Allowances/Basic-Allowance-for-Housing/';
+const BAH_RCT_TEXT =
+  'For orders of 30 days or fewer, Guard and Reserve members generally receive BAH Reserve Component/Transit (BAH-RC/T), a non-locality rate.';
+
 const MUTA_OPTIONS = [
   { value: 4, label: 'MUTA-4 (4 periods — standard)' },
   { value: 6, label: 'MUTA-6 (6 periods)' },
@@ -51,9 +58,9 @@ function buildActionSteps(output: GuardReserveOutput, input: GuardReserveInput):
   const steps: ActionStep[] = [];
 
   steps.push({
-    label: 'Check BAH rates during Annual Training',
-    description: `During AT, you may be eligible for BAH at your training location. Look up the E-5 with/without dependents BAH rate for your AT duty station ZIP code.`,
-    href: '/bah',
+    label: 'Housing allowance during Annual Training',
+    description: `${BAH_RCT_TEXT} DTMO publishes the BAH-RC/T rates.`,
+    href: DTMO_BAH_URL,
     priority: 'high',
   });
 
@@ -67,7 +74,7 @@ function buildActionSteps(output: GuardReserveOutput, input: GuardReserveInput):
   if (!input.brsEnrolled) {
     steps.push({
       label: 'Enroll in TSP to capture BRS government contributions',
-      description: `Under BRS, the government contributes 1% automatically and matches up to 4% of your TSP contributions during active duty periods (AT, ADOS, mobilization). Matching does not apply during IDT drill weekends. Verify your BRS/TSP contributions on your LES and TSP.gov account.`,
+      description: `Under BRS, the government contributes 1% automatically and matches up to 4% of your TSP contributions. Both apply to drill pay and active-duty pay (matching starts after 2 years of service). Verify your BRS/TSP contributions on your LES and TSP.gov account.`,
       href: '/calculators/tsp',
       priority: 'medium',
     });
@@ -231,12 +238,12 @@ export function GuardReserveCalculator() {
     const trs = p.get('trs') as TRSPlan | null;
     const brs = parseBool(p.get('brs'));
     const tsp = p.get('tsp');
-    if (r) setRank(r);
+    if (r && ALL_GRADES.includes(r)) setRank(r);
     if (yos) { const n = parseInt(yos, 10); if (!isNaN(n) && n >= 0 && n <= 40) setYearsOfService(n); }
-    if (weekends) { const n = parseInt(weekends, 10); if (!isNaN(n) && n >= 0) setWeekendsPerYear(n); }
+    if (weekends) { const n = parseInt(weekends, 10); if (!isNaN(n) && n >= 0 && n <= 52) setWeekendsPerYear(n); }
     if (periods) { const n = Number(periods); if (n === 4 || n === 6 || n === 8) setPeriodsPerWeekend(n); }
-    if (at) { const n = parseInt(at, 10); if (!isNaN(n) && n >= 0) setAtDays(n); }
-    if (addl) { const n = parseInt(addl, 10); if (!isNaN(n) && n >= 0) setAdditionalDays(n); }
+    if (at) { const n = parseInt(at, 10); if (!isNaN(n) && n >= 0 && n <= 365) setAtDays(n); }
+    if (addl) { const n = parseInt(addl, 10); if (!isNaN(n) && n >= 0 && n <= 365) setAdditionalDays(n); }
     if (trs === 'none' || trs === 'member' || trs === 'family') setTrsPlan(trs);
     if (brs !== null) setBrsEnrolled(brs);
     if (tsp) { const n = parseInt(tsp, 10); if (!isNaN(n) && n >= 0 && n <= 100) setTspContribPct(n); }
@@ -260,8 +267,8 @@ export function GuardReserveCalculator() {
     { label: 'Drill pay', value: output.annualDrillPay, color: 'bg-red-700' },
     { label: 'Annual Training', value: output.atPay, color: 'bg-red-400' },
     ...(output.additionalPay > 0 ? [{ label: 'Additional duty', value: output.additionalPay, color: 'bg-red-200' }] : []),
-    ...(output.trsSavings > 0 ? [{ label: 'TRS premium value', value: output.trsSavings, color: 'bg-green-500' }] : []),
-    ...(output.brs.totalGovContrib > 0 ? [{ label: 'TSP gov match', value: output.brs.totalGovContrib, color: 'bg-blue-400' }] : []),
+    ...(output.atBAS + output.additionalBAS > 0 ? [{ label: 'BAS', value: output.atBAS + output.additionalBAS, color: 'bg-amber-400' }] : []),
+    ...(output.brs.totalGovContrib > 0 ? [{ label: 'TSP gov contributions', value: output.brs.totalGovContrib, color: 'bg-blue-400' }] : []),
   ];
 
   return (
@@ -342,7 +349,7 @@ export function GuardReserveCalculator() {
                       <option key={o.value} value={o.value}>{o.label}</option>
                     ))}
                   </select>
-                  <p className="text-xs text-zinc-400 mt-1">Standard drill weekend = 4 periods. Each period = one day's base pay.</p>
+                  <p className="text-xs text-zinc-400 mt-1">Standard drill weekend = 4 periods. Each paid drill period is at least 4 hours and pays one day&apos;s base pay.</p>
                 </div>
 
                 <div>
@@ -372,6 +379,12 @@ export function GuardReserveCalculator() {
                   />
                   <p className="text-xs text-zinc-400 mt-1">RMPs, AFTPs, schools, ADOS, etc.</p>
                 </div>
+
+                {output.daysExceedYear && (
+                  <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1.5" data-testid="gr-days-warning">
+                    These entries add up to {output.daysCommitted} days (2 per drill weekend + AT + additional duty), more than a year. Check the numbers.
+                  </p>
+                )}
 
               </div>
             </div>
@@ -447,7 +460,7 @@ export function GuardReserveCalculator() {
                       <span className="text-sm font-mono tabular-nums w-10 text-right">{tspContribPct}%</span>
                     </div>
                     <p className="text-xs text-zinc-400 mt-1">
-                      BRS matching applies during active duty periods (AT, ADOS, mobilization) — not during IDT drill weekends.
+                      BRS automatic and matching contributions apply to drill pay and active-duty pay.{yearsOfService < 2 ? ' Matching starts after 2 years of service.' : ''}
                     </p>
                   </div>
                 )}
@@ -460,30 +473,32 @@ export function GuardReserveCalculator() {
         {/* ── Results ─────────────────────────────────────────────────────── */}
         <div className="lg:col-span-3 space-y-4">
 
+          {!output.payRateAvailable ? (
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-5 text-sm text-amber-800" data-testid="gr-no-rate">
+              No 2026 basic pay rate for {RANK_DISPLAY[rank as PayGrade] ?? rank} at {yearsOfService} years of service.
+              Choose a different grade or years of service to see an estimate.
+            </div>
+          ) : (
+          <>
+
           {/* Hero banner */}
           <div className="rounded-lg bg-red-700 p-5 text-white">
             <p className="text-sm font-medium text-red-200 mb-1">Total annual Guard/Reserve value</p>
             <p className="text-4xl font-black tabular-nums">{fmt(output.totalValue)}</p>
             <div className="mt-3 space-y-1 text-sm">
               <div className="flex justify-between text-red-100">
-                <span>Military pay (drill + AT + duty)</span>
+                <span>Military pay (drill + AT + duty, incl. BAS)</span>
                 <span className="font-semibold tabular-nums">{fmt(output.totalMilitaryPay)}</span>
               </div>
-              {output.trsSavings > 0 && (
-                <div className="flex justify-between text-red-200">
-                  <span>Est. TRS premium value</span>
-                  <span className="tabular-nums">{fmt(output.trsSavings)}</span>
-                </div>
-              )}
               {output.brs.totalGovContrib > 0 && (
                 <div className="flex justify-between text-red-200">
-                  <span>Gov TSP match (BRS)</span>
+                  <span>Gov TSP contributions (BRS)</span>
                   <span className="tabular-nums">{fmt(output.brs.totalGovContrib)}</span>
                 </div>
               )}
             </div>
             <div className="mt-2 pt-2 border-t border-red-600 flex flex-wrap gap-4 text-xs text-red-200">
-              <span>{fmt(output.perWeekendValue)} per drill weekend</span>
+              <span data-testid="gr-per-weekend">{fmt(output.drillPayPerWeekend)} drill pay per weekend</span>
               {output.totalHours > 0 && (
                 <span>{fmtD(output.effectiveHourlyRate)}/hr effective rate</span>
               )}
@@ -548,12 +563,22 @@ export function GuardReserveCalculator() {
           <div className="rounded-lg border border-zinc-200 bg-white p-5">
             <h3 className="font-semibold text-zinc-900 mb-1">Annual Training Pay</h3>
             <Row
-              label={`${atDays} days × ${fmtD(output.dailyRate)}/day`}
+              label={`Basic pay: ${atDays} days × ${fmtD(output.dailyRate)}/day`}
               value={fmt(output.atPay)}
+            />
+            <Row
+              label="BAS (Basic Allowance for Subsistence)"
+              value={fmt(output.atBAS)}
+              sub={`${atDays} days × ${fmtD(output.monthlyBAS)}/month ÷ 30`}
+            />
+            <Row
+              label="Annual Training total"
+              value={fmt(output.atPay + output.atBAS)}
               highlight
             />
-            <p className="text-xs text-zinc-400 mt-2 leading-relaxed">
-              During AT, you receive full active duty pay. You may also be eligible for BAH and BAS depending on your orders.
+            <p className="text-xs text-zinc-400 mt-2 leading-relaxed" data-testid="gr-at-note">
+              During AT, you receive active-duty basic pay and BAS for each day on orders (housing allowance not included here). {BAH_RCT_TEXT}{' '}
+              <a href={DTMO_BAH_URL} target="_blank" rel="noopener" className="text-blue-700 underline hover:text-blue-800">DTMO BAH rates</a>
             </p>
           </div>
 
@@ -562,8 +587,17 @@ export function GuardReserveCalculator() {
             <div className="rounded-lg border border-zinc-200 bg-white p-5">
               <h3 className="font-semibold text-zinc-900 mb-1">Additional Duty Pay</h3>
               <Row
-                label={`${additionalDays} days × ${fmtD(output.dailyRate)}/day`}
+                label={`Basic pay: ${additionalDays} days × ${fmtD(output.dailyRate)}/day`}
                 value={fmt(output.additionalPay)}
+              />
+              <Row
+                label="BAS (Basic Allowance for Subsistence)"
+                value={fmt(output.additionalBAS)}
+                sub={`${additionalDays} days × ${fmtD(output.monthlyBAS)}/month ÷ 30`}
+              />
+              <Row
+                label="Additional duty total"
+                value={fmt(output.additionalPay + output.additionalBAS)}
                 highlight
               />
             </div>
@@ -575,49 +609,48 @@ export function GuardReserveCalculator() {
             <Row label="Drill pay" value={fmt(output.annualDrillPay)} />
             <Row label="Annual Training pay" value={fmt(output.atPay)} />
             {additionalDays > 0 && <Row label="Additional duty pay" value={fmt(output.additionalPay)} />}
+            {output.atBAS + output.additionalBAS > 0 && (
+              <Row label="BAS (Basic Allowance for Subsistence)" value={fmt(output.atBAS + output.additionalBAS)} />
+            )}
             <Row label="Total military income" value={fmt(output.totalMilitaryPay)} highlight />
             <p className="text-xs text-zinc-400 mt-3 leading-relaxed">
-              Drill and AT pay are generally taxable income. Figures shown are gross pay before taxes, deductions, SGLI, and TSP contributions.
+              Drill and AT basic pay are generally taxable income; BAS is not. Figures shown are gross pay before taxes, deductions, SGLI, and TSP contributions.
             </p>
           </div>
 
           {/* TRS section */}
           {trsPlan !== 'none' && (
-            <div className="rounded-lg border border-green-200 bg-green-50 p-5">
-              <h3 className="font-semibold text-zinc-900 mb-1">TRS Premium Comparison</h3>
+            <div className="rounded-lg border border-green-200 bg-green-50 p-5" data-testid="gr-trs-card">
+              <h3 className="font-semibold text-zinc-900 mb-1">TRICARE Reserve Select premium</h3>
               <p className="text-xs text-zinc-500 mb-3">
-                TRS premiums are substantially lower than most civilian alternatives. Average employer-sponsored family coverage has total premiums in the tens of thousands per year, but employee payroll cost, deductibles, and employer contributions vary widely.
+                Your premium is a cost, so it isn&apos;t included in the totals above.
               </p>
               <Row
-                label="Annual TRS premium"
+                label={trsPlan === 'family' ? 'Annual TRS premium (member + family)' : 'Annual TRS premium (member only)'}
                 value={`${fmtD(output.trsAnnualPremium)}`}
-                sub={`${fmtD(trsPlan === 'family' ? TRICARE_RATES_2026.reserveSelect.memberAndFamily : TRICARE_RATES_2026.reserveSelect.memberOnly)}/month`}
-              />
-              <Row
-                label="Avg. employer-sponsored family plan total premiums (KFF 2025)"
-                value={`~${fmt(output.trsCivilianComparable)}`}
-                sub="Includes employer + employee share — your employee cost will vary"
-              />
-              <Row
-                label="Est. TRS premium value vs. avg. employer plan"
-                value={fmt(output.trsSavings)}
+                sub={`${fmtD(output.trsMonthlyPremium)}/month`}
                 highlight
               />
+              <p className="text-xs text-zinc-500 mt-3 leading-relaxed">
+                Employer plans vary widely; compare your options with the{' '}
+                <Link href="/calculators/healthcare-comparison" className="text-blue-700 underline hover:text-blue-800">Healthcare Cost Comparison</Link>{' '}
+                calculator.
+              </p>
             </div>
           )}
 
           {/* BRS/TSP section */}
           {brsEnrolled && (
             <div className="rounded-lg border border-blue-200 bg-blue-50 p-5">
-              <h3 className="font-semibold text-zinc-900 mb-1">BRS / TSP Government Match</h3>
+              <h3 className="font-semibold text-zinc-900 mb-1">BRS / TSP Government Contributions</h3>
               <p className="text-xs text-zinc-500 mb-3">
-                BRS matching applies during active duty periods (AT, ADOS, mobilization) — not during IDT drill weekends. Verify your contributions on your LES and TSP.gov.
+                BRS automatic and matching contributions apply to drill pay and active-duty pay. Verify your contributions on your LES and TSP.gov.
               </p>
-              {output.brs.activeDutyPayForBRS > 0 ? (
+              {output.brs.payBase > 0 ? (
                 <>
                   <Row
-                    label="Active duty pay for BRS matching (AT + additional duty)"
-                    value={fmtD(output.brs.activeDutyPayForBRS)}
+                    label="Basic pay for BRS contributions (drill + AT + additional duty)"
+                    value={fmtD(output.brs.payBase)}
                   />
                   <Row
                     label={`Your TSP contribution (${tspContribPct}%)`}
@@ -626,7 +659,11 @@ export function GuardReserveCalculator() {
                   <Row
                     label="Government auto-contribution (1%)"
                     value={fmtD(output.brs.govAutoContrib)}
+                    sub={output.brs.automaticEligible ? undefined : 'Automatic 1% starts after 60 days of service'}
                   />
+                  {!output.brs.matchingEligible && (
+                    <p className="text-xs text-zinc-500 py-1" data-testid="gr-brs-matching-note">Matching starts after 2 years of service.</p>
+                  )}
                   {output.brs.govMatchContrib > 0 && (
                     <Row
                       label="Government matching contribution"
@@ -657,15 +694,9 @@ export function GuardReserveCalculator() {
                 <span className="text-zinc-400">Military pay</span>
                 <span className="font-mono tabular-nums">{fmt(output.totalMilitaryPay)}</span>
               </div>
-              {output.trsSavings > 0 && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-zinc-400">Est. TRS premium value</span>
-                  <span className="font-mono tabular-nums text-green-400">{fmt(output.trsSavings)}</span>
-                </div>
-              )}
               {output.brs.totalGovContrib > 0 && (
                 <div className="flex justify-between text-sm">
-                  <span className="text-zinc-400">TSP government match</span>
+                  <span className="text-zinc-400">TSP government contributions</span>
                   <span className="font-mono tabular-nums text-blue-400">{fmt(output.brs.totalGovContrib)}</span>
                 </div>
               )}
@@ -675,8 +706,8 @@ export function GuardReserveCalculator() {
               </div>
               {weekendsPerYear > 0 && (
                 <div className="flex justify-between text-sm pt-1">
-                  <span className="text-zinc-400">Per drill weekend</span>
-                  <span className="font-mono tabular-nums text-red-400 font-semibold">{fmt(output.perWeekendValue)}</span>
+                  <span className="text-zinc-400">Drill pay per weekend</span>
+                  <span className="font-mono tabular-nums text-red-400 font-semibold">{fmt(output.drillPayPerWeekend)}</span>
                 </div>
               )}
             </div>
@@ -690,23 +721,19 @@ export function GuardReserveCalculator() {
               <span className="font-semibold text-zinc-900">{fmt(output.totalValue)}/year</span> in total
               compensation value — equivalent to{' '}
               <span className="font-semibold text-zinc-900">{fmtD(output.effectiveHourlyRate)}/hour</span>{' '}
-              when spread across {output.totalHours} hours of service.
-              {output.trsSavings > 0 && (
-                <> Estimated TRS premium value accounts for {Math.round((output.trsSavings / output.totalValue) * 100)}% of that total.</>
-              )}
+              when spread across {output.totalHours} hours of service (4 hours per drill period, 8 per AT or duty day).
             </p>
             <div className="mt-3 flex flex-col gap-2">
               <Link href="/calculators/total-compensation" className="text-sm text-blue-700 hover:underline font-medium">
                 Total Compensation Calculator → See full active duty pay for same rank
-              </Link>
-              <Link href="/bah" className="text-sm text-blue-700 hover:underline font-medium">
-                BAH Calculator → Look up housing allowance during Annual Training
               </Link>
             </div>
           </div>
 
           {/* Act steps */}
           <ActSteps steps={actionSteps} title="Next steps" />
+          </>
+          )}
 
         </div>
       </div>
