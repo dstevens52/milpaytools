@@ -72,3 +72,33 @@ bahwo26 - old.txt   TX270,1170.00,1170.00,1170.00,1170.00,1287.00,1662.00,1680.0
 
 ## Lesson for the annual update process
 DTMO can issue **mid-year** BAH changes for individual MHAs (here, a "temporary increase"). The January update alone doesn't catch them. Add a quarterly check: compare the current DTMO ASCII package against the repo data, and look for "old" files or new options in the DTMO year selector.
+
+## Expiration and rate protection
+Resolved by Claude Chat, 2026-11-13.
+
+- **The temporary rates expire December 31, 2026.** DTMO notice "Temporary BAH Increase for
+  Abilene/Dyess AFB" (May 13, 2026),
+  https://www.travel.dod.mil/About/News/Article/Article/4485972/temporary-bah-increase-for-abilenedyess-afb/ :
+  the temporary rates expire December 31, 2026; 2027 rates will be announced later and may be
+  different. The notice does not mention rate protection.
+- **Precedent: rate protection does not apply to temporary increases.**
+  - DTMO, "DoD Authorizes an Automatic Increase to 2022 BAH Rates for Certain Locations",
+    https://www.travel.dod.mil/About/News/Article/Article/3167951/dod-authorizes-an-automatic-increase-to-2022-bah-rates-for-certain-locations :
+    "by law, normal BAH rate protection―which protects members from decreases in housing market
+    costs―does not apply to these rate increases."
+  - The same for the 2021 temporary increase (DoD, Sept 2021, e.g.
+    https://www.33fw.af.mil/News/Article/2792602/ : "BAH rate protection ... does not apply to
+    temporary rate increases").
+
+How the site uses this (data: the `temporary` block on TX270 in
+`src/data/bah/2026/midYearChanges.ts`; text: `src/data/bah/midYear.ts`):
+- **Now (2026 rates):** `/bah/dyess-afb` says the temporary rates expire December 31, 2026, that
+  DTMO says 2027 rates may be different, and that in DoD's 2021 and 2022 temporary increases rate
+  protection did not apply to the temporary amounts.
+- **Once 2027 rates load:** for any MHA with a temporary increase in the prior year (data-driven,
+  not a TX270 check), the station page shows "The temporary 2026 rates for {area} (effective {date})
+  expire December 31, 2026. DoD has said rate protection doesn't apply to temporary increases, so
+  the 2027 rate replaces them for pay grades where it's lower." instead of the rate-protection
+  paragraph. Year-over-year figures compare against the temporary rate (the rate in effect on
+  December 31, 2026) and say so. The import report lists these MHAs under
+  "Temporary increase ending", not under "Decreases".

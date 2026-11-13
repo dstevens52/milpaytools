@@ -77,7 +77,7 @@ test.describe('2027 BAH wording (data-only)', () => {
     );
     const faq = bah2027FaqAnswer('Fort Bragg');
     expect(bah2027FaqQuestion('Fort Bragg')).toBe('When will 2027 BAH rates for Fort Bragg be released?');
-    for (const d of ['December 11, 2025', 'December 13, 2024', 'December 15, 2023', 'mid-December']) {
+    for (const d of ['December 11, 2025', 'December 13, 2024', 'December 14, 2023', 'mid-December']) {
       expect(faq).toContain(d);
     }
     // Dated facts only: no promised date, no direction-of-change claims, no advice.

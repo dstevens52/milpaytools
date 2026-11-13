@@ -6,7 +6,6 @@ export interface EmailSignupProps {
   headline?: string;
   subtext?: string;
   source: string;
-  stationName?: string;
   variant?: 'inline' | 'card';
   darkBg?: boolean;
 }
@@ -15,7 +14,6 @@ export function EmailSignup({
   headline,
   subtext,
   source,
-  stationName,
   variant = 'inline',
   darkBg = false,
 }: EmailSignupProps) {
@@ -23,9 +21,7 @@ export function EmailSignup({
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
 
-  const displayHeadline = stationName
-    ? `Get notified when 2027 BAH rates update for ${stationName}`
-    : (headline ?? 'Get notified when 2027 rates are updated');
+  const displayHeadline = headline ?? 'Get notified when 2027 rates are updated';
 
   const headlineClass = darkBg ? 'text-white' : 'text-zinc-900';
   const subtextClass = darkBg ? 'text-zinc-400' : 'text-zinc-500';

@@ -12,7 +12,8 @@ import { BAH_EXPECTED as BX } from './fixtures/bah-expected';
 const PAGES: { path: string; faqCount: number }[] = [
   { path: '/calculators/total-compensation', faqCount: 3 },
   { path: '/calculators/pcs', faqCount: 2 },
-  { path: '/bah', faqCount: 3 },
+  // /bah: 3 + the four 2027 FAQs (feat/bah-2027-what-we-know).
+  { path: '/bah', faqCount: 7 },
   { path: '/calculators/guard-reserve', faqCount: 2 },
   { path: '/calculators/dual-military-bah', faqCount: 5 },
   // Pay rank pages: flat grade, compound Army title, E-9, officer.

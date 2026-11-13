@@ -263,8 +263,13 @@ function readPrior(prior) {
   const midFile = path.join(dir, 'midYearChanges.ts');
   if (fs.existsSync(midFile)) {
     const src = fs.readFileSync(midFile, 'utf8');
-    for (const m of src.matchAll(/mhaCode:\s*'([A-Z]{2}\d{3})'[\s\S]*?effective:\s*'([\d-]+)'[\s\S]*?dtmoLabel:\s*'([^']*)'/g)) {
-      midYear.push({ mha: m[1], effective: m[2], label: m[3] });
+    // One block per record (from one `mhaCode:` to the next), so a record's
+    // optional `temporary.expires` is never read from its neighbour.
+    for (const block of src.split(/(?=mhaCode:\s*')/).slice(1)) {
+      const m = /mhaCode:\s*'([A-Z]{2}\d{3})'[\s\S]*?effective:\s*'([\d-]+)'[\s\S]*?dtmoLabel:\s*'([^']*)'/.exec(block);
+      if (!m) continue;
+      const expires = /expires:\s*'([\d-]+)'/.exec(block)?.[1] ?? null;
+      midYear.push({ mha: m[1], effective: m[2], label: m[3], expires });
     }
   }
   return { year: prior, rates, zipToMha, midYear };
@@ -539,10 +544,32 @@ async function main() {
         for (const g of Object.keys(cur)) if (old[g] !== undefined && cur[g] < old[g]) decreases.push({ m, dep, g, a: old[g], b: cur[g] });
       }
     }
-    const decMhas = new Set(decreases.map((d) => d.m));
+    // MHAs whose prior-year rates were a temporary increase (midYearChanges.ts
+    // `temporary.expires`): a lower new rate there is the temporary increase
+    // ending (rate protection doesn't apply), not an ordinary decrease. Listed
+    // in their own section and kept out of "## Decreases".
+    const tempMid = new Map(p.midYear.filter((x) => x.expires).map((x) => [x.mha, x]));
+    const tempDec = decreases.filter((d) => tempMid.has(d.m));
+    h('## Temporary increase ending');
+    if (!tempMid.size) {
+      R.push(`No ${prior} temporary increases in the comparison base.`);
+    } else {
+      R.push(`These ${prior} rates were temporary increases. Rate protection doesn't apply to them (DoD 2021, DTMO 2022), so where the new rate is lower, it replaces the temporary rate. Station pages show the "temporary rates ended" wording here, not the rate-protection paragraph. Not counted under Decreases below.`);
+      R.push('', '| MHA | name | stations | temporary since | expires | cells lower than the temporary rate |', '|---|---|---|---|---|---|');
+      for (const [m, x] of tempMid) {
+        R.push(`| ${m} | ${mhaNames[m] ?? '?'} | ${(stationByMha[m] ?? []).join(', ') || '—'} | ${x.effective} | ${x.expires} | ${tempDec.filter((d) => d.m === m).length} |`);
+      }
+      const tempStationDec = tempDec.filter((d) => stationByMha[d.m]).sort((x, y) => x.m.localeCompare(y.m) || x.dep.localeCompare(y.dep));
+      if (tempStationDec.length) {
+        R.push('', '| MHA | grade | dep | temporary | new |', '|---|---|---|---|---|');
+        for (const d of tempStationDec) R.push(`| ${d.m} | ${d.g} | ${d.dep === 'w' ? 'with' : 'without'} | ${fmt$(d.a)} | ${fmt$(d.b)} |`);
+      }
+    }
+    const ordinaryDec = decreases.filter((d) => !tempMid.has(d.m));
+    const decMhas = new Set(ordinaryDec.map((d) => d.m));
     h('## Decreases');
-    R.push(`**${decreases.length}** MHA × grade × dependency cells decreased, across **${decMhas.size}** MHAs.`);
-    const stationDec = decreases.filter((d) => stationByMha[d.m]).sort((x, y) => x.m.localeCompare(y.m) || x.dep.localeCompare(y.dep));
+    R.push(`**${ordinaryDec.length}** MHA × grade × dependency cells decreased, across **${decMhas.size}** MHAs${tempDec.length ? ` (not counting ${tempDec.length} cells listed under "Temporary increase ending")` : ''}.`);
+    const stationDec = ordinaryDec.filter((d) => stationByMha[d.m]).sort((x, y) => x.m.localeCompare(y.m) || x.dep.localeCompare(y.dep));
     R.push('', `Station-page MHAs with a decrease: ${[...new Set(stationDec.map((d) => d.m))].length}.`);
     if (stationDec.length) {
       R.push('', '| MHA | stations | grade | dep | old | new |', '|---|---|---|---|---|---|');

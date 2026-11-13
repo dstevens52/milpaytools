@@ -8,8 +8,10 @@ test, preview → merge → IndexNow.** Rehearsed on `rehearsal/bah-2027` (see t
 Who does what: **Claude Chat** verifies sources and figures, **Claude Code** runs the steps, and
 **Dan** merges.
 
-**Blocker to clear before release day** (found in the 2026-11-13 rehearsal; in
-`docs/audits/FIX_QUEUE.md`): the rate-protection wording is wrong (step 5 below).
+**Rate-protection blocker: cleared** (found in the 2026-11-13 rehearsal, fixed by
+`feat/bah-2027-what-we-know`). All rate-protection wording now comes from
+`src/data/bah/rateProtection.ts`, and the TX270 temporary-increase question is resolved
+(step 5 below).
 
 **Education stays on 2026 BAH until VA's August 1, 2027 rate change.** GI Bill MHA follows
 `EDUCATION_BAH_YEAR` (`src/data/education/2026/constants.ts`), not `BAH_YEAR`. VA: "We use the
@@ -40,8 +42,11 @@ and the rehearsal's own fixes about 8 min. Release day adds the human review in 
 
 If the import won't land within an hour or two, switch the existing notice to "released" first so
 pages stop saying "not yet published". In `src/data/bah/2027-status.ts` set
-`status: 'released'` and `releasedDate: 'YYYY-MM-DD'`, and set `DATA_LAST_CHECKED` in
-`src/data/watch.ts`. Small PR, `npm run test:e2e -- tests/e2e/bah-2027-notice.spec.ts --project=chromium`.
+`status: 'released'`, `releasedDate: 'YYYY-MM-DD'`, and, from DoD's release (Claude Chat
+supplies both), `avgIncreasePct` (e.g. `4.5`; leave `null` if the release doesn't state one) and
+`releaseSourceUrl`. Set `DATA_LAST_CHECKED` in `src/data/watch.ts`. The `/bah` "#2027" section
+then reads "2027 BAH rates are out" with the date (and the percent when it's set). Small PR,
+`npm run test:e2e -- tests/e2e/bah-2027-notice.spec.ts tests/e2e/bah-2027-hub.spec.ts --project=chromium`.
 
 ## 1. Confirm the release, download and record the package (≈10 min)
 
@@ -67,8 +72,10 @@ This writes `src/data/bah/2027/{zipToMha,mhaRates,mhaNames}.ts` and
 temporary increase). Nothing is written if validation fails. Use `--dry-run` for the report only.
 
 The report has counts, MHAs added/removed, remapped ZIPs, the E-5 with-dependents % change
-distribution, the top/bottom 10, every decrease (station-page MHAs listed), the station-page MHA
-table, and 10 seeded sample cells.
+distribution, the top/bottom 10, **"Temporary increase ending"** (MHAs whose 2026 rates were a
+temporary increase, from the `temporary` block in `src/data/bah/2026/midYearChanges.ts`: TX270;
+their lower cells are listed there and **not** counted as decreases), every ordinary decrease
+(station-page MHAs listed), the station-page MHA table, and 10 seeded sample cells.
 
 - Claude Chat spot-checks the **10 sample cells** and **5 station MHAs** against the DTMO online
   BAH lookup and ticks them in the report. The lookup takes a **ZIP**, not an MHA code: use the
@@ -103,8 +110,14 @@ print a loud warning into the report. The zip may also contain "old" files (e.g.
     TX270's 2026 temporary increase ends Dec 31, 2026 and the 2027 file supersedes it.
 - `src/data/bah/current.ts`: `BAH_YEAR = '2027'`, `BAH_PRIOR_YEAR = '2026'`,
   `BAH_EFFECTIVE_NOTICE = true`.
-- `src/lib/calculations/bahStats.ts`: add `NATIONAL_AVG_BAH_INCREASE['2027']`. **Only** the
-  figure from DoD's release; Claude Chat supplies it with the source URL. Keep `'2026': 4.2`.
+- **2027 row of the release history** (DoD's national average increase + release date):
+  add it to the table in `docs/sources/bah-release-history.md` **first**, then the same row at
+  the top of `src/data/bah/releaseHistory.ts` (`ratesYear: 2027`, `avgIncreasePct`,
+  `releasedDate`, `sourceUrl`, `sourceLabel`). **Only** the figure from DoD's release; Claude Chat
+  supplies it with the source URL. `tests/e2e/bah-release-history.spec.ts` checks the two match.
+  This one row feeds `NATIONAL_AVG_BAH_INCREASE` (station pages' "national average increase of
+  X%") and the `/bah` "#2027" history table and FAQs. If DoD's release states no percent, leave
+  the row out and set only `BAH_2027_STATUS` (step 0).
 - `npm run bah:llms` rewrites `public/llms.txt`'s BAH lines (hub, station lines, sources line)
   to the new year and ZIP count. Do it here: `bah-release-day.spec.ts` fails the step-4 gate until
   it's run.
@@ -113,10 +126,14 @@ print a loud warning into the report. The zip may also contain "old" files (e.g.
 What flips by itself: every title, meta description, FAQ, JSON-LD, OG footer, rate table, YoY
 ("2026 → 2027"), the decrease block, `/pay/[rank]` BAH lines, the `/calculators` grid, the
 blog callout default, and the ZIP lookup's cache key (`&y=2027`). The "2027 BAH rates: not yet
-published" notice and its "When will…" FAQ disappear, and the station email signup asks about
-2028 rates. Station pages and `/bah` show one line instead:
-"2027 rates take effect January 1, 2027. Until then, the 2026 rate applies: $X for an E-5 with
-dependents." The ZIP calculator shows "2026 rate (through Dec 31, 2026): $X" under each result.
+published" notice and its "When will…" FAQ disappear, and the station email alert reads
+"Get notified when BAH rates change for {station}" (no year). Station pages and `/bah` show one
+line instead: "2027 rates take effect January 1, 2027. Until then, the 2026 rate applies: $X for
+an E-5 with dependents." The ZIP calculator shows "2026 rate (through Dec 31, 2026): $X" under
+each result. Station FAQs say "Starting January 1, 2027, an E-5 with dependents at {station} will
+receive $X" while `BAH_EFFECTIVE_NOTICE` is true. `/bah` "#2027" reads "2027 BAH rates are out".
+TX270 (Dyess) shows the "temporary 2026 rates … expire December 31, 2026" paragraph instead of
+the rate-protection paragraph, and its year-over-year line compares against the temporary rate.
 
 ## 4. Test fixture + gate (≈30 min)
 
@@ -149,29 +166,22 @@ dependents." The ZIP calculator shows "2026 rate (through Dec 31, 2026): $X" und
   Chat checks `/bah`, `/bah/fort-hood`, `/bah/dyess-afb`, the ZIP calculator with 76549 (expect
   the "2026 rate (through Dec 31, 2026)" line under the result), and
   `/calculators/dual-military-bah`.
-- Also review the present tense during the transition: station FAQs say "For 2027, an E-5 …
-  receives $X/month" while the 2026 rate is still being paid until January 1.
-- **Claude Chat verifies the rate-protection wording, and whether it applies to the end of
-  TX270's temporary increase, before release-day merge.** The decrease block on station pages
-  (`StationPageClient.tsx`, shown wherever any grade fell) reads: "Some pay grades at {station}
-  decreased for 2027 compared with 2026. Under individual rate protection, service members who
-  have remained at this duty station with the same pay grade and dependency status keep their
-  higher prior-year rate. The lower 2027 rate applies to members who arrive at this location or
-  whose dependency status changes in 2027." Related copy: the "How much did … change" FAQ
-  ("Rate protection means a member who stays at the same location with the same dependency
-  status keeps their rate even if the published table rate falls.") and the ZIP calculator's
-  "Understand rate protection" step. Dyess AFB (TX270) will likely show a decrease vs the
-  temporary increase; confirm the wording is accurate for an expiring temporary increase, or
-  hold the merge for a copy change.
-- **Known issue (found 2026-11-13): that wording is wrong.** Per DTMO's official FAQ
-  (travel.dod.mil, "BAH Rate Changes / Rate Protection"), protection continues unless there is a
-  **reduction** in pay grade or a change in dependency status; a promotion does **not** end it.
-  The current copy implies otherwise ("same pay grade", "change pay grade"). **Fix rate-protection
-  wording in the next BAH build (decrease paragraph, station FAQ, ZIP calculator step); Claude
-  Chat supplies the text.** The same error also appears in the `/bah` "Rate protection" section,
-  the dual-military page and calculator step, and `/guides/military-pay`; the full list is in
-  `docs/audits/FIX_QUEUE.md`. If that build hasn't shipped by release day, ship the fix before or
-  with the release-day merge.
+- Transition tense: **fixed** (`feat/bah-2027-what-we-know`). While `BAH_EFFECTIVE_NOTICE` is
+  true, station FAQs say "Starting January 1, 2027, an E-5 with dependents at {station} will
+  receive $X…" (`bahE5RateFaqAnswer` in `src/lib/calculations/bahTransition.ts`). Spot-check one
+  station FAQ on the preview.
+- Rate-protection wording: **fixed** (`feat/bah-2027-what-we-know`; Claude Chat's approved text).
+  Per DTMO's FAQ, protection continues unless there is a **reduction** in pay grade or a change in
+  dependency status; a promotion does **not** end it. Every page that states the rule reads from
+  `src/data/bah/rateProtection.ts`; `tests/e2e/bah-rate-protection.spec.ts` fails if the old
+  wording returns. Nothing to do on release day beyond the preview spot-check.
+- TX270 temporary increase: **resolved** (Claude Chat, 2026-11-13;
+  `docs/sources/bah-2026-abilene-temporary-increase.md` → "Expiration and rate protection").
+  Rate protection doesn't apply to temporary increases, so `/bah/dyess-afb` shows the
+  "temporary 2026 rates … expire December 31, 2026" paragraph, not the rate-protection one. On
+  the preview, check `/bah/dyess-afb` shows that paragraph if any 2027 TX270 rate is below the
+  temporary rate, and that the "Until then, the 2026 rate applies: $X" line shows the temporary
+  rate ($1,872 for an E-5 with dependents).
 - Dan merges. Then:
 
 ```bash
@@ -184,13 +194,24 @@ curl -X POST https://www.milpaytools.com/api/indexnow/submit \
 (Git Bash: `MSYS_NO_PATHCONV=1`.) Then Search Console "Request Indexing" for `/bah` and the top
 station pages.
 
+**Alert email (Dan, after the release-day PR merges and production shows 2027 rates).** Station
+pages collect signups with `utm_campaign` = `bah-alert-{station slug}` (Beehiiv, via
+`/api/subscribe`). Send **one** email from Beehiiv:
+- **Audience:** subscribers whose UTM campaign starts with `bah-alert-`. If the Beehiiv plan
+  can't segment by UTM campaign, send it to the whole list.
+- **Content:** 2027 BAH rates are published and every station page on the site shows them; link
+  to `https://www.milpaytools.com/bah`. One email for everyone: don't promise or send
+  per-station emails.
+
 ## 6. Same week (≈1–2 h)
 
 - `npm run check:figures -- --next-year 2027` for inline BAH figures in blog posts and guides;
   work the list (`docs/figures/year-change-2027.md`).
 - Calendar: the 2027 BAH entry in `src/data/calendar-2027.ts` → official, with the released date.
-- `src/data/bah/2027-status.ts`: set `status: 'released'` and `releasedDate` so the key-dates
-  calendar shows the real date (the notice itself is already gone because `BAH_YEAR` is '2027').
+- `src/data/bah/2027-status.ts`: set `status: 'released'`, `releasedDate`, `avgIncreasePct` and
+  `releaseSourceUrl` (if step 0 didn't) so the key-dates calendar shows the real date (the notice
+  itself is already gone because `BAH_YEAR` is '2027'). The `/bah` "#2027" section prefers the
+  2027 row in `releaseHistory.ts` (step 3) and falls back to these fields.
 - `/pay` approximate BAH ranges (`BAH_RANGES` in
   `src/components/calculators/pay-charts/PayChartsClient.tsx`, typed "2026 approximate
   values"): re-check against 2027. *Backlog: replace with values computed from the data.*
