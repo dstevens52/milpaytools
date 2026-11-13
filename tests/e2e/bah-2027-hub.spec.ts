@@ -255,8 +255,13 @@ test.describe('Station pages (rendered)', () => {
       await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true }) });
     });
     await page.goto('/bah/naval-station-norfolk');
+    // The page is prerendered: typing before React hydrates is lost (WebKit posted an
+    // empty email once). Wait for hydration, then confirm the value stuck.
+    await page.waitForLoadState('networkidle');
     const alert = page.getByTestId('bah-station-alert');
-    await alert.getByPlaceholder('you@example.com').fill('test@example.com');
+    const input = alert.getByPlaceholder('you@example.com');
+    await input.fill('test@example.com');
+    await expect(input).toHaveValue('test@example.com');
     await alert.getByRole('button', { name: 'Notify me' }).click();
     await expect(alert).toContainText("You're on the list.");
     expect(body).toEqual({ email: 'test@example.com', source: 'bah-alert-naval-station-norfolk' });
