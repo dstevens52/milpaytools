@@ -38,7 +38,7 @@ export const DOD_RATE_PROTECTION_QUOTE_SOURCE = {
 
 /** Temporary increases are not covered by rate protection (DoD 2021, DTMO 2022). */
 export const TEMPORARY_INCREASE_EXCEPTION =
-  "Rate protection doesn't cover temporary increases: in DoD's 2021 and 2022 temporary increases, DoD said individual rate protection did not apply to the temporary amounts, so when a temporary increase ends, the regular rate replaces it.";
+  "Rate protection doesn't cover temporary increases: in DoD's 2021 and 2022 temporary increases, DoD said individual rate protection did not apply to the temporary amounts, so when a temporary increase ends, the next year's published rate replaces it.";
 export const TEMPORARY_INCREASE_SOURCES = [
   {
     label: 'DTMO: DoD Authorizes an Automatic Increase to 2022 BAH Rates for Certain Locations',

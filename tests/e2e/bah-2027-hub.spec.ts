@@ -36,6 +36,9 @@ import {
 import { temporaryIncreasePendingText } from '@/data/bah/midYear';
 import { RATE_PROTECTION_RULE } from '@/data/bah/rateProtection';
 
+// Temporary-increase exception (approved wording, Nov 13, 2026).
+const NEXT_YEAR_REPLACES = "so when a temporary increase ends, the next year's published rate replaces it.";
+
 // No forecast language anywhere in the 2027 copy.
 const ESTIMATE = /\bexpect(ed)? (to|increase)|estimat|project(ed|ion)|forecast|likely|predict|could rise|should rise/i;
 
@@ -93,6 +96,8 @@ test.describe('/bah #2027: modes (unit)', () => {
     expect(faqs[2].answer).toContain(RATE_PROTECTION_RULE);
     expect(faqs[2].answer).toContain("A promotion doesn't end the protection.");
     expect(faqs[2].answer).toContain('temporary increases');
+    expect(faqs[2].answer).toContain(NEXT_YEAR_REPLACES);
+    expect(faqs[2].answer).not.toContain('the regular rate replaces it');
     expect(faqs[3].answer).toMatch(/^No\. /);
     expect(faqs[3].answer).toContain('[the 2027 pay raise](/pay/raise)');
     for (const f of faqs) expect(f.answer, f.question).not.toMatch(ESTIMATE);
@@ -211,6 +216,8 @@ test.describe('/bah #2027 section (rendered)', () => {
     await expect(s.getByTestId('bah-release-history').locator('caption')).toHaveText('Source: DoD release for each year.');
     await expect(s).toContainText('will not see his/her Basic Allowance for Housing rate decrease');
     await expect(s).toContainText("A promotion doesn't end the protection.");
+    await expect(s.locator('#rate-protection')).toContainText(NEXT_YEAR_REPLACES);
+    await expect(s).not.toContainText('the regular rate replaces it');
     await expect(s.getByRole('link', { name: 'See the 2027 pay raise →' })).toHaveAttribute('href', '/pay/raise');
   });
 
@@ -223,6 +230,11 @@ test.describe('/bah #2027 section (rendered)', () => {
     for (const q of ['When do 2027 BAH rates come out?', 'How much will BAH go up in 2027?', 'Can my BAH go down?', 'Does the 2027 pay raise change BAH?']) {
       expect(qs).toContain(q);
     }
+    // "Can my BAH go down?": JSON-LD and the visible answer carry the new wording.
+    const down = faq.mainEntity.find((q: { name: string }) => q.name === 'Can my BAH go down?');
+    expect(down.acceptedAnswer.text).toContain(NEXT_YEAR_REPLACES);
+    expect(down.acceptedAnswer.text).not.toContain('the regular rate replaces it');
+    await expect(page.getByText(NEXT_YEAR_REPLACES)).toHaveCount(2); // the #2027 section + the visible FAQ answer
   });
 });
 
