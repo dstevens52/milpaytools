@@ -10,6 +10,7 @@ import { ogImage } from '@/lib/og';
 import { PayChartsClient } from '@/components/calculators/pay-charts/PayChartsClient';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { statusText, pageDescription } from '@/lib/calculations/payRaise';
+import { KeyDates2027 } from '@/components/KeyDates2027';
 
 // Same dated wording as the /pay/raise status box — one source in payRaise.ts.
 const RAISE_2027_FAQ = {
@@ -116,6 +117,9 @@ export default function PayHubPage() {
           <p className="text-sm text-zinc-700 leading-relaxed">{pageDescription()}</p>
           <p className="text-sm font-semibold text-red-700 mt-2">See your 2027 base pay →</p>
         </Link>
+        <div className="mt-4">
+          <KeyDates2027 variant="compact" />
+        </div>
       </div>
 
       <PayChartsClient payPages={PAY_PAGE_RANKS.map(({ grade, slug }) => ({ grade, slug }))} />

@@ -39,8 +39,14 @@ import {
   rankRaiseHeading,
   rankRaiseSentence,
   rankRaiseFaq,
+  homeStripText,
+  formatPercent,
   type RaiseResult,
 } from '@/lib/calculations/payRaise';
+import { getCalendar2027, weekdayDate, calendarLastChecked, rankKeyDatesLine } from '@/data/calendar-2027';
+import { RETIREE_COLA_2027 } from '@/data/retiree-cola/2027';
+import { RANK_TITLE_YEARS, type RankTitleYears } from '@/data/pay-pages/titleMode';
+import { rankTitle, payRange, gradeMinMax } from '@/lib/pay-pages/rankTitle';
 
 const cents = (d: number) => Math.round(d * 100);
 const plan = PAY_RAISE_2027.scenarios.find((s) => s.id === 'current-plan')!;
@@ -265,14 +271,17 @@ test.describe('2027 pay raise — rank pages and new FAQs', () => {
     });
   }
 
-  // /pay/raise title + description are deliberately unchanged in this pass (they
-  // already earn clicks); only length limits are checked here. The enacted-mode
-  // description on main is 169 chars — flagged for release day, not changed here.
-  test('title ≤ 60 in every mode; live (pending) description ≤ 160', () => {
+  // /pay/raise title + pending description are deliberately unchanged (they
+  // already earn clicks); the enacted description was shortened from 169 chars
+  // (feat/2027-key-dates) so every mode fits.
+  test('title ≤ 60 and description ≤ 160 in every mode', () => {
     for (const cfg of [PAY_RAISE_2027, ENACTED_FIXTURE, OFFICIAL_FIXTURE]) {
       expect(pageTitle(cfg).length).toBeLessThanOrEqual(60);
+      expect(pageDescription(cfg).length).toBeLessThanOrEqual(160);
     }
-    expect(pageDescription().length).toBeLessThanOrEqual(160);
+    const enacted = pageDescription(ENACTED_FIXTURE);
+    expect(enacted).toContain('official');
+    expect(enacted).toContain('7-6-5');
   });
 
   test('pending: FAQ order puts branch + retiree right after "When will…"', () => {
@@ -333,5 +342,175 @@ test.describe('2027 pay raise — rank pages and new FAQs', () => {
     expect(rankRaiseFaq('E-5', 6, ENACTED_FIXTURE).answer).toContain('$4,397.70');
     expect(rankRaiseHeading('E-5', OFFICIAL_FIXTURE)).toBe('2027 E-5 basic pay');
     expect(rankRaiseSentence('E-5', 6, OFFICIAL_FIXTURE)).toContain('$4,210.00'); // stub = 2026 + $100
+  });
+});
+
+// ─── 2027 key dates calendar, calendar FAQs, rank-title switch (feat/2027-key-dates) ──
+
+test.describe('2027 key dates — calendar data', () => {
+  const ORDER = [
+    'final-raise', 'retiree-cola', 'va-cola', 'tsp-limits', 'bah',
+    'dec31-payday', 'rates-effective', 'first-payday', 'bas',
+  ];
+
+  test('nine entries in order; every entry has a source URL; official entries have an isoDate', () => {
+    for (const cfg of [PAY_RAISE_2027, ENACTED_FIXTURE, OFFICIAL_FIXTURE]) {
+      const cal = getCalendar2027(cfg);
+      expect(cal.map((e) => e.id)).toEqual(ORDER);
+      for (const e of cal) {
+        expect(e.source.url, e.id).toMatch(/^https:\/\//);
+        expect(e.source.name.length, e.id).toBeGreaterThan(0);
+        if (e.status === 'official') expect(e.isoDate, e.id).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+        if (e.status !== 'official') expect(e.isoDate, e.id).toBeNull();
+      }
+    }
+  });
+
+  test('no dollar amounts and no advice wording in any calendar text', () => {
+    for (const e of getCalendar2027()) {
+      const text = `${e.dateLabel} ${e.title} ${e.body}`;
+      expect(text, e.id).not.toContain('$');
+      expect(text, e.id).not.toMatch(/you should|we recommend|consider /i);
+    }
+  });
+
+  test('weekdays computed in UTC: Jan 15, 2027 Friday; Dec 31, 2026 Thursday; Jan 1, 2027 Friday', () => {
+    expect(weekdayDate('2027-01-15')).toBe('Friday, January 15, 2027');
+    expect(weekdayDate('2026-12-31')).toBe('Thursday, December 31, 2026');
+    expect(weekdayDate('2027-01-01')).toBe('Friday, January 1, 2027');
+    const byId = Object.fromEntries(getCalendar2027().map((e) => [e.id, e]));
+    expect(byId['first-payday'].dateLabel).toBe('Friday, January 15, 2027');
+    expect(byId['dec31-payday'].dateLabel).toBe('Thursday, December 31, 2026');
+    expect(byId['rates-effective'].dateLabel).toBe('Friday, January 1, 2027');
+  });
+
+  test('NDAA entry: pending in pending mode, official in the enacted fixture', () => {
+    const pending = getCalendar2027()[0];
+    expect(pending.status).toBe('pending');
+    expect(pending.body).toBe(
+      "Not final. If Congress doesn't set a different raise, the current plan (7-6-5) takes effect January 1, 2027.",
+    );
+    const enacted = getCalendar2027(ENACTED_FIXTURE)[0];
+    expect(enacted.status).toBe('official');
+    expect(enacted.isoDate).toBe('2026-12-18');
+    expect(enacted.body).toContain('FY2027 National Defense Authorization Act');
+    expect(enacted.body.toLowerCase()).not.toContain('not final');
+    expect(getCalendar2027(OFFICIAL_FIXTURE)[0].status).toBe('official');
+  });
+
+  test('statuses as of the source doc; COLA from RETIREE_COLA_2027; BAH expected wording', () => {
+    const byId = Object.fromEntries(getCalendar2027().map((e) => [e.id, e]));
+    expect(Object.fromEntries(Object.entries(byId).map(([k, e]) => [k, e.status]))).toEqual({
+      'final-raise': 'pending',
+      'retiree-cola': 'official',
+      'va-cola': 'pending',
+      'tsp-limits': 'pending',
+      bah: 'expected',
+      'dec31-payday': 'official',
+      'rates-effective': 'official',
+      'first-payday': 'official',
+      bas: 'pending',
+    });
+    expect(byId['retiree-cola'].title).toContain(formatPercent(RETIREE_COLA_2027.percent));
+    expect(byId['va-cola'].body).toContain(`Social Security COLA (${formatPercent(RETIREE_COLA_2027.percent)})`);
+    expect(byId.bah.body).toBe('Expected mid-December; the 2026 rates were released December 11, 2025.');
+    expect(byId.bah.body.toLowerCase()).not.toContain('schedule');
+    expect(calendarLastChecked()).toBe(DATA_LAST_CHECKED);
+  });
+
+  test('links match the build spec', () => {
+    const links = Object.fromEntries(getCalendar2027().map((e) => [e.id, e.link?.href ?? null]));
+    expect(links).toEqual({
+      'final-raise': '/pay/raise',
+      'retiree-cola': '/calculators/retirement',
+      'va-cola': '/calculators/va-disability',
+      'tsp-limits': '/calculators/tsp',
+      bah: '/bah',
+      'dec31-payday': '/pay/raise#your-2027-base-pay',
+      'rates-effective': '/pay/raise#your-2027-base-pay',
+      'first-payday': '/pay/raise#your-2027-base-pay',
+      bas: null,
+    });
+  });
+
+  test('payday sources: Jan 15 cites the DFAS paydays page, Dec 31 the FMR', () => {
+    const byId = Object.fromEntries(getCalendar2027().map((e) => [e.id, e]));
+    expect(byId['first-payday'].source.url).toBe('https://www.dfas.mil/MilitaryMembers/payentitlements/2026ACPayDay/');
+    expect(byId['first-payday'].source.name).toBe('DFAS active duty paydays (2026 schedule; 2027 not yet posted)');
+    expect(byId['dec31-payday'].source.url).toBe(
+      'https://comptroller.war.gov/Portals/45/documents/fmr/current/07a/07a_01.pdf',
+    );
+  });
+
+  test('rank-page key-dates line', () => {
+    expect(rankKeyDatesLine()).toBe(
+      'Key dates: the raise takes effect January 1, 2027, and the first payday at 2027 rates is Friday, January 15, 2027. 2027 BAH is expected in mid-December.',
+    );
+  });
+});
+
+test.describe('2027 key dates — /pay/raise FAQs and homepage strip', () => {
+  const ORDER = [
+    'When will the 2027 raise be final?',
+    'Is the 2027 raise the same in every branch?',
+    'Do military retirees get the 2027 pay raise?',
+    'When will I see the 2027 raise in my paycheck?',
+    'Why is the raise different by rank?',
+    'Do warrant officers get 6%?',
+    'Why might senior officers see a smaller raise?',
+    'Does the raise affect BAH?',
+  ];
+
+  test('8 FAQs in order in every mode', () => {
+    for (const cfg of [PAY_RAISE_2027, ENACTED_FIXTURE, OFFICIAL_FIXTURE]) {
+      expect(raiseFaqs(cfg).map((f) => f.question)).toEqual(ORDER);
+    }
+  });
+
+  test('paycheck FAQ and BAH FAQ text', () => {
+    const faqs = Object.fromEntries(raiseFaqs().map((f) => [f.question, f.answer]));
+    expect(faqs['When will I see the 2027 raise in my paycheck?']).toBe(
+      "The 2027 raise takes effect January 1, 2027. The first payday at 2027 rates is the mid-month payday on Friday, January 15, 2027. The December 31, 2026 payday covers December 16–31, so it's still at 2026 rates.",
+    );
+    expect(faqs['Does the raise affect BAH?']).toBe(
+      'No. BAH is set separately from basic pay, based on local housing costs, grade and dependency status. 2027 BAH rates are expected in mid-December; DoD released the 2026 rates on December 11, 2025.',
+    );
+  });
+
+  test('homepage strip flips with the status', () => {
+    expect(homeStripText()).toBe('2027 military pay raise: see your 2027 base pay by rank and the key dates →');
+    expect(homeStripText(ENACTED_FIXTURE)).toContain('is final');
+    expect(homeStripText(OFFICIAL_FIXTURE)).toContain('official 2027 base pay');
+  });
+});
+
+test.describe('2027 key dates — rank-title switch (off)', () => {
+  const RANKS: PayGrade[] = ['E-1', 'E-2', 'E-3', 'E-4', 'E-5', 'E-6', 'E-7', 'E-8', 'E-9', 'O-1', 'O-2', 'O-3', 'O-4', 'O-5', 'O-6'];
+  const titleFor = (grade: PayGrade, mode: RankTitleYears, cfg: PayRaiseConfig = PAY_RAISE_2027) => {
+    const [mn, mx] = gradeMinMax(payTable, grade);
+    return rankTitle({ title: grade, grade }, mn, mx, mode, cfg);
+  };
+
+  test("live mode is '2026'", () => {
+    expect(RANK_TITLE_YEARS).toBe('2026');
+    expect(titleFor('E-5', '2026')).toBe('E-5 Pay 2026: $3,343–$4,422/Month, All Branches');
+  });
+
+  test("'2026-2027' fixture: all 15 titles ≤ 60, contain ' & 2027', keep the 2026 range", () => {
+    for (const grade of RANKS) {
+      const t = titleFor(grade, '2026-2027');
+      expect(t.length, t).toBeLessThanOrEqual(60);
+      expect(t).toContain(' & 2027');
+      const [mn, mx] = gradeMinMax(payTable, grade);
+      expect(t).toContain(`${payRange(mn, mx)}/Month`); // branch-FAQ guardrail
+    }
+    expect(titleFor('E-5', '2026-2027')).toBe('E-5 Pay 2026 & 2027: $3,343–$4,422/Month, All Branches');
+    expect(titleFor('E-9', '2026-2027')).toBe('E-9 Pay 2026 & 2027: $6,910–$10,729/Month, All Branches');
+  });
+
+  test("'2027' throws until the DFAS 2027 table is in", () => {
+    expect(() => titleFor('E-5', '2027')).toThrow('not ready: needs the DFAS 2027 table');
+    expect(() => titleFor('E-5', '2027', ENACTED_FIXTURE)).toThrow('not ready: needs the DFAS 2027 table');
+    expect(titleFor('E-5', '2027', OFFICIAL_FIXTURE)).toBe('E-5 Pay 2027: $3,443–$4,522/Month, All Branches');
   });
 });

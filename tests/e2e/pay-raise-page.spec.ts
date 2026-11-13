@@ -60,7 +60,7 @@ test.describe('/pay/raise page', () => {
     await expect(page.getByTestId('raise-calculator')).not.toContainText('$0.00');
   });
 
-  test('FAQPage schema lists the seven questions', async ({ page }) => {
+  test('FAQPage schema lists the eight questions', async ({ page }) => {
     await page.goto('/pay/raise');
     const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
     const faq = blocks.map((b) => JSON.parse(b)).find((j) => j['@type'] === 'FAQPage');
@@ -69,6 +69,7 @@ test.describe('/pay/raise page', () => {
       'When will the 2027 raise be final?',
       'Is the 2027 raise the same in every branch?',
       'Do military retirees get the 2027 pay raise?',
+      'When will I see the 2027 raise in my paycheck?',
       'Why is the raise different by rank?',
       'Do warrant officers get 6%?',
       'Why might senior officers see a smaller raise?',
