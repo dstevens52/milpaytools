@@ -7,4 +7,4 @@
  *   - the 2027 BAH notice on /bah and every CONUS /bah/[slug] page
  *     (src/data/bah/2027-status.ts)
  */
-export const DATA_LAST_CHECKED = '2026-11-11';
+export const DATA_LAST_CHECKED = '2026-11-13';

@@ -25,6 +25,14 @@ each item below must be re-traced against the new source and revised by hand.
   - Test: `tests/e2e/pay-table-dfas.spec.ts` (`npm run test:pay-table`) — update its CSV path,
     its `src/data/pay-tables/` import, and the expected cell count if DFAS changes the table shape.
 
+## Military retiree COLA — October (SSA announcement)
+
+- [ ] When SSA announces the next COLA (mid-October), add `src/data/retiree-cola/{YYYY}.ts` from
+  `RETIREE_COLA_2027` (percent, effective Dec 1, first paid January, SSA announcement date,
+  sources) and repoint `src/lib/calculations/payRaise.ts`. 10 U.S.C. 1401a(b) uses the same
+  CPI-W increase; the REDUX figure is computed (percent − 1), never typed. Record the source in
+  `docs/sources/` (see `pay-raise-cola-2027.md`).
+
 ## Mid-year BAH changes — quarterly, NOT January-only
 
 DTMO can change BAH for individual MHAs mid-year. Case: TX270 (Abilene/Dyess AFB), "2026 Abilene

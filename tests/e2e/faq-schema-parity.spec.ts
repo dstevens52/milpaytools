@@ -15,10 +15,11 @@ const PAGES: { path: string; faqCount: number }[] = [
   { path: '/calculators/guard-reserve', faqCount: 2 },
   { path: '/calculators/dual-military-bah', faqCount: 5 },
   // Pay rank pages: flat grade, compound Army title, E-9, officer.
-  { path: '/pay/e1', faqCount: 5 },
-  { path: '/pay/e4', faqCount: 5 },
-  { path: '/pay/e9', faqCount: 5 },
-  { path: '/pay/o6', faqCount: 5 },
+  // 6 = the 5 branch-term-pass FAQs + the appended 2027 raise FAQ.
+  { path: '/pay/e1', faqCount: 6 },
+  { path: '/pay/e4', faqCount: 6 },
+  { path: '/pay/e9', faqCount: 6 },
+  { path: '/pay/o6', faqCount: 6 },
 ];
 
 type FaqSchema = {
