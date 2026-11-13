@@ -8,7 +8,11 @@
  *     2024 rates Dec 15, 2023. Each took effect January 1.
  *
  * Lifecycle: 'pending' → 'released' (DoD published, data being loaded) →
- * once 2027 rates are loaded (priority #5), remove the notice entirely.
+ * once 2027 rates are loaded (BAH_YEAR = '2027' in src/data/bah/current.ts) the
+ * notice and its FAQ disappear automatically: pages show them only in the
+ * 'next-year-status' mode (src/lib/calculations/bahTransition.ts). 'released'
+ * covers just the gap between DoD posting and our import landing.
+ * Release-day steps: docs/RELEASE_DAY_BAH_2027.md.
  * The "last checked" date is shared: src/data/watch.ts.
  */
 

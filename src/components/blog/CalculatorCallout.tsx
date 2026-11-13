@@ -1,4 +1,7 @@
 import { calloutText } from '@/lib/calculations/payRaise';
+// Server component (MDX): the BAH count/year come from the BAH dataset.
+import { BAH_ZIP_COUNT } from '@/lib/calculations/bah';
+import { BAH_YEAR } from '@/data/bah/current';
 
 interface CalculatorCalloutProps {
   calculator: 'pay-raise' | 'total-compensation' | 'bah' | 'va-disability' | 'va-loan' | 'va-refinance' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah' | 'transition-readiness' | 'healthcare-comparison' | 'separation-timeline';
@@ -21,7 +24,7 @@ const CALCULATOR_CONFIG = {
   bah: {
     href: '/bah',
     label: 'BAH Calculator',
-    defaultText: 'Look up BAH for any ZIP code in the country — all 40,959 ZIP codes with official 2026 DTMO data.',
+    defaultText: `Look up BAH for any ZIP code in the country — all ${BAH_ZIP_COUNT.toLocaleString('en-US')} ZIP codes with official ${BAH_YEAR} DTMO data.`,
   },
   'va-disability': {
     href: '/calculators/va-disability',

@@ -5,6 +5,7 @@ import path from 'node:path';
 import { SAMPLE_SCENARIO } from '@/lib/sample-scenario';
 import { formatCurrency } from '@/lib/utils';
 import { OG_WIDTH, OG_HEIGHT } from '@/lib/og';
+import { BAH_YEAR } from '@/data/bah/current';
 
 // Node.js runtime: lets the route import the BAH dataset (~166KB) and read the
 // committed Inter font files from disk — no network font fetches at request time.
@@ -56,7 +57,7 @@ function defaultSubtitle(type: string): string {
     case 'blog':
     case 'guide':
       return '';
-    case 'station': return 'All Ranks • With & Without Dependents • 2026 DTMO Rates';
+    case 'station': return `All Ranks • With & Without Dependents • ${BAH_YEAR} DTMO Rates`;
     default: return 'Military Pay & Benefits';
   }
 }

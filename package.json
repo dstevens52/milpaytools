@@ -18,6 +18,9 @@
     "test:pay-table": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/pay-table-dfas.spec.ts --project=chromium",
     "test:pay-raise": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/pay-raise-2027.spec.ts --project=chromium",
     "check:figures": "tsx scripts/check-figures.ts",
+    "bah:import": "node scripts/bah-import.mjs",
+    "bah:urls": "node scripts/bah-urls.mjs",
+    "bah:llms": "node scripts/bah-llms.mjs",
     "test:figures": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/figure-check.spec.ts --project=chromium"
   },
   "dependencies": {

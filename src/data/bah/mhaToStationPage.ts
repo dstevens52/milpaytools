@@ -1,11 +1,14 @@
 /**
  * MHA code → /bah/ station page mapping.
- * Derived at module load from DUTY_STATIONS + zipToMha — never hardcoded.
+ * Derived at module load from DUTY_STATIONS + the current BAH year's zipToMha —
+ * never hardcoded. Server only (it reads the full ZIP map).
  * Supports multiple stations per MHA (e.g., Eglin + Hurlburt share a Florida MHA).
  */
 
-import { zipToMha } from '@/data/bah/2026/zipToMha';
+import { currentZipToMha } from '@/lib/calculations/bah';
 import { DUTY_STATIONS } from '@/data/duty-stations/stations';
+
+const zipToMha = currentZipToMha();
 
 export interface StationPageInfo {
   slug: string;

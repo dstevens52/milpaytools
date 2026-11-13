@@ -16,7 +16,7 @@ import {
   type EnrollmentStatus,
   type OnlineInstitution,
 } from '@/lib/calculations/education';
-import { SERVICE_TIER_LABELS, GI_BILL_TIERS, EDUCATION_RATES, tierRange } from '@/data/education/2026/constants';
+import { SERVICE_TIER_LABELS, GI_BILL_TIERS, EDUCATION_RATES, EDUCATION_BAH_YEAR, tierRange } from '@/data/education/2026/constants';
 
 const TIER_RANGE = tierRange();
 const VA_RATINGS = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
@@ -313,7 +313,9 @@ export function EducationCalculator() {
 
   // GI Bill MHA = E-5 with-dependents BAH at the school ZIP — resolved via the
   // cached route. null until it resolves (or for online schools, which ignore it).
-  const { data: bahData } = useBahLookup(schoolZip.padStart(5, '0'));
+  // Rates come from the BAH year VA uses for this academic year (EDUCATION_BAH_YEAR),
+  // which can lag the site's current BAH year (Dec release → VA's Aug 1 change).
+  const { data: bahData } = useBahLookup(schoolZip.padStart(5, '0'), { ratesYear: EDUCATION_BAH_YEAR });
   const schoolBAH = rateFor(bahData, 'E-5', true);
   const schoolLocationName = bahData?.locationName ?? null;
 
@@ -560,7 +562,7 @@ export function EducationCalculator() {
       {/* ── MHA note ───────────────────────────────────────────────────── */}
       {schoolType !== 'online' && result.mhaMonthly && (
         <div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-800 leading-relaxed">
-          MHA shown using 2026 BAH rates for the {EDUCATION_RATES.academicYear} academic year. Post-9/11 GI Bill MHA for in-person training is based on E-5 with-dependent BAH at the school ZIP, prorated by your eligibility tier and rate of pursuit (no MHA at half time or less). VR&amp;E participants may receive a subsistence allowance, and some may qualify to elect the Post-9/11 subsistence allowance if they have remaining GI Bill entitlement — VR&amp;E housing/subsistence rules depend on counselor approval and individual eligibility.
+          {`MHA shown using ${EDUCATION_BAH_YEAR} BAH rates for the `}{EDUCATION_RATES.academicYear} academic year. Post-9/11 GI Bill MHA for in-person training is based on E-5 with-dependent BAH at the school ZIP, prorated by your eligibility tier and rate of pursuit (no MHA at half time or less). VR&amp;E participants may receive a subsistence allowance, and some may qualify to elect the Post-9/11 subsistence allowance if they have remaining GI Bill entitlement — VR&amp;E housing/subsistence rules depend on counselor approval and individual eligibility.
         </div>
       )}
 
@@ -693,12 +695,7 @@ export function EducationCalculator() {
       <div className="rounded-lg border border-zinc-200 bg-zinc-50 px-5 py-4">
         <p className="text-xs font-semibold text-zinc-600 mb-1">Important disclaimer</p>
         <p className="text-xs text-zinc-500 leading-relaxed">
-          This tool compares education benefits for planning purposes only. Actual benefit amounts
-          depend on VA eligibility determinations, school certifying official verification, and
-          current VA payment rates. VR&amp;E eligibility requires counselor evaluation — a disability
-          rating alone does not guarantee approval. Tuition Assistance policies vary by branch.
-          MGIB eligibility depends on when and how you entered service, whether you paid into the program, and specific service requirements. Many newer service members are primarily under Post-9/11 GI Bill rules. MHA shown using 2026 BAH data; academic year rates effective August 1, 2026.
-          Verify all benefits with{' '}
+          {`This tool compares education benefits for planning purposes only. Actual benefit amounts depend on VA eligibility determinations, school certifying official verification, and current VA payment rates. VR&E eligibility requires counselor evaluation — a disability rating alone does not guarantee approval. Tuition Assistance policies vary by branch. MGIB eligibility depends on when and how you entered service, whether you paid into the program, and specific service requirements. Many newer service members are primarily under Post-9/11 GI Bill rules. MHA shown using ${EDUCATION_BAH_YEAR} BAH data; academic year rates effective August 1, 2026. Verify all benefits with`}{' '}
           <a href="https://www.va.gov/education/" target="_blank" rel="noopener noreferrer" className="underline text-blue-700">
             VA.gov
           </a>{' '}

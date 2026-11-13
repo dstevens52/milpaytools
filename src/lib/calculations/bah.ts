@@ -2,29 +2,64 @@
  * BAH calculation logic.
  * Pure functions — no React, no side effects.
  *
- * Data source: DTMO 2026 BAH ASCII files (40,959 ZIP codes, 338 MHAs)
+ * Data source: the DTMO BAH ASCII files for BAH_YEAR (src/data/bah/current.ts),
+ * imported by scripts/bah-import.mjs and registered in src/data/bah/registry.ts.
+ * Server/build only — it holds the full ZIP map. Clients use /api/bah/lookup.
  */
 
 import type { BAHInput, BAHOutput } from '@/types/calculator';
-import { zipToMha } from '@/data/bah/2026/zipToMha';
-import { mhaRates, DATA_YEAR } from '@/data/bah/2026/mhaRates';
-import { mhaRates as rates2025 } from '@/data/bah/2025/mhaRates';
-import { mhaNames } from '@/data/bah/2026/mhaNames';
+import { BAH_YEAR, BAH_PRIOR_YEAR } from '@/data/bah/current';
+import {
+  BAH_RATES_BY_YEAR,
+  BAH_LOOKUP_TABLES,
+  BAH_MID_YEAR_CHANGES_BY_YEAR,
+  type BahYear,
+} from '@/data/bah/registry';
+import type { BahMidYearChange } from '@/data/bah/midYear';
 import { isValidZip } from '@/lib/utils';
 
+export type { BahYear };
+
 // ─── Year-generic rate access ────────────────────────────────────────────────
-// `mhaRates` (imported above) is the current year. Additional years register
-// here so future years drop in with no rework. Prior-year data is used only at
-// build time (server components) — it never ships to the client.
-export type BahYear = '2025' | '2026';
+// The current year comes from current.ts; every year's data comes from the
+// registry. A BAH_YEAR / BAH_PRIOR_YEAR that isn't registered fails the type
+// check here, and the build with it. Prior-year data is used only at build time
+// (server components and the lookup route) — it never ships to the client.
+export const CURRENT_BAH_YEAR: BahYear = BAH_YEAR;
+export const PRIOR_BAH_YEAR: BahYear = BAH_PRIOR_YEAR;
 
-const RATES_BY_YEAR: Record<BahYear, typeof mhaRates> = {
-  '2026': mhaRates,
-  '2025': rates2025,
-};
+const RATES_BY_YEAR = BAH_RATES_BY_YEAR;
+const mhaRates = RATES_BY_YEAR[CURRENT_BAH_YEAR];
 
-export const CURRENT_BAH_YEAR: BahYear = '2026';
-export const PRIOR_BAH_YEAR: BahYear = '2025';
+const lookupTables = BAH_LOOKUP_TABLES[CURRENT_BAH_YEAR];
+if (!lookupTables) {
+  throw new Error(
+    `BAH registry: no zipToMha/mhaNames registered for BAH_YEAR ${CURRENT_BAH_YEAR} (src/data/bah/registry.ts → BAH_LOOKUP_TABLES)`,
+  );
+}
+const { zipToMha, mhaNames } = lookupTables;
+
+/** Current-year ZIP → MHA map. Server/build only (~650 KB). */
+export function currentZipToMha(): Readonly<Record<string, string>> {
+  return zipToMha;
+}
+
+/** Current-year MHA code → DTMO display name. Server/build only. */
+export function currentMhaNames(): Readonly<Record<string, string>> {
+  return mhaNames;
+}
+
+/** ZIP codes in the current-year dataset (includes XX499 territory ZIPs). */
+export const BAH_ZIP_COUNT = Object.keys(zipToMha).length;
+
+/** Military Housing Areas with published rates in the current year. */
+export const BAH_MHA_COUNT = Object.keys(mhaRates).length;
+
+/** DTMO mid-year change for an MHA in the current BAH year, or null. */
+export function getBahMidYearChange(mhaCode: string | null | undefined): BahMidYearChange | null {
+  if (!mhaCode) return null;
+  return BAH_MID_YEAR_CHANGES_BY_YEAR[CURRENT_BAH_YEAR]?.[mhaCode] ?? null;
+}
 
 /**
  * Get all BAH rates for an MHA code, dependency status, and year.
@@ -39,6 +74,25 @@ export function getMHARatesForYear(
   const yearData = RATES_BY_YEAR[year]?.[mhaCode];
   if (!yearData) return null;
   return hasDependents ? yearData.w : yearData.wo;
+}
+
+/** True if `year` has rates registered in src/data/bah/registry.ts. */
+export function isBahYear(year: string): year is BahYear {
+  return Object.prototype.hasOwnProperty.call(RATES_BY_YEAR, year);
+}
+
+/** Prior-year (BAH_PRIOR_YEAR) rates for an MHA: the rates still paid until January 1. */
+export interface PriorYearRates {
+  year: string;
+  ratesW: Record<string, number> | null;
+  ratesWO: Record<string, number> | null;
+}
+export function priorYearRates(mhaCode: string): PriorYearRates {
+  return {
+    year: PRIOR_BAH_YEAR,
+    ratesW: getMHARatesForYear(mhaCode, true, PRIOR_BAH_YEAR),
+    ratesWO: getMHARatesForYear(mhaCode, false, PRIOR_BAH_YEAR),
+  };
 }
 
 /**
@@ -79,7 +133,7 @@ export function lookupBAH(input: BAHInput): BAHOutput | null {
     annualRate: monthlyRate * 12,
     mhaCode,
     locationName: mhaNames[mhaCode] ?? mhaCode,
-    dataYear: DATA_YEAR,
+    dataYear: CURRENT_BAH_YEAR,
   };
 }
 

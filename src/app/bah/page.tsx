@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import { DUTY_STATIONS } from '@/data/duty-stations/stations';
-import { getMHACode, getMHARates } from '@/lib/calculations/bah';
+import { DUTY_STATIONS, STATION_BY_SLUG } from '@/data/duty-stations/stations';
+import { getMHACode, getMHARates, BAH_ZIP_COUNT } from '@/lib/calculations/bah';
+import { BAH_YEAR } from '@/data/bah/current';
 import { StationSearch, type StationCard } from '@/components/bah-stations/StationSearch';
 import { OCONUS_V2_STATIONS } from '@/data/oconus';
 import { ogImage } from '@/lib/og';
@@ -12,14 +13,18 @@ import { FaqSection, type FaqItem } from '@/components/FaqSection';
 import { webApplicationSchema } from '@/lib/schema';
 import { formatCurrency } from '@/lib/utils';
 import { Bah2027Notice } from '@/components/bah-stations/Bah2027Notice';
+import { BahTransitionNotice } from '@/components/bah-stations/BahTransitionNotice';
+import { bahNoticeMode, bahTransitionText, CURRENT_BAH_CONFIG } from '@/lib/calculations/bahTransition';
 import Link from 'next/link';
 import { KEY_DATES_HREF } from '@/data/calendar-2027';
 
 // Hub for both BAH intents: the ZIP calculator and the by-installation browse.
 // Absorbed the former standalone BAH calculator route (308 → /bah, see next.config.ts).
-const BAH_TITLE = 'BAH Calculator 2026: Rates by Duty Station';
+// ZIP count from the current BAH dataset, e.g. "40,959".
+const ZIP_COUNT = BAH_ZIP_COUNT.toLocaleString('en-US');
+const BAH_TITLE = `BAH Calculator ${BAH_YEAR}: Rates by Duty Station`;
 const BAH_DESC =
-  'Look up your 2026 BAH rate for any branch by ZIP code, pay grade and dependency status, or browse by duty station. Official DTMO data for all 40,959 ZIP codes.';
+  `Look up your ${BAH_YEAR} BAH rate for any branch by ZIP code, pay grade and dependency status, or browse by duty station. Official DTMO data for all ${ZIP_COUNT} ZIP codes.`;
 
 const BAH_FAQS: FaqItem[] = [
   {
@@ -38,7 +43,7 @@ const BAH_FAQS: FaqItem[] = [
       "Branch isn't the cause. The usual reasons are pay grade, dependency status, or a duty station ZIP code that falls in a different Military Housing Area.",
   },
 ];
-const BAH_OG = ogImage({ type: 'calculator', title: 'BAH Calculator 2026', sub: '2026 housing allowance for any ZIP, with station compare' });
+const BAH_OG = ogImage({ type: 'calculator', title: `BAH Calculator ${BAH_YEAR}`, sub: `${BAH_YEAR} housing allowance for any ZIP, with station compare` });
 const BAH_LAST_REVIEWED = 'September 18, 2026';
 
 export const metadata: Metadata = {
@@ -85,6 +90,7 @@ export default function BahHubPage() {
   const stationsWithRates = [...dutyCards, ...v2OnlyCards];
 
   const totalConus = DUTY_STATIONS.filter((s) => !s.oconus).length;
+  const noticeMode = bahNoticeMode();
 
   // ── Worked-example values, resolved server-side from the BAH dataset ──────────
   // Calls bah.ts directly (getMHACode → getMHARates), NOT the client
@@ -97,27 +103,33 @@ export default function BahHubPage() {
   const exSdWithDep = (exSdMha && getMHARates(exSdMha, true)?.[exGrade]) || 0;
   const exBahDiffMonthly = exSdWithDep - exFbWithDep;
   const exBahDiffAnnual = exBahDiffMonthly * 12;
+  // Low-cost reference market for the direct answer: Fort Polk, LA (E-5 with dependents).
+  const exLowMha = getMHACode(STATION_BY_SLUG['fort-polk'].zip);
+  const exLowWithDep = (exLowMha && getMHARates(exLowMha, true)?.[exGrade]) || 0;
 
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'BAH Calculator 2026', description: 'Look up your 2026 BAH rate by ZIP code, pay grade, and dependency status. Covers all 40,959 ZIP codes using official DTMO data. Compare rates across duty stations.', url: '/bah' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: `BAH Calculator ${BAH_YEAR}`, description: `Look up your ${BAH_YEAR} BAH rate by ZIP code, pay grade, and dependency status. Covers all ${ZIP_COUNT} ZIP codes using official DTMO data. Compare rates across duty stations.`, url: '/bah' })} />
       {/* ── Page intro ───────────────────────────────────────────────── */}
       <div className="border-b border-zinc-200" style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5">
           <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
+              {`Free · No Account · No Personal Info · Official ${BAH_YEAR} DoD & VA Data`}
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 leading-tight mb-2">
-            BAH Calculator: 2026 Rates by Duty Station
+            {`BAH Calculator: ${BAH_YEAR} Rates by Duty Station`}
           </h1>
           <p className="text-zinc-600 text-sm leading-relaxed">
             Look up your BAH rate by ZIP code, rank, and dependency status — with PCS comparison mode.
           </p>
           <div className="mt-3">
-            <Bah2027Notice />
+            {/* 'next-year-status' until the new year's rates are loaded; then the
+                transition line until January 1 (src/data/bah/current.ts). */}
+            {noticeMode === 'next-year-status' && <Bah2027Notice />}
+            {noticeMode === 'transition' && <BahTransitionNotice text={bahTransitionText(CURRENT_BAH_CONFIG, null)} />}
             <p className="text-xs mt-2" data-testid="bah-key-dates-link">
               <Link href={KEY_DATES_HREF} className="font-medium text-red-700 hover:text-red-800 underline">
                 See every 2027 key date →
@@ -130,7 +142,7 @@ export default function BahHubPage() {
       {/* ── 3-step plan strip ────────────────────────────────────────── */}
       <CalcStepStrip steps={[
         { title: 'Enter your duty station and rank' },
-        { title: 'See your official 2026 BAH rate' },
+        { title: `See your official ${BAH_YEAR} BAH rate` },
         { title: 'Compare across duty stations' },
       ]} />
 
@@ -142,7 +154,7 @@ export default function BahHubPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          BAH (Basic Allowance for Housing) is a monthly payment based on duty station location, pay grade, and dependency status — excluded from federal taxable income. Rates vary significantly by location: an E-5 with dependents receives $1,218/month in some markets and {formatCurrency(exSdWithDep)}/month in San Diego. This calculator looks up your exact 2026 BAH rate using official DTMO data for all 40,959 ZIP codes.
+          {`BAH (Basic Allowance for Housing) is a monthly payment based on duty station location, pay grade, and dependency status — excluded from federal taxable income. Rates vary significantly by location: an E-5 with dependents receives ${formatCurrency(exLowWithDep)}/month in some markets and `}{formatCurrency(exSdWithDep)}{`/month in San Diego. This calculator looks up your exact ${BAH_YEAR} BAH rate using official DTMO data for all ${ZIP_COUNT} ZIP codes.`}
         </p>
       </div>
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -151,7 +163,7 @@ export default function BahHubPage() {
             How Much Does BAH Vary Between Fort Bragg and San Diego?
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-5, 2026 rates — comparing Fort Bragg, NC (ZIP 28310) to NAS North Island / Naval Station San Diego, CA (ZIP 92134). Same rank, same benefits, dramatically different numbers.
+            {`Scenario: E-5, ${BAH_YEAR} rates — comparing Fort Bragg, NC (ZIP 28310) to NAS North Island / Naval Station San Diego, CA (ZIP 92134). Same rank, same benefits, dramatically different numbers.`}
           </p>
           <ExampleTable>
             <ExampleRow label="Fort Bragg, NC (28310) — With Dependents" value={`${formatCurrency(exFbWithDep)}/mo`} />
@@ -172,14 +184,14 @@ export default function BahHubPage() {
           <div className="inline-flex items-center gap-2 mb-4">
             <span className="block w-6 h-0.5 bg-red-700" />
             <span className="text-sm font-semibold text-red-700 uppercase tracking-widest">
-              Official 2026 DTMO Data
+              {`Official ${BAH_YEAR} DTMO Data`}
             </span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 mb-3">
             BAH Rates by Military Installation
           </h2>
           <p className="text-lg text-zinc-600 max-w-2xl mb-2">
-            2026 Basic Allowance for Housing rates for {totalConus} major U.S. military installations — every pay grade, with and without dependents, plus local housing market context.
+            {`${BAH_YEAR} Basic Allowance for Housing rates for `}{totalConus} major U.S. military installations — every pay grade, with and without dependents, plus local housing market context.
           </p>
           <p className="text-sm text-zinc-500 mb-8">
             Select an installation below, or search by name, city, state, or branch.
@@ -318,10 +330,7 @@ export default function BahHubPage() {
         <div className="rounded-lg bg-slate-50 border border-slate-200 p-4 text-xs text-slate-500 leading-relaxed">
           <p className="font-semibold text-slate-600 mb-1">Disclaimer</p>
           <p>
-            MilPayTools calculators use official DoD rate tables (2026) for educational purposes
-            only. Results are estimates and may not reflect your exact situation. Always verify your
-            BAH entitlement with your unit&apos;s Finance Office or your MyPay account. The
-            authoritative source for BAH rates is the{' '}
+            {`MilPayTools calculators use official DoD rate tables (${BAH_YEAR}) for educational purposes only. Results are estimates and may not reflect your exact situation. Always verify your BAH entitlement with your unit's Finance Office or your MyPay account. The authoritative source for BAH rates is the`}{' '}
             <a
               href="https://www.travel.dod.mil/Allowances/Basic-Allowance-for-Housing/BAH-Rate-Lookup/"
               target="_blank"
@@ -352,7 +361,7 @@ export default function BahHubPage() {
         </div>
 
         <p className="text-xs text-zinc-400 leading-relaxed">
-          Source: DTMO 2026 BAH rate tables. Last reviewed: {BAH_LAST_REVIEWED}.
+          {`Source: DTMO ${BAH_YEAR} BAH rate tables. Last reviewed: `}{BAH_LAST_REVIEWED}.
         </p>
 
       </div>

@@ -9,6 +9,7 @@ import {
 } from '../../src/lib/calculations/bahStats';
 import { getNationalAverages, getMHARatesForYear, getMHACode } from '../../src/lib/calculations/bah';
 import { STATION_BY_SLUG } from '../../src/data/duty-stations/stations';
+import { BAH_EXPECTED as X, yoy } from './fixtures/bah-expected';
 
 const NC182 = getMHACode(STATION_BY_SLUG['fort-bragg'].zip)!; // Fort Bragg
 const CA038 = getMHACode(STATION_BY_SLUG['naval-station-san-diego'].zip)!; // San Diego
@@ -23,21 +24,22 @@ test.describe('bahStats — nationalMedianBAH', () => {
     }
   });
 
-  test('known anchor: E-5 with dependents = $2,061', () => {
-    expect(nationalMedianBAH('E-5', true)).toBe(2061);
-    expect(nationalMedianBAH('E-5', false)).toBe(1670);
+  test(`known anchor (${X.year}): E-5 national median with/without dependents`, () => {
+    expect(nationalMedianBAH('E-5', true)).toBe(X.nationalMedianE5W);
+    expect(nationalMedianBAH('E-5', false)).toBe(X.nationalMedianE5WO);
   });
 });
 
 test.describe('bahStats — mhaPercentile', () => {
-  // Was 221 / 65% on the January tables. TX270 (Abilene) E-5 w/dep rose $1,554 → $1,872 on
-  // 2026-05-16, passing Fort Bragg's $1,806, so 221 MHAs are now above Fort Bragg.
-  test('Fort Bragg (NC182) E-5 w/dep ranks 222 of 338 (top 66%)', () => {
+  // 2026: was 221 / 65% on the January tables. TX270 (Abilene) E-5 w/dep rose $1,554 → $1,872
+  // on 2026-05-16, passing Fort Bragg's $1,806, so 221 MHAs are now above Fort Bragg.
+  test(`Fort Bragg E-5 w/dep national rank (${X.year} fixture)`, () => {
+    expect(NC182).toBe(X.bragg.mha);
     const p = mhaPercentile(NC182, 'E-5', true);
     expect(p).not.toBeNull();
-    expect(p!.rankFromTop).toBe(222);
-    expect(p!.total).toBe(338);
-    expect(p!.topPercent).toBe(66);
+    expect(p!.rankFromTop).toBe(X.bragg.nationalRankE5W);
+    expect(p!.total).toBe(X.mhaCount);
+    expect(p!.topPercent).toBe(X.bragg.nationalTopPercentE5W);
   });
 
   test('San Diego (CA038) is near the very top (top ≤ 5%)', () => {
@@ -62,12 +64,13 @@ test.describe('bahStats — mhaPercentile', () => {
 });
 
 test.describe('bahStats — yoyForGrade', () => {
-  test('Fort Bragg E-5 w/dep: $1,785 → $1,806 = +$21 (+1.2%)', () => {
+  test(`Fort Bragg E-5 w/dep YoY ${X.priorYear} → ${X.year}`, () => {
     const y = yoyForGrade(NC182, 'E-5', true)!;
-    expect(y.prior).toBe(1785);
-    expect(y.current).toBe(1806);
-    expect(y.abs).toBe(21);
-    expect(y.pct).toBeCloseTo(1.176, 2);
+    const e = yoy(X.bragg.e5W, X.bragg.priorE5W);
+    expect(y.prior).toBe(X.bragg.priorE5W);
+    expect(y.current).toBe(X.bragg.e5W);
+    expect(y.abs).toBe(e.abs);
+    expect(y.pct).toBeCloseTo(e.pct, 2);
   });
 
   test('unknown MHA → null (graceful)', () => {
@@ -93,13 +96,13 @@ test.describe('bahStats — siblingInstallations', () => {
 });
 
 test.describe('bahStats — nearbyDeltas', () => {
-  test('Fort Bragg nearby deltas vs base ($1,806 E-5 w/dep)', () => {
+  test('Fort Bragg nearby deltas vs base (E-5 w/dep)', () => {
     const map = Object.fromEntries(nearbyDeltas('fort-bragg').map((d) => [d.slug, d]));
-    expect(map['seymour-johnson-afb'].e5Delta).toBe(-285);
-    expect(map['camp-lejeune'].e5Delta).toBe(-222);
-    expect(map['marine-corps-air-station-cherry-point'].e5Delta).toBe(45);
-    // delta = nearby − base, and base E-5 = 1806
-    expect(map['seymour-johnson-afb'].e5Rate! - 1806).toBe(map['seymour-johnson-afb'].e5Delta);
+    for (const [slug, delta] of Object.entries(X.bragg.nearbyE5WDelta)) {
+      expect(map[slug].e5Delta).toBe(delta);
+      // delta = nearby − base
+      expect(map[slug].e5Rate! - X.bragg.e5W).toBe(delta);
+    }
   });
 
   test('unknown slug → [] (graceful)', () => {
@@ -117,44 +120,46 @@ import {
 const TX285 = getMHACode(STATION_BY_SLUG['joint-base-san-antonio'].zip)!; // E-5 w/dep fell
 
 test.describe('bahStats — hasRateDecrease', () => {
-  test('true where a grade fell (Fort Bragg NC182, San Antonio TX285)', () => {
-    expect(hasRateDecrease(NC182)).toBe(true);
-    expect(hasRateDecrease(TX285)).toBe(true);
-  });
-  test('false for a clean-increase MHA (Norfolk VA298)', () => {
-    expect(hasRateDecrease(VA298)).toBe(false);
+  test(`matches the ${X.year} fixture (Fort Bragg, San Antonio, Norfolk)`, () => {
+    expect(hasRateDecrease(NC182)).toBe(X.bragg.hasDecrease);
+    expect(hasRateDecrease(TX285)).toBe(X.sanAntonio.hasDecrease);
+    expect(hasRateDecrease(VA298)).toBe(X.norfolk.hasDecrease);
   });
   test('graceful: unknown MHA and prior year → false', () => {
     expect(hasRateDecrease('ZZ999')).toBe(false);
-    expect(hasRateDecrease(NC182, '2025')).toBe(false);
+    expect(hasRateDecrease(NC182, X.priorYear as Parameters<typeof hasRateDecrease>[1])).toBe(false);
   });
 });
 
 test.describe('bahStats — annualized YoY impact (abs × 12)', () => {
-  test('Fort Bragg E-5 w/dep increase → $252/yr', () => {
+  test('Fort Bragg E-5 w/dep annualized change', () => {
     const y = yoyForGrade(NC182, 'E-5', true)!;
-    expect(Math.abs(y.abs) * 12).toBe(252); // +$21/mo
+    expect(Math.abs(y.abs) * 12).toBe(yoy(X.bragg.e5W, X.bragg.priorE5W).annual); // 2026: +$21/mo → $252
   });
-  test('San Antonio E-5 w/dep decrease → $792/yr', () => {
+  test('San Antonio E-5 w/dep annualized change', () => {
     const y = yoyForGrade(TX285, 'E-5', true)!;
-    expect(y.abs).toBeLessThan(0); // it fell
-    expect(Math.abs(y.abs) * 12).toBe(792); // −$66/mo
+    const e = yoy(X.sanAntonio.e5W, X.sanAntonio.priorE5W);
+    expect(Math.sign(y.abs)).toBe(Math.sign(e.abs)); // 2026: it fell
+    expect(Math.abs(y.abs) * 12).toBe(e.annual); // 2026: −$66/mo → $792
   });
 });
 
-test.describe('bahStats — nationalIncreaseComparison (official 4.2% for 2026)', () => {
-  test('constant is the official DTMO figure', () => {
+test.describe('bahStats — nationalIncreaseComparison', () => {
+  test(`constant is the official DoD figure for ${X.year}`, () => {
+    expect(NATIONAL_AVG_BAH_INCREASE[X.year]).toBe(X.nationalAvgIncreasePct);
+    // The 2026 figure stays registered after the flip.
     expect(NATIONAL_AVG_BAH_INCREASE['2026']).toBe(4.2);
   });
+  // Tolerance logic, pinned to the 2026 figure (4.2%) so it holds after a BAH-year flip.
   test('above / below / in-line with ±0.3 tolerance', () => {
-    expect(nationalIncreaseComparison(4.516)!.relation).toBe('above'); // Norfolk
-    expect(nationalIncreaseComparison(1.176)!.relation).toBe('below'); // Fort Bragg
-    expect(nationalIncreaseComparison(-3.41)!.relation).toBe('below'); // a decrease
-    expect(nationalIncreaseComparison(4.3)!.relation).toBe('in line with'); // diff 0.1
-    expect(nationalIncreaseComparison(4.5)!.relation).toBe('in line with'); // diff exactly 0.3
-    expect(nationalIncreaseComparison(4.51)!.relation).toBe('above'); // diff 0.31
-    expect(nationalIncreaseComparison(3.9)!.relation).toBe('in line with'); // diff −0.3
-    expect(nationalIncreaseComparison(3.89)!.relation).toBe('below'); // diff −0.31
+    expect(nationalIncreaseComparison(4.516, '2026')!.relation).toBe('above'); // Norfolk
+    expect(nationalIncreaseComparison(1.176, '2026')!.relation).toBe('below'); // Fort Bragg
+    expect(nationalIncreaseComparison(-3.41, '2026')!.relation).toBe('below'); // a decrease
+    expect(nationalIncreaseComparison(4.3, '2026')!.relation).toBe('in line with'); // diff 0.1
+    expect(nationalIncreaseComparison(4.5, '2026')!.relation).toBe('in line with'); // diff exactly 0.3
+    expect(nationalIncreaseComparison(4.51, '2026')!.relation).toBe('above'); // diff 0.31
+    expect(nationalIncreaseComparison(3.9, '2026')!.relation).toBe('in line with'); // diff −0.3
+    expect(nationalIncreaseComparison(3.89, '2026')!.relation).toBe('below'); // diff −0.31
   });
   test('returns the national pct + null for years without a figure', () => {
     expect(nationalIncreaseComparison(5, '2026')!.nationalPct).toBe(4.2);

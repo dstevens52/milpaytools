@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { PAY_PAGE_RANKS } from '@/data/pay-pages/ranks';
+import { bahNoticeMode } from '@/lib/calculations/bahTransition';
 
 // 2027 key dates (feat/2027-key-dates): full calendar on /pay/raise, compact on
 // /pay, one line on each rank page, a link on /bah, a strip on the homepage.
@@ -84,7 +85,8 @@ test('/bah index: key-dates link next to the 2027 notice; station pages untouche
   await expect(link).toHaveText('See every 2027 key date →');
   await expect(link).toHaveAttribute('href', '/pay/raise#key-dates');
   await page.goto('/bah/fort-hood');
-  await expect(page.getByTestId('bah-2027-notice')).toHaveCount(1);
+  // The 2027 notice shows only until 2027 rates are loaded (bahNoticeMode).
+  await expect(page.getByTestId('bah-2027-notice')).toHaveCount(bahNoticeMode() === 'next-year-status' ? 1 : 0);
   await expect(page.getByTestId('bah-key-dates-link')).toHaveCount(0);
   await expect(page.getByTestId('key-dates-compact')).toHaveCount(0);
 });

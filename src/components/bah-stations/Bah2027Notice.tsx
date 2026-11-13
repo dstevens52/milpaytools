@@ -9,7 +9,8 @@ import {
 /**
  * Dated "2027 BAH rates" notice for /bah and CONUS /bah/[slug] pages.
  * No hooks — renders on the server (passed into StationPageClient as a slot).
- * Remove from both pages once 2027 rates are loaded (priority #5).
+ * Both pages render it only in the 'next-year-status' notice mode, so it drops
+ * out automatically once BAH_YEAR is '2027' (src/lib/calculations/bahTransition.ts).
  */
 export function Bah2027Notice({ stationName }: { stationName?: string }) {
   const text = bah2027NoticeText(stationName);

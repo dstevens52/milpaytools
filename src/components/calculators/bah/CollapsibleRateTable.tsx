@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { formatCurrency } from '@/lib/utils';
 import { YoYDelta } from '@/components/calculators/bah/YoYDelta';
+import { BAH_YEAR, BAH_PRIOR_YEAR, BAH_EFFECTIVE_DATE_LABEL } from '@/data/bah/current';
 import {
   RANK_DISPLAY,
   ENLISTED_GRADES,
@@ -37,7 +38,7 @@ const ALL_GRADES_ORDERED: string[] = [
   ...OFFICER_GRADES,
 ];
 
-export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGrade, selectedHasDependents, ratesWPrev, ratesWOPrev, currentYear = '2026', priorYear = '2025', hasDecrease = false, effectiveLabel = 'January 1, 2026' }: Props) {
+export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGrade, selectedHasDependents, ratesWPrev, ratesWOPrev, currentYear = BAH_YEAR, priorYear = BAH_PRIOR_YEAR, hasDecrease = false, effectiveLabel = BAH_EFFECTIVE_DATE_LABEL }: Props) {
   const [open, setOpen] = useState(false);
   const hasPrevW = !!ratesWPrev && Object.keys(ratesWPrev).length > 0;
   const hasPrevWO = !!ratesWOPrev && Object.keys(ratesWOPrev).length > 0;
@@ -97,10 +98,10 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGr
       {/* Always-visible header */}
       <div className="px-6 py-5">
         <h2 className="text-lg font-semibold text-zinc-900 mb-1">
-          2026 BAH Rates — {locationName}
+          {`${currentYear} BAH Rates — `}{locationName}
         </h2>
         <p className="text-sm text-zinc-500 mb-4">
-          Monthly rates for all pay grades. Source: DTMO 2026 BAH data. BAH is not taxable income.
+          {`Monthly rates for all pay grades. Source: DTMO ${currentYear} BAH data. BAH is not taxable income.`}
         </p>
 
         {/* Rate preview — visible when collapsed */}
@@ -123,7 +124,7 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGr
         >
           {open
             ? <>Collapse <span className={`inline-block transition-transform duration-200 rotate-180`}>▼</span></>
-            : <>View all 2026 BAH rates by pay grade <span className={`inline-block transition-transform duration-200`}>▼</span></>
+            : <>{`View all ${currentYear} BAH rates by pay grade `}<span className={`inline-block transition-transform duration-200`}>▼</span></>
           }
         </button>
       </div>

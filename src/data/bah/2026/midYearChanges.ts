@@ -5,23 +5,16 @@
  * records that (and when) they changed, so pages can say so instead of
  * claiming every rate is effective January 1.
  *
+ * Registered by year in src/data/bah/registry.ts; read it through
+ * getBahMidYearChange() in src/lib/calculations/bah.ts.
+ *
  * Source records: docs/sources/. Process: docs/ANNUAL_DATA_UPDATE.md →
  * "Mid-year BAH changes".
  */
 
-export interface BahMidYearChange {
-  mhaCode: string;
-  /** Area name for copy, e.g. "Abilene/Dyess AFB". */
-  areaName: string;
-  /** ISO effective date of the change. */
-  effective: string;
-  /** Label as shown in DTMO's BAH year selector. */
-  dtmoLabel: string;
-  /** Repo path of the official source record. */
-  sourceDoc: string;
-}
+import type { BahMidYearChanges } from '../midYear';
 
-export const BAH_MID_YEAR_CHANGES: Readonly<Record<string, BahMidYearChange>> = {
+export const BAH_MID_YEAR_CHANGES: BahMidYearChanges = {
   TX270: {
     mhaCode: 'TX270',
     areaName: 'Abilene/Dyess AFB',
@@ -30,19 +23,3 @@ export const BAH_MID_YEAR_CHANGES: Readonly<Record<string, BahMidYearChange>> = 
     sourceDoc: 'docs/sources/bah-2026-abilene-temporary-increase.md',
   },
 };
-
-export function getBahMidYearChange(mhaCode: string | null | undefined): BahMidYearChange | null {
-  if (!mhaCode) return null;
-  return BAH_MID_YEAR_CHANGES[mhaCode] ?? null;
-}
-
-/** "May 16, 2026" from an ISO date, without timezone drift. */
-export function formatBahDate(iso: string): string {
-  const [y, m, d] = iso.split('-').map(Number);
-  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    timeZone: 'UTC',
-  });
-}

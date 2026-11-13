@@ -12,6 +12,21 @@
  * Query params:
  *   ?zip=NNNNN   5-digit ZIP (primary). Takes precedence if both are given.
  *   ?mha=XX000   known MHA code (rates-only lookup for callers that have it).
+ *   ?y=YYYY      the BAH year the caller was built for (useBahLookup sends
+ *                BAH_YEAR). It is part of the cache key: when BAH_YEAR flips,
+ *                clients ask for a new URL, so no browser or CDN entry from the
+ *                old year can answer. Only y === BAH_YEAR responses are cached;
+ *                a missing or different y (a tab opened before the flip) gets
+ *                the current data with no-store.
+ *
+ *   ?ratesYear=YYYY  rates for another registered BAH year (ZIP → MHA still from
+ *                BAH_YEAR). The education calculator sends EDUCATION_BAH_YEAR,
+ *                because VA's GI Bill MHA lags the BAH release until August 1.
+ *                Unregistered year → 400. Echoed back as `ratesYear`.
+ *
+ * Every valid response carries `year` (BAH_YEAR). While BAH_EFFECTIVE_NOTICE is
+ * on (DoD release → Dec 31) it also carries `prior: { year, ratesW, ratesWO }`
+ * — the rates still being paid until January 1. Additive; absent otherwise.
  *
  * Response (200), all small + stable:
  *   valid CONUS/OCONUS-BAH ZIP → { valid:true, territory:false, mha, locationName, ratesW, ratesWO }
@@ -26,11 +41,17 @@ import {
   getLocationName,
   isZipInDataset,
   isTerritory,
+  priorYearRates,
+  getMHARatesForYear,
+  isBahYear,
+  type PriorYearRates,
 } from '@/lib/calculations/bah';
-import { getStationPagesForZip, MHA_TO_STATION_PAGES } from '@/data/bah/2026/mhaToStationPage';
+import { getStationPagesForZip, MHA_TO_STATION_PAGES } from '@/data/bah/mhaToStationPage';
+import { BAH_YEAR, BAH_EFFECTIVE_NOTICE } from '@/data/bah/current';
 import { isValidZip } from '@/lib/utils';
 
-// BAH data is fixed for the calendar year → safe to cache hard at the edge.
+// BAH data is fixed for the BAH year → safe to cache hard at the edge, as long
+// as the URL names the year (see ?y= above).
 const IMMUTABLE_CACHE = 'public, max-age=86400, s-maxage=31536000, immutable';
 // Don't persist transient client errors.
 const NO_STORE = 'no-store';
@@ -45,10 +66,26 @@ function json(body: unknown, status = 200, cache = IMMUTABLE_CACHE): Response {
   });
 }
 
+/** Prior-year rates for an MHA, only while the effective-date notice is on. */
+function priorFor(mha: string): { prior?: PriorYearRates } {
+  return BAH_EFFECTIVE_NOTICE ? { prior: priorYearRates(mha) } : {};
+}
+
 export async function GET(request: Request): Promise<Response> {
   const { searchParams } = new URL(request.url);
   const zip = searchParams.get('zip');
   const mhaParam = searchParams.get('mha');
+  // Cache only answers to a request that names the current BAH year.
+  const okCache = searchParams.get('y') === BAH_YEAR ? IMMUTABLE_CACHE : NO_STORE;
+  const ratesYearParam = searchParams.get('ratesYear');
+  if (ratesYearParam !== null && !isBahYear(ratesYearParam)) {
+    return json({ error: `ratesYear ${ratesYearParam} is not a registered BAH year` }, 400, NO_STORE);
+  }
+  const ratesYear = ratesYearParam ?? undefined;
+  /** Rates for the MHA in the requested year (BAH_YEAR unless ratesYear was given). */
+  const ratesFor = (mha: string, dep: boolean) =>
+    ratesYear !== undefined ? getMHARatesForYear(mha, dep, ratesYear) : getMHARates(mha, dep);
+  const ratesYearField = ratesYear !== undefined ? { ratesYear } : {};
 
   // ── ZIP path (primary; takes precedence when provided) ──────────────────────
   if (zip !== null) {
@@ -65,10 +102,11 @@ export async function GET(request: Request): Promise<Response> {
         locationName: null,
         ratesW: null,
         ratesWO: null,
-      });
+        year: BAH_YEAR,
+      }, 200, okCache);
     }
     if (!isZipInDataset(zip)) {
-      return json({ valid: false });
+      return json({ valid: false, year: BAH_YEAR }, 200, okCache);
     }
     const mha = getMHACode(zip) as string; // non-null after isZipInDataset
     return json({
@@ -76,19 +114,22 @@ export async function GET(request: Request): Promise<Response> {
       territory: false,
       mha,
       locationName: getLocationName(zip),
-      ratesW: getMHARates(mha, true),
-      ratesWO: getMHARates(mha, false),
+      ratesW: ratesFor(mha, true),
+      ratesWO: ratesFor(mha, false),
       // Resolved server-side so calculator clients don't import zipToMha for guide links.
       stationPages: getStationPagesForZip(zip),
-    });
+      year: BAH_YEAR,
+      ...ratesYearField,
+      ...priorFor(mha),
+    }, 200, okCache);
   }
 
   // ── MHA-only path (rates lookup for callers that already resolved the MHA) ───
   if (mhaParam) {
-    const ratesW = getMHARates(mhaParam, true);
-    const ratesWO = getMHARates(mhaParam, false);
+    const ratesW = ratesFor(mhaParam, true);
+    const ratesWO = ratesFor(mhaParam, false);
     if (!ratesW || !ratesWO) {
-      return json({ valid: false });
+      return json({ valid: false, year: BAH_YEAR }, 200, okCache);
     }
     return json({
       valid: true,
@@ -98,7 +139,10 @@ export async function GET(request: Request): Promise<Response> {
       ratesW,
       ratesWO,
       stationPages: MHA_TO_STATION_PAGES[mhaParam] ?? [],
-    });
+      year: BAH_YEAR,
+      ...ratesYearField,
+      ...priorFor(mhaParam),
+    }, 200, okCache);
   }
 
   return json({ error: 'Provide a `zip` or `mha` query param' }, 400, NO_STORE);

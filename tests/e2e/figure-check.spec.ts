@@ -10,7 +10,9 @@ import { test, expect } from '@playwright/test';
 import { join } from 'node:path';
 import * as pay2026 from '@/data/pay-tables/2026';
 import * as va2026 from '@/data/va-rates/2026';
-import * as bah2026 from '@/data/bah/2026/mhaRates';
+// BAH year folders are read only through the registry (src/data/bah/registry.ts).
+import { BAH_RATES_BY_YEAR } from '@/data/bah/registry';
+const bah2026 = { DATA_YEAR: '2026', mhaRates: BAH_RATES_BY_YEAR['2026'] };
 import * as constants from '@/data/constants';
 import * as deployment2026 from '@/data/deployment/2026/constants';
 import * as education2026 from '@/data/education/2026/constants';

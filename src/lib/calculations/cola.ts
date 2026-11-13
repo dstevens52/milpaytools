@@ -9,9 +9,14 @@
 // Client components must NOT import this file: they resolve the MHA via
 // /api/bah/lookup (useBahLookup) and import colaForMha from './colaMha'.
 
-import { zipToMha } from '@/data/bah/2026/zipToMha';
-import { mhaNames } from '@/data/bah/2026/mhaNames';
+import { currentZipToMha, currentMhaNames } from '@/lib/calculations/bah';
 import { colaForMha, type ColaLookupResult } from './colaMha';
+
+// ZIP → MHA comes from the current BAH year (src/data/bah/current.ts). The COLA
+// list is keyed by MHA code, so a BAH-year flip that renames an MHA needs the
+// COLA list checked too (docs/RELEASE_DAY_BAH_2027.md).
+const zipToMha = currentZipToMha();
+const mhaNames = currentMhaNames();
 
 export { colaForMha };
 export type { ColaLookupResult, ColaEligible, ColaNotEligible, ColaNotFound } from './colaMha';

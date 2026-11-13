@@ -1,0 +1,3 @@
+# DTMO BAH source-of-record files: keep the exact downloaded bytes (no EOL
+# conversion), so the SHA-256 recorded in docs/sources/bah-{YYYY}.md always matches.
+data/sources/dtmo/** -text

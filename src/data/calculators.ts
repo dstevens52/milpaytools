@@ -1,6 +1,13 @@
 // Calculator registry — rendered by /calculators and read by the v2 OCONUS
 // station template (src/components/oconus/OconusStationPage.tsx), which shows
 // only entries flagged supportsOconus.
+//
+// Server-only: the BAH year and counts below come from the BAH dataset.
+
+import { BAH_ZIP_COUNT, BAH_MHA_COUNT } from '@/lib/calculations/bah';
+import { BAH_YEAR } from '@/data/bah/current';
+
+const ZIP_COUNT = BAH_ZIP_COUNT.toLocaleString('en-US');
 
 export interface CalculatorDetail {
   href: string;
@@ -22,7 +29,7 @@ export const CALCULATORS: CalculatorDetail[] = [
       'See your complete military pay package — not just base pay. Includes BAH by ZIP code, BAS, tax advantage breakdown, BRS matching, and civilian salary equivalent.',
     features: [
       'All ranks E-1 through O-10',
-      '40,959 ZIP codes',
+      `${ZIP_COUNT} ZIP codes`,
       'Tax-free allowance calculation',
       'Civilian equivalent salary',
     ],
@@ -34,10 +41,10 @@ export const CALCULATORS: CalculatorDetail[] = [
     icon: '🏠',
     name: 'BAH Calculator',
     description:
-      'Look up your 2026 Basic Allowance for Housing by duty station ZIP code, pay grade, and dependency status. Compare two locations side by side for PCS planning.',
+      `Look up your ${BAH_YEAR} Basic Allowance for Housing by duty station ZIP code, pay grade, and dependency status. Compare two locations side by side for PCS planning.`,
     features: [
-      'All 40,959 U.S. ZIP codes',
-      '338 military housing areas',
+      `All ${ZIP_COUNT} U.S. ZIP codes`,
+      `${BAH_MHA_COUNT} military housing areas`,
       'PCS comparison mode',
       'With and without dependents',
     ],
@@ -249,7 +256,7 @@ export const CALCULATORS: CalculatorDetail[] = [
       'Optimal dependent-claiming finder',
       'Same-station and different-station modes',
       'Step-by-step math breakdown',
-      'All 40,959 ZIP codes · 2026 DTMO data',
+      `All ${ZIP_COUNT} ZIP codes · ${BAH_YEAR} DTMO data`,
     ],
     group: 'allowances',
     supportsOconus: false,

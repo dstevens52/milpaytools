@@ -12,7 +12,8 @@ import {
 import { payTable, E1_UNDER_4_MONTHS } from '@/data/pay-tables/2026';
 import { YOS_BREAKPOINTS, ENLISTED_GRADES, type YearsOfService } from '@/types/military';
 import { BAS_RATES, DATA_AS_OF } from '@/data/constants';
-import { getNationalAverages } from '@/lib/calculations/bah';
+import { getNationalAverages, BAH_ZIP_COUNT, BAH_MHA_COUNT } from '@/lib/calculations/bah';
+import { BAH_YEAR } from '@/data/bah/current';
 import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
 import { formatCurrency, getYOSBracket, estimateMarginalRate } from '@/lib/utils';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -390,7 +391,7 @@ export default async function RankPayPage({
     branchFaq,
     {
       question: `What is ${rank.title} total compensation with BAH and BAS?`,
-      answer: `Using the 2026 national median BAH ${rank.exampleDependents ? 'with' : 'without'} dependents (${formatCurrency(medianBAH)}/month), an ${exampleProse} receives about ${formatCurrency(comp.totalMonthly)}/month — ${formatCurrency(comp.monthlyBasePay, true)} basic pay, ${formatCurrency(comp.monthlyBAH)} BAH, and ${formatCurrency(comp.monthlyBAS, true)} BAS — roughly ${formatCurrency(annualCash)} per year. Actual totals depend on duty station, since BAH varies by location.`,
+      answer: `Using the ${BAH_YEAR} national median BAH ${rank.exampleDependents ? 'with' : 'without'} dependents (${formatCurrency(medianBAH)}/month), an ${exampleProse} receives about ${formatCurrency(comp.totalMonthly)}/month — ${formatCurrency(comp.monthlyBasePay, true)} basic pay, ${formatCurrency(comp.monthlyBAH)} BAH, and ${formatCurrency(comp.monthlyBAS, true)} BAS — roughly ${formatCurrency(annualCash)} per year. Actual totals depend on duty station, since BAH varies by location.`,
     },
     ...(rank.faqExtras ?? []),
     {
@@ -624,7 +625,7 @@ export default async function RankPayPage({
             {`What an ${rank.title} actually receives each month`}
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-            {`Worked example: ${exampleLabel}, living off-installation. Figures use the national median BAH across all 338 military housing areas — your actual BAH depends on your duty station.`}
+            {`Worked example: ${exampleLabel}, living off-installation. Figures use the national median BAH across all ${BAH_MHA_COUNT} military housing areas — your actual BAH depends on your duty station.`}
           </p>
           <div className="rounded-lg border border-zinc-200 bg-white divide-y divide-zinc-100 text-sm">
             <div className="flex items-center justify-between px-4 py-2.5">
@@ -767,7 +768,7 @@ export default async function RankPayPage({
               <Link href="/bah" className="text-blue-700 underline hover:text-blue-800">
                 BAH Calculator
               </Link>{' '}
-              <span className="text-zinc-500">— 2026 rates for all 40,959 ZIP codes</span>
+              <span className="text-zinc-500">{`— ${BAH_YEAR} rates for all ${BAH_ZIP_COUNT.toLocaleString('en-US')} ZIP codes`}</span>
             </li>
             {rank.deepDivePost && (
               <li>
@@ -804,7 +805,7 @@ export default async function RankPayPage({
             >
               2026 DFAS military pay tables
             </a>
-            {`, effective ${DATA_AS_OF}. BAH national median computed from the official 2026 DTMO BAH rate data (338 military housing areas). BAS from the 2026 DFAS published rates. Basic pay is taxable income; verify your own pay on your LES via `}
+            {`, effective ${DATA_AS_OF}. BAH national median computed from the official ${BAH_YEAR} DTMO BAH rate data (${BAH_MHA_COUNT} military housing areas). BAS from the 2026 DFAS published rates. Basic pay is taxable income; verify your own pay on your LES via `}
             <a
               href="https://mypay.dfas.mil"
               target="_blank"

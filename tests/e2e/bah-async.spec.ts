@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { bahAmount } from './helpers/format';
+import { BAH_EXPECTED as X } from './fixtures/bah-expected';
 
 // Verifies the BAH calculator's migration to the async /api/bah/lookup route:
 // loading state, deep-link resolution on mount, race-safety, and clean
@@ -20,21 +21,21 @@ test.describe('BAH Calculator — async route migration', () => {
   });
 
   test('deep-link (?zip=28310&rank=E-5&dependents=yes) resolves on mount', async ({ page }) => {
-    await page.goto('/bah?zip=28310&rank=E-5&dependents=yes');
-    // E-5 with dependents at Fort Bragg = $1,806/mo, fetched on mount.
-    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(1806) })).toBeVisible();
+    await page.goto(`/bah?zip=${X.bragg.zip}&rank=E-5&dependents=yes`);
+    // E-5 with dependents at Fort Bragg (BAH_YEAR fixture), fetched on mount.
+    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(X.bragg.e5W) })).toBeVisible();
   });
 
   test('rapid ZIP change lands on the FINAL ZIP, not a stale one (race-safe)', async ({ page }) => {
     await page.goto('/bah');
     const input = page.getByLabel('Duty Station');
-    await input.fill('28310'); // Fort Bragg → 1806 (w/dep) — but we leave dep off
-    await input.fill('92134'); // San Diego → final
+    await input.fill(X.bragg.zip); // Fort Bragg (w/dep) — but we leave dep off
+    await input.fill(X.sanDiego.zip); // San Diego → final
     await page.getByRole('button', { name: 'With Dependents' }).click();
-    // Final ZIP (San Diego E-5 w/dep = 3975) must win.
-    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(3975) })).toBeVisible();
+    // Final ZIP (San Diego E-5 w/dep) must win.
+    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(X.sanDiego.e5W) })).toBeVisible();
     // The stale Fort Bragg rate must NOT be displayed.
-    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(1806) })).toHaveCount(0);
+    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(X.bragg.e5W) })).toHaveCount(0);
   });
 
   test('out-of-dataset ZIP shows not-found feedback — no crash, no undefined/NaN', async ({ page }) => {
