@@ -47,9 +47,9 @@ const FAQS = [
       'High-3: Monthly pension = 2.5% × years of service × average of highest 36 months of base pay. At 20 years: 50%; at 30 years: 75%. BRS uses 2.0% per year — 40% at 20 years, 60% at 30 years — partially offset by TSP matching over a career.',
   },
   {
-    question: 'What are the 2026 TSP contribution limits?',
+    question: 'What are the 2026 and 2027 TSP contribution limits?',
     answer:
-      '2026 limits: annual elective deferral $24,500; catch-up contributions age 50–59 and 64+: additional $8,000 (total $32,500); enhanced catch-up ages 60–63 under SECURE 2.0: additional $11,250 (total $35,750). In a combat zone, the total annual additions limit rises to $72,000 — but Roth TSP contributions remain capped at $24,500; contributions above that from tax-exempt combat-zone pay go into the traditional tax-exempt portion of TSP, not Roth. TSP expense ratios are among the lowest of any retirement plan available.',
+      '2026 limits: annual elective deferral $24,500; catch-up contributions age 50–59 and 64+: additional $8,000 (total $32,500 for 2026); enhanced catch-up ages 60–63 under SECURE 2.0: additional $11,250 (total $35,750 for 2026). In a combat zone, the 2026 total annual additions limit is $72,000 — but Roth TSP contributions remain capped at $24,500 for 2026; contributions above that from tax-exempt combat-zone pay go into the traditional tax-exempt portion of TSP, not Roth. 2027 limits (announced by the IRS on November 12, 2026 in IRS Notice 2026-66; they apply to contributions made from January 1, 2027): elective deferral $25,500; catch-up age 50 and older $8,500; enhanced catch-up ages 60–63 $11,750; annual additions limit $75,000. TSP expense ratios are among the lowest of any retirement plan available.',
   },
   {
     question: 'Should I choose Roth or Traditional TSP?',
@@ -172,7 +172,7 @@ const ACCORDION = [
     ),
   },
   {
-    question: 'How does TSP work and what are the 2026 contribution limits?',
+    question: 'How does TSP work and what are the 2026 and 2027 contribution limits?',
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
@@ -185,9 +185,21 @@ const ACCORDION = [
         <p><strong className="text-zinc-800">2026 contribution limits:</strong></p>
         <ul className="space-y-1 pl-4 list-disc">
           <li>Annual elective deferral: <strong className="text-zinc-800">$24,500</strong></li>
-          <li>Catch-up (age 50–59 and 64+): additional $8,000 → total $32,500</li>
-          <li>Enhanced catch-up (ages 60–63, SECURE 2.0): additional $11,250 → total $35,750</li>
-          <li>Combat zone: total annual additions limit rises to <strong className="text-zinc-800">$72,000</strong> — Roth TSP remains capped at $24,500; contributions above that from tax-exempt combat-zone pay go into the traditional tax-exempt portion of TSP, not Roth</li>
+          <li>Catch-up (age 50–59 and 64+): additional $8,000 → total $32,500 for 2026</li>
+          <li>Enhanced catch-up (ages 60–63, SECURE 2.0): additional $11,250 → total $35,750 for 2026</li>
+          <li>Combat zone: total annual additions limit is <strong className="text-zinc-800">$72,000</strong> for 2026 — Roth TSP remains capped at $24,500; contributions above that from tax-exempt combat-zone pay go into the traditional tax-exempt portion of TSP, not Roth</li>
+        </ul>
+        <p>
+          <strong className="text-zinc-800">2027 contribution limits</strong> (announced by the IRS on
+          November 12, 2026 in{' '}
+          <a href="https://www.irs.gov/pub/irs-drop/n-26-66.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-700 underline">IRS Notice 2026-66</a>;
+          they apply to contributions made from January 1, 2027):
+        </p>
+        <ul className="space-y-1 pl-4 list-disc">
+          <li>Annual elective deferral: <strong className="text-zinc-800">$25,500</strong></li>
+          <li>Catch-up (age 50 and older): additional $8,500</li>
+          <li>Enhanced catch-up (ages 60–63, SECURE 2.0): additional $11,750</li>
+          <li>Annual additions limit (combat-zone maximum): $75,000</li>
         </ul>
         <p><strong className="text-zinc-800">TSP fund options:</strong></p>
         <ul className="space-y-1 pl-4 list-disc">

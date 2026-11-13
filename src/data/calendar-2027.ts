@@ -19,6 +19,12 @@ import { RETIREE_COLA_2027 } from '@/data/retiree-cola/2027';
 import { BAH_2027_STATUS } from '@/data/bah/2027-status';
 import { DATA_LAST_CHECKED } from '@/data/watch';
 import { formatIsoDate, formatPercent, raiseCalendarEntry } from '@/lib/calculations/payRaise';
+import { TSP_CONSTANTS_2027, TSP_LIMITS_2027_ANNOUNCED, TSP_LIMITS_2027_NOTICE } from '@/data/tsp/2027/constants';
+
+/** "$25,500" — whole dollars, for the one calendar entry that states official limits. */
+function dollars(n: number): string {
+  return '$' + n.toLocaleString('en-US', { maximumFractionDigits: 0 });
+}
 
 export type CalendarStatus = 'official' | 'expected' | 'pending';
 
@@ -48,6 +54,7 @@ export const CALENDAR_SOURCES = {
     url: 'https://www.congress.gov/bill/119th-congress/senate-bill/4487',
   },
   irs202567: { name: 'IRS Notice 2025-67 (2026 limits, the precedent)', url: 'https://www.irs.gov/pub/irs-drop/n-25-67.pdf' },
+  irs202666: { name: 'IRS Notice 2026-66 (2027 limits, announced Nov 12, 2026)', url: 'https://www.irs.gov/pub/irs-drop/n-26-66.pdf' },
   bah2026Release: {
     name: 'Department of War releases 2026 basic allowance for housing rates (AETC, Dec 11, 2025)',
     url: 'https://www.aetc.af.mil/News/Article-Display/Article/4359784/department-of-war-releases-2026-basic-allowance-for-housing-rates/',
@@ -152,13 +159,15 @@ export function getCalendar2027(config: PayRaiseConfig = PAY_RAISE_2027): Calend
       link: { href: '/calculators/va-disability', label: 'VA disability calculator →' },
     },
     {
+      // Deliberate exception to "no $ in calendar text": the official 2027 limits
+      // (docs/sources/calendar-2027.md; pay-raise-2027.spec.ts exempts this id only).
       id: 'tsp-limits',
-      dateLabel: 'Usually late October or November',
-      isoDate: null,
+      dateLabel: formatIsoDate(TSP_LIMITS_2027_ANNOUNCED),
+      isoDate: TSP_LIMITS_2027_ANNOUNCED,
       title: '2027 TSP contribution limits',
-      body: 'The IRS announces the 2027 limits, usually in late October or November. The 2026 limits were announced November 13, 2025.',
-      status: 'pending',
-      source: CALENDAR_SOURCES.irs202567,
+      body: `The IRS announced the 2027 limits on ${formatIsoDate(TSP_LIMITS_2027_ANNOUNCED)} (${TSP_LIMITS_2027_NOTICE}): ${dollars(TSP_CONSTANTS_2027.electiveDeferralLimit)} elective deferral limit, ${dollars(TSP_CONSTANTS_2027.catchUpLimit)} catch-up at age 50 and older, and ${dollars(TSP_CONSTANTS_2027.enhancedCatchUpLimit)} catch-up at ages 60–63. They take effect January 1, 2027.`,
+      status: 'official',
+      source: CALENDAR_SOURCES.irs202666,
       link: { href: '/calculators/tsp', label: 'TSP calculator →' },
     },
     {

@@ -10,6 +10,7 @@ import { calculateDeployment } from '@/lib/calculations/deployment';
 import { getMHACode, getMHARates } from '@/lib/calculations/bah';
 import { formatCurrency } from '@/lib/utils';
 import { DEPLOYMENT_RATES_2026 } from '@/data/deployment/2026/constants';
+import { TSP_CONSTANTS_2027, TSP_LIMITS_2027_NOTICE } from '@/data/tsp/2027/constants';
 
 const DEPLOYMENT_LAST_REVIEWED = 'October 15, 2026';
 const R = DEPLOYMENT_RATES_2026;
@@ -296,15 +297,11 @@ export default function DeploymentPage() {
               TSP during deployment
             </h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              During months in a designated combat zone, the total annual additions limit (IRC § 415(c))
-              rises from $24,500 to $72,000 in 2026. This allows higher overall contributions to TSP
-              from tax-exempt combat-zone pay.
+              {`During months in a designated combat zone, contributions from tax-exempt combat-zone pay can go above the normal elective deferral limit (${formatCurrency(DEPLOYMENT_RATES_2026.tspNormalLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027), up to the total annual additions limit (IRC § 415(c)): ${formatCurrency(DEPLOYMENT_RATES_2026.tspCombatZoneLimit)} for 2026 and ${formatCurrency(TSP_CONSTANTS_2027.annualAdditionsLimit)} for 2027. This allows higher overall contributions to TSP from tax-exempt combat-zone pay.`}
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              <strong>Important:</strong> Roth TSP contributions remain capped at the $24,500 elective
-              deferral limit — even in a combat zone. Contributions above $24,500 from tax-exempt
-              combat-zone pay go into the traditional tax-exempt portion of TSP, not Roth. You cannot
-              contribute $72,000 to Roth TSP.
+              <strong>Important:</strong>{' '}
+              {`Roth TSP contributions remain capped at the elective deferral limit (${formatCurrency(DEPLOYMENT_RATES_2026.tspNormalLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027) — even in a combat zone. Contributions above that limit from tax-exempt combat-zone pay go into the traditional tax-exempt portion of TSP, not Roth. You cannot contribute the full annual additions limit to Roth TSP.`}
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               Plan your contribution percentage in advance; DFAS processes TSP elections and changes
@@ -340,9 +337,7 @@ export default function DeploymentPage() {
               TSP Growth Projector
             </a>{' '}
             can model the long-term impact of maxing your TSP contributions during a combat zone
-            deployment — the annual additions limit rises to $72,000 in a combat zone, though Roth
-            contributions remain capped at $24,500 and excess tax-exempt contributions go into
-            traditional TSP.
+            {`deployment — in a combat zone, contributions can go up to the annual additions limit (${formatCurrency(DEPLOYMENT_RATES_2026.tspCombatZoneLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.annualAdditionsLimit)} for 2027), though Roth contributions remain capped at the elective deferral limit (${formatCurrency(DEPLOYMENT_RATES_2026.tspNormalLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027) and excess tax-exempt contributions go into traditional TSP.`}
           </div>
 
           <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 text-sm text-zinc-600">
@@ -367,8 +362,7 @@ export default function DeploymentPage() {
             effective {R.ratesEffectiveDate} (DoWI 1340.09; DoW 7000.14-R, Volume 7a, Chapters 10 and 17;
             statutory authority 37 U.S.C. § 351 per the DoD release of October 1, 2026).
             FSA: $300/month (37 U.S.C. § 427, FY2026 NDAA). CZTE: 26 U.S.C. § 112 and IRS
-            Publication 3. SDP: 10 U.S.C. § 1035. TSP: IRC § 415(c) total additions limit $72,000
-            in combat zones; Roth TSP elective deferral (IRC § 402(g)) remains capped at $24,500.
+            {`Publication 3. SDP: 10 U.S.C. § 1035. TSP: IRC § 415(c) total additions limit ${formatCurrency(DEPLOYMENT_RATES_2026.tspCombatZoneLimit)} for 2026 (${formatCurrency(TSP_CONSTANTS_2027.annualAdditionsLimit)} for 2027, ${TSP_LIMITS_2027_NOTICE}) in combat zones; Roth TSP elective deferral (IRC § 402(g)) remains capped at ${formatCurrency(DEPLOYMENT_RATES_2026.tspNormalLimit)} for 2026 (${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027).`}
             Federal tax calculation uses 2026 tax brackets and standard deduction for
             single filers; actual taxes will vary based on filing status, deductions, and state tax
             law. Always verify your specific entitlements with your finance office and DFAS.

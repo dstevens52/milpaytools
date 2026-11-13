@@ -366,10 +366,16 @@ test.describe('2027 key dates — calendar data', () => {
     }
   });
 
+  // One deliberate exception: 'tsp-limits' states the official 2027 IRS limits
+  // (docs/sources/calendar-2027.md). Exactly that id, nothing else.
+  const DOLLAR_EXCEPTIONS = new Set(['tsp-limits']);
+
   test('no dollar amounts and no advice wording in any calendar text', () => {
-    for (const e of getCalendar2027()) {
+    const cal = getCalendar2027();
+    expect(cal.filter((e) => DOLLAR_EXCEPTIONS.has(e.id)).map((e) => e.id)).toEqual(['tsp-limits']);
+    for (const e of cal) {
       const text = `${e.dateLabel} ${e.title} ${e.body}`;
-      expect(text, e.id).not.toContain('$');
+      if (!DOLLAR_EXCEPTIONS.has(e.id)) expect(text, e.id).not.toContain('$');
       expect(text, e.id).not.toMatch(/you should|we recommend|consider /i);
     }
   });
@@ -404,13 +410,20 @@ test.describe('2027 key dates — calendar data', () => {
       'final-raise': 'pending',
       'retiree-cola': 'official',
       'va-cola': 'pending',
-      'tsp-limits': 'pending',
+      'tsp-limits': 'official',
       bah: 'expected',
       'dec31-payday': 'official',
       'rates-effective': 'official',
       'first-payday': 'official',
       bas: 'pending',
     });
+    // TSP limits: official since IRS Notice 2026-66 (Nov 12, 2026). Literals, not lib output.
+    expect(byId['tsp-limits'].isoDate).toBe('2026-11-12');
+    expect(byId['tsp-limits'].dateLabel).toBe('November 12, 2026');
+    expect(byId['tsp-limits'].body).toBe(
+      'The IRS announced the 2027 limits on November 12, 2026 (IRS Notice 2026-66): $25,500 elective deferral limit, $8,500 catch-up at age 50 and older, and $11,750 catch-up at ages 60–63. They take effect January 1, 2027.',
+    );
+    expect(byId['tsp-limits'].source.url).toBe('https://www.irs.gov/pub/irs-drop/n-26-66.pdf');
     expect(byId['retiree-cola'].title).toContain(formatPercent(RETIREE_COLA_2027.percent));
     expect(byId['va-cola'].body).toContain(`Social Security COLA (${formatPercent(RETIREE_COLA_2027.percent)})`);
     expect(byId.bah.body).toBe('Expected mid-December; the 2026 rates were released December 11, 2025.');

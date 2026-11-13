@@ -20,6 +20,7 @@ import {
 } from '@/lib/calculations/tspGrowth';
 import { ENLISTED_GRADES, WARRANT_GRADES, OFFICER_GRADES, PRIOR_ENLISTED_OFFICER_GRADES, RANK_DISPLAY } from '@/types/military';
 import { ALLOCATION_PRESETS, TSP_CONSTANTS_2026, type FundKey } from '@/data/tsp/2026/constants';
+import { TSP_CONSTANTS_2027 } from '@/data/tsp/2027/constants';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool } from '@/lib/urlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
@@ -420,7 +421,7 @@ export function TSPCalculator() {
             </p>
             {retirementSystem === 'brs' && (
               <p className="text-xs text-amber-700 mt-1">
-                BRS tip: contribute evenly across all 12 months — hitting the $24,500 annual limit before December stops your government matching for the remaining months.
+                {`BRS tip: contribute evenly across all 12 months — hitting the annual limit (${fmt(TSP_CONSTANTS_2026.electiveDeferralLimit)} for 2026; ${fmt(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027) before December stops your government matching for the remaining months.`}
               </p>
             )}
           </div>
@@ -598,7 +599,7 @@ export function TSPCalculator() {
             </div>
             {projection.isMaxContribLimit && (
               <p className="text-xs text-amber-700 mt-4 bg-amber-50 border border-amber-200 rounded px-3 py-2">
-                Your contributions hit the {fmt(TSP_CONSTANTS_2026.electiveDeferralLimit)}/year IRS elective deferral limit in some years.
+                Your contributions hit the 2026 IRS elective deferral limit ({fmt(TSP_CONSTANTS_2026.electiveDeferralLimit)}/year) in some years.
               </p>
             )}
           </Card>
@@ -790,8 +791,7 @@ export function TSPCalculator() {
         <a href="/calculators/deployment" className="text-blue-700 hover:underline font-medium">
           Deployment Pay Calculator
         </a>{' '}
-        models the full picture — CZTE tax savings, the elevated $72,000 annual additions limit
-        (with Roth still capped at $24,500 — excess goes to traditional tax-exempt), SDP interest,
+        {`models the full picture — CZTE tax savings, the elevated annual additions limit (${fmt(TSP_CONSTANTS_2026.annualAdditionsLimit)} for 2026; ${fmt(TSP_CONSTANTS_2027.annualAdditionsLimit)} for 2027), with Roth still capped at the elective deferral limit (${fmt(TSP_CONSTANTS_2026.electiveDeferralLimit)} for 2026; ${fmt(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027) — excess goes to traditional tax-exempt — SDP interest,`}
         and total tour financial benefit.
       </div>
     </div>

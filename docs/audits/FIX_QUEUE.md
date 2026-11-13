@@ -58,3 +58,8 @@
   - `/pay` approximate BAH ranges (`BAH_RANGES` in `PayChartsClient.tsx`, typed "2026 approximate values") feed the total-comp range estimate: replace with values computed from the BAH data after the 2027 BAH release day (`docs/RELEASE_DAY_BAH_2027.md` step 6).
   - `/guides/military-pay` reads `src/data/bah-rates/2026.ts`, a typed 50-ZIP BAH table duplicating the DTMO dataset: retire it and read the BAH registry after the 2027 BAH release day.
   - military-tax-advantages-by-state: hand-typed '$2,800/year … $56,000 over a 20-year career' figure for changing legal residence. Compute from data or remove; check the framing doesn't encourage a residence change.
+  - **January 2027 TSP-limit cleanup** (found in feat/tsp-2027-limits, 2026-11-13; the 2027 limits live in `src/data/tsp/2027/constants.ts`, source `docs/sources/tsp-limits-2027.md`). The TSP limits are duplicated in three places; collapse them to the year files:
+    - `src/data/deployment/2026/constants.ts` `tspNormalLimit` / `tspCombatZoneLimit` (read by `lib/calculations/deployment.ts:233-234` and `DeploymentCalculator.tsx`): duplicates `TSP_CONSTANTS_2026`. Read the TSP year file instead, then the deployment math picks up 2027 with the TSP year.
+    - `src/data/constants.ts` `TSP_ELECTIVE_DEFERRAL_LIMIT` / `TSP_CATCHUP_LIMIT`: no readers; delete (`constants.ts` is shared code, so this needs the full three-browser gate).
+    - `src/data/constants.ts:21` comment calls the elective deferral limit "IRS 415(c)"; it is § 402(g) (415(c) is the annual additions limit).
+    - The TSP projection (`tspGrowth.ts`) still applies the 2026 limit to every projected year (`math-audit-round-1.md:341`); decide in January whether it switches to `TSP_CONSTANTS_2027`.
