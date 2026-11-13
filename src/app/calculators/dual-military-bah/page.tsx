@@ -11,11 +11,12 @@ import { getMHACode, getMHARates } from '@/lib/calculations/bah';
 import { lookupBasePay } from '@/lib/calculations/basePay';
 import { BAS_RATES } from '@/data/constants';
 import { formatCurrency } from '@/lib/utils';
+import { BAH_YEAR } from '@/data/bah/current';
 
 // Absolute title (no " | MilPayTools" suffix) — 52 chars.
-const DUAL_TITLE = 'Dual Military BAH Calculator 2026 + Double BAH Rules';
+const DUAL_TITLE = `Dual Military BAH Calculator ${BAH_YEAR} + Double BAH Rules`;
 const DUAL_DESC =
-  '2026 dual military (mil-to-mil) BAH calculator: see what both members draw, who should claim dependents, and how "double BAH" really works. Official DoD rates.';
+  `${BAH_YEAR} dual military (mil-to-mil) BAH calculator: see what both members draw, who should claim dependents, and how "double BAH" really works. Official DoD rates.`;
 
 // Single source for the FAQPage schema (all 5) and the "Common questions" box
 // (4). The double-BAH question is shown in its own #double-bah section below,
@@ -61,13 +62,13 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/dual-military-bah',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'Dual Military BAH Calculator 2026', sub: 'Who should claim dependents, and the optimal setup for couples' }),
+    images: ogImage({ type: 'calculator', title: `Dual Military BAH Calculator ${BAH_YEAR}`, sub: 'Who should claim dependents, and the optimal setup for couples' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: DUAL_TITLE,
     description: DUAL_DESC,
-    images: ogImage({ type: 'calculator', title: 'Dual Military BAH Calculator 2026', sub: 'Who should claim dependents, and the optimal setup for couples' }),
+    images: ogImage({ type: 'calculator', title: `Dual Military BAH Calculator ${BAH_YEAR}`, sub: 'Who should claim dependents, and the optimal setup for couples' }),
   },
 };
 
@@ -90,7 +91,7 @@ export default function DualMilitaryBAHPage() {
 
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'Dual Military BAH Calculator 2026', description: DUAL_DESC, url: '/calculators/dual-military-bah' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: `Dual Military BAH Calculator ${BAH_YEAR}`, description: DUAL_DESC, url: '/calculators/dual-military-bah' })} />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="border-b border-zinc-200"
@@ -100,7 +101,7 @@ export default function DualMilitaryBAHPage() {
           <div className="inline-flex items-center gap-2.5 mb-3 rounded-full bg-zinc-900 px-4 py-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
+              {`Free · No Account · No Personal Info · Official ${BAH_YEAR} DoD & VA Data`}
             </span>
           </div>
           <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
@@ -165,7 +166,7 @@ export default function DualMilitaryBAHPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          When two active-duty members are co-located with children, only one can receive the with-dependents BAH rate — and the financially optimal choice isn&apos;t always the higher-ranking member. The correct choice depends on which member has the larger gap between their with-dependents and without-dependents BAH rates, which varies by rank and duty station in ways that require checking the actual 2026 DTMO rate tables. This calculator models both scenarios side by side to identify which dependent designation produces the highest combined BAH.
+          {`When two active-duty members are co-located with children, only one can receive the with-dependents BAH rate — and the financially optimal choice isn't always the higher-ranking member. The correct choice depends on which member has the larger gap between their with-dependents and without-dependents BAH rates, which varies by rank and duty station in ways that require checking the actual ${BAH_YEAR} DTMO rate tables. This calculator models both scenarios side by side to identify which dependent designation produces the highest combined BAH.`}
         </p>
       </div>
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -174,7 +175,7 @@ export default function DualMilitaryBAHPage() {
             What Does a Dual-Military E-5 Couple Take Home at Fort Bragg?
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: Two E-5s stationed together at Fort Bragg, NC (ZIP 28310). Member A has 8 years of service, Member B has 6 years. They have one child — Member A claims the dependent and receives BAH with dependents; Member B receives BAH without dependents. 2026 rates.
+            {`Scenario: Two E-5s stationed together at Fort Bragg, NC (ZIP 28310). Member A has 8 years of service, Member B has 6 years. They have one child — Member A claims the dependent and receives BAH with dependents; Member B receives BAH without dependents. ${BAH_YEAR} rates.`}
           </p>
           <ExampleTable>
             <ExampleRow label="Member A base pay (E-5, 8 yrs)" value={`${formatCurrency(dmABasePay)}/mo`} />
@@ -321,8 +322,7 @@ export default function DualMilitaryBAHPage() {
               unaffected.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              Rate protection resets when you PCS, change dependency status, or change pay grade.
-              This calculator uses the 2026 DTMO rates published effective January 1, 2026.
+              {`Rate protection resets when you PCS, change dependency status, or change pay grade. This calculator uses the ${BAH_YEAR} DTMO rates published effective January 1, ${BAH_YEAR}.`}
             </p>
           </div>
         </div>
@@ -359,11 +359,7 @@ export default function DualMilitaryBAHPage() {
         <div className="rounded-lg bg-slate-50 border border-slate-200 p-4 text-xs text-slate-500 leading-relaxed">
           <p className="font-semibold text-slate-600 mb-1">Disclaimer</p>
           <p>
-            MilPayTools calculators use official DoD rate tables (2026) for educational purposes
-            only. Results are estimates and may not reflect your exact entitlement. Dual military
-            BAH rules are governed by DoDI 1340.09 and your branch&apos;s implementing instructions —
-            verify your specific situation with your unit&apos;s Finance Office or S1/J1. The
-            authoritative source for BAH rates is the{' '}
+            {`MilPayTools calculators use official DoD rate tables (${BAH_YEAR}) for educational purposes only. Results are estimates and may not reflect your exact entitlement. Dual military BAH rules are governed by DoDI 1340.09 and your branch's implementing instructions — verify your specific situation with your unit's Finance Office or S1/J1. The authoritative source for BAH rates is the`}{' '}
             <a
               href="https://www.travel.dod.mil/Allowances/Basic-Allowance-for-Housing/BAH-Rate-Lookup/"
               target="_blank"

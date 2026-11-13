@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import { E1_UNDER_4_MONTHS } from '@/data/pay-tables/2026';
+import { BAH_EXPECTED as BX } from './fixtures/bah-expected';
 
 // Branch-term pass (Nov 2026): titles, meta descriptions and FAQ sections on
 // the pages earning branch-modified search impressions.
@@ -88,8 +89,9 @@ test.describe('Branch-term titles and descriptions', () => {
     },
     {
       path: '/bah',
-      title: 'BAH Calculator 2026: Rates by Duty Station | MilPayTools',
-      desc: 'Look up your 2026 BAH rate for any branch by ZIP code, pay grade and dependency status, or browse by duty station. Official DTMO data for all 40,959 ZIP codes.',
+      // BAH pages follow the BAH year (year + ZIP count from the BAH_YEAR fixture).
+      title: `BAH Calculator ${BX.year}: Rates by Duty Station | MilPayTools`,
+      desc: `Look up your ${BX.year} BAH rate for any branch by ZIP code, pay grade and dependency status, or browse by duty station. Official DTMO data for all ${BX.zipCount.toLocaleString('en-US')} ZIP codes.`,
     },
     {
       path: '/calculators/guard-reserve',
@@ -98,8 +100,8 @@ test.describe('Branch-term titles and descriptions', () => {
     },
     {
       path: '/calculators/dual-military-bah',
-      title: 'Dual Military BAH Calculator 2026 + Double BAH Rules',
-      desc: '2026 dual military (mil-to-mil) BAH calculator: see what both members draw, who should claim dependents, and how "double BAH" really works. Official DoD rates.',
+      title: `Dual Military BAH Calculator ${BX.year} + Double BAH Rules`,
+      desc: `${BX.year} dual military (mil-to-mil) BAH calculator: see what both members draw, who should claim dependents, and how "double BAH" really works. Official DoD rates.`,
     },
   ];
 

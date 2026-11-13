@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { ramstein } from '../../src/data/oconus/ramstein';
+import { BAH_YEAR } from '../../src/data/bah/current';
 
 // v2 OCONUS station template — Ramstein reference migration.
 //
@@ -145,10 +146,10 @@ test.describe('OCONUS v2 — Ramstein Air Base', () => {
 });
 
 // Unchanged pages — snapshot H1 + title. Expected values captured from
-// production (main @ 444c09c) before this branch.
+// production (main @ 444c09c) before this branch; the year follows BAH_YEAR.
 const UNCHANGED: { path: string; h1: string; title: string }[] = [
-  { path: '/bah/fort-bragg', h1: 'Fort Bragg', title: 'Fort Bragg (Fort Liberty) BAH Rates 2026 | MilPayTools' },
-  { path: '/bah/fort-hood', h1: 'Fort Hood', title: 'Fort Hood (Fort Cavazos) BAH Rates 2026 | MilPayTools' },
+  { path: '/bah/fort-bragg', h1: 'Fort Bragg', title: `Fort Bragg (Fort Liberty) BAH Rates ${BAH_YEAR} | MilPayTools` },
+  { path: '/bah/fort-hood', h1: 'Fort Hood', title: `Fort Hood (Fort Cavazos) BAH Rates ${BAH_YEAR} | MilPayTools` },
 ];
 
 test.describe('OCONUS v2 — CONUS and legacy OCONUS pages unchanged', () => {

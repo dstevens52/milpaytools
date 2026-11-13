@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 // In-process unit tests for the HUD SAFMR rent data layer (no server needed).
 import { getFMR, getFMRRange, getFMRDetail, FMR_DATA_YEAR } from '../../src/lib/calculations/fmr';
 import { MHA_FMR_2026 } from '../../src/data/bah/fmr/fmr2026';
+import { BAH_YEAR } from '../../src/data/bah/current';
 
 // Verified against an independent recompute from the HUD SAFMR xlsx (0 drift on
 // p25/median/p75 across all 338 MHAs; medians byte-identical to the prior median-
@@ -99,9 +100,11 @@ test.describe('rentCompare — bahVsRentClause (3 branches, no surplus language)
     expect(bahVsRentClause(1399, FMR, 'E-5 with dependents')).toContain('falls within'); // < p75
   });
 
-  test('BAH < p25 → "2-bedroom rent runs above the 2026 BAH"', () => {
-    expect(bahVsRentClause(900, FMR, 'E-5 with dependents')).toContain('2-bedroom rent runs above the 2026 BAH');
-    expect(bahVsRentClause(999, FMR, 'E-5 with dependents')).toContain('runs above the 2026 BAH');
+  test('BAH < p25 → "2-bedroom rent runs above the {BAH_YEAR} BAH"', () => {
+    expect(bahVsRentClause(900, FMR, 'E-5 with dependents')).toContain(`2-bedroom rent runs above the ${BAH_YEAR} BAH`);
+    expect(bahVsRentClause(999, FMR, 'E-5 with dependents')).toContain(`runs above the ${BAH_YEAR} BAH`);
+    // The year is a parameter (defaults to BAH_YEAR).
+    expect(bahVsRentClause(999, FMR, 'E-5 with dependents', '2031')).toContain('runs above the 2031 BAH');
   });
 
   test('includes the BAH dollar amount + the grade label; never surplus/you-keep', () => {

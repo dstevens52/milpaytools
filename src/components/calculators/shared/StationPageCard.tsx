@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import type { StationPageInfo } from '@/data/bah/2026/mhaToStationPage';
+import type { StationPageInfo } from '@/data/bah/mhaToStationPage';
 
 interface StationPageCardProps {
   pages: StationPageInfo[];

@@ -13,11 +13,14 @@ import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
+import { BAH_YEAR } from '@/data/bah/current';
+import { bahPriorRateSubline } from '@/lib/calculations/bahTransition';
 
 // BAH data resolves via /api/bah/lookup (cached, server-side) — this calculator
 // no longer ships the ~166KB dataset. Returned values are identical to the
-// former client-side lookupBAH / getMHARates.
-const DATA_YEAR = '2026';
+// former client-side lookupBAH / getMHARates. The year label follows the BAH
+// year switch (src/data/bah/current.ts).
+const DATA_YEAR = BAH_YEAR;
 
 // ─── Grade select options ──────────────────────────────────────────────────
 
@@ -69,6 +72,8 @@ interface DerivedResult {
   monthlyRate: number;
   locationName: string;
   mhaCode: string;
+  /** Prior-year rate still paid until January 1 (transition window only). */
+  prior?: { year: string; monthlyRate: number };
 }
 
 /** Derive the rate for a grade + dependency status from a resolved lookup. */
@@ -82,7 +87,14 @@ function deriveResult(
   if (!rates) return null;
   const rate = rates[bahGrade(grade)];
   if (rate === undefined) return null;
-  return { monthlyRate: rate, locationName: data.locationName ?? '', mhaCode: data.mha };
+  const priorRates = data.prior ? (hasDependents ? data.prior.ratesW : data.prior.ratesWO) : null;
+  const priorRate = priorRates?.[bahGrade(grade)];
+  return {
+    monthlyRate: rate,
+    locationName: data.locationName ?? '',
+    mhaCode: data.mha,
+    ...(data.prior && priorRate !== undefined ? { prior: { year: data.prior.year, monthlyRate: priorRate } } : {}),
+  };
 }
 
 /** Error/feedback message for a resolved ZIP (null while still typing/loading). */
@@ -191,6 +203,11 @@ function LocationResult({ zip, result, loading, errorMsg, hasDependents, label, 
         <p className="text-sm text-zinc-500 mt-1 tabular-nums">{fmt(annualRate)}/year</p>
       )}
       <p className="text-xs text-zinc-400 mt-1">Based on {DATA_YEAR} rates · {hasDependents ? 'With' : 'Without'} dependents</p>
+      {result.prior && (
+        <p className="text-xs text-zinc-600 mt-1 tabular-nums" data-testid="bah-prior-rate">
+          {bahPriorRateSubline(result.prior.year, result.prior.monthlyRate)}
+        </p>
+      )}
     </div>
   );
 }

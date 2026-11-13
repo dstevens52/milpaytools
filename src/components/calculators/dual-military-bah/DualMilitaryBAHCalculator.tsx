@@ -19,8 +19,10 @@ import {
 } from '@/types/military';
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
+import { BAH_YEAR } from '@/data/bah/current';
 
-const DATA_YEAR = '2026';
+// BAH year label — follows the BAH year switch (src/data/bah/current.ts).
+const DATA_YEAR = BAH_YEAR;
 
 const GRADE_GROUPS = [
   {

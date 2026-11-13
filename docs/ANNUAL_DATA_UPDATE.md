@@ -6,6 +6,12 @@ replacement. This file tracks **content that hard-codes dollar figures inline**
 and therefore does NOT update automatically when the data layer is replaced —
 each item below must be re-traced against the new source and revised by hand.
 
+## BAH rates (DoD release, mid-December)
+
+- [ ] Follow **`docs/RELEASE_DAY_BAH_2027.md`**: download the DTMO zip → `npm run bah:import` →
+  flip `src/data/bah/current.ts` → gate → merge → IndexNow, then `BAH_EFFECTIVE_NOTICE = false`
+  on January 1. BAH titles, FAQs, counts and labels follow `BAH_YEAR`; nothing to hand-edit.
+
 ## Dollar figures in posts and guides (January 2027)
 
 - [ ] After loading each 2027 dataset, run `npm run check:figures -- --next-year 2027` and work
@@ -51,6 +57,8 @@ lookup by about $200–$600/month (`docs/sources/bah-2026-abilene-temporary-incr
 - [ ] Each quarter (Feb, May, Aug, Nov), download the current DTMO ASCII package
   (`BAH-ASCII-{YYYY}.zip`) and diff `bahw{YY}.txt` / `bahwo{YY}.txt` against
   `src/data/bah/{YYYY}/mhaRates.ts` for every MHA and grade. Also look for "old" files in the zip.
+  Shortcut: `npm run bah:import -- --year {YYYY} --src <zip> --out <scratch dir>`, then diff the
+  scratch `mhaRates.ts` against `src/data/bah/{YYYY}/mhaRates.ts`.
 - [ ] Check the DTMO BAH year selector for options other than the plain year (e.g. "Temporary
   Increase").
 - [ ] For any changed MHA: write a source record in `docs/sources/` (old vs current, raw rows),
@@ -186,8 +194,10 @@ calculator page and component read these; the items below hard-code them inline.
 ## Calculator page titles with the year
 
 Titles include "2026". The January annual update must switch them to 2027 on the same day the 2027 figures go live.
+BAH pages (`/bah`, `/bah/[slug]`, `/calculators/dual-military-bah`) follow `BAH_YEAR` in
+`src/data/bah/current.ts` and flip on BAH release day; no hand edits.
 
-- [ ] `/calculators/pcs`, `/calculators/deployment`, `/calculators/dual-military-bah`,
+- [ ] `/calculators/pcs`, `/calculators/deployment`,
   `/calculators/total-compensation` — `title`, `openGraph.title`, `twitter.title`,
   meta/og/twitter descriptions, the JSON-LD `name`/`description`, and the `ogImage` card title
   in each `page.tsx`. Baseline and context: `docs/seo/2026-11-calculator-search-match.md`.

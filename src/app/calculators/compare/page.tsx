@@ -9,6 +9,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import { compareLocations } from '@/lib/calculations/compare';
 import { getMHACode, getMHARates, getLocationName } from '@/lib/calculations/bah';
+import { BAH_YEAR } from '@/data/bah/current';
 import { formatCurrency } from '@/lib/utils';
 
 export const metadata: Metadata = {
@@ -197,8 +198,7 @@ export default function ComparePage() {
             </h2>
             <ul className="text-zinc-600 space-y-2 list-disc list-inside">
               <li>
-                <strong>BAH</strong> — 2026 Basic Allowance for Housing by ZIP code, pay grade,
-                and dependency status (DTMO official data)
+                <strong>BAH</strong>{` — ${BAH_YEAR} Basic Allowance for Housing by ZIP code, pay grade, and dependency status (DTMO official data)`}
               </li>
               <li>
                 <strong>Base pay</strong> — 2026 DFAS pay tables for all grades and years of service
@@ -277,7 +277,7 @@ export default function ComparePage() {
                 <Link href="/bah" className="text-blue-700 hover:text-blue-800 underline">
                   BAH Calculator
                 </Link>{' '}
-                — Look up 2026 BAH for any ZIP code with exact DTMO data
+                {`— Look up ${BAH_YEAR} BAH for any ZIP code with exact DTMO data`}
               </li>
               <li>
                 <a href="/calculators/pcs" className="text-blue-700 hover:text-blue-800 underline">

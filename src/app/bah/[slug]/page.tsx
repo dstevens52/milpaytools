@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { DUTY_STATIONS, STATION_BY_SLUG, type DutyStation } from '@/data/duty-stations/stations';
-import { getMHACode, getMHARates, getMHARatesForYear, getLocationName, getNationalAverages, CURRENT_BAH_YEAR, PRIOR_BAH_YEAR } from '@/lib/calculations/bah';
+import { getMHACode, getMHARates, getMHARatesForYear, getLocationName, getNationalAverages, getBahMidYearChange, CURRENT_BAH_YEAR, PRIOR_BAH_YEAR } from '@/lib/calculations/bah';
 import { mhaPercentile, yoyForGrade, siblingInstallations, nearbyDeltas, hasRateDecrease, nationalIncreaseComparison } from '@/lib/calculations/bahStats';
 import { getFMRRange } from '@/lib/calculations/fmr';
 import { bahVsRentClause } from '@/lib/rentCompare';
@@ -17,7 +17,10 @@ import { OconusStationPage } from '@/components/oconus/OconusStationPage';
 import { oconusFaqs } from '@/data/oconus/sharedCopy';
 import { bah2027FaqQuestion, bah2027FaqAnswer } from '@/data/bah/2027-status';
 import { Bah2027Notice } from '@/components/bah-stations/Bah2027Notice';
-import { getBahMidYearChange, formatBahDate } from '@/data/bah/2026/midYearChanges';
+import { BahTransitionNotice } from '@/components/bah-stations/BahTransitionNotice';
+import { formatBahDate } from '@/data/bah/midYear';
+import { BAH_EFFECTIVE_DATE_LABEL } from '@/data/bah/current';
+import { bahNoticeMode, bahTransitionText, CURRENT_BAH_CONFIG } from '@/lib/calculations/bahTransition';
 
 function ordinal(n: number): string {
   const s = ['th', 'st', 'nd', 'rd'];
@@ -90,13 +93,13 @@ export async function generateMetadata({
   const locality = cityDistinct ? ` (${station.city})` : '';
 
   // ── Title: former name wins the parenthetical; locality is appended only when
-  // there's no former name and "{name} BAH Rates 2026 — City, ST" fits ~60 chars.
+  // there's no former name and "{name} BAH Rates {year} — City, ST" fits ~60 chars.
   // titleBase omits the site name — the root layout's title template appends
   // " | MilPayTools". OG/Twitter don't run through that template, so they get an
   // explicit socialTitle (with the site name) to match the rendered <title>.
   const core = formerShort
-    ? `${station.name} (${formerShort}) BAH Rates 2026`
-    : `${station.name} BAH Rates 2026`;
+    ? `${station.name} (${formerShort}) BAH Rates ${CURRENT_BAH_YEAR}`
+    : `${station.name} BAH Rates ${CURRENT_BAH_YEAR}`;
   const withLocality = `${core} — ${station.city}, ${station.state}`;
   const titleBase = !formerShort && cityDistinct && withLocality.length <= 60 ? withLocality : core;
   const socialTitle = `${titleBase} | MilPayTools`;
@@ -105,13 +108,13 @@ export async function generateMetadata({
   // a real dollar amount. Trailing clauses drop whole-sentence on long names.
   let description: string;
   if (e5W !== undefined && e5WO !== undefined) {
-    const head = `2026 BAH for ${station.name}, ${station.state}${locality}: E-5 with dependents ${formatCurrency(e5W)}/mo, without ${formatCurrency(e5WO)}/mo.`;
+    const head = `${CURRENT_BAH_YEAR} BAH for ${station.name}, ${station.state}${locality}: E-5 with dependents ${formatCurrency(e5W)}/mo, without ${formatCurrency(e5WO)}/mo.`;
     description = fitDescription(head, [
       ' All ranks and dependency statuses. Official DTMO data, no account.',
       ' All ranks and dependency statuses.',
     ]);
   } else {
-    description = `2026 BAH rates for ${station.name}, ${station.stateName}${locality}. Monthly BAH for every pay grade, with and without dependents. Official DTMO data, no account.`;
+    description = `${CURRENT_BAH_YEAR} BAH rates for ${station.name}, ${station.stateName}${locality}. Monthly BAH for every pay grade, with and without dependents. Official DTMO data, no account.`;
   }
   // Card title is titleBase (no site suffix — the card's brand row owns that).
   // Static subline: station descriptions lead with E-5 dollar figures, which the
@@ -184,7 +187,8 @@ export default async function StationPage({
   const ratesW = mhaCode ? getMHARates(mhaCode, true) : null;
   const ratesWO = mhaCode ? getMHARates(mhaCode, false) : null;
   const locationName = mhaCode ? getLocationName(station.zip) : null;
-  // DTMO mid-year change for this MHA (e.g. TX270 Abilene, May 16, 2026), or null.
+  // DTMO mid-year change for this MHA in the current BAH year (e.g. TX270 Abilene,
+  // May 16, 2026), or null.
   const midYearChange = getBahMidYearChange(mhaCode);
 
   // Prior-year rates for year-over-year deltas — resolved at build time only.
@@ -193,7 +197,7 @@ export default async function StationPage({
   const ratesWOPrev = mhaCode ? getMHARatesForYear(mhaCode, false, PRIOR_BAH_YEAR) : null;
 
   const taxInfo = STATE_TAX_DATA[station.state] ?? null;
-  // CONUS COLA: keyed by the station ZIP's MHA against the official 2026 DTMO list.
+  // CONUS COLA: keyed by the station ZIP's MHA against the official DTMO COLA list.
   const colaAreaFull = getColaAreaByMha(mhaCode);
   const colaArea = colaAreaFull ? { name: colaAreaFull.dtmoName, index: colaAreaFull.index } : null;
 
@@ -208,15 +212,15 @@ export default async function StationPage({
   const e5Pctile = mhaCode ? mhaPercentile(mhaCode, 'E-5', true) : null;
   const e5YoY = mhaCode ? yoyForGrade(mhaCode, 'E-5', true) : null;
   const siblings = mhaCode ? siblingInstallations(mhaCode, station.slug) : [];
-  // True if any displayed pay grade decreased 2025→2026 at this MHA.
+  // True if any displayed pay grade decreased prior year → current year at this MHA.
   const hasDecrease = mhaCode ? hasRateDecrease(mhaCode) : false;
   // HUD 2-bedroom Fair Market Rent range for this MHA (null = OCONUS/no coverage).
   const fmr2br = mhaCode ? getFMRRange(mhaCode, 2) : null;
 
   const pageUrl = `/bah/${station.slug}`;
   const schema = articleSchema({
-    title: `${station.name} BAH Rates 2026`,
-    description: `2026 BAH rates for ${station.name} — full pay grade table with and without dependents.`,
+    title: `${station.name} BAH Rates ${CURRENT_BAH_YEAR}`,
+    description: `${CURRENT_BAH_YEAR} BAH rates for ${station.name} — full pay grade table with and without dependents.`,
     datePublished: '2026-04-27',
     url: pageUrl,
   });
@@ -246,11 +250,11 @@ export default async function StationPage({
     const annual = formatCurrency(Math.abs(e5YoY.abs) * 12);
     const prior = formatCurrency(e5YoY.prior);
     if (e5YoY.abs === 0) {
-      yoySummary = `For 2026, the E-5 with-dependents rate at ${station.name} is unchanged from ${PRIOR_BAH_YEAR}'s ${prior}/month.`;
+      yoySummary = `For ${CURRENT_BAH_YEAR}, the E-5 with-dependents rate at ${station.name} is unchanged from ${PRIOR_BAH_YEAR}'s ${prior}/month.`;
     } else if (e5YoY.abs > 0) {
-      yoySummary = `For 2026, the E-5 with-dependents rate at ${station.name} rose ${formatCurrency(e5YoY.abs)} (+${e5YoY.pct.toFixed(1)}%) from ${PRIOR_BAH_YEAR}'s ${prior}/month — about ${annual} more over the year, excluded from federal taxable income.`;
+      yoySummary = `For ${CURRENT_BAH_YEAR}, the E-5 with-dependents rate at ${station.name} rose ${formatCurrency(e5YoY.abs)} (+${e5YoY.pct.toFixed(1)}%) from ${PRIOR_BAH_YEAR}'s ${prior}/month — about ${annual} more over the year, excluded from federal taxable income.`;
     } else {
-      yoySummary = `For 2026, the E-5 with-dependents rate at ${station.name} fell ${formatCurrency(Math.abs(e5YoY.abs))} (−${Math.abs(e5YoY.pct).toFixed(1)}%) from ${PRIOR_BAH_YEAR}'s ${prior}/month — about ${annual} less over the year.`;
+      yoySummary = `For ${CURRENT_BAH_YEAR}, the E-5 with-dependents rate at ${station.name} fell ${formatCurrency(Math.abs(e5YoY.abs))} (−${Math.abs(e5YoY.pct).toFixed(1)}%) from ${PRIOR_BAH_YEAR}'s ${prior}/month — about ${annual} less over the year.`;
     }
     if (e5YoYComparison) {
       yoySummary += ` That's ${e5YoYComparison.relation} the national average BAH increase of ${e5YoYComparison.nationalPct}% for ${CURRENT_BAH_YEAR}.`;
@@ -270,24 +274,31 @@ export default async function StationPage({
         )} — compared with ${station.name}'s ${formatCurrency(e5W)}/month.`
       : '';
 
+  // Which dated notice this page carries (src/lib/calculations/bahTransition.ts).
+  const noticeMode = bahNoticeMode();
+  const priorE5W = ratesWPrev?.['E-5'];
+
   // ── Unified FAQ: single source for both the visible list and FAQPage schema ──
   const faqs: { question: string; answer: string }[] = [];
   if (ratesW && ratesWO) {
     faqs.push({
-      question: `What is the 2026 BAH rate for an E-5 with dependents at ${station.name}?`,
-      answer: `For 2026, an E-5 with dependents at ${station.name} receives ${formatCurrency(ratesW['E-5'] ?? 0)}/month in BAH (${mhaLabel} MHA). Other grades with dependents: E-6 ${formatCurrency(ratesW['E-6'] ?? 0)}/month, E-7 ${formatCurrency(ratesW['E-7'] ?? 0)}/month, O-3 ${formatCurrency(ratesW['O-3'] ?? 0)}/month. E-5 without dependents is ${formatCurrency(ratesWO['E-5'] ?? 0)}/month. BAH is excluded from federal taxable income.`,
+      question: `What is the ${CURRENT_BAH_YEAR} BAH rate for an E-5 with dependents at ${station.name}?`,
+      answer: `For ${CURRENT_BAH_YEAR}, an E-5 with dependents at ${station.name} receives ${formatCurrency(ratesW['E-5'] ?? 0)}/month in BAH (${mhaLabel} MHA). Other grades with dependents: E-6 ${formatCurrency(ratesW['E-6'] ?? 0)}/month, E-7 ${formatCurrency(ratesW['E-7'] ?? 0)}/month, O-3 ${formatCurrency(ratesW['O-3'] ?? 0)}/month. E-5 without dependents is ${formatCurrency(ratesWO['E-5'] ?? 0)}/month. BAH is excluded from federal taxable income.`,
     });
-    faqs.push({
-      question: bah2027FaqQuestion(station.name),
-      answer: bah2027FaqAnswer(station.name),
-    });
+    // Next-year status FAQ: only until the new year's rates are loaded.
+    if (noticeMode === 'next-year-status') {
+      faqs.push({
+        question: bah2027FaqQuestion(station.name),
+        answer: bah2027FaqAnswer(station.name),
+      });
+    }
     faqs.push({
       question: `Which Military Housing Area (MHA) is used for ${station.name} BAH?`,
       answer: `${station.name} is assigned to the ${mhaLabel} Military Housing Area (MHA). Every installation and address in the same MHA receives the same rate, regardless of exact ZIP or neighborhood. Rates are published annually by the Defense Travel Management Office (DTMO) and take effect January 1.`,
     });
     if (yoySummary) {
       faqs.push({
-        question: `How much did ${station.name} BAH change from 2025 to 2026?`,
+        question: `How much did ${station.name} BAH change from ${PRIOR_BAH_YEAR} to ${CURRENT_BAH_YEAR}?`,
         answer: `${yoySummary} Rate protection means a member who stays at the same location with the same dependency status keeps their rate even if the published table rate falls.`,
       });
     }
@@ -304,7 +315,7 @@ export default async function StationPage({
     if (fmr2br && e5W !== undefined && e5W > 0) {
       faqs.push({
         question: `How does BAH at ${station.name} compare with local rent?`,
-        answer: `For 2026, an E-5 with dependents at ${station.name} receives ${formatCurrency(e5W)}/month in BAH. Across the ${mhaLabel} area, 2-bedroom Fair Market Rent (HUD, FY2026) runs about ${formatCurrency(fmr2br.p25)}–${formatCurrency(fmr2br.p75)} (median ${formatCurrency(fmr2br.median)}). ${bahVsRentClause(e5W, fmr2br, 'an E-5 with dependents')} BAH is designed to cover about 95% of typical local housing costs — rent plus utilities — for a member's pay grade and dependency status.`,
+        answer: `For ${CURRENT_BAH_YEAR}, an E-5 with dependents at ${station.name} receives ${formatCurrency(e5W)}/month in BAH. Across the ${mhaLabel} area, 2-bedroom Fair Market Rent (HUD, FY2026) runs about ${formatCurrency(fmr2br.p25)}–${formatCurrency(fmr2br.p75)} (median ${formatCurrency(fmr2br.median)}). ${bahVsRentClause(e5W, fmr2br, 'an E-5 with dependents')} BAH is designed to cover about 95% of typical local housing costs — rent plus utilities — for a member's pay grade and dependency status.`,
       });
     }
     faqs.push({
@@ -377,13 +388,16 @@ export default async function StationPage({
                 DTMO increased {midYearChange.areaName} BAH effective {formatBahDate(midYearChange.effective)}.
               </p>
             )}
-            <Bah2027Notice stationName={station.name} />
+            {noticeMode === 'next-year-status' && <Bah2027Notice stationName={station.name} />}
+            {noticeMode === 'transition' && (
+              <BahTransitionNotice text={bahTransitionText(CURRENT_BAH_CONFIG, priorE5W ?? null)} />
+            )}
           </>
         }
         ratesEffectiveLabel={
           midYearChange
             ? `${formatBahDate(midYearChange.effective)} (DTMO mid-year change)`
-            : 'January 1, 2026'
+            : BAH_EFFECTIVE_DATE_LABEL
         }
       />
     </>

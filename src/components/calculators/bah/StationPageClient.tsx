@@ -19,6 +19,7 @@ import { YoYDelta } from '@/components/calculators/bah/YoYDelta';
 import { bahVsRentClause } from '@/lib/rentCompare';
 import { fireShareEvent } from '@/lib/analytics';
 import { COLA_SOURCE, DATA_YEAR as COLA_YEAR } from '@/data/cola/2026/constants';
+import { BAH_YEAR, BAH_PRIOR_YEAR, BAH_EFFECTIVE_DATE_LABEL } from '@/data/bah/current';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -47,7 +48,7 @@ export interface StationPageClientProps {
   locationName: string;
   mhaLabel?: string;
   taxInfo: StateTaxInfo | null;
-  /** 2026 CONUS COLA area (DTMO name + official index), or null. No dollar amounts. */
+  /** CONUS COLA area (DTMO name + official index), or null. No dollar amounts. */
   colaArea: { name: string; index: number } | null;
   nearbyData: NearbyStationData[];
   hasRates: boolean;
@@ -148,7 +149,7 @@ const HERO_STEPS = [
   { title: 'Plan your move', sub: 'Compare stations or estimate PCS costs' },
 ] as const;
 
-function HeroBanner({ station }: { station: DutyStation }) {
+function HeroBanner({ station, year }: { station: DutyStation; year: string }) {
   const subtitle = [
     `${station.city}, ${station.stateName}`,
     station.branches.join(' / '),
@@ -189,7 +190,7 @@ function HeroBanner({ station }: { station: DutyStation }) {
         {/* Hero text */}
         <div className="px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-5 sm:pb-6">
           <span className="inline-flex items-center mb-2 px-2.5 py-1 rounded-full text-xs font-semibold text-white/90 bg-white/15 border border-white/20">
-            2026 BAH Rates
+            {`${year} BAH Rates`}
           </span>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-1">
             {station.name}
@@ -301,13 +302,13 @@ function RankSelector({ availableGrades, selectedGrade, hasDependents, onGradeCh
 
 // ─── ShareButton sub-component ───────────────────────────────────────────────
 
-function ShareButton({ station }: { station: DutyStation }) {
+function ShareButton({ station, year }: { station: DutyStation; year: string }) {
   const [copied, setCopied] = useState(false);
 
   async function handleClick() {
     fireShareEvent('bah-station', station.slug);
     const url = window.location.href;
-    const title = `${station.name} BAH Rates 2026 | MilPayTools`;
+    const title = `${station.name} BAH Rates ${year} | MilPayTools`;
     const isMobile =
       /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
       (navigator.maxTouchPoints > 0 && window.innerWidth < 768);
@@ -366,8 +367,8 @@ export function StationPageClient({
   ratesWO,
   ratesWPrev = {},
   ratesWOPrev = {},
-  currentYear = '2026',
-  priorYear = '2025',
+  currentYear = BAH_YEAR,
+  priorYear = BAH_PRIOR_YEAR,
   locationName,
   mhaLabel,
   taxInfo,
@@ -384,7 +385,7 @@ export function StationPageClient({
   siblings = [],
   faqs = [],
   notice = null,
-  ratesEffectiveLabel = 'January 1, 2026',
+  ratesEffectiveLabel = BAH_EFFECTIVE_DATE_LABEL,
 }: StationPageClientProps) {
   const [selectedGrade, setSelectedGrade] = useState<PayGrade>('E-5');
   const [hasDependents, setHasDependents] = useState(true);
@@ -454,12 +455,12 @@ export function StationPageClient({
       </div>
 
       {/* Hero banner */}
-      <HeroBanner station={station} />
+      <HeroBanner station={station} year={currentYear} />
 
       {/* Share bar — after hero, before main content */}
       <div className="bg-white border-b border-zinc-100">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-center">
-          <ShareButton station={station} />
+          <ShareButton station={station} year={currentYear} />
         </div>
       </div>
 
@@ -470,14 +471,14 @@ export function StationPageClient({
           {hasRates && (
             <details className="rounded-lg border border-zinc-200 bg-white overflow-hidden group">
               <summary className="px-4 py-2.5 text-xs font-medium text-zinc-500 cursor-pointer select-none flex items-center justify-between hover:bg-zinc-50 transition-colors [&::-webkit-details-marker]:hidden">
-                <span>Quick reference: 2026 BAH rates at {station.name}</span>
+                <span>{`Quick reference: ${currentYear} BAH rates at `}{station.name}</span>
                 <svg className="w-3.5 h-3.5 text-zinc-400 flex-none transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
               <div className="px-4 pb-3 pt-2 border-t border-zinc-100">
                 <p className="text-xs text-zinc-600 leading-relaxed">
-                  For 2026, BAH rates at {station.name} ({locationName} MHA) are:{' '}
+                  {`For ${currentYear}, BAH rates at `}{station.name} ({locationName} MHA) are:{' '}
                   E-4 with dependents: <strong>{fmt(ratesW['E-4'] ?? 0)}/mo</strong>{' '}
                   &middot; E-5 without dependents: <strong>{fmt(ratesWO['E-5'] ?? 0)}/mo</strong>{' '}
                   &middot; E-5 with dependents: <strong>{fmt(ratesW['E-5'] ?? 0)}/mo</strong>{' '}
@@ -716,10 +717,7 @@ export function StationPageClient({
           {hasRates && hasDecrease && (
             <div className="rounded-lg bg-amber-50 border border-amber-100 p-4">
               <p className="text-sm text-zinc-700 leading-relaxed">
-                Some pay grades at {station.name} decreased for 2026 compared with 2025. Under individual
-                rate protection, service members who have remained at this duty station with the same pay
-                grade and dependency status keep their higher prior-year rate. The lower 2026 rate applies
-                to members who arrive at this location or whose dependency status changes in 2026.
+                Some pay grades at {station.name}{` decreased for ${currentYear} compared with ${priorYear}. Under individual rate protection, service members who have remained at this duty station with the same pay grade and dependency status keep their higher prior-year rate. The lower ${currentYear} rate applies to members who arrive at this location or whose dependency status changes in ${currentYear}.`}
               </p>
             </div>
           )}
@@ -978,7 +976,7 @@ export function StationPageClient({
           <div className="rounded-lg bg-slate-50 border border-slate-200 p-4 text-xs text-slate-500 leading-relaxed">
             <p className="font-semibold text-slate-600 mb-1">Data Source &amp; Disclaimer</p>
             <p>
-              BAH rates are from the Defense Travel Management Office (DTMO) 2026 BAH data, effective{' '}
+              {`BAH rates are from the Defense Travel Management Office (DTMO) ${currentYear} BAH data, effective`}{' '}
               {ratesEffectiveLabel}. Rates are set by Military Housing Area (MHA), not individual ZIP code —
               all ZIPs in the same MHA receive identical rates. This page is for informational purposes
               only and is not affiliated with DoD, DTMO, or any government agency. Verify your

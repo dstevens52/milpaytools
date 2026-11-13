@@ -1,5 +1,11 @@
 # Source snapshots
 
+## `data/sources/dtmo/{YYYY}/` — DTMO BAH ASCII packages
+
+Raw DTMO BAH files, committed as the source of record (exact bytes; see `.gitattributes`).
+Provenance + SHA-256 per year: `bah-2026.md` (and `bah-2027.md` on release day). Imported with
+`npm run bah:import`; runbook: `docs/RELEASE_DAY_BAH_2027.md`.
+
 ## `dfas-2026-basic-pay.csv` — 2026 military basic pay
 
 Extracted from the DFAS HTML tables; DFAS does not publish 2026 basic pay as PDF.

@@ -13,6 +13,7 @@
 import { test, expect } from '@playwright/test';
 import { getBasePay, getBAH, BAS_RATES } from './helpers/data';
 import { vaAmount, bahAmount, payChartsAmount, formatCurrency } from './helpers/format';
+import { BAH_EXPECTED as BX } from './fixtures/bah-expected';
 
 // ─── 1. VA Disability ─────────────────────────────────────────────────────────
 
@@ -69,31 +70,29 @@ test.describe('BAH — known answers', () => {
     await page.goto('/bah');
   });
 
-  // Source: DTMO 2026 BAH rate tables
-  test('BAH: E-5 with dependents at Fort Bragg (28310) = $1,806/mo', async ({ page }) => {
-    await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 50 });
+  // Source: DTMO BAH ASCII rows for BAH_YEAR (tests/e2e/fixtures/bah-expected-{year}.ts)
+  test(`BAH ${BX.year}: E-5 with dependents at Fort Bragg (${BX.bragg.zip})`, async ({ page }) => {
+    await page.getByLabel('Duty Station').pressSequentially(BX.bragg.zip, { delay: 50 });
     await page.getByRole('button', { name: 'With Dependents' }).click();
-    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(1806) })).toBeVisible();
+    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(BX.bragg.e5W) })).toBeVisible();
   });
 
-  test('BAH: E-5 with dependents at NAS San Diego (92134) = $3,975/mo', async ({ page }) => {
-    await page.getByLabel('Duty Station').pressSequentially('92134', { delay: 50 });
+  test(`BAH ${BX.year}: E-5 with dependents at NAS San Diego (${BX.sanDiego.zip})`, async ({ page }) => {
+    await page.getByLabel('Duty Station').pressSequentially(BX.sanDiego.zip, { delay: 50 });
     await page.getByRole('button', { name: 'With Dependents' }).click();
-    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(3975) })).toBeVisible();
+    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(BX.sanDiego.e5W) })).toBeVisible();
   });
 
-  test('BAH: E-6 with dependents at JBLM (98433) = $2,919/mo', async ({ page }) => {
-    await page.getByLabel('Duty Station').pressSequentially('98433', { delay: 50 });
+  test(`BAH ${BX.year}: E-6 with dependents at JBLM (${BX.jblm.zip})`, async ({ page }) => {
+    await page.getByLabel('Duty Station').pressSequentially(BX.jblm.zip, { delay: 50 });
     await page.getByLabel('Pay Grade').selectOption('E-6');
     await page.getByRole('button', { name: 'With Dependents' }).click();
-    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(2919) })).toBeVisible();
+    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(BX.jblm.e6W) })).toBeVisible();
   });
 
-  test('BAH: E-5 without dependents at Fort Bragg (28310) shows correct 2026 rate', async ({ page }) => {
-    const rate = getBAH('28310', 'E-5', false);
-    if (!rate) test.skip();
-    await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 50 });
-    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(rate!) })).toBeVisible();
+  test(`BAH ${BX.year}: E-5 without dependents at Fort Bragg (${BX.bragg.zip})`, async ({ page }) => {
+    await page.getByLabel('Duty Station').pressSequentially(BX.bragg.zip, { delay: 50 });
+    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(BX.bragg.e5WO) })).toBeVisible();
   });
 });
 
@@ -128,19 +127,19 @@ test.describe('Total Compensation — known answers', () => {
     await expect(page.getByText(formatCurrency(BAS_RATES.enlisted)).first()).toBeVisible();
   });
 
-  // DTMO 2026 BAH: E-5 with dependents at Fort Bragg (28310)
-  test('Total Comp: E-5 8 YOS Fort Bragg (28310) BAH with dependents = $1,806/mo', async ({ page }) => {
+  // DTMO BAH (BAH_YEAR fixture): E-5 with dependents at Fort Bragg
+  test(`Total Comp: E-5 8 YOS Fort Bragg (${BX.bragg.zip}) BAH with dependents (${BX.year})`, async ({ page }) => {
     await page.getByLabel('Years of Service').selectOption('8');
-    await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 50 });
+    await page.getByLabel('Duty Station').pressSequentially(BX.bragg.zip, { delay: 50 });
     await page.getByRole('button', { name: 'With dependents' }).click();
-    await expect(page.getByText(formatCurrency(1806)).first()).toBeVisible();
+    await expect(page.getByText(formatCurrency(BX.bragg.e5W)).first()).toBeVisible();
   });
 
-  // DTMO 2026 BAH: E-5 with dependents at NAS San Diego (92134)
-  test('Total Comp: E-5 6 YOS San Diego (92134) BAH with dependents = $3,975/mo', async ({ page }) => {
-    await page.getByLabel('Duty Station').pressSequentially('92134', { delay: 50 });
+  // DTMO BAH (BAH_YEAR fixture): E-5 with dependents at NAS San Diego
+  test(`Total Comp: E-5 6 YOS San Diego (${BX.sanDiego.zip}) BAH with dependents (${BX.year})`, async ({ page }) => {
+    await page.getByLabel('Duty Station').pressSequentially(BX.sanDiego.zip, { delay: 50 });
     await page.getByRole('button', { name: 'With dependents' }).click();
-    await expect(page.getByText(formatCurrency(3975)).first()).toBeVisible();
+    await expect(page.getByText(formatCurrency(BX.sanDiego.e5W)).first()).toBeVisible();
   });
 });
 
@@ -300,10 +299,8 @@ test.describe('Education Benefits — known answers', () => {
 test.describe('Dual Military BAH — known answers', () => {
   test('Dual BAH: E-5+E-5 same station at Fort Bragg (28310) shows correct BAH amounts', async ({ page }) => {
     await page.goto('/calculators/dual-military-bah?rank1=e5&rank2=e5&zip=28310&dependents=yes');
-    // With-dependents rate ($1,806) should appear for the higher-priority member
-    const rateWithDep = getBAH('28310', 'E-5', true);
-    if (!rateWithDep) test.skip();
-    await expect(page.getByText(bahAmount(rateWithDep!)).first()).toBeVisible();
+    // With-dependents rate (BAH_YEAR fixture) should appear for the higher-priority member
+    await expect(page.getByText(bahAmount(BX.bragg.e5W)).first()).toBeVisible();
   });
 });
 

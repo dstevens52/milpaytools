@@ -22,10 +22,13 @@
 build.log
 *_REPORT.md
 results.json
-bahw26.txt
-bahwo26.txt
-mhanames26.txt
-sorted_zipmha26.txt
+bah-urls.json
+# Stray DTMO BAH ASCII files at the repo root only. The source-of-record copies
+# live in data/sources/dtmo/{YYYY}/ and ARE committed.
+/bahw26.txt
+/bahwo26.txt
+/mhanames26.txt
+/sorted_zipmha26.txt
 2025_BAH_Rates.pdf
 # Raw HUD source spreadsheets (generated output is committed; sources kept local)
 data/sources/hud/*.xlsx

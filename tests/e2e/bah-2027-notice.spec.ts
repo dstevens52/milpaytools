@@ -8,8 +8,12 @@ import {
   bah2027FaqQuestion,
   type Bah2027StatusConfig,
 } from '@/data/bah/2027-status';
+import { bahNoticeMode } from '@/lib/calculations/bahTransition';
 
 // Dated "2027 BAH rates" notice: CONUS station pages + /bah hub, never OCONUS.
+// It shows only in the 'next-year-status' mode (BAH_YEAR before 2027). Once
+// 2027 rates are loaded the page checks flip to "notice and FAQ are gone".
+const SHOWS_NOTICE = bahNoticeMode() === 'next-year-status';
 
 const CHECKED = formatIsoDate(DATA_LAST_CHECKED);
 
@@ -24,6 +28,7 @@ for (const s of [
   { slug: 'naval-station-norfolk', name: 'Naval Station Norfolk' },
 ]) {
   test(`${s.slug}: notice visible, dated, FAQ in JSON-LD`, async ({ page }) => {
+    test.skip(!SHOWS_NOTICE, 'BAH_YEAR is past 2026: the notice is removed (checked below)');
     await page.goto(`/bah/${s.slug}`);
     const notice = page.getByTestId('bah-2027-notice');
     await expect(notice).toBeVisible();
@@ -45,7 +50,17 @@ test('OCONUS v2 station page has no 2027 BAH notice', async ({ page }) => {
   expect((await faqQuestions(page)).some((q) => q.includes('2027 BAH'))).toBe(false);
 });
 
+test('after the 2027 import: no 2027 notice or "When will…" FAQ on /bah or station pages', async ({ page }) => {
+  test.skip(SHOWS_NOTICE, 'notice mode is next-year-status (BAH_YEAR 2026)');
+  for (const path of ['/bah', '/bah/fort-bragg']) {
+    await page.goto(path);
+    await expect(page.getByTestId('bah-2027-notice')).toHaveCount(0);
+    expect((await faqQuestions(page)).some((q) => q.startsWith('When will 2027 BAH rates'))).toBe(false);
+  }
+});
+
 test('/bah hub shows the notice without a station name', async ({ page }) => {
+  test.skip(!SHOWS_NOTICE, 'BAH_YEAR is past 2026: the notice is removed');
   await page.goto('/bah');
   const notice = page.getByTestId('bah-2027-notice');
   await expect(notice).toBeVisible();

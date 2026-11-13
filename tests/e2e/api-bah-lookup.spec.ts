@@ -4,6 +4,8 @@ import { test, expect } from '@playwright/test';
 // (the route isn't deployed yet — this is Step 2a, isolated).
 import { GET } from '../../src/app/api/bah/lookup/route';
 import { getBAH, getLocationName } from './helpers/data';
+import { BAH_EXPECTED as X } from './fixtures/bah-expected';
+import { BAH_YEAR } from '../../src/data/bah/current';
 
 async function call(qs: string) {
   const res = await GET(new Request(`http://localhost/api/bah/lookup${qs ? `?${qs}` : ''}`));
@@ -13,23 +15,24 @@ async function call(qs: string) {
 }
 
 test.describe('API /api/bah/lookup — contract', () => {
-  test('valid CONUS ZIP (San Antonio 78234 → TX285)', async () => {
-    const { status, cache, body } = await call('zip=78234');
+  test(`valid CONUS ZIP (San Antonio ${X.sanAntonio.zip} → ${X.sanAntonio.mha})`, async () => {
+    const { status, cache, body } = await call(`zip=${X.sanAntonio.zip}&y=${BAH_YEAR}`);
     expect(status).toBe(200);
     expect(body.valid).toBe(true);
     expect(body.territory).toBe(false);
-    expect(body.mha).toBe('TX285');
-    expect(body.locationName).toBe('San Antonio, TX');
-    expect(body.ratesW['E-5']).toBe(1869);
-    expect(body.ratesWO['E-1']).toBe(1359);
+    expect(body.mha).toBe(X.sanAntonio.mha);
+    expect(body.locationName).toBe(X.sanAntonio.locationName);
+    expect(body.ratesW['E-5']).toBe(X.sanAntonio.e5W);
+    expect(body.ratesWO['E-1']).toBe(X.sanAntonio.e1WO);
+    expect(body.year).toBe(X.year);
     expect(cache).toContain('immutable');
   });
 
-  test('Fort Bragg 28310 → NC182, E-5 w/dep = 1806 (data-accuracy anchor)', async () => {
-    const { body } = await call('zip=28310');
-    expect(body.mha).toBe('NC182');
-    expect(body.locationName).toBe('Fort Bragg/Pope, NC');
-    expect(body.ratesW['E-5']).toBe(1806);
+  test(`Fort Bragg ${X.bragg.zip} → ${X.bragg.mha}, E-5 w/dep (data-accuracy anchor, ${X.year})`, async () => {
+    const { body } = await call(`zip=${X.bragg.zip}`);
+    expect(body.mha).toBe(X.bragg.mha);
+    expect(body.locationName).toBe(X.bragg.locationName);
+    expect(body.ratesW['E-5']).toBe(X.bragg.e5W);
   });
 
   test('valid ZIP includes station-page guide links (28310 → Fort Bragg)', async () => {
@@ -38,10 +41,10 @@ test.describe('API /api/bah/lookup — contract', () => {
     expect(body.stationPages.some((p: { slug: string }) => p.slug === 'fort-bragg')).toBe(true);
   });
 
-  test('NAS San Diego 92134 → CA038, E-5 w/dep = 3975 (data-accuracy anchor)', async () => {
-    const { body } = await call('zip=92134');
-    expect(body.mha).toBe('CA038');
-    expect(body.ratesW['E-5']).toBe(3975);
+  test(`NAS San Diego ${X.sanDiego.zip} → ${X.sanDiego.mha}, E-5 w/dep (data-accuracy anchor, ${X.year})`, async () => {
+    const { body } = await call(`zip=${X.sanDiego.zip}`);
+    expect(body.mha).toBe(X.sanDiego.mha);
+    expect(body.ratesW['E-5']).toBe(X.sanDiego.e5W);
   });
 
   test('territory ZIP (00601, Puerto Rico) → territory:true, null rates', async () => {
@@ -76,13 +79,13 @@ test.describe('API /api/bah/lookup — contract', () => {
     expect(body.error).toBeTruthy();
   });
 
-  test('MHA-only lookup (mha=TX285) → rates, no ZIP needed', async () => {
-    const { status, body } = await call('mha=TX285');
+  test(`MHA-only lookup (mha=${X.sanAntonio.mha}) → rates, no ZIP needed`, async () => {
+    const { status, body } = await call(`mha=${X.sanAntonio.mha}`);
     expect(status).toBe(200);
     expect(body.valid).toBe(true);
-    expect(body.mha).toBe('TX285');
-    expect(body.ratesW['E-5']).toBe(1869);
-    expect(body.ratesWO['E-5']).toBe(1500);
+    expect(body.mha).toBe(X.sanAntonio.mha);
+    expect(body.ratesW['E-5']).toBe(X.sanAntonio.e5W);
+    expect(body.ratesWO['E-5']).toBe(X.sanAntonio.e5WO);
   });
 
   test('unknown MHA (ZZ999) → valid:false', async () => {
@@ -90,11 +93,28 @@ test.describe('API /api/bah/lookup — contract', () => {
     expect(body.valid).toBe(false);
   });
 
-  test('cache header is immutable + long s-maxage on a valid response', async () => {
-    const { cache } = await call('zip=28310');
+  test('cache header is immutable + long s-maxage on a valid response for the current year', async () => {
+    const { cache } = await call(`zip=28310&y=${BAH_YEAR}`);
     expect(cache).toContain('public');
     expect(cache).toContain('immutable');
     expect(cache).toContain('s-maxage=31536000');
+  });
+
+  test('year-aware cache key: missing or other y → same data, not cached', async () => {
+    const current = await call(`zip=28310&y=${BAH_YEAR}`);
+    for (const qs of ['zip=28310', `zip=28310&y=${Number(BAH_YEAR) - 1}`, 'zip=00000', 'mha=TX285&y=1999']) {
+      const { status, cache, body } = await call(qs);
+      expect(status).toBe(200);
+      expect(cache).toBe('no-store');
+      expect(body.year).toBe(BAH_YEAR);
+    }
+    const legacy = await call('zip=28310');
+    expect(legacy.body).toEqual(current.body);
+  });
+
+  test('no prior-year rates outside the effective-date window (BAH_EFFECTIVE_NOTICE off)', async () => {
+    const { body } = await call(`zip=28310&y=${BAH_YEAR}`);
+    expect(body).not.toHaveProperty('prior');
   });
 
   test('400 responses are not cached (no-store)', async () => {

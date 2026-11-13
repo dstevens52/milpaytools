@@ -1,4 +1,5 @@
 import { formatCurrency } from '@/lib/utils';
+import { BAH_YEAR, BAH_PRIOR_YEAR } from '@/data/bah/current';
 
 /**
  * Compute year-over-year change between a current and prior rate.
@@ -31,8 +32,8 @@ interface YoYDeltaProps {
 export function YoYDelta({
   curr,
   prev,
-  priorYear = '2025',
-  currentYear = '2026',
+  priorYear = BAH_PRIOR_YEAR,
+  currentYear = BAH_YEAR,
   compact = false,
   className = '',
 }: YoYDeltaProps) {

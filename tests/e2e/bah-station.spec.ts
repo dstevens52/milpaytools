@@ -1,6 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { getBAH } from './helpers/data';
 import { formatCurrency } from './helpers/format';
+import { BAH_EXPECTED as X, yoy, usd } from './fixtures/bah-expected';
+
+const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const BRAGG_YOY = yoy(X.bragg.e5W, X.bragg.priorE5W);
+const SA_YOY = yoy(X.sanAntonio.e5W, X.sanAntonio.priorE5W);
+const NORFOLK_YOY = yoy(X.norfolk.e5W, X.norfolk.priorE5W);
 
 const FORT_BRAGG = '/bah/fort-bragg?rank=E-5&dep=yes';
 const FORT_HOOD = '/bah/fort-hood';
@@ -84,20 +90,20 @@ test.describe('BAH Station Page — Fort Hood (upgraded, rich data)', () => {
 });
 
 test.describe('BAH Station Page — Year-over-year deltas', () => {
-  // Fort Bragg (MHA NC182) E-5 with dependents: 2025 $1,785 → 2026 $1,806 = +$21 (1.2%).
-  // Values are stable for the FY2026 dataset; they update with the annual data refresh.
+  // Fort Bragg (MHA NC182) E-5 with dependents, from the year-keyed fixture
+  // (2026: 2025 $1,785 → 2026 $1,806 = +$21 (1.2%)). These assume an increase.
   test('selector card shows the E-5 w/dep YoY increase with correct sign + value', async ({ page }) => {
     await page.goto(FORT_BRAGG); // ?rank=E-5&dep=yes
     await expect(page.getByText('Year over year:', { exact: false })).toBeVisible();
-    await expect(page.getByText(/\+\$21 \(1\.2%\)/).first()).toBeVisible();
-    await expect(page.getByText(/vs 2025/).first()).toBeVisible();
+    await expect(page.getByText(new RegExp(esc(`+${usd(BRAGG_YOY.abs)} (${BRAGG_YOY.pct.toFixed(1)}%)`))).first()).toBeVisible();
+    await expect(page.getByText(new RegExp(`vs ${X.priorYear}`)).first()).toBeVisible();
   });
 
   test('direct-answer FAQ states the YoY change for E-5 with dependents', async ({ page }) => {
     await page.goto(FORT_BRAGG);
     // Phase-1 reworded YoY into a dedicated "How much did … change" FAQ + summary line.
-    await expect(page.getByText(/rose \$21 \(\+1\.2%\)/).first()).toBeVisible();
-    await expect(page.getByText(/from 2025.s \$1,785/).first()).toBeVisible();
+    await expect(page.getByText(new RegExp(esc(`rose ${usd(BRAGG_YOY.abs)} (+${BRAGG_YOY.pct.toFixed(1)}%)`))).first()).toBeVisible();
+    await expect(page.getByText(new RegExp(`from ${X.priorYear}.s ${esc(usd(X.bragg.priorE5W))}`)).first()).toBeVisible();
   });
 
   test('no "NaN" or "undefined" leaks into the rendered page (null-safety)', async ({ page }) => {
@@ -112,7 +118,7 @@ test.describe('BAH Station Page — Year-over-year deltas', () => {
     await expect(page.getByText('Year over year:', { exact: false })).not.toBeAttached();
     const body = await page.locator('main').innerText();
     expect(body).not.toContain('NaN');
-    expect(body).not.toContain('New for 2026'); // no false "new" label when there are simply no rates
+    expect(body).not.toContain(`New for ${X.year}`); // no false "new" label when there are simply no rates
   });
 });
 
@@ -138,7 +144,7 @@ test.describe('BAH Station Page — Phase 1 universal enrichment (DoD-data-only)
 
   test('previously-thin page shows the YoY summary sentence', async ({ page }) => {
     await page.goto(THIN);
-    await expect(page.getByText(/For 2026, the E-5 with-dependents rate at Fort Gordon/).first()).toBeVisible();
+    await expect(page.getByText(new RegExp(`For ${X.year}, the E-5 with-dependents rate at Fort Gordon`)).first()).toBeVisible();
   });
 
   test('previously-thin page has the expanded ZIP-dependence FAQ', async ({ page }) => {
@@ -173,22 +179,22 @@ test.describe('BAH Station Page — Phase 1 universal enrichment (DoD-data-only)
 test.describe('BAH Station Page — Phase 1.5 YoY framing', () => {
   test('increase page: annualized + tax framing + above national average, no decrease block (Norfolk)', async ({ page }) => {
     await page.goto('/bah/naval-station-norfolk');
-    await expect(page.getByText(/\$1,260 more over the year, excluded from federal taxable income/).first()).toBeVisible();
-    await expect(page.getByText(/above the national average BAH increase of 4\.2%/).first()).toBeVisible();
+    await expect(page.getByText(new RegExp(`${esc(usd(NORFOLK_YOY.annual))} more over the year, excluded from federal taxable income`)).first()).toBeVisible();
+    await expect(page.getByText(new RegExp(`above the national average BAH increase of ${esc(String(X.nationalAvgIncreasePct))}%`)).first()).toBeVisible();
     await expect(page.getByText(/Some pay grades at Naval Station Norfolk decreased/)).toHaveCount(0);
   });
 
   test('decrease page: decrease block + "less over the year" (no tax framing) + below national average (San Antonio)', async ({ page }) => {
     await page.goto('/bah/joint-base-san-antonio');
-    await expect(page.getByText(/\$792 less over the year\./).first()).toBeVisible();
-    await expect(page.getByText(/Some pay grades at Joint Base San Antonio decreased for 2026 compared with 2025/).first()).toBeVisible();
-    await expect(page.getByText(/below the national average BAH increase of 4\.2%/).first()).toBeVisible();
+    await expect(page.getByText(new RegExp(`${esc(usd(SA_YOY.annual))} less over the year\\.`)).first()).toBeVisible();
+    await expect(page.getByText(new RegExp(`Some pay grades at Joint Base San Antonio decreased for ${X.year} compared with ${X.priorYear}`)).first()).toBeVisible();
+    await expect(page.getByText(new RegExp(`below the national average BAH increase of ${esc(String(X.nationalAvgIncreasePct))}%`)).first()).toBeVisible();
   });
 
   test('mixed page: E-5 rose with tax framing AND a decrease block (Fort Bragg)', async ({ page }) => {
     await page.goto('/bah/fort-bragg');
-    await expect(page.getByText(/\$252 more over the year, excluded from federal taxable income/).first()).toBeVisible();
-    await expect(page.getByText(/Some pay grades at Fort Bragg decreased for 2026/).first()).toBeVisible();
+    await expect(page.getByText(new RegExp(`${esc(usd(BRAGG_YOY.annual))} more over the year, excluded from federal taxable income`)).first()).toBeVisible();
+    await expect(page.getByText(new RegExp(`Some pay grades at Fort Bragg decreased for ${X.year}`)).first()).toBeVisible();
   });
 });
 
