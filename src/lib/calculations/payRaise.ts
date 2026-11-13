@@ -22,6 +22,13 @@ import { payTable as payTable2026 } from '@/data/pay-tables/2026';
 import { ALL_PAY_GRADES, YOS_BREAKPOINTS, type PayGrade } from '@/types/military';
 import { lookupBasePay } from '@/lib/calculations/basePay';
 import { getYOSBracket } from '@/lib/utils';
+import {
+  CALENDAR_SOURCES,
+  KEY_DATES_2027,
+  bah2027Calendar,
+  weekdayDate,
+  type CalendarEntry,
+} from '@/data/calendar-2027';
 
 // ─── Lookups ────────────────────────────────────────────────────────────────
 
@@ -301,7 +308,7 @@ export function pageDescription(config: PayRaiseConfig = PAY_RAISE_2027): string
     return 'Official 2027 DFAS basic pay by grade and years of service, next to your 2026 pay, with the monthly and annual increase.';
   }
   if (config.status === 'enacted' && config.enacted) {
-    return `See your 2027 base pay under the official ${shortPercentLabel(config.enacted.percentByTier)} raise, by grade and years of service, next to your 2026 pay. Calculated from the law until DFAS publishes the 2027 table.`;
+    return `See your 2027 base pay under the official ${shortPercentLabel(config.enacted.percentByTier)} raise, by grade and years of service, next to 2026 pay. Calculated from the law until DFAS posts 2027 tables.`;
   }
   const plan = planScenario(config);
   const senate = senateScenario(config);
@@ -312,6 +319,14 @@ export function pageDescription(config: PayRaiseConfig = PAY_RAISE_2027): string
 export function rankPageLinkText(config: PayRaiseConfig = PAY_RAISE_2027): string {
   if (config.status === 'pending') return "2027 raise: see what you'd make under each plan →";
   return '2027 raise: see your official 2027 pay →';
+}
+
+/** Slim homepage strip linking to /pay/raise; wording flips with the status. */
+export function homeStripText(config: PayRaiseConfig = PAY_RAISE_2027): string {
+  if (config.status === 'pending') {
+    return '2027 military pay raise: see your 2027 base pay by rank and the key dates →';
+  }
+  return '2027 military pay raise is final: see your official 2027 base pay by rank and the key dates →';
 }
 
 /** Default text for the blog CalculatorCallout. */
@@ -384,6 +399,7 @@ export function raiseFaqs(config: PayRaiseConfig = PAY_RAISE_2027): { question: 
       },
       branchFaq(config),
       retireeColaFaq(),
+      paycheckFaq(),
       {
         question: 'Why is the raise different by rank?',
         answer: `The President's alternative pay plan under 37 U.S.C. 1009(e) sets different percentages by grade: ${describePercents(plan.percentByTier)}. The Senate version uses one rate, ${shortPercentLabel(senate.percentByTier)}, for every grade, which is the statutory Employment Cost Index figure under 37 U.S.C. 1009(c).`,
@@ -396,7 +412,7 @@ export function raiseFaqs(config: PayRaiseConfig = PAY_RAISE_2027): { question: 
         question: 'Why might senior officers see a smaller raise?',
         answer: `Two reasons. The current plan gives O-4 and above ${formatPercent(plan.percentByTier['O4-up'])}, the lowest tier. And ${capLine.charAt(0).toLowerCase()}${capLine.slice(1)} Under the current plan, ${n} grade and years-of-service amounts would be held at those caps: ${cappedGradesSummary(plan.percentByTier, caps)}. Those figures may be limited by the pay cap; ${caps.capYear + 1} cap not yet published.`,
       },
-      BAH_FAQ,
+      bahFaq(),
     ];
   }
 
@@ -405,6 +421,7 @@ export function raiseFaqs(config: PayRaiseConfig = PAY_RAISE_2027): { question: 
     { question: 'When will the 2027 raise be final?', answer: statusText(config) },
     branchFaq(config),
     retireeColaFaq(),
+    paycheckFaq(),
     {
       question: 'Why is the raise different by rank?',
       answer: enacted
@@ -421,18 +438,72 @@ export function raiseFaqs(config: PayRaiseConfig = PAY_RAISE_2027): { question: 
           : `This page applies the E-6 to O-3 rate${enacted ? ` (${formatPercent(enacted.percentByTier['E6-O3'])})` : ''} to warrant officers and O-1E to O-3E until DFAS publishes the 2027 tables.`,
     },
     { question: 'Why might senior officers see a smaller raise?', answer: capLine },
-    BAH_FAQ,
+    bahFaq(),
   ];
 }
 
 const TIER_NOTE_FOR_FAQ =
   'The plan names grades E-6 to O-3 and does not list warrant officer grades, so this page assumes warrant officers fall in the 6% tier.';
 
-const BAH_FAQ = {
-  question: 'Does the raise affect BAH?',
-  answer:
-    'No. BAH is set separately from basic pay, based on local housing costs, grade and dependency status. 2027 BAH rates are usually announced in December.',
-};
+// ─── Calendar-driven FAQs + the calendar's NDAA row ─────────────────────────
+// Dates come from src/data/calendar-2027.ts; these run inside functions so the
+// two modules can import each other in any order.
+
+/** "Does the raise affect BAH?" — expected/released wording from the BAH status. */
+export function bahFaq(): { question: string; answer: string } {
+  const bah = bah2027Calendar();
+  const when = bah.isoDate
+    ? `DoD published 2027 BAH rates on ${formatIsoDate(bah.isoDate)}, effective January 1, 2027.`
+    : `2027 BAH rates are expected in mid-December; DoD released the ${bah.priorRatesYear} rates on ${formatIsoDate(bah.priorReleaseIso)}.`;
+  return {
+    question: 'Does the raise affect BAH?',
+    answer: `No. BAH is set separately from basic pay, based on local housing costs, grade and dependency status. ${when}`,
+  };
+}
+
+/** "When will I see the 2027 raise in my paycheck?" — every date from KEY_DATES_2027. */
+export function paycheckFaq(): { question: string; answer: string } {
+  const d = KEY_DATES_2027;
+  return {
+    question: 'When will I see the 2027 raise in my paycheck?',
+    answer: `The 2027 raise takes effect ${formatIsoDate(d.ratesEffective)}. The first payday at 2027 rates is the mid-month payday on ${weekdayDate(d.firstPayday2027)}. The ${formatIsoDate(d.lastPayday2026)} payday covers ${d.lastPayday2026Covers}, so it's still at 2026 rates.`,
+  };
+}
+
+/** The "Final 2027 pay raise" calendar row (everything but id, title and link). */
+export function raiseCalendarEntry(
+  config: PayRaiseConfig = PAY_RAISE_2027,
+): Pick<CalendarEntry, 'dateLabel' | 'isoDate' | 'body' | 'status' | 'source'> {
+  const effective = formatIsoDate(KEY_DATES_2027.ratesEffective);
+  if (config.status !== 'pending' && config.enacted) {
+    const e = config.enacted;
+    const tables = config.status === 'official-table' ? ' DFAS has published the 2027 pay tables.' : '';
+    return {
+      dateLabel: `Signed ${formatIsoDate(e.signedDate)}`,
+      isoDate: e.signedDate,
+      body: `Final. The ${e.lawName} sets the 2027 raise at ${describePercents(e.percentByTier)}, effective ${effective}.${tables}`,
+      status: 'official',
+      source: { name: e.lawName, url: e.sourceUrl },
+    };
+  }
+  if (config.status === 'official-table') {
+    return {
+      dateLabel: effective,
+      isoDate: KEY_DATES_2027.ratesEffective,
+      body: `Final. DFAS has published the official 2027 basic pay tables, effective ${effective}.`,
+      status: 'official',
+      source: { name: 'DFAS 2027 basic pay tables', url: 'https://www.dfas.mil/Military-Members/payentitlements/Pay-Tables/Basic-Pay/' },
+    };
+  }
+  const plan = planScenario(config);
+  return {
+    dateLabel: 'When Congress passes the FY2027 NDAA',
+    isoDate: null,
+    body: `Not final. If Congress doesn't set a different raise, the current plan (${shortPercentLabel(plan.percentByTier)}) takes effect ${effective}.`,
+    status: 'pending',
+    source: CALENDAR_SOURCES.plan,
+  };
+}
 
 // ─── Branch + retiree COLA FAQs (/pay/raise) ────────────────────────────────
 

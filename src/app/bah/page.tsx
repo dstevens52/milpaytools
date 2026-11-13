@@ -12,6 +12,8 @@ import { FaqSection, type FaqItem } from '@/components/FaqSection';
 import { webApplicationSchema } from '@/lib/schema';
 import { formatCurrency } from '@/lib/utils';
 import { Bah2027Notice } from '@/components/bah-stations/Bah2027Notice';
+import Link from 'next/link';
+import { KEY_DATES_HREF } from '@/data/calendar-2027';
 
 // Hub for both BAH intents: the ZIP calculator and the by-installation browse.
 // Absorbed the former standalone BAH calculator route (308 → /bah, see next.config.ts).
@@ -116,6 +118,11 @@ export default function BahHubPage() {
           </p>
           <div className="mt-3">
             <Bah2027Notice />
+            <p className="text-xs mt-2" data-testid="bah-key-dates-link">
+              <Link href={KEY_DATES_HREF} className="font-medium text-red-700 hover:text-red-800 underline">
+                See every 2027 key date →
+              </Link>
+            </p>
           </div>
         </div>
       </div>

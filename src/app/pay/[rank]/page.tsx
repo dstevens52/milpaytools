@@ -32,6 +32,8 @@ import {
 } from '@/lib/calculations/payRaise';
 import { PAY_RAISE_2027 } from '@/data/pay-raise/2027';
 import { gradeToParam } from '@/lib/urlParams';
+import { KEY_DATES_HREF, rankKeyDatesLine } from '@/data/calendar-2027';
+import { payRange, rankTitle } from '@/lib/pay-pages/rankTitle';
 
 export async function generateStaticParams() {
   return PAY_PAGE_RANKS.map((r) => ({ rank: r.slug }));
@@ -223,21 +225,10 @@ function rankDescription(rank: PayPageRank, minPay: number, maxPay: number): str
 // Absolute title (no " | MilPayTools" suffix — the template would push it past
 // SERP width), branch-neutral so Navy/Air Force/Marine searchers don't skip an
 // Army rank name. ≤60 chars for every rank; ", All Branches" drops only for a
-// rank that would exceed it (none in 2026).
-// Whole-dollar pay range shared by the title and the branch FAQ, so the two can
-// never show different figures ("$3,343–$4,422", or "$2,407" for a flat grade).
-function payRange(minPay: number, maxPay: number): string {
-  return minPay === maxPay
-    ? formatCurrency(minPay)
-    : `${formatCurrency(minPay)}–${formatCurrency(maxPay)}`;
-}
-
-function rankTitle(rank: PayPageRank, minPay: number, maxPay: number): string {
-  const range = payRange(minPay, maxPay);
-  const base = `${rank.title} Pay 2026: ${range}/Month`;
-  const full = `${base}, All Branches`;
-  return full.length <= 60 ? full : base;
-}
+// rank that would exceed it (none in 2026). rankTitle() and payRange() live in
+// src/lib/pay-pages/rankTitle.ts; the title years follow RANK_TITLE_YEARS
+// (src/data/pay-pages/titleMode.ts). payRange() is shared by the title and the
+// branch FAQ, so the two can never show different figures.
 
 // Adjacent-grade nav label. Crossing the enlisted/officer boundary (E-9 ↔ O-1)
 // gets an explicit track tag so the link doesn't read as promotion continuity.
@@ -611,6 +602,12 @@ export default async function RankPayPage({
               {raiseSentence}
             </p>
           )}
+          <p className="text-sm text-zinc-700 leading-relaxed mt-3" data-testid="rank-key-dates">
+            {`${rankKeyDatesLine()} `}
+            <Link href={KEY_DATES_HREF} className="font-medium text-red-700 hover:text-red-800 underline">
+              See the 2027 pay calendar →
+            </Link>
+          </p>
           <p className="mt-3 text-sm">
             <Link
               href={`/pay/raise?grade=${gradeToParam(rank.grade)}`}

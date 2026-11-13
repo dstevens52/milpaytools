@@ -33,6 +33,15 @@ each item below must be re-traced against the new source and revised by hand.
   CPI-W increase; the REDUX figure is computed (percent − 1), never typed. Record the source in
   `docs/sources/` (see `pay-raise-cola-2027.md`).
 
+## Key dates calendar — October
+
+- [ ] Each October, create `calendar-{next year}.ts` from the same template
+  (`src/data/calendar-2027.ts`): same entry type and statuses (official / expected / pending),
+  weekdays computed in UTC, the raise row from the pay-raise config, COLA figures from the
+  retiree-COLA file, BAH from the BAH status file. Recheck every date and source first and record
+  them in `docs/sources/calendar-{next year}.md`. Point `KeyDates2027` (rename it) and the
+  /pay/raise FAQs at the new file. No projected figures (TSP limits, BAS, BAH percent).
+
 ## Mid-year BAH changes — quarterly, NOT January-only
 
 DTMO can change BAH for individual MHAs mid-year. Case: TX270 (Abilene/Dyess AFB), "2026 Abilene

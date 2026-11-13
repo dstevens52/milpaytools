@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ExpandableCalcGrid } from './home-v3/ExpandableCalcGrid';
 import { SAMPLE_SCENARIO } from '@/lib/sample-scenario';
-import { rankPageLinkText } from '@/lib/calculations/payRaise';
+import { rankPageLinkText, homeStripText } from '@/lib/calculations/payRaise';
 
 const HOME_TITLE = 'MilPayTools — Military Pay & Benefits Calculators';
 const HOME_DESC =
@@ -377,12 +377,26 @@ function FooterTrustBand() {
   );
 }
 
+// Slim one-line strip under the hero; wording flips with the 2027 raise status.
+function PayRaiseStrip() {
+  return (
+    <div className="border-b border-zinc-200 bg-zinc-50">
+      <p className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-2 text-sm text-center">
+        <Link href="/pay/raise" className="font-medium text-zinc-700 hover:text-red-700 underline-offset-2 hover:underline" data-testid="home-pay-raise-strip">
+          {homeStripText()}
+        </Link>
+      </p>
+    </div>
+  );
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <PayRaiseStrip />
       <JourneySection />
       <CalculatorGridSection />
       <FooterTrustBand />

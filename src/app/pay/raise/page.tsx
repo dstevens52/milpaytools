@@ -36,6 +36,7 @@ import { breadcrumbListSchema, webApplicationSchema, faqPageSchema } from '@/lib
 import { ogImage } from '@/lib/og';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { CalculatorEmailSignup } from '@/components/CalculatorEmailSignup';
+import { KeyDates2027 } from '@/components/KeyDates2027';
 import { PayRaiseCalculator } from '@/components/calculators/pay-raise/PayRaiseCalculator';
 import { RaiseChartTabs } from '@/components/calculators/pay-raise/RaiseChartTabs';
 
@@ -200,7 +201,7 @@ export default function PayRaisePage() {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
         {/* ── Calculator ──────────────────────────────────────────────── */}
-        <section aria-labelledby="raise-calc-h">
+        <section id="your-2027-base-pay" className="scroll-mt-20" aria-labelledby="raise-calc-h">
           <h2 id="raise-calc-h" className="text-xl font-semibold text-zinc-900 mb-1">
             Your 2027 base pay
           </h2>
@@ -222,10 +223,20 @@ export default function PayRaisePage() {
           </p>
         </section>
 
+        {/* ── 2027 key dates ──────────────────────────────────────────── */}
+        <section id="key-dates" className="scroll-mt-20" aria-labelledby="key-dates-h">
+          <h2 id="key-dates-h" className="text-xl font-semibold text-zinc-900 mb-3">
+            2027 military pay calendar: key dates
+          </h2>
+          <KeyDates2027 variant="full" />
+        </section>
+
+        <CalculatorEmailSignup headline="Get an email when the 2027 raise is final and when 2027 BAH rates are out" />
+
         {/* ── Full chart ──────────────────────────────────────────────── */}
         <section aria-labelledby="raise-chart-h">
           <h2 id="raise-chart-h" className="text-xl font-semibold text-zinc-900 mb-1">
-            2027 military pay chart by grade
+            2027 military pay chart by grade: Army, Navy, Air Force, Marine Corps, Space Force and Coast Guard
           </h2>
           <p className="text-sm text-zinc-600 mb-4">
             {`Monthly basic pay for every grade: 2026 official vs ${columns.map((c) => c.label).join(' vs ')}. Pick a years-of-service column; "Full chart" shows all of them.`}
@@ -251,14 +262,12 @@ export default function PayRaisePage() {
             Frequently asked questions
           </h2>
           {faqs.map(({ question, answer }) => (
-            <div key={question} className="rounded-lg border border-zinc-200 bg-white px-5 py-4">
+            <div key={question} className="rounded-lg border border-zinc-200 bg-white px-5 py-4" data-faq-question={question}>
               <h3 className="text-sm font-semibold text-zinc-900 mb-1">{question}</h3>
               <p className="text-sm text-zinc-600 leading-relaxed">{answer}</p>
             </div>
           ))}
         </section>
-
-        <CalculatorEmailSignup headline="Get notified when 2027 military pay data is updated" />
 
         <section className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
           <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-3">Related</p>
