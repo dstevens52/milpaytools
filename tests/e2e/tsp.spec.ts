@@ -214,3 +214,30 @@ test.describe('TSP Growth Projector', () => {
     await expect(input).toHaveValue('16');
   });
 });
+
+// 2026 | 2027 limits table (IRS Notice 2026-66, announced Nov 12, 2026).
+// Literal golden values; the data itself is locked by tsp-limits-2027.spec.ts.
+test.describe('TSP limits table: 2026 and 2027', () => {
+  test('both columns render with the official figures and the 2027 label', async ({ page }) => {
+    await page.goto('/calculators/tsp');
+    const table = page.getByTestId('tsp-limits-table');
+    await expect(table).toBeVisible();
+    await expect(table.locator('thead')).toContainText('2027 (announced by the IRS Nov 12, 2026; takes effect Jan 1)');
+    const rows: [string, string, string][] = [
+      ['Elective deferral limit (all ages)', '$24,500', '$25,500'],
+      ['Catch-up contributions (age 50–59, 64+)', '+$8,000', '+$8,500'],
+      ['Enhanced catch-up (ages 60–63, SECURE 2.0)', '+$11,250', '+$11,750'],
+      ['Annual additions limit (incl. employer contributions)', '$72,000', '$75,000'],
+    ];
+    const body = table.locator('tbody tr');
+    await expect(body).toHaveCount(rows.length);
+    for (const [i, [label, y26, y27]] of rows.entries()) {
+      const cells = body.nth(i).locator('th, td');
+      await expect(cells).toHaveText([label, y26, y27]);
+    }
+    await expect(page.getByRole('link', { name: 'IRS Notice 2026-66' }).first()).toHaveAttribute(
+      'href',
+      'https://www.irs.gov/pub/irs-drop/n-26-66.pdf',
+    );
+  });
+});

@@ -9,19 +9,39 @@ import { projectTSP, getBasePayMonthly } from '@/lib/calculations/tspGrowth';
 import { SAMPLE_BAR_SCENARIO, sampleFmt } from '@/lib/calculations/tspSampleDefaults';
 import { calculateHigh3Average, calculatePension } from '@/lib/calculations/retirement';
 import { projectTSPBalance, formatCurrency, formatPercent } from '@/lib/utils';
-import { ALLOCATION_PRESETS } from '@/data/tsp/2026/constants';
+import { ALLOCATION_PRESETS, TSP_CONSTANTS_2026 } from '@/data/tsp/2026/constants';
+import {
+  TSP_CONSTANTS_2027,
+  TSP_LIMITS_2027_ANNOUNCED,
+  TSP_LIMITS_2027_NOTICE,
+  TSP_LIMITS_2027_SOURCE_URL,
+} from '@/data/tsp/2027/constants';
+
+// 2026 | 2027 limits table. Values come from the year files; labels only here.
+const TSP_LIMIT_ROWS: { label: string; key: 'electiveDeferralLimit' | 'catchUpLimit' | 'enhancedCatchUpLimit' | 'annualAdditionsLimit'; plus: boolean }[] = [
+  { label: 'Elective deferral limit (all ages)', key: 'electiveDeferralLimit', plus: false },
+  { label: 'Catch-up contributions (age 50–59, 64+)', key: 'catchUpLimit', plus: true },
+  { label: 'Enhanced catch-up (ages 60–63, SECURE 2.0)', key: 'enhancedCatchUpLimit', plus: true },
+  { label: 'Annual additions limit (incl. employer contributions)', key: 'annualAdditionsLimit', plus: false },
+];
+
+// "Nov 12, 2026" from the ISO announcement date (no timezone drift).
+const TSP_2027_ANNOUNCED_SHORT = (() => {
+  const [y, m, d] = TSP_LIMITS_2027_ANNOUNCED.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+})();
 
 export const metadata: Metadata = {
   title: { absolute: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator' },
   description:
-    'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 contribution limits.',
+    'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 and 2027 contribution limits.',
   alternates: {
     canonical: '/calculators/tsp',
   },
   openGraph: {
     title: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator',
     description:
-      'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 contribution limits.',
+      'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 and 2027 contribution limits.',
     type: 'website',
     url: '/calculators/tsp',
     siteName: 'MilPayTools',
@@ -31,7 +51,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator',
     description:
-      'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 contribution limits.',
+      'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 and 2027 contribution limits.',
     images: ogImage({ type: 'calculator', title: 'TSP Growth Projector 2026', sub: 'Project your balance with BRS matching and Roth comparison' }),
   },
 };
@@ -73,7 +93,7 @@ export default function TSPPage() {
 
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'TSP Growth Projector 2026', description: 'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 contribution limits.', url: '/calculators/tsp' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: 'TSP Growth Projector 2026', description: 'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 and 2027 contribution limits.', url: '/calculators/tsp' })} />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="border-b border-zinc-200"
@@ -214,28 +234,37 @@ export default function TSPPage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold text-zinc-900 mb-3">2026 TSP Contribution Limits</h2>
-            <div className="space-y-2">
-              {[
-                { label: 'Elective deferral limit (all ages)', value: '$24,500/year' },
-                { label: 'Catch-up contributions (age 50–59, 64+)', value: '+$8,000/year' },
-                { label: 'Enhanced catch-up (ages 60–63, SECURE 2.0)', value: '+$11,250/year' },
-                { label: 'Annual additions limit (incl. employer contributions)', value: '$72,000/year' },
-              ].map(({ label, value }) => (
-                <div key={label} className="flex justify-between gap-4 text-sm border-b border-zinc-100 pb-1.5">
-                  <span className="text-zinc-600">{label}</span>
-                  <span className="font-semibold tabular-nums text-zinc-900 shrink-0">{value}</span>
-                </div>
-              ))}
-            </div>
+            <h2 className="text-xl font-semibold text-zinc-900 mb-3">TSP Contribution Limits: 2026 and 2027</h2>
+            <table className="w-full text-sm" data-testid="tsp-limits-table">
+              <thead>
+                <tr className="border-b border-zinc-200 text-left align-bottom">
+                  <th scope="col" className="font-semibold text-zinc-700 pb-1.5 pr-3">Limit</th>
+                  <th scope="col" className="font-semibold text-zinc-700 pb-1.5 pr-3 text-right">2026</th>
+                  <th scope="col" className="font-semibold text-zinc-700 pb-1.5 text-right">
+                    2027 <span className="block text-[11px] font-normal text-zinc-500 leading-snug">{`(announced by the IRS ${TSP_2027_ANNOUNCED_SHORT}; takes effect Jan 1)`}</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {TSP_LIMIT_ROWS.map(({ label, key, plus }) => (
+                  <tr key={key} className="border-b border-zinc-100 align-top">
+                    <th scope="row" className="font-normal text-left text-zinc-600 py-1.5 pr-3">{label}</th>
+                    <td className="py-1.5 pr-3 text-right font-semibold tabular-nums text-zinc-900 whitespace-nowrap">{`${plus ? '+' : ''}${formatCurrency(TSP_CONSTANTS_2026[key])}`}</td>
+                    <td className="py-1.5 text-right font-semibold tabular-nums text-zinc-900 whitespace-nowrap">{`${plus ? '+' : ''}${formatCurrency(TSP_CONSTANTS_2027[key])}`}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
             <p className="text-xs text-zinc-500 mt-3">
-              In a combat zone, the $72,000 annual additions limit applies to total contributions — but the Roth TSP elective deferral portion is still capped at $24,500. Contributions above that go to Traditional TSP only. Verify your specific situation with your finance office.
+              {`Contributions made in 2026 count against the 2026 limits; the 2027 limits apply to contributions made from January 1, 2027. This projector uses the 2026 limits. In a combat zone, the annual additions limit (${formatCurrency(TSP_CONSTANTS_2026.annualAdditionsLimit)} for 2026, ${formatCurrency(TSP_CONSTANTS_2027.annualAdditionsLimit)} for 2027) applies to total contributions — but the Roth TSP elective deferral portion is still capped at the elective deferral limit (${formatCurrency(TSP_CONSTANTS_2026.electiveDeferralLimit)} for 2026, ${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027). Contributions above that go to Traditional TSP only. Verify your specific situation with your finance office.`}
             </p>
             <p className="text-xs text-zinc-400 mt-2">
               Limits are set by the IRS. Sources:{' '}
               <a href="https://www.tsp.gov/making-contributions/contribution-limits/" target="_blank" rel="noopener noreferrer" className="underline">TSP.gov</a>
-              {' '}and{' '}
-              <a href="https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-401k-and-profit-sharing-plan-contribution-limits" target="_blank" rel="noopener noreferrer" className="underline">IRS.gov</a>.
+              {', '}
+              <a href="https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-401k-and-profit-sharing-plan-contribution-limits" target="_blank" rel="noopener noreferrer" className="underline">IRS.gov</a>
+              {' '}and, for 2027,{' '}
+              <a href={TSP_LIMITS_2027_SOURCE_URL} target="_blank" rel="noopener noreferrer" className="underline">{TSP_LIMITS_2027_NOTICE}</a>.
             </p>
           </div>
 
@@ -295,7 +324,7 @@ export default function TSPPage() {
         <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-5">
           <h3 className="text-base font-semibold text-zinc-900 mb-2">Common TSP mistakes to understand</h3>
           <ul className="text-sm text-zinc-600 space-y-1.5 list-disc list-inside">
-            <li><strong>Front-loading contributions under BRS:</strong> If you hit the $24,500 annual limit before December, you stop receiving BRS matching contributions for the rest of the year. Spread contributions evenly across all 12 months to capture the full match.</li>
+            <li><strong>Front-loading contributions under BRS:</strong> If you hit the annual limit ({formatCurrency(TSP_CONSTANTS_2026.electiveDeferralLimit)} for 2026; {formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027) before December, you stop receiving BRS matching contributions for the rest of the year. Spread contributions evenly across all 12 months to capture the full match.</li>
             <li><strong>Moving to the G Fund during market downturns:</strong> Selling out of stock funds when the market drops locks in losses and misses the recovery. Historically, staying invested has outperformed market-timing attempts.</li>
             <li><strong>Taking TSP loans:</strong> A TSP loan removes money from compound growth, and if you separate before repaying it, the outstanding balance becomes a taxable distribution with potential penalties.</li>
             <li><strong>Ignoring the Roth option in low-income years:</strong> Early career — especially in tax-free combat zones — is often the best time to use Roth TSP, since your marginal tax rate is lower and growth compounds tax-free for decades.</li>
@@ -321,7 +350,7 @@ export default function TSPPage() {
             >
               Visit TSP.gov
             </a>{' '}
-            for official fund information and contribution rules. 2026 contribution limits
+            for official fund information and contribution rules. 2026 and 2027 contribution limits
             sourced from{' '}
             <a
               href="https://www.tsp.gov/making-contributions/contribution-limits/"
@@ -331,7 +360,7 @@ export default function TSPPage() {
             >
               TSP.gov
             </a>{' '}
-            and the IRS.{' '}
+            and the IRS ({TSP_LIMITS_2027_NOTICE} for 2027).{' '}
             Projections assume contributions end at your planned separation date, since TSP contributions require federal service.
           </p>
         </div>

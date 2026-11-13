@@ -7,6 +7,7 @@
  */
 
 import { test, expect } from '@playwright/test';
+import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import * as pay2026 from '@/data/pay-tables/2026';
 import * as va2026 from '@/data/va-rates/2026';
@@ -20,9 +21,11 @@ import * as healthcare2026 from '@/data/healthcare/2026/constants';
 import * as pcs2026 from '@/data/pcs/2026/constants';
 import * as tricare2026 from '@/data/tricare/2026/constants';
 import * as tsp2026 from '@/data/tsp/2026/constants';
+import * as tsp2027 from '@/data/tsp/2027/constants';
 import {
   SOURCE_GROUPS,
   buildIndex,
+  groupFile,
   classify,
   collectFiles,
   diffYears,
@@ -146,5 +149,33 @@ test.describe('figure check — data-only', () => {
     expect(result.stale[1].changes[0]).toMatchObject({ label: 'pay:E-5@6', op: 'x12', newFigure: 51000 });
     // $476.95 matches only BAS, which has no 2027 data: counted as not checked, not stale.
     expect(result.notChecked).toBe(1);
+  });
+
+  // 2027 TSP limits (IRS Notice 2026-66) are the first 2027 data file on disk.
+  // `check:figures -- --next-year 2027` loads it from the year template; this
+  // pins that wiring with the real module, not a fixture.
+  test('2027 TSP limits: year file is on the template path and diffs the 2026 limit figures', () => {
+    const tspGroup = SOURCE_GROUPS.find((g) => g.id === 'tsp')!;
+    expect(groupFile(tspGroup, '2027')).toBe('src/data/tsp/2027/constants.ts');
+    expect(existsSync(join(ROOT, groupFile(tspGroup, '2027')))).toBe(true);
+
+    const next = buildIndex('2027', [{ group: tspGroup, mod: tsp2027 }]);
+    expect(next.byLabel.size).toBeGreaterThan(0); // an empty index would diff nothing
+    const cents = (label: string) => next.byLabel.get(label);
+    expect(cents('tsp:electiveDeferralLimit')).toBe(2_550_000);
+    expect(cents('tsp:catchUpLimit')).toBe(850_000);
+    expect(cents('tsp:enhancedCatchUpLimit')).toBe(1_175_000);
+    expect(cents('tsp:annualAdditionsLimit')).toBe(7_500_000);
+
+    // A 2026 limit still quoted for 2026 in a post is reported as changing in 2027.
+    const hits = find(figs, 'roth-tsp-advantage-junior-enlisted.mdx', '$24,500');
+    expect(hits.length).toBeGreaterThan(0);
+    const result = diffYears(hits, next);
+    expect(result.stale.length).toBe(hits.length);
+    for (const s of result.stale) {
+      expect(s.changes).toContainEqual(
+        expect.objectContaining({ label: 'tsp:electiveDeferralLimit', oldValue: 24500, newValue: 25500 }),
+      );
+    }
   });
 });
