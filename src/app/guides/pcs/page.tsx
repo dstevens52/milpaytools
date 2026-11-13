@@ -5,13 +5,27 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { getMHACode, getMHARates } from '@/lib/calculations/bah';
 
 const TITLE = 'Military PCS Guide: Entitlements & Move Costs';
 const DESC =
-  'What a PCS move actually costs: DLA, MALT, per diem, TLE, and PPM entitlements, plus how BAH and state taxes change. Official 2026 DTMO data. No account.';
+  'What a PCS move actually costs: DLA, MALT, per diem, TLE, and PPM entitlements, plus how BAH changes with a move. Official 2026 DTMO data. No account.';
 const CANONICAL = '/guides/pcs';
 const DATE = '2026-04-12';
-const OG_IMAGE = ogImage({ type: 'guide', title: 'PCS & Duty Station Financial Guide 2026', sub: 'How BAH, entitlements, and state taxes change with a move' });
+/** Last factual review (SCRA state-tax framing, 2026-11-12). Drives "Last reviewed" and dateModified. */
+const UPDATED = '2026-11-12';
+
+// Sample comparison card (E-6, with dependents): BAH from the 2026 dataset, not typed.
+const e6WithDepBah = (zip: string): number => {
+  const mha = getMHACode(zip);
+  return (mha ? getMHARates(mha, true)?.['E-6'] : 0) ?? 0;
+};
+const CARD_BAH_A = e6WithDepBah('28310'); // Fort Bragg, NC
+const CARD_BAH_B = e6WithDepBah('98433'); // JBLM, WA
+const CARD_DIFF = CARD_BAH_B - CARD_BAH_A;
+const usd = (n: number) => `$${Math.round(Math.abs(n)).toLocaleString('en-US')}`;
+const signedUsd = (n: number) => `${n >= 0 ? '+' : '−'}${usd(n)}`;
+const OG_IMAGE = ogImage({ type: 'guide', title: 'PCS & Duty Station Financial Guide 2026', sub: 'How BAH and entitlements change with a move' });
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -24,6 +38,7 @@ export const metadata: Metadata = {
     url: CANONICAL,
     siteName: 'MilPayTools',
     publishedTime: DATE,
+    modifiedTime: UPDATED,
     authors: ['Dan Stevens'],
     images: OG_IMAGE,
   },
@@ -54,7 +69,7 @@ const FAQS = [
   {
     question: 'How do I compare two duty stations financially?',
     answer:
-      'A complete duty station financial comparison includes: BAH rate at both stations; state income tax (nine states have no income tax — AK, FL, NV, NH, SD, TN, TX, WA, WY); CONUS COLA eligibility at each station; and non-housing cost of living (groceries, transportation, childcare). For an O-3, the difference between a zero-income-tax state and California is roughly $4,900/year — often more than the BAH difference.',
+      'A complete duty station financial comparison includes: BAH rate at both stations; CONUS COLA eligibility at each station; and non-housing cost of living (groceries, transportation, childcare). State income tax usually isn\'t part of the difference: under the Servicemembers Civil Relief Act (SCRA), military pay is taxed by your state of legal residence at every duty station, so it changes only if you change your legal residence.',
   },
   {
     question: 'Why do OCONUS allowances often produce less savings than expected?',
@@ -112,11 +127,11 @@ const IMPACT_CARDS = [
   {
     accent: 'bg-amber-600',
     label: 'Impact 3',
-    title: 'State taxes and cost of living shift',
+    title: 'Cost of living shifts',
     description:
-      'Nine states have no income tax. Moving from Texas to California could cost an O-3 roughly $4,900/year in state taxes alone.',
+      'Groceries, childcare, and transportation costs change with the duty station. State income tax doesn\'t: it follows your state of legal residence (SCRA).',
     bullets: [
-      'No-tax states: AK, FL, NV, NH, SD, TN, TX, WA, WY',
+      'State income tax changes only if you change your legal residence',
       'CONUS COLA may offset some high-cost areas',
       'Non-housing costs vary dramatically by location',
     ],
@@ -239,11 +254,10 @@ const ACCORDION = [
           BAH is the most visible variable, but a complete comparison includes four factors:
         </p>
         <p>
-          <strong className="text-zinc-800">State income tax:</strong> Nine states have no income
-          tax (FL, TX, NV, WA, WY, SD, AK, TN, NH). Several others — including Virginia, Maryland,
-          and California — have rates of 5–13%. For an O-3 earning $75,000 in base pay, the
-          difference between a zero-tax state and California is roughly{' '}
-          <strong className="text-zinc-800">$4,900/year</strong> — often more than the BAH difference.
+          <strong className="text-zinc-800">State income tax:</strong> Under the Servicemembers
+          Civil Relief Act (SCRA), military pay is taxed by your state of legal residence at every
+          duty station, so a PCS move by itself doesn&apos;t change it. It changes only if you change
+          your legal residence, which is a personal legal decision.
         </p>
         <p>
           <strong className="text-zinc-800">CONUS COLA eligibility:</strong> A small number of
@@ -413,7 +427,7 @@ const RELATED = [
 export default function PcsGuidePage() {
   return (
     <>
-      <JsonLdScript schema={articleSchema({ title: 'PCS & Duty Station Financial Guide 2026', description: DESC, datePublished: DATE, url: CANONICAL })} />
+      <JsonLdScript schema={articleSchema({ title: 'PCS & Duty Station Financial Guide 2026', description: DESC, datePublished: DATE, dateModified: UPDATED, url: CANONICAL })} />
       <JsonLdScript schema={faqPageSchema(FAQS)} />
 
       {/* ── Breadcrumb ── */}
@@ -447,7 +461,7 @@ export default function PcsGuidePage() {
           </h1>
 
           <p className="text-lg text-zinc-600 leading-relaxed mb-7">
-            BAH changes, moving entitlements, state taxes, and cost of living can swing your
+            BAH changes, moving entitlements, and cost of living can swing your
             finances by thousands.{' '}
             <strong className="text-zinc-900">Compare duty stations and estimate move costs</strong>{' '}
             with free tools using official 2026 DTMO data.
@@ -564,8 +578,8 @@ export default function PcsGuidePage() {
                 See your full PCS financial picture before you sign a housing lease.
               </h2>
               <p className="text-base text-white/70 leading-relaxed mb-6">
-                Enter your current and gaining duty stations. Compare BAH, state taxes, CONUS COLA,
-                and estimated take-home — side by side.
+                Enter your current and gaining duty stations. Compare BAH, CONUS COLA,
+                and estimated pay after income taxes — side by side.
               </p>
               <Link
                 href="/calculators/compare"
@@ -589,11 +603,7 @@ export default function PcsGuidePage() {
                     <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-2">Station A — Fort Bragg, NC</p>
                     <div className="flex justify-between py-1">
                       <span className="text-sm text-zinc-600">BAH (w/ dependents)</span>
-                      <span className="text-sm font-mono tabular-nums text-zinc-800">$2,049<span className="text-zinc-400">/mo</span></span>
-                    </div>
-                    <div className="flex justify-between py-1">
-                      <span className="text-sm text-zinc-600">State income tax</span>
-                      <span className="text-sm font-mono text-zinc-800">3.99%</span>
+                      <span className="text-sm font-mono tabular-nums text-zinc-800">{usd(CARD_BAH_A)}<span className="text-zinc-400">/mo</span></span>
                     </div>
                     <div className="flex justify-between py-1">
                       <span className="text-sm text-zinc-600">CONUS COLA</span>
@@ -605,11 +615,7 @@ export default function PcsGuidePage() {
                     <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-2">Station B — JBLM, WA</p>
                     <div className="flex justify-between py-1">
                       <span className="text-sm text-zinc-600">BAH (w/ dependents)</span>
-                      <span className="text-sm font-mono tabular-nums text-zinc-800">$2,919<span className="text-zinc-400">/mo</span></span>
-                    </div>
-                    <div className="flex justify-between py-1">
-                      <span className="text-sm text-zinc-600">State income tax</span>
-                      <span className="text-sm font-mono text-zinc-800">None</span>
+                      <span className="text-sm font-mono tabular-nums text-zinc-800">{usd(CARD_BAH_B)}<span className="text-zinc-400">/mo</span></span>
                     </div>
                     <div className="flex justify-between py-1">
                       <span className="text-sm text-zinc-600">CONUS COLA</span>
@@ -617,15 +623,18 @@ export default function PcsGuidePage() {
                     </div>
                   </div>
                 </div>
+                <p className="px-5 pb-2 text-xs text-zinc-500">
+                  State income tax isn&apos;t shown: it follows your state of legal residence (SCRA), not the duty station.
+                </p>
                 {/* Difference bar */}
                 <div className="mx-5 mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3 flex items-center justify-between">
                   <div>
                     <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">BAH Difference</p>
-                    <p className="text-2xl font-bold tabular-nums text-red-700">+$870/mo</p>
+                    <p className="text-2xl font-bold tabular-nums text-red-700">{signedUsd(CARD_DIFF)}/mo</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-zinc-500">Annual impact</p>
-                    <p className="text-sm font-semibold text-zinc-700">+$10,440/yr</p>
+                    <p className="text-sm font-semibold text-zinc-700">{signedUsd(CARD_DIFF * 12)}/yr</p>
                   </div>
                 </div>
                 <div className="px-5 pb-4">
@@ -651,7 +660,7 @@ export default function PcsGuidePage() {
               Understanding your PCS finances
             </h2>
             <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-3">
-              A PCS move affects both one-time reimbursements and ongoing monthly compensation. DLA, MALT, per diem, TLE, and PPM proceeds may offset moving costs, while BAH, state tax exposure, CONUS COLA, and local cost of living can change the household budget for the entire assignment. The biggest mistake is treating PCS as only a moving expense instead of a full financial reset.
+              A PCS move affects both one-time reimbursements and ongoing monthly compensation. DLA, MALT, per diem, TLE, and PPM proceeds may offset moving costs, while BAH, CONUS COLA, and local cost of living can change the household budget for the entire assignment. The biggest mistake is treating PCS as only a moving expense instead of a full financial reset.
             </p>
             <p className="text-base text-zinc-500">
               Expand any section to go deeper. The calculators above give you the numbers — these
@@ -684,7 +693,7 @@ export default function PcsGuidePage() {
             ))}
           </div>
 
-          <AuthorBio date={DATE} />
+          <AuthorBio date={UPDATED} />
 
           <div className="mt-8 pt-6 border-t border-zinc-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <Link href="/guides" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
