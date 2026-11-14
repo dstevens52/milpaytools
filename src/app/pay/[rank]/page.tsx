@@ -33,7 +33,7 @@ import {
 } from '@/lib/calculations/payRaise';
 import { PAY_RAISE_2027 } from '@/data/pay-raise/2027';
 import { gradeToParam } from '@/lib/urlParams';
-import { KEY_DATES_HREF, rankKeyDatesLine } from '@/data/calendar-2027';
+import { KEY_DATES_HREF, PAY_DATES_HREF, rankKeyDatesLine } from '@/data/calendar-2027';
 import { payRange, rankTitle } from '@/lib/pay-pages/rankTitle';
 
 export async function generateStaticParams() {
@@ -607,6 +607,9 @@ export default async function RankPayPage({
             {`${rankKeyDatesLine()} `}
             <Link href={KEY_DATES_HREF} className="font-medium text-red-700 hover:text-red-800 underline">
               See the 2027 pay calendar →
+            </Link>{' '}
+            <Link href={PAY_DATES_HREF} className="font-medium text-red-700 hover:text-red-800 underline">
+              All 2027 paydays →
             </Link>
           </p>
           <p className="mt-3 text-sm">

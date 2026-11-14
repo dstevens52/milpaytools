@@ -2,6 +2,7 @@ import Link from 'next/link';
 import {
   COMPACT_IDS,
   KEY_DATES_HREF,
+  PAY_DATES_HREF,
   calendarLastChecked,
   calendarSources,
   getCalendar2027,
@@ -54,9 +55,12 @@ export function KeyDates2027({ variant }: { variant: 'full' | 'compact' }) {
             </li>
           ))}
         </ul>
-        <p className="text-sm mt-2">
+        <p className="text-sm mt-2 flex flex-wrap gap-x-4 gap-y-1">
           <Link href={KEY_DATES_HREF} className="font-medium text-red-700 hover:text-red-800 underline">
             See every 2027 key date →
+          </Link>
+          <Link href={PAY_DATES_HREF} className="font-medium text-red-700 hover:text-red-800 underline">
+            All 2027 paydays →
           </Link>
         </p>
       </div>

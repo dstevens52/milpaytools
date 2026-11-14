@@ -34,8 +34,11 @@ each item below must be re-traced against the new source and revised by hand.
 ## Military retiree COLA — October (SSA announcement)
 
 - [ ] When SSA announces the next COLA (mid-October), add `src/data/retiree-cola/{YYYY}.ts` from
-  `RETIREE_COLA_2027` (percent, effective Dec 1, first paid January, SSA announcement date,
-  sources) and repoint `src/lib/calculations/payRaise.ts`. 10 U.S.C. 1401a(b) uses the same
+  `RETIREE_COLA_2027` (percent, effective Dec 1, SSA announcement date, sources) and repoint
+  `src/lib/calculations/payRaise.ts`. Retired pay first reflects the COLA in the December
+  entitlement, paid on DFAS's retired pay date for December (`firstRetiredPayDate`; annuitants:
+  `firstAnnuitantPayDate`). Check DFAS's pay schedule each year
+  (https://www.dfas.mil/RetiredMilitary/manage/payschedule/); it is not SSA's January timing. 10 U.S.C. 1401a(b) uses the same
   CPI-W increase; the REDUX figure is computed (percent − 1), never typed. Record the source in
   `docs/sources/` (see `pay-raise-cola-2027.md`).
 

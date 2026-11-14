@@ -18,7 +18,7 @@ import { PAY_RAISE_2027, type PayRaiseConfig } from '@/data/pay-raise/2027';
 import { RETIREE_COLA_2027 } from '@/data/retiree-cola/2027';
 import { BAH_2027_STATUS } from '@/data/bah/2027-status';
 import { DATA_LAST_CHECKED } from '@/data/watch';
-import { formatIsoDate, formatPercent, raiseCalendarEntry } from '@/lib/calculations/payRaise';
+import { formatIsoDate, formatPercent, raiseCalendarEntry, retireeColaTiming } from '@/lib/calculations/payRaise';
 import { TSP_CONSTANTS_2027, TSP_LIMITS_2027_ANNOUNCED, TSP_LIMITS_2027_NOTICE } from '@/data/tsp/2027/constants';
 
 /** "$25,500" — whole dollars, for the one calendar entry that states official limits. */
@@ -90,6 +90,9 @@ export const KEY_DATES_2027 = {
 export const RAISE_CALCULATOR_HREF = '/pay/raise#your-2027-base-pay';
 /** Link target for the full calendar on /pay/raise. */
 export const KEY_DATES_HREF = '/pay/raise#key-dates';
+/** Every 2027 payday (active duty, retired, VA). */
+export const PAY_DATES_HREF = '/pay/dates';
+export const PAY_DATES_LINK_LABEL = 'See all 2027 paydays →';
 
 /** The four rows the compact variant shows. */
 export const COMPACT_IDS = ['final-raise', 'bah', 'rates-effective', 'first-payday'] as const;
@@ -140,10 +143,10 @@ export function getCalendar2027(config: PayRaiseConfig = PAY_RAISE_2027): Calend
     },
     {
       id: 'retiree-cola',
-      dateLabel: `${weekdayDate(cola.effectiveDate)} (first paid ${cola.firstPaidMonth})`,
+      dateLabel: `${weekdayDate(cola.effectiveDate)} (first in the ${formatIsoDate(cola.firstRetiredPayDate)} retired pay)`,
       isoDate: cola.effectiveDate,
       title: `Military retiree COLA: ${colaPct}`,
-      body: `Military retired pay rises ${colaPct}, the same CPI-W increase Social Security announced on ${formatIsoDate(cola.announcedDate)}. It takes effect ${formatIsoDate(cola.effectiveDate)} and is first paid in ${cola.firstPaidMonth}.`,
+      body: `Military retired pay rises ${colaPct}, the same CPI-W increase Social Security announced on ${formatIsoDate(cola.announcedDate)}. ${retireeColaTiming(cola)}`,
       status: 'official',
       source: CALENDAR_SOURCES.ssaCola,
       link: { href: '/calculators/retirement', label: 'Retirement calculator →' },
@@ -190,7 +193,7 @@ export function getCalendar2027(config: PayRaiseConfig = PAY_RAISE_2027): Calend
       body: `The January 1 payday moves up because ${formatIsoDate(KEY_DATES_2027.ratesEffective)} is New Year's Day. It covers ${KEY_DATES_2027.lastPayday2026Covers} at 2026 rates.`,
       status: 'official',
       source: CALENDAR_SOURCES.fmr7a1,
-      link: { href: RAISE_CALCULATOR_HREF, label: 'See your 2027 base pay →' },
+      link: { href: PAY_DATES_HREF, label: PAY_DATES_LINK_LABEL },
     },
     {
       id: 'rates-effective',
@@ -210,7 +213,7 @@ export function getCalendar2027(config: PayRaiseConfig = PAY_RAISE_2027): Calend
       body: `The mid-month payday covers ${KEY_DATES_2027.firstPayday2027Covers}, the first pay at 2027 rates.`,
       status: 'official',
       source: CALENDAR_SOURCES.dfasPaydays,
-      link: { href: RAISE_CALCULATOR_HREF, label: 'See your 2027 base pay →' },
+      link: { href: PAY_DATES_HREF, label: PAY_DATES_LINK_LABEL },
     },
     {
       id: 'bas',

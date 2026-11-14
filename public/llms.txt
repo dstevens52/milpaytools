@@ -34,6 +34,11 @@
 
 - [For Partners](/partners): Partner page for sharing MilPayTools with audiences, organized by military life stage — Starting Service, Pay & Housing, PCS & Relocation, Deployment, Retirement & TSP, Education & Career, VA Loans, Veterans Benefits, and Leaving the Military. Links to all 18 calculators, 9 guides, and key blog posts. Designed for sharing with service members, veterans, military families, transition coaches, and veteran organizations. No accounts, no personal info, no ads.
 
+## Military pay dates 2027
+
+- [Military Pay Dates 2027: Active Duty, Retiree and VA](https://www.milpaytools.com/pay/dates): Every 2027 payday. Active duty is paid on the 1st and 15th; when that day is a Saturday, Sunday or federal holiday, pay moves to the workday before (DoD FMR Vol. 7A, ch. 1, 010701–010702). DFAS hasn't posted its 2027 table, so the 2027 dates apply that rule to OPM's 2027 federal holidays; the same rule reproduces DFAS's 2026 table exactly. The December 31, 2026 payday is still at 2026 rates; Friday, January 15, 2027 is the first payday at 2027 rates. The end-of-month payday for December 2027 (January 1, 2028 is a Saturday) is not yet published. Also the official DFAS retired and annuitant pay schedule (October 2026–December 2027) and VA disability payment dates under 38 U.S.C. 5120(e). The 3.6% retiree COLA first appears in the December 2026 retired pay, paid December 31, 2026 (SBP annuitants: January 4, 2027).
+- [2027 Military Pay Raise Calculator](https://www.milpaytools.com/pay/raise): 2027 base pay by grade and years of service, and the 2027 military pay calendar of key dates.
+
 ## Pay by Rank
 
 - [E-1 Pay 2026](https://www.milpaytools.com/pay/e1): Entry pay grade. Flat basic pay rate, the under-4-months footnote rate, first-paycheck mechanics, and the in-kind housing/meals reality for new members.

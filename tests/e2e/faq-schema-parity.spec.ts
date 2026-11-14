@@ -24,6 +24,8 @@ const PAGES: { path: string; faqCount: number }[] = [
   { path: '/pay/o6', faqCount: 6 },
   // /pay/raise: 7 + the paycheck FAQ (feat/2027-key-dates).
   { path: '/pay/raise', faqCount: 8 },
+  // /pay/dates: six FAQs (feat/pay-dates-2027).
+  { path: '/pay/dates', faqCount: 6 },
 ];
 
 type FaqSchema = {
