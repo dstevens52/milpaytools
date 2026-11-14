@@ -208,7 +208,17 @@ export function nearbyDeltas(slug: string, year: BahYear = CURRENT_BAH_YEAR): Ne
   const baseMha = base.oconus ? null : getMHACode(base.zip);
   const baseE5 = baseMha ? getMHARatesForYear(baseMha, true, year)?.['E-5'] : undefined;
 
-  return DUTY_STATIONS.filter((s) => base.nearby.includes(s.slug)).map((s) => {
+  // The first 3 curated entries keep their established order (DUTY_STATIONS file
+  // order, which the nearby FAQ text depends on); later additions follow in
+  // array order. The FAQ itself uses only the first 3 (see bah/[slug]/page.tsx).
+  const firstThree = base.nearby.slice(0, 3);
+  const original = DUTY_STATIONS.filter((s) => firstThree.includes(s.slug));
+  const additions = base.nearby
+    .slice(3)
+    .map((slug) => DUTY_STATIONS.find((s) => s.slug === slug))
+    .filter((s): s is (typeof DUTY_STATIONS)[number] => s !== undefined);
+
+  return [...original, ...additions].map((s) => {
     const mha = s.oconus ? null : getMHACode(s.zip);
     const e5Rate = mha ? getMHARatesForYear(mha, true, year)?.['E-5'] : undefined;
     const e5Delta =
