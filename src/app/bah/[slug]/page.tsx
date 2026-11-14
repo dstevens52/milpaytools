@@ -281,8 +281,13 @@ export default async function StationPage({
     }
   }
 
-  // Nearby comparison (E-5 w/dep deltas), CONUS only, for the FAQ.
-  const nearbyForFaq = nearbyData.filter((n) => !n.oconus && n.e5Delta !== undefined);
+  // Nearby comparison (E-5 w/dep deltas), CONUS only, for the FAQ. Only the
+  // first 3 curated `nearby` entries feed the FAQ; extra reciprocal entries
+  // render in the Nearby block only.
+  const faqNearby = station.nearby.slice(0, 3);
+  const nearbyForFaq = nearbyData.filter(
+    (n) => faqNearby.includes(n.slug) && !n.oconus && n.e5Delta !== undefined,
+  );
   const nearbyFaqAnswer =
     nearbyForFaq.length > 0 && e5W !== undefined
       ? `Nearby installations have their own MHA rates. For an E-5 with dependents: ${listToProse(
