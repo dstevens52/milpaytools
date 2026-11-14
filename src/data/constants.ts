@@ -18,7 +18,7 @@ export const BAS_RATES = {
 } as const;
 
 // ─── TSP Contribution Limits ──────────────────────────────────────────────
-// IRS 415(c) elective deferral limit
+// IRC § 402(g) elective deferral limit (§ 415(c) is the separate annual additions limit)
 export const TSP_ELECTIVE_DEFERRAL_LIMIT = 24_500;  // IRS 2026 elective deferral limit
 // Catch-up contribution limit (age 50+)
 export const TSP_CATCHUP_LIMIT = 8_000;

@@ -15,7 +15,7 @@
  *   - FSA: 37 U.S.C. § 427 — increased to $300/month effective FY2026 NDAA
  *   - CZTE: 26 U.S.C. § 112, IRS Pub. 3 (Armed Forces' Tax Guide)
  *   - SDP: 10 U.S.C. § 1035 — 10% annual guaranteed return
- *   - TSP combat zone limit: IRC § 415(c) — $72,000 for 2026
+ *   - TSP limits: src/data/tsp/2026/constants.ts (§ 402(g) elective deferral, § 415(c) annual additions)
  *
  * Update annually: verify HFP/IDP, HDP, and FSA rates each January. HFP/IDP/HDP-L can also
  * change off-cycle (the October 1, 2026 change did) — see docs/ANNUAL_DATA_UPDATE.md.
@@ -55,31 +55,26 @@ export const DEPLOYMENT_RATES_2026 = {
   fsaTaxable: false, // FSA is a non-taxable allowance
 
   // ─── Combat Zone Tax Exclusion (CZTE) ───────────────────────────────────
-  // 26 U.S.C. § 112 — excludes military pay from federal income tax
-  // Enlisted & Warrant Officers: ALL military pay is excluded
-  // Officers: capped at highest enlisted rate + HFP/IDP amount
-  // One day in a combat zone = entire month's pay excluded
-  //
-  // Officer CZTE cap: highest E-9 base pay rate + HFP/IDP ($225)
-  // Approximate 2026 figure — verify exact E-9 max rate with DFAS
-  // PENDING VERIFICATION (2026-10-15): still built on the pre-October $225 HFP/IDP. The
-  // October 1, 2026 memo is silent on the CZTE cap, and HFP ($450) and IDP ($275) now differ,
-  // so it is unconfirmed which amount the cap tracks. Not recomputed — hold for a sourced figure.
-  officerCZTECap: 10_520, // ~$10,295 (E-9 max base pay) + $225 HFP = ~$10,520
+  // 26 U.S.C. § 112 — excludes military pay from federal taxable income (income tax only;
+  // FICA still applies to basic pay).
+  // Enlisted & warrant officers: ALL military pay for the month is excluded.
+  // Commissioned officers: capped at the senior enlisted basic pay
+  // (SENIOR_ENLISTED_BASIC_PAY in src/data/pay-tables/2026.ts) plus the HFP/IDP actually
+  // payable to that officer for the month — § 112(b), (c)(5). The cap is computed in
+  // src/lib/calculations/deployment.ts; source: docs/sources/czte-officer-cap-2026.md.
+  // One day in a combat zone = entire month's pay excluded.
 
   // ─── Savings Deposit Program (SDP) ──────────────────────────────────────
   // 10 U.S.C. § 1035 — guaranteed 10% annual return, government-backed
   sdpMaxDeposit: 10_000, // $10,000 maximum deposit
   sdpInterestRate: 0.10, // 10% annual guaranteed
-  sdpQuarterlyRate: 0.025, // 2.5% per quarter
+  // Interest compounds monthly and is paid quarterly (DFAS, dfas.mil/MilitaryMembers/sdp); the
+  // calculator uses simple interest on the full deposit, so no compounding rate is stored here.
   sdpMinDays: 30, // Must be in combat zone 30+ consecutive days
   sdpInterestContinuesDays: 90, // Interest continues 90 days after leaving
 
-  // ─── TSP Contribution Limits (2026) ─────────────────────────────────────
-  // IRS § 402(g) elective deferral limit — normal
-  tspNormalLimit: 24_500,
-  // IRC § 415(c) total additions limit — applies during CZTE months
-  tspCombatZoneLimit: 72_000,
+  // TSP limits: read from the TSP year file (TSP_CONSTANTS_2026 in src/data/tsp/2026/constants.ts),
+  // not duplicated here.
 } as const;
 
 export type HDPLevel = (typeof DEPLOYMENT_RATES_2026.hdpLevels)[number];

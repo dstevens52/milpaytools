@@ -4,14 +4,28 @@
  *
  * Models three phases:
  *   1. Pre-deployment: normal monthly pay
- *   2. During deployment: additional pays + CZTE tax savings
+ *   2. During deployment: additional pays, CZTE-excluded pay, monthly take-home
  *   3. Tour total: aggregated financial benefit over full deployment
+ *
+ * Tax model (federal only):
+ *   - Monthly figures (take-home before and during) annualize one month's taxable pay:
+ *     tax(12 × monthly taxable pay) ÷ 12, at the chosen filing status.
+ *   - Tour CZTE savings use marginal rates over one tax year: tax on the year without the
+ *     exclusion minus tax on the same year with the excluded pay removed (DEP-02). Each full
+ *     12 months of a longer deployment is treated as its own fully excluded year.
+ *   - FICA (EMPLOYEE_FICA_RATE: 6.2% Social Security + 1.45% Medicare) is withheld on basic pay
+ *     only, in and out of a combat zone (DoD FMR Vol. 7A Ch. 45). The Social Security wage base
+ *     is not modeled.
+ *   - Not modeled: state income tax, SGLI, the member's own TSP deduction, HFP as a choice.
  */
 
 import { DEPLOYMENT_RATES_2026 } from '@/data/deployment/2026/constants';
 import type { HDPLevel } from '@/data/deployment/2026/constants';
+import { SENIOR_ENLISTED_BASIC_PAY } from '@/data/pay-tables/2026';
+import { TSP_CONSTANTS_2026 } from '@/data/tsp/2026/constants';
 import { lookupBasePay } from '@/lib/calculations/total-compensation';
-import { BAS_RATES, FED_TAX_BRACKETS_SINGLE, STANDARD_DEDUCTION_SINGLE } from '@/data/constants';
+import { estimateAnnualFederalTax, type FilingStatus } from '@/lib/calculations/federalTax';
+import { BAS_RATES, EMPLOYEE_FICA_RATE } from '@/data/constants';
 import { ENLISTED_GRADES, WARRANT_GRADES } from '@/types/military';
 import type { PayGrade } from '@/types/military';
 
@@ -21,6 +35,8 @@ export interface DeploymentInput {
   payGrade: PayGrade;
   yearsOfService: number;
   hasDependents: boolean;
+  /** Federal filing status. Omitted → defaultDeploymentFilingStatus(hasDependents). */
+  filingStatus?: FilingStatus;
   zipCode: string;
   monthlyBAH: number; // resolved via /api/bah/lookup
   bahFound: boolean;
@@ -40,8 +56,9 @@ export interface PreDeploymentPay {
   bahFound: boolean;
   monthlyBAS: number;
   grossMonthly: number;
-  monthlyFederalTax: number;
-  monthlyTakeHome: number;
+  monthlyFederalTax: number; // federal income tax on basic pay
+  monthlyFICA: number;       // EMPLOYEE_FICA_RATE × basic pay
+  monthlyTakeHome: number;   // after federal income tax and FICA
 }
 
 export interface DeploymentPay {
@@ -52,17 +69,32 @@ export interface DeploymentPay {
   monthlyHDP: number;
   monthlyFSA: number;
   grossMonthly: number;
-  czteMonthlySavings: number;
+  /** Basic pay + IDP + HDP-L: the pay tested under § 112 (taxable absent the exclusion). */
+  monthlyMilitaryPay: number;
+  /** Part of monthlyMilitaryPay excluded from federal taxable income (0 outside a combat zone). */
+  monthlyExcludedPay: number;
+  /** Part of monthlyMilitaryPay still in federal taxable income. */
+  monthlyTaxablePay: number;
+  /** Officer monthly cap applied (commissioned officers in a combat zone); null otherwise. */
+  officerCZTECap: number | null;
+  /**
+   * Federal income tax per deployed month. In a combat zone this is deploymentFederalTax ÷ months
+   * (same full-year method as the CZTE savings), so the monthly and tour figures agree; it is $0
+   * whenever no pay stays taxable (enlisted, warrant, officers under the cap). Outside a combat
+   * zone it is annualized like the pre-deployment figure.
+   */
   monthlyFederalTax: number;
-  monthlyTakeHome: number;
+  monthlyFICA: number;
+  monthlyTakeHome: number;   // after federal income tax and FICA
   monthlyIncrease: number;
   percentIncrease: number;
 }
 
 export interface TourTotal {
   totalAdditionalAllowancePay: number; // (IDP + HDP + FSA) × months
-  totalCZTESavings: number;            // tax savings × months (0 if non-combat)
-  sdpInterestEarned: number;           // deposit × rate × (months/12)
+  totalCZTESavings: number;            // marginal, one tax year per 12 months (0 if non-combat)
+  deploymentFederalTax: number;        // federal income tax attributable to the deployed months
+  sdpInterestEarned: number;           // simple interest: deposit × 10% × (months/12)
   tspContributedTotal: number;         // monthly TSP × months (capped at annual limit)
   totalTourBenefit: number;            // additional pay + tax savings + SDP interest
   effectiveTSPLimit: number;
@@ -72,32 +104,89 @@ export interface DeploymentResult {
   pre: PreDeploymentPay;
   during: DeploymentPay;
   tour: TourTotal;
-  isOfficer: boolean;
+  isOfficer: boolean; // commissioned officer (subject to the CZTE cap); warrant officers are not
+  filingStatus: FilingStatus;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
+/** Commissioned officer: not enlisted and not a warrant officer (warrants are uncapped under § 112). */
 function isOfficerGrade(payGrade: PayGrade): boolean {
   const enlistedAndWarrant = [...ENLISTED_GRADES, ...WARRANT_GRADES] as string[];
   return !enlistedAndWarrant.includes(payGrade as string);
 }
 
+/** Default filing status: with dependents → married filing jointly, without → single. */
+export function defaultDeploymentFilingStatus(hasDependents: boolean): FilingStatus {
+  return hasDependents ? 'mfj' : 'single';
+}
+
 /**
- * Compute annual federal income tax using progressive brackets.
- * Applies standard deduction before applying brackets.
+ * Commissioned-officer monthly CZTE cap: senior enlisted basic pay plus the HFP/IDP actually
+ * payable to the officer for the month (26 U.S.C. § 112(b), (c)(5)). The calculator offers IDP
+ * only, so the special-pay term is IDP or $0.
  */
-function calculateAnnualFederalTax(annualTaxableIncome: number): number {
-  const taxable = Math.max(0, annualTaxableIncome - STANDARD_DEDUCTION_SINGLE);
-  let tax = 0;
-  let prevCeiling = 0;
-  for (const bracket of FED_TAX_BRACKETS_SINGLE) {
-    const bracketTop = bracket.upTo === Infinity ? taxable : bracket.upTo;
-    const inBracket = Math.max(0, Math.min(taxable, bracketTop) - prevCeiling);
-    tax += inBracket * bracket.rate;
-    prevCeiling = bracketTop;
-    if (taxable <= bracketTop) break;
+export function officerCZTEMonthlyCap(receivingIDP: boolean): number {
+  return SENIOR_ENLISTED_BASIC_PAY + (receivingIDP ? DEPLOYMENT_RATES_2026.idp : 0);
+}
+
+/** Monthly federal income tax on one month's taxable pay, annualized. */
+function monthlyTax(monthlyTaxable: number, filingStatus: FilingStatus): number {
+  return estimateAnnualFederalTax(monthlyTaxable * 12, filingStatus) / 12;
+}
+
+/**
+ * CZTE savings at marginal rates (DEP-02): tax on the year without the exclusion minus tax on
+ * the year with the excluded pay removed, same filing status. Months outside the deployment
+ * carry basic pay only. Each full 12 months is its own fully excluded year; the remainder uses
+ * the same method in one tax year.
+ */
+export function czteSavingsMarginal(
+  monthlyBasePay: number,
+  monthlyMilitaryPay: number,
+  monthlyTaxablePay: number,
+  deploymentMonths: number,
+  filingStatus: FilingStatus,
+): number {
+  const months = Math.max(0, deploymentMonths);
+  const fullYears = Math.floor(months / 12);
+  const remainder = months - fullYears * 12;
+  const tax = (income: number) => estimateAnnualFederalTax(income, filingStatus);
+
+  let savings = fullYears * (tax(12 * monthlyMilitaryPay) - tax(12 * monthlyTaxablePay));
+  if (remainder > 0) {
+    const homeMonths = (12 - remainder) * monthlyBasePay;
+    savings +=
+      tax(homeMonths + remainder * monthlyMilitaryPay) -
+      tax(homeMonths + remainder * monthlyTaxablePay);
   }
-  return tax;
+  return savings;
+}
+
+/**
+ * Federal income tax attributable to the deployed months, by the same full-year method as
+ * czteSavingsMarginal: each full 12 months is its own year taxed on monthlyTaxablePay; the
+ * remainder is the tax on the year with the deployed months minus the tax on the home months
+ * alone (basic pay). czteSavingsMarginal = this function at the full military pay − this function
+ * at the taxable pay, so the monthly tax × months and the tour savings use one method.
+ */
+export function deploymentMonthsFederalTax(
+  monthlyBasePay: number,
+  monthlyTaxablePay: number,
+  deploymentMonths: number,
+  filingStatus: FilingStatus,
+): number {
+  const months = Math.max(0, deploymentMonths);
+  const fullYears = Math.floor(months / 12);
+  const remainder = months - fullYears * 12;
+  const tax = (income: number) => estimateAnnualFederalTax(income, filingStatus);
+
+  let total = fullYears * tax(12 * monthlyTaxablePay);
+  if (remainder > 0) {
+    const homeMonths = (12 - remainder) * monthlyBasePay;
+    total += tax(homeMonths + remainder * monthlyTaxablePay) - tax(homeMonths);
+  }
+  return total;
 }
 
 // ─── Phase 1: Pre-deployment ──────────────────────────────────────────────────
@@ -107,6 +196,7 @@ function calculatePreDeployment(
   yearsOfService: number,
   monthlyBAH: number,
   bahFound: boolean,
+  filingStatus: FilingStatus,
 ): PreDeploymentPay {
   const monthlyBasePay = lookupBasePay(payGrade, yearsOfService);
   const isOfficer = isOfficerGrade(payGrade);
@@ -114,11 +204,10 @@ function calculatePreDeployment(
 
   const grossMonthly = monthlyBasePay + monthlyBAH + monthlyBAS;
 
-  // Only base pay is taxable (BAH and BAS are excluded from income)
-  const annualTaxable = monthlyBasePay * 12;
-  const annualFederalTax = calculateAnnualFederalTax(annualTaxable);
-  const monthlyFederalTax = annualFederalTax / 12;
-  const monthlyTakeHome = grossMonthly - monthlyFederalTax;
+  // Only basic pay is taxable (BAH and BAS are excluded from income) and FICA applies to basic pay only.
+  const monthlyFederalTax = monthlyTax(monthlyBasePay, filingStatus);
+  const monthlyFICA = monthlyBasePay * EMPLOYEE_FICA_RATE;
+  const monthlyTakeHome = grossMonthly - monthlyFederalTax - monthlyFICA;
 
   return {
     monthlyBasePay,
@@ -127,6 +216,7 @@ function calculatePreDeployment(
     monthlyBAS,
     grossMonthly,
     monthlyFederalTax,
+    monthlyFICA,
     monthlyTakeHome,
   };
 }
@@ -141,8 +231,10 @@ function calculateDuringDeployment(
   hdpLevel: HDPLevel,
   hasDependents: boolean,
   hasFSA: boolean,
+  filingStatus: FilingStatus,
+  deploymentMonths: number,
 ): DeploymentPay {
-  const { monthlyBasePay, monthlyBAH, monthlyBAS, monthlyFederalTax: preTax } = pre;
+  const { monthlyBasePay, monthlyBAH, monthlyBAS } = pre;
 
   // Special pays
   // IDP at the full monthly rate. HFP ($450) is not offered as a separate choice yet, and the
@@ -153,37 +245,46 @@ function calculateDuringDeployment(
   const monthlyHDP = hdpLevel;
 
   // FSA is payable only to a member with dependents (37 U.S.C. § 427(a)(1)),
-  // so hasFSA is ignored when hasDependents is false.
+  // so hasFSA is ignored when hasDependents is false. FSA is not taxable.
   const monthlyFSA = hasDependents && hasFSA ? DEPLOYMENT_RATES_2026.fsa : 0;
 
   const grossMonthly =
     monthlyBasePay + monthlyBAH + monthlyBAS + monthlyIDP + monthlyHDP + monthlyFSA;
 
-  // ── CZTE savings ──────────────────────────────────────────────────────────
-  let monthlyFederalTax: number;
-  let czteMonthlySavings: number;
+  // ── Federal taxable pay ───────────────────────────────────────────────────
+  // IDP and HDP-L are taxable pay unless excluded under § 112 (DEP-08), so outside a combat zone
+  // they join basic pay in the tax base.
+  const monthlyMilitaryPay = monthlyBasePay + monthlyIDP + monthlyHDP;
+  let monthlyExcludedPay = 0;
+  let officerCZTECap: number | null = null;
 
   if (isCombatZone) {
-    if (!isOfficer) {
-      // Enlisted & Warrant: ALL pay is CZTE-excluded → $0 federal tax
-      monthlyFederalTax = 0;
-      czteMonthlySavings = preTax;
+    if (isOfficer) {
+      // Commissioned officers: excluded = min(pay, cap); cap = senior enlisted + IDP if received (DEP-05/06).
+      officerCZTECap = officerCZTEMonthlyCap(receivingIDP);
+      monthlyExcludedPay = Math.min(monthlyMilitaryPay, officerCZTECap);
     } else {
-      // Officers: CZTE capped at officerCZTECap/month
-      const cap = DEPLOYMENT_RATES_2026.officerCZTECap;
-      const taxableAboveCap = Math.max(0, monthlyBasePay - cap);
-      const annualTaxableAboveCap = taxableAboveCap * 12;
-      const taxAboveCap = calculateAnnualFederalTax(annualTaxableAboveCap) / 12;
-      monthlyFederalTax = taxAboveCap;
-      czteMonthlySavings = preTax - taxAboveCap;
+      // Enlisted & warrant officers: all military pay for the month is excluded.
+      monthlyExcludedPay = monthlyMilitaryPay;
     }
-  } else {
-    // No combat zone — pay taxes as normal on base pay
-    monthlyFederalTax = preTax;
-    czteMonthlySavings = 0;
   }
+  const monthlyTaxablePay = monthlyMilitaryPay - monthlyExcludedPay;
 
-  const monthlyTakeHome = grossMonthly - monthlyFederalTax;
+  // In a combat zone, use the full-year method of the tour total (tax on the deployed months ÷
+  // months) so an officer's monthly tax matches the tour; $0 when nothing stays taxable.
+  // Outside a combat zone, annualize like the pre-deployment figure (DEP-08: the difference is
+  // then just the tax on IDP/HDP-L at the marginal rate).
+  const monthlyFederalTax =
+    isCombatZone && deploymentMonths > 0
+      ? monthlyTaxablePay > 0
+        ? deploymentMonthsFederalTax(monthlyBasePay, monthlyTaxablePay, deploymentMonths, filingStatus) /
+          deploymentMonths
+        : 0
+      : monthlyTax(monthlyTaxablePay, filingStatus);
+  // CZTE is an income-tax exclusion only: FICA is still withheld on basic pay (DEP-04).
+  const monthlyFICA = monthlyBasePay * EMPLOYEE_FICA_RATE;
+
+  const monthlyTakeHome = grossMonthly - monthlyFederalTax - monthlyFICA;
   const monthlyIncrease = monthlyTakeHome - pre.monthlyTakeHome;
   const percentIncrease =
     pre.monthlyTakeHome > 0 ? (monthlyIncrease / pre.monthlyTakeHome) * 100 : 0;
@@ -196,8 +297,12 @@ function calculateDuringDeployment(
     monthlyHDP,
     monthlyFSA,
     grossMonthly,
-    czteMonthlySavings,
+    monthlyMilitaryPay,
+    monthlyExcludedPay,
+    monthlyTaxablePay,
+    officerCZTECap,
     monthlyFederalTax,
+    monthlyFICA,
     monthlyTakeHome,
     monthlyIncrease,
     percentIncrease,
@@ -213,35 +318,49 @@ function calculateTourTotal(
   usingSDP: boolean,
   sdpDeposit: number,
   tspContributionPct: number,
-  monthlyBasePay: number,
+  filingStatus: FilingStatus,
 ): TourTotal {
   const additionalPerMonth = during.monthlyIDP + during.monthlyHDP + during.monthlyFSA;
   const totalAdditionalAllowancePay = additionalPerMonth * deploymentMonths;
-  const totalCZTESavings = during.czteMonthlySavings * deploymentMonths;
 
-  // SDP interest: deposit × rate × (months/12)
-  // Interest continues 90 days after return but we model only the deployment window
+  const totalCZTESavings = isCombatZone
+    ? czteSavingsMarginal(
+        during.monthlyBasePay,
+        during.monthlyMilitaryPay,
+        during.monthlyTaxablePay,
+        deploymentMonths,
+        filingStatus,
+      )
+    : 0;
+
+  // SDP interest: simple interest on the full deposit from day one at 10% a year (DEP-07).
+  // Real SDP interest compounds monthly and is paid quarterly (DFAS), deposits are limited by pay, and the 90 days of
+  // interest after leaving the combat zone are not included. The program needs 30+ consecutive
+  // days in the combat zone; the months input starts at 1, so that is shown as a note.
   const sdpInterestEarned =
-    usingSDP && isCombatZone
-      ? Math.min(sdpDeposit, DEPLOYMENT_RATES_2026.sdpMaxDeposit) *
+    usingSDP && isCombatZone && deploymentMonths >= 1
+      ? Math.min(Math.max(0, sdpDeposit), DEPLOYMENT_RATES_2026.sdpMaxDeposit) *
         DEPLOYMENT_RATES_2026.sdpInterestRate *
         (deploymentMonths / 12)
       : 0;
 
-  // TSP contributions
+  // TSP contributions — limits from the TSP year file (§ 415(c) in a combat zone, § 402(g) otherwise)
   const effectiveTSPLimit = isCombatZone
-    ? DEPLOYMENT_RATES_2026.tspCombatZoneLimit
-    : DEPLOYMENT_RATES_2026.tspNormalLimit;
-  const monthlyTSP = monthlyBasePay * (tspContributionPct / 100);
+    ? TSP_CONSTANTS_2026.annualAdditionsLimit
+    : TSP_CONSTANTS_2026.electiveDeferralLimit;
+  const monthlyTSP = during.monthlyBasePay * (tspContributionPct / 100);
   const annualTSPContributed = Math.min(monthlyTSP * 12, effectiveTSPLimit);
   // Pro-rate to deployment months
   const tspContributedTotal = (annualTSPContributed / 12) * deploymentMonths;
 
   const totalTourBenefit = totalAdditionalAllowancePay + totalCZTESavings + sdpInterestEarned;
 
+  const deploymentFederalTax = during.monthlyFederalTax * deploymentMonths;
+
   return {
     totalAdditionalAllowancePay,
     totalCZTESavings,
+    deploymentFederalTax,
     sdpInterestEarned,
     tspContributedTotal,
     totalTourBenefit,
@@ -253,12 +372,14 @@ function calculateTourTotal(
 
 export function calculateDeployment(input: DeploymentInput): DeploymentResult {
   const isOfficer = isOfficerGrade(input.payGrade);
+  const filingStatus = input.filingStatus ?? defaultDeploymentFilingStatus(input.hasDependents);
 
   const pre = calculatePreDeployment(
     input.payGrade,
     input.yearsOfService,
     input.monthlyBAH,
     input.bahFound,
+    filingStatus,
   );
 
   const during = calculateDuringDeployment(
@@ -269,6 +390,8 @@ export function calculateDeployment(input: DeploymentInput): DeploymentResult {
     input.hdpLevel,
     input.hasDependents,
     input.hasFSA,
+    filingStatus,
+    input.deploymentMonths,
   );
 
   const tour = calculateTourTotal(
@@ -278,8 +401,8 @@ export function calculateDeployment(input: DeploymentInput): DeploymentResult {
     input.usingSDP,
     input.sdpDeposit,
     input.tspContributionPct,
-    pre.monthlyBasePay,
+    filingStatus,
   );
 
-  return { pre, during, tour, isOfficer };
+  return { pre, during, tour, isOfficer, filingStatus };
 }

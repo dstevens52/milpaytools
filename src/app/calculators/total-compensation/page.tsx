@@ -224,7 +224,7 @@ export default function TotalCompensationPage() {
               Combat Zone Tax Savings
             </p>
             <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-              Serving in a combat zone? Your entire income — base pay, allowances, and special pays — can be federal and state tax-free. That can add thousands to your annual take-home.
+              Serving in a combat zone? Base pay and special pays for those months can be excluded from federal taxable income (officers up to a monthly cap), on top of BAH and BAS, which are already excluded. Social Security and Medicare still apply to base pay, and state treatment varies. That can add thousands to your annual take-home.
             </p>
             <span className="text-sm font-medium text-red-700">
               Calculate deployment pay →

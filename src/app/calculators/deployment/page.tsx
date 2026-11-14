@@ -10,10 +10,15 @@ import { calculateDeployment } from '@/lib/calculations/deployment';
 import { getMHACode, getMHARates } from '@/lib/calculations/bah';
 import { formatCurrency } from '@/lib/utils';
 import { DEPLOYMENT_RATES_2026 } from '@/data/deployment/2026/constants';
+import { TSP_CONSTANTS_2026 } from '@/data/tsp/2026/constants';
 import { TSP_CONSTANTS_2027, TSP_LIMITS_2027_NOTICE } from '@/data/tsp/2027/constants';
+import { SENIOR_ENLISTED_BASIC_PAY } from '@/data/pay-tables/2026';
+import { officerCZTEMonthlyCap } from '@/lib/calculations/deployment';
+import { FILING_STATUS_LABEL } from '@/lib/calculations/federalTax';
 
-const DEPLOYMENT_LAST_REVIEWED = 'October 15, 2026';
+const DEPLOYMENT_LAST_REVIEWED = 'November 14, 2026';
 const R = DEPLOYMENT_RATES_2026;
+const T26 = TSP_CONSTANTS_2026;
 
 export const metadata: Metadata = {
   title: { absolute: 'Deployment Pay Calculator 2026: Army, Navy, Air Force, USMC' },
@@ -81,6 +86,11 @@ export default function DeploymentPage() {
     sdpDeposit: R.sdpMaxDeposit,
   });
 
+  // Filing status follows the calculator default (with dependents → married filing jointly).
+  const depFiling = FILING_STATUS_LABEL[dep.filingStatus];
+  const sampleFiling = sample.filingStatus === 'mfj' ? 'MFJ' : FILING_STATUS_LABEL[sample.filingStatus];
+  const capWithIdp = officerCZTEMonthlyCap(true);
+
   return (
     <>
       <JsonLdScript schema={webApplicationSchema({ name: 'Deployment Pay Calculator 2026', description: 'Free 2026 deployment pay calculator for every branch: HFP/IDP, Hardship Duty Pay, FSA, CZTE tax savings and Savings Deposit Program interest. All ranks.', url: '/calculators/deployment' })} />
@@ -117,7 +127,7 @@ export default function DeploymentPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100 hidden md:block">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Deployment to a qualifying combat zone activates several pay changes: Imminent Danger Pay ({formatCurrency(R.idp)}/month) or Hostile Fire Pay ({formatCurrency(R.hfp)}/month) — never both for the same period — at rates effective {R.ratesEffectiveDate}, Family Separation Allowance ($300/month for qualifying members with dependents for 30+ days), and the Combat Zone Tax Exclusion, which eliminates federal income tax on all enlisted base pay in eligible months. The Savings Deposit Program additionally pays 10% guaranteed annual interest on up to $10,000 deposited during a combat zone deployment. This calculator shows your full pay picture before, during, and after deployment — including estimated CZTE tax savings and Roth TSP opportunities.
+          Deployment to a qualifying combat zone activates several pay changes: Imminent Danger Pay ({formatCurrency(R.idp)}/month) or Hostile Fire Pay ({formatCurrency(R.hfp)}/month) — never both for the same period — at rates effective {R.ratesEffectiveDate}, Family Separation Allowance ($300/month for qualifying members with dependents for 30+ days), and the Combat Zone Tax Exclusion, which excludes all enlisted and warrant officer military pay from federal taxable income in eligible months (officers up to a monthly cap). The Savings Deposit Program additionally pays 10% guaranteed annual interest on up to $10,000 deposited during a combat zone deployment. This calculator shows your full pay picture before, during, and after deployment — including estimated CZTE tax savings and Roth TSP opportunities.
         </p>
       </div>
         <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
@@ -126,7 +136,7 @@ export default function DeploymentPage() {
               Sample output
             </span>
             <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
-              E-5 &middot; 6 yrs &middot; 6-mo combat zone &middot; w/dep
+              E-5 &middot; 6 yrs &middot; 6-mo combat zone &middot; w/dep &middot; {sampleFiling}
             </p>
             <div className="flex items-baseline gap-3 min-w-0 flex-1 overflow-hidden">
               <span className="text-[12px] text-zinc-500 whitespace-nowrap">IDP <span className="font-semibold text-zinc-700">{formatCurrency(sample.during.monthlyIDP)}/mo</span></span>
@@ -147,9 +157,8 @@ export default function DeploymentPage() {
             <span className="font-semibold text-zinc-900">What changed on {R.ratesEffectiveDate}:</span>{' '}
             Hostile Fire Pay rose to {formatCurrency(R.hfp)}/month and Imminent Danger Pay to{' '}
             {formatCurrency(R.idp)}/month (prorated at {formatCurrency(R.idpDaily, true)}/day) — the first
-            change since {R.hfpIdpUnchangedSince}, when both were set at the same flat monthly rate. To keep the
-            combined payment with HFP or IDP within its maximum, the top Hardship Duty Pay–Location rate
-            dropped from {formatCurrency(R.hdpLTopRatePrior)} to {formatCurrency(Math.max(...R.hdpLevels))}/month. Earlier periods used
+            change since {R.hfpIdpUnchangedSince}, when both were set at the same flat monthly rate. Consistent with the maximum allowed for
+            combined HDP-L and HFP or IDP payments, the top Hardship Duty Pay–Location rate dropped from {formatCurrency(R.hdpLTopRatePrior)} to {formatCurrency(Math.max(...R.hdpLevels))}/month. Earlier periods used
             the prior rates — this calculator uses the new ones.
           </p>
           <p className="mt-1 text-xs text-zinc-500">
@@ -177,7 +186,7 @@ export default function DeploymentPage() {
             How Much More Does an E-5 Take Home on a 9-Month Combat Zone Deployment?
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-5, 8 years of service, married (family at Fort Bragg, NC), deploying to a designated Combat Zone Tax Exclusion (CZTE) area for 9 months. Receives Imminent Danger Pay for full months and Family Separation Allowance. No Hardship Duty Pay. 2026 rates.
+            Scenario: E-5, 8 years of service, married and filing jointly on one income (family at Fort Bragg, NC), deploying to a designated Combat Zone Tax Exclusion (CZTE) area for 9 months. Receives Imminent Danger Pay for full months and Family Separation Allowance. No Hardship Duty Pay. 2026 rates.
           </p>
           <ExampleTable>
             <ExampleRow label="Monthly base pay (E-5, 8 yrs)" value={`${formatCurrency(dep.pre.monthlyBasePay)}/mo`} />
@@ -185,14 +194,16 @@ export default function DeploymentPage() {
             <ExampleRow label="BAS" value={`${formatCurrency(dep.pre.monthlyBAS)}/mo`} />
             <ExampleRow label="Imminent Danger Pay (IDP)" value={`+${formatCurrency(dep.during.monthlyIDP)}/mo`} />
             <ExampleRow label="Family Separation Allowance (FSA — married 30+ days away)" value={`+${formatCurrency(dep.during.monthlyFSA)}/mo`} />
-            <ExampleRow label="CZTE: all base pay excluded from federal income tax" value={`−$0 tax (saves ~${formatCurrency(dep.during.czteMonthlySavings)}/mo)`} />
-            <ExampleRow label="Monthly take-home — before deployment" value={`${formatCurrency(dep.pre.monthlyTakeHome)}/mo`} />
-            <ExampleRow label="Monthly take-home — during deployment" value={`${formatCurrency(dep.during.monthlyTakeHome)}/mo`} highlight />
+            <ExampleRow label={`Federal income tax before deployment (${depFiling.toLowerCase()})`} value={`−${formatCurrency(dep.pre.monthlyFederalTax)}/mo`} />
+            <ExampleRow label="CZTE: base pay and IDP excluded from federal taxable income" value={`−${formatCurrency(dep.during.monthlyFederalTax)}/mo federal income tax during`} />
+            <ExampleRow label="FICA on base pay (still withheld in a combat zone)" value={`−${formatCurrency(dep.during.monthlyFICA)}/mo`} />
+            <ExampleRow label="Take-home after federal income tax and FICA — before deployment" value={`${formatCurrency(dep.pre.monthlyTakeHome)}/mo`} />
+            <ExampleRow label="Take-home after federal income tax and FICA — during deployment" value={`${formatCurrency(dep.during.monthlyTakeHome)}/mo`} highlight />
             <ExampleRow label="Monthly increase" value={`+${formatCurrency(dep.during.monthlyIncrease)}/mo (+${Math.round(dep.during.percentIncrease)}%)`} highlight />
-            <ExampleRow label={`9-month tour total benefit (allowances ${formatCurrency(dep.tour.totalAdditionalAllowancePay)} + tax savings ${formatCurrency(dep.tour.totalCZTESavings)})`} value={formatCurrency(dep.tour.totalTourBenefit)} highlight />
+            <ExampleRow label={`9-month tour total benefit (allowances ${formatCurrency(dep.tour.totalAdditionalAllowancePay)} + CZTE tax savings ${formatCurrency(dep.tour.totalCZTESavings)})`} value={formatCurrency(dep.tour.totalTourBenefit)} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> This E-5 takes home {formatCurrency(dep.during.monthlyIncrease)} more per month during the deployment — and because family expenses typically drop while a spouse is deployed (one fewer car, shared housing costs), many families can bank $1,000–$2,000+ per month. Over 9 months the CZTE alone saves {formatCurrency(dep.tour.totalCZTESavings)} in federal income taxes. Combat-zone pay may be excluded from federal income tax. Roth TSP contributions from that pay can create a powerful combination: excluded from tax going in, and qualified withdrawals may also be tax-free if Roth rules are met — making deployment a significant opportunity for long-term TSP growth.
+            <strong>What this means:</strong> This E-5 takes home {formatCurrency(dep.during.monthlyIncrease)} more per month during the deployment — and because family expenses typically drop while a spouse is deployed (one fewer car, shared housing costs), many families can bank $1,000–$2,000+ per month. Over 9 months the CZTE alone saves {formatCurrency(dep.tour.totalCZTESavings)} in federal income tax ({depFiling.toLowerCase()}; assumes the deployment falls in one tax year). That is the tax on the year with this pay minus the tax on the same year with the excluded pay removed. Roth TSP contributions from pay excluded from federal taxable income can create a powerful combination: no federal income tax going in, and qualified withdrawals are not taxed if Roth rules are met — making deployment a significant opportunity for long-term TSP growth.
           </p>
         </ExampleBox>
       </section>
@@ -230,15 +241,21 @@ export default function DeploymentPage() {
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               Service members in a designated combat zone receive federal income tax relief under
               26 U.S.C. § 112. Enlisted members and warrant officers have all military pay excluded
-              from federal income tax for any month they serve in the combat zone — even one day in a
-              month qualifies the entire month.
+              from federal taxable income for any month they serve in the combat zone — even one day in a
+              month qualifies the entire month. The exclusion covers federal income tax only: Social
+              Security and Medicare (FICA) are still withheld from base pay.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              Officers receive the same exclusion, but it is capped: the officer CZTE cap equals
-              the highest enlisted base pay plus hostile fire or imminent danger pay. The dollar
-              amount is being re-verified following the October 1, 2026 rate change. Base pay
-              above that cap remains taxable. State income tax treatment varies by state — many states
-              follow the federal exclusion, others do not.
+              Commissioned officers receive the same exclusion up to a monthly cap: the basic pay of the
+              senior enlisted member ({formatCurrency(SENIOR_ENLISTED_BASIC_PAY, true)} in 2026) plus the
+              hostile fire or imminent danger pay the officer actually receives that month — for an
+              officer drawing IDP, {formatCurrency(capWithIdp, true)}. Base pay, IDP and hardship duty pay
+              above the cap stay in federal taxable income. State income tax treatment varies by state —
+              many states follow the federal exclusion, others do not.
+            </p>
+            <p className="mt-1 text-xs text-zinc-500">
+              Source: 26 U.S.C. § 112(b), (c)(5); DFAS Basic Pay – Officers, effective January 1, 2026,
+              Note 2, and Basic Pay – Enlisted, Note 3.
             </p>
           </div>
 
@@ -249,13 +266,14 @@ export default function DeploymentPage() {
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               The SDP is a government-backed savings account offering a 10% annual return
               — available only to service members deployed to designated combat zones for 30 or more
-              consecutive days. The maximum deposit is $10,000; interest is compounded quarterly at
-              2.5% per quarter.
+              consecutive days. The maximum deposit is {formatCurrency(R.sdpMaxDeposit)}; interest compounds monthly
+              and is paid quarterly (DFAS).
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              SDP interest continues for 90 days after leaving the combat zone, making the full
-              return slightly higher than the deployment window suggests. The SDP is administered
-              through DFAS — open an account through your unit finance office or myPay.
+              SDP interest continues for 90 days after leaving the combat zone. The calculator keeps it
+              simple: it shows simple interest on the full deposit from day one at 10% a year, without
+              monthly compounding, the limit of depositing from current pay, or those 90 extra days. The
+              SDP is administered through DFAS — open an account through your unit finance office or myPay.
             </p>
           </div>
 
@@ -297,11 +315,11 @@ export default function DeploymentPage() {
               TSP during deployment
             </h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              {`During months in a designated combat zone, contributions from tax-exempt combat-zone pay can go above the normal elective deferral limit (${formatCurrency(DEPLOYMENT_RATES_2026.tspNormalLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027), up to the total annual additions limit (IRC § 415(c)): ${formatCurrency(DEPLOYMENT_RATES_2026.tspCombatZoneLimit)} for 2026 and ${formatCurrency(TSP_CONSTANTS_2027.annualAdditionsLimit)} for 2027. This allows higher overall contributions to TSP from tax-exempt combat-zone pay.`}
+              {`In a combat zone, contributions from tax-exempt combat-zone pay don't count toward the elective deferral limit (IRC § 402(g): ${formatCurrency(T26.electiveDeferralLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027). That lets total contributions go up to the annual additions limit (IRC § 415(c)), which applies to everyone: ${formatCurrency(T26.annualAdditionsLimit)} for 2026 and ${formatCurrency(TSP_CONSTANTS_2027.annualAdditionsLimit)} for 2027. The § 415(c) limit itself doesn't change in a combat zone.`}
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               <strong>Important:</strong>{' '}
-              {`Roth TSP contributions remain capped at the elective deferral limit (${formatCurrency(DEPLOYMENT_RATES_2026.tspNormalLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027) — even in a combat zone. Contributions above that limit from tax-exempt combat-zone pay go into the traditional tax-exempt portion of TSP, not Roth. You cannot contribute the full annual additions limit to Roth TSP.`}
+              {`Roth TSP contributions remain capped at the elective deferral limit (${formatCurrency(T26.electiveDeferralLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027) — even in a combat zone. Contributions above that limit from tax-exempt combat-zone pay go into the traditional tax-exempt portion of TSP, not Roth. You cannot contribute the full annual additions limit to Roth TSP.`}
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               Plan your contribution percentage in advance; DFAS processes TSP elections and changes
@@ -337,7 +355,7 @@ export default function DeploymentPage() {
               TSP Growth Projector
             </a>{' '}
             can model the long-term impact of maxing your TSP contributions during a combat zone
-            {`deployment — in a combat zone, contributions can go up to the annual additions limit (${formatCurrency(DEPLOYMENT_RATES_2026.tspCombatZoneLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.annualAdditionsLimit)} for 2027), though Roth contributions remain capped at the elective deferral limit (${formatCurrency(DEPLOYMENT_RATES_2026.tspNormalLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027) and excess tax-exempt contributions go into traditional TSP.`}
+            {` deployment — in a combat zone, contributions can go up to the annual additions limit (${formatCurrency(T26.annualAdditionsLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.annualAdditionsLimit)} for 2027), though Roth contributions remain capped at the elective deferral limit (${formatCurrency(T26.electiveDeferralLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027) and excess tax-exempt contributions go into traditional TSP.`}
           </div>
 
           <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 text-sm text-zinc-600">
@@ -362,10 +380,12 @@ export default function DeploymentPage() {
             effective {R.ratesEffectiveDate} (DoWI 1340.09; DoW 7000.14-R, Volume 7a, Chapters 10 and 17;
             statutory authority 37 U.S.C. § 351 per the DoD release of October 1, 2026).
             FSA: $300/month (37 U.S.C. § 427, FY2026 NDAA). CZTE: 26 U.S.C. § 112 and IRS
-            {`Publication 3. SDP: 10 U.S.C. § 1035. TSP: IRC § 415(c) total additions limit ${formatCurrency(DEPLOYMENT_RATES_2026.tspCombatZoneLimit)} for 2026 (${formatCurrency(TSP_CONSTANTS_2027.annualAdditionsLimit)} for 2027, ${TSP_LIMITS_2027_NOTICE}) in combat zones; Roth TSP elective deferral (IRC § 402(g)) remains capped at ${formatCurrency(DEPLOYMENT_RATES_2026.tspNormalLimit)} for 2026 (${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027).`}
-            Federal tax calculation uses 2026 tax brackets and standard deduction for
-            single filers; actual taxes will vary based on filing status, deductions, and state tax
-            law. Always verify your specific entitlements with your finance office and DFAS.
+            {` Publication 3. SDP: 10 U.S.C. § 1035. TSP: IRC § 415(c) annual additions limit ${formatCurrency(T26.annualAdditionsLimit)} for 2026 (${formatCurrency(TSP_CONSTANTS_2027.annualAdditionsLimit)} for 2027, ${TSP_LIMITS_2027_NOTICE}); tax-exempt combat-zone contributions don't count toward the IRC § 402(g) elective deferral limit, and Roth TSP remains capped at ${formatCurrency(T26.electiveDeferralLimit)} for 2026 (${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027).`}
+            Federal income tax uses 2026 tax brackets and the standard deduction for the filing status
+            you choose (single, married filing jointly or head of household), with no other income or
+            deductions. FICA (Social Security and Medicare) is taken from base pay only; state income
+            tax, SGLI, your own TSP contribution and the Social Security wage base are not modeled.
+            Always verify your specific entitlements with your finance office and DFAS.
           </p>
           <p className="mt-2">Last reviewed: {DEPLOYMENT_LAST_REVIEWED}.</p>
         </div>

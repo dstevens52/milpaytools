@@ -263,11 +263,11 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
   'how-deployment-pay-works': [
     {
       question: 'What is the Combat Zone Tax Exclusion?',
-      answer: 'CZTE excludes qualifying military pay from federal income tax during eligible months in a designated combat zone. Enlisted members and warrant officers can generally exclude all qualifying pay; commissioned officers have a monthly exclusion cap tied to the E-9 maximum rate. FICA taxes still apply even during CZTE months.',
+      answer: 'CZTE excludes qualifying military pay from federal taxable income during eligible months in a designated combat zone. Enlisted members and warrant officers can generally exclude all qualifying pay; commissioned officers have a monthly exclusion cap: the basic pay of the senior enlisted member plus the HFP or IDP the officer receives. FICA (Social Security and Medicare) is still withheld from base pay during CZTE months.',
     },
     {
       question: 'How much is Hostile Fire Pay in 2026?',
-      answer: 'Effective October 1, 2026, Hostile Fire Pay is $450/month and Imminent Danger Pay is $275/month; you cannot receive both for the same period. HFP is typically paid for the full calendar month if you qualify any day of that month; IDP is prorated at $9.16 per day. Both are tax-free during combat zone months under CZTE.',
+      answer: 'Effective October 1, 2026, Hostile Fire Pay is $450/month and Imminent Danger Pay is $275/month; you cannot receive both for the same period. HFP is typically paid for the full calendar month if you qualify any day of that month; IDP is prorated at $9.16 per day. Both are excluded from federal taxable income during combat zone months under CZTE (up to the monthly cap for commissioned officers).',
     },
     {
       question: 'What is the Savings Deposit Program during deployment?',

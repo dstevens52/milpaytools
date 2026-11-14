@@ -7,16 +7,8 @@
 
 import type { TransitionReadinessInput, TransitionReadinessOutput, ActionStep, FilingStatus } from '@/types/calculator';
 import { lookupBasePay } from '@/lib/calculations/total-compensation';
-import {
-  BAS_RATES,
-  EMPLOYEE_FICA_RATE,
-  FED_TAX_BRACKETS_SINGLE,
-  STANDARD_DEDUCTION_SINGLE,
-  FED_TAX_BRACKETS_MFJ,
-  STANDARD_DEDUCTION_MFJ,
-  FED_TAX_BRACKETS_HOH,
-  STANDARD_DEDUCTION_HOH,
-} from '@/data/constants';
+import { BAS_RATES, EMPLOYEE_FICA_RATE } from '@/data/constants';
+import { estimateAnnualFederalTax, FILING_STATUS_LABEL } from '@/lib/calculations/federalTax';
 import { estimateTaxAdvantage } from '@/lib/utils';
 import { ENLISTED_GRADES } from '@/types/military';
 import { vaRates } from '@/data/va-rates/2026';
@@ -64,17 +56,9 @@ const FICA_RATE = EMPLOYEE_FICA_RATE; // 6.2% SS + 1.45% Medicare (src/data/cons
 // Default for the calculator's state-rate input.
 export const DEFAULT_STATE_TAX_RATE = 0.05;
 
-const FEDERAL_TAX_TABLES: Record<FilingStatus, { brackets: readonly { upTo: number; rate: number }[]; deduction: number }> = {
-  single: { brackets: FED_TAX_BRACKETS_SINGLE, deduction: STANDARD_DEDUCTION_SINGLE },
-  mfj: { brackets: FED_TAX_BRACKETS_MFJ, deduction: STANDARD_DEDUCTION_MFJ },
-  hoh: { brackets: FED_TAX_BRACKETS_HOH, deduction: STANDARD_DEDUCTION_HOH },
-};
-
-export const FILING_STATUS_LABEL: Record<FilingStatus, string> = {
-  single: 'Single',
-  mfj: 'Married filing jointly',
-  hoh: 'Head of household',
-};
+// The federal tax estimate and filing-status labels live in federalTax.ts (shared with the
+// deployment calculator); re-exported here so existing imports keep working.
+export { estimateAnnualFederalTax, FILING_STATUS_LABEL };
 
 /**
  * Default filing status when the user hasn't picked one. BAH dependent status is a
@@ -85,22 +69,6 @@ export function defaultFilingStatus(spouseIncome: number, hasDependents: boolean
   if (spouseIncome > 0) return 'mfj';
   if (hasDependents) return 'hoh';
   return 'single';
-}
-
-export function estimateAnnualFederalTax(annualIncome: number, filingStatus: FilingStatus): number {
-  const { brackets, deduction } = FEDERAL_TAX_TABLES[filingStatus];
-  const taxable = Math.max(0, annualIncome - deduction);
-  let tax = 0;
-  let prev = 0;
-  for (const bracket of brackets) {
-    if (taxable <= bracket.upTo) {
-      tax += (taxable - prev) * bracket.rate;
-      break;
-    }
-    tax += (bracket.upTo - prev) * bracket.rate;
-    prev = bracket.upTo;
-  }
-  return tax;
 }
 
 // Bisection: smallest x in [lo, ∞) with f(x) >= target, for f increasing in x.
