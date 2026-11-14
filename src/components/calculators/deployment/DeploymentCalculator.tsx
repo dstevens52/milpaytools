@@ -1,11 +1,15 @@
 'use client';
 
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { calculateDeployment } from '@/lib/calculations/deployment';
+import { calculateDeployment, defaultDeploymentFilingStatus } from '@/lib/calculations/deployment';
+import { FILING_STATUSES, FILING_STATUS_LABEL, isFilingStatus, type FilingStatus } from '@/lib/calculations/federalTax';
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { DEPLOYMENT_RATES_2026 } from '@/data/deployment/2026/constants';
 import type { HDPLevel } from '@/data/deployment/2026/constants';
+import { TSP_CONSTANTS_2026 } from '@/data/tsp/2026/constants';
+import { SENIOR_ENLISTED_BASIC_PAY } from '@/data/pay-tables/2026';
+import { EMPLOYEE_FICA_RATE } from '@/data/constants';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
@@ -29,6 +33,9 @@ function fmt(n: number): string {
 function fmtDec(n: number): string {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 });
 }
+
+// EMPLOYEE_FICA_RATE (6.2% Social Security + 1.45% Medicare) as a percent label.
+const FICA_PCT = `${Number((EMPLOYEE_FICA_RATE * 100).toFixed(2))}%`;
 
 function fmtSign(n: number): string {
   const abs = fmt(Math.abs(n));
@@ -171,14 +178,15 @@ function buildActionSteps(
   isOfficer: boolean,
   usingSDP: boolean,
   tspPct: number,
-  tourBenefit: number,
+  officerCap: number | null,
+  officerTaxablePay: number,
 ): ActionStep[] {
   const steps: ActionStep[] = [];
 
   if (isCombatZone && tspPct < 20) {
     steps.push({
-      label: 'Increase Roth TSP contributions — your pay is already tax-free',
-      description: `In a combat zone, Roth TSP contributions come from CZTE-excluded pay, meaning no taxes now, no taxes on growth, no taxes at withdrawal. The annual additions limit for 2026 is $${DEPLOYMENT_RATES_2026.tspCombatZoneLimit.toLocaleString()} during deployment — but Roth TSP contributions are still capped at $${DEPLOYMENT_RATES_2026.tspNormalLimit.toLocaleString()} for 2026 (the elective deferral limit). Contributions above that from tax-exempt combat-zone pay go into the traditional tax-exempt portion of TSP, not Roth. Consider raising your contribution percentage before you deploy.`,
+      label: 'Consider Roth TSP while your pay is excluded from federal taxable income',
+      description: `In a combat zone, Roth TSP contributions come from pay excluded from federal taxable income, and qualified Roth withdrawals, earnings included, are not taxed. In a combat zone, contributions from that pay don't count toward the ${fmt(TSP_CONSTANTS_2026.electiveDeferralLimit)} elective deferral limit for 2026 (IRC § 402(g)), so total contributions can go up to the ${fmt(TSP_CONSTANTS_2026.annualAdditionsLimit)} annual additions limit (IRC § 415(c)). Roth contributions are still capped at the elective deferral limit; anything above it goes into the traditional tax-exempt portion of TSP, not Roth. Consider raising your contribution percentage before you deploy.`,
       priority: 'high',
       href: '/calculators/tsp',
     });
@@ -194,14 +202,14 @@ function buildActionSteps(
 
   steps.push({
     label: 'Your BAH continues — save the difference if housing costs are lower',
-    description: `Your housing allowance continues at your home station rate during deployment. If your family's housing costs are below your BAH rate, those savings accumulate tax-free.`,
+    description: `Your housing allowance continues at your home station rate during deployment, and BAH is not taxable income. If your family's housing costs are below your BAH rate, the difference is yours to save.`,
     priority: 'medium',
   });
 
-  if (isOfficer && isCombatZone) {
+  if (isOfficer && isCombatZone && officerCap !== null) {
     steps.push({
-      label: 'Verify your officer CZTE cap with your finance office',
-      description: `The officer CZTE cap equals the highest enlisted base pay plus hostile fire or imminent danger pay. The dollar amount is being re-verified following the October 1, 2026 rate change. Pay above that cap remains taxable. Your finance office can give you the exact figures for your grade.`,
+      label: 'Check your officer CZTE cap on your LES',
+      description: `As a commissioned officer, up to ${fmtDec(officerCap)} a month is excluded from federal taxable income (the senior enlisted basic pay plus any HFP or IDP you receive). ${officerTaxablePay > 0 ? `About ${fmt(officerTaxablePay)} a month of your pay stays in federal taxable income.` : 'Your modeled pay is below the cap.'} Your finance office can confirm the figures for your grade.`,
       priority: 'medium',
     });
   }
@@ -244,33 +252,65 @@ export function DeploymentCalculator() {
     setHasFSA(v);
   }
 
+  // Filing status: defaults from dependents (with → married filing jointly, without → single)
+  // until the user picks one.
+  const [filingStatusOverride, setFilingStatusOverride] = useState<FilingStatus | null>(null);
+  const filingStatus = filingStatusOverride ?? defaultDeploymentFilingStatus(hasDependents);
+  const filingLabel = FILING_STATUS_LABEL[filingStatus];
+
   // ── Inputs: Section 3 — Savings Opportunities ──
   const [tspPct, setTspPct] = useState(10);
   const [usingSDP, setUsingSDP] = useState(true);
   const [sdpDeposit, setSdpDeposit] = useState(10000);
 
   // ── URL params ────────────────────────────────────────────────────────
+  // Every input round-trips. Bad values are ignored (or clamped where a range applies), and
+  // params missing from older links keep their defaults.
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    const int = (key: string): number | null => {
+      const raw = params.get(key);
+      if (raw === null || !/^-?\d+$/.test(raw.trim())) return null;
+      return parseInt(raw, 10);
+    };
+    const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));
+
     const pg = parseGrade(params.get('rank'));
-    const yosParam = params.get('yos');
+    const yosN = int('yos');
     const gz = parseZip(params.get('zip'));
     const deps = parseBool(params.get('dependents'));
-    const months = params.get('months');
+    const fsa = parseBool(params.get('fsa'));
+    const fs = params.get('fs');
+    const monthsN = int('months');
+    const cz = parseBool(params.get('cz'));
+    const idp = parseBool(params.get('idp'));
+    const hdpN = int('hdp');
+    const tspN = int('tsp');
+    const sdp = parseBool(params.get('sdp'));
+    const sdpDepN = int('sdpDeposit');
 
     if (pg) setPayGrade(pg);
-    if (yosParam !== null) {
-      const n = parseInt(yosParam);
-      if (!isNaN(n) && n >= 0 && n <= 40) setYos(n);
-    }
+    if (yosN !== null) setYos(clamp(yosN, 0, 40));
     if (gz) setZip(gz);
-    // FSA follows dependents on load, so dependents=no can never load with FSA on.
-    if (deps !== null) { setHasDependents(deps); setHasFSA(deps); }
-    if (months !== null) {
-      const n = parseInt(months);
-      if (!isNaN(n) && n >= 1 && n <= 18) setDeployMonths(n);
+    // FSA follows dependents on load, then an explicit fsa param can turn it off (or on, only
+    // with dependents) — so dependents=no never loads with FSA on, and dependents=yes&fsa=no
+    // loads with FSA off.
+    const depsOn = deps ?? DEFAULT_HAS_DEPENDENTS;
+    if (deps !== null) setHasDependents(deps);
+    setHasFSA(depsOn && (fsa ?? depsOn));
+    if (isFilingStatus(fs)) setFilingStatusOverride(fs);
+    if (monthsN !== null) setDeployMonths(clamp(monthsN, 1, 18));
+    const czOn = cz ?? true;
+    if (cz !== null) setIsCombatZone(cz);
+    if (idp !== null) setReceivingIDP(idp);
+    if (hdpN !== null && (DEPLOYMENT_RATES_2026.hdpLevels as readonly number[]).includes(hdpN)) {
+      setHdpLevel(hdpN as HDPLevel);
     }
+    if (tspN !== null) setTspPct(clamp(tspN, 0, 100));
+    // SDP requires a combat zone.
+    if (sdp !== null || !czOn) setUsingSDP((sdp ?? true) && czOn);
+    if (sdpDepN !== null) setSdpDeposit(clamp(sdpDepN, 0, DEPLOYMENT_RATES_2026.sdpMaxDeposit));
   }, []);
 
   function getShareUrl(): string {
@@ -279,7 +319,15 @@ export function DeploymentCalculator() {
     params.set('yos', String(yos));
     params.set('zip', zip.replace(/\D/g, '').slice(0, 5) || zip);
     params.set('dependents', hasDependents ? 'yes' : 'no');
+    params.set('fsa', fsaOn ? 'yes' : 'no');
+    params.set('fs', filingStatus);
     params.set('months', String(deployMonths));
+    params.set('cz', isCombatZone ? 'yes' : 'no');
+    params.set('idp', receivingIDP ? 'yes' : 'no');
+    params.set('hdp', String(hdpLevel));
+    params.set('tsp', String(tspPct));
+    params.set('sdp', usingSDP && isCombatZone ? 'yes' : 'no');
+    params.set('sdpDeposit', String(sdpDeposit));
     return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
   }
 
@@ -298,6 +346,7 @@ export function DeploymentCalculator() {
       payGrade,
       yearsOfService: yos,
       hasDependents,
+      filingStatus,
       zipCode: zipDigits,
       monthlyBAH,
       bahFound,
@@ -310,11 +359,11 @@ export function DeploymentCalculator() {
       usingSDP,
       sdpDeposit,
     });
-  }, [payGrade, yos, hasDependents, zipDigits, isValidZip, bahData, monthlyBAH, bahFound, deployMonths, isCombatZone, receivingIDP, hdpLevel, fsaOn, tspPct, usingSDP, sdpDeposit]);
+  }, [payGrade, yos, hasDependents, filingStatus, zipDigits, isValidZip, bahData, monthlyBAH, bahFound, deployMonths, isCombatZone, receivingIDP, hdpLevel, fsaOn, tspPct, usingSDP, sdpDeposit]);
 
   const actionSteps = useMemo(() => {
     if (!result) return [];
-    return buildActionSteps(isCombatZone, result.isOfficer, usingSDP, tspPct, result.tour.totalTourBenefit);
+    return buildActionSteps(isCombatZone, result.isOfficer, usingSDP, tspPct, result.during.officerCZTECap, result.during.monthlyTaxablePay);
   }, [result, isCombatZone, usingSDP, tspPct]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -338,7 +387,7 @@ export function DeploymentCalculator() {
           {/* Section 1: Service Member */}
           <div>
             <SectionHeading>Service member info</SectionHeading>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
               <div className="col-span-2 sm:col-span-1">
                 <Label htmlFor="pay-grade">Pay grade</Label>
                 <select
@@ -390,6 +439,25 @@ export function DeploymentCalculator() {
                   labelOn="With deps"
                   labelOff="Without"
                 />
+              </div>
+
+              <div className="col-span-2 sm:col-span-1">
+                <Label
+                  htmlFor="filing-status"
+                  hint={filingStatusOverride ? 'Used for the federal income tax estimate.' : 'Set from dependents — change it if it’s wrong.'}
+                >
+                  Tax filing status
+                </Label>
+                <select
+                  id="filing-status"
+                  value={filingStatus}
+                  onChange={(e) => setFilingStatusOverride(e.target.value as FilingStatus)}
+                  className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                >
+                  {FILING_STATUSES.map((s) => (
+                    <option key={s} value={s}>{FILING_STATUS_LABEL[s]}</option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
@@ -492,8 +560,8 @@ export function DeploymentCalculator() {
                 <Label
                   htmlFor="tsp-pct"
                   hint={isCombatZone
-                    ? `2026 annual additions limit: $${DEPLOYMENT_RATES_2026.tspCombatZoneLimit.toLocaleString()}/yr (Roth capped at $${DEPLOYMENT_RATES_2026.tspNormalLimit.toLocaleString()} — excess goes traditional)`
-                    : `2026 normal limit: $${DEPLOYMENT_RATES_2026.tspNormalLimit.toLocaleString()}/yr`}
+                    ? `Combat zone: up to the 2026 annual additions limit, ${fmt(TSP_CONSTANTS_2026.annualAdditionsLimit)}/yr (Roth capped at ${fmt(TSP_CONSTANTS_2026.electiveDeferralLimit)} — excess goes traditional)`
+                    : `2026 elective deferral limit: ${fmt(TSP_CONSTANTS_2026.electiveDeferralLimit)}/yr`}
                 >
                   TSP contribution
                 </Label>
@@ -578,7 +646,7 @@ export function DeploymentCalculator() {
           )}
 
           {/* Three-phase comparison */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4" data-testid="deployment-results">
 
             {/* Phase 1: Before */}
             <PhaseCard title="Before Deployment" accent="zinc">
@@ -586,15 +654,31 @@ export function DeploymentCalculator() {
               <PayRow label="BAH" value={fmt(result.pre.monthlyBAH)} sub={result.pre.bahFound ? undefined : 'ZIP not found'} />
               <PayRow label="BAS" value={fmt(result.pre.monthlyBAS)} />
               <PayRow label="Gross monthly" value={fmt(result.pre.grossMonthly)} highlight />
-              <PayRow label="Est. federal tax" value={`−${fmt(result.pre.monthlyFederalTax)}`} sub="On base pay only" />
+              <PayRow label="Est. federal income tax" value={`−${fmt(result.pre.monthlyFederalTax)}`} sub={`On base pay only · ${filingLabel}`} />
+              <PayRow label="FICA (Social Security + Medicare)" value={`−${fmt(result.pre.monthlyFICA)}`} sub={`${FICA_PCT} of base pay`} />
               <div className="pt-2 mt-2 border-t border-zinc-200">
-                <PayRow label="Est. take-home" value={fmt(result.pre.monthlyTakeHome)} highlight />
+                <PayRow
+                  label="Est. take-home after federal income tax and FICA"
+                  value={fmt(result.pre.monthlyTakeHome)}
+                  sub={filingLabel}
+                  highlight
+                />
               </div>
             </PhaseCard>
 
             {/* Phase 2: During */}
             <PhaseCard title="During Deployment" accent="green">
-              <PayRow label="Base pay" value={fmt(result.during.monthlyBasePay)} sub={isCombatZone ? 'Tax-free (CZTE)' : undefined} />
+              <PayRow
+                label="Base pay"
+                value={fmt(result.during.monthlyBasePay)}
+                sub={
+                  !isCombatZone
+                    ? undefined
+                    : result.during.monthlyTaxablePay > 0
+                      ? 'Excluded from federal taxable income up to the officer cap (CZTE)'
+                      : 'Excluded from federal taxable income (CZTE)'
+                }
+              />
               <PayRow label="BAH" value={fmt(result.during.monthlyBAH)} sub="Continues at home rate" />
               <PayRow label="BAS" value={fmt(result.during.monthlyBAS)} />
               {result.during.monthlyIDP > 0 && (
@@ -611,23 +695,30 @@ export function DeploymentCalculator() {
                 <PayRow label="Family Separation" value={`+${fmt(result.during.monthlyFSA)}`} sub="Non-taxable" positive />
               )}
               <PayRow label="Gross monthly" value={fmt(result.during.grossMonthly)} highlight />
-              {isCombatZone ? (
-                <PayRow
-                  label="CZTE tax savings"
-                  value={`+${fmt(result.during.czteMonthlySavings)}`}
-                  sub={result.isOfficer ? 'Officer CZTE cap applied' : 'All pay excluded'}
-                  positive
-                />
-              ) : (
-                <PayRow label="Est. federal tax" value={`−${fmt(result.during.monthlyFederalTax)}`} />
-              )}
+              <PayRow
+                label="Est. federal income tax"
+                value={`−${fmt(result.during.monthlyFederalTax)}`}
+                sub={
+                  !isCombatZone
+                    ? `Base pay, IDP and HDP-L are taxable outside a combat zone · ${filingLabel}`
+                    : result.during.officerCZTECap !== null
+                      ? `Officer cap: ${fmtDec(result.during.officerCZTECap)}/mo excluded; ${fmt(result.during.monthlyTaxablePay)}/mo taxable · ${filingLabel}`
+                      : 'All military pay excluded (CZTE)'
+                }
+              />
+              <PayRow
+                label="FICA (Social Security + Medicare)"
+                value={`−${fmt(result.during.monthlyFICA)}`}
+                sub={isCombatZone ? 'Still withheld on base pay in a combat zone' : `${FICA_PCT} of base pay`}
+              />
               <div className="pt-2 mt-2 border-t border-green-200">
                 <div className="flex items-start justify-between py-1">
                   <div>
-                    <p className="text-sm font-bold text-green-800">Est. take-home</p>
+                    <p className="text-sm font-bold text-green-800">Est. take-home after federal income tax and FICA</p>
                     <p className="text-xs text-green-600">
                       {fmtSign(result.during.monthlyIncrease)}/mo vs. before
                       {result.during.percentIncrease > 0 && ` (+${result.during.percentIncrease.toFixed(0)}%)`}
+                      {` · ${filingLabel}`}
                     </p>
                   </div>
                   <p className="text-xl font-bold text-green-700 tabular-nums">
@@ -649,7 +740,7 @@ export function DeploymentCalculator() {
                 <PayRow
                   label="CZTE tax savings"
                   value={fmt(result.tour.totalCZTESavings)}
-                  sub={`${fmt(result.during.czteMonthlySavings)}/mo × ${deployMonths} mo`}
+                  sub={`${deployMonths > 12 ? 'Each full 12 months counted as its own tax year; the rest assumes one tax year' : 'Assumes the deployment falls in one tax year'} · ${filingLabel}`}
                   positive
                 />
               )}
@@ -657,7 +748,7 @@ export function DeploymentCalculator() {
                 <PayRow
                   label="SDP interest earned"
                   value={fmtDec(result.tour.sdpInterestEarned)}
-                  sub={`$${sdpDeposit.toLocaleString()} × 10% × ${deployMonths}/12 mo`}
+                  sub="Simple-interest estimate: full deposit from day one, 10% a year. Real SDP interest compounds monthly and is paid quarterly, deposits are limited by pay, and the 90 days of interest after you leave aren't included."
                   positive
                 />
               )}
@@ -721,12 +812,30 @@ export function DeploymentCalculator() {
           />
 
           {/* ── CZTE notice for officers ──────────────────────────────── */}
-          {result.isOfficer && isCombatZone && (
-            <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 leading-relaxed">
-              <span className="font-semibold">Officer CZTE note: </span>
-              The officer CZTE cap equals the highest enlisted base pay plus hostile fire or imminent danger pay. The dollar amount is being re-verified following the October 1, 2026 rate change. Base pay above that cap remains taxable, and this estimate&apos;s officer tax figures may change once the cap is confirmed. Verify exact figures with your finance office.
+          {result.isOfficer && isCombatZone && result.during.officerCZTECap !== null && (
+            <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 leading-relaxed" data-testid="officer-czte-note">
+              <span className="font-semibold">Officer CZTE cap: </span>
+              For commissioned officers, the monthly exclusion is capped at the senior enlisted basic pay ({fmtDec(SENIOR_ENLISTED_BASIC_PAY)} in 2026)
+              {receivingIDP ? ` plus the Imminent Danger Pay you receive (${fmt(DEPLOYMENT_RATES_2026.idp)})` : ''}: {fmtDec(result.during.officerCZTECap)} a month.
+              {' '}Your modeled pay (base pay{receivingIDP ? ' + IDP' : ''}{hdpLevel > 0 ? ' + HDP-L' : ''}) is {fmtDec(result.during.monthlyMilitaryPay)} a month, so{' '}
+              {result.during.monthlyTaxablePay > 0
+                ? `${fmtDec(result.during.monthlyTaxablePay)} a month stays in federal taxable income.`
+                : 'all of it is excluded.'}
+              {' '}Warrant officers are not capped. Source: 26 U.S.C. § 112(b), (c)(5); DFAS 2026 basic pay tables (officer Note 2, enlisted Note 3).
             </div>
           )}
+
+          {/* ── Assumptions ───────────────────────────────────────────── */}
+          <div className="rounded-lg bg-white border border-zinc-200 px-4 py-3 text-xs text-zinc-500 leading-relaxed" data-testid="deployment-assumptions">
+            <p className="font-semibold text-zinc-600 mb-1">How these estimates work</p>
+            <ul className="list-disc pl-4 space-y-0.5">
+              <li>Federal income tax uses 2026 brackets and the standard deduction for {filingLabel.toLowerCase()}. Monthly tax before deployment (and outside a combat zone) annualizes that month&apos;s taxable pay. In a combat zone, monthly tax is the tax on the deployed months, figured the same way as the CZTE savings, divided by the months.</li>
+              <li>CZTE savings compare the federal tax on the year without the exclusion to the same year with the excluded pay removed, and assume the deployment falls in one tax year (each full 12 months counts as its own year).</li>
+              <li>FICA ({FICA_PCT}: Social Security and Medicare) is taken from base pay only, before and during deployment. CZTE excludes pay from federal income tax, not FICA.</li>
+              <li>Not modeled: state income tax, SGLI, your own TSP contribution, and the Social Security wage base.</li>
+              <li>SDP: simple interest on the full deposit from day one; the program requires 30+ consecutive days in the combat zone.</li>
+            </ul>
+          </div>
 
           {/* ── Act steps ─────────────────────────────────────────────── */}
           <div className="bg-white rounded-lg border border-zinc-200 shadow-sm p-5">
@@ -761,7 +870,7 @@ export function DeploymentCalculator() {
           <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 text-xs text-zinc-500 leading-relaxed">
             <p className="font-semibold text-zinc-600 mb-1">Disclaimer</p>
             <p>
-              This calculator estimates deployment compensation based on 2026 rates. Imminent Danger Pay and Hardship Duty Pay rates are those effective {DEPLOYMENT_RATES_2026.ratesEffectiveDate}; earlier periods used the prior rates. Actual pay depends on your specific orders, designated combat zone status, and finance office processing. Combat Zone Tax Exclusion applies only in areas designated by Executive Order — verify with your orders and finance office. FICA taxes (Social Security and Medicare) still apply to all pay even in combat zones. SDP availability requires 30+ consecutive days in a combat zone while receiving HFP/IDP. TSP combat zone contribution limits are subject to IRS rules and may be affected by your BRS matching. This is not tax or financial advice — consult a tax professional for your specific situation.
+              This calculator estimates deployment compensation based on 2026 rates. Imminent Danger Pay and Hardship Duty Pay rates are those effective {DEPLOYMENT_RATES_2026.ratesEffectiveDate}; earlier periods used the prior rates. Actual pay depends on your specific orders, designated combat zone status, and finance office processing. Combat Zone Tax Exclusion applies only in areas designated by Executive Order — verify with your orders and finance office. FICA (Social Security and Medicare) is still withheld from base pay in a combat zone; CZTE excludes pay from federal income tax only. SDP availability requires 30+ consecutive days in a combat zone while receiving HFP/IDP. TSP combat zone contribution limits are subject to IRS rules and may be affected by your BRS matching. This is not tax or financial advice — consult a tax professional for your specific situation.
             </p>
           </div>
         </>

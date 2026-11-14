@@ -28,6 +28,17 @@ export const DATA_YEAR = '2026';
  */
 export const E1_UNDER_4_MONTHS = 2225.70;
 
+/**
+ * Basic pay of the senior enlisted member (Senior Enlisted Advisor to the CJCS, SMA, MCPON,
+ * CMSAF, SMMC, CMSSF, MCPOCG) — a single monthly rate regardless of years of service,
+ * published as a footnote to the table, not a column.
+ * Source: DFAS "Basic Pay – Enlisted, Effective January 1, 2026", Note 3.
+ * Used for the officer Combat Zone Tax Exclusion cap (26 U.S.C. § 112(c)(5); DFAS
+ * "Basic Pay – Officers, Effective January 1, 2026", Note 2) — see
+ * docs/sources/czte-officer-cap-2026.md.
+ */
+export const SENIOR_ENLISTED_BASIC_PAY = 11166.90;
+
 export const payTable: PayTable = {
   // ─── Enlisted ─────────────────────────────────────────────────────────────
   // Keys correspond to DFAS "Over N" column thresholds. YOS key selection:

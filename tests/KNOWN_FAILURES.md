@@ -16,12 +16,31 @@ is NOT listed here is a regression. The conditional `test.skip()` data-guards (s
 when reference BAH/pay data is absent) and the `transition-readiness.spec.ts:92`
 `test.fixme` are expected and excluded from the counts below.
 
-## Failing tests (0)
+## Failing tests (1 test; depends on run order)
 
 > 2026-10-18: the Total Comp base pay, BRS match tiering, and share-button clusters (27 failures
 > = 9 tests × 3 browsers) were fixed in the tests, and `va-disability.spec.ts:207` (webkit) was
-> marked `test.slow()` — see "Resolved 2026-10-18" below. No known failures remain; any failure
+> marked `test.slow()` — see "Resolved 2026-10-18" below. Apart from the entry below, any failure
 > in a full run is either a listed flake (re-run that spec file alone) or a regression.
+
+### BAH release day — lookup API dynamic import (added 2026-11-14)
+- `bah-release-day.spec.ts:237` — "lookup API serves EDUCATION_BAH_YEAR rates on request;
+  rejects unregistered years" — all browsers
+
+```
+SyntaxError: Cannot use import statement outside a module
+    at tests/e2e/bah-release-day.spec.ts:238:21
+```
+
+**Pre-existing on main.** Verified 2026-11-14 in a detached worktree of main (617f4d9, own
+`npm ci`): the spec file alone on Chromium (`--workers=1`, JSON reporter) gave
+`{ "expected": 18, "skipped": 0, "unexpected": 1, "flaky": 0 }`, with this test the only failure.
+The error is thrown at the test's `await import('../../src/app/api/bah/lookup/route')`, before
+the API is called, so it's a test-loading problem, not an API result. It passed in the
+2026-11-14 full Chromium run and failed in the affected-spec Firefox and WebKit runs and when the
+spec ran alone. Likely cause (not confirmed): Playwright's loader doesn't transform a dynamically
+imported module unless something earlier in the run loaded it. A possible fix is a static import
+of the route at the top of the spec.
 
 `data-accuracy.spec.ts:40` (firefox, VA 40% with spouse) was previously listed here but has been
 reclassified as a flake — see the flaky-pair entry below.

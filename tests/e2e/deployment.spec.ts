@@ -27,8 +27,10 @@ test.describe('Deployment Pay Calculator', () => {
   });
 
   test('combat zone CZTE label appears during deployment', async ({ page }) => {
-    // When combat zone is enabled (default), base pay row shows "Tax-free (CZTE)"
-    await expect(page.getByText('Tax-free (CZTE)').first()).toBeVisible();
+    // When combat zone is enabled (default, enlisted), the base pay row says the pay is excluded
+    // from federal taxable income (wording rule: never "tax-free").
+    await expect(page.getByText('Excluded from federal taxable income (CZTE)').first()).toBeVisible();
+    await expect(page.getByText('Tax-free (CZTE)')).toHaveCount(0);
   });
 
   test('Imminent Danger Pay row shows the full monthly $275 when enabled', async ({ page }) => {
