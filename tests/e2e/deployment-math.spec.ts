@@ -316,15 +316,19 @@ test.describe('Deployment page — figures come from the lib', () => {
     await expect(strip).toContainText('MFJ');
   });
 
-  test('page copy: spaces around JSX line breaks, October banner states facts only', async ({ page }) => {
+  test('page copy: spaces around JSX line breaks, October banner gives the memo’s reason', async ({ page }) => {
     await page.goto('/calculators/deployment');
     const body = page.locator('body');
     await expect(body).toContainText('during a combat zone deployment');
     await expect(body).toContainText('IRS Publication 3');
     await expect(body).not.toContainText('zonedeployment');
     await expect(body).not.toContainText('IRSPublication');
+    // Memo wording (docs/sources/hostile-pay-memo.pdf): the HDP-L cut is consistent with the
+    // maximum for combined HDP-L + HFP/IDP payments. The old "To keep … within its maximum" phrasing stays gone.
     await expect(body).not.toContainText('within its maximum');
-    await expect(body).toContainText(`The top Hardship Duty Pay–Location rate dropped from ${formatCurrency(R.hdpLTopRatePrior)}`);
+    await expect(body).toContainText(
+      `Consistent with the maximum allowed for combined HDP-L and HFP or IDP payments, the top Hardship Duty Pay–Location rate dropped from ${formatCurrency(R.hdpLTopRatePrior)} to ${formatCurrency(Math.max(...R.hdpLevels))}/month.`,
+    );
   });
 
   test('tour total explains why tax savings exceed the monthly difference × months (combat zone only)', async ({ page }) => {

@@ -157,8 +157,8 @@ export default function DeploymentPage() {
             <span className="font-semibold text-zinc-900">What changed on {R.ratesEffectiveDate}:</span>{' '}
             Hostile Fire Pay rose to {formatCurrency(R.hfp)}/month and Imminent Danger Pay to{' '}
             {formatCurrency(R.idp)}/month (prorated at {formatCurrency(R.idpDaily, true)}/day) — the first
-            change since {R.hfpIdpUnchangedSince}, when both were set at the same flat monthly rate. The top Hardship Duty Pay–Location rate
-            dropped from {formatCurrency(R.hdpLTopRatePrior)} to {formatCurrency(Math.max(...R.hdpLevels))}/month. Earlier periods used
+            change since {R.hfpIdpUnchangedSince}, when both were set at the same flat monthly rate. Consistent with the maximum allowed for
+            combined HDP-L and HFP or IDP payments, the top Hardship Duty Pay–Location rate dropped from {formatCurrency(R.hdpLTopRatePrior)} to {formatCurrency(Math.max(...R.hdpLevels))}/month. Earlier periods used
             the prior rates — this calculator uses the new ones.
           </p>
           <p className="mt-1 text-xs text-zinc-500">
