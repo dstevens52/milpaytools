@@ -929,7 +929,7 @@ export function TransitionReadinessCalculator() {
                     ? [{
                         label: 'Military retired pay (federally taxable)',
                         monthly: result.grossRetiredPayMonthly,
-                        note: `${retirementSystem === 'legacy' ? 'High-3: 2.5%' : 'BRS: 2.0%'} × ${Math.floor(result.separationYOS)} years × your current base pay. Uses ${DATA_YEAR} pay tables — no future raises assumed.`,
+                        note: `${retirementSystem === 'legacy' ? 'High-3: 2.5%' : 'BRS: 2.0%'} × ${Math.floor(result.separationYOS)} years × your High-3 average. Uses ${DATA_YEAR} pay tables — no future raises assumed.`,
                       }]
                     : []),
                   ...(result.vaWaiverMonthly > 0

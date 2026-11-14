@@ -121,7 +121,7 @@ export default function RetirementCalculatorPage() {
               BRS vs. High-3 at 20 Years: What Does an E-7 Actually Take Home?
             </h2>
             <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-              Scenario: E-7, retiring at exactly 20 years of service in 2026. High-3 average calculated from the three years immediately preceding retirement. BRS pension assumes 5% TSP contribution throughout service.
+              Scenario: E-7, retiring at exactly 20 years of service in 2026. High-3 average calculated from the last 36 months of service (years 18, 19 and 20), using today&apos;s pay table. BRS pension assumes 5% TSP contribution throughout service.
             </p>
             <ExampleTable>
               <ExampleRow label="High-3 average base pay (yrs 18, 19, 20 — E-7)" value={`${formatCurrency(exRet.high3Average, true)}/mo`} />
@@ -158,7 +158,8 @@ export default function RetirementCalculatorPage() {
                 <p className="text-sm text-zinc-600 mt-3 leading-relaxed">
                   The <strong>High-3 average</strong> is the average of your highest 36 months of base
                   pay — typically the three years immediately before retirement. At 20 years, your
-                  multiplier is 50%; at 30 years, 75%.
+                  multiplier is 50%; at 30 years, 75%. Each full month of service beyond whole years
+                  adds 1/12 of a year (20 years 6 months = 51.25%).
                 </p>
               </div>
 
@@ -176,7 +177,8 @@ export default function RetirementCalculatorPage() {
                   Plus: DoD contributes <strong>1% automatically</strong> and matches member
                   contributions <strong>dollar-for-dollar up to 3%</strong>, then <strong>50 cents per
                   dollar on the next 2%</strong> — meaning 5% member contribution = 5% total
-                  government contribution. Matching begins at month 25 (start of year 3).
+                  government contribution. The automatic 1% starts after 60 days of service and
+                  matching starts after 2 years; both end after 26 years of service.
                 </p>
               </div>
 
@@ -184,11 +186,13 @@ export default function RetirementCalculatorPage() {
               <div>
                 <h3 className="font-semibold text-zinc-900 mb-2">How High-3 Average Is Calculated</h3>
                 <p className="text-sm text-zinc-600 leading-relaxed">
-                  The DoD averages your base pay across the <em>36 consecutive months</em> of highest
-                  pay. For most members, this is the final three years. This calculator uses the pay
-                  table rates for your retirement grade at retirement YOS, YOS−1, and YOS−2 and
-                  averages them — consistent with how DFAS applies the formula for a member retiring
-                  at their current grade without a promotion in the final year.
+                  The rule is the total basic pay for your highest 36 months of service (they don&apos;t
+                  have to be consecutive), divided by 36 (10 U.S.C. § 1407). For most members, this is
+                  the final three years. This calculator estimates it month by month: each of your last
+                  36 months at the pay column for the years of service completed that month, at your
+                  retirement rank. It uses today&apos;s 2026 pay table for every month; the pay you
+                  actually received was lower by the raises since then, so the estimate runs a little
+                  high.
                 </p>
               </div>
 
@@ -214,6 +218,7 @@ export default function RetirementCalculatorPage() {
                   <li className="flex gap-2"><span className="text-red-700">•</span> 1% automatic contribution — generally begins after 60 days of service</li>
                   <li className="flex gap-2"><span className="text-red-700">•</span> Dollar-for-dollar match on your first 3% (starts month 25)</li>
                   <li className="flex gap-2"><span className="text-red-700">•</span> 50¢ per dollar match on your next 2% (starts month 25)</li>
+                  <li className="flex gap-2"><span className="text-red-700">•</span> Automatic and matching contributions end after 26 years of service</li>
                   <li className="flex gap-2"><span className="text-green-700 font-semibold">→</span> Contribute 5% = receive 5% total from DoD</li>
                 </ul>
               </div>
@@ -237,8 +242,9 @@ export default function RetirementCalculatorPage() {
               <ul className="space-y-1 text-sm text-zinc-500">
                 <li className="flex gap-2"><span>•</span> Continuation Pay (BRS bonus at 8–12 years — varies by branch and year)</li>
                 <li className="flex gap-2"><span>•</span> CRSC (Combat Related Special Compensation — separate program from CRDP)</li>
-                <li className="flex gap-2"><span>•</span> SBP (Survivor Benefit Plan) premiums, which reduce retired pay if elected</li>
-                <li className="flex gap-2"><span>•</span> State income taxes (33+ states exempt military retirement from state tax)</li>
+                <li className="flex gap-2"><span>•</span> REDUX / Career Status Bonus — a lower multiplier that affects some members who elected the bonus before 2018 and retire with under 30 years (10 U.S.C. § 1409)</li>
+                <li className="flex gap-2"><span>•</span> SBP (Survivor Benefit Plan) cost, which reduces retired pay if elected</li>
+                <li className="flex gap-2"><span>•</span> State income taxes (33+ states exempt military retirement from state tax); the civilian equivalent is federal only</li>
                 <li className="flex gap-2"><span>•</span> Part-time employment or Guard/Reserve retirement points (for non-active-duty retirements)</li>
               </ul>
             </div>
@@ -251,7 +257,8 @@ export default function RetirementCalculatorPage() {
                 career. The High-3 average used here is estimated from 2026 pay table values at your selected
                 retirement rank — it does not account for actual pay history, mid-career promotions, or future
                 pay table adjustments. TSP projections assume a constant contribution rate and a fixed annual
-                return; actual returns will vary. VA disability compensation amounts are from official 2026 VA
+                return, and hold pay flat at your current rank and years of service; actual returns will vary.
+                The civilian equivalent is federal only, for a single filer. VA disability compensation amounts are from official 2026 VA
                 rate tables (veteran alone, no dependents). CRDP eligibility requires 20+ years of qualifying
                 service and a VA disability rating of 50% or higher — eligibility determinations are made by
                 DFAS, not this calculator. This is not financial, tax, or legal advice. Verify all estimates

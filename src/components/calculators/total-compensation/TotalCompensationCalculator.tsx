@@ -60,8 +60,9 @@ function buildActionSteps(
 ): ActionStep[] {
   const steps: ActionStep[] = [];
 
-  // TSP / BRS step
-  if (input.retirementSystem === 'brs' && input.tspContributionPct < 5) {
+  // TSP / BRS step — only when matching is paid at this YOS (2 to under 26 years)
+  const matchPaid = output.brsPhase === 'full';
+  if (matchPaid && input.retirementSystem === 'brs' && input.tspContributionPct < 5) {
     const gapPct = 5 - input.tspContributionPct;
     const annualMatch = output.tspAgencyContribution;
     steps.push({
@@ -69,7 +70,7 @@ function buildActionSteps(
       description: `You're leaving ${formatCurrency(annualMatch * (gapPct / 5))}/year of DoD matching on the table. Contribute at least 5% of basic pay to get the full BRS match — that's free retirement money.`,
       priority: 'high',
     });
-  } else if (input.retirementSystem === 'brs' && input.tspContributionPct >= 5) {
+  } else if (matchPaid && input.retirementSystem === 'brs' && input.tspContributionPct >= 5) {
     steps.push({
       label: "You're capturing the full BRS match",
       description: `At ${input.tspContributionPct}% contribution, you're receiving the full DoD match. Higher contributions can increase tax-advantaged retirement savings, but the right amount depends on your cash flow, debt, emergency fund, and goals.`,
@@ -549,7 +550,7 @@ export function TotalCompensationCalculator() {
               : ` because your BAH (${formatCurrency(result.monthlyBAH)}/mo) and BAS (${formatCurrency(result.monthlyBAS)}/mo) are completely federal income tax-free`
             }
             {retirementSystem === 'brs'
-              ? `, your employer contributes ${formatCurrency(result.tspAgencyContribution)}/year to your retirement,`
+              ? `, your employer contributes ${formatCurrency(result.tspAgencyContribution)}/year to your TSP,`
               : ','}{' '}
             and TRICARE replaces {formatCurrency(result.tricareSavings)}/year in employer health premiums a civilian would pay
             . When evaluating a civilian job offer, compare against this number — not just your base pay.
@@ -633,10 +634,22 @@ export function TotalCompensationCalculator() {
                 more contributed annually — all matched by DoD.
               </div>
             )}
+            {result.brsPhase === 'automatic-only' && (
+              <p data-testid="brs-phase-note" className="mt-4 rounded-md bg-zinc-50 border border-zinc-200 p-3 text-sm text-zinc-700">
+                Under 2 years of service, DoD pays the 1% automatic contribution only. Matching
+                starts after you complete 2 years of service.
+              </p>
+            )}
+            {result.brsPhase === 'ended' && (
+              <p data-testid="brs-phase-note" className="mt-4 rounded-md bg-zinc-50 border border-zinc-200 p-3 text-sm text-zinc-700">
+                DoD automatic and matching contributions end after 26 years of service. Your own
+                contributions can continue.
+              </p>
+            )}
             <p className="text-xs text-zinc-400 mt-3">
               The 1% automatic DoD contribution begins after 60 days of service. Matching
-              contributions (up to 4%) begin at the start of the member&apos;s 25th month of
-              service.
+              contributions (up to 4%) begin after 2 years of service. Both end after 26 years
+              of service.
             </p>
           </Card>
         )}

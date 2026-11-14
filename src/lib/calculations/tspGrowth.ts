@@ -10,8 +10,12 @@ import { TSP_CONSTANTS_2026, type FundKey } from '@/data/tsp/2026/constants';
 import { payTable } from '@/data/pay-tables/2026';
 import { getYOSBracket } from '@/lib/utils';
 import type { PayGrade } from '@/types/military';
-
-const { brsMatchingTiers } = TSP_CONSTANTS_2026;
+import {
+  brsTierContribution,
+  brsGovContribution,
+  brsContributionAtYOS,
+  type BRSContribution,
+} from '@/lib/calculations/brs';
 
 // ─── Input / Output Types ──────────────────────────────────────────────────
 
@@ -64,7 +68,7 @@ export interface TSPProjectionResult {
   totalInvestmentGrowth: number;
   monthlyRetirementIncome4pct: number; // 4% SWR ÷ 12
   blendedAnnualReturn: number;        // weighted average return rate
-  monthlyGovContribution: number;     // initial month BRS match (for display)
+  monthlyGovContribution: number;     // BRS contribution at today's years of service (for display)
   isMaxContribLimit: boolean;         // hit annual deferral limit
   phase1Years: number;               // years of active contributions (capped at yearsToProject)
   phase2Years: number;               // years of growth-only after separation
@@ -81,11 +85,13 @@ export function blendedReturn(allocation: FundAllocation, returns: FundReturns):
 }
 
 /**
- * Calculate monthly BRS government contribution.
- * Returns { auto, match, total } — all monthly dollar amounts.
+ * Monthly BRS government contribution from the tiers alone (no service-time gate).
+ * Returns { auto, match, total } — all monthly dollar amounts; zero unless
+ * retirementSystem === 'brs'.
  *
- * BRS matching begins at start of member's 25th month of service.
- * The matching is only applied when retirementSystem === 'brs'.
+ * Tier math lives in ./brs (brsTierContribution). Timing (60 days, 2 years, 26 years)
+ * is applied by brsGovContribution / brsContributionAtYOS; Guard/Reserve applies its
+ * own YOS gate and calls this untimed version.
  */
 export function calcBRSMatch(
   basePayMonthly: number,
@@ -93,21 +99,36 @@ export function calcBRSMatch(
   retirementSystem: RetirementSystem
 ): { auto: number; match: number; total: number } {
   if (retirementSystem !== 'brs') return { auto: 0, match: 0, total: 0 };
+  return brsTierContribution(basePayMonthly, memberMonthlyContrib);
+}
 
-  const auto = basePayMonthly * brsMatchingTiers.auto;
-  const contribPct = basePayMonthly > 0 ? memberMonthlyContrib / basePayMonthly : 0;
-
-  let match = 0;
-  if (contribPct >= 0.05) {
-    match = basePayMonthly * 0.04; // full: 3% + 1% (50¢ × 2%)
-  } else if (contribPct >= 0.03) {
-    match = basePayMonthly * 0.03 + basePayMonthly * (contribPct - 0.03) * 0.5;
-  } else if (contribPct > 0) {
-    match = basePayMonthly * contribPct; // dollar-for-dollar up to 3%
-  }
-
-  const total = Math.min(auto + match, basePayMonthly * brsMatchingTiers.maxGovernment);
-  return { auto, match, total };
+/**
+ * One in-service month of TSP contributions — shared by projectTSP and the retirement
+ * calculator so the deferral cap and BRS timing are applied the same way everywhere.
+ *
+ * - Member contribution is capped at what is left of the annual elective deferral
+ *   limit (TSP_CONSTANTS_2026.electiveDeferralLimit) for the projection year.
+ * - The BRS government contribution is computed on what the member actually
+ *   contributed that month, for that service month (brsGovContribution). Once the
+ *   limit is hit, matching stops for the rest of the year; the automatic 1% continues.
+ * - Member contributions continue after 26 years of service; government money stops.
+ */
+export function tspMonthContribution(params: {
+  basePayMonthly: number;
+  desiredMemberMonthly: number;
+  memberYTD: number;
+  serviceMonth: number;
+  isBRS: boolean;
+  limit?: number;
+}): { member: number; gov: BRSContribution; hitLimit: boolean } {
+  const limit = params.limit ?? TSP_CONSTANTS_2026.electiveDeferralLimit;
+  const remainingLimit = Math.max(0, limit - params.memberYTD);
+  const member = Math.min(params.desiredMemberMonthly, remainingLimit);
+  const hitLimit = member < params.desiredMemberMonthly;
+  const gov = params.isBRS
+    ? brsGovContribution(params.basePayMonthly, member, params.serviceMonth)
+    : { auto: 0, match: 0, total: 0 };
+  return { member, gov, hitLimit };
 }
 
 /**
@@ -159,11 +180,17 @@ export function projectTSP(input: TSPProjectionInput): TSPProjectionResult {
   // produces the standard FV-of-annuity result expected by most users).
   const monthlyReturn = annualReturn / 12;
 
-  // Starting pay and BRS match
+  // Starting pay and the BRS contribution at today's years of service (for display)
   const initialBasePay = getBasePayMonthly(payGrade, yearsOfService);
-  const initialBRS = calcBRSMatch(initialBasePay, input.monthlyContribution, retirementSystem);
+  const isBRS = retirementSystem === 'brs';
+  const initialBRS = isBRS
+    ? brsContributionAtYOS(initialBasePay, input.monthlyContribution, yearsOfService)
+    : { auto: 0, match: 0, total: 0 };
 
-  const limit = TSP_CONSTANTS_2026.electiveDeferralLimit;
+  // Service month at projection month 1 is the first month after the completed years.
+  // BRS timing (automatic 1% from month 3, match from month 25, none after month 312)
+  // is applied per service month by brsGovContribution.
+  const serviceMonthOffset = Math.floor(Math.max(0, yearsOfService)) * 12;
 
   // Mutable state
   let balance = startingBalance;
@@ -202,15 +229,23 @@ export function projectTSP(input: TSPProjectionInput): TSPProjectionResult {
 
     const inService = month <= phase1Months;
 
-    // Enforce annual deferral limit — only applies while in service
-    const remainingLimit = inService ? Math.max(0, limit - annualMemberYTD) : 0;
-    const actualMemberContrib = inService ? Math.min(memberContrib, remainingLimit) : 0;
-    if (inService && actualMemberContrib < memberContrib) hitLimit = true;
-
-    // BRS government contribution — only while in service (not subject to elective deferral limit)
-    const brs = inService
-      ? calcBRSMatch(basePay, actualMemberContrib, retirementSystem)
-      : { auto: 0, match: 0, total: 0 };
+    // In service: member contribution capped at the annual deferral limit, then the
+    // BRS government contribution for this service month (shared helper).
+    // After separation: no contributions of either kind.
+    let actualMemberContrib = 0;
+    let brs: BRSContribution = { auto: 0, match: 0, total: 0 };
+    if (inService) {
+      const step = tspMonthContribution({
+        basePayMonthly: basePay,
+        desiredMemberMonthly: memberContrib,
+        memberYTD: annualMemberYTD,
+        serviceMonth: serviceMonthOffset + month,
+        isBRS,
+      });
+      actualMemberContrib = step.member;
+      brs = step.gov;
+      if (step.hitLimit) hitLimit = true;
+    }
 
     // Apply growth first, then contributions
     const growthThisMonth = balance * monthlyReturn;

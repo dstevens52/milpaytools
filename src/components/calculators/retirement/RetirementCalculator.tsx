@@ -31,6 +31,7 @@ import {
   TSP_SWR_PCT,
 } from '@/lib/calculations/retirement';
 import { DATA_YEAR } from '@/data/pay-tables/2026';
+import { TSP_CONSTANTS_2026 } from '@/data/tsp/2026/constants';
 import { parseGrade, gradeToParam } from '@/lib/urlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 
@@ -76,6 +77,29 @@ function fmtM(n: number): string {
   return fmt(n);
 }
 
+/** Multiplier percent: "50.0%" for whole tenths, "51.25%" when months add hundredths. */
+function fmtPct(n: number): string {
+  const r = Math.round(n * 100) / 100;
+  return Math.abs(r * 10 - Math.round(r * 10)) < 1e-9 ? `${r.toFixed(1)}%` : `${r.toFixed(2)}%`;
+}
+
+/** "20 years" or "20 years 6 months". */
+function fmtService(years: number, months: number): string {
+  const y = `${years} year${years !== 1 ? 's' : ''}`;
+  return months > 0 ? `${y} ${months} month${months !== 1 ? 's' : ''}` : y;
+}
+
+const RETURN_VALUES = TSP_RETURN_OPTIONS.map((o) => Number(o.value));
+const MAX_TSP_BALANCE = 10_000_000;
+
+/** Parse an integer URL param and clamp it to [min, max]; null when absent or not a number. */
+function intParam(value: string | null, min: number, max: number): number | null {
+  if (value === null) return null;
+  const n = parseInt(value, 10);
+  if (isNaN(n)) return null;
+  return Math.min(max, Math.max(min, n));
+}
+
 // ─── Action Step Builder ──────────────────────────────────────────────────────
 
 function buildActionSteps(input: RetirementInput, output: ReturnType<typeof calculateRetirement>): ActionStep[] {
@@ -90,7 +114,7 @@ function buildActionSteps(input: RetirementInput, output: ReturnType<typeof calc
   } else {
     steps.push({
       label: `Each additional year adds ${fmt(output.marginalYearValue * 12)}/yr`,
-      description: `At ${input.retirementYOS} years your multiplier is ${output.pensionMultiplierPct.toFixed(1)}%. One more year increases your pension by ${fmt(output.marginalYearValue)}/month — forever.`,
+      description: `At ${fmtService(input.retirementYOS, output.retirementMonths)} your multiplier is ${fmtPct(output.pensionMultiplierPct)}. One more year increases your pension by ${fmt(output.marginalYearValue)}/month — forever.`,
       priority: 'high',
     });
   }
@@ -172,6 +196,7 @@ export function RetirementCalculator() {
   const [currentGrade, setCurrentGrade] = useState<PayGrade>('E-7');
   const [currentYOS, setCurrentYOS] = useState(10);
   const [retirementYOS, setRetirementYOS] = useState(20);
+  const [retirementMonths, setRetirementMonths] = useState(0);
   const [retirementGrade, setRetirementGrade] = useState<PayGrade>('E-7');
 
   // Section 2 — TSP (BRS only)
@@ -191,12 +216,13 @@ export function RetirementCalculator() {
     currentGrade,
     currentYOS: Math.min(currentYOS, retirementYOS),
     retirementYOS,
+    retirementMonths: retirementYOS >= 40 ? 0 : retirementMonths,
     retirementGrade,
     tspContributionPct,
     tspCurrentBalance,
     tspAnnualReturnPct,
     vaRating,
-  }), [retirementSystem, currentGrade, currentYOS, retirementYOS, retirementGrade,
+  }), [retirementSystem, currentGrade, currentYOS, retirementYOS, retirementMonths, retirementGrade,
        tspContributionPct, tspCurrentBalance, tspAnnualReturnPct, vaRating]);
 
   const output = useMemo(() => calculateRetirement(input), [input]);
@@ -227,36 +253,63 @@ export function RetirementCalculator() {
 
   // ── URL params ────────────────────────────────────────────────────────
 
+  // Share-link params. `rank` and `yos` keep their original meaning (retirement grade and
+  // retirement years) so older links still load; every other input has its own param.
+  // Each value is validated and clamped: an unknown grade keeps the default, numbers are
+  // clamped to the input's range, and an unlisted return keeps the default.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const pg = parseGrade(params.get('rank'));
-    const yosParam = params.get('yos');
+    const retGrade = parseGrade(params.get('rank'));
+    const curGrade = parseGrade(params.get('currank'));
+    const yos = intParam(params.get('yos'), 0, 40);
+    const curYos = intParam(params.get('curyos'), 0, 39);
+    const months = intParam(params.get('months'), 0, 11);
+    const tsp = intParam(params.get('tsp'), 0, 50);
+    const balParam = params.get('bal');
+    const ret = intParam(params.get('ret'), 0, 100);
     const sys = params.get('system');
-    const vaParam = params.get('varating');
+    const va = intParam(params.get('varating'), 0, 100);
 
-    if (pg) { setCurrentGrade(pg); setRetirementGrade(pg); }
-    if (yosParam !== null) {
-      const n = parseInt(yosParam);
-      if (!isNaN(n) && n >= 0 && n <= 40) {
-        setCurrentYOS(Math.min(n, 20));
-        if (n >= 20) setRetirementYOS(n);
-      }
+    if (retGrade) setRetirementGrade(retGrade);
+    if (curGrade) setCurrentGrade(curGrade);
+    else if (retGrade) setCurrentGrade(retGrade); // older links: one rank for both
+
+    let retYos = 20;
+    if (curYos !== null) {
+      // Current links: both years are explicit
+      retYos = Math.max(20, curYos, yos ?? 20);
+      setCurrentYOS(curYos);
+      setRetirementYOS(retYos);
+    } else if (yos !== null) {
+      // Older links carried only the retirement years
+      setCurrentYOS(Math.min(yos, 20));
+      if (yos >= 20) { retYos = yos; setRetirementYOS(yos); }
     }
+    if (months !== null) setRetirementMonths(retYos >= 40 ? 0 : months);
+    if (tsp !== null) setTspContributionPct(tsp);
+    if (balParam !== null) {
+      const n = parseFloat(balParam);
+      if (!isNaN(n)) setTspCurrentBalance(Math.min(MAX_TSP_BALANCE, Math.max(0, Math.round(n))));
+    }
+    if (ret !== null && RETURN_VALUES.includes(ret)) setTspAnnualReturnPct(ret);
     if (sys === 'high3') setRetirementSystem('high3');
     else if (sys === 'brs') setRetirementSystem('brs');
-    if (vaParam !== null) {
-      const n = parseInt(vaParam);
-      if (!isNaN(n) && [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].includes(n)) {
-        setVaRating(n as typeof vaRating);
-      }
+    if (va !== null && [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].includes(va)) {
+      setVaRating(va as typeof vaRating);
     }
   }, []);
 
   function getShareUrl(): string {
     const params = new URLSearchParams();
+    params.set('system', retirementSystem);
     params.set('rank', gradeToParam(retirementGrade));
     params.set('yos', String(retirementYOS));
-    params.set('system', retirementSystem);
+    params.set('months', String(input.retirementMonths ?? 0));
+    params.set('currank', gradeToParam(currentGrade));
+    params.set('curyos', String(input.currentYOS));
+    params.set('tsp', String(tspContributionPct));
+    params.set('bal', String(Math.round(tspCurrentBalance)));
+    params.set('ret', String(tspAnnualReturnPct));
     params.set('varating', String(vaRating));
     return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
   }
@@ -266,6 +319,14 @@ export function RetirementCalculator() {
     setCurrentYOS(val);
     if (retirementYOS < val) setRetirementYOS(Math.max(20, val));
   }
+
+  const retirementLabel = fmtService(retirementYOS, output.retirementMonths);
+  const marginalPct = Math.round(output.civilianMarginalRatePct);
+  // First published pay column for the retirement grade (shown in the RET-04 note)
+  const firstPublishedYears = output.high3Breakdown.find((g) => g.firstPublishedColumn)?.column.replace('Over ', '') ?? '';
+  const serviceYearsText = output.retirementMonths > 0
+    ? `${retirementYOS} yrs ${output.retirementMonths} mo`
+    : `${retirementYOS} yrs`;
 
   return (
     <div className="space-y-5">
@@ -357,20 +418,43 @@ export function RetirementCalculator() {
 
           {/* Retirement YOS */}
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1">
-              Planned Retirement at: <span className="text-red-700 font-bold">{retirementYOS} years</span>
+            <label htmlFor="retirement-years" className="block text-sm font-medium text-zinc-700 mb-1">
+              Planned Retirement at: <span className="text-red-700 font-bold">{retirementLabel}</span>
             </label>
-            <input
-              type="range"
-              min={Math.max(20, currentYOS)}
-              max={40}
-              value={retirementYOS}
-              onChange={(e) => setRetirementYOS(Number(e.target.value))}
-              className="w-full accent-red-700"
-            />
-            <div className="flex justify-between text-xs text-zinc-400 mt-0.5">
-              <span>20</span><span>30</span><span>40</span>
+            <div className="flex items-start gap-3">
+              <div className="flex-1 min-w-0">
+                <input
+                  id="retirement-years"
+                  type="range"
+                  min={Math.max(20, currentYOS)}
+                  max={40}
+                  value={retirementYOS}
+                  onChange={(e) => setRetirementYOS(Number(e.target.value))}
+                  className="w-full accent-red-700"
+                />
+                <div className="flex justify-between text-xs text-zinc-400 mt-0.5">
+                  <span>20</span><span>30</span><span>40</span>
+                </div>
+              </div>
+              <div className="flex-none">
+                <label htmlFor="retirement-months" className="sr-only">Additional months of service</label>
+                <select
+                  id="retirement-months"
+                  data-testid="retirement-months"
+                  value={String(input.retirementMonths ?? 0)}
+                  onChange={(e) => setRetirementMonths(Number(e.target.value))}
+                  disabled={retirementYOS >= 40}
+                  className="rounded-md border border-zinc-300 bg-white px-2 py-1.5 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:bg-zinc-50 disabled:text-zinc-400"
+                >
+                  {Array.from({ length: 12 }, (_, m) => (
+                    <option key={m} value={String(m)}>+{m} mo</option>
+                  ))}
+                </select>
+              </div>
             </div>
+            <p className="mt-1 text-xs text-zinc-500">
+              Each full month of service counts as 1/12 of a year.
+            </p>
           </div>
         </div>
 
@@ -465,10 +549,10 @@ export function RetirementCalculator() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <p className="text-red-200 text-sm font-medium mb-1">
-              Estimated Monthly Pension · {retirementYOS} years · {retirementSystem === 'brs' ? 'BRS' : 'High-3'}
+              Estimated Monthly Pension · {retirementLabel} · {retirementSystem === 'brs' ? 'BRS' : 'High-3'}
             </p>
             <p className="text-4xl font-black tabular-nums">{fmt(output.monthlyPension)}<span className="text-xl font-semibold text-red-200">/mo</span></p>
-            <p className="text-red-200 text-sm mt-1">{fmt(output.annualPension)}/year · {output.pensionMultiplierPct.toFixed(1)}% multiplier</p>
+            <p className="text-red-200 text-sm mt-1">{fmt(output.annualPension)}/year · {fmtPct(output.pensionMultiplierPct)} multiplier</p>
           </div>
           {output.monthlyVA > 0 && (
             <div className="sm:text-right" data-testid="va-banner">
@@ -508,12 +592,12 @@ export function RetirementCalculator() {
           dataYear={DATA_YEAR}
           rows={[
             { label: `High-3 Avg Base Pay (${retirementGrade})`, value: `${fmt(output.high3Average)}/mo` },
-            { label: `Multiplier (${retirementSystem === 'brs' ? '2.0' : '2.5'}% × ${retirementYOS} yrs)`, value: `${output.pensionMultiplierPct.toFixed(1)}%` },
+            { label: `Multiplier (${retirementSystem === 'brs' ? '2.0' : '2.5'}% × ${serviceYearsText})`, value: fmtPct(output.pensionMultiplierPct) },
             {
-              label: `Formula: ${retirementSystem === 'brs' ? '2.0' : '2.5'}% × ${retirementYOS} × ${fmt(output.high3Average)}`,
+              label: `Formula: ${fmtPct(output.pensionMultiplierPct)} × ${fmt(output.high3Average)}`,
               value: `= ${fmt(output.monthlyPension)}/mo`,
             },
-            { label: 'Monthly Pension', monthly: output.monthlyPension, highlight: true },
+            { label: 'Monthly Pension', value: `${fmt(output.monthlyPension)}/mo`, highlight: true },
             ...(retirementSystem === 'brs' ? [{
               label: `High-3 equivalent would be ${fmt(output.high3MonthlyPension)}/mo`,
               value: 'BRS = 80% of High-3',
@@ -527,7 +611,7 @@ export function RetirementCalculator() {
           rows={[
             { label: 'Estimated retirement age', value: `~${output.estimatedRetirementAge} (based on ~${output.estimatedRetirementAge - retirementYOS} yr entry age)` },
             { label: 'Life expectancy assumption', value: `${LIFE_EXPECTANCY} years` },
-            { label: 'Years collecting pension', value: `~${output.yearsOfCollection} years` },
+            { label: 'Years collecting pension', value: `~${Math.round(output.yearsOfCollection)} years` },
             { label: `COLA assumption`, value: `${ANNUAL_COLA_PCT}%/yr (historical avg)` },
             { label: 'Lifetime value (nominal, no discounting)', value: fmtM(output.lifetimeValue), highlight: true },
           ]}
@@ -535,16 +619,38 @@ export function RetirementCalculator() {
 
         {/* TSP (BRS only) */}
         {retirementSystem === 'brs' && (
-          <ResultCard
-            title="TSP Projection (BRS)"
-            rows={[
-              { label: `Assumed annual return`, value: `${tspAnnualReturnPct}% (adjustable above)` },
-              { label: `Matching delay`, value: input.currentYOS >= 2 ? 'Matching active (2+ yrs service)' : `Matching starts month 25 of service` },
-              { label: 'Projected balance at retirement', value: fmtM(output.tspProjectedBalance) },
-              { label: `Monthly TSP income (${TSP_SWR_PCT}% withdrawal rule ÷ 12)`, monthly: output.tspMonthlyIncome },
-              { label: 'Total BRS monthly income', monthly: output.totalBRSMonthlyIncome, highlight: true },
-            ]}
-          />
+          <div data-testid="tsp-card" className="flex flex-col gap-2">
+            <ResultCard
+              title="TSP Projection (BRS)"
+              rows={[
+                { label: `Assumed annual return`, value: `${tspAnnualReturnPct}% (adjustable above)` },
+                {
+                  label: 'Government contributions',
+                  value: input.currentYOS >= 26
+                    ? 'Ended (26+ years of service)'
+                    : input.currentYOS >= 2
+                    ? 'Automatic 1% + match, through 26 years'
+                    : 'Automatic 1% now; match from month 25',
+                },
+                { label: 'Projected balance at retirement', value: fmtM(output.tspProjectedBalance) },
+                { label: `Monthly TSP income (${TSP_SWR_PCT}% withdrawal rule ÷ 12)`, value: `${fmt(output.tspMonthlyIncome)}/mo` },
+                { label: 'Total BRS monthly income', value: `${fmt(output.totalBRSMonthlyIncome)}/mo`, highlight: true },
+              ]}
+            />
+            {output.tspPayUnavailable && (
+              <p data-testid="tsp-pay-unavailable" className="rounded-md bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-800 leading-relaxed">
+                The {DATA_YEAR} pay table has no basic pay rate for {RANK_DISPLAY[currentGrade] ?? currentGrade} at {input.currentYOS} years of service, so new TSP contributions can&apos;t be estimated. The projection shows only the current balance growing. Choose a rank and years of service with a published rate to include contributions.
+              </p>
+            )}
+            {output.tspMemberCapped && (
+              <p data-testid="tsp-capped" className="text-xs text-zinc-500 leading-relaxed px-1">
+                Your contributions are capped at the {DATA_YEAR} elective deferral limit ({fmt(TSP_CONSTANTS_2026.electiveDeferralLimit)}/year). Once you reach it, matching stops for the rest of that year; the automatic 1% continues.
+              </p>
+            )}
+            <p className="text-xs text-zinc-500 leading-relaxed px-1">
+              Holds pay flat at your current rank and years of service for the whole projection. Government contributions (automatic 1% after 60 days, match after 2 years) end after 26 years of service; your own contributions continue.
+            </p>
+          </div>
         )}
 
         {/* VA disability */}
@@ -594,39 +700,55 @@ export function RetirementCalculator() {
                 ? { label: 'Retired pay after VA waiver (annual)', value: fmt(output.taxableRetiredPay * 12) }
                 : { label: 'Pension (annual)', value: fmt(output.annualPension) },
               ...(output.monthlyVA > 0 ? [{ label: 'VA compensation (annual, excluded from federal taxable income)', value: fmt(output.vaTaxFree * 12) }] : []),
-              { label: 'Tax assumption', value: '~22% effective federal rate' },
-              { label: 'Civilian gross equivalent (estimate)', value: `~${fmtM(output.civilianEquivalent)}/yr`, highlight: true },
+              { label: 'Method', value: `Federal only, single filer, ${marginalPct}% marginal bracket` },
+              { label: 'Civilian wage equivalent (estimate)', value: `~${fmtM(output.civilianEquivalent)}/yr`, highlight: true },
             ]}
           />
-          <p className="text-xs text-zinc-500 leading-relaxed px-1">
-            Based on a simplified ~22% effective federal tax rate estimate. Actual equivalent depends on your filing status, deductions, and state taxes.
+          <p data-testid="civilian-method" className="text-xs text-zinc-500 leading-relaxed px-1">
+            Retired pay and wages owe the same federal income tax, but wages also owe 7.65% for Social Security and Medicare, which retired pay does not.
+            {output.vaTaxFree > 0
+              ? ' VA compensation is excluded from federal taxable income, so the wage equivalent of each VA dollar also covers income tax at your marginal bracket.'
+              : ''}
+            {' '}Federal only, single filer, at a {marginalPct}% marginal bracket. State taxes vary.
           </p>
         </div>
 
-        {/* High-3 breakdown (3-year avg detail) */}
-        <ResultCard
-          title="High-3 Calculation Detail"
-          dataYear={DATA_YEAR}
-          rows={[
-            { label: `Base pay at ${retirementYOS} yrs (${retirementGrade})`, value: fmt(output.high3Breakdown[0]) },
-            { label: `Base pay at ${retirementYOS - 1} yrs (${retirementGrade})`, value: fmt(output.high3Breakdown[1]) },
-            { label: `Base pay at ${retirementYOS - 2} yrs (${retirementGrade})`, value: fmt(output.high3Breakdown[2]) },
-            { label: 'High-3 average', value: fmt(output.high3Average), highlight: true },
-            { label: 'Note', value: 'Estimated from 2026 pay table at your retirement rank. Actual High-3 may vary.' },
-          ]}
-        />
+        {/* High-3 breakdown (last 36 months) */}
+        <div data-testid="high3-card" className="flex flex-col gap-2">
+          <ResultCard
+            title="High-3 Calculation Detail"
+            dataYear={DATA_YEAR}
+            rows={[
+              ...output.high3Breakdown.map((g) => ({
+                label: `${g.column} pay column${g.firstPublishedColumn ? ' (first published rate)' : ''} × ${g.months} month${g.months !== 1 ? 's' : ''} (${retirementGrade})`,
+                value: `${fmt(g.monthlyPay)}/mo`,
+              })),
+              { label: 'High-3 average (36 months ÷ 36)', value: fmt(output.high3Average), highlight: true },
+            ]}
+          />
+          {output.high3UsedFirstPublishedColumn && (
+            <p data-testid="high3-first-column-note" className="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-md px-3 py-2 leading-relaxed">
+              No published {retirementGrade} rate below {firstPublishedYears} years; the first published rate is used for earlier months.
+            </p>
+          )}
+          <p className="text-xs text-zinc-500 leading-relaxed px-1">
+            Your last 36 months of service, each at the pay column for the years completed that month, all at your retirement rank. Uses today&apos;s {DATA_YEAR} pay table for every month. Real High-3 uses the pay you actually received, which is lower by the raises since then, so this estimate runs a little high.
+          </p>
+        </div>
       </div>
 
       {/* ── Interpretation callout ── */}
       <div className="rounded-lg bg-blue-50 border border-blue-200 px-6 py-5 space-y-2">
         <p className="text-sm font-semibold text-blue-900">What these numbers mean</p>
-        <p className="text-sm text-blue-800">
-          A civilian would need to earn approximately{' '}
-          <strong>{fmtM(output.civilianEquivalent)}/year</strong> before taxes to replace your projected
-          retirement income — because VA disability is 100% tax-free and military pensions are
-          tax-exempt in 33+ states. The{' '}
+        <p className="text-sm text-blue-800" data-testid="civilian-callout">
+          A civilian would need wages of about{' '}
+          <strong>{fmtM(output.civilianEquivalent)}/year</strong> to match your{' '}
+          {output.vaTaxFree > 0 ? 'retired pay and VA compensation' : 'retired pay'}. Retired pay owes the
+          same federal income tax as wages but no Social Security or Medicare tax
+          {output.vaTaxFree > 0 ? ', and VA compensation is excluded from federal taxable income' : ''}.
+          Federal only, single filer, at a {marginalPct}% marginal bracket. State taxes vary. The{' '}
           <strong>lifetime pension value of {fmtM(output.lifetimeValue)}</strong> is the compounding
-          effect of COLA over roughly {output.yearsOfCollection} years of collection.
+          effect of COLA over roughly {Math.round(output.yearsOfCollection)} years of collection.
         </p>
         {input.currentYOS < 20 && (
           <p className="text-sm text-blue-800">
@@ -669,7 +791,7 @@ export function RetirementCalculator() {
                   <p className="text-sm text-zinc-500 mt-1">Pension + TSP income</p>
                   <div className="mt-3 space-y-1 text-sm text-zinc-600">
                     <div className="flex justify-between">
-                      <span>Pension ({output.pensionMultiplierPct.toFixed(0)}%)</span>
+                      <span>Pension ({fmtPct(output.pensionMultiplierPct)})</span>
                       <span className="tabular-nums font-medium">{fmt(output.monthlyPension)}</span>
                     </div>
                     <div className="flex justify-between">
@@ -692,7 +814,7 @@ export function RetirementCalculator() {
                   <p className="text-sm text-zinc-500 mt-1">Pension only (no TSP match)</p>
                   <div className="mt-3 space-y-1 text-sm text-zinc-600">
                     <div className="flex justify-between">
-                      <span>Pension ({(output.pensionMultiplierPct / 0.8).toFixed(0)}%)</span>
+                      <span>Pension ({fmtPct(output.pensionMultiplierPct / 0.8)})</span>
                       <span className="tabular-nums font-medium">{fmt(output.high3MonthlyPension)}</span>
                     </div>
                     <div className="flex justify-between text-xs text-zinc-400">

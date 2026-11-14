@@ -109,7 +109,8 @@ test.describe('Retirement — VA waiver vs. CRDP (lib)', () => {
     const r = high3E7At20(0);
     expect(r.totalMonthlyIncome).toBe(r.monthlyPension);
     expect(r.waiverApplied).toBe(false);
-    expect(r.monthlyPension).toBeCloseTo(3100.05, 2); // audit figure; derived from the pay table
+    // Rule value (RET-03): High-3 over years 18, 19, 20 = (Over 16 + 2 × Over 18) / 3 = $6,118.50
+    expect(r.monthlyPension).toBeCloseTo(3059.25, 2);
   });
 
   test('40% VA: total = pension, VA portion broken out (waiver)', () => {
@@ -119,14 +120,22 @@ test.describe('Retirement — VA waiver vs. CRDP (lib)', () => {
     expect(r.waiverApplied).toBe(true);
     expect(r.crdpEligible).toBe(false);
     expect(r.totalMonthlyIncome).toBeCloseTo(r.monthlyPension, 6);
-    expect(r.totalMonthlyIncome).toBeCloseTo(3100.05, 2);
+    expect(r.totalMonthlyIncome).toBeCloseTo(3059.25, 2);
     expect(r.vaTaxFree).toBe(va40);
     expect(r.taxableRetiredPay).toBeCloseTo(r.monthlyPension - va40, 6);
     expect(r.taxableRetiredPay + r.vaTaxFree).toBeCloseTo(r.totalMonthlyIncome, 6);
   });
 
-  test('40% VA: civilian-equivalent input uses the corrected total (same as 0%)', () => {
-    expect(high3E7At20(40).civilianEquivalent).toBeCloseTo(high3E7At20(0).civilianEquivalent, 6);
+  test('40% VA: civilian equivalent uses the waiver split (VA part grossed up for income tax + FICA)', () => {
+    // RET-02: same total as 0% VA, but $795.84 of it is VA (excluded from income), so a
+    // civilian needs more wages to match it than to match the same amount of retired pay.
+    const r = high3E7At20(40);
+    const t = r.civilianMarginalRatePct / 100;
+    expect(r.civilianEquivalent).toBeCloseTo(
+      (r.taxableRetiredPay * 12 * (1 - t)) / (1 - t - 0.0765) + (r.vaTaxFree * 12) / (1 - t - 0.0765),
+      6,
+    );
+    expect(r.civilianEquivalent).toBeGreaterThan(high3E7At20(0).civilianEquivalent);
   });
 
   test('50% VA: total = pension + 50% VA rate (CRDP)', () => {

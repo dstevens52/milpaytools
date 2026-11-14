@@ -77,9 +77,11 @@ const base: TransitionReadinessInput = {
 const run = (overrides: Partial<TransitionReadinessInput> = {}) =>
   calculateTransitionReadiness({ ...base, ...overrides }, 0);
 
-// E-6 pay at 20 YOS = the "over 18" column (E-6 tops out there in the 2026 table).
-const E6_20_BASE = payTable['E-6'][18]!;
-const GROSS_HIGH3 = E6_20_BASE * 0.025 * 20 * 12;
+// E-6 retiring at exactly 20 YOS: High-3 = the last 36 months = years 18, 19, 20 of
+// service = "over 16" × 12 months + "over 18" × 24 months (E-6 tops out at over 18).
+// TR-06: transition readiness uses the Retirement calculator's High-3 (10 U.S.C. § 1407).
+const E6_20_HIGH3 = (payTable['E-6'][16]! * 12 + payTable['E-6'][18]! * 24) / 36;
+const GROSS_HIGH3 = E6_20_HIGH3 * 0.025 * 20 * 12;
 const VA30 = vaRates[30].withSpouse * 12;
 const VA60 = vaRates[60].withSpouse * 12;
 const WAGES = 125_000;
@@ -191,8 +193,13 @@ test.describe('Transition readiness — state treatment of retired pay', () => {
     const high3 = run({ retirementSystem: 'legacy' });
     const brs = run({ retirementSystem: 'brs' });
     expect(brs.grossRetiredPayMonthly / high3.grossRetiredPayMonthly).toBeCloseTo(0.8, 10);
-    // E-6, 20 yrs, BRS: 2026 table E-6 "over 18" × 2.0% × 20 × 12.
-    expect(brs.grossRetiredPayMonthly * 12).toBeCloseTo(E6_20_BASE * 0.02 * 20 * 12, 2);
+    // E-6, 20 yrs, BRS: High-3 (over 16 × 12 + over 18 × 24) ÷ 36 × 2.0% × 20 × 12.
+    expect(brs.grossRetiredPayMonthly * 12).toBeCloseTo(E6_20_HIGH3 * 0.02 * 20 * 12, 2);
+  });
+
+  test('9a. TR-06: E-7, 20 yrs now, High-3 → $3,059.25/mo (same High-3 as the Retirement calculator)', () => {
+    const r = run({ payGrade: 'E-7', vaRating: 0 });
+    expect(r.grossRetiredPayMonthly).toBeCloseTo(3059.25, 2);
   });
 
   test('9b. screenshot scenario: E-6, 20 yrs now, separating at 21 yrs, BRS → $26,549/yr (2026 pay, no raises)', () => {
