@@ -246,10 +246,10 @@ test.describe('Retirement — share link (RET-05)', () => {
     await page.goto('/calculators/retirement');
 
     const expected = ret({ retirementSystem: 'brs', currentYOS: 10 });
-    // ResultCard shows `monthly` rows as annual by default
-    const expectedAnnual = fmtWhole(expected.totalBRSMonthlyIncome * 12);
+    // "Total BRS monthly income" row shows the monthly figure
+    const expectedMonthly = `${fmtWhole(expected.totalBRSMonthlyIncome)}/mo`;
     const card = page.getByTestId('tsp-card');
-    await expect(card).toContainText(expectedAnnual);
+    await expect(card).toContainText(expectedMonthly);
     const before = await card.innerText();
 
     await page.getByRole('button', { name: 'Copy result link' }).click();
@@ -259,8 +259,19 @@ test.describe('Retirement — share link (RET-05)', () => {
     expect(url).toContain('tsp=5');
 
     await page.goto(url);
-    await expect(page.getByTestId('tsp-card')).toContainText(expectedAnnual);
+    await expect(page.getByTestId('tsp-card')).toContainText(expectedMonthly);
     expect(await page.getByTestId('tsp-card').innerText()).toBe(before);
+  });
+
+  test('monthly labels show monthly figures (/mo, not /yr)', async ({ page }) => {
+    await page.goto('/calculators/retirement');
+    const r = ret({ retirementSystem: 'brs', currentYOS: 10 });
+    const tsp = page.getByTestId('tsp-card');
+    await expect(tsp).toContainText(`${fmtWhole(r.tspMonthlyIncome)}/mo`);
+    await expect(tsp).toContainText(`${fmtWhole(r.totalBRSMonthlyIncome)}/mo`);
+    await expect(tsp).not.toContainText('/yr');
+    const pensionRow = page.getByText('Monthly Pension', { exact: true }).locator('..');
+    await expect(pensionRow).toContainText(`${fmtWhole(r.monthlyPension)}/mo`);
   });
 
   test('old link (rank + yos only) still loads; bad params clamp or fall back', async ({ page }) => {

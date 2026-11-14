@@ -597,7 +597,7 @@ export function RetirementCalculator() {
               label: `Formula: ${fmtPct(output.pensionMultiplierPct)} × ${fmt(output.high3Average)}`,
               value: `= ${fmt(output.monthlyPension)}/mo`,
             },
-            { label: 'Monthly Pension', monthly: output.monthlyPension, highlight: true },
+            { label: 'Monthly Pension', value: `${fmt(output.monthlyPension)}/mo`, highlight: true },
             ...(retirementSystem === 'brs' ? [{
               label: `High-3 equivalent would be ${fmt(output.high3MonthlyPension)}/mo`,
               value: 'BRS = 80% of High-3',
@@ -633,8 +633,8 @@ export function RetirementCalculator() {
                     : 'Automatic 1% now; match from month 25',
                 },
                 { label: 'Projected balance at retirement', value: fmtM(output.tspProjectedBalance) },
-                { label: `Monthly TSP income (${TSP_SWR_PCT}% withdrawal rule ÷ 12)`, monthly: output.tspMonthlyIncome },
-                { label: 'Total BRS monthly income', monthly: output.totalBRSMonthlyIncome, highlight: true },
+                { label: `Monthly TSP income (${TSP_SWR_PCT}% withdrawal rule ÷ 12)`, value: `${fmt(output.tspMonthlyIncome)}/mo` },
+                { label: 'Total BRS monthly income', value: `${fmt(output.totalBRSMonthlyIncome)}/mo`, highlight: true },
               ]}
             />
             {output.tspPayUnavailable && (

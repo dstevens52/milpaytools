@@ -550,7 +550,7 @@ export function TotalCompensationCalculator() {
               : ` because your BAH (${formatCurrency(result.monthlyBAH)}/mo) and BAS (${formatCurrency(result.monthlyBAS)}/mo) are completely federal income tax-free`
             }
             {retirementSystem === 'brs'
-              ? `, your employer contributes ${formatCurrency(result.tspAgencyContribution)}/year to your retirement,`
+              ? `, your employer contributes ${formatCurrency(result.tspAgencyContribution)}/year to your TSP,`
               : ','}{' '}
             and TRICARE replaces {formatCurrency(result.tricareSavings)}/year in employer health premiums a civilian would pay
             . When evaluating a civilian job offer, compare against this number — not just your base pay.
