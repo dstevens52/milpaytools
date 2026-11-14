@@ -292,9 +292,14 @@ test.describe('2027 pay raise — rank pages and new FAQs', () => {
     ]);
   });
 
-  test('pending: retiree FAQ has 3.6%, 2.6%, December 1, 2026, January 2027', () => {
+  test('pending: retiree FAQ has 3.6%, 2.6%, December 1, 2026, the DFAS first-payment dates', () => {
     const a = retireeColaFaq().answer;
-    for (const s of ['3.6%', '2.6%', 'December 1, 2026', 'January 2027', 'October 14, 2026']) expect(a).toContain(s);
+    for (const s of ['3.6%', '2.6%', 'December 1, 2026', 'October 14, 2026']) expect(a).toContain(s);
+    // COLA timing (feat/pay-dates-2027): DFAS pays the December 2026 retired pay on Dec 31, 2026.
+    expect(a).toContain(
+      'It takes effect December 1, 2026 and first appears in the December 2026 retired pay, paid December 31, 2026 (SBP annuitants: January 4, 2027).',
+    );
+    expect(a).not.toMatch(/first paid in January/i);
     expect(a).not.toMatch(/VA disability|you should/i);
   });
 
@@ -439,9 +444,9 @@ test.describe('2027 key dates — calendar data', () => {
       'va-cola': '/calculators/va-disability',
       'tsp-limits': '/calculators/tsp',
       bah: '/bah',
-      'dec31-payday': '/pay/raise#your-2027-base-pay',
+      'dec31-payday': '/pay/dates',
       'rates-effective': '/pay/raise#your-2027-base-pay',
-      'first-payday': '/pay/raise#your-2027-base-pay',
+      'first-payday': '/pay/dates',
       bas: null,
     });
   });

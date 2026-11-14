@@ -529,11 +529,25 @@ export function branchFaq(config: PayRaiseConfig = PAY_RAISE_2027): { question: 
   };
 }
 
+/** "December 2026" — the entitlement month the COLA takes effect in. */
+function monthYear(iso: string): string {
+  return new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', year: 'numeric' });
+}
+
+/**
+ * "It takes effect December 1, 2026 and first appears in the December 2026 retired pay,
+ * paid December 31, 2026 (SBP annuitants: January 4, 2027)." — the one wording for when
+ * military retirees first see the COLA (/pay/raise FAQ + calendar, /pay/dates).
+ */
+export function retireeColaTiming(cola: RetireeCola = RETIREE_COLA_2027): string {
+  return `It takes effect ${formatIsoDate(cola.effectiveDate)} and first appears in the ${monthYear(cola.effectiveDate)} retired pay, paid ${formatIsoDate(cola.firstRetiredPayDate)} (SBP annuitants: ${formatIsoDate(cola.firstAnnuitantPayDate)}).`;
+}
+
 /** "Do military retirees get the 2027 pay raise?" — every figure from RETIREE_COLA_2027. */
 export function retireeColaFaq(cola: RetireeCola = RETIREE_COLA_2027): { question: string; answer: string } {
   return {
     question: 'Do military retirees get the 2027 pay raise?',
-    answer: `No. The pay raise is for basic pay of members who are serving. Military retired pay gets the annual cost-of-living adjustment instead: ${formatPercent(cola.percent)} for 2027, effective ${formatIsoDate(cola.effectiveDate)} and first paid in ${cola.firstPaidMonth}. It's the same CPI-W increase Social Security announced on ${formatIsoDate(cola.announcedDate)}. Retirees who took the Career Status Bonus (REDUX) get 1 percentage point less (${formatPercent(reduxPercent(cola))}). If your retired pay started during ${cola.effectiveDate.slice(0, 4)}, your first increase is generally smaller.`,
+    answer: `No. The pay raise is for basic pay of members who are serving. Military retired pay gets the annual cost-of-living adjustment instead: ${formatPercent(cola.percent)} for 2027. ${retireeColaTiming(cola)} It's the same CPI-W increase Social Security announced on ${formatIsoDate(cola.announcedDate)}. Retirees who took the Career Status Bonus (REDUX) get 1 percentage point less (${formatPercent(reduxPercent(cola))}). If your retired pay started during ${cola.effectiveDate.slice(0, 4)}, your first increase is generally smaller.`,
   };
 }
 

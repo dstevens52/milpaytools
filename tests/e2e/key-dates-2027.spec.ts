@@ -61,6 +61,7 @@ test('/pay: compact key dates (4 rows) right after the 2027 raise card', async (
   await expect(compact.getByTestId('key-date-row')).toHaveCount(4);
   await expect(compact.getByTestId('key-date-status')).toHaveCount(4);
   await expect(compact.getByRole('link', { name: 'See every 2027 key date →' })).toHaveAttribute('href', '/pay/raise#key-dates');
+  await expect(compact.getByRole('link', { name: 'All 2027 paydays →' })).toHaveAttribute('href', '/pay/dates');
   await expect(page.locator('[data-testid="pay-raise-card"] + div [data-testid="key-dates-compact"]')).toHaveCount(1);
 });
 
@@ -73,6 +74,7 @@ test.describe('rank pages: key-dates line inside the 2027 section', () => {
         'Key dates: the raise takes effect January 1, 2027, and the first payday at 2027 rates is Friday, January 15, 2027. 2027 BAH is expected in mid-December.',
       );
       await expect(line.getByRole('link', { name: 'See the 2027 pay calendar →' })).toHaveAttribute('href', '/pay/raise#key-dates');
+      await expect(line.getByRole('link', { name: 'All 2027 paydays →' })).toHaveAttribute('href', '/pay/dates');
       // FAQ count unchanged: 5 branch-term FAQs + the 2027 raise FAQ.
       await expect(page.locator('[data-faq-question]')).toHaveCount(6);
     });

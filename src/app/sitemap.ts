@@ -220,6 +220,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.9,
     },
+    {
+      url: `${BASE_URL}/pay/dates`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     ...PAY_PAGE_RANKS.map((r) => ({
       url: `${BASE_URL}/pay/${r.slug}`,
       lastModified: now,
