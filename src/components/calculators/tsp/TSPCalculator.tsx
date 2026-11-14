@@ -11,13 +11,13 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import {
   projectTSP,
-  calcBRSMatch,
   getBasePayMonthly,
   brsMatchTable,
   rothVsTraditional,
   type FundAllocation,
   type RetirementSystem,
 } from '@/lib/calculations/tspGrowth';
+import { brsContributionAtYOS, brsPhaseAtYOS } from '@/lib/calculations/brs';
 import { ENLISTED_GRADES, WARRANT_GRADES, OFFICER_GRADES, PRIOR_ENLISTED_OFFICER_GRADES, RANK_DISPLAY } from '@/types/military';
 import { ALLOCATION_PRESETS, TSP_CONSTANTS_2026, type FundKey } from '@/data/tsp/2026/constants';
 import { TSP_CONSTANTS_2027 } from '@/data/tsp/2027/constants';
@@ -137,9 +137,15 @@ export function TSPCalculator() {
     return (basePay * v) / 100;
   }, [contribMode, contribValue, basePay]);
 
+  // Government contribution at today's years of service: automatic 1% only under 2 years,
+  // none at 26+ (shared BRS timing in lib/calculations/brs).
+  const yosInt = parseInt(yos) || 0;
+  const brsPhase = brsPhaseAtYOS(yosInt);
   const brs = useMemo(
-    () => calcBRSMatch(basePay, monthlyContrib, retirementSystem),
-    [basePay, monthlyContrib, retirementSystem]
+    () => retirementSystem === 'brs'
+      ? brsContributionAtYOS(basePay, monthlyContrib, yosInt)
+      : { auto: 0, match: 0, total: 0 },
+    [basePay, monthlyContrib, retirementSystem, yosInt]
   );
 
   const allocationSum = FUND_KEYS.reduce((s, k) => s + (allocation[k] || 0), 0);
@@ -449,8 +455,33 @@ export function TSPCalculator() {
           </div>
         </div>
 
+        {/* BRS timing: no match under 2 years of service, nothing from DoD after 26 */}
+        {retirementSystem === 'brs' && brsPhase !== 'full' && (
+          <div data-testid="brs-phase-note" className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 mt-2">
+            {brsPhase === 'automatic-only' ? (
+              <>
+                <p className="font-semibold text-sm text-zinc-800">
+                  Under 2 years of service: Auto 1% only ({fmt(brs.auto, true)}/month)
+                </p>
+                <p className="text-xs mt-1 text-zinc-600">
+                  The automatic 1% starts after 60 days of service. Matching starts after you complete 2 years; the projection adds it from your 25th month of service.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="font-semibold text-sm text-zinc-800">
+                  26+ years of service: no government contributions
+                </p>
+                <p className="text-xs mt-1 text-zinc-600">
+                  DoD automatic and matching contributions end after 26 years of service. Your own contributions can continue.
+                </p>
+              </>
+            )}
+          </div>
+        )}
+
         {/* BRS match warning / summary */}
-        {retirementSystem === 'brs' && (
+        {retirementSystem === 'brs' && brsPhase === 'full' && (
           <div className={[
             'rounded-lg border p-4 mt-2',
             !atFullMatch ? 'border-amber-200 bg-amber-50' : 'border-green-200 bg-green-50',

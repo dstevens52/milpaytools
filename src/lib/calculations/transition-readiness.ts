@@ -9,8 +9,7 @@ import type { TransitionReadinessInput, TransitionReadinessOutput, ActionStep, F
 import { lookupBasePay } from '@/lib/calculations/total-compensation';
 import {
   BAS_RATES,
-  LEGACY_RETIREMENT_MULTIPLIER,
-  BRS_RETIREMENT_MULTIPLIER,
+  EMPLOYEE_FICA_RATE,
   FED_TAX_BRACKETS_SINGLE,
   STANDARD_DEDUCTION_SINGLE,
   FED_TAX_BRACKETS_MFJ,
@@ -21,6 +20,7 @@ import {
 import { estimateTaxAdvantage } from '@/lib/utils';
 import { ENLISTED_GRADES } from '@/types/military';
 import { vaRates } from '@/data/va-rates/2026';
+import { calculateHigh3Average, calculatePension } from '@/lib/calculations/retirement';
 import {
   getStateMilitaryRetirementTax,
   stateTaxableRetiredPay,
@@ -60,7 +60,7 @@ function resolveHealthcare(
   };
 }
 
-const FICA_RATE = 0.0765;            // 6.2% SS + 1.45% Medicare
+const FICA_RATE = EMPLOYEE_FICA_RATE; // 6.2% SS + 1.45% Medicare (src/data/constants.ts)
 // Default for the calculator's state-rate input.
 export const DEFAULT_STATE_TAX_RATE = 0.05;
 
@@ -372,10 +372,16 @@ export function calculateTransitionReadiness(
   const isRetirementEligible = separationYOS >= 20;
   const yosAtSep = Math.floor(separationYOS);
 
-  // 3. Pension (if retirement-eligible)
-  const multiplier =
-    input.retirementSystem === 'legacy' ? LEGACY_RETIREMENT_MULTIPLIER : BRS_RETIREMENT_MULTIPLIER;
-  const grossRetiredPayMonthly = isRetirementEligible ? basePay * multiplier * yosAtSep : 0;
+  // 3. Pension (if retirement-eligible) — the same High-3 average and multiplier as the
+  // Retirement calculator: the 36 months before separation at the member's current grade,
+  // from today's pay table. Whole years here (months at separation are not credited yet).
+  const grossRetiredPayMonthly = isRetirementEligible
+    ? calculatePension(
+        input.retirementSystem === 'legacy' ? 'high3' : 'brs',
+        yosAtSep,
+        calculateHigh3Average(input.payGrade, yosAtSep).average,
+      )
+    : 0;
 
   // 4. VA compensation, and the VA waiver / CRDP / CRSC split of retired pay
   const vaCompMonthly = lookupVACompMonthly(input.vaRating, input.hasDependents);

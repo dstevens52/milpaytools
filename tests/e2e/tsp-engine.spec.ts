@@ -10,7 +10,7 @@
  */
 
 import { test, expect } from '@playwright/test';
-import { projectTSP } from '@/lib/calculations/tspGrowth';
+import { projectTSP, getBasePayMonthly } from '@/lib/calculations/tspGrowth';
 import { SAMPLE_BAR_SCENARIO } from './tspTestFixtures';
 
 // Convenience: run the default 14-year in-service / 25-year growth scenario.
@@ -78,10 +78,43 @@ test.describe('projectTSP() two-phase engine', () => {
     expect(full.finalBalance).toBeGreaterThan(gated.finalBalance);
     expect(full.totalGovContributions).toBeGreaterThan(gated.totalGovContributions);
 
-    // "Materially higher" — the 25 extra years of contributions should make
-    // the full-horizon result at least 50% larger in both metrics.
-    expect(full.finalBalance / gated.finalBalance).toBeGreaterThan(1.5);
-    expect(full.totalGovContributions / gated.totalGovContributions).toBeGreaterThan(1.5);
+    // "Materially higher" — the 25 extra years of member contributions (plus 6 more years
+    // of government money, through 26 YOS) make the full-horizon balance at least 40%
+    // larger. Was > 1.5 while government money (wrongly) ran to 45 YOS; now 1.48.
+    expect(full.finalBalance / gated.finalBalance).toBeGreaterThan(1.4);
+
+    // RET-09: government contributions end after 26 years of service. The scenario
+    // starts at 6 YOS, so government money runs only through projection year 20.
+    expect(full.snapshots[20].govContributionsTotal).toBe(full.totalGovContributions);
+    expect(full.snapshots[21].annualGovContrib).toBe(0);
+    expect(full.snapshots[21].annualMemberContrib).toBeGreaterThan(0);
   });
 
+});
+
+// TC-01: automatic 1% after 60 days (service month 3), match after 2 years (month 25).
+test.describe('projectTSP() BRS timing', () => {
+  const e1 = getBasePayMonthly('E-1', 0);
+  const run = () =>
+    projectTSP({
+      startingBalance: 0,
+      monthlyContribution: e1 * 0.05,
+      retirementSystem: 'brs',
+      payGrade: 'E-1',
+      yearsOfService: 0,
+      allocation: { G: 100, F: 0, C: 0, S: 0, I: 0 },
+      yearsToProject: 3,
+      annualPayRaisePct: 0,
+      moreYearsToServe: 3,
+    });
+
+  test('E-1, 0 YOS, 5%: year 1 = 10 months of the 1% only (was $1,444.32 with the match)', () => {
+    expect(run().snapshots[1].annualGovContrib).toBeCloseTo(e1 * 0.01 * 10, 2);
+  });
+
+  test('no match in months 1–24; full 5% from month 25', () => {
+    const { snapshots } = run();
+    expect(snapshots[2].annualGovContrib).toBeCloseTo(e1 * 0.01 * 12, 2);
+    expect(snapshots[3].annualGovContrib).toBeCloseTo(e1 * 0.05 * 12, 2);
+  });
 });

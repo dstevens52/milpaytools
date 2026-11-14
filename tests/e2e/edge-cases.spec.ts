@@ -197,6 +197,32 @@ test.describe('Total Compensation — BRS match tiering', () => {
     await expect(page.getByText('TSP / BRS Details')).toHaveCount(0);
     await expect(page.getByText('DoD TSP agency match')).toHaveCount(0);
   });
+
+  // TC-01: matching starts after 2 years of service; automatic + match end after 26 years.
+  for (const yos of [0, 1]) {
+    test(`YOS ${yos}, 5% → 1% automatic only (no match before 2 years)`, () => {
+      const out = calculateTotalCompensation({ ...baseInput, payGrade: 'E-2', yearsOfService: yos, tspContributionPct: 5 }, 0);
+      expect(out.brsPhase).toBe('automatic-only');
+      expect(out.tspAgencyContribution).toBeCloseTo(getBasePay('E-2', yos) * 12 * 0.01, 2);
+    });
+  }
+
+  test('E-2, 0 YOS, 5% → $323.75/yr (was $1,618.74 with the match)', () => {
+    const out = calculateTotalCompensation({ ...baseInput, payGrade: 'E-2', yearsOfService: 0, tspContributionPct: 5 }, 0);
+    expect(out.tspAgencyContribution).toBeCloseTo(323.75, 2);
+  });
+
+  test('YOS 26 → no government contribution', () => {
+    const out = calculateTotalCompensation({ ...baseInput, payGrade: 'O-6', yearsOfService: 26, tspContributionPct: 5 }, 0);
+    expect(out.brsPhase).toBe('ended');
+    expect(out.tspAgencyContribution).toBe(0);
+  });
+
+  test('UI: YOS 0 shows the automatic-only note', async ({ page }) => {
+    await page.goto('/calculators/total-compensation?rank=E-2&yos=0&tsp=5');
+    await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 50 });
+    await expect(page.getByTestId('brs-phase-note')).toContainText('1% automatic contribution only');
+  });
 });
 
 // ─── VA Loan — funding fee edge cases ───────────────────────────────────────────

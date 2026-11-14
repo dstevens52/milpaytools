@@ -251,7 +251,7 @@ export default function TransitionReadinessPage() {
               Spouse income is counted on both sides of the comparison, with state tax at the rate you enter.
             </li>
             <li>
-              Future pay raises — retired pay uses 2026 pay tables at your current base pay, with no raise projected to your separation date
+              Future pay raises — retired pay uses a High-3 average (your last 36 months of service at your current rank) from the 2026 pay table, with no raise projected to your separation date
             </li>
             <li>
               Combat-Related Special Compensation (CRSC) eligibility — the calculator applies it only if you check the box, and caps it at the waived amount.{' '}

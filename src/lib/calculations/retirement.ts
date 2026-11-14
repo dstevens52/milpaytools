@@ -7,18 +7,29 @@
  * Pure functions — no React, no side effects.
  *
  * Key formulas:
- *   High-3 pension = 2.5% × YOS × High-3 average base pay
- *   BRS pension    = 2.0% × YOS × High-3 average base pay
- *   High-3 average = average of base pay at retirement YOS, YOS-1, YOS-2
- *   TSP match      = 1% auto + dollar-for-dollar up to 3% + 50¢ per $ on next 2%
- *                    (matching begins at month 25 — beginning of year 3)
+ *   High-3 pension   = 2.5% × years of service × High-3 average
+ *   BRS pension      = 2.0% × years of service × High-3 average
+ *   Years of service = whole years + 1/12 for each full month (10 U.S.C. § 1409)
+ *   High-3 average   = the highest 36 months of basic pay ÷ 36 (10 U.S.C. § 1407(c)(1)).
+ *                      Estimated month by month: for each of the last 36 months of
+ *                      service, the pay-table column for the years completed in that
+ *                      month, at the retirement grade, from today's (2026) pay table.
+ *   TSP (BRS)        = member contributions capped at the elective deferral limit, plus
+ *                      the BRS government contribution by service month (./brs:
+ *                      automatic 1% from month 3, match from month 25, none after 26 years).
  */
 
-import type { RetirementInput, RetirementOutput } from '@/types/calculator';
+import type { RetirementInput, RetirementOutput, High3PayGroup } from '@/types/calculator';
 import { payTable } from '@/data/pay-tables/2026';
 import { vaRates } from '@/data/va-rates/2026';
-import { LEGACY_RETIREMENT_MULTIPLIER, BRS_RETIREMENT_MULTIPLIER } from '@/data/constants';
+import {
+  LEGACY_RETIREMENT_MULTIPLIER,
+  BRS_RETIREMENT_MULTIPLIER,
+  EMPLOYEE_FICA_RATE,
+} from '@/data/constants';
 import { lookupBasePay } from '@/lib/calculations/basePay';
+import { tspMonthContribution } from '@/lib/calculations/tspGrowth';
+import { estimateMarginalRate, getYOSBracket } from '@/lib/utils';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -54,6 +65,12 @@ function isWarrant(grade: string): boolean {
   return grade.startsWith('W-');
 }
 
+/** Clamp a months value to a whole number of months, 0–11. */
+function clampMonths(months: number | undefined): number {
+  if (months === undefined || !Number.isFinite(months)) return 0;
+  return Math.min(11, Math.max(0, Math.floor(months)));
+}
+
 /**
  * Estimate the member's age at a given YOS based on grade category.
  */
@@ -66,107 +83,157 @@ function estimateRetirementAge(retirementGrade: string, retirementYOS: number): 
   return entryAge + retirementYOS;
 }
 
+type GradeTable = Record<number, number | undefined>;
+
+function gradeTableFor(grade: string): GradeTable | undefined {
+  return payTable[grade as keyof typeof payTable] as GradeTable | undefined;
+}
+
+/** Published pay-table column keys for a grade, ascending (e.g. W-5 → [20, 22, …]). */
+function publishedColumns(table: GradeTable | undefined): number[] {
+  if (!table) return [];
+  return Object.keys(table)
+    .map(Number)
+    .filter((k) => typeof table[k] === 'number')
+    .sort((a, b) => a - b);
+}
+
+/** DFAS column label: key 0 is "2 or less"; key N is "Over N". */
+function columnLabel(key: number): string {
+  return key === 0 ? '2 or less' : `Over ${key}`;
+}
+
 // ─── Core Calculation Functions ───────────────────────────────────────────────
 
 /**
- * Calculate the High-3 average base pay.
- * Uses base pay at retirement YOS, YOS-1, and YOS-2 for the retirement grade.
- * All three values come from the 2026 pay table.
+ * High-3 average base pay: the highest 36 months of basic pay ÷ 36
+ * (10 U.S.C. § 1407(c)(1)), estimated month by month.
+ *
+ * Total months of service T = years × 12 + months. For each of the last 36 months
+ * k = T−35 … T, completed years in that month = floor((k−1) / 12), and the pay is the
+ * retirement grade's pay-table column for those completed years. Example: retiring at
+ * exactly 20 years, the last 36 months are years 18, 19 and 20 of service, paid at the
+ * Over 16, Over 18 and Over 18 columns.
+ *
+ * Assumptions (disclosed in the UI): every month uses today's (2026) pay table and the
+ * retirement grade. Real High-3 uses the pay actually received, which is lower by the
+ * raises since then, and the grade actually held.
+ *
+ * Grades with no published column at that many years (W-5, O-9 and O-10 below 20;
+ * E-9 below 10): the grade's first published column is used for those months and
+ * `usedFirstPublishedColumn` is set, so no month counts as $0. The shared lookupBasePay
+ * is not changed (other calculators rely on its $0 for "no rate").
+ *
+ * `breakdown` groups consecutive months paid at the same column.
  */
 export function calculateHigh3Average(
   retirementGrade: string,
-  retirementYOS: number
-): { average: number; breakdown: [number, number, number] } {
-  const pay0 = lookupBasePay(retirementGrade, retirementYOS);
-  const pay1 = lookupBasePay(retirementGrade, Math.max(0, retirementYOS - 1));
-  const pay2 = lookupBasePay(retirementGrade, Math.max(0, retirementYOS - 2));
-  const average = (pay0 + pay1 + pay2) / 3;
-  return { average, breakdown: [pay0, pay1, pay2] };
+  retirementYOS: number,
+  retirementMonths: number = 0,
+): { average: number; breakdown: High3PayGroup[]; usedFirstPublishedColumn: boolean } {
+  const totalMonths = Math.max(0, Math.floor(retirementYOS)) * 12 + clampMonths(retirementMonths);
+  const table = gradeTableFor(retirementGrade);
+  const columns = publishedColumns(table);
+  const firstKey = columns.length > 0 ? columns[0] : null;
+
+  const breakdown: High3PayGroup[] = [];
+  let sum = 0;
+  let usedFirstPublishedColumn = false;
+
+  for (let k = totalMonths - 35; k <= totalMonths; k++) {
+    const completedYears = Math.max(0, Math.floor((k - 1) / 12));
+    let pay = lookupBasePay(retirementGrade, completedYears);
+    const bracket = getYOSBracket(completedYears);
+    let key: number | null = null;
+    for (const c of columns) if (c <= bracket) key = c;
+    let substituted = false;
+
+    if (pay === 0 && firstKey !== null && table) {
+      pay = table[firstKey] ?? 0;
+      key = firstKey;
+      substituted = true;
+      usedFirstPublishedColumn = true;
+    }
+
+    sum += pay;
+    const label = key === null ? 'No published rate' : columnLabel(key);
+    const last = breakdown[breakdown.length - 1];
+    if (last && last.column === label && last.firstPublishedColumn === substituted) {
+      last.months += 1;
+    } else {
+      breakdown.push({ column: label, months: 1, monthlyPay: pay, firstPublishedColumn: substituted });
+    }
+  }
+
+  return { average: sum / 36, breakdown, usedFirstPublishedColumn };
 }
 
 /**
- * Calculate monthly pension.
+ * Calculate monthly pension: multiplier × (years + months/12) × High-3 average.
+ * Each full month of service counts as 1/12 of a year (10 U.S.C. § 1409).
+ * REDUX (Career Status Bonus takers with under 30 years) is not modeled.
  */
 export function calculatePension(
   system: 'high3' | 'brs',
   yearsOfService: number,
-  high3Average: number
+  high3Average: number,
+  months: number = 0,
 ): number {
   const multiplier =
     system === 'brs' ? BRS_RETIREMENT_MULTIPLIER : LEGACY_RETIREMENT_MULTIPLIER;
-  return multiplier * yearsOfService * high3Average;
+  return multiplier * (yearsOfService + clampMonths(months) / 12) * high3Average;
 }
 
 /**
- * Calculate BRS TSP agency contributions.
- * - 1% automatic (starts day 1)
- * - Dollar-for-dollar match on first 3% of member contribution
- * - 50 cents per dollar on next 2% of member contribution
- * - Matching (above the 1% auto) begins at month 25 (start of year 3)
+ * Project the TSP balance at retirement via compound monthly growth (BRS).
  *
- * Returns monthly total government contribution at full matching.
- */
-export function calculateTSPAgencyMonthly(
-  monthlyBasePay: number,
-  memberContributionPct: number // 0–100
-): number {
-  const memberPct = memberContributionPct / 100;
-  const auto = monthlyBasePay * 0.01;
-  const matchable1 = Math.min(memberPct, 0.03);
-  const matchable2 = Math.max(0, Math.min(memberPct - 0.03, 0.02));
-  const match = monthlyBasePay * matchable1 + monthlyBasePay * matchable2 * 0.5;
-  return auto + match;
-}
-
-/**
- * Project TSP balance at retirement via compound monthly growth.
- * Accounts for:
- *   - Existing current balance
- *   - Member monthly contribution
- *   - Government monthly contribution
- *   - BRS matching begins at month 25 (member's 3rd year of service)
+ * Each month runs through tspGrowth.tspMonthContribution, the same step the TSP
+ * projector uses:
+ *   - member contribution = contributionPct of base pay, capped at the annual elective
+ *     deferral limit (TSP_CONSTANTS_2026.electiveDeferralLimit), reset every 12 months
+ *   - government contribution by service month (./brs): automatic 1% from month 3,
+ *     match from month 25, none after 26 years of service
  *
- * @param currentBalance  Current TSP balance in dollars
- * @param memberMonthly   Member's monthly contribution (dollars)
- * @param govMonthly      Government monthly contribution (at full match, dollars)
- * @param autoMonthly     1% auto contribution (always present for BRS members)
- * @param yearsToRetire   Remaining years until retirement
- * @param currentYOS      Current years of service (to determine matching start)
- * @param annualReturnPct Expected annual return (e.g., 7)
+ * Pay is held flat at the current grade and years of service for the whole projection
+ * (disclosed in the UI).
  */
-export function calculateTSPGrowth(
-  currentBalance: number,
-  memberMonthly: number,
-  govMonthly: number,
-  autoMonthly: number,
-  yearsToRetire: number,
-  currentYOS: number,
-  annualReturnPct: number
-): number {
-  const monthlyRate = annualReturnPct / 100 / 12;
-  const totalMonths = Math.round(yearsToRetire * 12);
+export function calculateTSPGrowth(params: {
+  currentBalance: number;
+  basePayMonthly: number;
+  contributionPct: number; // 0–100
+  monthsToRetire: number;
+  currentYOS: number;
+  annualReturnPct: number;
+}): { balance: number; memberCapped: boolean } {
+  const monthlyRate = params.annualReturnPct / 100 / 12;
+  const totalMonths = Math.max(0, Math.round(params.monthsToRetire));
+  const desiredMember = (params.basePayMonthly * params.contributionPct) / 100;
+  const serviceMonthOffset = Math.floor(Math.max(0, params.currentYOS)) * 12;
 
-  // Months until matching kicks in (month 25 = start of year 3).
-  // If currentYOS >= 2, matching is already active.
-  const matchingStartMonth = currentYOS >= 2 ? 0 : Math.max(0, 25 - currentYOS * 12);
-
-  let balance = currentBalance;
+  let balance = params.currentBalance;
+  let memberYTD = 0;
+  let memberCapped = false;
 
   for (let m = 1; m <= totalMonths; m++) {
-    // Before matching starts, only auto 1% + member contribution.
-    // matchingStartMonth is months-into-projection when matching activates;
-    // use >= so matching begins ON that month, not the month after.
-    const govContrib = m >= matchingStartMonth ? govMonthly : autoMonthly;
-    const monthContrib = memberMonthly + govContrib;
-    balance = balance * (1 + monthlyRate) + monthContrib;
+    if (m > 1 && (m - 1) % 12 === 0) memberYTD = 0;
+    const step = tspMonthContribution({
+      basePayMonthly: params.basePayMonthly,
+      desiredMemberMonthly: desiredMember,
+      memberYTD,
+      serviceMonth: serviceMonthOffset + m,
+      isBRS: true,
+    });
+    if (step.hitLimit) memberCapped = true;
+    memberYTD += step.member;
+    balance = balance * (1 + monthlyRate) + step.member + step.gov.total;
   }
 
-  return balance;
+  return { balance, memberCapped };
 }
 
 /**
- * Calculate the present-value-ish lifetime pension stream.
- * Uses a simple future cash flow sum with COLA: total = Σ monthly × 12 × (1+COLA)^t
+ * Nominal lifetime pension stream with COLA: Σ monthly × 12 × (1+COLA)^t.
+ * A fractional final year (from months of service) counts pro rata.
  * We use nominal sum (no discounting) since this is a "wow" number for motivation.
  */
 export function calculateLifetimeValue(
@@ -174,33 +241,45 @@ export function calculateLifetimeValue(
   yearsOfCollection: number,
   annualCOLA: number = ANNUAL_COLA
 ): number {
+  const years = Math.max(0, yearsOfCollection);
+  const wholeYears = Math.floor(years);
+  const fraction = years - wholeYears;
   let total = 0;
-  for (let t = 0; t < yearsOfCollection; t++) {
+  for (let t = 0; t < wholeYears; t++) {
     total += monthlyPension * 12 * Math.pow(1 + annualCOLA, t);
+  }
+  if (fraction > 1e-9) {
+    total += monthlyPension * 12 * fraction * Math.pow(1 + annualCOLA, wholeYears);
   }
   return total;
 }
 
 /**
- * Estimate civilian gross salary needed to replace a given monthly retirement income.
- * - Pension is federally taxable (partially); simplification: treat as ordinary income
- * - VA disability is 100% tax-free
- * - Use a 22% effective federal rate as a rough civilian tax estimate
+ * Civilian wages needed to match retired pay plus VA compensation — federal only,
+ * single filer.
+ *
+ * t = the marginal federal rate (single filer, estimateMarginalRate) at the combined
+ * annual amount; FICA = the employee rate (EMPLOYEE_FICA_RATE).
+ *
+ * Retired pay owes federal income tax only (IRS Pub. 525: military retirement pay is
+ * taxable as a pension; it is not FICA wages), so it nets retired pay × (1 − t). Wages
+ * owe income tax and FICA on the same gross, netting wages × (1 − t − FICA). Matching
+ * the retired pay therefore takes retired pay × (1 − t) ÷ (1 − t − FICA).
+ * VA compensation owes neither (IRS Pub. 525: not included in income), so it nets in
+ * full and a civilian needs VA ÷ (1 − t − FICA) in wages to match it.
  */
 export function calculateCivilianEquivalent(
-  monthlyPension: number,
-  monthlyVA: number,
-  stateTaxesMilRetirement: boolean
-): number {
-  const annualPension = monthlyPension * 12;
-  const annualVA = monthlyVA * 12;
-  const totalAfterTax = annualPension + annualVA; // simplified: pension is "net"
-
-  // Civilian would pay ~22% federal + state on gross income
-  const effectiveTaxRate = stateTaxesMilRetirement ? 0.28 : 0.22;
-  const grossCivilianNeeded = totalAfterTax / (1 - effectiveTaxRate);
-
-  return grossCivilianNeeded;
+  taxableRetiredPayMonthly: number,
+  vaMonthly: number,
+): { annual: number; marginalRate: number } {
+  const retiredAnnual = taxableRetiredPayMonthly * 12;
+  const vaAnnual = vaMonthly * 12;
+  const marginalRate = estimateMarginalRate(retiredAnnual + vaAnnual);
+  const wageNetShare = 1 - marginalRate - EMPLOYEE_FICA_RATE;
+  const annual =
+    (retiredAnnual * (1 - marginalRate)) / wageNetShare +
+    vaAnnual / wageNetShare;
+  return { annual, marginalRate };
 }
 
 // ─── Main Calculation ─────────────────────────────────────────────────────────
@@ -217,61 +296,60 @@ export function calculateRetirement(input: RetirementInput): RetirementOutput {
     tspAnnualReturnPct,
     vaRating,
   } = input;
+  const retirementMonths = clampMonths(input.retirementMonths);
+  const serviceYears = retirementYOS + retirementMonths / 12;
 
-  // High-3 average base pay
-  const { average: high3Average, breakdown: high3Breakdown } = calculateHigh3Average(
-    retirementGrade,
-    retirementYOS
-  );
+  // High-3 average base pay (month by month over the last 36 months)
+  const {
+    average: high3Average,
+    breakdown: high3Breakdown,
+    usedFirstPublishedColumn: high3UsedFirstPublishedColumn,
+  } = calculateHigh3Average(retirementGrade, retirementYOS, retirementMonths);
 
   // Monthly pension
-  const monthlyPension = calculatePension(retirementSystem, retirementYOS, high3Average);
+  const monthlyPension = calculatePension(retirementSystem, retirementYOS, high3Average, retirementMonths);
   const annualPension = monthlyPension * 12;
 
-  // Pension multiplier as a percentage (e.g., 50 for 20×2.5%)
+  // Pension multiplier as a percentage (e.g., 50 for 20 × 2.5%; 51.25 for 20y6m)
   const multiplierRate =
     retirementSystem === 'brs' ? BRS_RETIREMENT_MULTIPLIER : LEGACY_RETIREMENT_MULTIPLIER;
-  const pensionMultiplierPct = multiplierRate * retirementYOS * 100;
+  const pensionMultiplierPct = multiplierRate * serviceYears * 100;
 
   // High-3 equivalent (for BRS comparison)
-  const high3MonthlyPension = calculatePension('high3', retirementYOS, high3Average);
+  const high3MonthlyPension = calculatePension('high3', retirementYOS, high3Average, retirementMonths);
 
-  // Retirement age / lifetime value
+  // Retirement age (whole years, for display) / lifetime value (months count pro rata)
   const estimatedRetirementAge = estimateRetirementAge(retirementGrade, retirementYOS);
-  const yearsOfCollection = Math.max(0, LIFE_EXPECTANCY - estimatedRetirementAge);
+  const yearsOfCollection = Math.max(
+    0,
+    LIFE_EXPECTANCY - estimatedRetirementAge - retirementMonths / 12,
+  );
   const lifetimeValue = calculateLifetimeValue(monthlyPension, yearsOfCollection);
 
-  // TSP (BRS only)
+  // TSP (BRS only). Pay is held flat at the current grade and years of service.
   let tspProjectedBalance = 0;
   let tspMonthlyIncome = 0;
+  let tspPayUnavailable = false;
+  let tspMemberCapped = false;
 
   if (retirementSystem === 'brs') {
-    const retirementBasePayAtCurrentGrade = lookupBasePay(retirementGrade, retirementYOS);
-    // Use retirement grade base pay for projection (most conservative/accurate)
-    // For projection, approximate monthly base pay as average during accumulation
-    const avgBasePayForContribs = lookupBasePay(currentGrade, currentYOS);
+    const basePayForContribs = lookupBasePay(currentGrade, currentYOS);
+    // No published rate for this grade at this YOS (e.g. E-9 under 10): contributions
+    // can't be estimated — the UI says so instead of showing a silent $0 projection.
+    tspPayUnavailable = basePayForContribs <= 0;
+    const monthsToRetire = Math.max(0, (retirementYOS - currentYOS) * 12 + retirementMonths);
 
-    const memberMonthly = (avgBasePayForContribs * tspContributionPct) / 100;
-    const govMonthly = calculateTSPAgencyMonthly(avgBasePayForContribs, tspContributionPct);
-    const autoMonthly = avgBasePayForContribs * 0.01;
-
-    // Clamp: can't contribute more than remaining years to retirement
-    const yearsToRetire = Math.max(0, retirementYOS - currentYOS);
-
-    tspProjectedBalance = calculateTSPGrowth(
-      tspCurrentBalance,
-      memberMonthly,
-      govMonthly,
-      autoMonthly,
-      yearsToRetire,
+    const tsp = calculateTSPGrowth({
+      currentBalance: tspCurrentBalance,
+      basePayMonthly: basePayForContribs,
+      contributionPct: tspContributionPct,
+      monthsToRetire,
       currentYOS,
-      tspAnnualReturnPct
-    );
-
+      annualReturnPct: tspAnnualReturnPct,
+    });
+    tspProjectedBalance = tsp.balance;
+    tspMemberCapped = tsp.memberCapped;
     tspMonthlyIncome = (tspProjectedBalance * TSP_SWR) / 12;
-
-    // Suppress unused variable warning
-    void retirementBasePayAtCurrentGrade;
   }
 
   const totalBRSMonthlyIncome =
@@ -302,26 +380,29 @@ export function calculateRetirement(input: RetirementInput): RetirementOutput {
   const tspIncomeForTotal = retirementSystem === 'brs' ? tspMonthlyIncome : 0;
   const totalMonthlyIncome = tspIncomeForTotal + taxableRetiredPay + vaTaxFree;
 
-  // Civilian equivalent (assume state doesn't tax military retirement by default).
-  // Inputs follow the waiver; the formula itself is unchanged.
-  const civilianEquivalent = calculateCivilianEquivalent(taxableRetiredPay, vaTaxFree, false);
+  // Civilian equivalent of retired pay + VA (federal only, single filer; TSP not included)
+  const civilian = calculateCivilianEquivalent(taxableRetiredPay, vaTaxFree);
+  const civilianEquivalent = civilian.annual;
+  const civilianMarginalRatePct = civilian.marginalRate * 100;
 
-  // Stay vs. Go
+  // Stay vs. Go — the vesting point is 20 years 0 months by definition, so months
+  // entered for the planned retirement don't apply here.
   const yearsFromVesting = Math.max(0, 20 - currentYOS);
-  // Lifetime value of vesting: what pension they'd earn by staying to 20
-  const { average: high3At20 } = calculateHigh3Average(retirementGrade, 20);
-  const pensionAt20 = calculatePension(retirementSystem, 20, high3At20);
+  const { average: high3At20 } = calculateHigh3Average(retirementGrade, 20, 0);
+  const pensionAt20 = calculatePension(retirementSystem, 20, high3At20, 0);
   const retirementAgeAt20 = estimateRetirementAge(retirementGrade, 20);
   const collectYearsAt20 = Math.max(0, LIFE_EXPECTANCY - retirementAgeAt20);
   const lifetimeValueOfStaying =
     currentYOS < 20 ? calculateLifetimeValue(pensionAt20, collectYearsAt20) : 0;
 
-  // Marginal value per additional year after vesting
+  // Marginal value per additional year of service, at this High-3 average
   const marginalYearValue = multiplierRate * high3Average;
 
   return {
+    retirementMonths,
     high3Average,
     high3Breakdown,
+    high3UsedFirstPublishedColumn,
     pensionMultiplierPct,
     monthlyPension,
     annualPension,
@@ -331,6 +412,8 @@ export function calculateRetirement(input: RetirementInput): RetirementOutput {
     tspProjectedBalance,
     tspMonthlyIncome,
     totalBRSMonthlyIncome,
+    tspPayUnavailable,
+    tspMemberCapped,
     monthlyVA,
     totalMonthlyIncome,
     crdpEligible,
@@ -338,6 +421,7 @@ export function calculateRetirement(input: RetirementInput): RetirementOutput {
     taxableRetiredPay,
     vaTaxFree,
     civilianEquivalent,
+    civilianMarginalRatePct,
     yearsFromVesting,
     lifetimeValueOfStaying,
     marginalYearValue,

@@ -8,8 +8,9 @@
  */
 
 import type { TotalCompensationInput, TotalCompensationOutput } from '@/types/calculator';
-import { BAS_RATES, BRS_AUTOMATIC_CONTRIBUTION_PCT, SGLI_MAX_COVERAGE, SGLI_PREMIUM_PER_1000, SGLI_TSGLI_PREMIUM } from '@/data/constants';
+import { BAS_RATES, SGLI_MAX_COVERAGE, SGLI_PREMIUM_PER_1000, SGLI_TSGLI_PREMIUM } from '@/data/constants';
 import { lookupBasePay } from '@/lib/calculations/basePay';
+import { brsContributionAtYOS, brsPhaseAtYOS } from '@/lib/calculations/brs';
 import { estimateTaxAdvantage } from '@/lib/utils';
 import { HEALTHCARE_2026 } from '@/data/healthcare/2026/constants';
 import { ENLISTED_GRADES } from '@/types/military';
@@ -20,16 +21,19 @@ import { ENLISTED_GRADES } from '@/types/military';
 export { lookupBasePay };
 
 /**
- * Calculate BRS TSP agency match (annual).
- * DoD contributes: 1% automatic + dollar-for-dollar on the first 3% of base pay
- * contributed + 50¢ per dollar on the next 2% (3%–5%) = max 5% of base pay.
+ * BRS TSP government contribution (annual) for a member at `yearsOfService`.
+ * Tiers and timing come from the shared ./brs helper: 1% automatic + dollar-for-dollar
+ * on the first 3% contributed + 50¢ per dollar on the next 2% (max 5% of base pay).
+ * Under 2 years of service: automatic 1% only. 26+ years: no government contribution.
  * `contributionPct` is the member's contribution as a percent (0–100).
  */
-function calculateBRSAgencyMatch(monthlyBasePay: number, contributionPct: number): number {
-  const auto = monthlyBasePay * BRS_AUTOMATIC_CONTRIBUTION_PCT;
-  const matchedAt100 = (Math.min(contributionPct, 3) / 100) * monthlyBasePay;
-  const matchedAt50 = (Math.max(0, Math.min(contributionPct, 5) - 3) / 100) * monthlyBasePay * 0.5;
-  return (auto + matchedAt100 + matchedAt50) * 12;
+function calculateBRSAgencyMatch(
+  monthlyBasePay: number,
+  contributionPct: number,
+  yearsOfService: number,
+): number {
+  const memberMonthly = (monthlyBasePay * contributionPct) / 100;
+  return brsContributionAtYOS(monthlyBasePay, memberMonthly, yearsOfService).total * 12;
 }
 
 /**
@@ -60,8 +64,9 @@ export function calculateTotalCompensation(
   // TSP agency contribution (BRS only)
   const tspAgencyContribution =
     input.retirementSystem === 'brs'
-      ? calculateBRSAgencyMatch(monthlyBasePay, input.tspContributionPct)
+      ? calculateBRSAgencyMatch(monthlyBasePay, input.tspContributionPct, input.yearsOfService)
       : 0;
+  const brsPhase = input.retirementSystem === 'brs' ? brsPhaseAtYOS(input.yearsOfService) : null;
 
   // SGLI (annual premium)
   const sgliAnnual = calculateSGLIPremium() * 12;
@@ -97,6 +102,7 @@ export function calculateTotalCompensation(
     monthlyBAS,
     annualBAS,
     tspAgencyContribution,
+    brsPhase,
     sgli: sgliAnnual,
     taxAdvantageValue,
     tricareSavings,

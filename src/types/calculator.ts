@@ -22,6 +22,8 @@ export interface TotalCompensationOutput {
   monthlyBAS: number;
   annualBAS: number;
   tspAgencyContribution: number; // annual, BRS only
+  /** BRS contribution phase at this YOS (null when not BRS): under 2 yrs automatic 1% only; 26+ none. */
+  brsPhase: 'automatic-only' | 'full' | 'ended' | null;
   sgli: number; // annual premium
   taxAdvantageValue: number; // annual estimated tax savings on BAH/BAS
   totalMonthly: number;  // full economic value (cash + in-kind)
@@ -115,6 +117,8 @@ export interface RetirementInput {
   currentGrade: string;
   currentYOS: number;
   retirementYOS: number;
+  /** Full months beyond retirementYOS (0–11); each counts 1/12 year. Default 0. */
+  retirementMonths?: number;
   retirementGrade: string;
   // BRS-only TSP fields
   tspContributionPct: number; // 0–100
@@ -124,10 +128,21 @@ export interface RetirementInput {
   vaRating: VADisabilityRatingOption;
 }
 
+/** Consecutive High-3 months paid at one pay-table column. */
+export interface High3PayGroup {
+  column: string; // DFAS column label, e.g. "Over 18" or "2 or less"
+  months: number;
+  monthlyPay: number;
+  /** No published column at these years; the grade's first published column is used. */
+  firstPublishedColumn: boolean;
+}
+
 export interface RetirementOutput {
-  // High-3 average base pay
+  retirementMonths: number; // clamped 0–11
+  // High-3 average base pay (last 36 months, month by month)
   high3Average: number;
-  high3Breakdown: [number, number, number]; // [YOS, YOS-1, YOS-2] base pay values
+  high3Breakdown: High3PayGroup[];
+  high3UsedFirstPublishedColumn: boolean;
   // Pension
   pensionMultiplierPct: number; // e.g. 50 for High-3 at 20 yrs
   monthlyPension: number;
@@ -140,6 +155,8 @@ export interface RetirementOutput {
   tspProjectedBalance: number;
   tspMonthlyIncome: number;
   totalBRSMonthlyIncome: number; // pension + TSP monthly
+  tspPayUnavailable: boolean; // no published base pay at the current grade/YOS
+  tspMemberCapped: boolean; // member contributions hit the elective deferral limit
   // VA disability (if selected)
   monthlyVA: number;
   // [TSP (BRS)] + max(pension, VA) below 50% (VA waiver); [TSP] + pension + VA with CRDP
@@ -148,8 +165,9 @@ export interface RetirementOutput {
   waiverApplied: boolean; // VA > 0 without CRDP: retired pay reduced by the VA award
   taxableRetiredPay: number; // retired pay after any VA waiver
   vaTaxFree: number; // VA compensation received (excluded from federal taxable income)
-  // Civilian equivalent
+  // Civilian equivalent (federal only, single filer)
   civilianEquivalent: number;
+  civilianMarginalRatePct: number; // marginal federal bracket used for the VA gross-up
   // Stay vs. Go insight
   yearsFromVesting: number;
   lifetimeValueOfStaying: number; // if < 20 yrs

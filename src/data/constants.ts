@@ -38,6 +38,13 @@ export const LEGACY_RETIREMENT_MULTIPLIER = 0.025;
 // BRS: 2.0% × years × average of highest 36 months base pay
 export const BRS_RETIREMENT_MULTIPLIER = 0.020;
 
+// ─── FICA (employee share) ────────────────────────────────────────────────
+// 6.2% Social Security + 1.45% Medicare withheld from wages.
+// Source: SSA / IRS employee FICA rate. Military retired pay is not FICA wages
+// (myairforcebenefits.us.af.mil, "Federal Taxes on Veterans' Disability or Military
+// Retirement Pensions"); VA compensation is not income at all (IRS Pub. 525).
+export const EMPLOYEE_FICA_RATE = 0.0765;
+
 // ─── Federal Tax Brackets 2026 (Single filer) ────────────────────────────
 // Used only for illustrating tax-advantage of BAH/BAS.
 // Source: IRS Rev. Proc. 2025-32 (2026 inflation adjustments).

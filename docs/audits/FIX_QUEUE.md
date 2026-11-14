@@ -2,6 +2,8 @@
 
 **Created:** 2026-11-12 · **Owner:** Dan · **Source audits:** `docs/audits/math-audit-round-1.md` (VA disability, retirement, deployment, PCS, dual-military BAH, total comp, TSP) and `docs/audits/math-audit-round-2.md` (guard/reserve, COLA, education, healthcare, transition readiness, separation timeline, PCS compare, VA loan, VA refinance, BAH lookup). Both audits: Fable 5.2, read-only, each finding has file:line, scenario, rule citation, confidence.
 
+**High-severity status:** 10 of 14 fixed (latest: RET-02, build #5).
+
 **How to use this file:** each build below is one Claude Code session (Opus 5.5, high). Start a session with: "Read docs/audits/FIX_QUEUE.md and docs/audits/math-audit-round-N.md, then do build #X." Update the Status column when a build merges.
 
 ## Ground rules (carry into every build)
@@ -23,6 +25,7 @@
 | 2026-11-12 | Education blog facts: post-911-gi-bill-explained-2026, gi-bill-housing-allowance-zip-code, va-gi-bill-comparison-tool-guide (tiers, online $1,198, rate of pursuit, half time = $0); blog `updated` frontmatter → "Last reviewed" + dateModified | #19 | IndexNow: 3 posts + /llms.txt. |
 | 2026-11-12 | Build #3 PCS Compare (CMP-01/03/04): SCRA default (same state tax at both stations; optional state of legal residence + opt-in residence change); station state from the ZIP-prefix table with 6 prefixes corrected against DTMO ZIP data (MHA prefix rejected: MHAs span states); "After income taxes" labels (before Social Security and Medicare), single-filer note; hero/example figures computed | #20 | IndexNow: /, /calculators, /calculators/compare, /partners, /llms.txt. |
 | 2026-11-12 | Build 3b PCS content SCRA follow-up: /guides/pcs (FAQ schema + visible answer, Impact card, hero/CTA copy; per-station state-tax rows removed from the sample card, card BAH computed) + compare callouts/paragraph in best-worst-bah-duty-stations-2026, dual-military-bah-rules, military-tax-advantages-by-state, pcs-financial-planning-guide | #21 | IndexNow: the guide + 4 posts. |
+| 2026-11-14 | Build #5 Retirement full pass (RET-02–07, RET-08 leftovers, RET-09, TC-01, TR-06): High-3 = last 36 months by month ÷ 36 (10 U.S.C. § 1407(c)(1)), today's pay table disclosed; months input (1/12 year per month, § 1409); W-5/O-9/O-10 use the first published column with a note (no $0 months); civilian equivalent = retired pay ÷ (1 − FICA) + VA ÷ (1 − t − FICA), federal only, single filer (IRS Pub. 525); share link carries every input; TSP member contributions capped at the deferral limit; one shared BRS helper (`src/lib/calculations/brs.ts`) for retirement, total comp and the TSP projector: automatic 1% from service month 3, match from month 25, none after 26 years; transition readiness uses the shared High-3 | #TBD | **RET-09 (new):** automatic and matching contributions end the first pay period after 26 years of service — source: Coast Guard "Vesting in the TSP" member checklist (militarypay.defense.gov); TSP booklet "Managing Accounts for Members of the Uniformed Services". TC-01 source: DoD BRS Defined Contribution fact sheet + Army/Navy TSP vesting checklists. Guard/Reserve outputs unchanged (it keeps its own YOS gate and does not apply the 26-year stop — follow-up). Content sweep (report only) feeds a separate fast-lane build. |
 | 2026-11-13 | Build #4 Guard & Reserve (GR-01–05): BRS contributions on all basic pay incl. drill pay (automatic 1% from 1 yr, matching from 2 yrs, shared tspGrowth tiers); hours = weekends × periods × 4; TRS premium shown as a separate cost, out of the total (unsourced civilian comparison deleted); AT/additional days add BAS, BAH-RC/T guidance replaces locality BAH; per-weekend = drill pay ÷ weekends; no-rate grades show a message; REFRAD removed | #22 | IndexNow: /calculators/guard-reserve. BRS tiers still duplicated in total-compensation.ts (TC-01, build #5). |
 
 ---
@@ -32,7 +35,7 @@
 | # | Build | Findings | Pre-work / decisions | Status |
 |---|---|---|---|---|
 | 1 | **COLA scale-back** (done, see above) | COLA-01–05, CMP-02 | **Decided 2026-11-12:** stop showing COLA dollar amounts. Show eligibility keyed by MHA (via `zipToMha`, not 3-digit ZIP prefix), the published 2026 index per area, and a link to DTMO's official COLA calculator. Remove "official 2026 DTMO data" claims about dollar figures; fix Boston copy (COLA-05); fix O-1E–O-3E grouping (COLA-04) if any grade logic remains; tests must do a positive lookup (current cola.spec passes on static hero text). PCS Compare must stop adding COLA dollars (CMP-02) — show eligibility note instead. Area list needs official 2026 location list (travel.dod.mil `cclocs26.pdf` returned 403 to Fable — Dan/Claude Chat to fetch via browser). Full rebuild from DTMO tables = later, only if traffic justifies (GSC: ~126 impressions / 0 clicks for COLA queries, Aug–Nov 2026). | Done 2026-11-12 |
-| 5 | **Retirement full pass** | RET-02–07, TR-06, TC-01 (match timing in total comp + TSP) | RET-02: retired pay is taxable (FICA-exempt) — gross up only VA portion (+ optional FICA); confirm via IRS Pub 525. RET-03 High-3 uses YOS−1..−3. RET-04 W-5/O-9/O-10 $0 terms. RET-05 share link. RET-06 cap at elective deferral limit. TR-06: transition readiness reuses `calculateHigh3Average`. | Queued |
+| 5 | **Retirement full pass** (done, see above) | RET-02–07, TR-06, TC-01 (match timing in total comp + TSP), RET-09 | RET-02: retired pay is taxable (FICA-exempt) — gross up only VA portion (+ optional FICA); confirm via IRS Pub 525. RET-03 High-3 uses YOS−1..−3. RET-04 W-5/O-9/O-10 $0 terms. RET-05 share link. RET-06 cap at elective deferral limit. TR-06: transition readiness reuses `calculateHigh3Average`. | Done 2026-11-14 |
 | 6 | **VA disability + Dec 1 rates** | VA-01–07 | VA-01 confirmed by Claude Chat (VA rate-table footnotes: school children are added on top of the under-18 base; base never counts a school child). VA-02 (38 CFR 4.26(d), most-favorable-to-veteran) confirmed. 2027 rates: 3.6% COLA effective Dec 1, 2026 — load only VA's published table, not a computed projection. | Queued — deadline Dec 1 |
 | 7 | **PCS** | PCS-01–07 + DATA flags | Before the build: Claude Chat reads the actual JTR text (travel days 050205; TLE 0506 percentages + daily cap; weight table 5-37 with/without dependents; per diem first/last day). DATA: PPM rate/cwt, M&IE $69 vs GSA, TLE max days 21 vs 14. | Blocked on JTR check |
 | 8 | **Deployment cleanup** | DEP-02–09 | DEP-06 DATA: officer CZTE cap (comment says E-9 max $10,295; repo table has $10,729.20; statute uses highest enlisted rate — likely senior enlisted advisor pay). Share links don't preserve FSA=off with dependents. | Queued |
@@ -44,11 +47,12 @@
 - [x] Official 2026 CONUS COLA location list + indexes (DTMO) — done 2026-11-12, `docs/sources/conus-cola-locations-2026.md`
 - [x] VA.gov: Post-9/11 online-only housing rate 2026–27; MGIB Chapter 30 rates eff. Oct 1 2026 — done 2026-11-12, `docs/sources/education-rates-2026-27.md`
 - [ ] JTR text: 050205 travel days, 0506 TLE, Table 5-37 weights, per diem first/last day — build #7
-- [ ] IRS Pub 525 (retired pay taxable, FICA-exempt) — build #5
+- [x] IRS Pub 525 (retired pay taxable, FICA-exempt) — verified 2026-11-14, Pub. 525 (2025), "Military → Military retirement pay" and "Veterans' benefits"; FICA: myairforcebenefits.us.af.mil
 - [ ] Officer CZTE cap 2026 (highest enlisted rate) — build #8
 - [ ] TRICARE Reserve Select 2026 deductible/cap structure (HC-03) — build #9
 
 ## Housekeeping
+- Follow-up: guard-reserve government TSP contributions continue past 26 YOS (RET-09 rule) — own build.
 - Repo root untracked prompt files can be deleted after this file is committed: `fable-math-audit-prompt.md`, `fable-audit-2-prompt.md`.
 - Remove audit worktree: `git worktree remove ../milpaytools-audit`.
 - Backlog (not from audits): E-1 first FAQ answer lacks under-4-months rate; pay-page meta descriptions show cents while titles show whole dollars.
