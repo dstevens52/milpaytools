@@ -21,6 +21,7 @@
     "bah:import": "node scripts/bah-import.mjs",
     "bah:urls": "node scripts/bah-urls.mjs",
     "bah:llms": "node scripts/bah-llms.mjs",
+    "bah:inbound": "tsx scripts/bah-inbound.ts",
     "test:figures": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/figure-check.spec.ts --project=chromium",
     "test:pay-dates": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/pay-dates-data.spec.ts --project=chromium"
   },
