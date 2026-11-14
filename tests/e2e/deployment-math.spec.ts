@@ -315,6 +315,26 @@ test.describe('Deployment page — figures come from the lib', () => {
     await expect(strip).toContainText(`Total impact: ${formatCurrency(s.tour.totalTourBenefit)}`);
     await expect(strip).toContainText('MFJ');
   });
+
+  test('page copy: spaces around JSX line breaks, October banner states facts only', async ({ page }) => {
+    await page.goto('/calculators/deployment');
+    const body = page.locator('body');
+    await expect(body).toContainText('during a combat zone deployment');
+    await expect(body).toContainText('IRS Publication 3');
+    await expect(body).not.toContainText('zonedeployment');
+    await expect(body).not.toContainText('IRSPublication');
+    await expect(body).not.toContainText('within its maximum');
+    await expect(body).toContainText(`The top Hardship Duty Pay–Location rate dropped from ${formatCurrency(R.hdpLTopRatePrior)}`);
+  });
+
+  test('tour total explains why tax savings exceed the monthly difference × months (combat zone only)', async ({ page }) => {
+    const note = 'Tax savings is larger than the monthly tax difference × months because the excluded pay comes off the top of your tax brackets.';
+    await page.goto('/calculators/deployment');
+    await expect(page.getByTestId('czte-savings-note')).toHaveText(note);
+    await page.goto('/calculators/deployment?cz=no');
+    await expect(page.getByTestId('deployment-results')).toBeVisible();
+    await expect(page.getByTestId('czte-savings-note')).toHaveCount(0);
+  });
 });
 
 const results = (page: Page) => page.getByTestId('deployment-results');

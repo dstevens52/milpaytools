@@ -157,8 +157,7 @@ export default function DeploymentPage() {
             <span className="font-semibold text-zinc-900">What changed on {R.ratesEffectiveDate}:</span>{' '}
             Hostile Fire Pay rose to {formatCurrency(R.hfp)}/month and Imminent Danger Pay to{' '}
             {formatCurrency(R.idp)}/month (prorated at {formatCurrency(R.idpDaily, true)}/day) — the first
-            change since {R.hfpIdpUnchangedSince}, when both were set at the same flat monthly rate. To keep the
-            combined payment with HFP or IDP within its maximum, the top Hardship Duty Pay–Location rate
+            change since {R.hfpIdpUnchangedSince}, when both were set at the same flat monthly rate. The top Hardship Duty Pay–Location rate
             dropped from {formatCurrency(R.hdpLTopRatePrior)} to {formatCurrency(Math.max(...R.hdpLevels))}/month. Earlier periods used
             the prior rates — this calculator uses the new ones.
           </p>
@@ -356,7 +355,7 @@ export default function DeploymentPage() {
               TSP Growth Projector
             </a>{' '}
             can model the long-term impact of maxing your TSP contributions during a combat zone
-            {`deployment — in a combat zone, contributions can go up to the annual additions limit (${formatCurrency(T26.annualAdditionsLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.annualAdditionsLimit)} for 2027), though Roth contributions remain capped at the elective deferral limit (${formatCurrency(T26.electiveDeferralLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027) and excess tax-exempt contributions go into traditional TSP.`}
+            {` deployment — in a combat zone, contributions can go up to the annual additions limit (${formatCurrency(T26.annualAdditionsLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.annualAdditionsLimit)} for 2027), though Roth contributions remain capped at the elective deferral limit (${formatCurrency(T26.electiveDeferralLimit)} for 2026; ${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027) and excess tax-exempt contributions go into traditional TSP.`}
           </div>
 
           <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4 text-sm text-zinc-600">
@@ -381,7 +380,7 @@ export default function DeploymentPage() {
             effective {R.ratesEffectiveDate} (DoWI 1340.09; DoW 7000.14-R, Volume 7a, Chapters 10 and 17;
             statutory authority 37 U.S.C. § 351 per the DoD release of October 1, 2026).
             FSA: $300/month (37 U.S.C. § 427, FY2026 NDAA). CZTE: 26 U.S.C. § 112 and IRS
-            {`Publication 3. SDP: 10 U.S.C. § 1035. TSP: IRC § 415(c) annual additions limit ${formatCurrency(T26.annualAdditionsLimit)} for 2026 (${formatCurrency(TSP_CONSTANTS_2027.annualAdditionsLimit)} for 2027, ${TSP_LIMITS_2027_NOTICE}); tax-exempt combat-zone contributions don't count toward the IRC § 402(g) elective deferral limit, and Roth TSP remains capped at ${formatCurrency(T26.electiveDeferralLimit)} for 2026 (${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027).`}
+            {` Publication 3. SDP: 10 U.S.C. § 1035. TSP: IRC § 415(c) annual additions limit ${formatCurrency(T26.annualAdditionsLimit)} for 2026 (${formatCurrency(TSP_CONSTANTS_2027.annualAdditionsLimit)} for 2027, ${TSP_LIMITS_2027_NOTICE}); tax-exempt combat-zone contributions don't count toward the IRC § 402(g) elective deferral limit, and Roth TSP remains capped at ${formatCurrency(T26.electiveDeferralLimit)} for 2026 (${formatCurrency(TSP_CONSTANTS_2027.electiveDeferralLimit)} for 2027).`}
             Federal income tax uses 2026 tax brackets and the standard deduction for the filing status
             you choose (single, married filing jointly or head of household), with no other income or
             deductions. FICA (Social Security and Medicare) is taken from base pay only; state income

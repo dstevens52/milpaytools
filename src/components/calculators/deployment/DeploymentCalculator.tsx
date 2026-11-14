@@ -771,6 +771,11 @@ export function DeploymentCalculator() {
                   Additional pay + tax savings{result.tour.sdpInterestEarned > 0 ? ' + SDP interest' : ''}
                   {' '}over {deployMonths} months
                 </p>
+                {isCombatZone && (
+                  <p className="text-xs text-blue-600 mt-1 leading-snug" data-testid="czte-savings-note">
+                    Tax savings is larger than the monthly tax difference × months because the excluded pay comes off the top of your tax brackets.
+                  </p>
+                )}
               </div>
 
               {/* Visual compare bar */}
