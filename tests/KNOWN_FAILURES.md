@@ -118,6 +118,11 @@ in a full-suite run, re-run it in isolation before treating it as a regression.
   2026-06-12 full run, passed isolated re-run; passed in the 2026-11-14 full WebKit run)
 - `healthcare-comparison.spec.ts:77` — TAMP option hides annual gap section —
   firefox only (failed in 2026-06-12 full run, passed isolated re-run)
+- `va-disability.spec.ts:207` — Reddit case: 13 conditions with bilateral legs → 100% — firefox
+  (failed in the 2026-11-15 full Firefox run on `feat/ga4-key-events`: `locator.click` timeout
+  waiting for the `20%` button; passed in an isolated re-run of the spec file, 15/15, `:207` in
+  4.2 s). Same load-dependent slowness as the resolved webkit timeout below; the branch didn't touch
+  the VA calculator.
 - `bah-station.spec.ts:62` — rank selector updates the displayed BAH value when grade
   changes to E-7 — firefox only (failed in the 2026-11-13 BAH-specs run on
   `feat/bah-release-day-tooling`, `$2,094` not found within 8 s; the spec file passed 30/30

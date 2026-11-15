@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { fireNewsletterSignup } from '@/lib/analytics';
 
 export interface EmailSignupProps {
   headline?: string;
@@ -40,6 +41,8 @@ export function EmailSignup({
       const data = await res.json() as { success: boolean; error?: string };
       if (data.success) {
         setStatus('success');
+        // Success only. Never pass the email: source and variant are the whole payload.
+        fireNewsletterSignup(source, variant);
       } else {
         setErrorMsg(data.error ?? 'Something went wrong. Please try again.');
         setStatus('error');

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect, type ReactNode } from 'react';
+import { useState, useMemo, useEffect, useRef, type ReactNode } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatCurrency } from '@/lib/utils';
@@ -16,7 +16,7 @@ import type { DutyStation } from '@/data/duty-stations/stations';
 import type { StateTaxInfo } from '@/data/compare/stateTax';
 import { YoYDelta } from '@/components/calculators/bah/YoYDelta';
 import { bahVsRentClause } from '@/lib/rentCompare';
-import { fireShareEvent } from '@/lib/analytics';
+import { fireShareEvent, fireDeepLinkEvent, fireStationRateLookup } from '@/lib/analytics';
 import { gradeToParam } from '@/lib/urlParams';
 import { COLA_SOURCE, DATA_YEAR as COLA_YEAR } from '@/data/cola/2026/constants';
 import { BAH_YEAR, BAH_PRIOR_YEAR, BAH_EFFECTIVE_DATE_LABEL } from '@/data/bah/current';
@@ -422,14 +422,25 @@ export function StationPageClient({
     window.history.replaceState(null, '', `?${params.toString()}`);
   }, [selectedGrade, hasDependents, userHasInteracted]);
 
+  // station_rate_lookup: first real rank/dependents change per page view only.
+  // URL-param prefill doesn't count; re-clicking the active option isn't a change.
+  const rateLookupSentRef = useRef(false);
+  function trackRateLookup(grade: PayGrade, dep: boolean) {
+    if (rateLookupSentRef.current) return;
+    rateLookupSentRef.current = true;
+    fireStationRateLookup(station.slug, grade, dep);
+  }
+
   function handleGradeChange(grade: PayGrade) {
     setUserHasInteracted(true);
     setSelectedGrade(grade);
+    if (grade !== selectedGrade) trackRateLookup(grade, hasDependents);
   }
 
   function handleDepChange(dep: boolean) {
     setUserHasInteracted(true);
     setHasDependents(dep);
+    if (dep !== hasDependents) trackRateLookup(selectedGrade, dep);
   }
 
   // Derived values
@@ -762,6 +773,9 @@ export function StationPageClient({
                 </p>
                 <Link
                   href={`/calculators/total-compensation?rank=${gradeToParam(selectedGrade)}&zip=${station.zip}&dependents=${hasDependents ? 'yes' : 'no'}`}
+                  onClick={() =>
+                    fireDeepLinkEvent('bah-station', 'total-compensation', { grade: selectedGrade, station: station.slug })
+                  }
                   className="inline-flex items-center gap-1.5 rounded-lg bg-red-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
                 >
                   Calculate your total compensation →

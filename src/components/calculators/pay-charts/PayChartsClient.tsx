@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { fireCalculatorEvent } from '@/lib/analytics';
+import { fireCalculatorEvent, fireDeepLinkEvent } from '@/lib/analytics';
 import { gradeToParam } from '@/lib/urlParams';
 import { payTable } from '@/data/pay-tables/2026';
 import {
@@ -478,6 +478,7 @@ export function PayChartsClient({ payPages }: PayChartsClientProps) {
                 )}
                 <Link
                   href={tcUrl}
+                  onClick={() => fireDeepLinkEvent('pay-hub', 'total-compensation', { grade: selectedGrade })}
                   className="inline-flex items-center gap-2 rounded-md bg-red-700 px-4 py-2 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
                 >
                   Calculate Full Compensation →

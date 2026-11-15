@@ -1,0 +1,215 @@
+import { test, expect, type Page } from '@playwright/test';
+
+// GA4 event payloads, recorded in the browser.
+//
+// GA only loads on production builds at milpaytools.com (guard in layout.tsx),
+// so these tests install a recording window.gtag before any page script runs.
+// src/lib/analytics.ts calls window.gtag when it exists, so the recorder sees
+// exactly what GA4 would receive.
+//
+// Side effects are blocked: /api/subscribe (Beehiiv) and /api/track-calculation
+// (Redis /admin/stats counters) are answered in the browser and never reach a
+// server, and nothing is sent to Google.
+
+type GaCall = [string, string, Record<string, string>];
+
+async function recordGa(page: Page, opts: { optedOut?: boolean; subscribe?: 'ok' | 'fail' } = {}) {
+  const calls: GaCall[] = [];
+  await page.exposeFunction('__recordGa', (args: GaCall) => {
+    calls.push(args);
+  });
+  await page.addInitScript((optedOut: boolean) => {
+    if (optedOut) localStorage.setItem('milpaytools_disable_analytics', 'true');
+    const w = window as unknown as { gtag: (...a: unknown[]) => void; __recordGa: (a: unknown[]) => void };
+    w.gtag = (...a: unknown[]) => {
+      w.__recordGa(a);
+    };
+  }, !!opts.optedOut);
+
+  const subscribeBodies: string[] = [];
+  await page.route('**/api/subscribe', (route) => {
+    subscribeBodies.push(route.request().postData() ?? '');
+    return route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(opts.subscribe === 'fail' ? { success: false, error: 'Test failure' } : { success: true }),
+    });
+  });
+  await page.route('**/api/track-calculation', (route) => route.fulfill({ status: 200, body: '' }));
+  await page.route(/googletagmanager\.com|google-analytics\.com/, (route) => route.abort());
+
+  const events = (name: string) =>
+    calls.filter((c) => c[0] === 'event' && c[1] === name).map((c) => c[2]);
+  return { calls, events, subscribeBodies };
+}
+
+/** No personal data in any GA call: no email, no 5-digit ZIP. */
+function expectNoPersonalData(calls: GaCall[]) {
+  const json = JSON.stringify(calls);
+  expect(json).not.toContain('@');
+  expect(json).not.toMatch(/\b\d{5}\b/);
+}
+
+const settle = (page: Page) => page.waitForTimeout(1200);
+
+test.describe('newsletter_signup', () => {
+  test('station alert: fires once on success with source, variant and station', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/bah/fort-bragg');
+    const card = page.getByTestId('bah-station-alert');
+    await card.getByRole('textbox').fill('test@example.com');
+    await card.getByRole('button', { name: 'Notify me' }).click();
+    await expect(card.getByText(/on the list/)).toBeVisible();
+    await settle(page);
+    expect(ga.events('newsletter_signup')).toEqual([
+      { source: 'bah-alert-fort-bragg', variant: 'card', station: 'fort-bragg' },
+    ]);
+    expect(ga.subscribeBodies).toHaveLength(1); // answered in the browser, never sent to Beehiiv
+    expectNoPersonalData(ga.calls);
+  });
+
+  test('footer: source and variant only, no station', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/pay/e5');
+    const footer = page.locator('footer');
+    await footer.getByRole('textbox').fill('test@example.com');
+    await footer.getByRole('button', { name: 'Notify me' }).click();
+    await expect(footer.getByText(/on the list/)).toBeVisible();
+    await settle(page);
+    expect(ga.events('newsletter_signup')).toEqual([{ source: 'footer', variant: 'inline' }]);
+    expectNoPersonalData(ga.calls);
+  });
+
+  test('failed subscribe sends nothing', async ({ page }) => {
+    const ga = await recordGa(page, { subscribe: 'fail' });
+    await page.goto('/bah/fort-bragg');
+    const card = page.getByTestId('bah-station-alert');
+    await card.getByRole('textbox').fill('test@example.com');
+    await card.getByRole('button', { name: 'Notify me' }).click();
+    await expect(card.getByText('Test failure')).toBeVisible();
+    await settle(page);
+    expect(ga.events('newsletter_signup')).toEqual([]);
+  });
+});
+
+test.describe('station_rate_lookup', () => {
+  test('first change only: one event, later changes send nothing', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/bah/fort-bragg');
+    // Re-clicking the active option ("With" is the default) is not a change.
+    await page.getByRole('button', { name: 'With', exact: true }).click();
+    await settle(page);
+    expect(ga.events('station_rate_lookup')).toEqual([]);
+
+    await page.getByRole('combobox').selectOption('E-7');
+    await page.getByRole('combobox').selectOption('O-3');
+    await page.getByRole('button', { name: 'Without', exact: true }).click();
+    await settle(page);
+    expect(ga.events('station_rate_lookup')).toEqual([{ station: 'fort-bragg', grade: 'e7', dependents: 'yes' }]);
+  });
+
+  test('a dependents change can be the first change', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/bah/fort-bragg');
+    await page.getByRole('button', { name: 'Without', exact: true }).click();
+    await settle(page);
+    expect(ga.events('station_rate_lookup')).toEqual([{ station: 'fort-bragg', grade: 'e5', dependents: 'no' }]);
+  });
+
+  test('URL prefill (?rank=e7&dep=no) does not count as a lookup', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/bah/fort-bragg?rank=e7&dep=no');
+    await expect(page.getByRole('combobox')).toHaveValue('E-7');
+    await settle(page);
+    expect(ga.events('station_rate_lookup')).toEqual([]);
+  });
+});
+
+test.describe('calc_deeplink_click', () => {
+  test('station page → total compensation', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/bah/fort-bragg');
+    await page.getByRole('combobox').selectOption('E-7');
+    await page.getByRole('link', { name: /Calculate your total compensation/ }).click();
+    await expect(page).toHaveURL(/\/calculators\/total-compensation\?rank=e7/);
+    await settle(page);
+    expect(ga.events('calc_deeplink_click')).toEqual([
+      { from_page_type: 'bah-station', to_calculator: 'total-compensation', grade: 'e7', station: 'fort-bragg' },
+    ]);
+    expectNoPersonalData(ga.calls); // the link carries the ZIP; the event must not
+  });
+
+  test('/pay Quick Lookup → total compensation', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/pay');
+    await page.locator('select').first().selectOption('E-7');
+    await page.getByRole('link', { name: /Calculate Full Compensation/ }).click();
+    await expect(page).toHaveURL(/\/calculators\/total-compensation\?rank=e7/);
+    await settle(page);
+    expect(ga.events('calc_deeplink_click')).toEqual([
+      { from_page_type: 'pay-hub', to_calculator: 'total-compensation', grade: 'e7' },
+    ]);
+  });
+
+  test('/pay/e5 hero link → /pay/raise', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/pay/e5');
+    await page.getByTestId('pay-raise-link').click();
+    await expect(page).toHaveURL(/\/pay\/raise\?grade=e5/);
+    await settle(page);
+    expect(ga.events('calc_deeplink_click')).toEqual([
+      { from_page_type: 'pay-rank', to_calculator: 'pay-raise', grade: 'e5' },
+    ]);
+  });
+
+  test('/pay/e5 raise-section link → /pay/raise', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/pay/e5');
+    await page.getByRole('link', { name: /Compare every grade and year on the 2027 pay raise calculator/ }).click();
+    await expect(page).toHaveURL(/\/pay\/raise\?grade=e5/);
+    await settle(page);
+    expect(ga.events('calc_deeplink_click')).toEqual([
+      { from_page_type: 'pay-rank', to_calculator: 'pay-raise', grade: 'e5' },
+    ]);
+  });
+
+  test('starting-service guide → total compensation', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/guides/starting-service');
+    await page.getByRole('link', { name: /Calculate My Total Compensation/ }).click();
+    await expect(page).toHaveURL(/\/calculators\/total-compensation\?rank=e3/);
+    await settle(page);
+    expect(ga.events('calc_deeplink_click')).toEqual([
+      { from_page_type: 'guide', to_calculator: 'total-compensation', grade: 'e3' },
+    ]);
+    expectNoPersonalData(ga.calls);
+  });
+});
+
+test.describe('opt-out (/internal/disable-analytics)', () => {
+  test('flag set: no GA events at all', async ({ page }) => {
+    const ga = await recordGa(page, { optedOut: true });
+    await page.goto('/bah/fort-bragg');
+    await page.getByRole('combobox').selectOption('E-7');
+    const card = page.getByTestId('bah-station-alert');
+    await card.getByRole('textbox').fill('test@example.com');
+    await card.getByRole('button', { name: 'Notify me' }).click();
+    await expect(card.getByText(/on the list/)).toBeVisible();
+    await page.getByRole('link', { name: /Calculate your total compensation/ }).click();
+    await expect(page).toHaveURL(/total-compensation/);
+    await settle(page);
+    expect(ga.calls).toEqual([]);
+  });
+
+  test('disable and enable pages set and clear the shared flag', async ({ page }) => {
+    await page.goto('/internal/disable-analytics');
+    await expect(page.getByText('Google Analytics and Vercel Analytics disabled for this browser.')).toBeVisible();
+    expect(await page.evaluate(() => localStorage.getItem('milpaytools_disable_analytics'))).toBe('true');
+    await page.evaluate(() => localStorage.setItem('milpaytools_internal', 'true')); // legacy key
+    await page.goto('/internal/enable-analytics');
+    await expect(page.getByText('Google Analytics and Vercel Analytics enabled for this browser.')).toBeVisible();
+    expect(
+      await page.evaluate(() => [localStorage.getItem('milpaytools_disable_analytics'), localStorage.getItem('milpaytools_internal')]),
+    ).toEqual([null, null]);
+  });
+});
