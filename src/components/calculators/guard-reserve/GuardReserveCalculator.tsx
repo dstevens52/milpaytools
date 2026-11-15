@@ -18,7 +18,7 @@ import {
 } from '@/lib/calculations/guardReserve';
 import type { GuardReserveInput, TRSPlan, GuardReserveOutput } from '@/lib/calculations/guardReserve';
 import { TRICARE_RATES_2026 } from '@/data/tricare/2026/constants';
-import { parseBool } from '@/lib/urlParams';
+import { parseBool, parseGrade, gradeToParam } from '@/lib/urlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 
 // ─── Formatters ────────────────────────────────────────────────────────────────
@@ -229,7 +229,8 @@ export function GuardReserveCalculator() {
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
-    const r = p.get('rank');
+    // Accepts both e5 (current share links) and E-5 (older share links).
+    const r = parseGrade(p.get('rank'));
     const yos = p.get('yos');
     const weekends = p.get('weekends');
     const periods = p.get('periods');
@@ -251,7 +252,7 @@ export function GuardReserveCalculator() {
 
   function getShareUrl() {
     const p = new URLSearchParams();
-    p.set('rank', rank);
+    p.set('rank', gradeToParam(rank as PayGrade));
     p.set('yos', String(yearsOfService));
     p.set('weekends', String(weekendsPerYear));
     p.set('periods', String(periodsPerWeekend));

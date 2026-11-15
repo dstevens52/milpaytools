@@ -3,23 +3,28 @@ import { ALL_PAY_GRADES } from '@/types/military';
 
 const VALID_GRADES = new Set<string>(ALL_PAY_GRADES);
 
-/** Parse a URL-style grade (e5, o3, w2, o1e) to a PayGrade ("E-5", "O-3", etc.) */
+/**
+ * Parse a grade from a URL param to a PayGrade ("E-5", "O-1E", etc.).
+ *
+ * Forgiving on purpose: links built by other sites, AI assistants and older
+ * versions of this site use either form, so case, one hyphen and surrounding
+ * whitespace are ignored. All of these return 'E-5': e5, E5, e-5, E-5, " E-5 ".
+ * All of these return 'O-1E': o1e, O1E, o-1e, O-1E.
+ *
+ * Returns null for anything that is not a real pay grade (e10, x5, o4e, '',
+ * null). Emitters should still write the canonical short form via
+ * gradeToParam().
+ */
 export function parseGrade(raw: string | null): PayGrade | null {
   if (!raw) return null;
-  const s = raw.toLowerCase().trim();
-  let grade: string;
-  const priorMatch = s.match(/^o([123])e$/);
-  if (priorMatch) {
-    grade = `O-${priorMatch[1]}E`;
-  } else {
-    const match = s.match(/^([eow])(\d+)$/);
-    if (!match) return null;
-    grade = `${match[1].toUpperCase()}-${match[2]}`;
-  }
+  const s = raw.trim().toLowerCase();
+  const match = s.match(/^([eow])-?(\d+)(e?)$/);
+  if (!match) return null;
+  const grade = `${match[1].toUpperCase()}-${match[2]}${match[3].toUpperCase()}`;
   return VALID_GRADES.has(grade) ? (grade as PayGrade) : null;
 }
 
-/** Serialize a PayGrade to a URL param (E-5 → e5, O-1E → o1e) */
+/** Serialize a PayGrade to a URL param (E-5 → e5, O-1E → o1e). Canonical form for every emitted link. */
 export function gradeToParam(grade: PayGrade): string {
   return grade.replace(/-/g, '').toLowerCase();
 }

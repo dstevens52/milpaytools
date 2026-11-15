@@ -218,8 +218,10 @@ test.describe('Total Compensation — BRS match tiering', () => {
     expect(out.tspAgencyContribution).toBe(0);
   });
 
+  // O-3, not the default E-5, so the test also fails if ?rank= is dropped.
   test('UI: YOS 0 shows the automatic-only note', async ({ page }) => {
-    await page.goto('/calculators/total-compensation?rank=E-2&yos=0&tsp=5');
+    await page.goto('/calculators/total-compensation?rank=O-3&yos=0&tsp=5');
+    await expect(page.getByLabel('Rank / Pay Grade')).toHaveValue('O-3');
     await page.getByLabel('Duty Station').pressSequentially('28310', { delay: 50 });
     await expect(page.getByTestId('brs-phase-note')).toContainText('1% automatic contribution only');
   });

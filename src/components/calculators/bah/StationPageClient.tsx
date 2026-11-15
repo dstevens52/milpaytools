@@ -17,6 +17,7 @@ import type { StateTaxInfo } from '@/data/compare/stateTax';
 import { YoYDelta } from '@/components/calculators/bah/YoYDelta';
 import { bahVsRentClause } from '@/lib/rentCompare';
 import { fireShareEvent } from '@/lib/analytics';
+import { gradeToParam } from '@/lib/urlParams';
 import { COLA_SOURCE, DATA_YEAR as COLA_YEAR } from '@/data/cola/2026/constants';
 import { BAH_YEAR, BAH_PRIOR_YEAR, BAH_EFFECTIVE_DATE_LABEL } from '@/data/bah/current';
 
@@ -760,7 +761,7 @@ export function StationPageClient({
                   advantages, and what a civilian would need to earn to match it.
                 </p>
                 <Link
-                  href={`/calculators/total-compensation?rank=${selectedGrade}&zip=${station.zip}&dependents=${hasDependents ? 'yes' : 'no'}`}
+                  href={`/calculators/total-compensation?rank=${gradeToParam(selectedGrade)}&zip=${station.zip}&dependents=${hasDependents ? 'yes' : 'no'}`}
                   className="inline-flex items-center gap-1.5 rounded-lg bg-red-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
                 >
                   Calculate your total compensation →
