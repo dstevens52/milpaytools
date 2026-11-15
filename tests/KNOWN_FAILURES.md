@@ -129,6 +129,14 @@ in a full-suite run, re-run it in isolation before treating it as a regression.
   in an isolated re-run; page HTML byte-identical to main). Also seen once on **chromium** in
   the 2026-11-15 full Chromium run on `feat/ga4-02b-calc-run-url-strip` (same `$2,094` timeout;
   the branch didn't touch the station page); the spec file alone on Chromium passed 30/30.
+- `ga-events.spec.ts:261` (the `bah` case of "calculation_run: user action only") — firefox
+  only, under full-suite load. Failed in the 2026-11-15 full Firefox run (`--workers=1`) on
+  `feat/ga4-02b-2-url-clean`: `locator.inputValue: Timeout 10000ms exceeded` waiting for
+  `select#pay-grade`, though the failure snapshot shows the rendered BAH page with that select.
+  It also failed on Firefox in the 02b-1 gate (0 events after one rank change; likely a change
+  before hydration). The spec file alone on Firefox passed 3/3 (37/37 each). Neither branch
+  touched the BAH calculator. **Temporary:** follow-up is to make the test wait for hydration
+  before interacting, then remove this entry.
 
 ### Intermittently swapping flake pair (verified 2026-07-10)
 
