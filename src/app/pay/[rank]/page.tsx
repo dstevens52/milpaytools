@@ -17,6 +17,7 @@ import { BAH_YEAR } from '@/data/bah/current';
 import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
 import { formatCurrency, getYOSBracket, estimateMarginalRate } from '@/lib/utils';
 import { JsonLdScript } from '@/components/JsonLdScript';
+import { TrackedLink } from '@/components/TrackedLink';
 import { articleSchema, faqPageSchema, breadcrumbListSchema } from '@/lib/schema';
 import { ogImage } from '@/lib/og';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
@@ -457,13 +458,16 @@ export default async function RankPayPage({
             } — but basic pay is only the taxable slice of the package. This page shows the full 2026 ${rank.title} pay ${isFlat ? 'picture' : 'progression by years of service'}, then adds the parts a base-pay table hides: housing allowance, food allowance, and what they're worth because they're excluded from federal taxable income.`}
           </p>
           <p className="mt-3 text-sm">
-            <Link
+            <TrackedLink
               href={`/pay/raise?grade=${gradeToParam(rank.grade)}`}
               className="font-semibold text-red-700 hover:text-red-800 underline"
               data-testid="pay-raise-link"
+              fromPageType="pay-rank"
+              toCalculator="pay-raise"
+              grade={rank.grade}
             >
               {rankPageLinkText()}
-            </Link>
+            </TrackedLink>
           </p>
         </div>
       </section>
@@ -613,12 +617,15 @@ export default async function RankPayPage({
             </Link>
           </p>
           <p className="mt-3 text-sm">
-            <Link
+            <TrackedLink
               href={`/pay/raise?grade=${gradeToParam(rank.grade)}`}
               className="font-semibold text-red-700 hover:text-red-800 underline"
+              fromPageType="pay-rank"
+              toCalculator="pay-raise"
+              grade={rank.grade}
             >
               Compare every grade and year on the 2027 pay raise calculator →
-            </Link>
+            </TrackedLink>
           </p>
         </section>
 

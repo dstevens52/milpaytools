@@ -1,12 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { ANALYTICS_OPT_OUT_KEY, GA_MEASUREMENT_ID } from '@/lib/analytics';
 
 export default function DisableAnalyticsPage() {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('milpaytools_disable_analytics', 'true');
+    localStorage.setItem(ANALYTICS_OPT_OUT_KEY, 'true');
+    // Also stop GA4 in this tab right away (gtag may already be loaded here).
+    (window as unknown as Record<string, unknown>)[`ga-disable-${GA_MEASUREMENT_ID}`] = true;
     setDone(true);
   }, []);
 
@@ -15,7 +18,7 @@ export default function DisableAnalyticsPage() {
       <div className="text-center">
         <p className="text-sm font-mono text-zinc-400 mb-3">milpaytools / internal</p>
         <p className={`text-base font-medium ${done ? 'text-green-700' : 'text-zinc-400'}`}>
-          {done ? 'Vercel Analytics disabled for this browser.' : 'Working…'}
+          {done ? 'Google Analytics and Vercel Analytics disabled for this browser.' : 'Working…'}
         </p>
       </div>
     </div>

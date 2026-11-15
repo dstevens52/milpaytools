@@ -3,6 +3,7 @@ import { ogImage } from '@/lib/og';
 import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import { AnalyticsWrapper } from '@/components/AnalyticsWrapper';
+import { GA_MEASUREMENT_ID, ANALYTICS_OPT_OUT_KEY, LEGACY_ANALYTICS_OPT_OUT_KEY } from '@/lib/analytics';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -61,15 +62,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               (function() {
                 var ALLOWED = ['milpaytools.com', 'www.milpaytools.com'];
                 if (!ALLOWED.includes(window.location.hostname)) return;
+                // Per-browser opt-out (/internal/disable-analytics): don't load GA at all.
+                try {
+                  if (localStorage.getItem('${ANALYTICS_OPT_OUT_KEY}') === 'true' ||
+                      localStorage.getItem('${LEGACY_ANALYTICS_OPT_OUT_KEY}') === 'true') {
+                    window['ga-disable-${GA_MEASUREMENT_ID}'] = true;
+                    return;
+                  }
+                } catch (e) {}
                 var s = document.createElement('script');
-                s.src = 'https://www.googletagmanager.com/gtag/js?id=G-YQFJ5J3P52';
+                s.src = 'https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}';
                 s.async = true;
                 document.head.appendChild(s);
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 window.gtag = gtag;
                 gtag('js', new Date());
-                gtag('config', 'G-YQFJ5J3P52');
+                gtag('config', '${GA_MEASUREMENT_ID}');
               })();
             `}
           </Script>

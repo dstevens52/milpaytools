@@ -5,6 +5,7 @@ import { lookupBasePay, calculateTotalCompensation } from '@/lib/calculations/to
 import { lookupBAH } from '@/lib/calculations/bah';
 import { BAS_RATES } from '@/data/constants';
 import { EmailSignup } from '@/components/EmailSignup';
+import { TrackedLink } from '@/components/TrackedLink';
 
 export const metadata: Metadata = {
   title: 'New to the Military: First-Year Pay Guide',
@@ -131,15 +132,18 @@ export default function StartingServicePage() {
             </p>
 
             {/* Primary CTA */}
-            <Link
+            <TrackedLink
               href="/calculators/total-compensation?rank=e3&yos=2&zip=28310&dependents=no"
               className="inline-flex items-center gap-2 rounded-md bg-red-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
+              fromPageType="guide"
+              toCalculator="total-compensation"
+              grade="E-3"
             >
               Calculate My Total Compensation
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
               </svg>
-            </Link>
+            </TrackedLink>
 
           </div>
 
