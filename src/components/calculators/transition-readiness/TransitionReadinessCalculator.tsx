@@ -11,6 +11,7 @@ import {
 import { STATE_MILITARY_RETIREMENT_TAX, type StateMilitaryRetirementTax } from '@/data/state-military-retirement-tax';
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import { formatCurrency } from '@/lib/utils';
 import { ResultCard } from '@/components/calculators/shared/ResultCard';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
@@ -366,12 +367,13 @@ export function TransitionReadinessCalculator() {
   const hasEngaged = civilianSalary > 0 && result.rawMonthlyExpenses > 0;
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
   useEffect(() => {
-    if (!hasEngaged) return;
+    if (!hasEngaged || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('transition-readiness'), 800);
     return () => clearTimeout(_gaTimerRef.current);
-  }, [hasEngaged]);
+  }, [result, hasEngaged, gaInteracted]);
 
   const vc = VERDICT_CONFIG[result.verdict];
   const efBarPct = Math.min(100, (result.emergencyFundMonths / 12) * 100);
@@ -401,7 +403,7 @@ export function TransitionReadinessCalculator() {
         </div>
       )}
 
-      <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6${focusMode ? ' pt-16 pb-8' : ' py-8'}`}>
+      <div ref={gaAttach} className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6${focusMode ? ' pt-16 pb-8' : ' py-8'}`}>
 
         {/* ── Input sections (hidden in print) ─────────────────────────── */}
         <div className="space-y-6 print:hidden">

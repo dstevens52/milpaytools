@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import {
   HEALTHCARE_2026,
   type PlanTier,
@@ -355,13 +356,18 @@ export function HealthcareComparisonCalculator() {
 
   const annualGap = result.annualPremium + result.estimatedDeductibleUsage;
 
-  // ── Fire analytics once results are visible ──
+  // ── Fire analytics once: 800 ms after the first result change the person caused ──
+  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {
-    if (!firedRef.current) {
+    if (firedRef.current || !gaInteracted()) return;
+    clearTimeout(_gaTimerRef.current);
+    _gaTimerRef.current = setTimeout(() => {
       firedRef.current = true;
       fireCalculatorEvent('healthcare-comparison');
-    }
-  }, [result]);
+    }, 800);
+    return () => clearTimeout(_gaTimerRef.current);
+  }, [result, gaInteracted]);
 
   const showTier = path === 'employer' || path === 'aca-no-subsidy' || path === 'aca-subsidy';
   const showVaRating = path === 'va';
@@ -383,7 +389,7 @@ export function HealthcareComparisonCalculator() {
   const selectCls = 'w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600';
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
       {/* ── Urgency stat ── */}
       <div className="rounded-lg border-l-4 border-red-600 bg-red-50 px-4 py-3">

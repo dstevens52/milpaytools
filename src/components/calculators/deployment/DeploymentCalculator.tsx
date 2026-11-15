@@ -5,6 +5,7 @@ import { calculateDeployment, defaultDeploymentFilingStatus } from '@/lib/calcul
 import { FILING_STATUSES, FILING_STATUS_LABEL, isFilingStatus, type FilingStatus } from '@/lib/calculations/federalTax';
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import { DEPLOYMENT_RATES_2026 } from '@/data/deployment/2026/constants';
 import type { HDPLevel } from '@/data/deployment/2026/constants';
 import { TSP_CONSTANTS_2026 } from '@/data/tsp/2026/constants';
@@ -367,15 +368,16 @@ export function DeploymentCalculator() {
   }, [result, isCombatZone, usingSDP, tspPct]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
   useEffect(() => {
-    if (!result) return;
+    if (!result || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('deployment'), 800);
     return () => clearTimeout(_gaTimerRef.current);
-  }, [result]);
+  }, [result, gaInteracted]);
 
   return (
-    <div className="space-y-6">
+    <div ref={gaAttach} className="space-y-6">
 
       {/* ── Input Panel ──────────────────────────────────────────────────── */}
       <div className="bg-white rounded-lg border border-zinc-200 shadow-sm">

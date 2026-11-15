@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import { Card } from '@/components/ui/Card';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import {
@@ -219,13 +220,13 @@ export function GuardReserveCalculator() {
   const actionSteps = useMemo(() => buildActionSteps(output, input), [output, input]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const _gaMountedRef = useRef(false);
+  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
   useEffect(() => {
-    if (!_gaMountedRef.current) { _gaMountedRef.current = true; return; }
+    if (!gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('guard-reserve'), 800);
     return () => clearTimeout(_gaTimerRef.current);
-  }, [output]);
+  }, [output, gaInteracted]);
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
@@ -273,7 +274,7 @@ export function GuardReserveCalculator() {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
 
         {/* ── Inputs ──────────────────────────────────────────────────────── */}

@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import { Card } from '@/components/ui/Card';
 import { isValidZip } from '@/lib/utils';
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
@@ -336,13 +337,13 @@ export function EducationCalculator() {
   const result = useMemo(() => compareAllBenefits(input), [input]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const _gaMountedRef = useRef(false);
+  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
   useEffect(() => {
-    if (!_gaMountedRef.current) { _gaMountedRef.current = true; return; }
+    if (!gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('education'), 800);
     return () => clearTimeout(_gaTimerRef.current);
-  }, [result]);
+  }, [result, gaInteracted]);
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
@@ -385,7 +386,7 @@ export function EducationCalculator() {
   const tierPct = GI_BILL_TIERS[serviceTier] ?? 0;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div ref={gaAttach} className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
       {/* ── Input panel ────────────────────────────────────────────────── */}
       <Card>

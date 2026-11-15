@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
@@ -306,12 +307,13 @@ export function BAHCalculator() {
   const errB = zipErrorFor(zipB, lookupB.data);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
   useEffect(() => {
-    if (!result) return;
+    if (!result || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('bah'), 800);
     return () => clearTimeout(_gaTimerRef.current);
-  }, [result]);
+  }, [result, gaInteracted]);
 
   // Rate table (single mode) — rates already reflect dependency status.
   const mhaCode = lookupA.data?.valid && !lookupA.data.territory ? lookupA.data.mha : null;
@@ -365,7 +367,7 @@ export function BAHCalculator() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* ── Inputs ────────────────────────────────────────────────────── */}
       <Card>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

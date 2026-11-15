@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { compareLocations, validStateCode } from '@/lib/calculations/compare';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import type { CompareResult, LocationData } from '@/lib/calculations/compare';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
@@ -288,19 +289,20 @@ export function CompareCalculator() {
   }, [dataB, bothReady, stationPagesA]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
   useEffect(() => {
-    if (!result) return;
+    if (!result || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('compare'), 800);
     return () => clearTimeout(_gaTimerRef.current);
-  }, [result]);
+  }, [result, gaInteracted]);
 
   // Display names for each location
   const nameA = result?.locA.locationName || `ZIP ${zipA}`;
   const nameB = result?.locB.locationName || `ZIP ${zipB}`;
 
   return (
-    <div className="space-y-6">
+    <div ref={gaAttach} className="space-y-6">
       {/* ── Inputs ── */}
       <div className="bg-white rounded-lg border border-zinc-200 shadow-sm p-6">
         <h2 className="text-lg font-semibold text-zinc-900 mb-5">Your Situation</h2>
