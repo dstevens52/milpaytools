@@ -22,7 +22,7 @@ import type { ActionStep } from '@/types/calculator';
 import { calculatePCS, getWeightAllowance } from '@/lib/calculations/pcs';
 import type { PCSMoveType, PCSInput, PCSOutput } from '@/lib/calculations/pcs';
 import type { SearchResult } from '@/lib/stationSearch';
-import { parseBool } from '@/lib/urlParams';
+import { parseBool, parseGrade, gradeToParam } from '@/lib/urlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { publishedOconusV2ForName } from '@/data/oconus';
 import { isMilitaryMailZip } from '@/lib/militaryMailZip';
@@ -54,6 +54,9 @@ const GRADE_GROUPS = [
   { label: 'Warrant Officer', options: WARRANT_GRADES.map((g) => ({ value: g, label: RANK_DISPLAY[g] })) },
   { label: 'Officer', options: OFFICER_GRADES.map((g) => ({ value: g, label: RANK_DISPLAY[g] })) },
 ];
+
+/** Every grade the rank select offers — ?rank= must be one of these (O-1E–O-3E are not modeled; audit PCS-05). */
+const PCS_GRADES: ReadonlySet<string> = new Set(GRADE_GROUPS.flatMap((g) => g.options.map((o) => o.value)));
 
 // ─── Move type config ─────────────────────────────────────────────────────────
 
@@ -349,7 +352,9 @@ export function PCSCalculator() {
   // Pre-populate from URL params on mount
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
-    const r = p.get('rank');
+    // Accepts both e5 (current share links) and E-5 (older share links); anything
+    // else — including O-1E–O-3E — leaves the default rank in place.
+    const r = parseGrade(p.get('rank'));
     const dep = parseBool(p.get('dep'));
     const nd = p.get('numdep');
     const mt = p.get('movetype') as PCSMoveType | null;
@@ -362,7 +367,7 @@ export function PCSCalculator() {
     const tlenew = p.get('tlenew');
     const ppmexp = p.get('ppmexp');
 
-    if (r) setRank(r);
+    if (r && PCS_GRADES.has(r)) setRank(r);
     if (dep !== null) setHasDependents(dep);
     if (nd) { const n = parseInt(nd, 10); if (!isNaN(n) && n >= 0 && n <= 10) setNumDependents(n); }
     if (mt === 'gov' || mt === 'full-ppm' || mt === 'partial-ppm') setMoveType(mt);
@@ -378,7 +383,7 @@ export function PCSCalculator() {
 
   function getShareUrl() {
     const p = new URLSearchParams();
-    p.set('rank', rank);
+    p.set('rank', gradeToParam(rank as PayGrade));
     p.set('dep', hasDependents ? 'yes' : 'no');
     if (hasDependents) p.set('numdep', String(numDependents));
     p.set('movetype', moveType);

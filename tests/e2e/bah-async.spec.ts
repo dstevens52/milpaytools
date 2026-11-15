@@ -20,10 +20,12 @@ test.describe('BAH Calculator — async route migration', () => {
     await expect(page.locator('p.text-4xl')).toBeVisible({ timeout: 5000 });
   });
 
-  test('deep-link (?zip=28310&rank=E-5&dependents=yes) resolves on mount', async ({ page }) => {
-    await page.goto(`/bah?zip=${X.bragg.zip}&rank=E-5&dependents=yes`);
-    // E-5 with dependents at Fort Bragg (BAH_YEAR fixture), fetched on mount.
-    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(X.bragg.e5W) })).toBeVisible();
+  // Non-default grade (the calculator defaults to E-5), so the test fails if ?rank= is dropped.
+  test('deep-link (?zip=28310&rank=E-7&dependents=yes) resolves on mount', async ({ page }) => {
+    await page.goto(`/bah?zip=${X.bragg.zip}&rank=E-7&dependents=yes`);
+    await expect(page.getByLabel('Pay Grade')).toHaveValue('E-7');
+    // E-7 with dependents at Fort Bragg (BAH_YEAR fixture), fetched on mount.
+    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(X.bragg.e7W) })).toBeVisible();
   });
 
   test('rapid ZIP change lands on the FINAL ZIP, not a stale one (race-safe)', async ({ page }) => {

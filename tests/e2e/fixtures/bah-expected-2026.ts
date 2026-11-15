@@ -27,6 +27,7 @@ export const BAH_EXPECTED_2026: BahExpected = {
     locationName: 'Fort Bragg/Pope, NC',
     e5W: 1806,
     e5WO: 1527,
+    e7W: 2094, // bahw26.txt NC182, column 7 (E-7)
     priorE5W: 1785, // → +$21 (+1.2%), $252/yr
     hasDecrease: true, // some other grade fell 2025 → 2026
     // Nearby E-5 w/dep (station ZIP → MHA): Seymour Johnson NC183 1521, Camp Lejeune NC178 1584,
@@ -41,7 +42,7 @@ export const BAH_EXPECTED_2026: BahExpected = {
   },
 
   // CA038 SAN DIEGO, CA: ZIP 92134
-  sanDiego: { zip: '92134', mha: 'CA038', e5W: 3975 },
+  sanDiego: { zip: '92134', mha: 'CA038', e5W: 3975, e7W: 4446 }, // e7W: bahw26.txt CA038, column 7
 
   // WA311: ZIP 98433 (JBLM)
   jblm: { zip: '98433', mha: 'WA311', e6W: 2919 },

@@ -20,13 +20,15 @@ export interface BahExpected {
     locationName: string;
     e5W: number;
     e5WO: number;
+    /** E-7 with dependents: the non-default grade used by deep-link tests. */
+    e7W: number;
     priorE5W: number;
     hasDecrease: boolean;
     nearbyE5WDelta: Record<string, number>;
     nationalRankE5W: number;
     nationalTopPercentE5W: number;
   };
-  sanDiego: { zip: string; mha: string; e5W: number };
+  sanDiego: { zip: string; mha: string; e5W: number; e7W: number };
   jblm: { zip: string; mha: string; e6W: number };
   sanAntonio: {
     zip: string;

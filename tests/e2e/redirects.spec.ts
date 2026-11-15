@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { bahAmount } from './helpers/format';
+import { BAH_EXPECTED as X } from './fixtures/bah-expected';
 
 // B2 hub consolidation: the standalone calculator URLs were retired into the
 // /bah and /pay hubs via permanent redirects in next.config.ts.
@@ -22,19 +23,24 @@ test.describe('Retired calculator URLs redirect to hubs', () => {
     });
   }
 
+  // Request-level only (no page load): checks the query string is carried, not
+  // that a grade is applied — that is the next test. E-7 matches it.
   test('query string survives the redirect', async ({ request }) => {
-    const qs = '?zip=28310&rank=E-5&dependents=yes&mode=compare&zipb=92134';
+    const qs = '?zip=28310&rank=E-7&dependents=yes&mode=compare&zipb=92134';
     const res = await request.get(`/calculators/bah${qs}`, { maxRedirects: 0 });
     expect(res.status()).toBe(308);
     const loc = new URL(res.headers()['location'], 'http://x');
     expect(loc.pathname + loc.search).toBe(`/bah${qs}`);
   });
 
+  // Old links carry the E-7 (hyphen) form. E-7 is not the calculator's default,
+  // so this fails if the rank is dropped after the redirect.
   test('old BAH deep link lands on /bah with the calculator pre-filled', async ({ page }) => {
-    await page.goto('/calculators/bah?zip=28310&rank=E-5&dependents=yes');
-    await expect(page).toHaveURL(/\/bah\?zip=28310&rank=E-5&dependents=yes$/);
-    // E-5 with dependents at Fort Bragg = $1,806/mo (same known answer as bah-async.spec.ts).
-    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(1806) })).toBeVisible();
+    await page.goto(`/calculators/bah?zip=${X.bragg.zip}&rank=E-7&dependents=yes`);
+    await expect(page).toHaveURL(new RegExp(`/bah\\?zip=${X.bragg.zip}&rank=E-7&dependents=yes$`));
+    await expect(page.getByLabel('Pay Grade')).toHaveValue('E-7');
+    // E-7 with dependents at Fort Bragg (BAH_YEAR fixture, same source as bah-async.spec.ts).
+    await expect(page.locator('p.text-4xl').filter({ hasText: bahAmount(X.bragg.e7W) })).toBeVisible();
   });
 
   test('old pay-charts URL lands on /pay with the pay charts', async ({ page }) => {

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { gradeToParam } from '@/lib/urlParams';
 import { payTable } from '@/data/pay-tables/2026';
 import {
   ENLISTED_GRADES,
@@ -312,7 +313,7 @@ export function PayChartsClient({ payPages }: PayChartsClientProps) {
 
   // Total comp estimate and pre-populated URL
   const tcEstimate = monthlyPay !== null ? getTotalCompEstimate(selectedGrade, monthlyPay) : null;
-  const tcUrl = `/calculators/total-compensation?rank=${selectedGrade.replace(/-/g, '').toLowerCase()}&yos=${selectedYOS}`;
+  const tcUrl = `/calculators/total-compensation?rank=${gradeToParam(selectedGrade)}&yos=${selectedYOS}`;
 
   // Next longevity step
   const nextBracket = monthlyPay !== null ? getNextBracket(selectedGrade, selectedYOS) : null;
