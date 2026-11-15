@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Legend, ReferenceLine,
@@ -175,12 +176,13 @@ export function TSPCalculator() {
   }, [yos, moreYearsToServeDirty]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
   useEffect(() => {
-    if (!projection) return;
+    if (!projection || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('tsp'), 800);
     return () => clearTimeout(_gaTimerRef.current);
-  }, [projection]);
+  }, [projection, gaInteracted]);
 
   const rothComparison = useMemo(() => {
     if (!projection) return null;
@@ -288,7 +290,7 @@ export function TSPCalculator() {
   const contribPct = basePay > 0 ? (monthlyContrib / basePay) * 100 : 0;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
 
       {/* ── Section 1: Profile ──────────────────────────────────────── */}
       <Card>

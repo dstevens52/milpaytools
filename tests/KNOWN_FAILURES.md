@@ -126,7 +126,9 @@ in a full-suite run, re-run it in isolation before treating it as a regression.
 - `bah-station.spec.ts:62` — rank selector updates the displayed BAH value when grade
   changes to E-7 — firefox only (failed in the 2026-11-13 BAH-specs run on
   `feat/bah-release-day-tooling`, `$2,094` not found within 8 s; the spec file passed 30/30
-  in an isolated re-run; page HTML byte-identical to main)
+  in an isolated re-run; page HTML byte-identical to main). Also seen once on **chromium** in
+  the 2026-11-15 full Chromium run on `feat/ga4-02b-calc-run-url-strip` (same `$2,094` timeout;
+  the branch didn't touch the station page); the spec file alone on Chromium passed 30/30.
 
 ### Intermittently swapping flake pair (verified 2026-07-10)
 

@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useId, useEffect, useRef } from 'react';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
 import { Input } from '@/components/ui/Input';
@@ -181,12 +182,13 @@ export function VADisabilityCalculator() {
   );
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
   useEffect(() => {
-    if (disabilities.length === 0) return;
+    if (disabilities.length === 0 || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('va-disability'), 800);
     return () => clearTimeout(_gaTimerRef.current);
-  }, [disabilities]);
+  }, [disabilities, gaInteracted]);
 
   // What-if scenarios
   const whatIfResults = useMemo(() => {
@@ -240,7 +242,7 @@ export function VADisabilityCalculator() {
     deps.hasSpouse || deps.childrenUnder18 > 0 || deps.schoolChildren > 0 || deps.dependentParents > 0;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
 
       {/* ── Input panel ──────────────────────────────────────────────── */}
       <Card>

@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -411,6 +412,7 @@ export function SeparationTimelineCalculator() {
   const [vaFiled, setVaFiled] = useState<VaOption>('unknown');
 
   const _gaFiredRef = useRef(false);
+  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const sepDate = useMemo(() => parseISODate(sepDateStr), [sepDateStr]);
@@ -428,14 +430,14 @@ export function SeparationTimelineCalculator() {
 
   // GA4 — fire once when timeline first renders
   useEffect(() => {
-    if (!timelineItems || _gaFiredRef.current) return;
+    if (!timelineItems || _gaFiredRef.current || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => {
       fireCalculatorEvent('separation-timeline');
       _gaFiredRef.current = true;
     }, 800);
     return () => clearTimeout(_gaTimerRef.current);
-  }, [timelineItems]);
+  }, [timelineItems, gaInteracted]);
 
   // Read URL params on mount
   useEffect(() => {
@@ -469,7 +471,7 @@ export function SeparationTimelineCalculator() {
   const postItems = timelineItems?.filter((i) => i.phase === 'post') ?? [];
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Inputs */}
       <div className="bg-white rounded-xl border border-zinc-200 shadow-sm p-5 mb-6">
         <h2 className="text-base font-semibold text-zinc-900 mb-4">Enter your separation details</h2>

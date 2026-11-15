@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
@@ -282,12 +283,13 @@ export function DualMilitaryBAHCalculator() {
   }, [data2, sameStation, stationM1]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
   useEffect(() => {
-    if (!results) return;
+    if (!results || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('dual-military-bah'), 800);
     return () => clearTimeout(_gaTimerRef.current);
-  }, [results]);
+  }, [results, gaInteracted]);
 
   // ── Empty state ───────────────────────────────────────────────────────────
   function emptyStateMessage() {
@@ -302,7 +304,7 @@ export function DualMilitaryBAHCalculator() {
     hasDependents && whoClaimsDeps === 'member2' ? 'with dependents' : 'without dependents';
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* ── Inputs ────────────────────────────────────────────────────── */}
       <Card>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

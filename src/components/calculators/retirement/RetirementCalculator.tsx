@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import {
   AreaChart,
   Area,
@@ -228,13 +229,13 @@ export function RetirementCalculator() {
   const output = useMemo(() => calculateRetirement(input), [input]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const _gaMountedRef = useRef(false);
+  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
   useEffect(() => {
-    if (!_gaMountedRef.current) { _gaMountedRef.current = true; return; }
+    if (!gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('retirement'), 800);
     return () => clearTimeout(_gaTimerRef.current);
-  }, [output]);
+  }, [output, gaInteracted]);
 
   const chartData = useMemo(
     () => buildPensionChartData(
@@ -329,7 +330,7 @@ export function RetirementCalculator() {
     : `${retirementYOS} yrs`;
 
   return (
-    <div className="space-y-5">
+    <div ref={gaAttach} className="space-y-5">
       {/* ── Inputs ── */}
       <Card variant="bordered" className="p-5 space-y-5">
         <h2 className="font-semibold text-zinc-900 text-lg">Your Service Information</h2>

@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import { formatCurrency } from '@/lib/utils';
 import { ResultCard } from '@/components/calculators/shared/ResultCard';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
@@ -276,16 +277,16 @@ export function TotalCompensationCalculator() {
   ]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const _gaMountedRef = useRef(false);
+  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
   useEffect(() => {
-    if (!_gaMountedRef.current) { _gaMountedRef.current = true; return; }
+    if (!gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('total-compensation'), 800);
     return () => clearTimeout(_gaTimerRef.current);
-  }, [result]);
+  }, [result, gaInteracted]);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
       {/* ── Inputs ─────────────────────────────────────────────────────── */}
       <Card variant="default">

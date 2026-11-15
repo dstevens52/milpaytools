@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { colaForMha, type ColaLookupResult } from '@/lib/calculations/colaMha';
 import { COLA_AREAS, COLA_SOURCE } from '@/data/cola/2026/constants';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { COLA_OVERSEAS_LINE } from '@/data/oconus/stationSearchCopy';
 import { useBahLookup } from '@/components/calculators/shared/useBahLookup';
@@ -33,12 +34,13 @@ export function ColaCalculator() {
   const station = bahData?.stationPages?.[0] ?? null;
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
   useEffect(() => {
-    if (!result) return;
+    if (!result || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('cola'), 800);
     return () => clearTimeout(_gaTimerRef.current);
-  }, [result]);
+  }, [result, gaInteracted]);
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
@@ -72,7 +74,7 @@ export function ColaCalculator() {
   );
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm">
+    <div ref={gaAttach} className="bg-white rounded-lg border border-zinc-200 shadow-sm">
       {/* Input panel */}
       <div className="p-6 border-b border-zinc-100">
         <h2 className="text-lg font-semibold text-zinc-900 mb-2">CONUS COLA Lookup</h2>

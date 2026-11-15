@@ -186,6 +186,116 @@ test.describe('calc_deeplink_click', () => {
   });
 });
 
+// ─── calculation_run: user action only (Build 02b-1) ──────────────────────────
+//
+// calculation_run must mean "a person used the calculator". Page loads, defaults
+// and values filled in from a shared link never count. One change sends exactly
+// one event (800 ms debounce); a quick burst of changes sends one more.
+
+/** Select whichever of two option values isn't selected now, so every call is a real change. */
+function toggleSelect(locate: (page: Page) => ReturnType<Page['locator']>, a: string, b: string) {
+  return async (page: Page) => {
+    const sel = locate(page);
+    await sel.selectOption((await sel.inputValue()) === a ? b : a);
+  };
+}
+
+type CalcCase = {
+  name: string;
+  path: string;
+  /** Shared-link query string with non-default values (fills the calculator in). */
+  deep?: string;
+  /** One user change that alters the result. Called repeatedly; each call must change it again. */
+  change: (page: Page) => Promise<void>;
+  /** Fires once per page view (first change only). */
+  once?: boolean;
+};
+
+const mainSelect = (n: number) => (page: Page) => page.locator('main select').nth(n);
+
+const CALCS: CalcCase[] = [
+  { name: 'bah', path: '/bah', deep: '?zip=28310&rank=e5&dependents=yes', change: toggleSelect((p) => p.locator('select#pay-grade'), 'O-3', 'E-7') },
+  {
+    name: 'cola', path: '/calculators/cola', deep: '?zip=99505',
+    change: async (page) => {
+      const zip = page.locator('#zip');
+      await zip.fill((await zip.inputValue()) === '96813' ? '99701' : '96813');
+    },
+  },
+  { name: 'compare', path: '/calculators/compare', deep: '?zip1=28310&zip2=76544&rank=e5&dependents=yes', change: toggleSelect(mainSelect(0), 'O-3', 'E-7') },
+  { name: 'deployment', path: '/calculators/deployment', deep: '?rank=e5&yos=6&zip=28310&dependents=yes&months=6', change: toggleSelect((p) => p.locator('select#pay-grade'), 'O-3', 'E-7') },
+  { name: 'dual-military-bah', path: '/calculators/dual-military-bah', deep: '?rank1=e5&rank2=e4&zip=28310&dependents=yes', change: toggleSelect(mainSelect(0), 'O-3', 'E-7') },
+  { name: 'education', path: '/calculators/education', deep: '?zip=28310&years=4', change: toggleSelect(mainSelect(0), '6mo', '12mo') },
+  { name: 'guard-reserve', path: '/calculators/guard-reserve', deep: '?rank=o3&yos=10&weekends=12&tsp=5', change: toggleSelect((p) => p.locator('#gr-rank'), 'E-9', 'W-4') },
+  {
+    name: 'healthcare-comparison', path: '/calculators/healthcare-comparison', deep: '?path=aca-subsidy&family=married-1-child&income=50000',
+    change: toggleSelect((p) => p.locator('#family-select'), 'married-3plus', 'married-no-kids'), once: true,
+  },
+  { name: 'pay-charts', path: '/pay', change: toggleSelect(mainSelect(0), 'O-3', 'E-7') },
+  { name: 'pay-raise', path: '/pay/raise', deep: '?grade=e5&yos=6', change: toggleSelect((p) => p.locator('#raise-grade'), 'O-3', 'E-7') },
+  { name: 'pcs', path: '/calculators/pcs', deep: '?rank=o3&dep=yes&from=28310&to=76544&movetype=full-ppm', change: toggleSelect((p) => p.locator('#rank'), 'O-5', 'E-5') },
+  { name: 'retirement', path: '/calculators/retirement', deep: '?rank=e7&yos=20&bal=100000', change: toggleSelect(mainSelect(0), 'E-9', 'E-8') },
+  {
+    name: 'separation-timeline', path: '/calculators/separation-timeline', deep: '?date=2027-06-01&type=separating',
+    change: toggleSelect((p) => p.locator('#tamp-select'), 'yes', 'no'), once: true,
+  },
+  { name: 'total-compensation', path: '/calculators/total-compensation', deep: '?rank=e5&yos=6&zip=28310&dependents=yes', change: toggleSelect((p) => p.getByLabel('Rank / Pay Grade'), 'O-3', 'E-7') },
+  { name: 'transition-readiness', path: '/calculators/transition-readiness', deep: '?rank=e5&yos=6&zip=28310&sal=60000&exp=4000', change: toggleSelect(mainSelect(0), 'O-3', 'E-7') },
+  { name: 'tsp', path: '/calculators/tsp', deep: '?balance=10000&rank=e5&yos=6', change: toggleSelect((p) => p.locator('select#pay-grade'), 'O-3', 'E-7') },
+  {
+    // One click per change (the picked rating, 10% by default, stays selected after an add),
+    // so a burst of three stays inside the 800 ms debounce on slower browsers.
+    name: 'va-disability', path: '/calculators/va-disability', deep: '?r=50,30',
+    change: (page) => page.getByRole('button', { name: '+ Add Rating' }).click(),
+  },
+  { name: 'va-loan', path: '/calculators/va-loan', deep: '?price=300000&zip=28310&rank=e5', change: toggleSelect((p) => p.locator('#loan-term'), '15', '20') },
+  { name: 'va-refinance', path: '/calculators/va-refinance', deep: '?balance=200000&currRate=7&newRate=6', change: toggleSelect((p) => p.locator('#new-loan-term'), '15', '20') },
+];
+
+test.describe('calculation_run: user action only', () => {
+  const quiet = (page: Page) => page.waitForTimeout(3000);
+  const runs = (ga: Awaited<ReturnType<typeof recordGa>>, name: string) =>
+    ga.events('calculation_run').filter((p) => p.calculator_name === name).length;
+
+  for (const c of CALCS) {
+    test(`${c.name}: none on load or shared link; one per change or burst`, async ({ page }) => {
+      const ga = await recordGa(page);
+
+      // Plain load, no action.
+      await page.goto(c.path, { waitUntil: 'networkidle' }); // hydrated before any change
+      await quiet(page);
+      expect(ga.events('calculation_run'), 'plain load').toEqual([]);
+
+      // Shared link that fills the calculator in.
+      if (c.deep) {
+        await page.goto(c.path + c.deep, { waitUntil: 'networkidle' });
+        await quiet(page);
+        expect(ga.events('calculation_run'), 'shared-link load').toEqual([]);
+      }
+
+      // One change → exactly one event, with the right name.
+      await c.change(page);
+      await expect.poll(() => runs(ga, c.name), { timeout: 5000 }).toBe(1);
+      expect(ga.events('calculation_run')).toEqual([{ calculator_name: c.name, event_category: 'calculator' }]);
+
+      // A burst of three quick changes → one more (none for once-per-page calculators).
+      for (let i = 0; i < 3; i++) await c.change(page);
+      await page.waitForTimeout(2000);
+      expect(runs(ga, c.name), 'after burst').toBe(c.once ? 1 : 2);
+      expectNoPersonalData(ga.calls);
+    });
+  }
+
+  test('a click that does not change the result sends nothing', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/calculators/total-compensation?rank=e5&yos=6&zip=28310&dependents=yes');
+    await quiet(page);
+    await page.locator('label', { hasText: 'Rank / Pay Grade' }).click(); // inside the calculator, result unchanged
+    await quiet(page);
+    expect(ga.events('calculation_run')).toEqual([]);
+  });
+});
+
 test.describe('opt-out (/internal/disable-analytics)', () => {
   test('flag set: no GA events at all', async ({ page }) => {
     const ga = await recordGa(page, { optedOut: true });

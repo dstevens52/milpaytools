@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import { formatCurrency } from '@/lib/utils';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
@@ -255,13 +256,13 @@ export function VARefinanceCalculator() {
 
   // ─── Analytics ────────────────────────────────────────────────────────────────
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const _gaMountedRef = useRef(false);
+  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
   useEffect(() => {
-    if (!_gaMountedRef.current) { _gaMountedRef.current = true; return; }
+    if (!gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('va-refinance'), 800);
     return () => clearTimeout(_gaTimerRef.current);
-  }, [calc]);
+  }, [calc, gaInteracted]);
 
   // ─── Action steps ─────────────────────────────────────────────────────────────
   const actionSteps = useMemo((): ActionStep[] => {
@@ -340,7 +341,7 @@ export function VARefinanceCalculator() {
   const feeLabel = refType === 'irrrl' ? '0.5%' : (firstUse ? '2.15%' : '3.30%');
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
       {/* ── Refinance type ─────────────────────────────────────────────────── */}
       <Card variant="default">
