@@ -32,6 +32,12 @@ export interface LocalHousingTips {
 export interface DutyStation {
   name: string;
   slug: string;
+  /**
+   * The name people search for, when it differs from `name` (GSC query
+   * evidence, Build 03). Used only in the variant B search title
+   * (src/lib/stationSerp.ts). H1, descriptions and body copy keep `name`.
+   */
+  searchName?: string;
   formerName?: string;
   zip: string;
   city: string;
@@ -1117,6 +1123,7 @@ export const DUTY_STATIONS: DutyStation[] = [
   {
     name: 'Fort George G. Meade',
     slug: 'fort-meade',
+    searchName: 'Fort Meade',
     zip: '20755',
     city: 'Odenton',
     state: 'MD',
@@ -1414,6 +1421,7 @@ export const DUTY_STATIONS: DutyStation[] = [
   {
     name: 'MacDill AFB',
     slug: 'macdill-afb',
+    searchName: 'MacDill AFB (Tampa)',
     zip: '33607',
     city: 'Tampa',
     state: 'FL',
@@ -1542,6 +1550,7 @@ export const DUTY_STATIONS: DutyStation[] = [
   {
     name: 'Joint Base Langley-Eustis',
     slug: 'joint-base-langley-eustis',
+    searchName: 'Langley AFB & Fort Eustis',
     zip: '23665',
     city: 'Hampton',
     state: 'VA',
@@ -1795,6 +1804,7 @@ export const DUTY_STATIONS: DutyStation[] = [
   {
     name: 'Davis-Monthan AFB',
     slug: 'davis-monthan-afb',
+    searchName: 'Davis-Monthan AFB (Tucson)',
     zip: '85701',
     city: 'Tucson',
     state: 'AZ',
@@ -2471,6 +2481,7 @@ export const DUTY_STATIONS: DutyStation[] = [
   {
     name: 'Naval Station Norfolk',
     slug: 'naval-station-norfolk',
+    searchName: 'Norfolk',
     zip: '23503',
     city: 'Norfolk',
     state: 'VA',
@@ -2663,6 +2674,7 @@ export const DUTY_STATIONS: DutyStation[] = [
   {
     name: 'Marine Corps Base Camp Lejeune',
     slug: 'camp-lejeune',
+    searchName: 'Camp Lejeune',
     zip: '28540',
     city: 'Jacksonville',
     state: 'NC',
@@ -2727,6 +2739,7 @@ export const DUTY_STATIONS: DutyStation[] = [
   {
     name: 'Joint Base Pearl Harbor-Hickam',
     slug: 'joint-base-pearl-harbor-hickam',
+    searchName: 'Pearl Harbor-Hickam (Honolulu)',
     zip: '96818',
     city: 'Honolulu',
     state: 'HI',
@@ -2917,6 +2930,7 @@ export const DUTY_STATIONS: DutyStation[] = [
   {
     name: 'Naval Base Kitsap',
     slug: 'naval-base-kitsap',
+    searchName: 'Bremerton (Naval Base Kitsap)',
     zip: '98312',
     city: 'Bremerton',
     state: 'WA',
@@ -2980,6 +2994,7 @@ export const DUTY_STATIONS: DutyStation[] = [
   {
     name: 'Naval Air Station Whidbey Island',
     slug: 'naval-air-station-whidbey-island',
+    searchName: 'Whidbey Island',
     zip: '98277',
     city: 'Oak Harbor',
     state: 'WA',
@@ -3241,6 +3256,7 @@ export const DUTY_STATIONS: DutyStation[] = [
   {
     name: 'Naval Air Station Oceana',
     slug: 'naval-air-station-oceana',
+    searchName: 'NAS Oceana (Virginia Beach)',
     zip: '23460',
     city: 'Virginia Beach',
     state: 'VA',
@@ -3318,6 +3334,7 @@ export const DUTY_STATIONS: DutyStation[] = [
   {
     name: 'MCAGCC Twentynine Palms',
     slug: 'marine-corps-air-ground-combat-center',
+    searchName: '29 Palms (Twentynine Palms)',
     zip: '92277',
     city: 'Twentynine Palms',
     state: 'CA',
@@ -3652,6 +3669,7 @@ export const DUTY_STATIONS: DutyStation[] = [
   {
     name: 'Walter Reed National Military Medical Center',
     slug: 'walter-reed-nmmc',
+    searchName: 'Walter Reed (Bethesda)',
     zip: '20814',
     city: 'Bethesda',
     state: 'MD',
@@ -3816,6 +3834,7 @@ export const DUTY_STATIONS: DutyStation[] = [
   {
     name: 'Peterson Space Force Base',
     slug: 'peterson-sfb',
+    searchName: 'Peterson SFB (Colorado Springs)',
     zip: '80914',
     city: 'Colorado Springs',
     state: 'CO',
@@ -5049,6 +5068,7 @@ export const DUTY_STATIONS: DutyStation[] = [
   {
     name: 'U.S. Naval Academy',
     slug: 'us-naval-academy',
+    searchName: 'Annapolis (U.S. Naval Academy)',
     zip: '21402',
     city: 'Annapolis',
     state: 'MD',
