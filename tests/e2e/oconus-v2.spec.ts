@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { ramstein } from '../../src/data/oconus/ramstein';
 import { BAH_YEAR } from '../../src/data/bah/current';
+import { STATION_BY_SLUG } from '../../src/data/duty-stations/stations';
+import { stationSerpMeta } from '../../src/lib/stationSerp';
 
 // v2 OCONUS station template — Ramstein reference migration.
 //
@@ -145,11 +147,18 @@ test.describe('OCONUS v2 — Ramstein Air Base', () => {
   });
 });
 
-// Unchanged pages — snapshot H1 + title. Expected values captured from
-// production (main @ 444c09c) before this branch; the year follows BAH_YEAR.
+// CONUS pages still render the CONUS template, not the OCONUS one. Build 03
+// (2026-11) changed the CONUS H1 to "{name} BAH Rates {year}" and put titles
+// under the station search-result test, so the expected title comes from
+// stationSerpMeta (right in any SERP_TEST_MODE). Arm-A titles pass through the
+// root layout's " | MilPayTools" template; arm-B titles are absolute.
+const conusTitle = (slug: string) => {
+  const m = stationSerpMeta(STATION_BY_SLUG[slug]);
+  return m.absolute ? m.title : `${m.title} | MilPayTools`;
+};
 const UNCHANGED: { path: string; h1: string; title: string }[] = [
-  { path: '/bah/fort-bragg', h1: 'Fort Bragg', title: `Fort Bragg (Fort Liberty) BAH Rates ${BAH_YEAR} | MilPayTools` },
-  { path: '/bah/fort-hood', h1: 'Fort Hood', title: `Fort Hood (Fort Cavazos) BAH Rates ${BAH_YEAR} | MilPayTools` },
+  { path: '/bah/fort-bragg', h1: `Fort Bragg BAH Rates ${BAH_YEAR}`, title: conusTitle('fort-bragg') },
+  { path: '/bah/fort-hood', h1: `Fort Hood BAH Rates ${BAH_YEAR}`, title: conusTitle('fort-hood') },
 ];
 
 test.describe('OCONUS v2 — CONUS and legacy OCONUS pages unchanged', () => {
