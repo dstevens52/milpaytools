@@ -296,6 +296,101 @@ test.describe('calculation_run: user action only', () => {
   });
 });
 
+// ─── page_view for in-site navigation (Build 02b-2) ───────────────────────────
+//
+// GA's automatic page_view covers the first load (the layout's loader cleans its
+// URL; that loader only runs on production, so it isn't in these tests). Each
+// pathname change sends one page_view through GaPageView, with page_location and
+// page_referrer reduced to the allowlist, preceded by a matching gtag('set').
+// Query-only changes never send one.
+
+test.describe('page_view: in-site navigation, cleaned URLs', () => {
+  const sets = (ga: { calls: GaCall[] }) => ga.calls.filter((c) => c[0] === 'set').map((c) => c[1]);
+  const headerLink = (page: Page, href: string) => page.locator(`header a[href="${href}"]`).first();
+
+  test('first load sends nothing; a link to a new path sends one, cleaned, after a matching set', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/bah?zip=28310&rank=e5&dependents=yes', { waitUntil: 'networkidle' });
+    await settle(page);
+    expect(ga.calls).toEqual([]);
+
+    const origin = new URL(page.url()).origin;
+    await headerLink(page, '/pay').evaluate((a: HTMLAnchorElement) => a.click()); // header menus may be collapsed
+    await expect(page).toHaveURL(/\/pay$/);
+    await settle(page);
+    const expected = { page_location: `${origin}/pay`, page_referrer: `${origin}/bah?rank=e5&dependents=yes` };
+    expect(ga.events('page_view')).toEqual([expected]);
+    expect(sets(ga)).toEqual([expected]);
+    const setAt = ga.calls.findIndex((c) => c[0] === 'set');
+    const viewAt = ga.calls.findIndex((c) => c[0] === 'event' && c[1] === 'page_view');
+    expect(setAt).toBeLessThan(viewAt);
+    expectNoPersonalData(ga.calls);
+  });
+
+  test('station page: ?rank= rewrite sends nothing; link to total comp sends one without the ZIP', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/bah/fort-bragg', { waitUntil: 'networkidle' });
+    const origin = new URL(page.url()).origin;
+    await page.getByRole('combobox').selectOption('E-7');
+    await expect(page).toHaveURL(/\/bah\/fort-bragg\?rank=E-7&dep=yes$/);
+    await page.getByRole('combobox').selectOption('O-3');
+    await expect(page).toHaveURL(/\/bah\/fort-bragg\?rank=O-3&dep=yes$/);
+    await settle(page);
+    expect(ga.events('page_view'), 'query-only changes').toEqual([]);
+    expect(sets(ga)).toEqual([]);
+
+    await page.getByRole('link', { name: /Calculate your total compensation/ }).click();
+    await expect(page).toHaveURL(/\/calculators\/total-compensation\?.*zip=\d{5}/); // the link carries the ZIP
+    await settle(page);
+    const views = ga.events('page_view');
+    expect(views).toHaveLength(1);
+    expect(views[0].page_location).toMatch(new RegExp(`^${origin}/calculators/total-compensation\\?rank=o3`));
+    expect(views[0].page_location).not.toContain('zip');
+    expect(views[0].page_referrer).toBe(`${origin}/bah/fort-bragg`);
+    expectNoPersonalData(ga.calls);
+  });
+
+  test('back and forward each send one', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/calculators/va-loan?price=300000&zip=28310&rank=e5', { waitUntil: 'networkidle' });
+    const origin = new URL(page.url()).origin;
+    await headerLink(page, '/pay').evaluate((a: HTMLAnchorElement) => a.click());
+    await expect(page).toHaveURL(/\/pay$/);
+    await settle(page);
+    expect(ga.events('page_view')).toHaveLength(1);
+
+    await page.goBack();
+    await expect(page).toHaveURL(/\/calculators\/va-loan\?/);
+    await settle(page);
+    expect(ga.events('page_view')).toHaveLength(2);
+    expect(ga.events('page_view')[1]).toEqual({
+      page_location: `${origin}/calculators/va-loan?rank=e5`,
+      page_referrer: `${origin}/pay`,
+    });
+
+    await page.goForward();
+    await expect(page).toHaveURL(/\/pay$/);
+    await settle(page);
+    expect(ga.events('page_view')).toHaveLength(3);
+    expect(ga.events('page_view')[2]).toEqual({
+      page_location: `${origin}/pay`,
+      page_referrer: `${origin}/calculators/va-loan?rank=e5`,
+    });
+    expectNoPersonalData(ga.calls);
+  });
+
+  test('VA condition labels and ratings never reach GA', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/calculators/va-disability?r=70,30&l=knee,ptsd', { waitUntil: 'networkidle' });
+    await headerLink(page, '/pay').evaluate((a: HTMLAnchorElement) => a.click());
+    await expect(page).toHaveURL(/\/pay$/);
+    await settle(page);
+    expect(ga.events('page_view')).toHaveLength(1);
+    const json = JSON.stringify(ga.calls);
+    expect(json).not.toMatch(/knee|ptsd|r=70/);
+  });
+});
+
 test.describe('opt-out (/internal/disable-analytics)', () => {
   test('flag set: no GA events at all', async ({ page }) => {
     const ga = await recordGa(page, { optedOut: true });

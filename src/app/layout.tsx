@@ -3,7 +3,13 @@ import { ogImage } from '@/lib/og';
 import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import { AnalyticsWrapper } from '@/components/AnalyticsWrapper';
-import { GA_MEASUREMENT_ID, ANALYTICS_OPT_OUT_KEY, LEGACY_ANALYTICS_OPT_OUT_KEY } from '@/lib/analytics';
+import {
+  GA_MEASUREMENT_ID,
+  ANALYTICS_OPT_OUT_KEY,
+  LEGACY_ANALYTICS_OPT_OUT_KEY,
+  GA_URL_CLEANER_JS,
+} from '@/lib/analytics';
+import { GaPageView } from '@/components/GaPageView';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -78,6 +84,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 function gtag(){dataLayer.push(arguments);}
                 window.gtag = gtag;
                 gtag('js', new Date());
+                // Allowlisted URL only (cleanGaUrl in src/lib/analytics.ts). 'set', never
+                // page_location in 'config': that pins every later event to the landing URL.
+                var C = ${GA_URL_CLEANER_JS};
+                gtag('set', {
+                  page_location: C.url(window.location.href),
+                  page_referrer: C.ref(document.referrer, window.location.href)
+                });
                 gtag('config', '${GA_MEASUREMENT_ID}');
               })();
             `}
@@ -94,6 +107,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="flex-1">{children}</main>
         <Footer />
         <AnalyticsWrapper />
+        <GaPageView />
       </body>
     </html>
   );
