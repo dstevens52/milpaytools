@@ -33,15 +33,119 @@ export function analyticsDisabled(): boolean {
   }
 }
 
+// ─── Page URLs sent to GA (allowlist) ─────────────────────────────────────────
+//
+// Shared calculator links carry ZIPs, incomes, balances, prices, VA ratings and
+// free-text condition labels in the query string. GA only ever gets a cleaned
+// URL: origin + path + the allowlisted parameters below, in their original order
+// and encoding. Every other parameter and the #hash are dropped, including
+// parameters added to the site later.
+
+/** Query parameters GA may see, besides any `utm_*`. Rank and service-length only. */
+export const GA_KEEP_PARAMS = [
+  'gclid',
+  'rank',
+  'grade',
+  'dependents',
+  'dep',
+  'yos',
+  'rank1',
+  'rank2',
+  'currank',
+  'curyos',
+] as const;
+
+const _keep: readonly string[] = GA_KEEP_PARAMS;
+
+/** `href` reduced to origin + path + allowlisted parameters. */
+export function cleanGaUrl(href: string): string {
+  let u: URL;
+  try {
+    u = new URL(href);
+  } catch {
+    return String(href).split(/[?#]/)[0];
+  }
+  const kept: string[] = [];
+  for (const seg of u.search.slice(1).split('&')) {
+    if (!seg) continue;
+    let key = seg.split('=')[0];
+    try {
+      key = decodeURIComponent(key.replace(/\+/g, ' '));
+    } catch {
+      continue;
+    }
+    if (key.indexOf('utm_') === 0 || _keep.indexOf(key) !== -1) kept.push(seg);
+  }
+  return u.protocol + '//' + u.host + u.pathname + (kept.length ? '?' + kept.join('&') : '');
+}
+
+/**
+ * A referrer as GA may see it. Same host as the current page: cleaned like a
+ * page URL. Any other site: scheme + host + path only (no query, no hash).
+ */
+export function cleanGaReferrer(referrer: string, currentHref: string): string {
+  if (!referrer) return '';
+  let r: URL;
+  let c: URL;
+  try {
+    r = new URL(referrer);
+    c = new URL(currentHref);
+  } catch {
+    return '';
+  }
+  if (r.hostname === c.hostname) return cleanGaUrl(referrer);
+  return r.protocol + '//' + r.host + r.pathname;
+}
+
+/**
+ * The same two functions as an ES5 expression for the inline GA loader in
+ * layout.tsx, which runs before any bundle and can't import this module.
+ * Evaluates to { url(href), ref(referrer, currentHref) }. Kept identical to
+ * cleanGaUrl / cleanGaReferrer by tests/e2e/ga-url-clean.spec.ts.
+ */
+export const GA_URL_CLEANER_JS =
+  '(function(){' +
+  'var K=' + JSON.stringify(GA_KEEP_PARAMS) + ';' +
+  'function url(h){' +
+  'var u;try{u=new URL(h);}catch(e){return String(h).split(/[?#]/)[0];}' +
+  'var q=u.search.slice(1).split("&"),kept=[];' +
+  'for(var i=0;i<q.length;i++){var s=q[i];if(!s)continue;var k=s.split("=")[0];' +
+  'try{k=decodeURIComponent(k.replace(/\\+/g," "));}catch(e){continue;}' +
+  'if(k.indexOf("utm_")===0||K.indexOf(k)!==-1)kept.push(s);}' +
+  'return u.protocol+"//"+u.host+u.pathname+(kept.length?"?"+kept.join("&"):"");}' +
+  'function ref(r,c){if(!r)return "";var a,b;try{a=new URL(r);b=new URL(c);}catch(e){return "";}' +
+  'if(a.hostname===b.hostname)return url(r);return a.protocol+"//"+a.host+a.pathname;}' +
+  'return {url:url,ref:ref};})()';
+
+/** window.gtag when GA may be used: browser, not opted out, gtag loaded. */
+function gaTag(): ((...args: unknown[]) => void) | null {
+  if (typeof window === 'undefined' || analyticsDisabled()) return null;
+  const gtag = (window as any).gtag;
+  return typeof gtag === 'function' ? gtag : null;
+}
+
 /**
  * The only path to window.gtag. A no-op on the server, when opted out, and
  * wherever gtag isn't loaded (preview, localhost — see the guard in layout.tsx).
  * Parameters must never carry personal data: no ZIP, no email, no free text.
  */
 function sendGaEvent(name: string, params: Record<string, string>): void {
-  if (typeof window === 'undefined' || analyticsDisabled()) return;
-  const gtag = (window as any).gtag;
-  if (typeof gtag === 'function') gtag('event', name, params);
+  gaTag()?.('event', name, params);
+}
+
+/**
+ * page_view for an in-site navigation to a new path (GaPageView.tsx). GA's own
+ * page_view covers the first load; the GA4 Enhanced Measurement setting "Page
+ * changes based on browser history events" must be off, or these count twice.
+ * The `set` makes every later event on this page carry the same cleaned URL.
+ */
+export function sendGaPageView(href: string, previousHref: string): void {
+  const gtag = gaTag();
+  if (!gtag) return;
+  const page_location = cleanGaUrl(href);
+  const page_referrer = cleanGaUrl(previousHref);
+  gtag('set', { page_location, page_referrer });
+  gtag('event', 'page_view', { page_location, page_referrer });
 }
 
 // Per-calculator timestamp of last Redis track. Persists for the page session.
