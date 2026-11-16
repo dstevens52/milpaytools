@@ -66,11 +66,14 @@ test.describe('Station first screen: server HTML (JavaScript off)', () => {
   });
 
   test('no layout shift on hydration: the card and table sit where the server put them', async ({ browser }) => {
+    test.slow(); // two page loads
     const boxes = async (js: boolean) => {
       const ctx = await browser.newContext({ javaScriptEnabled: js, viewport: { width: 390, height: 844 } });
       const p = await ctx.newPage();
-      await p.goto('/bah/fort-bragg', { waitUntil: 'networkidle' });
-      await p.evaluate(() => document.fonts.ready);
+      // 'load' includes the web font. No page.evaluate here: with JavaScript
+      // off, Firefox never resolves it.
+      await p.goto('/bah/fort-bragg', { waitUntil: 'load' });
+      if (js) await p.waitForLoadState('networkidle');
       const r = {
         amount: await p.getByTestId('bah-rate-card-amount').boundingBox(),
         table: await p.getByTestId('bah-rate-table').boundingBox(),
