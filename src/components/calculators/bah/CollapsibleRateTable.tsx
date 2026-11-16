@@ -52,14 +52,14 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGr
         aria-current={isSelected ? 'true' : undefined}
         className={`transition-colors ${isSelected ? 'bg-red-50' : 'hover:bg-zinc-50'}`}
       >
-        <td className="px-4 py-2.5 text-zinc-700 font-medium align-top">{RANK_DISPLAY[grade as keyof typeof RANK_DISPLAY]}</td>
-        <td className={`px-4 py-2.5 text-right tabular-nums align-top ${isSelected && selectedHasDependents === true ? 'font-bold' : ''}`}>
+        <td className="px-2.5 sm:px-4 py-2.5 text-zinc-700 font-medium align-top [overflow-wrap:anywhere]">{RANK_DISPLAY[grade as keyof typeof RANK_DISPLAY]}</td>
+        <td className={`px-2.5 sm:px-4 py-2.5 text-right tabular-nums align-top ${isSelected && selectedHasDependents === true ? 'font-bold' : ''}`}>
           <span className="block text-zinc-900 font-semibold">{w !== undefined ? fmt(w) : '—'}</span>
           {w !== undefined && hasPrevW && (
             <YoYDelta curr={w} prev={ratesWPrev![grade]} currentYear={currentYear} priorYear={priorYear} compact className="block text-[11px] font-normal mt-0.5" />
           )}
         </td>
-        <td className={`px-4 py-2.5 text-right tabular-nums align-top ${isSelected && selectedHasDependents === false ? 'font-bold' : ''}`}>
+        <td className={`px-2.5 sm:px-4 py-2.5 text-right tabular-nums align-top ${isSelected && selectedHasDependents === false ? 'font-bold' : ''}`}>
           <span className="block text-zinc-600">{wo !== undefined ? fmt(wo) : '—'}</span>
           {wo !== undefined && hasPrevWO && (
             <YoYDelta curr={wo} prev={ratesWOPrev![grade]} currentYear={currentYear} priorYear={priorYear} compact className="block text-[11px] font-normal mt-0.5" />
@@ -86,32 +86,32 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGr
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-zinc-50 border-b border-zinc-200">
-                  <th className="text-left px-4 py-3 font-semibold text-zinc-700 w-48">Pay Grade</th>
-                  <th className="text-right px-4 py-3 font-semibold text-zinc-700">With Dependents</th>
-                  <th className="text-right px-4 py-3 font-semibold text-zinc-700">Without Dependents</th>
+                  <th className="text-left px-2.5 sm:px-4 py-3 font-semibold text-zinc-700 sm:w-48">Pay Grade</th>
+                  <th className="text-right px-2.5 sm:px-4 py-3 font-semibold text-zinc-700">With Dependents</th>
+                  <th className="text-right px-2.5 sm:px-4 py-3 font-semibold text-zinc-700">Without Dependents</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100">
                 <tr className="bg-zinc-50">
-                  <td colSpan={3} className="px-4 py-1.5 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
+                  <td colSpan={3} className="px-2.5 sm:px-4 py-1.5 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
                     Enlisted
                   </td>
                 </tr>
                 {ENLISTED_GRADES.map((grade) => renderRow(grade))}
                 <tr className="bg-zinc-50">
-                  <td colSpan={3} className="px-4 py-1.5 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
+                  <td colSpan={3} className="px-2.5 sm:px-4 py-1.5 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
                     Warrant Officer
                   </td>
                 </tr>
                 {WARRANT_GRADES.map((grade) => renderRow(grade))}
                 <tr className="bg-zinc-50">
-                  <td colSpan={3} className="px-4 py-1.5 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
+                  <td colSpan={3} className="px-2.5 sm:px-4 py-1.5 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
                     Officer (Prior Enlisted)
                   </td>
                 </tr>
                 {PRIOR_ENLISTED_OFFICER_GRADES.map((grade) => renderRow(grade))}
                 <tr className="bg-zinc-50">
-                  <td colSpan={3} className="px-4 py-1.5 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
+                  <td colSpan={3} className="px-2.5 sm:px-4 py-1.5 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
                     Officer
                   </td>
                 </tr>
