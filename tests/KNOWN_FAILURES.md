@@ -129,31 +129,31 @@ in a full-suite run, re-run it in isolation before treating it as a regression.
   in an isolated re-run; page HTML byte-identical to main). Also seen once on **chromium** in
   the 2026-11-15 full Chromium run on `feat/ga4-02b-calc-run-url-strip` (same `$2,094` timeout;
   the branch didn't touch the station page); the spec file alone on Chromium passed 30/30.
-- `ga-events.spec.ts:261` (the `bah` case of "calculation_run: user action only") — firefox
-  only, under full-suite load. Failed in the 2026-11-15 full Firefox run (`--workers=1`) on
-  `feat/ga4-02b-2-url-clean`: `locator.inputValue: Timeout 10000ms exceeded` waiting for
-  `select#pay-grade`, though the failure snapshot shows the rendered BAH page with that select.
-  It also failed on Firefox in the 02b-1 gate (0 events after one rank change; likely a change
-  before hydration). The spec file alone on Firefox passed 3/3 (37/37 each). Neither branch
-  touched the BAH calculator. **Temporary:** follow-up is to make the test wait for hydration
-  before interacting, then remove this entry.
-- `ga-events.spec.ts:261` (the `education` case of the same loop) — firefox only, under load.
-  Failed in the 2026-11-15 Build 03 gate (`feat/station-serp-test`, Firefox batch run with
-  `--workers=1`): `Test timeout of 30000ms exceeded` inside
-  `page.goto('/calculators/education?zip=28310&years=4', { waitUntil: 'networkidle' })`, before
-  any interaction. Alone on Firefox it passed 5/5 (`--repeat-each=5`). Same cause as the bah case
-  above. **Temporary:** the next build (follow-up 4) waits for hydration instead of `networkidle`
-  and removes both entries.
-- `ga-events.spec.ts:274` (same `calculation_run` loop; the line moved from `:261`), three more
-  cases seen in the 2026-11-15 Build 04 gate (`feat/station-first-screen`, `--workers=1`, foreground
-  batches). Same family as the two above: a page load, a shared-link load, one change and a burst
-  with 3 s quiet waits, close to the 30 s limit under load, sometimes stuck on `networkidle`.
-  Build 04 doesn't touch these calculators.
+- `ga-events.spec.ts:294` (the `bah` case of "calculation_run: user action only"; was `:261`)
+  — firefox only, under full-suite load. **Unexplained; kept on purpose.** Failed in the
+  2026-11-15 full Firefox run (`--workers=1`) on `feat/ga4-02b-2-url-clean`:
+  `locator.inputValue: Timeout 10000ms exceeded` waiting for `select#pay-grade` after both page
+  loads had finished, though the failure snapshot shows the rendered BAH page with that select.
+  Hydration doesn't explain it (`inputValue` doesn't need React; a duplicate id would have failed
+  at once with a strict-mode error). Most likely Firefox's page was unresponsive under memory
+  pressure, but that isn't proven. The spec file alone on Firefox passed 3/3 (37/37 each).
+  The *other* bah failure (02b-1 gate: 0 events after one rank change) was a change before
+  hydration; follow-up 4 reproduced and fixed that one (the test now waits for hydration) and it
+  is no longer listed.
+- `ga-events.spec.ts:294` (same `calculation_run` loop; was `:274`), three cases seen in the
+  2026-11-15 Build 04 gate (`feat/station-first-screen`, `--workers=1`, foreground batches): a page
+  load, a shared-link load, one change and a burst with 3 s quiet waits, close to the 30 s limit
+  under load, sometimes stuck on `networkidle`. Build 04 doesn't touch these calculators.
   - `dual-military-bah` — chromium: timeout in the wait after the burst. Alone: 5/5.
   - `compare` — firefox: `page.goto(…, 'networkidle')` never settled. Alone: 4/5, then 10/10.
     A `main` build gave 10/10 and the branch 10/10 in back-to-back runs, so not caused by Build 04.
   - `va-loan` — firefox: timeout in the wait after the burst. Alone: 5/5.
-  **Temporary:** follow-up 4 (the very next build) removes all five `ga-events` entries.
+  **Fix in place, not yet cleared** (follow-up 4, `test/ga-events-hydration-wait`): the loop no
+  longer uses `networkidle` (it waits for hydration) and has a 60 s timeout. Repeated runs of the
+  old spec never reproduced these three, so a clean repeated run of the new one can't clear them.
+  Remove them after a full-suite gate on the browser above in which they don't appear.
+  (The `education` case, `networkidle` timeout on Firefox, was removed: the old spec failed it 2/190
+  in a Firefox `--repeat-each=10` run, the new spec passed 190/190.)
 - `deployment-math.spec.ts:425` — round trip: every input survives copy link → reload — webkit.
   Failed once in the 2026-11-15 Build 04 gate: right after the reload the BAH line read $3,054
   instead of $2,427 (looks like a BAH lookup race). The spec file alone on WebKit passed 105/105

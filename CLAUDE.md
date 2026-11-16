@@ -69,12 +69,18 @@ browser; cross-browser bugs come from shared UI. Test accordingly.
    If code changes after the gate, re-run only tier 1 for the changed files plus tier 2 if it was
    more than a copy/spacing fix.
 5. **Don't re-run a suite to investigate a single failure.** Re-run just that spec file.
-6. **Gate runs use the production build, one browser at a time, `--workers=2`** (added 2026-10-18,
-   after a three-browser run on `next dev` was killed for low memory):
-   `npm run build`, then `E2E_SERVER=prod npx playwright test --project=<browser> --workers=2 --reporter=json`
+6. **Gate runs use the production build, one browser at a time, `--workers=1` on this machine**
+   (added 2026-10-18 with `--workers=2` after a three-browser run on `next dev` was killed for low
+   memory; lowered to `--workers=1` on 2026-11-16 after `--workers=2` runs were stopped for low
+   memory three times on Nov 15–16. A `--workers=1` run was stopped once too (02b-2 WebKit), so
+   close other heavy apps before a gate):
+   `npm run build`, then `E2E_SERVER=prod npx playwright test --project=<browser> --workers=1 --reporter=json`
    (`E2E_SERVER=prod` makes the Playwright webServer run `next start` instead of `next dev`).
+   The same applies to repeated reliability runs (`--repeat-each`). Expect a full suite on one
+   browser to take roughly twice as long as it did with 2 workers.
    Before starting, make sure nothing is already listening on :3000 (a leftover `next start`
-   makes Playwright test a stale build).
+   makes Playwright test a stale build). If a run is stopped partway, the stopped run leaves its
+   `next start` behind: stop it before the next run.
 7. Baseline failures and their root causes are in `tests/KNOWN_FAILURES.md`.
 
 ### Reference
