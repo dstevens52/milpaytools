@@ -3,7 +3,7 @@
 A split test of the **title and meta description** on CONUS BAH station pages (`/bah/[slug]`). Overseas station pages are not part of it.
 
 - **Why:** station pages rank around position 7–8 on Google but get about 0.42% CTR. The meta description gives the E-5 rate, so nobody needs to click. Overseas stations, where Google shows no number, get 2.2%.
-- **Start:** START_DATE_PLACEHOLDER (the production deploy of Build 03).
+- **Start:** **Monday, Nov 16, 2026**, the first full day live. Build 03 went to production on the evening of Nov 15.
 - **Read-out:** **Wednesday, Dec 9, 2026**, after three weeks, before the BAH release changes every title.
 - **Code:** arm lists and the on/off flag are in `src/data/bah/serpTest.ts`; both variants are in `src/lib/stationSerp.ts`.
 
@@ -37,10 +37,10 @@ The CONUS station URLs with a row in the GSC 3-month pages export (`gsc_pages_3m
 ## Read-out rules (decided 2026-11-15)
 
 Pull both arms from GSC → Performance → Search results, with a **Page** filter of **Custom (regex)** and the arm's regex below, for two windows:
-- **pre:** the 21 days before the start date;
-- **post:** the 21 days from the start date.
+- **pre:** the 21 days ending Nov 15, i.e. **Oct 26 – Nov 15, 2026**;
+- **post:** from **Nov 16, 2026** onward.
 
-GSC data lags about two days, so a Dec 9 read covers the post window only if the start was on or before Nov 16. Otherwise use the latest 21 complete days, and the same length for pre.
+The two windows must be equal in length. At the Dec 9 read, use every complete day GSC has from Nov 16 (GSC lags about two days, so usually through Dec 6 or Dec 7). If that is fewer than 21 days, shorten pre to the same length, still ending Nov 15. For example, 21 post days (Nov 16 – Dec 6) pair with Oct 26 – Nov 15; 20 post days (Nov 16 – Dec 5) pair with Oct 27 – Nov 15.
 
 1. **Decision (CTR).** For each arm, CTR = clicks ÷ impressions. Compute **R = (B post CTR ÷ B pre CTR) ÷ (A post CTR ÷ A pre CTR)**.
    - **Ship B to every CONUS station page on BAH release day unless R ≤ 0.9.** Set `SERP_TEST_MODE = 'all-b'`.

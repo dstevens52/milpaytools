@@ -137,6 +137,13 @@ in a full-suite run, re-run it in isolation before treating it as a regression.
   before hydration). The spec file alone on Firefox passed 3/3 (37/37 each). Neither branch
   touched the BAH calculator. **Temporary:** follow-up is to make the test wait for hydration
   before interacting, then remove this entry.
+- `ga-events.spec.ts:261` (the `education` case of the same loop) — firefox only, under load.
+  Failed in the 2026-11-15 Build 03 gate (`feat/station-serp-test`, Firefox batch run with
+  `--workers=1`): `Test timeout of 30000ms exceeded` inside
+  `page.goto('/calculators/education?zip=28310&years=4', { waitUntil: 'networkidle' })`, before
+  any interaction. Alone on Firefox it passed 5/5 (`--repeat-each=5`). Same cause as the bah case
+  above. **Temporary:** the next build (follow-up 4) waits for hydration instead of `networkidle`
+  and removes both entries.
 
 ### Intermittently swapping flake pair (verified 2026-07-10)
 
