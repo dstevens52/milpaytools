@@ -123,7 +123,7 @@ in a full-suite run, re-run it in isolation before treating it as a regression.
   waiting for the `20%` button; passed in an isolated re-run of the spec file, 15/15, `:207` in
   4.2 s). Same load-dependent slowness as the resolved webkit timeout below; the branch didn't touch
   the VA calculator.
-- `bah-station.spec.ts:62` — rank selector updates the displayed BAH value when grade
+- `bah-station.spec.ts:63` (was `:62` before Build 04 added a line above it) — rank selector updates the displayed BAH value when grade
   changes to E-7 — firefox only (failed in the 2026-11-13 BAH-specs run on
   `feat/bah-release-day-tooling`, `$2,094` not found within 8 s; the spec file passed 30/30
   in an isolated re-run; page HTML byte-identical to main). Also seen once on **chromium** in
