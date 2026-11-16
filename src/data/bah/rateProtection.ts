@@ -28,6 +28,15 @@ export function rateProtectionDecreaseText(stationName: string, year: string, pr
   return `Some pay grades at ${stationName} decreased for ${year} compared with ${priorYear}. Under individual rate protection, a member already receiving BAH here keeps the higher ${priorYear} rate as long as they don't have a reduction in pay grade or a change in dependency status; a promotion doesn't end the protection. The lower ${year} rate applies to members who arrive here, or whose pay grade is reduced or dependency status changes.`;
 }
 
+/**
+ * Station rate card (Build 04): the rule, shortened, shown only when the selected
+ * grade's rate fell from the prior year and that prior rate wasn't a temporary
+ * increase (rate protection doesn't cover those).
+ */
+export function rateProtectionCardNote(priorYear: string): string {
+  return `Already stationed here? Rate protection keeps your higher ${priorYear} rate unless your pay grade drops or your dependency status changes.`;
+}
+
 /** DoD's own wording (2024 BAH release). */
 export const DOD_RATE_PROTECTION_QUOTE =
   'No matter what happens to measured housing costs – including the out-of-pocket expense adjustment – an individual member who maintains uninterrupted Basic Allowance for Housing eligibility in a given location will not see his/her Basic Allowance for Housing rate decrease.';

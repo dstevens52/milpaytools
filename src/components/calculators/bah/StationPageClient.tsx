@@ -20,6 +20,7 @@ import { fireShareEvent, fireDeepLinkEvent, fireStationRateLookup } from '@/lib/
 import { gradeToParam } from '@/lib/urlParams';
 import { COLA_SOURCE, DATA_YEAR as COLA_YEAR } from '@/data/cola/2026/constants';
 import { BAH_YEAR, BAH_PRIOR_YEAR, BAH_EFFECTIVE_DATE_LABEL } from '@/data/bah/current';
+import { rateProtectionCardNote } from '@/data/bah/rateProtection';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -149,18 +150,21 @@ function getBranchEmblem(station: DutyStation): string | null {
 
 // ─── HeroBanner sub-component ─────────────────────────────────────────────────
 
-const HERO_STEPS = [
-  { title: 'Check your rate', sub: 'Select your rank and dependent status below' },
-  { title: 'See it vs. local rent', sub: "Compare your BAH to the area's Fair Market Rent" },
-  { title: 'Plan your move', sub: 'Compare stations or estimate PCS costs' },
-] as const;
-
-function HeroBanner({ station, year }: { station: DutyStation; year: string }) {
-  const subtitle = [
-    `${station.city}, ${station.stateName}`,
-    station.branches.join(' / '),
-    station.formerName ? `Formerly ${station.formerName}` : null,
-  ]
+// Compact hero (Build 04): H1, one facts line, one smaller former-name/branch
+// line. The installation sentence lives in "How {name} BAH is set".
+function HeroBanner({
+  station,
+  year,
+  mhaLabel,
+  effectiveLabel,
+}: {
+  station: DutyStation;
+  year: string;
+  mhaLabel: string;
+  effectiveLabel: string;
+}) {
+  const facts = `${station.city}, ${station.state} · ${mhaLabel} housing area · effective ${effectiveLabel}`;
+  const secondary = [station.formerName ? `Formerly ${station.formerName}` : null, station.branches.join(' / ')]
     .filter(Boolean)
     .join(' · ');
 
@@ -188,43 +192,17 @@ function HeroBanner({ station, year }: { station: DutyStation; year: string }) {
           src={`/images/branches/${emblemFile}.svg`}
           alt=""
           aria-hidden="true"
-          className="absolute top-4 right-4 sm:top-6 sm:right-6 w-28 sm:w-44 md:w-56 pointer-events-none select-none opacity-[0.15] sm:opacity-[0.22]"
+          className="absolute top-3 right-3 sm:top-4 sm:right-6 w-20 sm:w-32 md:w-40 pointer-events-none select-none opacity-[0.15] sm:opacity-[0.22]"
         />
       )}
       {/* Content — relative so it paints above the absolute layers */}
       <div className="relative">
-        {/* Hero text */}
-        <div className="px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-5 sm:pb-6">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-1">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8" data-testid="bah-station-hero">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-2">
             {`${station.name} BAH Rates ${year}`}
           </h1>
-          <p className="text-sm text-white/60">{subtitle}</p>
-          {station.installationDetail && (
-            <p className="text-xs text-white/45 mt-1">{station.installationDetail}</p>
-          )}
-        </div>
-        {/* 3-step plan strip — inside the dark hero */}
-        <div className="border-t border-white/10 px-4 sm:px-6 lg:px-8 py-5">
-          <div className="flex flex-col gap-4 sm:flex-row sm:gap-0">
-            {HERO_STEPS.map((step, i) => (
-              <div
-                key={step.title}
-                className={[
-                  'flex items-start gap-3 flex-1',
-                  i > 0 ? 'sm:pl-6 sm:border-l sm:border-white/10' : '',
-                  i < HERO_STEPS.length - 1 ? 'sm:pr-6' : '',
-                ].filter(Boolean).join(' ')}
-              >
-                <div className="w-7 h-7 rounded-full bg-red-700 text-white flex items-center justify-center font-bold text-xs flex-none mt-0.5">
-                  {i + 1}
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-white">{step.title}</p>
-                  <p className="text-xs text-white/50">{step.sub}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <p className="text-sm text-white/75">{facts}</p>
+          {secondary && <p className="text-xs text-white/55 mt-1">{secondary}</p>}
         </div>
       </div>
       {/* Photo credit — bottom-right, only when photo present */}
@@ -251,10 +229,11 @@ function RankSelector({ availableGrades, selectedGrade, hasDependents, onGradeCh
   return (
     <div className="flex flex-wrap items-end gap-4">
       <div className="flex-1 min-w-[160px]">
-        <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1.5">
+        <label htmlFor="station-pay-grade" className="block text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1.5">
           Pay grade
         </label>
         <select
+          id="station-pay-grade"
           value={selectedGrade}
           onChange={(e) => onGradeChange(e.target.value as PayGrade)}
           className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
@@ -275,11 +254,13 @@ function RankSelector({ availableGrades, selectedGrade, hasDependents, onGradeCh
         </select>
       </div>
       <div>
-        <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1.5">
+        <span id="station-dependents-label" className="block text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1.5">
           Dependents
-        </label>
-        <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[38px]">
+        </span>
+        <div role="group" aria-labelledby="station-dependents-label" className="flex rounded-md border border-zinc-300 overflow-hidden h-[38px]">
           <button
+            type="button"
+            aria-pressed={hasDependents}
             onClick={() => onDepChange(true)}
             className={[
               'px-3 text-sm font-medium transition-colors',
@@ -289,6 +270,8 @@ function RankSelector({ availableGrades, selectedGrade, hasDependents, onGradeCh
             With
           </button>
           <button
+            type="button"
+            aria-pressed={!hasDependents}
             onClick={() => onDepChange(false)}
             className={[
               'px-3 text-sm font-medium border-l border-zinc-300 transition-colors',
@@ -337,10 +320,10 @@ function ShareButton({ station, year }: { station: DutyStation; year: string }) 
       type="button"
       onClick={handleClick}
       className={[
-        'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold transition-colors',
+        'inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-sm font-semibold transition-colors',
         copied
-          ? 'bg-green-50 border border-green-200 text-green-700'
-          : 'bg-red-700 text-white hover:bg-red-800',
+          ? 'bg-green-50 border-green-200 text-green-700'
+          : 'bg-white border-zinc-300 text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400',
       ].join(' ')}
     >
       {copied ? (
@@ -453,6 +436,20 @@ export function StationPageClient({
   );
 
   const depLabel = hasDependents ? 'w/dep' : 'w/o dep';
+  const mhaDisplay = mhaLabel ?? locationName;
+
+  // Rate card note: only when the selected rate fell from the prior year, and
+  // not where the prior-year rate was a temporary increase (rate protection
+  // doesn't cover those; the page's decrease paragraph explains it instead).
+  const showProtectionNote =
+    selectedBAH > 0 &&
+    selectedPrevBAH !== undefined &&
+    selectedPrevBAH > selectedBAH &&
+    decreaseNotice?.kind !== 'temporary-ending';
+
+  // Total-pay deep link (rate card button and mid-page CTA). Short-form grade
+  // (gradeToParam, Build 01) so the calculator reads it.
+  const totalPayHref = `/calculators/total-compensation?rank=${gradeToParam(selectedGrade)}&zip=${station.zip}&dependents=${hasDependents ? 'yes' : 'no'}`;
 
   return (
     <>
@@ -469,45 +466,28 @@ export function StationPageClient({
         </div>
       </div>
 
-      {/* Hero banner */}
-      <HeroBanner station={station} year={currentYear} />
-
-      {/* Share bar — after hero, before main content */}
-      <div className="bg-white border-b border-zinc-100">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-center">
-          <ShareButton station={station} year={currentYear} />
-        </div>
-      </div>
+      {/* Compact hero */}
+      <HeroBanner
+        station={station}
+        year={currentYear}
+        mhaLabel={mhaDisplay}
+        effectiveLabel={ratesEffectiveLabel}
+      />
 
       <div className="bg-zinc-50 min-h-screen">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8">
 
-          {/* Quick Reference accordion */}
+          {/* "Your {year} BAH at {name}" rate card — the page's answer, right under
+              the heading. The E-5 with-dependents default is server-rendered. */}
           {hasRates && (
-            <details className="rounded-lg border border-zinc-200 bg-white overflow-hidden group">
-              <summary className="px-4 py-2.5 text-xs font-medium text-zinc-500 cursor-pointer select-none flex items-center justify-between hover:bg-zinc-50 transition-colors [&::-webkit-details-marker]:hidden">
-                <span>{`Quick reference: ${currentYear} BAH rates at `}{station.name}</span>
-                <svg className="w-3.5 h-3.5 text-zinc-400 flex-none transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </summary>
-              <div className="px-4 pb-3 pt-2 border-t border-zinc-100">
-                <p className="text-xs text-zinc-600 leading-relaxed">
-                  {`For ${currentYear}, BAH rates at `}{station.name} ({locationName} MHA) are:{' '}
-                  E-4 with dependents: <strong>{fmt(ratesW['E-4'] ?? 0)}/mo</strong>{' '}
-                  &middot; E-5 without dependents: <strong>{fmt(ratesWO['E-5'] ?? 0)}/mo</strong>{' '}
-                  &middot; E-5 with dependents: <strong>{fmt(ratesW['E-5'] ?? 0)}/mo</strong>{' '}
-                  &middot; E-6 with dependents: <strong>{fmt(ratesW['E-6'] ?? 0)}/mo</strong>{' '}
-                  &middot; E-7 with dependents: <strong>{fmt(ratesW['E-7'] ?? 0)}/mo</strong>{' '}
-                  &middot; O-3 with dependents: <strong>{fmt(ratesW['O-3'] ?? 0)}/mo</strong>.{' '}
-                  BAH is excluded from federal taxable income. Full rates for all pay grades are in the table below.
-                </p>
-              </div>
-            </details>
-          )}
-
-          {/* Rank selector card */}
-          <div className="bg-white rounded-lg border border-zinc-200 p-5 space-y-5">
+            <section
+              aria-labelledby="bah-rate-card-heading"
+              data-testid="bah-rate-card"
+              className="bg-white rounded-lg border border-zinc-200 shadow-sm p-5 sm:p-6 space-y-5"
+            >
+              <h2 id="bah-rate-card-heading" className="text-lg font-semibold text-zinc-900">
+                {`Your ${currentYear} BAH at ${station.name}`}
+              </h2>
               <RankSelector
                 availableGrades={availableGrades}
                 selectedGrade={selectedGrade}
@@ -515,28 +495,74 @@ export function StationPageClient({
                 onGradeChange={handleGradeChange}
                 onDepChange={handleDepChange}
               />
-              <p className="text-sm text-zinc-500">
-                Showing{' '}
-                <strong className="text-zinc-700">
-                  {selectedGrade} {hasDependents ? 'with dependents' : 'without dependents'}
-                </strong>{' '}
-                for the <strong className="text-zinc-700">{locationName}</strong> MHA.
-              </p>
-              {hasRates && selectedBAH > 0 && selectedPrevBAH !== undefined && (
-                <p className="text-sm text-zinc-500">
-                  Year over year:{' '}
-                  <YoYDelta
-                    curr={selectedBAH}
-                    prev={selectedPrevBAH}
-                    currentYear={currentYear}
-                    priorYear={priorYear}
-                    className="font-semibold"
-                  />
+              <div>
+                <p className="text-4xl sm:text-5xl font-extrabold text-zinc-900 tabular-nums leading-none" data-testid="bah-rate-card-amount">
+                  {fmt(selectedBAH)}
+                  <span className="text-lg sm:text-xl font-semibold text-zinc-500">/month</span>
+                </p>
+                <p className="text-sm text-zinc-600 mt-2">
+                  {selectedGrade} {hasDependents ? 'with dependents' : 'without dependents'} · {mhaDisplay} MHA
+                </p>
+                {selectedBAH > 0 && selectedPrevBAH !== undefined && (
+                  <p className="text-sm text-zinc-500 mt-1" data-testid="bah-rate-card-yoy">
+                    Year over year:{' '}
+                    <YoYDelta
+                      curr={selectedBAH}
+                      prev={selectedPrevBAH}
+                      currentYear={currentYear}
+                      priorYear={priorYear}
+                      className="font-semibold"
+                    />
+                  </p>
+                )}
+              </div>
+              {showProtectionNote && (
+                <p className="rounded-md bg-amber-50 border border-amber-100 px-3 py-2 text-sm text-zinc-700" data-testid="bah-rate-card-protection">
+                  {rateProtectionCardNote(priorYear)}
                 </p>
               )}
+              <Link
+                href={totalPayHref}
+                onClick={() =>
+                  fireDeepLinkEvent('bah-station', 'total-compensation', {
+                    grade: selectedGrade,
+                    station: station.slug,
+                    placement: 'rate-card',
+                  })
+                }
+                className="flex w-full items-center justify-center rounded-lg bg-red-700 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-red-800 transition-colors"
+              >
+                {`See total pay at ${station.name}: base pay + BAH + BAS →`}
+              </Link>
+              <p className="text-xs text-zinc-400">
+                {`BAH is excluded from federal taxable income. Source: DTMO ${currentYear} BAH rates.`}
+              </p>
+            </section>
+          )}
+
+          {/* Full rate table, open, then the share button */}
+          <div className="space-y-4">
+            {hasRates && (
+              <CollapsibleRateTable
+                locationName={locationName}
+                ratesW={ratesW}
+                ratesWO={ratesWO}
+                ratesWPrev={ratesWPrev}
+                ratesWOPrev={ratesWOPrev}
+                currentYear={currentYear}
+                priorYear={priorYear}
+                hasDecrease={hasDecrease}
+                selectedGrade={selectedGrade}
+                selectedHasDependents={hasDependents}
+                effectiveLabel={ratesEffectiveLabel}
+              />
+            )}
+            <div data-testid="bah-station-share">
+              <ShareButton station={station} year={currentYear} />
+            </div>
           </div>
 
-          {/* Dated next-year notice (2027 BAH status) — directly under the rate summary */}
+          {/* Dated next-year notice (2027 BAH status) and the station email alert */}
           {hasRates && notice}
 
           {/* Quick Facts — for stations WITHOUT rich data */}
@@ -686,8 +712,13 @@ export function StationPageClient({
 
           {/* How BAH geography works (MHA explainer) + same-MHA siblings */}
           {hasRates && (
-            <div className="bg-blue-50/50 rounded-lg border border-blue-100 p-5">
+            <div className="bg-blue-50/50 rounded-lg border border-blue-100 p-5" data-testid="bah-how-set">
               <h2 className="text-base font-semibold text-zinc-900 mb-1.5">How {station.name} BAH is set</h2>
+              {station.installationDetail && (
+                <p className="text-sm text-zinc-600 leading-relaxed mb-3" data-testid="bah-installation-detail">
+                  {station.installationDetail}
+                </p>
+              )}
               <p className="text-sm text-zinc-600 leading-relaxed">
                 BAH is set by Military Housing Area (MHA), not by your specific ZIP code or
                 neighborhood. {station.name} falls in the <strong>{mhaLabel ?? locationName}</strong> MHA —
@@ -736,23 +767,6 @@ export function StationPageClient({
             </div>
           )}
 
-          {/* BAH Rate Table — collapsible */}
-          {hasRates && (
-            <CollapsibleRateTable
-              locationName={locationName}
-              ratesW={ratesW}
-              ratesWO={ratesWO}
-              ratesWPrev={ratesWPrev}
-              ratesWOPrev={ratesWOPrev}
-              currentYear={currentYear}
-              priorYear={priorYear}
-              hasDecrease={hasDecrease}
-              selectedGrade={selectedGrade}
-              selectedHasDependents={hasDependents}
-              effectiveLabel={ratesEffectiveLabel}
-            />
-          )}
-
           {/* Mid-page CTA — catches users at peak engagement after looking up their rate */}
           {hasRates && (
             <div className="relative overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm">
@@ -769,9 +783,13 @@ export function StationPageClient({
                   advantages, and what a civilian would need to earn to match it.
                 </p>
                 <Link
-                  href={`/calculators/total-compensation?rank=${gradeToParam(selectedGrade)}&zip=${station.zip}&dependents=${hasDependents ? 'yes' : 'no'}`}
+                  href={totalPayHref}
                   onClick={() =>
-                    fireDeepLinkEvent('bah-station', 'total-compensation', { grade: selectedGrade, station: station.slug })
+                    fireDeepLinkEvent('bah-station', 'total-compensation', {
+                      grade: selectedGrade,
+                      station: station.slug,
+                      placement: 'mid-page',
+                    })
                   }
                   className="inline-flex items-center gap-1.5 rounded-lg bg-red-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-800 transition-colors"
                 >

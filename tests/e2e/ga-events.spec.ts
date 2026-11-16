@@ -126,7 +126,7 @@ test.describe('station_rate_lookup', () => {
 });
 
 test.describe('calc_deeplink_click', () => {
-  test('station page → total compensation', async ({ page }) => {
+  test('station page → total compensation (mid-page section)', async ({ page }) => {
     const ga = await recordGa(page);
     await page.goto('/bah/fort-bragg');
     await page.getByRole('combobox').selectOption('E-7');
@@ -134,9 +134,22 @@ test.describe('calc_deeplink_click', () => {
     await expect(page).toHaveURL(/\/calculators\/total-compensation\?rank=e7/);
     await settle(page);
     expect(ga.events('calc_deeplink_click')).toEqual([
-      { from_page_type: 'bah-station', to_calculator: 'total-compensation', grade: 'e7', station: 'fort-bragg' },
+      { from_page_type: 'bah-station', to_calculator: 'total-compensation', grade: 'e7', station: 'fort-bragg', placement: 'mid-page' },
     ]);
     expectNoPersonalData(ga.calls); // the link carries the ZIP; the event must not
+  });
+
+  test('station page → total compensation (rate card button)', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/bah/fort-bragg', { waitUntil: 'networkidle' });
+    await page.getByRole('combobox').selectOption('O-3');
+    await page.getByTestId('bah-rate-card').getByRole('link', { name: /See total pay at Fort Bragg: base pay \+ BAH \+ BAS/ }).click();
+    await expect(page).toHaveURL(/\/calculators\/total-compensation\?rank=o3&zip=\d{5}&dependents=yes/);
+    await settle(page);
+    expect(ga.events('calc_deeplink_click')).toEqual([
+      { from_page_type: 'bah-station', to_calculator: 'total-compensation', grade: 'o3', station: 'fort-bragg', placement: 'rate-card' },
+    ]);
+    expectNoPersonalData(ga.calls);
   });
 
   test('/pay Quick Lookup → total compensation', async ({ page }) => {

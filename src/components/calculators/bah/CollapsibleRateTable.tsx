@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { formatCurrency } from '@/lib/utils';
 import { YoYDelta } from '@/components/calculators/bah/YoYDelta';
 import { BAH_YEAR, BAH_PRIOR_YEAR, BAH_EFFECTIVE_DATE_LABEL } from '@/data/bah/current';
@@ -31,43 +30,15 @@ const fmt = (n: number) => formatCurrency(n);
 
 const OFFICER_GRADES = ['O-1', 'O-2', 'O-3', 'O-4', 'O-5', 'O-6', 'O-7'] as const;
 
-const ALL_GRADES_ORDERED: string[] = [
-  ...ENLISTED_GRADES,
-  ...WARRANT_GRADES,
-  ...PRIOR_ENLISTED_OFFICER_GRADES,
-  ...OFFICER_GRADES,
-];
-
+/**
+ * The station page's full BAH rate table: every pay grade, with and without
+ * dependents. Open by default since Build 04 (no preview line, no expander), so
+ * all rows are visible in the server HTML. The selected grade's row is tinted.
+ * Heading text and cell markup are read by tests/e2e/station-serp.spec.ts.
+ */
 export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGrade, selectedHasDependents, ratesWPrev, ratesWOPrev, currentYear = BAH_YEAR, priorYear = BAH_PRIOR_YEAR, hasDecrease = false, effectiveLabel = BAH_EFFECTIVE_DATE_LABEL }: Props) {
-  const [open, setOpen] = useState(false);
   const hasPrevW = !!ratesWPrev && Object.keys(ratesWPrev).length > 0;
   const hasPrevWO = !!ratesWOPrev && Object.keys(ratesWOPrev).length > 0;
-
-  // Available grades at this station in canonical order
-  const availableOrdered = ALL_GRADES_ORDERED.filter(
-    (g) => ratesW[g] !== undefined || ratesWO[g] !== undefined
-  );
-
-  // 3 grades centered on selected, with edge clamping
-  const selIdx = selectedGrade ? availableOrdered.indexOf(selectedGrade) : -1;
-  let previewSlice: string[];
-  const len = availableOrdered.length;
-  if (len <= 3 || selIdx <= 0) {
-    previewSlice = availableOrdered.slice(0, 3);
-  } else if (selIdx >= len - 1) {
-    previewSlice = availableOrdered.slice(len - 3);
-  } else {
-    previewSlice = availableOrdered.slice(selIdx - 1, selIdx + 2);
-  }
-
-  // Use the correct dep rates for the preview
-  const previewRateSource = selectedHasDependents === false ? ratesWO : ratesW;
-  const previewDepLabel = selectedHasDependents === false ? 'w/o dep' : 'w/dep';
-
-  const previewRates = previewSlice.flatMap((g) => {
-    const rate = previewRateSource[g];
-    return rate !== undefined ? [{ grade: g, rate }] : [];
-  });
 
   function renderRow(grade: string) {
     const w = ratesW[grade];
@@ -75,7 +46,12 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGr
     if (w === undefined && wo === undefined) return null;
     const isSelected = selectedGrade === grade;
     return (
-      <tr key={grade} className={`hover:bg-zinc-50 transition-colors ${isSelected ? 'bg-red-50' : ''}`}>
+      <tr
+        key={grade}
+        data-grade={grade}
+        aria-current={isSelected ? 'true' : undefined}
+        className={`transition-colors ${isSelected ? 'bg-red-50' : 'hover:bg-zinc-50'}`}
+      >
         <td className="px-4 py-2.5 text-zinc-700 font-medium align-top">{RANK_DISPLAY[grade as keyof typeof RANK_DISPLAY]}</td>
         <td className={`px-4 py-2.5 text-right tabular-nums align-top ${isSelected && selectedHasDependents === true ? 'font-bold' : ''}`}>
           <span className="block text-zinc-900 font-semibold">{w !== undefined ? fmt(w) : '—'}</span>
@@ -94,48 +70,18 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGr
   }
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 overflow-hidden">
-      {/* Always-visible header */}
+    <div className="bg-white rounded-lg border border-zinc-200 overflow-hidden" data-testid="bah-rate-table">
       <div className="px-6 py-5">
         <h2 className="text-lg font-semibold text-zinc-900 mb-1">
           {`${currentYear} BAH Rates — `}{locationName}
         </h2>
-        <p className="text-sm text-zinc-500 mb-4">
+        <p className="text-sm text-zinc-500">
           {`Monthly rates for all pay grades. Source: DTMO ${currentYear} BAH data. BAH is not taxable income.`}
         </p>
-
-        {/* Rate preview — visible when collapsed */}
-        {!open && previewRates.length > 0 && (
-          <p className="text-sm text-zinc-600 tabular-nums mb-4">
-            {previewRates.map((x, i) => (
-              <span key={x.grade}>
-                <span className={`font-medium ${selectedGrade === x.grade ? 'font-bold text-red-700' : ''}`}>{x.grade} {previewDepLabel}:</span>{' '}
-                <span className={`font-semibold text-zinc-900 ${selectedGrade === x.grade ? 'font-bold text-red-700' : ''}`}>{fmt(x.rate)}/mo</span>
-                {i < previewRates.length - 1 && <span className="text-zinc-300 mx-2">·</span>}
-              </span>
-            ))}
-          </p>
-        )}
-
-        <button
-          onClick={() => setOpen((v) => !v)}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-md bg-zinc-800 text-white text-sm font-semibold hover:bg-zinc-700 transition-colors"
-          aria-expanded={open}
-        >
-          {open
-            ? <>Collapse <span className={`inline-block transition-transform duration-200 rotate-180`}>▼</span></>
-            : <>{`View all ${currentYear} BAH rates by pay grade `}<span className={`inline-block transition-transform duration-200`}>▼</span></>
-          }
-        </button>
       </div>
 
-      {/* Collapsible table body */}
-      <div
-        className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
-          open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
-        }`}
-      >
-        <div className="overflow-hidden">
+      <div>
+        <div>
           <div className="border-t border-zinc-100 overflow-x-auto">
             <table className="w-full text-sm">
               <thead>

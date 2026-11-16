@@ -215,6 +215,12 @@ export function fireNewsletterSignup(source: string, variant: 'inline' | 'card')
 export type DeepLinkFromPage = 'bah-station' | 'pay-hub' | 'pay-rank' | 'guide';
 /** Calculators those links open. */
 export type DeepLinkToCalculator = 'total-compensation' | 'pay-raise';
+/**
+ * Which link on the page, where a page has more than one (station pages, Build
+ * 04: the rate card's button and the mid-page total-comp section). GA4 needs an
+ * event-scoped custom dimension "placement" to report it.
+ */
+export type DeepLinkPlacement = 'rate-card' | 'mid-page';
 
 /**
  * calc_deeplink_click — a click on a page-to-calculator link that carries URL
@@ -223,11 +229,12 @@ export type DeepLinkToCalculator = 'total-compensation' | 'pay-raise';
 export function fireDeepLinkEvent(
   fromPageType: DeepLinkFromPage,
   toCalculator: DeepLinkToCalculator,
-  extra: { grade?: PayGrade; station?: string } = {},
+  extra: { grade?: PayGrade; station?: string; placement?: DeepLinkPlacement } = {},
 ): void {
   const params: Record<string, string> = { from_page_type: fromPageType, to_calculator: toCalculator };
   if (extra.grade) params.grade = gradeToParam(extra.grade);
   if (extra.station) params.station = extra.station;
+  if (extra.placement) params.placement = extra.placement;
   sendGaEvent('calc_deeplink_click', params);
 }
 

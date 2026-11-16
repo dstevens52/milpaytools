@@ -16,17 +16,17 @@ test.describe('BAH Station Page — Fort Bragg (upgraded, rich data)', () => {
     await page.goto(FORT_BRAGG);
   });
 
-  test('3-step plan renders on page', async ({ page }) => {
-    await expect(page.getByText('Check your rate')).toBeVisible();
-    await expect(page.getByText('See it vs. local rent')).toBeVisible();
-    await expect(page.getByText('Plan your move')).toBeVisible();
+  test('compact hero: no 3-step strip (Build 04)', async ({ page }) => {
+    await expect(page.getByText('Check your rate')).toHaveCount(0);
+    await expect(page.getByText('See it vs. local rent')).toHaveCount(0);
+    await expect(page.getByText('Plan your move')).toHaveCount(0);
   });
 
   test('rent section shows the E-5 BAH rate; no surplus/median-rent framing', async ({ page }) => {
     const e5Rate = getBAH('28301', 'E-5', true);
     if (!e5Rate) return test.skip();
-    // The rate renders in the visible rent-comparison section (scope past the
-    // collapsed Quick-reference accordion). The old MoneyStrip "Median rent"/
+    // The rate renders in the visible rent-comparison section (scoped there: the
+    // rate card and table show it too). The old MoneyStrip "Median rent"/
     // "Monthly surplus" cards are intentionally gone.
     const rentSection = page
       .locator('div')
@@ -55,16 +55,17 @@ test.describe('BAH Station Page — Fort Bragg (upgraded, rich data)', () => {
     await expect(page.getByRole('link', { name: /long-term wealth/i })).toBeVisible();
   });
 
-  test('installation detail line (82nd Airborne / USASOC) renders below subtitle', async ({ page }) => {
-    await expect(page.getByText(/82nd Airborne/i)).toBeVisible();
+  test('installation detail line (82nd Airborne / USASOC) opens "How Fort Bragg BAH is set", not the hero', async ({ page }) => {
+    await expect(page.getByTestId('bah-how-set').getByText(/82nd Airborne/i)).toBeVisible();
+    await expect(page.getByTestId('bah-station-hero').getByText(/82nd Airborne/i)).toHaveCount(0);
   });
 
   test('rank selector updates the displayed BAH value when grade changes to E-7', async ({ page }) => {
     const e7Rate = getBAH('28301', 'E-7', true);
     if (!e7Rate) return test.skip();
     await page.getByRole('combobox').selectOption('E-7');
-    // The E-7 rate surfaces in the visible rent-comparison section (scope past the
-    // collapsed Quick-reference accordion, which also lists the rate but is hidden).
+    // The E-7 rate surfaces in the visible rent-comparison section (scoped there:
+    // the rate card and table show it too; the card is checked in station-first-screen.spec.ts).
     const rentSection = page
       .locator('div')
       .filter({ has: page.getByRole('heading', { name: 'BAH vs. Local Rent' }) })
@@ -84,8 +85,9 @@ test.describe('BAH Station Page — Fort Hood (upgraded, rich data)', () => {
     ).not.toBeAttached();
   });
 
-  test('3-step plan is present', async ({ page }) => {
-    await expect(page.getByText('Check your rate')).toBeVisible();
+  test('rate card is the first block under the hero (Build 04; the 3-step strip is gone)', async ({ page }) => {
+    await expect(page.getByTestId('bah-rate-card')).toBeVisible();
+    await expect(page.getByText('Check your rate')).toHaveCount(0);
   });
 });
 
