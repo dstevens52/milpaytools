@@ -11,6 +11,7 @@ import { getMHACode, getMHARates, getMHARatesForYear, getLocationName, CURRENT_B
 import { formatCurrency } from '../../src/lib/utils';
 import { formatMhaName } from '../../src/lib/mhaDisplay';
 import { STATION_BY_SLUG } from '../../src/data/duty-stations/stations';
+import { RANK_DISPLAY } from '../../src/types/military';
 
 const BRAGG = STATION_BY_SLUG['fort-bragg'];
 const MHA = getMHACode(BRAGG.zip)!;
@@ -119,6 +120,40 @@ test.describe('Station first screen: interaction', () => {
       `Already stationed here? Rate protection keeps your higher ${PRIOR_BAH_YEAR} rate unless your pay grade drops or your dependency status changes.`,
     );
     await expect(page.getByTestId('bah-rate-card-yoy')).toContainText('▼');
+  });
+});
+
+test.describe('Station first screen: rate table on phones', () => {
+  test('grade labels: text unchanged, break only after slashes or at spaces, table fits 360 px', async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 800 });
+    await page.goto('/bah/fort-bragg');
+    const cells = await page.getByTestId('bah-rate-table').locator('tr[data-grade]').evaluateAll((rows) =>
+      rows.map((r) => {
+        const td = r.querySelector('td')!;
+        const titles = td.querySelector('span');
+        const cs = getComputedStyle(td);
+        return {
+          grade: r.getAttribute('data-grade')!,
+          text: td.textContent,
+          wbr: td.querySelectorAll('wbr').length,
+          wrap: `${cs.overflowWrap}/${cs.wordBreak}`,
+          titlesDisplay: titles ? getComputedStyle(titles).display : null,
+        };
+      }),
+    );
+    expect(cells).toHaveLength(24);
+    for (const c of cells) {
+      expect(c.text, c.grade).toBe(RANK_DISPLAY[c.grade as keyof typeof RANK_DISPLAY]);
+      expect(c.wrap, c.grade).toBe('normal/normal'); // no mid-word breaking
+      expect(c.titlesDisplay, c.grade).toBe('block'); // titles on line 2 on phones
+      expect(c.wbr, c.grade).toBe((c.text!.match(/\//g) ?? []).length); // a break opportunity after every slash
+    }
+    const fit = await page.getByTestId('bah-rate-table').locator('.overflow-x-auto').evaluate((d) => [d.scrollWidth, d.clientWidth]);
+    expect(fit[0], 'no horizontal scroll at 360 px').toBeLessThanOrEqual(fit[1]);
+    // From sm up, one line as before.
+    await page.setViewportSize({ width: 1280, height: 800 });
+    const display = await page.getByTestId('bah-rate-table').locator('tr[data-grade="E-6"] td span').first().evaluate((s) => getComputedStyle(s).display);
+    expect(display).toBe('inline');
   });
 });
 

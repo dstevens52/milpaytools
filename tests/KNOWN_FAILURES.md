@@ -144,6 +144,20 @@ in a full-suite run, re-run it in isolation before treating it as a regression.
   any interaction. Alone on Firefox it passed 5/5 (`--repeat-each=5`). Same cause as the bah case
   above. **Temporary:** the next build (follow-up 4) waits for hydration instead of `networkidle`
   and removes both entries.
+- `ga-events.spec.ts:274` (same `calculation_run` loop; the line moved from `:261`), three more
+  cases seen in the 2026-11-15 Build 04 gate (`feat/station-first-screen`, `--workers=1`, foreground
+  batches). Same family as the two above: a page load, a shared-link load, one change and a burst
+  with 3 s quiet waits, close to the 30 s limit under load, sometimes stuck on `networkidle`.
+  Build 04 doesn't touch these calculators.
+  - `dual-military-bah` — chromium: timeout in the wait after the burst. Alone: 5/5.
+  - `compare` — firefox: `page.goto(…, 'networkidle')` never settled. Alone: 4/5, then 10/10.
+    A `main` build gave 10/10 and the branch 10/10 in back-to-back runs, so not caused by Build 04.
+  - `va-loan` — firefox: timeout in the wait after the burst. Alone: 5/5.
+  **Temporary:** follow-up 4 (the very next build) removes all five `ga-events` entries.
+- `deployment-math.spec.ts:425` — round trip: every input survives copy link → reload — webkit.
+  Failed once in the 2026-11-15 Build 04 gate: right after the reload the BAH line read $3,054
+  instead of $2,427 (looks like a BAH lookup race). The spec file alone on WebKit passed 105/105
+  (×3). The Deployment calculator wasn't touched.
 
 ### Intermittently swapping flake pair (verified 2026-07-10)
 

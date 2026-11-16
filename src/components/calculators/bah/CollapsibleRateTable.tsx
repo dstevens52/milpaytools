@@ -31,6 +31,31 @@ const fmt = (n: number) => formatCurrency(n);
 const OFFICER_GRADES = ['O-1', 'O-2', 'O-3', 'O-4', 'O-5', 'O-6', 'O-7'] as const;
 
 /**
+ * "E-6 (SSG/PO1/TSgt)": on phones, the grade on line 1 and the branch titles on
+ * line 2 in small muted text, breakable only after slashes (and at spaces in
+ * "(2LT — prior enlisted)"), never mid-word. From `sm` up, one line as before.
+ * The cell's text is unchanged: <wbr> adds no characters.
+ */
+function GradeLabel({ label }: { label: string }) {
+  const i = label.indexOf(' (');
+  if (i === -1) return <>{label}</>;
+  const parts = label.slice(i + 1).split('/');
+  return (
+    <>
+      {label.slice(0, i)}{' '}
+      <span className="block sm:inline text-xs sm:text-sm font-normal sm:font-medium text-zinc-500 sm:text-zinc-700">
+        {parts.map((p, k) => (
+          <span key={k}>
+            {p}
+            {k < parts.length - 1 && <>/<wbr /></>}
+          </span>
+        ))}
+      </span>
+    </>
+  );
+}
+
+/**
  * The station page's full BAH rate table: every pay grade, with and without
  * dependents. Open by default since Build 04 (no preview line, no expander), so
  * all rows are visible in the server HTML. The selected grade's row is tinted.
@@ -52,7 +77,9 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGr
         aria-current={isSelected ? 'true' : undefined}
         className={`transition-colors ${isSelected ? 'bg-red-50' : 'hover:bg-zinc-50'}`}
       >
-        <td className="px-2.5 sm:px-4 py-2.5 text-zinc-700 font-medium align-top [overflow-wrap:anywhere]">{RANK_DISPLAY[grade as keyof typeof RANK_DISPLAY]}</td>
+        <td className="px-2.5 sm:px-4 py-2.5 text-zinc-700 font-medium align-top">
+          <GradeLabel label={RANK_DISPLAY[grade as keyof typeof RANK_DISPLAY]} />
+        </td>
         <td className={`px-2.5 sm:px-4 py-2.5 text-right tabular-nums align-top ${isSelected && selectedHasDependents === true ? 'font-bold' : ''}`}>
           <span className="block text-zinc-900 font-semibold">{w !== undefined ? fmt(w) : '—'}</span>
           {w !== undefined && hasPrevW && (
