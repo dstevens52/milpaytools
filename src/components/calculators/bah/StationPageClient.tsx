@@ -195,11 +195,8 @@ function HeroBanner({ station, year }: { station: DutyStation; year: string }) {
       <div className="relative">
         {/* Hero text */}
         <div className="px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-5 sm:pb-6">
-          <span className="inline-flex items-center mb-2 px-2.5 py-1 rounded-full text-xs font-semibold text-white/90 bg-white/15 border border-white/20">
-            {`${year} BAH Rates`}
-          </span>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-1">
-            {station.name}
+            {`${station.name} BAH Rates ${year}`}
           </h1>
           <p className="text-sm text-white/60">{subtitle}</p>
           {station.installationDetail && (

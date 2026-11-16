@@ -1,0 +1,1141 @@
+{
+ "_source": "Served HTML of every CONUS /bah/[slug] page, production build of main @ 811885b (src identical to 62f343b), captured 2026-11-15 before Build 03 changed anything.",
+ "pages": {
+  "aberdeen-proving-ground": {
+   "title": "Aberdeen Proving Ground BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Aberdeen Proving Ground, MD: E-5 with dependents $2,478/mo, without $1,986/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Aberdeen Proving Ground BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Aberdeen Proving Ground, MD: E-5 with dependents $2,478/mo, without $1,986/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Aberdeen Proving Ground BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Aberdeen Proving Ground, MD: E-5 with dependents $2,478/mo, without $1,986/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "altus-afb": {
+   "title": "Altus AFB BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Altus AFB, OK: E-5 with dependents $1,254/mo, without $1,032/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Altus AFB BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Altus AFB, OK: E-5 with dependents $1,254/mo, without $1,032/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Altus AFB BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Altus AFB, OK: E-5 with dependents $1,254/mo, without $1,032/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "barksdale-afb": {
+   "title": "Barksdale AFB BAH Rates 2026 — Bossier City, LA | MilPayTools",
+   "description": "2026 BAH for Barksdale AFB, LA (Bossier City): E-5 with dependents $1,845/mo, without $1,452/mo. All ranks and dependency statuses.",
+   "ogTitle": "Barksdale AFB BAH Rates 2026 — Bossier City, LA | MilPayTools",
+   "ogDescription": "2026 BAH for Barksdale AFB, LA (Bossier City): E-5 with dependents $1,845/mo, without $1,452/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Barksdale AFB BAH Rates 2026 — Bossier City, LA | MilPayTools",
+   "twitterDescription": "2026 BAH for Barksdale AFB, LA (Bossier City): E-5 with dependents $1,845/mo, without $1,452/mo. All ranks and dependency statuses."
+  },
+  "base-kodiak": {
+   "title": "Coast Guard Base Kodiak BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Coast Guard Base Kodiak, AK: E-5 with dependents $2,865/mo, without $2,148/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Coast Guard Base Kodiak BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Coast Guard Base Kodiak, AK: E-5 with dependents $2,865/mo, without $2,148/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Coast Guard Base Kodiak BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Coast Guard Base Kodiak, AK: E-5 with dependents $2,865/mo, without $2,148/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "beale-afb": {
+   "title": "Beale AFB BAH Rates 2026 — Marysville, CA | MilPayTools",
+   "description": "2026 BAH for Beale AFB, CA (Marysville): E-5 with dependents $2,967/mo, without $2,367/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Beale AFB BAH Rates 2026 — Marysville, CA | MilPayTools",
+   "ogDescription": "2026 BAH for Beale AFB, CA (Marysville): E-5 with dependents $2,967/mo, without $2,367/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Beale AFB BAH Rates 2026 — Marysville, CA | MilPayTools",
+   "twitterDescription": "2026 BAH for Beale AFB, CA (Marysville): E-5 with dependents $2,967/mo, without $2,367/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "buckley-sfb": {
+   "title": "Buckley Space Force Base BAH Rates 2026 — Aurora, CO | MilPayTools",
+   "description": "2026 BAH for Buckley Space Force Base, CO (Aurora): E-5 with dependents $2,841/mo, without $2,148/mo. All ranks and dependency statuses.",
+   "ogTitle": "Buckley Space Force Base BAH Rates 2026 — Aurora, CO | MilPayTools",
+   "ogDescription": "2026 BAH for Buckley Space Force Base, CO (Aurora): E-5 with dependents $2,841/mo, without $2,148/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Buckley Space Force Base BAH Rates 2026 — Aurora, CO | MilPayTools",
+   "twitterDescription": "2026 BAH for Buckley Space Force Base, CO (Aurora): E-5 with dependents $2,841/mo, without $2,148/mo. All ranks and dependency statuses."
+  },
+  "camp-lejeune": {
+   "title": "Marine Corps Base Camp Lejeune BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Marine Corps Base Camp Lejeune, NC (Jacksonville): E-5 with dependents $1,584/mo, without $1,476/mo. All ranks and dependency statuses.",
+   "ogTitle": "Marine Corps Base Camp Lejeune BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Marine Corps Base Camp Lejeune, NC (Jacksonville): E-5 with dependents $1,584/mo, without $1,476/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Marine Corps Base Camp Lejeune BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Marine Corps Base Camp Lejeune, NC (Jacksonville): E-5 with dependents $1,584/mo, without $1,476/mo. All ranks and dependency statuses."
+  },
+  "camp-pendleton": {
+   "title": "Marine Corps Base Camp Pendleton BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Marine Corps Base Camp Pendleton, CA (Oceanside): E-5 with dependents $3,963/mo, without $3,093/mo. All ranks and dependency statuses.",
+   "ogTitle": "Marine Corps Base Camp Pendleton BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Marine Corps Base Camp Pendleton, CA (Oceanside): E-5 with dependents $3,963/mo, without $3,093/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Marine Corps Base Camp Pendleton BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Marine Corps Base Camp Pendleton, CA (Oceanside): E-5 with dependents $3,963/mo, without $3,093/mo. All ranks and dependency statuses."
+  },
+  "cannon-afb": {
+   "title": "Cannon AFB BAH Rates 2026 — Clovis, NM | MilPayTools",
+   "description": "2026 BAH for Cannon AFB, NM (Clovis): E-5 with dependents $1,365/mo, without $1,107/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Cannon AFB BAH Rates 2026 — Clovis, NM | MilPayTools",
+   "ogDescription": "2026 BAH for Cannon AFB, NM (Clovis): E-5 with dependents $1,365/mo, without $1,107/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Cannon AFB BAH Rates 2026 — Clovis, NM | MilPayTools",
+   "twitterDescription": "2026 BAH for Cannon AFB, NM (Clovis): E-5 with dependents $1,365/mo, without $1,107/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "carlisle-barracks": {
+   "title": "Carlisle Barracks BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Carlisle Barracks, PA: E-5 with dependents $2,076/mo, without $1,617/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Carlisle Barracks BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Carlisle Barracks, PA: E-5 with dependents $2,076/mo, without $1,617/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Carlisle Barracks BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Carlisle Barracks, PA: E-5 with dependents $2,076/mo, without $1,617/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "columbus-afb": {
+   "title": "Columbus AFB BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Columbus AFB, MS: E-5 with dependents $1,398/mo, without $1,158/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Columbus AFB BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Columbus AFB, MS: E-5 with dependents $1,398/mo, without $1,158/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Columbus AFB BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Columbus AFB, MS: E-5 with dependents $1,398/mo, without $1,158/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "dam-neck-annex": {
+   "title": "Dam Neck Annex BAH Rates 2026 — Virginia Beach, VA | MilPayTools",
+   "description": "2026 BAH for Dam Neck Annex, VA (Virginia Beach): E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses.",
+   "ogTitle": "Dam Neck Annex BAH Rates 2026 — Virginia Beach, VA | MilPayTools",
+   "ogDescription": "2026 BAH for Dam Neck Annex, VA (Virginia Beach): E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Dam Neck Annex BAH Rates 2026 — Virginia Beach, VA | MilPayTools",
+   "twitterDescription": "2026 BAH for Dam Neck Annex, VA (Virginia Beach): E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses."
+  },
+  "davis-monthan-afb": {
+   "title": "Davis-Monthan AFB BAH Rates 2026 — Tucson, AZ | MilPayTools",
+   "description": "2026 BAH for Davis-Monthan AFB, AZ (Tucson): E-5 with dependents $1,905/mo, without $1,428/mo. All ranks and dependency statuses.",
+   "ogTitle": "Davis-Monthan AFB BAH Rates 2026 — Tucson, AZ | MilPayTools",
+   "ogDescription": "2026 BAH for Davis-Monthan AFB, AZ (Tucson): E-5 with dependents $1,905/mo, without $1,428/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Davis-Monthan AFB BAH Rates 2026 — Tucson, AZ | MilPayTools",
+   "twitterDescription": "2026 BAH for Davis-Monthan AFB, AZ (Tucson): E-5 with dependents $1,905/mo, without $1,428/mo. All ranks and dependency statuses."
+  },
+  "dyess-afb": {
+   "title": "Dyess AFB BAH Rates 2026 — Abilene, TX | MilPayTools",
+   "description": "2026 BAH for Dyess AFB, TX (Abilene): E-5 with dependents $1,872/mo, without $1,545/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Dyess AFB BAH Rates 2026 — Abilene, TX | MilPayTools",
+   "ogDescription": "2026 BAH for Dyess AFB, TX (Abilene): E-5 with dependents $1,872/mo, without $1,545/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Dyess AFB BAH Rates 2026 — Abilene, TX | MilPayTools",
+   "twitterDescription": "2026 BAH for Dyess AFB, TX (Abilene): E-5 with dependents $1,872/mo, without $1,545/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "edwards-afb": {
+   "title": "Edwards AFB BAH Rates 2026 — Lancaster, CA | MilPayTools",
+   "description": "2026 BAH for Edwards AFB, CA (Lancaster): E-5 with dependents $2,658/mo, without $2,148/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Edwards AFB BAH Rates 2026 — Lancaster, CA | MilPayTools",
+   "ogDescription": "2026 BAH for Edwards AFB, CA (Lancaster): E-5 with dependents $2,658/mo, without $2,148/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Edwards AFB BAH Rates 2026 — Lancaster, CA | MilPayTools",
+   "twitterDescription": "2026 BAH for Edwards AFB, CA (Lancaster): E-5 with dependents $2,658/mo, without $2,148/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "eglin-afb": {
+   "title": "Eglin AFB BAH Rates 2026 — Fort Walton Beach, FL | MilPayTools",
+   "description": "2026 BAH for Eglin AFB, FL (Fort Walton Beach): E-5 with dependents $2,433/mo, without $2,157/mo. All ranks and dependency statuses.",
+   "ogTitle": "Eglin AFB BAH Rates 2026 — Fort Walton Beach, FL | MilPayTools",
+   "ogDescription": "2026 BAH for Eglin AFB, FL (Fort Walton Beach): E-5 with dependents $2,433/mo, without $2,157/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Eglin AFB BAH Rates 2026 — Fort Walton Beach, FL | MilPayTools",
+   "twitterDescription": "2026 BAH for Eglin AFB, FL (Fort Walton Beach): E-5 with dependents $2,433/mo, without $2,157/mo. All ranks and dependency statuses."
+  },
+  "eielson-afb": {
+   "title": "Eielson AFB BAH Rates 2026 — Fairbanks, AK | MilPayTools",
+   "description": "2026 BAH for Eielson AFB, AK (Fairbanks): E-5 with dependents $2,436/mo, without $1,827/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Eielson AFB BAH Rates 2026 — Fairbanks, AK | MilPayTools",
+   "ogDescription": "2026 BAH for Eielson AFB, AK (Fairbanks): E-5 with dependents $2,436/mo, without $1,827/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Eielson AFB BAH Rates 2026 — Fairbanks, AK | MilPayTools",
+   "twitterDescription": "2026 BAH for Eielson AFB, AK (Fairbanks): E-5 with dependents $2,436/mo, without $1,827/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "ellsworth-afb": {
+   "title": "Ellsworth AFB BAH Rates 2026 — Rapid City, SD | MilPayTools",
+   "description": "2026 BAH for Ellsworth AFB, SD (Rapid City): E-5 with dependents $1,986/mo, without $1,545/mo. All ranks and dependency statuses.",
+   "ogTitle": "Ellsworth AFB BAH Rates 2026 — Rapid City, SD | MilPayTools",
+   "ogDescription": "2026 BAH for Ellsworth AFB, SD (Rapid City): E-5 with dependents $1,986/mo, without $1,545/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Ellsworth AFB BAH Rates 2026 — Rapid City, SD | MilPayTools",
+   "twitterDescription": "2026 BAH for Ellsworth AFB, SD (Rapid City): E-5 with dependents $1,986/mo, without $1,545/mo. All ranks and dependency statuses."
+  },
+  "fairchild-afb": {
+   "title": "Fairchild AFB BAH Rates 2026 — Airway Heights, WA | MilPayTools",
+   "description": "2026 BAH for Fairchild AFB, WA (Airway Heights): E-5 with dependents $2,184/mo, without $1,665/mo. All ranks and dependency statuses.",
+   "ogTitle": "Fairchild AFB BAH Rates 2026 — Airway Heights, WA | MilPayTools",
+   "ogDescription": "2026 BAH for Fairchild AFB, WA (Airway Heights): E-5 with dependents $2,184/mo, without $1,665/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Fairchild AFB BAH Rates 2026 — Airway Heights, WA | MilPayTools",
+   "twitterDescription": "2026 BAH for Fairchild AFB, WA (Airway Heights): E-5 with dependents $2,184/mo, without $1,665/mo. All ranks and dependency statuses."
+  },
+  "fe-warren-afb": {
+   "title": "F.E. Warren AFB BAH Rates 2026 — Cheyenne, WY | MilPayTools",
+   "description": "2026 BAH for F.E. Warren AFB, WY (Cheyenne): E-5 with dependents $1,653/mo, without $1,326/mo. All ranks and dependency statuses.",
+   "ogTitle": "F.E. Warren AFB BAH Rates 2026 — Cheyenne, WY | MilPayTools",
+   "ogDescription": "2026 BAH for F.E. Warren AFB, WY (Cheyenne): E-5 with dependents $1,653/mo, without $1,326/mo. All ranks and dependency statuses.",
+   "twitterTitle": "F.E. Warren AFB BAH Rates 2026 — Cheyenne, WY | MilPayTools",
+   "twitterDescription": "2026 BAH for F.E. Warren AFB, WY (Cheyenne): E-5 with dependents $1,653/mo, without $1,326/mo. All ranks and dependency statuses."
+  },
+  "fort-belvoir": {
+   "title": "Fort Belvoir BAH Rates 2026 — Alexandria, VA | MilPayTools",
+   "description": "2026 BAH for Fort Belvoir, VA (Alexandria): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Belvoir BAH Rates 2026 — Alexandria, VA | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Belvoir, VA (Alexandria): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Belvoir BAH Rates 2026 — Alexandria, VA | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Belvoir, VA (Alexandria): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-benning": {
+   "title": "Fort Benning (Fort Moore) BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Fort Benning, GA (Columbus): E-5 with dependents $1,716/mo, without $1,482/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Benning (Fort Moore) BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Benning, GA (Columbus): E-5 with dependents $1,716/mo, without $1,482/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Benning (Fort Moore) BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Benning, GA (Columbus): E-5 with dependents $1,716/mo, without $1,482/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-bliss": {
+   "title": "Fort Bliss BAH Rates 2026 — El Paso, TX | MilPayTools",
+   "description": "2026 BAH for Fort Bliss, TX (El Paso): E-5 with dependents $1,809/mo, without $1,437/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Bliss BAH Rates 2026 — El Paso, TX | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Bliss, TX (El Paso): E-5 with dependents $1,809/mo, without $1,437/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Bliss BAH Rates 2026 — El Paso, TX | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Bliss, TX (El Paso): E-5 with dependents $1,809/mo, without $1,437/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-bragg": {
+   "title": "Fort Bragg (Fort Liberty) BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Fort Bragg, NC (Fayetteville): E-5 with dependents $1,806/mo, without $1,527/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Bragg (Fort Liberty) BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Bragg, NC (Fayetteville): E-5 with dependents $1,806/mo, without $1,527/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Bragg (Fort Liberty) BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Bragg, NC (Fayetteville): E-5 with dependents $1,806/mo, without $1,527/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-campbell": {
+   "title": "Fort Campbell BAH Rates 2026 — Clarksville, TN | MilPayTools",
+   "description": "2026 BAH for Fort Campbell, TN (Clarksville): E-5 with dependents $1,815/mo, without $1,593/mo. All ranks and dependency statuses.",
+   "ogTitle": "Fort Campbell BAH Rates 2026 — Clarksville, TN | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Campbell, TN (Clarksville): E-5 with dependents $1,815/mo, without $1,593/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Fort Campbell BAH Rates 2026 — Clarksville, TN | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Campbell, TN (Clarksville): E-5 with dependents $1,815/mo, without $1,593/mo. All ranks and dependency statuses."
+  },
+  "fort-carson": {
+   "title": "Fort Carson BAH Rates 2026 — Colorado Springs, CO | MilPayTools",
+   "description": "2026 BAH for Fort Carson, CO (Colorado Springs): E-5 with dependents $2,358/mo, without $1,860/mo. All ranks and dependency statuses.",
+   "ogTitle": "Fort Carson BAH Rates 2026 — Colorado Springs, CO | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Carson, CO (Colorado Springs): E-5 with dependents $2,358/mo, without $1,860/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Fort Carson BAH Rates 2026 — Colorado Springs, CO | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Carson, CO (Colorado Springs): E-5 with dependents $2,358/mo, without $1,860/mo. All ranks and dependency statuses."
+  },
+  "fort-detrick": {
+   "title": "Fort Detrick BAH Rates 2026 — Frederick, MD | MilPayTools",
+   "description": "2026 BAH for Fort Detrick, MD (Frederick): E-5 with dependents $2,682/mo, without $2,160/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Detrick BAH Rates 2026 — Frederick, MD | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Detrick, MD (Frederick): E-5 with dependents $2,682/mo, without $2,160/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Detrick BAH Rates 2026 — Frederick, MD | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Detrick, MD (Frederick): E-5 with dependents $2,682/mo, without $2,160/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-drum": {
+   "title": "Fort Drum BAH Rates 2026 — Watertown, NY | MilPayTools",
+   "description": "2026 BAH for Fort Drum, NY (Watertown): E-5 with dependents $1,665/mo, without $1,422/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Drum BAH Rates 2026 — Watertown, NY | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Drum, NY (Watertown): E-5 with dependents $1,665/mo, without $1,422/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Drum BAH Rates 2026 — Watertown, NY | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Drum, NY (Watertown): E-5 with dependents $1,665/mo, without $1,422/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-gordon": {
+   "title": "Fort Gordon (Fort Eisenhower) BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Fort Gordon, GA (Augusta): E-5 with dependents $1,890/mo, without $1,644/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Gordon (Fort Eisenhower) BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Gordon, GA (Augusta): E-5 with dependents $1,890/mo, without $1,644/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Gordon (Fort Eisenhower) BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Gordon, GA (Augusta): E-5 with dependents $1,890/mo, without $1,644/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-hamilton": {
+   "title": "Fort Hamilton BAH Rates 2026 — Brooklyn, NY | MilPayTools",
+   "description": "2026 BAH for Fort Hamilton, NY (Brooklyn): E-5 with dependents $5,070/mo, without $4,980/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Hamilton BAH Rates 2026 — Brooklyn, NY | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Hamilton, NY (Brooklyn): E-5 with dependents $5,070/mo, without $4,980/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Hamilton BAH Rates 2026 — Brooklyn, NY | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Hamilton, NY (Brooklyn): E-5 with dependents $5,070/mo, without $4,980/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-hood": {
+   "title": "Fort Hood (Fort Cavazos) BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Fort Hood, TX (Killeen): E-5 with dependents $1,695/mo, without $1,530/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Hood (Fort Cavazos) BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Hood, TX (Killeen): E-5 with dependents $1,695/mo, without $1,530/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Hood (Fort Cavazos) BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Hood, TX (Killeen): E-5 with dependents $1,695/mo, without $1,530/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-huachuca": {
+   "title": "Fort Huachuca BAH Rates 2026 — Sierra Vista, AZ | MilPayTools",
+   "description": "2026 BAH for Fort Huachuca, AZ (Sierra Vista): E-5 with dependents $1,719/mo, without $1,347/mo. All ranks and dependency statuses.",
+   "ogTitle": "Fort Huachuca BAH Rates 2026 — Sierra Vista, AZ | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Huachuca, AZ (Sierra Vista): E-5 with dependents $1,719/mo, without $1,347/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Fort Huachuca BAH Rates 2026 — Sierra Vista, AZ | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Huachuca, AZ (Sierra Vista): E-5 with dependents $1,719/mo, without $1,347/mo. All ranks and dependency statuses."
+  },
+  "fort-irwin": {
+   "title": "Fort Irwin (National Training Center) BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Fort Irwin (National Training Center), CA (Barstow): E-5 with dependents $2,001/mo, without $1,695/mo. All ranks and dependency statuses.",
+   "ogTitle": "Fort Irwin (National Training Center) BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Irwin (National Training Center), CA (Barstow): E-5 with dependents $2,001/mo, without $1,695/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Fort Irwin (National Training Center) BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Irwin (National Training Center), CA (Barstow): E-5 with dependents $2,001/mo, without $1,695/mo. All ranks and dependency statuses."
+  },
+  "fort-jackson": {
+   "title": "Fort Jackson BAH Rates 2026 — Columbia, SC | MilPayTools",
+   "description": "2026 BAH for Fort Jackson, SC (Columbia): E-5 with dependents $1,878/mo, without $1,647/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Jackson BAH Rates 2026 — Columbia, SC | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Jackson, SC (Columbia): E-5 with dependents $1,878/mo, without $1,647/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Jackson BAH Rates 2026 — Columbia, SC | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Jackson, SC (Columbia): E-5 with dependents $1,878/mo, without $1,647/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-knox": {
+   "title": "Fort Knox BAH Rates 2026 — Radcliff, KY | MilPayTools",
+   "description": "2026 BAH for Fort Knox, KY (Radcliff): E-5 with dependents $1,647/mo, without $1,443/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Knox BAH Rates 2026 — Radcliff, KY | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Knox, KY (Radcliff): E-5 with dependents $1,647/mo, without $1,443/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Knox BAH Rates 2026 — Radcliff, KY | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Knox, KY (Radcliff): E-5 with dependents $1,647/mo, without $1,443/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-leavenworth": {
+   "title": "Fort Leavenworth BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Fort Leavenworth, KS: E-5 with dependents $1,815/mo, without $1,569/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Leavenworth BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Leavenworth, KS: E-5 with dependents $1,815/mo, without $1,569/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Leavenworth BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Leavenworth, KS: E-5 with dependents $1,815/mo, without $1,569/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-lee": {
+   "title": "Fort Lee (Fort Gregg-Adams) BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Fort Lee, VA (Petersburg): E-5 with dependents $2,358/mo, without $1,866/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Lee (Fort Gregg-Adams) BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Lee, VA (Petersburg): E-5 with dependents $2,358/mo, without $1,866/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Lee (Fort Gregg-Adams) BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Lee, VA (Petersburg): E-5 with dependents $2,358/mo, without $1,866/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-leonard-wood": {
+   "title": "Fort Leonard Wood BAH Rates 2026 — Waynesville, MO | MilPayTools",
+   "description": "2026 BAH for Fort Leonard Wood, MO (Waynesville): E-5 with dependents $1,479/mo, without $1,290/mo. All ranks and dependency statuses.",
+   "ogTitle": "Fort Leonard Wood BAH Rates 2026 — Waynesville, MO | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Leonard Wood, MO (Waynesville): E-5 with dependents $1,479/mo, without $1,290/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Fort Leonard Wood BAH Rates 2026 — Waynesville, MO | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Leonard Wood, MO (Waynesville): E-5 with dependents $1,479/mo, without $1,290/mo. All ranks and dependency statuses."
+  },
+  "fort-mccoy": {
+   "title": "Fort McCoy BAH Rates 2026 — Sparta, WI | MilPayTools",
+   "description": "2026 BAH for Fort McCoy, WI (Sparta): E-5 with dependents $1,395/mo, without $1,290/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort McCoy BAH Rates 2026 — Sparta, WI | MilPayTools",
+   "ogDescription": "2026 BAH for Fort McCoy, WI (Sparta): E-5 with dependents $1,395/mo, without $1,290/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort McCoy BAH Rates 2026 — Sparta, WI | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort McCoy, WI (Sparta): E-5 with dependents $1,395/mo, without $1,290/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-mcnair": {
+   "title": "Fort McNair BAH Rates 2026 — Washington, DC | MilPayTools",
+   "description": "2026 BAH for Fort McNair, DC (Washington): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort McNair BAH Rates 2026 — Washington, DC | MilPayTools",
+   "ogDescription": "2026 BAH for Fort McNair, DC (Washington): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort McNair BAH Rates 2026 — Washington, DC | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort McNair, DC (Washington): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-meade": {
+   "title": "Fort George G. Meade BAH Rates 2026 — Odenton, MD | MilPayTools",
+   "description": "2026 BAH for Fort George G. Meade, MD (Odenton): E-5 with dependents $2,901/mo, without $2,436/mo. All ranks and dependency statuses.",
+   "ogTitle": "Fort George G. Meade BAH Rates 2026 — Odenton, MD | MilPayTools",
+   "ogDescription": "2026 BAH for Fort George G. Meade, MD (Odenton): E-5 with dependents $2,901/mo, without $2,436/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Fort George G. Meade BAH Rates 2026 — Odenton, MD | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort George G. Meade, MD (Odenton): E-5 with dependents $2,901/mo, without $2,436/mo. All ranks and dependency statuses."
+  },
+  "fort-polk": {
+   "title": "Fort Polk (Fort Johnson) BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Fort Polk, LA (Leesville): E-5 with dependents $1,218/mo, without $1,128/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Polk (Fort Johnson) BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Polk, LA (Leesville): E-5 with dependents $1,218/mo, without $1,128/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Polk (Fort Johnson) BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Polk, LA (Leesville): E-5 with dependents $1,218/mo, without $1,128/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-riley": {
+   "title": "Fort Riley BAH Rates 2026 — Junction City, KS | MilPayTools",
+   "description": "2026 BAH for Fort Riley, KS (Junction City): E-5 with dependents $1,314/mo, without $1,158/mo. All ranks and dependency statuses.",
+   "ogTitle": "Fort Riley BAH Rates 2026 — Junction City, KS | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Riley, KS (Junction City): E-5 with dependents $1,314/mo, without $1,158/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Fort Riley BAH Rates 2026 — Junction City, KS | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Riley, KS (Junction City): E-5 with dependents $1,314/mo, without $1,158/mo. All ranks and dependency statuses."
+  },
+  "fort-rucker": {
+   "title": "Fort Rucker (Fort Novosel) BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Fort Rucker, AL (Daleville): E-5 with dependents $1,572/mo, without $1,251/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Rucker (Fort Novosel) BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Rucker, AL (Daleville): E-5 with dependents $1,572/mo, without $1,251/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Rucker (Fort Novosel) BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Rucker, AL (Daleville): E-5 with dependents $1,572/mo, without $1,251/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-shafter": {
+   "title": "Fort Shafter BAH Rates 2026 — Honolulu, HI | MilPayTools",
+   "description": "2026 BAH for Fort Shafter, HI (Honolulu): E-5 with dependents $3,663/mo, without $2,856/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Shafter BAH Rates 2026 — Honolulu, HI | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Shafter, HI (Honolulu): E-5 with dependents $3,663/mo, without $2,856/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Shafter BAH Rates 2026 — Honolulu, HI | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Shafter, HI (Honolulu): E-5 with dependents $3,663/mo, without $2,856/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-sill": {
+   "title": "Fort Sill BAH Rates 2026 — Lawton, OK | MilPayTools",
+   "description": "2026 BAH for Fort Sill, OK (Lawton): E-5 with dependents $1,233/mo, without $1,092/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Sill BAH Rates 2026 — Lawton, OK | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Sill, OK (Lawton): E-5 with dependents $1,233/mo, without $1,092/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Sill BAH Rates 2026 — Lawton, OK | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Sill, OK (Lawton): E-5 with dependents $1,233/mo, without $1,092/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-stewart": {
+   "title": "Fort Stewart BAH Rates 2026 — Hinesville, GA | MilPayTools",
+   "description": "2026 BAH for Fort Stewart, GA (Hinesville): E-5 with dependents $2,310/mo, without $1,947/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Fort Stewart BAH Rates 2026 — Hinesville, GA | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Stewart, GA (Hinesville): E-5 with dependents $2,310/mo, without $1,947/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Fort Stewart BAH Rates 2026 — Hinesville, GA | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Stewart, GA (Hinesville): E-5 with dependents $2,310/mo, without $1,947/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "fort-wainwright": {
+   "title": "Fort Wainwright BAH Rates 2026 — Fairbanks, AK | MilPayTools",
+   "description": "2026 BAH for Fort Wainwright, AK (Fairbanks): E-5 with dependents $2,436/mo, without $1,827/mo. All ranks and dependency statuses.",
+   "ogTitle": "Fort Wainwright BAH Rates 2026 — Fairbanks, AK | MilPayTools",
+   "ogDescription": "2026 BAH for Fort Wainwright, AK (Fairbanks): E-5 with dependents $2,436/mo, without $1,827/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Fort Wainwright BAH Rates 2026 — Fairbanks, AK | MilPayTools",
+   "twitterDescription": "2026 BAH for Fort Wainwright, AK (Fairbanks): E-5 with dependents $2,436/mo, without $1,827/mo. All ranks and dependency statuses."
+  },
+  "goodfellow-afb": {
+   "title": "Goodfellow AFB BAH Rates 2026 — San Angelo, TX | MilPayTools",
+   "description": "2026 BAH for Goodfellow AFB, TX (San Angelo): E-5 with dependents $1,578/mo, without $1,230/mo. All ranks and dependency statuses.",
+   "ogTitle": "Goodfellow AFB BAH Rates 2026 — San Angelo, TX | MilPayTools",
+   "ogDescription": "2026 BAH for Goodfellow AFB, TX (San Angelo): E-5 with dependents $1,578/mo, without $1,230/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Goodfellow AFB BAH Rates 2026 — San Angelo, TX | MilPayTools",
+   "twitterDescription": "2026 BAH for Goodfellow AFB, TX (San Angelo): E-5 with dependents $1,578/mo, without $1,230/mo. All ranks and dependency statuses."
+  },
+  "grand-forks-afb": {
+   "title": "Grand Forks AFB BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Grand Forks AFB, ND: E-5 with dependents $1,731/mo, without $1,299/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Grand Forks AFB BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Grand Forks AFB, ND: E-5 with dependents $1,731/mo, without $1,299/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Grand Forks AFB BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Grand Forks AFB, ND: E-5 with dependents $1,731/mo, without $1,299/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "hanscom-afb": {
+   "title": "Hanscom AFB BAH Rates 2026 — Bedford, MA | MilPayTools",
+   "description": "2026 BAH for Hanscom AFB, MA (Bedford): E-5 with dependents $4,188/mo, without $3,516/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Hanscom AFB BAH Rates 2026 — Bedford, MA | MilPayTools",
+   "ogDescription": "2026 BAH for Hanscom AFB, MA (Bedford): E-5 with dependents $4,188/mo, without $3,516/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Hanscom AFB BAH Rates 2026 — Bedford, MA | MilPayTools",
+   "twitterDescription": "2026 BAH for Hanscom AFB, MA (Bedford): E-5 with dependents $4,188/mo, without $3,516/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "hill-afb": {
+   "title": "Hill AFB BAH Rates 2026 — Ogden, UT | MilPayTools",
+   "description": "2026 BAH for Hill AFB, UT (Ogden): E-5 with dependents $2,118/mo, without $1,668/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Hill AFB BAH Rates 2026 — Ogden, UT | MilPayTools",
+   "ogDescription": "2026 BAH for Hill AFB, UT (Ogden): E-5 with dependents $2,118/mo, without $1,668/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Hill AFB BAH Rates 2026 — Ogden, UT | MilPayTools",
+   "twitterDescription": "2026 BAH for Hill AFB, UT (Ogden): E-5 with dependents $2,118/mo, without $1,668/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "holloman-afb": {
+   "title": "Holloman AFB BAH Rates 2026 — Alamogordo, NM | MilPayTools",
+   "description": "2026 BAH for Holloman AFB, NM (Alamogordo): E-5 with dependents $1,590/mo, without $1,197/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Holloman AFB BAH Rates 2026 — Alamogordo, NM | MilPayTools",
+   "ogDescription": "2026 BAH for Holloman AFB, NM (Alamogordo): E-5 with dependents $1,590/mo, without $1,197/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Holloman AFB BAH Rates 2026 — Alamogordo, NM | MilPayTools",
+   "twitterDescription": "2026 BAH for Holloman AFB, NM (Alamogordo): E-5 with dependents $1,590/mo, without $1,197/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "hurlburt-field": {
+   "title": "Hurlburt Field BAH Rates 2026 — Mary Esther, FL | MilPayTools",
+   "description": "2026 BAH for Hurlburt Field, FL (Mary Esther): E-5 with dependents $2,433/mo, without $2,157/mo. All ranks and dependency statuses.",
+   "ogTitle": "Hurlburt Field BAH Rates 2026 — Mary Esther, FL | MilPayTools",
+   "ogDescription": "2026 BAH for Hurlburt Field, FL (Mary Esther): E-5 with dependents $2,433/mo, without $2,157/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Hurlburt Field BAH Rates 2026 — Mary Esther, FL | MilPayTools",
+   "twitterDescription": "2026 BAH for Hurlburt Field, FL (Mary Esther): E-5 with dependents $2,433/mo, without $2,157/mo. All ranks and dependency statuses."
+  },
+  "joint-base-anacostia-bolling": {
+   "title": "Joint Base Anacostia-Bolling BAH Rates 2026 — Washington, DC | MilPayTools",
+   "description": "2026 BAH for Joint Base Anacostia-Bolling, DC (Washington): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses.",
+   "ogTitle": "Joint Base Anacostia-Bolling BAH Rates 2026 — Washington, DC | MilPayTools",
+   "ogDescription": "2026 BAH for Joint Base Anacostia-Bolling, DC (Washington): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Joint Base Anacostia-Bolling BAH Rates 2026 — Washington, DC | MilPayTools",
+   "twitterDescription": "2026 BAH for Joint Base Anacostia-Bolling, DC (Washington): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses."
+  },
+  "joint-base-andrews": {
+   "title": "Joint Base Andrews BAH Rates 2026 — Camp Springs, MD | MilPayTools",
+   "description": "2026 BAH for Joint Base Andrews, MD (Camp Springs): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses.",
+   "ogTitle": "Joint Base Andrews BAH Rates 2026 — Camp Springs, MD | MilPayTools",
+   "ogDescription": "2026 BAH for Joint Base Andrews, MD (Camp Springs): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Joint Base Andrews BAH Rates 2026 — Camp Springs, MD | MilPayTools",
+   "twitterDescription": "2026 BAH for Joint Base Andrews, MD (Camp Springs): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses."
+  },
+  "joint-base-cape-cod": {
+   "title": "Joint Base Cape Cod BAH Rates 2026 — Bourne, MA | MilPayTools",
+   "description": "2026 BAH for Joint Base Cape Cod, MA (Bourne): E-5 with dependents $3,924/mo, without $3,285/mo. All ranks and dependency statuses.",
+   "ogTitle": "Joint Base Cape Cod BAH Rates 2026 — Bourne, MA | MilPayTools",
+   "ogDescription": "2026 BAH for Joint Base Cape Cod, MA (Bourne): E-5 with dependents $3,924/mo, without $3,285/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Joint Base Cape Cod BAH Rates 2026 — Bourne, MA | MilPayTools",
+   "twitterDescription": "2026 BAH for Joint Base Cape Cod, MA (Bourne): E-5 with dependents $3,924/mo, without $3,285/mo. All ranks and dependency statuses."
+  },
+  "joint-base-charleston": {
+   "title": "Joint Base Charleston BAH Rates 2026 — North Charleston, SC | MilPayTools",
+   "description": "2026 BAH for Joint Base Charleston, SC (North Charleston): E-5 with dependents $2,385/mo, without $1,941/mo. All ranks and dependency statuses.",
+   "ogTitle": "Joint Base Charleston BAH Rates 2026 — North Charleston, SC | MilPayTools",
+   "ogDescription": "2026 BAH for Joint Base Charleston, SC (North Charleston): E-5 with dependents $2,385/mo, without $1,941/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Joint Base Charleston BAH Rates 2026 — North Charleston, SC | MilPayTools",
+   "twitterDescription": "2026 BAH for Joint Base Charleston, SC (North Charleston): E-5 with dependents $2,385/mo, without $1,941/mo. All ranks and dependency statuses."
+  },
+  "joint-base-elmendorf-richardson": {
+   "title": "Joint Base Elmendorf-Richardson BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Joint Base Elmendorf-Richardson, AK (Anchorage): E-5 with dependents $2,874/mo, without $2,157/mo. All ranks and dependency statuses.",
+   "ogTitle": "Joint Base Elmendorf-Richardson BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Joint Base Elmendorf-Richardson, AK (Anchorage): E-5 with dependents $2,874/mo, without $2,157/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Joint Base Elmendorf-Richardson BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Joint Base Elmendorf-Richardson, AK (Anchorage): E-5 with dependents $2,874/mo, without $2,157/mo. All ranks and dependency statuses."
+  },
+  "joint-base-langley-eustis": {
+   "title": "Joint Base Langley-Eustis BAH Rates 2026 — Hampton, VA | MilPayTools",
+   "description": "2026 BAH for Joint Base Langley-Eustis, VA (Hampton): E-5 with dependents $2,274/mo, without $1,779/mo. All ranks and dependency statuses.",
+   "ogTitle": "Joint Base Langley-Eustis BAH Rates 2026 — Hampton, VA | MilPayTools",
+   "ogDescription": "2026 BAH for Joint Base Langley-Eustis, VA (Hampton): E-5 with dependents $2,274/mo, without $1,779/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Joint Base Langley-Eustis BAH Rates 2026 — Hampton, VA | MilPayTools",
+   "twitterDescription": "2026 BAH for Joint Base Langley-Eustis, VA (Hampton): E-5 with dependents $2,274/mo, without $1,779/mo. All ranks and dependency statuses."
+  },
+  "joint-base-lewis-mcchord": {
+   "title": "Joint Base Lewis-McChord BAH Rates 2026 — Lakewood, WA | MilPayTools",
+   "description": "2026 BAH for Joint Base Lewis-McChord, WA (Lakewood): E-5 with dependents $2,556/mo, without $2,121/mo. All ranks and dependency statuses.",
+   "ogTitle": "Joint Base Lewis-McChord BAH Rates 2026 — Lakewood, WA | MilPayTools",
+   "ogDescription": "2026 BAH for Joint Base Lewis-McChord, WA (Lakewood): E-5 with dependents $2,556/mo, without $2,121/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Joint Base Lewis-McChord BAH Rates 2026 — Lakewood, WA | MilPayTools",
+   "twitterDescription": "2026 BAH for Joint Base Lewis-McChord, WA (Lakewood): E-5 with dependents $2,556/mo, without $2,121/mo. All ranks and dependency statuses."
+  },
+  "joint-base-little-creek-fort-story": {
+   "title": "Joint Base Little Creek-Fort Story BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Joint Base Little Creek-Fort Story, VA (Virginia Beach): E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses.",
+   "ogTitle": "Joint Base Little Creek-Fort Story BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Joint Base Little Creek-Fort Story, VA (Virginia Beach): E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Joint Base Little Creek-Fort Story BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Joint Base Little Creek-Fort Story, VA (Virginia Beach): E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses."
+  },
+  "joint-base-mcguire-dix-lakehurst": {
+   "title": "Joint Base McGuire-Dix-Lakehurst BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Joint Base McGuire-Dix-Lakehurst, NJ (Wrightstown): E-5 with dependents $2,823/mo, without $2,421/mo. All ranks and dependency statuses.",
+   "ogTitle": "Joint Base McGuire-Dix-Lakehurst BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Joint Base McGuire-Dix-Lakehurst, NJ (Wrightstown): E-5 with dependents $2,823/mo, without $2,421/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Joint Base McGuire-Dix-Lakehurst BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Joint Base McGuire-Dix-Lakehurst, NJ (Wrightstown): E-5 with dependents $2,823/mo, without $2,421/mo. All ranks and dependency statuses."
+  },
+  "joint-base-myer-henderson-hall": {
+   "title": "Joint Base Myer-Henderson Hall BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Joint Base Myer-Henderson Hall, VA (Arlington): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses.",
+   "ogTitle": "Joint Base Myer-Henderson Hall BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Joint Base Myer-Henderson Hall, VA (Arlington): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Joint Base Myer-Henderson Hall BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Joint Base Myer-Henderson Hall, VA (Arlington): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses."
+  },
+  "joint-base-pearl-harbor-hickam": {
+   "title": "Joint Base Pearl Harbor-Hickam BAH Rates 2026 — Honolulu, HI | MilPayTools",
+   "description": "2026 BAH for Joint Base Pearl Harbor-Hickam, HI (Honolulu): E-5 with dependents $3,663/mo, without $2,856/mo. All ranks and dependency statuses.",
+   "ogTitle": "Joint Base Pearl Harbor-Hickam BAH Rates 2026 — Honolulu, HI | MilPayTools",
+   "ogDescription": "2026 BAH for Joint Base Pearl Harbor-Hickam, HI (Honolulu): E-5 with dependents $3,663/mo, without $2,856/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Joint Base Pearl Harbor-Hickam BAH Rates 2026 — Honolulu, HI | MilPayTools",
+   "twitterDescription": "2026 BAH for Joint Base Pearl Harbor-Hickam, HI (Honolulu): E-5 with dependents $3,663/mo, without $2,856/mo. All ranks and dependency statuses."
+  },
+  "joint-base-san-antonio": {
+   "title": "Joint Base San Antonio BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Joint Base San Antonio, TX: E-5 with dependents $1,869/mo, without $1,500/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Joint Base San Antonio BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Joint Base San Antonio, TX: E-5 with dependents $1,869/mo, without $1,500/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Joint Base San Antonio BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Joint Base San Antonio, TX: E-5 with dependents $1,869/mo, without $1,500/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "keesler-afb": {
+   "title": "Keesler AFB BAH Rates 2026 — Biloxi, MS | MilPayTools",
+   "description": "2026 BAH for Keesler AFB, MS (Biloxi): E-5 with dependents $1,602/mo, without $1,365/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Keesler AFB BAH Rates 2026 — Biloxi, MS | MilPayTools",
+   "ogDescription": "2026 BAH for Keesler AFB, MS (Biloxi): E-5 with dependents $1,602/mo, without $1,365/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Keesler AFB BAH Rates 2026 — Biloxi, MS | MilPayTools",
+   "twitterDescription": "2026 BAH for Keesler AFB, MS (Biloxi): E-5 with dependents $1,602/mo, without $1,365/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "kirtland-afb": {
+   "title": "Kirtland AFB BAH Rates 2026 — Albuquerque, NM | MilPayTools",
+   "description": "2026 BAH for Kirtland AFB, NM (Albuquerque): E-5 with dependents $2,211/mo, without $1,689/mo. All ranks and dependency statuses.",
+   "ogTitle": "Kirtland AFB BAH Rates 2026 — Albuquerque, NM | MilPayTools",
+   "ogDescription": "2026 BAH for Kirtland AFB, NM (Albuquerque): E-5 with dependents $2,211/mo, without $1,689/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Kirtland AFB BAH Rates 2026 — Albuquerque, NM | MilPayTools",
+   "twitterDescription": "2026 BAH for Kirtland AFB, NM (Albuquerque): E-5 with dependents $2,211/mo, without $1,689/mo. All ranks and dependency statuses."
+  },
+  "laughlin-afb": {
+   "title": "Laughlin AFB BAH Rates 2026 — Del Rio, TX | MilPayTools",
+   "description": "2026 BAH for Laughlin AFB, TX (Del Rio): E-5 with dependents $1,470/mo, without $1,209/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Laughlin AFB BAH Rates 2026 — Del Rio, TX | MilPayTools",
+   "ogDescription": "2026 BAH for Laughlin AFB, TX (Del Rio): E-5 with dependents $1,470/mo, without $1,209/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Laughlin AFB BAH Rates 2026 — Del Rio, TX | MilPayTools",
+   "twitterDescription": "2026 BAH for Laughlin AFB, TX (Del Rio): E-5 with dependents $1,470/mo, without $1,209/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "little-rock-afb": {
+   "title": "Little Rock AFB BAH Rates 2026 — Jacksonville, AR | MilPayTools",
+   "description": "2026 BAH for Little Rock AFB, AR (Jacksonville): E-5 with dependents $1,848/mo, without $1,548/mo. All ranks and dependency statuses.",
+   "ogTitle": "Little Rock AFB BAH Rates 2026 — Jacksonville, AR | MilPayTools",
+   "ogDescription": "2026 BAH for Little Rock AFB, AR (Jacksonville): E-5 with dependents $1,848/mo, without $1,548/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Little Rock AFB BAH Rates 2026 — Jacksonville, AR | MilPayTools",
+   "twitterDescription": "2026 BAH for Little Rock AFB, AR (Jacksonville): E-5 with dependents $1,848/mo, without $1,548/mo. All ranks and dependency statuses."
+  },
+  "los-angeles-afb": {
+   "title": "Los Angeles AFB BAH Rates 2026 — El Segundo, CA | MilPayTools",
+   "description": "2026 BAH for Los Angeles AFB, CA (El Segundo): E-5 with dependents $3,882/mo, without $3,048/mo. All ranks and dependency statuses.",
+   "ogTitle": "Los Angeles AFB BAH Rates 2026 — El Segundo, CA | MilPayTools",
+   "ogDescription": "2026 BAH for Los Angeles AFB, CA (El Segundo): E-5 with dependents $3,882/mo, without $3,048/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Los Angeles AFB BAH Rates 2026 — El Segundo, CA | MilPayTools",
+   "twitterDescription": "2026 BAH for Los Angeles AFB, CA (El Segundo): E-5 with dependents $3,882/mo, without $3,048/mo. All ranks and dependency statuses."
+  },
+  "luke-afb": {
+   "title": "Luke AFB BAH Rates 2026 — Glendale, AZ | MilPayTools",
+   "description": "2026 BAH for Luke AFB, AZ (Glendale): E-5 with dependents $2,289/mo, without $1,740/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Luke AFB BAH Rates 2026 — Glendale, AZ | MilPayTools",
+   "ogDescription": "2026 BAH for Luke AFB, AZ (Glendale): E-5 with dependents $2,289/mo, without $1,740/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Luke AFB BAH Rates 2026 — Glendale, AZ | MilPayTools",
+   "twitterDescription": "2026 BAH for Luke AFB, AZ (Glendale): E-5 with dependents $2,289/mo, without $1,740/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "macdill-afb": {
+   "title": "MacDill AFB BAH Rates 2026 — Tampa, FL | MilPayTools",
+   "description": "2026 BAH for MacDill AFB, FL (Tampa): E-5 with dependents $2,709/mo, without $2,187/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "MacDill AFB BAH Rates 2026 — Tampa, FL | MilPayTools",
+   "ogDescription": "2026 BAH for MacDill AFB, FL (Tampa): E-5 with dependents $2,709/mo, without $2,187/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "MacDill AFB BAH Rates 2026 — Tampa, FL | MilPayTools",
+   "twitterDescription": "2026 BAH for MacDill AFB, FL (Tampa): E-5 with dependents $2,709/mo, without $2,187/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "malmstrom-afb": {
+   "title": "Malmstrom AFB BAH Rates 2026 — Great Falls, MT | MilPayTools",
+   "description": "2026 BAH for Malmstrom AFB, MT (Great Falls): E-5 with dependents $1,608/mo, without $1,392/mo. All ranks and dependency statuses.",
+   "ogTitle": "Malmstrom AFB BAH Rates 2026 — Great Falls, MT | MilPayTools",
+   "ogDescription": "2026 BAH for Malmstrom AFB, MT (Great Falls): E-5 with dependents $1,608/mo, without $1,392/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Malmstrom AFB BAH Rates 2026 — Great Falls, MT | MilPayTools",
+   "twitterDescription": "2026 BAH for Malmstrom AFB, MT (Great Falls): E-5 with dependents $1,608/mo, without $1,392/mo. All ranks and dependency statuses."
+  },
+  "marine-corps-air-ground-combat-center": {
+   "title": "MCAGCC Twentynine Palms BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for MCAGCC Twentynine Palms, CA: E-5 with dependents $1,980/mo, without $1,782/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "MCAGCC Twentynine Palms BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for MCAGCC Twentynine Palms, CA: E-5 with dependents $1,980/mo, without $1,782/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "MCAGCC Twentynine Palms BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for MCAGCC Twentynine Palms, CA: E-5 with dependents $1,980/mo, without $1,782/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "marine-corps-air-station-beaufort": {
+   "title": "MCAS Beaufort BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for MCAS Beaufort, SC: E-5 with dependents $2,403/mo, without $2,103/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "MCAS Beaufort BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for MCAS Beaufort, SC: E-5 with dependents $2,403/mo, without $2,103/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "MCAS Beaufort BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for MCAS Beaufort, SC: E-5 with dependents $2,403/mo, without $2,103/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "marine-corps-air-station-cherry-point": {
+   "title": "MCAS Cherry Point BAH Rates 2026 — Havelock, NC | MilPayTools",
+   "description": "2026 BAH for MCAS Cherry Point, NC (Havelock): E-5 with dependents $1,851/mo, without $1,722/mo. All ranks and dependency statuses.",
+   "ogTitle": "MCAS Cherry Point BAH Rates 2026 — Havelock, NC | MilPayTools",
+   "ogDescription": "2026 BAH for MCAS Cherry Point, NC (Havelock): E-5 with dependents $1,851/mo, without $1,722/mo. All ranks and dependency statuses.",
+   "twitterTitle": "MCAS Cherry Point BAH Rates 2026 — Havelock, NC | MilPayTools",
+   "twitterDescription": "2026 BAH for MCAS Cherry Point, NC (Havelock): E-5 with dependents $1,851/mo, without $1,722/mo. All ranks and dependency statuses."
+  },
+  "marine-corps-air-station-miramar": {
+   "title": "MCAS Miramar BAH Rates 2026 — San Diego, CA | MilPayTools",
+   "description": "2026 BAH for MCAS Miramar, CA (San Diego): E-5 with dependents $3,975/mo, without $3,147/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "MCAS Miramar BAH Rates 2026 — San Diego, CA | MilPayTools",
+   "ogDescription": "2026 BAH for MCAS Miramar, CA (San Diego): E-5 with dependents $3,975/mo, without $3,147/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "MCAS Miramar BAH Rates 2026 — San Diego, CA | MilPayTools",
+   "twitterDescription": "2026 BAH for MCAS Miramar, CA (San Diego): E-5 with dependents $3,975/mo, without $3,147/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "marine-corps-base-quantico": {
+   "title": "Marine Corps Base Quantico BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Marine Corps Base Quantico, VA: E-5 with dependents $2,955/mo, without $2,361/mo. All ranks and dependency statuses.",
+   "ogTitle": "Marine Corps Base Quantico BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Marine Corps Base Quantico, VA: E-5 with dependents $2,955/mo, without $2,361/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Marine Corps Base Quantico BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Marine Corps Base Quantico, VA: E-5 with dependents $2,955/mo, without $2,361/mo. All ranks and dependency statuses."
+  },
+  "maxwell-afb": {
+   "title": "Maxwell AFB BAH Rates 2026 — Montgomery, AL | MilPayTools",
+   "description": "2026 BAH for Maxwell AFB, AL (Montgomery): E-5 with dependents $1,683/mo, without $1,431/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Maxwell AFB BAH Rates 2026 — Montgomery, AL | MilPayTools",
+   "ogDescription": "2026 BAH for Maxwell AFB, AL (Montgomery): E-5 with dependents $1,683/mo, without $1,431/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Maxwell AFB BAH Rates 2026 — Montgomery, AL | MilPayTools",
+   "twitterDescription": "2026 BAH for Maxwell AFB, AL (Montgomery): E-5 with dependents $1,683/mo, without $1,431/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "mcas-new-river": {
+   "title": "MCAS New River BAH Rates 2026 — Jacksonville, NC | MilPayTools",
+   "description": "2026 BAH for MCAS New River, NC (Jacksonville): E-5 with dependents $1,584/mo, without $1,476/mo. All ranks and dependency statuses.",
+   "ogTitle": "MCAS New River BAH Rates 2026 — Jacksonville, NC | MilPayTools",
+   "ogDescription": "2026 BAH for MCAS New River, NC (Jacksonville): E-5 with dependents $1,584/mo, without $1,476/mo. All ranks and dependency statuses.",
+   "twitterTitle": "MCAS New River BAH Rates 2026 — Jacksonville, NC | MilPayTools",
+   "twitterDescription": "2026 BAH for MCAS New River, NC (Jacksonville): E-5 with dependents $1,584/mo, without $1,476/mo. All ranks and dependency statuses."
+  },
+  "mcas-yuma": {
+   "title": "MCAS Yuma BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for MCAS Yuma, AZ: E-5 with dependents $1,695/mo, without $1,338/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "MCAS Yuma BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for MCAS Yuma, AZ: E-5 with dependents $1,695/mo, without $1,338/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "MCAS Yuma BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for MCAS Yuma, AZ: E-5 with dependents $1,695/mo, without $1,338/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "mcb-hawaii": {
+   "title": "Marine Corps Base Hawaii BAH Rates 2026 — Kailua, HI | MilPayTools",
+   "description": "2026 BAH for Marine Corps Base Hawaii, HI (Kailua): E-5 with dependents $3,663/mo, without $2,856/mo. All ranks and dependency statuses.",
+   "ogTitle": "Marine Corps Base Hawaii BAH Rates 2026 — Kailua, HI | MilPayTools",
+   "ogDescription": "2026 BAH for Marine Corps Base Hawaii, HI (Kailua): E-5 with dependents $3,663/mo, without $2,856/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Marine Corps Base Hawaii BAH Rates 2026 — Kailua, HI | MilPayTools",
+   "twitterDescription": "2026 BAH for Marine Corps Base Hawaii, HI (Kailua): E-5 with dependents $3,663/mo, without $2,856/mo. All ranks and dependency statuses."
+  },
+  "mcconnell-afb": {
+   "title": "McConnell AFB BAH Rates 2026 — Wichita, KS | MilPayTools",
+   "description": "2026 BAH for McConnell AFB, KS (Wichita): E-5 with dependents $1,377/mo, without $1,212/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "McConnell AFB BAH Rates 2026 — Wichita, KS | MilPayTools",
+   "ogDescription": "2026 BAH for McConnell AFB, KS (Wichita): E-5 with dependents $1,377/mo, without $1,212/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "McConnell AFB BAH Rates 2026 — Wichita, KS | MilPayTools",
+   "twitterDescription": "2026 BAH for McConnell AFB, KS (Wichita): E-5 with dependents $1,377/mo, without $1,212/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "mcrd-parris-island": {
+   "title": "MCRD Parris Island BAH Rates 2026 — Beaufort, SC | MilPayTools",
+   "description": "2026 BAH for MCRD Parris Island, SC (Beaufort): E-5 with dependents $2,403/mo, without $2,103/mo. All ranks and dependency statuses.",
+   "ogTitle": "MCRD Parris Island BAH Rates 2026 — Beaufort, SC | MilPayTools",
+   "ogDescription": "2026 BAH for MCRD Parris Island, SC (Beaufort): E-5 with dependents $2,403/mo, without $2,103/mo. All ranks and dependency statuses.",
+   "twitterTitle": "MCRD Parris Island BAH Rates 2026 — Beaufort, SC | MilPayTools",
+   "twitterDescription": "2026 BAH for MCRD Parris Island, SC (Beaufort): E-5 with dependents $2,403/mo, without $2,103/mo. All ranks and dependency statuses."
+  },
+  "mcrd-san-diego": {
+   "title": "MCRD San Diego BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for MCRD San Diego, CA: E-5 with dependents $3,975/mo, without $3,147/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "MCRD San Diego BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for MCRD San Diego, CA: E-5 with dependents $3,975/mo, without $3,147/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "MCRD San Diego BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for MCRD San Diego, CA: E-5 with dependents $3,975/mo, without $3,147/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "minot-afb": {
+   "title": "Minot AFB BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Minot AFB, ND: E-5 with dependents $1,548/mo, without $1,260/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Minot AFB BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Minot AFB, ND: E-5 with dependents $1,548/mo, without $1,260/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Minot AFB BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Minot AFB, ND: E-5 with dependents $1,548/mo, without $1,260/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "moody-afb": {
+   "title": "Moody AFB BAH Rates 2026 — Valdosta, GA | MilPayTools",
+   "description": "2026 BAH for Moody AFB, GA (Valdosta): E-5 with dependents $1,524/mo, without $1,416/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Moody AFB BAH Rates 2026 — Valdosta, GA | MilPayTools",
+   "ogDescription": "2026 BAH for Moody AFB, GA (Valdosta): E-5 with dependents $1,524/mo, without $1,416/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Moody AFB BAH Rates 2026 — Valdosta, GA | MilPayTools",
+   "twitterDescription": "2026 BAH for Moody AFB, GA (Valdosta): E-5 with dependents $1,524/mo, without $1,416/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "mountain-home-afb": {
+   "title": "Mountain Home AFB BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Mountain Home AFB, ID: E-5 with dependents $1,605/mo, without $1,524/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Mountain Home AFB BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Mountain Home AFB, ID: E-5 with dependents $1,605/mo, without $1,524/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Mountain Home AFB BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Mountain Home AFB, ID: E-5 with dependents $1,605/mo, without $1,524/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "nab-coronado": {
+   "title": "Naval Amphibious Base Coronado BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Naval Amphibious Base Coronado, CA: E-5 with dependents $3,975/mo, without $3,147/mo. All ranks and dependency statuses.",
+   "ogTitle": "Naval Amphibious Base Coronado BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Amphibious Base Coronado, CA: E-5 with dependents $3,975/mo, without $3,147/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Naval Amphibious Base Coronado BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Amphibious Base Coronado, CA: E-5 with dependents $3,975/mo, without $3,147/mo. All ranks and dependency statuses."
+  },
+  "nas-corpus-christi": {
+   "title": "NAS Corpus Christi BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for NAS Corpus Christi, TX: E-5 with dependents $1,788/mo, without $1,413/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "NAS Corpus Christi BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for NAS Corpus Christi, TX: E-5 with dependents $1,788/mo, without $1,413/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "NAS Corpus Christi BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for NAS Corpus Christi, TX: E-5 with dependents $1,788/mo, without $1,413/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "nas-fallon": {
+   "title": "NAS Fallon BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for NAS Fallon, NV: E-5 with dependents $1,596/mo, without $1,455/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "NAS Fallon BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for NAS Fallon, NV: E-5 with dependents $1,596/mo, without $1,455/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "NAS Fallon BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for NAS Fallon, NV: E-5 with dependents $1,596/mo, without $1,455/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "nas-jacksonville": {
+   "title": "NAS Jacksonville BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for NAS Jacksonville, FL: E-5 with dependents $2,181/mo, without $1,803/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "NAS Jacksonville BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for NAS Jacksonville, FL: E-5 with dependents $2,181/mo, without $1,803/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "NAS Jacksonville BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for NAS Jacksonville, FL: E-5 with dependents $2,181/mo, without $1,803/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "nas-key-west": {
+   "title": "NAS Key West BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for NAS Key West, FL: E-5 with dependents $3,969/mo, without $3,459/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "NAS Key West BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for NAS Key West, FL: E-5 with dependents $3,969/mo, without $3,459/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "NAS Key West BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for NAS Key West, FL: E-5 with dependents $3,969/mo, without $3,459/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "nas-kingsville": {
+   "title": "NAS Kingsville BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for NAS Kingsville, TX: E-5 with dependents $1,788/mo, without $1,413/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "NAS Kingsville BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for NAS Kingsville, TX: E-5 with dependents $1,788/mo, without $1,413/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "NAS Kingsville BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for NAS Kingsville, TX: E-5 with dependents $1,788/mo, without $1,413/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "nas-lemoore": {
+   "title": "NAS Lemoore BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for NAS Lemoore, CA: E-5 with dependents $2,139/mo, without $1,680/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "NAS Lemoore BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for NAS Lemoore, CA: E-5 with dependents $2,139/mo, without $1,680/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "NAS Lemoore BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for NAS Lemoore, CA: E-5 with dependents $2,139/mo, without $1,680/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "nas-meridian": {
+   "title": "NAS Meridian BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for NAS Meridian, MS: E-5 with dependents $1,290/mo, without $1,062/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "NAS Meridian BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for NAS Meridian, MS: E-5 with dependents $1,290/mo, without $1,062/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "NAS Meridian BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for NAS Meridian, MS: E-5 with dependents $1,290/mo, without $1,062/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "nas-north-island": {
+   "title": "NAS North Island BAH Rates 2026 — Coronado, CA | MilPayTools",
+   "description": "2026 BAH for NAS North Island, CA (Coronado): E-5 with dependents $3,975/mo, without $3,147/mo. All ranks and dependency statuses.",
+   "ogTitle": "NAS North Island BAH Rates 2026 — Coronado, CA | MilPayTools",
+   "ogDescription": "2026 BAH for NAS North Island, CA (Coronado): E-5 with dependents $3,975/mo, without $3,147/mo. All ranks and dependency statuses.",
+   "twitterTitle": "NAS North Island BAH Rates 2026 — Coronado, CA | MilPayTools",
+   "twitterDescription": "2026 BAH for NAS North Island, CA (Coronado): E-5 with dependents $3,975/mo, without $3,147/mo. All ranks and dependency statuses."
+  },
+  "nas-patuxent-river": {
+   "title": "NAS Patuxent River BAH Rates 2026 — Lexington Park, MD | MilPayTools",
+   "description": "2026 BAH for NAS Patuxent River, MD (Lexington Park): E-5 with dependents $2,406/mo, without $2,040/mo. All ranks and dependency statuses.",
+   "ogTitle": "NAS Patuxent River BAH Rates 2026 — Lexington Park, MD | MilPayTools",
+   "ogDescription": "2026 BAH for NAS Patuxent River, MD (Lexington Park): E-5 with dependents $2,406/mo, without $2,040/mo. All ranks and dependency statuses.",
+   "twitterTitle": "NAS Patuxent River BAH Rates 2026 — Lexington Park, MD | MilPayTools",
+   "twitterDescription": "2026 BAH for NAS Patuxent River, MD (Lexington Park): E-5 with dependents $2,406/mo, without $2,040/mo. All ranks and dependency statuses."
+  },
+  "nas-whiting-field": {
+   "title": "NAS Whiting Field BAH Rates 2026 — Milton, FL | MilPayTools",
+   "description": "2026 BAH for NAS Whiting Field, FL (Milton): E-5 with dependents $2,433/mo, without $2,157/mo. All ranks and dependency statuses.",
+   "ogTitle": "NAS Whiting Field BAH Rates 2026 — Milton, FL | MilPayTools",
+   "ogDescription": "2026 BAH for NAS Whiting Field, FL (Milton): E-5 with dependents $2,433/mo, without $2,157/mo. All ranks and dependency statuses.",
+   "twitterTitle": "NAS Whiting Field BAH Rates 2026 — Milton, FL | MilPayTools",
+   "twitterDescription": "2026 BAH for NAS Whiting Field, FL (Milton): E-5 with dependents $2,433/mo, without $2,157/mo. All ranks and dependency statuses."
+  },
+  "naval-air-station-oceana": {
+   "title": "Naval Air Station Oceana BAH Rates 2026 — Virginia Beach, VA | MilPayTools",
+   "description": "2026 BAH for Naval Air Station Oceana, VA (Virginia Beach): E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses.",
+   "ogTitle": "Naval Air Station Oceana BAH Rates 2026 — Virginia Beach, VA | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Air Station Oceana, VA (Virginia Beach): E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Naval Air Station Oceana BAH Rates 2026 — Virginia Beach, VA | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Air Station Oceana, VA (Virginia Beach): E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses."
+  },
+  "naval-air-station-pensacola": {
+   "title": "Naval Air Station Pensacola BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Naval Air Station Pensacola, FL: E-5 with dependents $1,863/mo, without $1,644/mo. All ranks and dependency statuses.",
+   "ogTitle": "Naval Air Station Pensacola BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Air Station Pensacola, FL: E-5 with dependents $1,863/mo, without $1,644/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Naval Air Station Pensacola BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Air Station Pensacola, FL: E-5 with dependents $1,863/mo, without $1,644/mo. All ranks and dependency statuses."
+  },
+  "naval-air-station-whidbey-island": {
+   "title": "Naval Air Station Whidbey Island BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Naval Air Station Whidbey Island, WA (Oak Harbor): E-5 with dependents $2,073/mo, without $1,905/mo. All ranks and dependency statuses.",
+   "ogTitle": "Naval Air Station Whidbey Island BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Air Station Whidbey Island, WA (Oak Harbor): E-5 with dependents $2,073/mo, without $1,905/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Naval Air Station Whidbey Island BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Air Station Whidbey Island, WA (Oak Harbor): E-5 with dependents $2,073/mo, without $1,905/mo. All ranks and dependency statuses."
+  },
+  "naval-base-kitsap": {
+   "title": "Naval Base Kitsap BAH Rates 2026 — Bremerton, WA | MilPayTools",
+   "description": "2026 BAH for Naval Base Kitsap, WA (Bremerton): E-5 with dependents $2,364/mo, without $2,091/mo. All ranks and dependency statuses.",
+   "ogTitle": "Naval Base Kitsap BAH Rates 2026 — Bremerton, WA | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Base Kitsap, WA (Bremerton): E-5 with dependents $2,364/mo, without $2,091/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Naval Base Kitsap BAH Rates 2026 — Bremerton, WA | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Base Kitsap, WA (Bremerton): E-5 with dependents $2,364/mo, without $2,091/mo. All ranks and dependency statuses."
+  },
+  "naval-base-ventura-county": {
+   "title": "Naval Base Ventura County BAH Rates 2026 — Port Hueneme, CA | MilPayTools",
+   "description": "2026 BAH for Naval Base Ventura County, CA (Port Hueneme): E-5 with dependents $3,537/mo, without $3,018/mo. All ranks and dependency statuses.",
+   "ogTitle": "Naval Base Ventura County BAH Rates 2026 — Port Hueneme, CA | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Base Ventura County, CA (Port Hueneme): E-5 with dependents $3,537/mo, without $3,018/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Naval Base Ventura County BAH Rates 2026 — Port Hueneme, CA | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Base Ventura County, CA (Port Hueneme): E-5 with dependents $3,537/mo, without $3,018/mo. All ranks and dependency statuses."
+  },
+  "naval-medical-center-portsmouth": {
+   "title": "Naval Medical Center Portsmouth BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Naval Medical Center Portsmouth, VA: E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses.",
+   "ogTitle": "Naval Medical Center Portsmouth BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Medical Center Portsmouth, VA: E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Naval Medical Center Portsmouth BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Medical Center Portsmouth, VA: E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses."
+  },
+  "naval-postgraduate-school": {
+   "title": "Naval Postgraduate School BAH Rates 2026 — Monterey, CA | MilPayTools",
+   "description": "2026 BAH for Naval Postgraduate School, CA (Monterey): E-5 with dependents $3,465/mo, without $2,844/mo. All ranks and dependency statuses.",
+   "ogTitle": "Naval Postgraduate School BAH Rates 2026 — Monterey, CA | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Postgraduate School, CA (Monterey): E-5 with dependents $3,465/mo, without $2,844/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Naval Postgraduate School BAH Rates 2026 — Monterey, CA | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Postgraduate School, CA (Monterey): E-5 with dependents $3,465/mo, without $2,844/mo. All ranks and dependency statuses."
+  },
+  "naval-station-everett": {
+   "title": "Naval Station Everett BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Naval Station Everett, WA: E-5 with dependents $2,748/mo, without $2,277/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Naval Station Everett BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Station Everett, WA: E-5 with dependents $2,748/mo, without $2,277/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Naval Station Everett BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Station Everett, WA: E-5 with dependents $2,748/mo, without $2,277/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "naval-station-great-lakes": {
+   "title": "Naval Station Great Lakes BAH Rates 2026 — North Chicago, IL | MilPayTools",
+   "description": "2026 BAH for Naval Station Great Lakes, IL (North Chicago): E-5 with dependents $2,427/mo, without $1,854/mo. All ranks and dependency statuses.",
+   "ogTitle": "Naval Station Great Lakes BAH Rates 2026 — North Chicago, IL | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Station Great Lakes, IL (North Chicago): E-5 with dependents $2,427/mo, without $1,854/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Naval Station Great Lakes BAH Rates 2026 — North Chicago, IL | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Station Great Lakes, IL (North Chicago): E-5 with dependents $2,427/mo, without $1,854/mo. All ranks and dependency statuses."
+  },
+  "naval-station-mayport": {
+   "title": "Naval Station Mayport BAH Rates 2026 — Atlantic Beach, FL | MilPayTools",
+   "description": "2026 BAH for Naval Station Mayport, FL (Atlantic Beach): E-5 with dependents $2,181/mo, without $1,803/mo. All ranks and dependency statuses.",
+   "ogTitle": "Naval Station Mayport BAH Rates 2026 — Atlantic Beach, FL | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Station Mayport, FL (Atlantic Beach): E-5 with dependents $2,181/mo, without $1,803/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Naval Station Mayport BAH Rates 2026 — Atlantic Beach, FL | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Station Mayport, FL (Atlantic Beach): E-5 with dependents $2,181/mo, without $1,803/mo. All ranks and dependency statuses."
+  },
+  "naval-station-newport": {
+   "title": "Naval Station Newport BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Naval Station Newport, RI: E-5 with dependents $2,847/mo, without $2,361/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Naval Station Newport BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Station Newport, RI: E-5 with dependents $2,847/mo, without $2,361/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Naval Station Newport BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Station Newport, RI: E-5 with dependents $2,847/mo, without $2,361/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "naval-station-norfolk": {
+   "title": "Naval Station Norfolk BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Naval Station Norfolk, VA: E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Naval Station Norfolk BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Station Norfolk, VA: E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Naval Station Norfolk BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Station Norfolk, VA: E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "naval-station-san-diego": {
+   "title": "Naval Station San Diego BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Naval Station San Diego, CA: E-5 with dependents $3,975/mo, without $3,147/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Naval Station San Diego BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Station San Diego, CA: E-5 with dependents $3,975/mo, without $3,147/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Naval Station San Diego BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Station San Diego, CA: E-5 with dependents $3,975/mo, without $3,147/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "naval-submarine-base-kings-bay": {
+   "title": "Naval Submarine Base Kings Bay BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Naval Submarine Base Kings Bay, GA: E-5 with dependents $2,133/mo, without $1,806/mo. All ranks and dependency statuses.",
+   "ogTitle": "Naval Submarine Base Kings Bay BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Submarine Base Kings Bay, GA: E-5 with dependents $2,133/mo, without $1,806/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Naval Submarine Base Kings Bay BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Submarine Base Kings Bay, GA: E-5 with dependents $2,133/mo, without $1,806/mo. All ranks and dependency statuses."
+  },
+  "naval-submarine-base-new-london": {
+   "title": "Naval Submarine Base New London BAH Rates 2026 — Groton, CT | MilPayTools",
+   "description": "2026 BAH for Naval Submarine Base New London, CT (Groton): E-5 with dependents $2,580/mo, without $2,148/mo. All ranks and dependency statuses.",
+   "ogTitle": "Naval Submarine Base New London BAH Rates 2026 — Groton, CT | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Submarine Base New London, CT (Groton): E-5 with dependents $2,580/mo, without $2,148/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Naval Submarine Base New London BAH Rates 2026 — Groton, CT | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Submarine Base New London, CT (Groton): E-5 with dependents $2,580/mo, without $2,148/mo. All ranks and dependency statuses."
+  },
+  "naws-china-lake": {
+   "title": "Naval Air Weapons Station China Lake BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Naval Air Weapons Station China Lake, CA (Ridgecrest): E-5 with dependents $1,563/mo, without $1,428/mo. All ranks and dependency statuses.",
+   "ogTitle": "Naval Air Weapons Station China Lake BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Naval Air Weapons Station China Lake, CA (Ridgecrest): E-5 with dependents $1,563/mo, without $1,428/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Naval Air Weapons Station China Lake BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Naval Air Weapons Station China Lake, CA (Ridgecrest): E-5 with dependents $1,563/mo, without $1,428/mo. All ranks and dependency statuses."
+  },
+  "nellis-afb": {
+   "title": "Nellis AFB BAH Rates 2026 — Las Vegas, NV | MilPayTools",
+   "description": "2026 BAH for Nellis AFB, NV (Las Vegas): E-5 with dependents $2,070/mo, without $1,737/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Nellis AFB BAH Rates 2026 — Las Vegas, NV | MilPayTools",
+   "ogDescription": "2026 BAH for Nellis AFB, NV (Las Vegas): E-5 with dependents $2,070/mo, without $1,737/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Nellis AFB BAH Rates 2026 — Las Vegas, NV | MilPayTools",
+   "twitterDescription": "2026 BAH for Nellis AFB, NV (Las Vegas): E-5 with dependents $2,070/mo, without $1,737/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "offutt-afb": {
+   "title": "Offutt AFB BAH Rates 2026 — Bellevue, NE | MilPayTools",
+   "description": "2026 BAH for Offutt AFB, NE (Bellevue): E-5 with dependents $2,085/mo, without $1,587/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Offutt AFB BAH Rates 2026 — Bellevue, NE | MilPayTools",
+   "ogDescription": "2026 BAH for Offutt AFB, NE (Bellevue): E-5 with dependents $2,085/mo, without $1,587/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Offutt AFB BAH Rates 2026 — Bellevue, NE | MilPayTools",
+   "twitterDescription": "2026 BAH for Offutt AFB, NE (Bellevue): E-5 with dependents $2,085/mo, without $1,587/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "patrick-sfb": {
+   "title": "Patrick Space Force Base BAH Rates 2026 — Cocoa Beach, FL | MilPayTools",
+   "description": "2026 BAH for Patrick Space Force Base, FL (Cocoa Beach): E-5 with dependents $2,502/mo, without $2,037/mo. All ranks and dependency statuses.",
+   "ogTitle": "Patrick Space Force Base BAH Rates 2026 — Cocoa Beach, FL | MilPayTools",
+   "ogDescription": "2026 BAH for Patrick Space Force Base, FL (Cocoa Beach): E-5 with dependents $2,502/mo, without $2,037/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Patrick Space Force Base BAH Rates 2026 — Cocoa Beach, FL | MilPayTools",
+   "twitterDescription": "2026 BAH for Patrick Space Force Base, FL (Cocoa Beach): E-5 with dependents $2,502/mo, without $2,037/mo. All ranks and dependency statuses."
+  },
+  "peterson-sfb": {
+   "title": "Peterson Space Force Base BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Peterson Space Force Base, CO (Colorado Springs): E-5 with dependents $2,358/mo, without $1,860/mo. All ranks and dependency statuses.",
+   "ogTitle": "Peterson Space Force Base BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Peterson Space Force Base, CO (Colorado Springs): E-5 with dependents $2,358/mo, without $1,860/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Peterson Space Force Base BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Peterson Space Force Base, CO (Colorado Springs): E-5 with dependents $2,358/mo, without $1,860/mo. All ranks and dependency statuses."
+  },
+  "presidio-of-monterey": {
+   "title": "Presidio of Monterey BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Presidio of Monterey, CA: E-5 with dependents $3,465/mo, without $2,844/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Presidio of Monterey BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Presidio of Monterey, CA: E-5 with dependents $3,465/mo, without $2,844/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Presidio of Monterey BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Presidio of Monterey, CA: E-5 with dependents $3,465/mo, without $2,844/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "redstone-arsenal": {
+   "title": "Redstone Arsenal BAH Rates 2026 — Huntsville, AL | MilPayTools",
+   "description": "2026 BAH for Redstone Arsenal, AL (Huntsville): E-5 with dependents $1,797/mo, without $1,443/mo. All ranks and dependency statuses.",
+   "ogTitle": "Redstone Arsenal BAH Rates 2026 — Huntsville, AL | MilPayTools",
+   "ogDescription": "2026 BAH for Redstone Arsenal, AL (Huntsville): E-5 with dependents $1,797/mo, without $1,443/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Redstone Arsenal BAH Rates 2026 — Huntsville, AL | MilPayTools",
+   "twitterDescription": "2026 BAH for Redstone Arsenal, AL (Huntsville): E-5 with dependents $1,797/mo, without $1,443/mo. All ranks and dependency statuses."
+  },
+  "robins-afb": {
+   "title": "Robins AFB BAH Rates 2026 — Warner Robins, GA | MilPayTools",
+   "description": "2026 BAH for Robins AFB, GA (Warner Robins): E-5 with dependents $1,800/mo, without $1,491/mo. All ranks and dependency statuses.",
+   "ogTitle": "Robins AFB BAH Rates 2026 — Warner Robins, GA | MilPayTools",
+   "ogDescription": "2026 BAH for Robins AFB, GA (Warner Robins): E-5 with dependents $1,800/mo, without $1,491/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Robins AFB BAH Rates 2026 — Warner Robins, GA | MilPayTools",
+   "twitterDescription": "2026 BAH for Robins AFB, GA (Warner Robins): E-5 with dependents $1,800/mo, without $1,491/mo. All ranks and dependency statuses."
+  },
+  "schofield-barracks": {
+   "title": "Schofield Barracks BAH Rates 2026 — Wahiawa, HI | MilPayTools",
+   "description": "2026 BAH for Schofield Barracks, HI (Wahiawa): E-5 with dependents $3,663/mo, without $2,856/mo. All ranks and dependency statuses.",
+   "ogTitle": "Schofield Barracks BAH Rates 2026 — Wahiawa, HI | MilPayTools",
+   "ogDescription": "2026 BAH for Schofield Barracks, HI (Wahiawa): E-5 with dependents $3,663/mo, without $2,856/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Schofield Barracks BAH Rates 2026 — Wahiawa, HI | MilPayTools",
+   "twitterDescription": "2026 BAH for Schofield Barracks, HI (Wahiawa): E-5 with dependents $3,663/mo, without $2,856/mo. All ranks and dependency statuses."
+  },
+  "schriever-sfb": {
+   "title": "Schriever Space Force Base BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Schriever Space Force Base, CO (Colorado Springs): E-5 with dependents $2,358/mo, without $1,860/mo. All ranks and dependency statuses.",
+   "ogTitle": "Schriever Space Force Base BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Schriever Space Force Base, CO (Colorado Springs): E-5 with dependents $2,358/mo, without $1,860/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Schriever Space Force Base BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Schriever Space Force Base, CO (Colorado Springs): E-5 with dependents $2,358/mo, without $1,860/mo. All ranks and dependency statuses."
+  },
+  "scott-afb": {
+   "title": "Scott AFB BAH Rates 2026 — O'Fallon, IL | MilPayTools",
+   "description": "2026 BAH for Scott AFB, IL (O'Fallon): E-5 with dependents $2,436/mo, without $1,947/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Scott AFB BAH Rates 2026 — O'Fallon, IL | MilPayTools",
+   "ogDescription": "2026 BAH for Scott AFB, IL (O'Fallon): E-5 with dependents $2,436/mo, without $1,947/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Scott AFB BAH Rates 2026 — O'Fallon, IL | MilPayTools",
+   "twitterDescription": "2026 BAH for Scott AFB, IL (O'Fallon): E-5 with dependents $2,436/mo, without $1,947/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "seymour-johnson-afb": {
+   "title": "Seymour Johnson AFB BAH Rates 2026 — Goldsboro, NC | MilPayTools",
+   "description": "2026 BAH for Seymour Johnson AFB, NC (Goldsboro): E-5 with dependents $1,521/mo, without $1,428/mo. All ranks and dependency statuses.",
+   "ogTitle": "Seymour Johnson AFB BAH Rates 2026 — Goldsboro, NC | MilPayTools",
+   "ogDescription": "2026 BAH for Seymour Johnson AFB, NC (Goldsboro): E-5 with dependents $1,521/mo, without $1,428/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Seymour Johnson AFB BAH Rates 2026 — Goldsboro, NC | MilPayTools",
+   "twitterDescription": "2026 BAH for Seymour Johnson AFB, NC (Goldsboro): E-5 with dependents $1,521/mo, without $1,428/mo. All ranks and dependency statuses."
+  },
+  "shaw-afb": {
+   "title": "Shaw AFB BAH Rates 2026 — Sumter, SC | MilPayTools",
+   "description": "2026 BAH for Shaw AFB, SC (Sumter): E-5 with dependents $1,503/mo, without $1,290/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Shaw AFB BAH Rates 2026 — Sumter, SC | MilPayTools",
+   "ogDescription": "2026 BAH for Shaw AFB, SC (Sumter): E-5 with dependents $1,503/mo, without $1,290/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Shaw AFB BAH Rates 2026 — Sumter, SC | MilPayTools",
+   "twitterDescription": "2026 BAH for Shaw AFB, SC (Sumter): E-5 with dependents $1,503/mo, without $1,290/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "sheppard-afb": {
+   "title": "Sheppard AFB BAH Rates 2026 — Wichita Falls, TX | MilPayTools",
+   "description": "2026 BAH for Sheppard AFB, TX (Wichita Falls): E-5 with dependents $1,491/mo, without $1,182/mo. All ranks and dependency statuses.",
+   "ogTitle": "Sheppard AFB BAH Rates 2026 — Wichita Falls, TX | MilPayTools",
+   "ogDescription": "2026 BAH for Sheppard AFB, TX (Wichita Falls): E-5 with dependents $1,491/mo, without $1,182/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Sheppard AFB BAH Rates 2026 — Wichita Falls, TX | MilPayTools",
+   "twitterDescription": "2026 BAH for Sheppard AFB, TX (Wichita Falls): E-5 with dependents $1,491/mo, without $1,182/mo. All ranks and dependency statuses."
+  },
+  "tinker-afb": {
+   "title": "Tinker AFB BAH Rates 2026 — Midwest City, OK | MilPayTools",
+   "description": "2026 BAH for Tinker AFB, OK (Midwest City): E-5 with dependents $1,644/mo, without $1,365/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Tinker AFB BAH Rates 2026 — Midwest City, OK | MilPayTools",
+   "ogDescription": "2026 BAH for Tinker AFB, OK (Midwest City): E-5 with dependents $1,644/mo, without $1,365/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Tinker AFB BAH Rates 2026 — Midwest City, OK | MilPayTools",
+   "twitterDescription": "2026 BAH for Tinker AFB, OK (Midwest City): E-5 with dependents $1,644/mo, without $1,365/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "tracen-cape-may": {
+   "title": "Training Center Cape May BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Training Center Cape May, NJ: E-5 with dependents $2,754/mo, without $2,172/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Training Center Cape May BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Training Center Cape May, NJ: E-5 with dependents $2,754/mo, without $2,172/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Training Center Cape May BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Training Center Cape May, NJ: E-5 with dependents $2,754/mo, without $2,172/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "travis-afb": {
+   "title": "Travis AFB BAH Rates 2026 — Fairfield, CA | MilPayTools",
+   "description": "2026 BAH for Travis AFB, CA (Fairfield): E-5 with dependents $3,369/mo, without $2,664/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Travis AFB BAH Rates 2026 — Fairfield, CA | MilPayTools",
+   "ogDescription": "2026 BAH for Travis AFB, CA (Fairfield): E-5 with dependents $3,369/mo, without $2,664/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Travis AFB BAH Rates 2026 — Fairfield, CA | MilPayTools",
+   "twitterDescription": "2026 BAH for Travis AFB, CA (Fairfield): E-5 with dependents $3,369/mo, without $2,664/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "tyndall-afb": {
+   "title": "Tyndall AFB BAH Rates 2026 — Panama City, FL | MilPayTools",
+   "description": "2026 BAH for Tyndall AFB, FL (Panama City): E-5 with dependents $2,163/mo, without $1,863/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Tyndall AFB BAH Rates 2026 — Panama City, FL | MilPayTools",
+   "ogDescription": "2026 BAH for Tyndall AFB, FL (Panama City): E-5 with dependents $2,163/mo, without $1,863/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Tyndall AFB BAH Rates 2026 — Panama City, FL | MilPayTools",
+   "twitterDescription": "2026 BAH for Tyndall AFB, FL (Panama City): E-5 with dependents $2,163/mo, without $1,863/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "us-coast-guard-academy": {
+   "title": "U.S. Coast Guard Academy BAH Rates 2026 — New London, CT | MilPayTools",
+   "description": "2026 BAH for U.S. Coast Guard Academy, CT (New London): E-5 with dependents $2,580/mo, without $2,148/mo. All ranks and dependency statuses.",
+   "ogTitle": "U.S. Coast Guard Academy BAH Rates 2026 — New London, CT | MilPayTools",
+   "ogDescription": "2026 BAH for U.S. Coast Guard Academy, CT (New London): E-5 with dependents $2,580/mo, without $2,148/mo. All ranks and dependency statuses.",
+   "twitterTitle": "U.S. Coast Guard Academy BAH Rates 2026 — New London, CT | MilPayTools",
+   "twitterDescription": "2026 BAH for U.S. Coast Guard Academy, CT (New London): E-5 with dependents $2,580/mo, without $2,148/mo. All ranks and dependency statuses."
+  },
+  "us-naval-academy": {
+   "title": "U.S. Naval Academy BAH Rates 2026 — Annapolis, MD | MilPayTools",
+   "description": "2026 BAH for U.S. Naval Academy, MD (Annapolis): E-5 with dependents $2,928/mo, without $2,475/mo. All ranks and dependency statuses.",
+   "ogTitle": "U.S. Naval Academy BAH Rates 2026 — Annapolis, MD | MilPayTools",
+   "ogDescription": "2026 BAH for U.S. Naval Academy, MD (Annapolis): E-5 with dependents $2,928/mo, without $2,475/mo. All ranks and dependency statuses.",
+   "twitterTitle": "U.S. Naval Academy BAH Rates 2026 — Annapolis, MD | MilPayTools",
+   "twitterDescription": "2026 BAH for U.S. Naval Academy, MD (Annapolis): E-5 with dependents $2,928/mo, without $2,475/mo. All ranks and dependency statuses."
+  },
+  "usaf-academy": {
+   "title": "U.S. Air Force Academy BAH Rates 2026 — Colorado Springs, CO | MilPayTools",
+   "description": "2026 BAH for U.S. Air Force Academy, CO (Colorado Springs): E-5 with dependents $2,358/mo, without $1,860/mo. All ranks and dependency statuses.",
+   "ogTitle": "U.S. Air Force Academy BAH Rates 2026 — Colorado Springs, CO | MilPayTools",
+   "ogDescription": "2026 BAH for U.S. Air Force Academy, CO (Colorado Springs): E-5 with dependents $2,358/mo, without $1,860/mo. All ranks and dependency statuses.",
+   "twitterTitle": "U.S. Air Force Academy BAH Rates 2026 — Colorado Springs, CO | MilPayTools",
+   "twitterDescription": "2026 BAH for U.S. Air Force Academy, CO (Colorado Springs): E-5 with dependents $2,358/mo, without $1,860/mo. All ranks and dependency statuses."
+  },
+  "vance-afb": {
+   "title": "Vance AFB BAH Rates 2026 — Enid, OK | MilPayTools",
+   "description": "2026 BAH for Vance AFB, OK (Enid): E-5 with dependents $1,200/mo, without $1,065/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "ogTitle": "Vance AFB BAH Rates 2026 — Enid, OK | MilPayTools",
+   "ogDescription": "2026 BAH for Vance AFB, OK (Enid): E-5 with dependents $1,200/mo, without $1,065/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "twitterTitle": "Vance AFB BAH Rates 2026 — Enid, OK | MilPayTools",
+   "twitterDescription": "2026 BAH for Vance AFB, OK (Enid): E-5 with dependents $1,200/mo, without $1,065/mo. All ranks and dependency statuses. Official DTMO data, no account."
+  },
+  "vandenberg-sfb": {
+   "title": "Vandenberg Space Force Base BAH Rates 2026 — Lompoc, CA | MilPayTools",
+   "description": "2026 BAH for Vandenberg Space Force Base, CA (Lompoc): E-5 with dependents $3,333/mo, without $2,778/mo. All ranks and dependency statuses.",
+   "ogTitle": "Vandenberg Space Force Base BAH Rates 2026 — Lompoc, CA | MilPayTools",
+   "ogDescription": "2026 BAH for Vandenberg Space Force Base, CA (Lompoc): E-5 with dependents $3,333/mo, without $2,778/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Vandenberg Space Force Base BAH Rates 2026 — Lompoc, CA | MilPayTools",
+   "twitterDescription": "2026 BAH for Vandenberg Space Force Base, CA (Lompoc): E-5 with dependents $3,333/mo, without $2,778/mo. All ranks and dependency statuses."
+  },
+  "walter-reed-nmmc": {
+   "title": "Walter Reed National Military Medical Center BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Walter Reed National Military Medical Center, MD (Bethesda): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses.",
+   "ogTitle": "Walter Reed National Military Medical Center BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for Walter Reed National Military Medical Center, MD (Bethesda): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Walter Reed National Military Medical Center BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for Walter Reed National Military Medical Center, MD (Bethesda): E-5 with dependents $3,132/mo, without $2,832/mo. All ranks and dependency statuses."
+  },
+  "west-point": {
+   "title": "United States Military Academy at West Point BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for United States Military Academy at West Point, NY: E-5 with dependents $3,468/mo, without $2,859/mo. All ranks and dependency statuses.",
+   "ogTitle": "United States Military Academy at West Point BAH Rates 2026 | MilPayTools",
+   "ogDescription": "2026 BAH for United States Military Academy at West Point, NY: E-5 with dependents $3,468/mo, without $2,859/mo. All ranks and dependency statuses.",
+   "twitterTitle": "United States Military Academy at West Point BAH Rates 2026 | MilPayTools",
+   "twitterDescription": "2026 BAH for United States Military Academy at West Point, NY: E-5 with dependents $3,468/mo, without $2,859/mo. All ranks and dependency statuses."
+  },
+  "whiteman-afb": {
+   "title": "Whiteman AFB BAH Rates 2026 — Warrensburg, MO | MilPayTools",
+   "description": "2026 BAH for Whiteman AFB, MO (Warrensburg): E-5 with dependents $1,611/mo, without $1,215/mo. All ranks and dependency statuses.",
+   "ogTitle": "Whiteman AFB BAH Rates 2026 — Warrensburg, MO | MilPayTools",
+   "ogDescription": "2026 BAH for Whiteman AFB, MO (Warrensburg): E-5 with dependents $1,611/mo, without $1,215/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Whiteman AFB BAH Rates 2026 — Warrensburg, MO | MilPayTools",
+   "twitterDescription": "2026 BAH for Whiteman AFB, MO (Warrensburg): E-5 with dependents $1,611/mo, without $1,215/mo. All ranks and dependency statuses."
+  },
+  "wright-patterson-afb": {
+   "title": "Wright-Patterson AFB BAH Rates 2026 — Dayton, OH | MilPayTools",
+   "description": "2026 BAH for Wright-Patterson AFB, OH (Dayton): E-5 with dependents $1,650/mo, without $1,341/mo. All ranks and dependency statuses.",
+   "ogTitle": "Wright-Patterson AFB BAH Rates 2026 — Dayton, OH | MilPayTools",
+   "ogDescription": "2026 BAH for Wright-Patterson AFB, OH (Dayton): E-5 with dependents $1,650/mo, without $1,341/mo. All ranks and dependency statuses.",
+   "twitterTitle": "Wright-Patterson AFB BAH Rates 2026 — Dayton, OH | MilPayTools",
+   "twitterDescription": "2026 BAH for Wright-Patterson AFB, OH (Dayton): E-5 with dependents $1,650/mo, without $1,341/mo. All ranks and dependency statuses."
+  }
+ }
+}

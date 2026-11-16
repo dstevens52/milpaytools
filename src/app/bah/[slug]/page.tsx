@@ -12,6 +12,8 @@ import { STATE_TAX_DATA } from '@/data/compare/stateTax';
 import { getColaAreaByMha } from '@/data/cola/2026/constants';
 import { StationPageClient } from '@/components/calculators/bah/StationPageClient';
 import { ogImage } from '@/lib/og';
+import { stationSerpMeta } from '@/lib/stationSerp';
+import { formatMhaName } from '@/lib/mhaDisplay';
 import { OCONUS_V2_STATIONS, getRenderableOconusV2, oconusTitle, oconusDescription, OCONUS_OG_SUB } from '@/data/oconus';
 import { OconusStationPage } from '@/components/oconus/OconusStationPage';
 import { oconusFaqs } from '@/data/oconus/sharedCopy';
@@ -56,13 +58,6 @@ export async function generateStaticParams() {
 
 export const dynamicParams = false;
 
-// Append the richest trailing clause that keeps the meta description within
-// `max` characters. Clauses are whole sentences, tried longest-first, so the
-// tail drops cleanly on the longest base names instead of truncating mid-word.
-function fitDescription(head: string, tails: string[], max = 160): string {
-  return head + (tails.find((t) => head.length + t.length <= max) ?? '');
-}
-
 export async function generateMetadata({
   params,
 }: {
@@ -90,54 +85,23 @@ export async function generateMetadata({
 
   const station = STATION_BY_SLUG[slug];
   if (!station || station.oconus) return {};
-  // E-5 reference rates, read from the same dataset the on-page rate table uses
-  // so the snippet figures always match the table.
-  const mhaCode = getMHACode(station.zip);
-  const e5W = mhaCode ? getMHARates(mhaCode, true)?.['E-5'] : undefined;
-  const e5WO = mhaCode ? getMHARates(mhaCode, false)?.['E-5'] : undefined;
 
-  const formerShort = station.formerName ? station.formerName.split(' (')[0] : null;
-  // Locality comes from station.city — the MHA name often just repeats the base
-  // name (e.g. "Fort Hood, TX"), so it can't capture city queries like
-  // "bah killeen tx". Shown only when the city adds info beyond the base name.
-  const cityDistinct = !station.name.toLowerCase().includes(station.city.toLowerCase());
-  const locality = cityDistinct ? ` (${station.city})` : '';
+  // Title and description for this page's arm of the station search-result test
+  // (src/data/bah/serpTest.ts, src/lib/stationSerp.ts). Arm A is today's output.
+  // A's title omits the site name (the root layout's template appends it); B's is
+  // absolute. OG/Twitter skip the template, so socialTitle carries the site name.
+  const { title, absolute, socialTitle, cardTitle, description } = stationSerpMeta(station);
 
-  // ── Title: former name wins the parenthetical; locality is appended only when
-  // there's no former name and "{name} BAH Rates {year} — City, ST" fits ~60 chars.
-  // titleBase omits the site name — the root layout's title template appends
-  // " | MilPayTools". OG/Twitter don't run through that template, so they get an
-  // explicit socialTitle (with the site name) to match the rendered <title>.
-  const core = formerShort
-    ? `${station.name} (${formerShort}) BAH Rates ${CURRENT_BAH_YEAR}`
-    : `${station.name} BAH Rates ${CURRENT_BAH_YEAR}`;
-  const withLocality = `${core} — ${station.city}, ${station.state}`;
-  const titleBase = !formerShort && cityDistinct && withLocality.length <= 60 ? withLocality : core;
-  const socialTitle = `${titleBase} | MilPayTools`;
-
-  // ── Description: lead with the actual E-5 figures so the search snippet shows
-  // a real dollar amount. Trailing clauses drop whole-sentence on long names.
-  let description: string;
-  if (e5W !== undefined && e5WO !== undefined) {
-    const head = `${CURRENT_BAH_YEAR} BAH for ${station.name}, ${station.state}${locality}: E-5 with dependents ${formatCurrency(e5W)}/mo, without ${formatCurrency(e5WO)}/mo.`;
-    description = fitDescription(head, [
-      ' All ranks and dependency statuses. Official DTMO data, no account.',
-      ' All ranks and dependency statuses.',
-    ]);
-  } else {
-    description = `${CURRENT_BAH_YEAR} BAH rates for ${station.name}, ${station.stateName}${locality}. Monthly BAH for every pay grade, with and without dependents. Official DTMO data, no account.`;
-  }
-  // Card title is titleBase (no site suffix — the card's brand row owns that).
-  // Static subline: station descriptions lead with E-5 dollar figures, which the
-  // OG sublines must not carry, so they are never derived from the description.
+  // Static subline: descriptions carry dollar figures, which the OG sublines
+  // must not, so they are never derived from the description.
   const ogImages = ogImage({
     type: 'station',
-    title: titleBase,
+    title: cardTitle,
     sub: 'Military housing allowance by rank and dependent status',
   });
 
   return {
-    title: titleBase,
+    title: absolute ? { absolute: title } : title,
     description,
     alternates: { canonical: `/bah/${station.slug}` },
     openGraph: {
@@ -197,7 +161,9 @@ export default async function StationPage({
   const mhaCode = getMHACode(station.zip);
   const ratesW = mhaCode ? getMHARates(mhaCode, true) : null;
   const ratesWO = mhaCode ? getMHARates(mhaCode, false) : null;
-  const locationName = mhaCode ? getLocationName(station.zip) : null;
+  // Display label only (AFB, NAS… casing): this page shows it but never looks anything up by it.
+  const rawLocationName = mhaCode ? getLocationName(station.zip) : null;
+  const locationName = rawLocationName ? formatMhaName(rawLocationName) : null;
   // DTMO mid-year change for this MHA in the current BAH year (e.g. TX270 Abilene,
   // May 16, 2026), or null.
   const midYearChange = getBahMidYearChange(mhaCode);
