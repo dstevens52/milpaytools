@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState, useSyncExternalStore } from 'react';
 import { fireNewsletterSignup } from '@/lib/analytics';
 
 export interface EmailSignupProps {
@@ -11,6 +11,8 @@ export interface EmailSignupProps {
   darkBg?: boolean;
 }
 
+const noopSubscribe = () => () => {};
+
 export function EmailSignup({
   headline,
   subtext,
@@ -18,7 +20,12 @@ export function EmailSignup({
   variant = 'inline',
   darkBg = false,
 }: EmailSignupProps) {
-  const [email, setEmail] = useState('');
+  // The input is uncontrolled and read from the DOM at submit, so an address typed before
+  // hydration is never dropped (as a controlled input it stayed on screen while state was '').
+  const inputRef = useRef<HTMLInputElement>(null);
+  // false on the server and during hydration, true once hydrated. The submit button stays
+  // disabled until then, so a submit before JS runs can't reload the page and lose the address.
+  const hydrated = useSyncExternalStore(noopSubscribe, () => true, () => false);
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -31,6 +38,7 @@ export function EmailSignup({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const email = inputRef.current?.value.trim() ?? '';
     setStatus('loading');
     try {
       const res = await fetch('/api/subscribe', {
@@ -67,9 +75,8 @@ export function EmailSignup({
       {subtext && <p className={`text-xs mb-3 ${subtextClass}`}>{subtext}</p>}
       <form onSubmit={handleSubmit} className="flex gap-2 sm:max-w-[480px]">
         <input
+          ref={inputRef}
           type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
           required
           disabled={status === 'loading'}
@@ -77,7 +84,7 @@ export function EmailSignup({
         />
         <button
           type="submit"
-          disabled={status === 'loading'}
+          disabled={!hydrated || status === 'loading'}
           className="flex-none px-4 py-2 rounded-md bg-red-700 text-white text-sm font-semibold hover:bg-red-800 transition-colors disabled:opacity-60 whitespace-nowrap"
         >
           {status === 'loading' ? 'Sending…' : 'Notify me'}
