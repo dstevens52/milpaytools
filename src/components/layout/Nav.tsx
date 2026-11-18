@@ -8,9 +8,9 @@ const CALCULATOR_GROUPS = [
   {
     label: 'Top Calculators',
     links: [
-      { href: '/calculators/total-compensation', label: 'Total Military Compensation', featured: true },
+      { href: '/calculators/total-compensation', label: 'Military Pay Calculator', featured: true },
       { href: '/bah', label: 'BAH Calculator', featured: true },
-      { href: '/calculators/va-disability', label: 'VA Disability Rating', featured: true },
+      { href: '/calculators/va-disability', label: 'VA Disability Calculator', featured: true },
       { href: '/calculators/compare', label: 'Compare Your PCS Move' },
       { href: '/calculators/pcs', label: 'PCS Cost Estimator' },
       { href: '/calculators/tsp', label: 'TSP Growth Projector' },

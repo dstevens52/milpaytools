@@ -17,6 +17,7 @@ import {
 } from '@/data/bah/registry';
 import type { BahMidYearChange } from '@/data/bah/midYear';
 import { isValidZip } from '@/lib/utils';
+import { displayMhaName } from '@/lib/mhaDisplay';
 
 export type { BahYear };
 
@@ -153,6 +154,15 @@ export function getLocationName(zipCode: string): string | null {
   const mhaCode = zipToMha[zipCode];
   if (!mhaCode || mhaCode === 'XX499') return null;
   return mhaNames[mhaCode] ?? null;
+}
+
+/**
+ * Display name for a ZIP's MHA: displayMhaName (casing fixes + documented DTMO-typo
+ * overrides). For on-page text only; never a key or lookup input.
+ */
+export function getLocationDisplayName(zipCode: string): string | null {
+  const name = getLocationName(zipCode);
+  return name === null ? null : displayMhaName(zipToMha[zipCode], name);
 }
 
 /** Check if a ZIP code is in the BAH dataset (and is not a territory). */

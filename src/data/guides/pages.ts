@@ -74,7 +74,7 @@ export const GUIDE_PAGES: GuidePage[] = [
     description:
       'How High-3 and BRS differ, what a pension is actually worth, Roth vs Traditional TSP, and how the government match compounds over a career.',
     category: 'TSP & Retirement',
-    date: '2026-04-12',
+    date: '2026-11-18', // C1: High-3, BRS match, REDUX wording
     readTime: 20,
     calculators: ['retirement', 'tsp', 'total-compensation', 'va-disability'],
   },

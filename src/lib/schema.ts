@@ -75,20 +75,51 @@ export function webApplicationSchema({
   };
 }
 
+/**
+ * Reserved @milpaytools profiles. Each one was opened and confirmed to exist on
+ * 2026-11-18 (S8). facebook.com/milpaytools is left out: Facebook showed
+ * "This content isn't available right now". Add it back once the page is public.
+ */
+export const SOCIAL_PROFILES = [
+  'https://www.instagram.com/milpaytools/',
+  'https://www.tiktok.com/@milpaytools',
+  'https://x.com/milpaytools',
+  'https://www.youtube.com/@milpaytools',
+] as const;
+
+/** Homepage only. */
 export function organizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'MilPayTools',
     url: BASE_URL,
-    description: 'Free military financial calculators using official 2026 DoD data',
-    sameAs: [
-      'https://www.instagram.com/milpaytools/',
-      'https://www.tiktok.com/@milpaytools',
-      'https://x.com/milpaytools',
-      'https://www.youtube.com/@milpaytools',
-      'https://www.facebook.com/milpaytools',
-    ],
+    logo: `${BASE_URL}/images/logo-shield.svg`,
+    sameAs: [...SOCIAL_PROFILES],
+  };
+}
+
+/** Homepage only. */
+export function webSiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'MilPayTools',
+    url: BASE_URL,
+  };
+}
+
+/** /calculators: the calculators listed on the hub, in page order. */
+export function itemListSchema(items: { name: string; url: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: items.map(({ name, url }, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name,
+      url: url.startsWith('http') ? url : `${BASE_URL}${url}`,
+    })),
   };
 }
 

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 import { CALCULATORS, type CalculatorDetail } from '@/data/calculators';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { itemListSchema } from '@/lib/schema';
 
 const CALC_HUB_TITLE = 'Military Financial Calculators — 2026';
 const CALC_HUB_DESC =
@@ -36,9 +38,12 @@ export default function CalculatorsPage() {
   const vaLoans = CALCULATORS.filter((c) => c.group === 'va-loans');
   const education = CALCULATORS.filter((c) => c.group === 'education');
   const reference = CALCULATORS.filter((c) => c.group === 'reference');
+  // ItemList in the order the sections render below.
+  const listed = [...activeDuty, ...guardReserve, ...allowances, ...vaLoans, ...veteran, ...education, ...reference];
 
   return (
     <div className="min-h-screen bg-zinc-50">
+      <JsonLdScript schema={itemListSchema(listed.map((c) => ({ name: c.name, url: c.href })))} />
       {/* Page header */}
       <div className="bg-white border-b border-zinc-200">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">

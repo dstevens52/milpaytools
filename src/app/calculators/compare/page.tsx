@@ -8,7 +8,7 @@ import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import { compareLocations } from '@/lib/calculations/compare';
-import { getMHACode, getMHARates, getLocationName } from '@/lib/calculations/bah';
+import { getMHACode, getMHARates, getLocationDisplayName } from '@/lib/calculations/bah';
 import { BAH_YEAR } from '@/data/bah/current';
 import { formatCurrency } from '@/lib/utils';
 
@@ -52,8 +52,8 @@ export default function ComparePage() {
     hasDependents: true,
     zipA: '65473',
     zipB: '96857',
-    bahA: { monthlyBAH: cmpFlwBah, locationName: getLocationName('65473') ?? 'Fort Leonard Wood', bahFound: true, mha: cmpFlwMha },
-    bahB: { monthlyBAH: cmpSchBah, locationName: getLocationName('96857') ?? 'Schofield Barracks', bahFound: true, mha: cmpSchMha },
+    bahA: { monthlyBAH: cmpFlwBah, locationName: getLocationDisplayName('65473') ?? 'Fort Leonard Wood', bahFound: true, mha: cmpFlwMha },
+    bahB: { monthlyBAH: cmpSchBah, locationName: getLocationDisplayName('96857') ?? 'Schofield Barracks', bahFound: true, mha: cmpSchMha },
   })!;
   const cmpBahAdvantage = cmp.locB.monthlyBAH - cmp.locA.monthlyBAH; // Schofield over Fort Leonard Wood
   const cmpAnnualAdvantage = (cmp.locB.grossMonthly - cmp.locA.grossMonthly) * 12;
@@ -65,7 +65,7 @@ export default function ComparePage() {
     const mha = getMHACode(zip);
     return {
       monthlyBAH: (mha && getMHARates(mha, true)?.['E-5']) || 0,
-      locationName: getLocationName(zip) ?? zip,
+      locationName: getLocationDisplayName(zip) ?? zip,
       bahFound: !!mha,
       mha,
     };

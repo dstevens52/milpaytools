@@ -590,7 +590,7 @@ export function TransitionReadinessCalculator() {
                     vaRating === -1
                       ? '⚠ Filing before separation is strongly recommended — see action steps below'
                       : vaRating > 0
-                      ? `${formatCurrency(result.vaCompMonthly)}/month tax-free compensation included`
+                      ? `${formatCurrency(result.vaCompMonthly)}/month VA compensation included (excluded from federal taxable income)`
                       : '0% rating adds no monthly compensation but preserves VA healthcare eligibility'
                   }
                 />
@@ -938,7 +938,7 @@ export function TransitionReadinessCalculator() {
                     ? [{
                         label: 'VA waiver offset (rating below 50%)',
                         value: `−${formatCurrency(result.vaWaiverMonthly * 12)}/yr`,
-                        tooltip: 'Below a 50% rating, retired pay is reduced by your VA compensation. The VA portion is tax-free. Concurrent receipt (CRDP) starts at 50%.',
+                        tooltip: 'Below a 50% rating, retired pay is reduced by your VA compensation. The VA portion is excluded from federal taxable income. Concurrent receipt (CRDP) starts at 50%.',
                         note: (
                           <Link href={CRDP_CRSC_POST} className="text-red-700 hover:text-red-800 underline underline-offset-2">
                             How CRDP and CRSC work
@@ -950,7 +950,7 @@ export function TransitionReadinessCalculator() {
                     ? [{ label: 'CRSC — waived amount restored (tax-free)', monthly: result.crscMonthly }]
                     : []),
                   ...(result.vaCompMonthly > 0
-                    ? [{ label: `VA disability ${vaRating}% (tax-free)`, monthly: result.vaCompMonthly }]
+                    ? [{ label: `VA disability ${vaRating}% (excluded from federal taxable income)`, monthly: result.vaCompMonthly }]
                     : vaRating === -1
                     ? [{ label: 'VA disability', value: 'Not yet filed — $0' }]
                     : []),

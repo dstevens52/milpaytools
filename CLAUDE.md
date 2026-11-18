@@ -18,12 +18,13 @@ MilPayTools.com is a free military financial calculator and education platform f
 - National averages: computed dynamically via `getNationalAverages()` in `src/lib/calculations/bah.ts` using median across all 338 MHAs
 - All data updates annually in January. The data layer is designed for versioned annual replacement.
 
-## Site Structure (as of May 2026)
+## Site Structure (as of November 2026; counts from `sitemap.ts`, 264 URLs)
 - 16 calculators at /calculators/[name]
-- 65 BAH station pages at /bah/[slug] with full StoryBrand content (hero, money strip, housing costs, "What to know before you move", CTAs, email signup)
-- ~135+ additional basic BAH pages with rate tables only
-- 39 blog posts (MDX)
-- 7 guide hub pages at /guides/[name] (includes /guides/starting-service and /guides/navigating-service journey landing pages)
+- 147 BAH station pages at /bah/[slug]: 142 CONUS (`StationPageClient.tsx`; the StoryBrand sections — money strip, housing costs, "What to know before you move" — render where the station has that data) + 5 overseas v2 pages (published entries in `OCONUS_V2_STATIONS`: Ramstein, RAF Lakenheath, Yokota, Kadena, Camp Humphreys)
+- /bah hub and /bah/changes (BAH year over year, all 338 MHAs)
+- /pay hub, /pay/raise, /pay/dates and 15 /pay/[rank] pages; /va-disability-rates
+- 63 blog posts (MDX)
+- 8 guide pages at /guides/[name] (includes /guides/starting-service and /guides/navigating-service journey landing pages)
 - /guides/starting-service — dedicated journey landing page for new service members
 - /guides/navigating-service — dedicated journey landing page for mid-career (PCS, deployment, duty station)
 - /transition — transition hub page

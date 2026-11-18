@@ -24,7 +24,7 @@ import {
   RATE_PROTECTION_RULE,
   TEMPORARY_INCREASE_EXCEPTION,
 } from '@/data/bah/rateProtection';
-import { formatMhaName } from '@/lib/mhaDisplay';
+import { displayMhaName } from '@/lib/mhaDisplay';
 
 export const BAH_CHANGES_PATH = '/bah/changes';
 export const BAH_CHANGES_GRADE = 'E-5';
@@ -36,7 +36,7 @@ export type BahChangeNoteKind = 'midyear-current' | 'temporary-current' | 'midye
 
 export interface BahChangeRow {
   mha: string;
-  /** DTMO name, display-cased (formatMhaName). */
+  /** DTMO name for display (displayMhaName: casing + documented overrides). */
   name: string;
   /** Prior-year rate; null when the MHA is new this year. */
   prior: number | null;
@@ -144,7 +144,7 @@ export function buildBahChanges(input: BahChangesInput): BahChanges {
     const pct = prior === null ? null : ((current - prior) / prior) * 100;
     rows.push({
       mha,
-      name: formatMhaName(input.names[mha] ?? mha),
+      name: displayMhaName(mha, input.names[mha] ?? mha),
       prior,
       current,
       abs,

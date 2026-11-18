@@ -7,7 +7,7 @@ import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import { compareAllBenefits } from '@/lib/calculations/education';
-import { getLocationName } from '@/lib/calculations/bah';
+import { getLocationDisplayName } from '@/lib/calculations/bah';
 import { giBillBahAtZip, giBillBahAllMhas } from '@/lib/calculations/educationBah';
 import { EDUCATION_RATES } from '@/data/education/2026/constants';
 import { formatCurrency } from '@/lib/utils';
@@ -68,7 +68,7 @@ export default function EducationCalculatorPage() {
     schoolType: 'public',
     schoolZip: '92093',
     schoolBAH: eduSchoolBah,
-    schoolLocationName: getLocationName('92093'),
+    schoolLocationName: getLocationDisplayName('92093'),
     annualTuition: EX_TUITION,
     programYears: 4,
     enrollment: 'full',

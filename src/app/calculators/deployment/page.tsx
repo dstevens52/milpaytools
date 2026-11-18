@@ -16,7 +16,10 @@ import { SENIOR_ENLISTED_BASIC_PAY } from '@/data/pay-tables/2026';
 import { officerCZTEMonthlyCap } from '@/lib/calculations/deployment';
 import { FILING_STATUS_LABEL } from '@/lib/calculations/federalTax';
 
-const DEPLOYMENT_LAST_REVIEWED = 'November 14, 2026';
+import { CALCULATOR_LAST_REVIEWED, formatReviewedDate } from '@/data/lastReviewed';
+
+// Same date the sitemap uses (src/data/lastReviewed.ts).
+const DEPLOYMENT_LAST_REVIEWED = formatReviewedDate(CALCULATOR_LAST_REVIEWED.deployment);
 const R = DEPLOYMENT_RATES_2026;
 const T26 = TSP_CONSTANTS_2026;
 

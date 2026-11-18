@@ -167,7 +167,7 @@ export default function RetirementCalculatorPage() {
               <div>
                 <h3 className="font-semibold text-zinc-900 mb-2">BRS (Blended Retirement System)</h3>
                 <p className="text-sm text-zinc-600 leading-relaxed mb-3">
-                  BRS is mandatory for members who entered after January 1, 2018. It trades a slightly
+                  BRS is mandatory for members who entered on or after January 1, 2018. It trades a slightly
                   lower pension multiplier for TSP matching contributions:
                 </p>
                 <div className="rounded-md bg-zinc-50 border border-zinc-200 px-4 py-3 font-mono text-sm text-zinc-800">

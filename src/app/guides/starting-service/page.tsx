@@ -19,14 +19,14 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://www.milpaytools.com/guides/starting-service',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'guide', title: 'Starting Military Service', sub: 'Base pay, BAH, BAS, and TSP match from day one' }),
+    images: ogImage({ type: 'guide', title: 'Starting Military Service', sub: 'Base pay, BAH, BAS, and the TSP match' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: 'New to the Military: First-Year Pay Guide',
     description:
       'Your first year in the military explained: base pay, BAH, BAS, the TSP match, and reading your LES. Start with the right money habits. No account required.',
-    images: ogImage({ type: 'guide', title: 'Starting Military Service', sub: 'Base pay, BAH, BAS, and TSP match from day one' }),
+    images: ogImage({ type: 'guide', title: 'Starting Military Service', sub: 'Base pay, BAH, BAS, and the TSP match' }),
   },
 };
 

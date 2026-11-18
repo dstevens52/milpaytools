@@ -81,7 +81,7 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
     },
     {
       question: 'Why does the gap between 90% and 100% VA disability matter so much?',
-      answer: 'In 2026, the jump from 90% ($2,362.30/month) to 100% ($3,938.58/month) is $1,576.28/month — the largest single step in the pay table. That is $18,915/year in tax-free compensation, making the difference between a 94.9% and 95% exact combined value worth thousands annually.',
+      answer: 'In 2026, the jump from 90% ($2,362.30/month) to 100% ($3,938.58/month) is $1,576.28/month — the largest single step in the pay table. That is $18,915/year in compensation excluded from federal taxable income, making the difference between a 94.9% and 95% exact combined value worth thousands annually.',
     },
   ],
   'va-loan-funding-fee-explained': [
@@ -361,7 +361,7 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
 };
 
 const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
-  'total-compensation': { label: 'Total Compensation Calculator',    href: '/calculators/total-compensation' },
+  'total-compensation': { label: 'Military Pay Calculator',          href: '/calculators/total-compensation' },
   bah:                  { label: 'BAH Calculator',                   href: '/bah' },
   'va-disability':      { label: 'VA Disability Calculator',          href: '/calculators/va-disability' },
   'va-loan':            { label: 'VA Loan Calculator',                href: '/calculators/va-loan' },

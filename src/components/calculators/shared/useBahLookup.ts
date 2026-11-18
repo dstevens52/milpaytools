@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { BAH_YEAR } from '@/data/bah/current';
-import { formatMhaName } from '@/lib/mhaDisplay';
+import { displayMhaName } from '@/lib/mhaDisplay';
 
 /**
  * Client hook that resolves a ZIP to BAH data via the cached /api/bah/lookup
@@ -26,7 +26,7 @@ export interface BahLookupData {
   valid: boolean;
   territory: boolean;
   mha: string | null;
-  /** MHA name for display (formatMhaName casing). Not a key: look up by `mha`. */
+  /** MHA name for display (displayMhaName). Not a key: look up by `mha`. */
   locationName: string | null;
   ratesW: Record<string, number> | null;
   ratesWO: Record<string, number> | null;
@@ -87,8 +87,9 @@ function normalize(json: Partial<BahLookupData> & { valid: boolean }): BahLookup
     valid: json.valid,
     territory: json.territory ?? false,
     mha: json.mha ?? null,
-    // Display label only (AFB, NAS… casing). The raw DTMO name stays in the API response.
-    locationName: json.locationName ? formatMhaName(json.locationName) : null,
+    // Display label only (AFB, NAS… casing; documented DTMO-typo overrides by MHA code).
+    // The raw DTMO name stays in the API response.
+    locationName: json.locationName ? displayMhaName(json.mha, json.locationName) : null,
     ratesW: json.ratesW ?? null,
     ratesWO: json.ratesWO ?? null,
     stationPages: json.stationPages ?? [],
