@@ -450,11 +450,11 @@ test.describe('opt-out (/internal/disable-analytics)', () => {
 
   test('disable and enable pages set and clear the shared flag', async ({ page }) => {
     await page.goto('/internal/disable-analytics');
-    await expect(page.getByText('Google Analytics and Vercel Analytics disabled for this browser.')).toBeVisible();
+    await expect(page.getByText('Google Analytics, Vercel Analytics and Microsoft Clarity disabled for this browser.')).toBeVisible();
     expect(await page.evaluate(() => localStorage.getItem('milpaytools_disable_analytics'))).toBe('true');
     await page.evaluate(() => localStorage.setItem('milpaytools_internal', 'true')); // legacy key
     await page.goto('/internal/enable-analytics');
-    await expect(page.getByText('Google Analytics and Vercel Analytics enabled for this browser.')).toBeVisible();
+    await expect(page.getByText('Google Analytics, Vercel Analytics and Microsoft Clarity enabled for this browser.')).toBeVisible();
     expect(
       await page.evaluate(() => [localStorage.getItem('milpaytools_disable_analytics'), localStorage.getItem('milpaytools_internal')]),
     ).toEqual([null, null]);

@@ -18,7 +18,7 @@ export default function DisableAnalyticsPage() {
       <div className="text-center">
         <p className="text-sm font-mono text-zinc-400 mb-3">milpaytools / internal</p>
         <p className={`text-base font-medium ${done ? 'text-green-700' : 'text-zinc-400'}`}>
-          {done ? 'Google Analytics and Vercel Analytics disabled for this browser.' : 'Working…'}
+          {done ? 'Google Analytics, Vercel Analytics and Microsoft Clarity disabled for this browser.' : 'Working…'}
         </p>
       </div>
     </div>

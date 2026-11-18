@@ -140,18 +140,20 @@ in a full-suite run, re-run it in isolation before treating it as a regression.
   The *other* bah failure (02b-1 gate: 0 events after one rank change) was a change before
   hydration; follow-up 4 reproduced and fixed that one (the test now waits for hydration) and it
   is no longer listed.
-- `ga-events.spec.ts:294` (same `calculation_run` loop; was `:274`), three cases seen in the
-  2026-11-15 Build 04 gate (`feat/station-first-screen`, `--workers=1`, foreground batches): a page
-  load, a shared-link load, one change and a burst with 3 s quiet waits, close to the 30 s limit
-  under load, sometimes stuck on `networkidle`. Build 04 doesn't touch these calculators.
-  - `dual-military-bah` — chromium: timeout in the wait after the burst. Alone: 5/5.
+- `ga-events.spec.ts:294` (same `calculation_run` loop; was `:274`), two cases left of three seen
+  in the 2026-11-15 Build 04 gate (`feat/station-first-screen`, `--workers=1`, foreground batches):
+  a page load, a shared-link load, one change and a burst with 3 s quiet waits, close to the 30 s
+  limit under load, sometimes stuck on `networkidle`. Build 04 doesn't touch these calculators.
   - `compare` — firefox: `page.goto(…, 'networkidle')` never settled. Alone: 4/5, then 10/10.
     A `main` build gave 10/10 and the branch 10/10 in back-to-back runs, so not caused by Build 04.
   - `va-loan` — firefox: timeout in the wait after the burst. Alone: 5/5.
   **Fix in place, not yet cleared** (follow-up 4, `test/ga-events-hydration-wait`): the loop no
   longer uses `networkidle` (it waits for hydration) and has a 60 s timeout. Repeated runs of the
-  old spec never reproduced these three, so a clean repeated run of the new one can't clear them.
-  Remove them after a full-suite gate on the browser above in which they don't appear.
+  old spec never reproduced these, so a clean repeated run of the new one can't clear them.
+  Remove them after a full Firefox run in CI in which they don't appear. (The 2026-11-18
+  follow-up 5 gate passed them on Firefox, but in foreground batches, not one full run.)
+  (The `dual-military-bah` case, chromium, was removed 2026-11-18: it didn't appear in the
+  follow-up 5 gate's single full-suite Chromium run, `--workers=1`, 1427/0/2/0.)
   (The `education` case, `networkidle` timeout on Firefox, was removed: the old spec failed it 2/190
   in a Firefox `--repeat-each=10` run, the new spec passed 190/190.)
 - `deployment-math.spec.ts:425` — round trip: every input survives copy link → reload — webkit.
