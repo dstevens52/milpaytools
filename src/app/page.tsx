@@ -5,10 +5,12 @@ import Link from 'next/link';
 import { ExpandableCalcGrid } from './home-v3/ExpandableCalcGrid';
 import { SAMPLE_SCENARIO } from '@/lib/sample-scenario';
 import { rankPageLinkText, homeStripText } from '@/lib/calculations/payRaise';
+import { JsonLdScript } from '@/components/JsonLdScript';
+import { organizationSchema, webSiteSchema } from '@/lib/schema';
 
-const HOME_TITLE = 'MilPayTools — Military Pay & Benefits Calculators';
+const HOME_TITLE = 'MilPayTools: Military Pay, BAH & VA Benefits Calculators';
 const HOME_DESC =
-  'Free, accurate military pay and benefits calculators. Total compensation, BAH, VA disability ratings, and TSP — with plain-English explanations and actionable next steps.';
+  'Free military pay, BAH, VA disability, TSP and retirement calculators built on official DoD and VA data, with plain-English results. No account needed.';
 const HOME_OG_IMAGE = ogImage({ type: 'home', title: 'MilPayTools' });
 
 export const metadata: Metadata = {
@@ -89,17 +91,32 @@ function HeroSection() {
             </span>
           </div>
 
-          {/* Headline */}
-          <h1
+          {/* Tagline (visible brand line; the descriptive H1 sits under it) */}
+          <p
             className="whitespace-nowrap font-extrabold leading-[1.04] tracking-tight text-white mb-2"
             style={{ fontSize: 'clamp(38px, 5vw, 62px)' }}
+            data-testid="home-tagline"
           >
             Know Your <span className="text-red-500">Worth.</span>
+          </p>
+
+          {/* Headline */}
+          <h1 className="text-lg sm:text-2xl font-bold leading-snug text-white mb-1.5">
+            Military pay and benefits calculators
           </h1>
 
-          {/* Subline */}
+          {/* Subline: the first in-body link to the total compensation calculator
+              carries the head-term anchor text (S8). */}
           <p className="text-base sm:text-lg text-white/70 leading-snug mb-5">
-            Military pay is more than base pay. Calculate your full compensation in minutes.
+            Base pay is only part of it. The{' '}
+            <Link
+              href="/calculators/total-compensation"
+              className="text-white underline underline-offset-2 decoration-white/50 hover:decoration-white"
+              data-testid="home-first-calc-link"
+            >
+              military pay calculator
+            </Link>{' '}
+            adds BAH, BAS and the tax advantage in minutes.
           </p>
 
           {/* CTA + sample card — same row on desktop, stacked on mobile */}
@@ -253,7 +270,7 @@ function JourneySection() {
 const TOP_CALCULATORS = [
   {
     href: '/calculators/total-compensation',
-    title: 'Total Compensation',
+    title: 'Military Pay Calculator',
     description: 'Base pay, BAH, BAS, tax advantages, and civilian salary equivalent — all in one view.',
     icon: (
       <div className="w-10 h-10 rounded-full bg-red-700 flex items-center justify-center">
@@ -277,7 +294,7 @@ const TOP_CALCULATORS = [
   },
   {
     href: '/calculators/va-disability',
-    title: 'VA Disability Rating',
+    title: 'VA Disability Calculator',
     description: 'Combined rating calculator with step-by-step math and monthly compensation estimate.',
     icon: (
       <div className="w-10 h-10 rounded-full bg-purple-700 flex items-center justify-center">
@@ -395,6 +412,8 @@ function PayRaiseStrip() {
 export default function HomePage() {
   return (
     <>
+      <JsonLdScript schema={organizationSchema()} />
+      <JsonLdScript schema={webSiteSchema()} />
       <HeroSection />
       <PayRaiseStrip />
       <JourneySection />
