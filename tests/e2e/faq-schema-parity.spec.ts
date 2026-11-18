@@ -26,6 +26,8 @@ const PAGES: { path: string; faqCount: number }[] = [
   { path: '/pay/raise', faqCount: 8 },
   // /pay/dates: six FAQs (feat/pay-dates-2027).
   { path: '/pay/dates', faqCount: 6 },
+  // /va-disability-rates: three FAQs (build 06, Fable Spec 4).
+  { path: '/va-disability-rates', faqCount: 3 },
 ];
 
 type FaqSchema = {

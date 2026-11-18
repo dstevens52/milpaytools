@@ -240,6 +240,9 @@ const ACCORDION = [
         </p>
         <Link href="/calculators/va-disability" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           See your compensation with dependent additions →
+        </Link>{' '}
+        <Link href="/va-disability-rates" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+          2027 VA disability rates: status and the full rate table →
         </Link>
       </div>
     ),

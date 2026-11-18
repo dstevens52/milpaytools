@@ -441,7 +441,7 @@ test.describe('2027 key dates — calendar data', () => {
     expect(links).toEqual({
       'final-raise': '/pay/raise',
       'retiree-cola': '/calculators/retirement',
-      'va-cola': '/calculators/va-disability',
+      'va-cola': '/va-disability-rates',
       'tsp-limits': '/calculators/tsp',
       bah: '/bah',
       'dec31-payday': '/pay/dates',

@@ -9,7 +9,7 @@ import {
 } from '../../src/data/va-rates/registry';
 import { VA_RATES_2027_STATUS, type VaRates2027StatusConfig } from '../../src/data/va-rates/2027-status';
 import { vaRates as rates2027, VA_RATES_META as meta2027 } from '../../src/data/va-rates/2027';
-import { vaRatesNotice, vaRatesShortStatus } from '../../src/lib/calculations/vaRatesStatus';
+import { vaDecemberPaymentDay, vaRatesNotice, vaRatesShortStatus } from '../../src/lib/calculations/vaRatesStatus';
 
 /**
  * The VA rate-year registry and the 2027 status file. Data-only: no browser.
@@ -111,6 +111,13 @@ test.describe('2027 status wording', () => {
       expect(text).toContain('§ 5120(e)');
     }
     expect(vaRatesNotice(status('law-pending'), VA_RATES_2026, null)!.body).toContain('H.R. 8552');
+    // Payment timing (wording approved by Claude Chat, 2026-11-18).
+    expect(vaRatesNotice(status('law-pending'), VA_RATES_2026, null)!.body).toContain(
+      "If the law is signed in time, the first payment at the new rates is December 2026's, which VA normally pays on December 31 because January 1 is a federal holiday (38 U.S.C. § 5120(e)).",
+    );
+    expect(vaRatesNotice(status('law-enacted', { lawCitation: 'Pub. L. 119-00' }), VA_RATES_2026, null)!.body).toContain(
+      "The first payment at the new rates is December 2026's, which VA normally pays on December 31",
+    );
     expect(vaRatesNotice(status('law-enacted', { lawCitation: 'Pub. L. 119-00' }), VA_RATES_2026, null)!.body).toContain('Pub. L. 119-00');
   });
 
@@ -133,4 +140,9 @@ test.describe('2027 status wording', () => {
       expect(n).toBeNull();
     }
   });
+});
+
+test('December payment day: last weekday of December (§ 5120(e))', () => {
+  expect(vaDecemberPaymentDay('2026-12-01')).toBe('December 31'); // Thursday
+  expect(vaDecemberPaymentDay('2028-12-01')).toBe('December 29'); // Dec 31, 2028 is a Sunday
 });

@@ -89,7 +89,7 @@ export function vaColaLine(): string {
   const entry = getCalendar2027().find((e) => e.id === 'va-cola')!;
   const pct = formatPercent(RETIREE_COLA_2027.percent);
   if (entry.status === 'pending') {
-    return `VA's 2027 rates (the Social Security COLA, ${pct}) apply once Congress passes the annual VA COLA law and VA publishes its rate tables.`;
+    return `VA's 2027 rates (the Social Security COLA, ${pct}) apply once the annual VA COLA law is signed and VA publishes its rate tables.`;
   }
   return `VA's 2027 rates (the Social Security COLA, ${pct}) take effect ${formatIsoDate(RETIREE_COLA_2027.effectiveDate)}.`;
 }

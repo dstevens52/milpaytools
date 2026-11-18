@@ -230,7 +230,7 @@ test.describe('page content', () => {
     const vaStatus = getCalendar2027().find((e) => e.id === 'va-cola')!.status;
     if (vaStatus === 'pending') {
       expect(vaColaLine()).toBe(
-        "VA's 2027 rates (the Social Security COLA, 3.6%) apply once Congress passes the annual VA COLA law and VA publishes its rate tables.",
+        "VA's 2027 rates (the Social Security COLA, 3.6%) apply once the annual VA COLA law is signed and VA publishes its rate tables.",
       );
     }
   });
