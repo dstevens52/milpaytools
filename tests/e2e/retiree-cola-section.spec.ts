@@ -6,7 +6,7 @@ import {
   type RetireeColaSection,
 } from '../../src/data/retiree-cola/2027';
 import { retireeColaSectionCopy, RETIREE_COLA_SECTION_ID } from '../../src/lib/calculations/retireeColaSection';
-import { retireeColaFaq } from '../../src/lib/calculations/payRaise';
+import { retireeColaFaq, retireeColaTiming } from '../../src/lib/calculations/payRaise';
 
 /**
  * /pay/raise "2027 COLA for military retired pay" section (S8).
@@ -38,19 +38,31 @@ test.describe('retiree COLA section — data', () => {
     expect(faq).toContain(`${reduxPercent()}%`);
   });
 
-  test('unpublished items (null) produce no copy; the pending note shows instead', () => {
+  test('timing is the same sentence and dates the FAQ and key-dates card use', () => {
+    const s = RETIREE_COLA_2027_SECTION;
+    expect(s.timing).not.toBeNull();
+    expect(s.timing!.effectiveDate).toBe(RETIREE_COLA_2027.effectiveDate);
+    expect(s.timing!.firstRetiredPayDate).toBe(RETIREE_COLA_2027.firstRetiredPayDate);
+    expect(s.timing!.firstAnnuitantPayDate).toBe(RETIREE_COLA_2027.firstAnnuitantPayDate);
+    const byKey = Object.fromEntries(retireeColaSectionCopy().paragraphs.map((p) => [p.key, p.text]));
+    expect(byKey.timing).toBe(retireeColaTiming());
+    expect(retireeColaFaq().answer).toContain(retireeColaTiming()); // control: the FAQ states it too
+  });
+
+  test('unpublished items (null) produce no copy; no "not posted" line', () => {
     const s = RETIREE_COLA_2027_SECTION;
     const copy = retireeColaSectionCopy();
     const keys = copy.paragraphs.map((p) => p.key);
-    expect(keys).toContain('percent');
-    expect(keys.includes('timing')).toBe(s.timing !== null);
-    expect(keys.includes('redux')).toBe(s.redux !== null);
+    expect(keys).toEqual(['percent', 'timing', 'redux', ...(s.partialFirstYear ? ['partial'] : [])]);
     expect(keys.includes('partial')).toBe(s.partialFirstYear !== null);
-    expect(copy.pendingNote !== null).toBe(s.timing === null);
-    if (s.timing === null) {
-      const text = copy.paragraphs.map((p) => p.text).join(' ');
-      expect(text).not.toMatch(/December 31|January \d, 20/); // no payment dates without DFAS's notice
-    }
+    expect(copy.paragraphs.map((p) => p.text).join(' ')).not.toMatch(/hasn't posted|not posted|unknown/i);
+  });
+
+  test('REDUX age-62 wording (approved; matches DFAS CSB/REDUX and 10 U.S.C. 1410)', () => {
+    const redux = retireeColaSectionCopy().paragraphs.find((p) => p.key === 'redux')!.text;
+    expect(redux).toContain(
+      'At age 62, DFAS recalculates your retired pay to what it would have been under High-3, with the full multiplier and full COLAs to date. COLAs after that are again 1 percentage point lower.',
+    );
   });
 
   test('filled-in items render from the data (fixture, not real figures)', () => {
@@ -68,7 +80,6 @@ test.describe('retiree COLA section — data', () => {
       },
     };
     const copy = retireeColaSectionCopy(fixture);
-    expect(copy.pendingNote).toBeNull();
     const byKey = Object.fromEntries(copy.paragraphs.map((p) => [p.key, p.text]));
     expect(byKey.timing).toContain('December 1, 2000');
     expect(byKey.timing).toContain('December 29, 2000');
@@ -90,7 +101,7 @@ test.describe('retiree COLA section — /pay/raise', () => {
       await expect(section.locator(`[data-cola-item="${p.key}"]`)).toHaveText(p.text);
     }
     await expect(section.locator('[data-cola-item]')).toHaveCount(copy.paragraphs.length);
-    if (copy.pendingNote) await expect(section.getByTestId('retiree-cola-pending')).toHaveText(copy.pendingNote);
+    await expect(section).not.toContainText("hasn't posted");
     const hrefs = await section.locator('a').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).href));
     expect(hrefs).toEqual(copy.sources.map((s) => s.url));
   });

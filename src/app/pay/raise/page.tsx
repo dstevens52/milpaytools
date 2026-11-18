@@ -267,9 +267,6 @@ export default function PayRaisePage() {
             {cola.paragraphs.map((p) => (
               <p key={p.key} data-cola-item={p.key}>{p.text}</p>
             ))}
-            {cola.pendingNote && (
-              <p className="text-zinc-500" data-testid="retiree-cola-pending">{cola.pendingNote}</p>
-            )}
           </div>
           <p className="text-xs text-zinc-500 mt-3 leading-relaxed">
             Sources:{' '}

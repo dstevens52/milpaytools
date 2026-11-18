@@ -53,24 +53,31 @@ export function reduxPercent(cola: RetireeCola = RETIREE_COLA_2027): number {
 
 // ─── /pay/raise "2027 COLA for military retired pay" section (S8) ───────────
 //
-// Every item here comes from an official DFAS or SSA page, recorded with its URL.
-// An item DFAS hasn't published for 2027 is null, and the section leaves it out.
-// Never fill one in from a past year's notice.
+// Every item records its source. An item with no published source is null, and the
+// section leaves it out. Never fill one in from a past year's notice.
 //
 // Checked 2026-11-18 (Chrome, pages read in full):
 // - SSA latest COLA page: "The latest COLA is 3.6 percent … beginning with the
 //   December 2026 benefits".
+// - Timing: the same dates as RETIREE_COLA_2027 above (approved 2026-11-13), which
+//   the FAQ and the key-dates card on /pay/raise already show: effective Dec 1
+//   (10 U.S.C. 1401a(b)), first in the December 2026 retired pay, paid on the DFAS
+//   retired and annuitant pay schedule dates. Read from there, never re-typed.
 // - DFAS CSB/REDUX page (updated Dec 18, 2024): "Cost of Living Adjustments (COLA)
-//   are also reduced by one percent." A standing rule, not a 2027 notice.
+//   are also reduced by one percent." At 62: "your retired pay will be restored to
+//   the same amount paid under the High-3 System. Full COLA rates will be applied to
+//   your new computation, but the COLA will continue to be applied at the reduced
+//   rate each year following." Matches 10 U.S.C. 1410 (recomputed as if 1401a(b)(2)
+//   COLAs applied and no 1409(b)(2) multiplier reduction).
 // - DFAS retiree newsletter / COLA page (updated Sept 30, 2026): latest COLA article
-//   is the 2026 one (December 2025 issue). No 2027 notice, so no 2027 effective-date
-//   or first-payment statement and no 2027 partial-COLA table.
+//   is the 2026 one (December 2025 issue). No 2027 table of first COLAs for members
+//   retired during 2026, so `partialFirstYear` stays null.
 //
-// When DFAS posts its 2027 notice: fill `timing` and `partialFirstYear` from it
-// (quote the notice in the comment), set `checked`, and the section shows them.
+// When DFAS posts its 2027 notice: fill `partialFirstYear` from its table (quote the
+// notice in the comment), set `checked`, and the section shows it.
 //
-// RETIREE_COLA_2027 above stays the source for the /pay/raise FAQ answer, which is
-// frozen under the pay meta guard until ~Dec 10; the percent is shared, not copied.
+// RETIREE_COLA_2027 above stays the one source for the percent and the dates; the
+// /pay/raise FAQ answer (frozen under the pay meta guard until ~Dec 10) reads it too.
 
 export interface OfficialSource {
   name: string;
@@ -84,7 +91,7 @@ export interface RetireeColaSection {
   checked: string;
   /** The 2027 COLA percent (SSA). */
   percent: { value: number; source: OfficialSource };
-  /** When the increase takes effect and the first retired pay / annuitant payment with it (DFAS 2027 notice). */
+  /** When the increase takes effect and the first retired pay / annuitant payment with it. */
   timing: {
     effectiveDate: string;
     firstRetiredPayDate: string;
@@ -110,11 +117,22 @@ export const DFAS_CSB_REDUX: OfficialSource = {
   url: 'https://www.dfas.mil/retiredmilitary/plan/estimate/csbredux/',
 };
 
+export const DFAS_PAY_SCHEDULE: OfficialSource = {
+  name: 'DFAS retired and annuitant pay schedule',
+  url: 'https://www.dfas.mil/RetiredMilitary/manage/payschedule/',
+};
+
 export const RETIREE_COLA_2027_SECTION: RetireeColaSection = {
   year: 2027,
   checked: '2026-11-18',
   percent: { value: RETIREE_COLA_2027.percent, source: SSA_LATEST_COLA },
-  timing: null, // DFAS 2027 COLA notice not posted as of 2026-11-18
+  // Same dates the FAQ and key-dates card show (RETIREE_COLA_2027).
+  timing: {
+    effectiveDate: RETIREE_COLA_2027.effectiveDate,
+    firstRetiredPayDate: RETIREE_COLA_2027.firstRetiredPayDate,
+    firstAnnuitantPayDate: RETIREE_COLA_2027.firstAnnuitantPayDate,
+    source: DFAS_PAY_SCHEDULE,
+  },
   redux: { minusPoints: 1, source: DFAS_CSB_REDUX },
   partialFirstYear: null, // DFAS 2027 table not posted as of 2026-11-18
 };

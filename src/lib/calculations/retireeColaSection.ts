@@ -4,11 +4,12 @@
  * an item that's null there (not published by DFAS yet) produces no copy.
  */
 import {
+  RETIREE_COLA_2027,
   RETIREE_COLA_2027_SECTION,
   type OfficialSource,
   type RetireeColaSection,
 } from '@/data/retiree-cola/2027';
-import { formatIsoDate, formatPercent } from '@/lib/calculations/payRaise';
+import { formatPercent, retireeColaTiming } from '@/lib/calculations/payRaise';
 
 export const RETIREE_COLA_SECTION_ID = 'retiree-cola';
 
@@ -16,8 +17,6 @@ export interface RetireeColaCopy {
   heading: string;
   /** Paragraphs in order; each is plain text with figures filled in. */
   paragraphs: { key: string; text: string }[];
-  /** Shown while DFAS hasn't posted its notice (timing still null). */
-  pendingNote: string | null;
   sources: OfficialSource[];
 }
 
@@ -35,9 +34,15 @@ export function retireeColaSectionCopy(s: RetireeColaSection = RETIREE_COLA_2027
   const sources: OfficialSource[] = [s.percent.source];
 
   if (s.timing) {
+    // The same sentence the FAQ, the key-dates card and /pay/dates use.
     paragraphs.push({
       key: 'timing',
-      text: `It takes effect ${formatIsoDate(s.timing.effectiveDate)}. Retirees first see it in the payment on ${formatIsoDate(s.timing.firstRetiredPayDate)}; Survivor Benefit Plan annuitants on ${formatIsoDate(s.timing.firstAnnuitantPayDate)}.`,
+      text: retireeColaTiming({
+        ...RETIREE_COLA_2027,
+        effectiveDate: s.timing.effectiveDate,
+        firstRetiredPayDate: s.timing.firstRetiredPayDate,
+        firstAnnuitantPayDate: s.timing.firstAnnuitantPayDate,
+      }),
     });
     sources.push(s.timing.source);
   }
@@ -45,9 +50,11 @@ export function retireeColaSectionCopy(s: RetireeColaSection = RETIREE_COLA_2027
   if (s.redux) {
     const redux = formatPercent(tenth(s.percent.value - s.redux.minusPoints));
     const points = s.redux.minusPoints === 1 ? '1 percentage point' : `${s.redux.minusPoints} percentage points`;
+    // Age-62 wording approved by Claude Chat (2026-11-18); checked against DFAS's
+    // CSB/REDUX page and 10 U.S.C. 1410 (see the data file comment).
     paragraphs.push({
       key: 'redux',
-      text: `If you took the Career Status Bonus (CSB/REDUX), DFAS reduces each COLA by ${points}: ${redux} for ${s.year}. At age 62 your retired pay is restored to the High-3 amount, but the COLAs after that stay at the reduced rate.`,
+      text: `If you took the Career Status Bonus (CSB/REDUX), DFAS reduces each COLA by ${points}: ${redux} for ${s.year}. At age 62, DFAS recalculates your retired pay to what it would have been under High-3, with the full multiplier and full COLAs to date. COLAs after that are again ${points} lower.`,
     });
     sources.push(s.redux.source);
   }
@@ -65,9 +72,6 @@ export function retireeColaSectionCopy(s: RetireeColaSection = RETIREE_COLA_2027
   return {
     heading: `${s.year} COLA for military retired pay`,
     paragraphs,
-    pendingNote: s.timing
-      ? null
-      : `DFAS hasn't posted its ${s.year} COLA notice yet (checked ${formatIsoDate(s.checked)}). The payment dates and other details go here once it does.`,
     sources,
   };
 }
