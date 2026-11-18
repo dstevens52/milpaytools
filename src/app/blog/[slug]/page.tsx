@@ -361,7 +361,7 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
 };
 
 const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
-  'total-compensation': { label: 'Total Compensation Calculator',    href: '/calculators/total-compensation' },
+  'total-compensation': { label: 'Military Pay Calculator',          href: '/calculators/total-compensation' },
   bah:                  { label: 'BAH Calculator',                   href: '/bah' },
   'va-disability':      { label: 'VA Disability Calculator',          href: '/calculators/va-disability' },
   'va-loan':            { label: 'VA Loan Calculator',                href: '/calculators/va-loan' },
