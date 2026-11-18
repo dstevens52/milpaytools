@@ -64,7 +64,7 @@ local ones on builds 9a and 1b; the old local gate steps are retired.)
    multi-browser runs, no `--repeat-each`. Those are CI's job (the full gate on every PR; repeat
    runs via the workflow's manual run, below). This machine has run out of memory on local gates.
 3. **Finish all review before pushing.** Fold in every pending fix, data spot-check and copy edit
-   first, so CI runs once. If code changes after a CI run, re-run tier 1 for the changed files and
+   first, so CI runs once. If code changes after a CI run, re-run the local checks (item 1) for the changed files and
    push; CI runs again on the new commit.
 4. **Don't re-run a suite to investigate a single failure.** Re-run just that spec file (locally
    on Chromium, or in CI with the repeat run if it only fails in Firefox/WebKit/CI).
@@ -76,7 +76,7 @@ local ones on builds 9a and 1b; the old local gate steps are retired.)
 ### CI gate (GitHub Actions, added 2026-11-18)
 The full suite runs in GitHub Actions (`.github/workflows/e2e.yml`) whenever a PR to `main` is
 opened or gets new commits, drafts included.
-- **Build flow:** run the tier 1 checks locally → push the branch → open a **draft** PR (a draft
+- **Build flow:** run the local checks (item 1) → push the branch → open a **draft** PR (a draft
   creates only a Vercel preview, never a production deploy) → CI runs the full suite on all three
   browsers against a production build → the PR is marked ready only after Claude Chat signs off
   (unless Dan says otherwise for that PR). Marking a PR ready does **not** re-run CI: the run on
