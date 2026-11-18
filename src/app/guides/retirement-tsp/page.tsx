@@ -59,7 +59,7 @@ const FAQS = [
   {
     question: 'How does BRS TSP matching work?',
     answer:
-      'Under BRS: 1% automatic contribution begins after 60 days (vests at 2 years). Dollar-for-dollar match on first 3% of base pay (vests immediately). 50 cents on the dollar for the next 2%. Maximum government contribution: 5% of base pay when you contribute at least 5%. Under BRS, contributing less than 5% of base pay means missing part of the available government match.',
+      'Under BRS: 1% automatic contribution begins after 60 days (vests at 2 years). Matching starts after 2 years of service: dollar-for-dollar on the first 3% of base pay (vests immediately). 50 cents on the dollar for the next 2%. Maximum government contribution: 5% of base pay when you contribute at least 5%. Under BRS, contributing less than 5% of base pay means missing part of the available government match.',
   },
   {
     question: 'Is it worth staying to 20 years for the pension?',
@@ -122,8 +122,9 @@ const ACCORDION = [
         </p>
         <p>
           <strong className="text-zinc-800">REDUX (rare):</strong> Some legacy-era service members
-          accepted a $30,000 Career Status Bonus at 15 years in exchange for a reduced retirement
-          COLA adjustment. REDUX has significantly reduced the real value of the pension over time
+          accepted a $30,000 Career Status Bonus at 15 years in exchange for a lower retirement
+          multiplier until age 62 (for those with under 30 years) and COLAs 1 percentage point
+          lower. REDUX has significantly reduced the real value of the pension over time
           for most who chose it.
         </p>
         <p>
@@ -147,10 +148,10 @@ const ACCORDION = [
         <ul className="space-y-1 pl-4 list-disc">
           <li>At exactly 20 years: <strong className="text-zinc-800">50%</strong> (2.5% × 20)</li>
           <li>At 22 years: 55%</li>
-          <li>At 30 years: 75% (maximum)</li>
+          <li>At 30 years: 75%</li>
         </ul>
         <p>
-          The &quot;highest 36 months&quot; means the three consecutive years of highest base pay —
+          The &quot;highest 36 months&quot; means your 36 months of highest base pay, whether or not consecutive —
           almost always your final 36 months. High-3 retirees receive annual COLA adjustments equal
           to the full CPI-W inflation rate.
         </p>
@@ -265,7 +266,7 @@ const ACCORDION = [
         <p>If you&apos;re on BRS, the government matching structure is:</p>
         <ul className="space-y-2 pl-4 list-disc">
           <li><strong className="text-zinc-800">1% automatic:</strong> The government deposits 1% of your base pay into TSP regardless of whether you contribute. Begins after 60 days of service. Vests at 2 years — separate before then and you forfeit it.</li>
-          <li><strong className="text-zinc-800">Dollar-for-dollar on first 3%:</strong> Contribute 3% → government adds 3%. This matching vests immediately.</li>
+          <li><strong className="text-zinc-800">Dollar-for-dollar on first 3%:</strong> Contribute 3% → government adds 3%. Matching starts after 2 years of service and vests immediately.</li>
           <li><strong className="text-zinc-800">50 cents on the dollar for next 2%:</strong> Contribute 4% → government adds 0.5%; contribute 5% → government adds another 0.5%.</li>
           <li><strong className="text-zinc-800">Maximum: 5% government contribution</strong> (1% auto + up to 4% match) when you contribute at least 5%.</li>
         </ul>

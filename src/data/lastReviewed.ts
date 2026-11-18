@@ -24,17 +24,17 @@
 
 /** Keyed by the /calculators/<slug> path segment. */
 export const CALCULATOR_LAST_REVIEWED = {
-  'total-compensation': '2026-11-14',
+  'total-compensation': '2026-11-18', // C1: "excluded from federal taxable income"
   'va-disability': '2026-11-18',
   tsp: '2026-11-18', // S8: title, H1, meta
-  retirement: '2026-11-14',
+  retirement: '2026-11-18', // C1: BRS "on or after January 1, 2018"
   pcs: '2026-11-14',
   'guard-reserve': '2026-11-14',
   education: '2026-11-13',
   cola: '2026-11-12',
   'dual-military-bah': '2026-11-18',
   compare: '2026-11-12',
-  'transition-readiness': '2026-11-18',
+  'transition-readiness': '2026-11-18', // also C1 VA wording
   'separation-timeline': '2026-11-18',
   'healthcare-comparison': '2026-05-28',
   'va-loan': '2026-05-29',

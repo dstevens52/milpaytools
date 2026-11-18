@@ -108,7 +108,7 @@ function buildActionSteps(
   if (output.taxAdvantageValue > 1000) {
     steps.push({
       label: `You have a hidden ${formatCurrency(output.taxAdvantageValue)}/year tax advantage`,
-      description: `Your BAH and BAS are federal income tax-free. A civilian earning the same total would pay roughly ${formatCurrency(output.taxAdvantageValue)} more in taxes per year. This is a real economic advantage — factor it in when comparing civilian job offers.`,
+      description: `Your BAH and BAS are excluded from federal taxable income. A civilian earning the same total would pay roughly ${formatCurrency(output.taxAdvantageValue)} more in taxes per year. This is a real economic advantage — factor it in when comparing civilian job offers.`,
       priority: 'low',
     });
   }
@@ -493,10 +493,10 @@ export function TotalCompensationCalculator() {
               { label: 'Basic Pay (taxable)', monthly: result.monthlyBasePay },
               govHousing
                 ? { label: 'Government Housing (in-kind benefit)', value: `${formatCurrency(result.monthlyBAH * 12)}/yr est. value` }
-                : { label: 'BAH — Housing (tax-free)', monthly: result.monthlyBAH },
+                : { label: 'BAH — Housing (excluded from federal taxable income)', monthly: result.monthlyBAH },
               mealCard
                 ? { label: 'Government Meals (in-kind benefit)', value: `${formatCurrency(result.monthlyBAS * 12)}/yr est. value` }
-                : { label: 'BAS — Subsistence (tax-free)', monthly: result.monthlyBAS },
+                : { label: 'BAS — Subsistence (excluded from federal taxable income)', monthly: result.monthlyBAS },
               {
                 label: result.inKindMonthly > 0 ? 'Total Cash (hits bank)' : 'Total Cash Compensation',
                 monthly: result.cashMonthly,
@@ -548,7 +548,7 @@ export function TotalCompensationCalculator() {
             taxes to match your total economic compensation —
             {result.inKindMonthly > 0
               ? ` including the estimated value of government ${govHousing ? 'housing' : ''}${govHousing && mealCard ? ' and ' : ''}${mealCard ? 'meals' : ''} you receive as in-kind benefits. A civilian pays for ${govHousing ? 'housing' : ''}${govHousing && mealCard ? ' and ' : ''}${mealCard ? 'food' : ''} out of taxable income, so your in-kind benefits are worth more than their dollar value.`
-              : ` because your BAH (${formatCurrency(result.monthlyBAH)}/mo) and BAS (${formatCurrency(result.monthlyBAS)}/mo) are completely federal income tax-free`
+              : ` because your BAH (${formatCurrency(result.monthlyBAH)}/mo) and BAS (${formatCurrency(result.monthlyBAS)}/mo) are excluded from federal taxable income`
             }
             {retirementSystem === 'brs'
               ? `, your employer contributes ${formatCurrency(result.tspAgencyContribution)}/year to your TSP,`
@@ -567,10 +567,10 @@ export function TotalCompensationCalculator() {
           </p>
         </div>
 
-        {/* Tax-free breakdown */}
+        {/* Allowances excluded from federal taxable income */}
         <Card variant="bordered">
           <h3 className="text-base font-semibold text-zinc-900 mb-3">
-            Tax-Free Compensation Breakdown
+            Allowances Excluded from Federal Taxable Income
           </h3>
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
@@ -578,14 +578,14 @@ export function TotalCompensationCalculator() {
                 {formatCurrency(result.monthlyBAH)}
               </p>
               <p className="text-xs text-zinc-500 mt-1">BAH (monthly)</p>
-              <InfoTip label="Tax-free" tooltip="BAH is excluded from federal income tax and FICA under 26 U.S.C. §134. Most states also exempt military allowances — check your state." className="mt-1 justify-center" />
+              <InfoTip label="Excluded from federal taxable income" tooltip="BAH is excluded from federal income tax and FICA under 26 U.S.C. §134. Most states also exempt military allowances — check your state." className="mt-1 justify-center" />
             </div>
             <div>
               <p className="text-2xl font-bold tabular-nums text-zinc-900">
                 {formatCurrency(result.monthlyBAS)}
               </p>
               <p className="text-xs text-zinc-500 mt-1">BAS (monthly)</p>
-              <InfoTip label="Tax-free" tooltip="BAS is excluded from federal income tax and FICA under 26 U.S.C. §134. Most states also exempt military allowances — check your state." className="mt-1 justify-center" />
+              <InfoTip label="Excluded from federal taxable income" tooltip="BAS is excluded from federal income tax and FICA under 26 U.S.C. §134. Most states also exempt military allowances — check your state." className="mt-1 justify-center" />
             </div>
             <div>
               <p className="text-2xl font-bold tabular-nums text-zinc-900">
