@@ -18,6 +18,9 @@ import {
   bahChangesProtectionText,
   bahChangesScopeLine,
   bahChangesTitle,
+  bahChangesCcgNote,
+  bahChangesUnrankedNote,
+  DTMO_CCG_FAQ,
   formatChangeDollars,
   formatChangePct,
   formatRate,
@@ -135,7 +138,7 @@ export default function BahChangesPage() {
   const protection = bahChangesProtectionText(C);
   const inc = C.largestIncrease;
   const dec = C.largestDecrease;
-  const tileNoteRows = [inc, dec].filter((r): r is BahChangeRow => !!r?.note);
+  const unrankedNote = bahChangesUnrankedNote(C);
 
   return (
     <>
@@ -212,10 +215,14 @@ export default function BahChangesPage() {
                   <AreaName row={dec} />
                 </p>
               )}
-              <p className="text-xs text-zinc-600 mt-1">Monthly, by % change.</p>
+              <p className="text-xs text-zinc-600 mt-1">{`Monthly, by % change.${unrankedNote ? " Areas DTMO changed mid-year aren't ranked." : ''}`}</p>
             </div>
           </div>
-          <Notes rows={tileNoteRows} />
+          {unrankedNote && (
+            <p className="text-xs text-zinc-600 mt-2" data-testid="bah-changes-unranked">
+              <sup className="text-amber-700">†</sup> {unrankedNote}
+            </p>
+          )}
         </div>
       </section>
 
@@ -228,7 +235,6 @@ export default function BahChangesPage() {
             </h2>
             <p className="text-sm text-zinc-600 mb-3">{`E-5 with dependents, by % change from ${C.priorYear}. Monthly rates.`}</p>
             <TopTable rows={C.topIncreases} caption={`Largest BAH increases, ${C.priorYear} to ${C.year}, E-5 with dependents`} testId="bah-changes-top-increases" />
-            <Notes rows={C.topIncreases} />
           </section>
 
           <section aria-labelledby="decreases-h" className="min-w-0">
@@ -237,7 +243,6 @@ export default function BahChangesPage() {
             </h2>
             <p className="text-sm text-zinc-600 mb-3">{`E-5 with dependents, by % change from ${C.priorYear}. Monthly rates.`}</p>
             <TopTable rows={C.topDecreases} caption={`Largest BAH decreases, ${C.priorYear} to ${C.year}, E-5 with dependents`} testId="bah-changes-top-decreases" />
-            <Notes rows={C.topDecreases} />
             <div className="rounded-lg border border-amber-300 bg-amber-50 p-4 mt-4" role="note" data-testid="bah-changes-protection">
               <p className="text-sm font-semibold text-zinc-900 mb-1">Already stationed in an area that went down?</p>
               <p className="text-sm text-zinc-800 leading-relaxed">{protection.join(' ')}</p>
@@ -260,6 +265,15 @@ export default function BahChangesPage() {
           </p>
           <BahChangesTable rows={toTableRows(C.rows)} year={C.year} priorYear={C.priorYear} />
           <Notes rows={C.rows} />
+          {C.countyCostGroups > 0 && (
+            <p className="text-xs text-zinc-600 mt-2" data-testid="bah-changes-ccg-note">
+              {bahChangesCcgNote(C.countyCostGroups)}{' '}
+              <a href={DTMO_CCG_FAQ.url} target="_blank" rel="noopener noreferrer" className="underline text-blue-700 hover:text-blue-800">
+                {DTMO_CCG_FAQ.label}
+              </a>
+              .
+            </p>
+          )}
           <p className="text-xs text-zinc-500 mt-2">
             Source:{' '}
             <a href={DTMO_BAH_LOOKUP_URL} target="_blank" rel="noopener noreferrer" className="underline">

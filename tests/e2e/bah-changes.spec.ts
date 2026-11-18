@@ -86,6 +86,21 @@ test.describe('/bah/changes', () => {
     expect(bad).toEqual([]);
   });
 
+  test('mid-year-changed areas are unranked but in the full table; County Cost Group note links to DTMO', async ({ page }) => {
+    await page.goto('/bah/changes');
+    for (const r of C.unranked) {
+      await expect(page.getByTestId('bah-changes-tile-largest')).not.toContainText(r.name);
+      await expect(page.getByTestId('bah-changes-top-increases').locator(`[data-mha="${r.mha}"]`)).toHaveCount(0);
+      await expect(page.getByTestId('bah-changes-top-decreases').locator(`[data-mha="${r.mha}"]`)).toHaveCount(0);
+      await expect(page.locator(`#mha-${r.mha}`)).toHaveCount(1);
+    }
+    await expect(page.getByTestId('bah-changes-tile-largest')).toContainText(C.largestIncrease!.name);
+    if (C.unranked.length) await expect(page.getByTestId('bah-changes-unranked')).toContainText('Not ranked:');
+    const ccg = page.getByTestId('bah-changes-ccg-note');
+    await expect(ccg).toContainText('County Cost Groups');
+    await expect(ccg.locator('a')).toHaveAttribute('href', 'https://www.travel.dod.mil/Support/ALL-FAQs/Article/2980103/');
+  });
+
   test('rate protection callout sits with the decreases and links to /bah', async ({ page }) => {
     await page.goto('/bah/changes');
     const box = page.getByTestId('bah-changes-protection');

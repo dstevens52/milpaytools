@@ -10,6 +10,8 @@ import { RATE_PROTECTION_RULE, TEMPORARY_INCREASE_EXCEPTION } from '../../src/da
 import { currentBahChanges } from '../../src/lib/calculations/bahChangesData';
 import {
   buildBahChanges,
+  bahChangesCcgNote,
+  bahChangesUnrankedNote,
   bahChangesDatasetSchema,
   bahChangesDescription,
   bahChangesFaqs,
@@ -99,14 +101,28 @@ test.describe('/bah/changes data', () => {
     expect(tx.note?.text).toBe("The 2026 rate includes DTMO's temporary increase effective May 16, 2026, which expires December 31, 2026.");
   });
 
-  test('top-10 lists match an independent sort of the full data', () => {
+  test('top-10 lists match an independent sort of the full data, mid-year-changed areas left out', () => {
+    // Rule (Claude Chat, 2026-11-18): an area whose rate DTMO changed mid-year in
+    // either year compared stays in the full table but out of the tile and top 10s.
+    const midYear = new Set([
+      ...Object.keys(BAH_MID_YEAR_CHANGES_BY_YEAR[BAH_YEAR as keyof typeof BAH_MID_YEAR_CHANGES_BY_YEAR] ?? {}),
+      ...Object.keys(BAH_MID_YEAR_CHANGES_BY_YEAR[BAH_PRIOR_YEAR as keyof typeof BAH_MID_YEAR_CHANGES_BY_YEAR] ?? {}),
+    ]);
+    expect([...midYear]).toEqual(['TX270']);
     const all = Object.keys(BAH_RATES_BY_YEAR[BAH_YEAR]).map((m) => {
       const cur = BAH_RATES_BY_YEAR[BAH_YEAR][m].w['E-5'];
       const pri = BAH_RATES_BY_YEAR[BAH_PRIOR_YEAR][m].w['E-5'];
       return { m, abs: cur - pri, pct: ((cur - pri) / pri) * 100 };
     });
-    const ups = all.filter((x) => x.abs > 0).sort((a, b) => b.pct - a.pct).slice(0, 10).map((x) => x.m);
-    const downs = all.filter((x) => x.abs < 0).sort((a, b) => a.pct - b.pct).slice(0, 10).map((x) => x.m);
+    const ranked = all.filter((x) => !midYear.has(x.m));
+    const ups = ranked.filter((x) => x.abs > 0).sort((a, b) => b.pct - a.pct).slice(0, 10).map((x) => x.m);
+    const downs = ranked.filter((x) => x.abs < 0).sort((a, b) => a.pct - b.pct).slice(0, 10).map((x) => x.m);
+    expect(ups[0]).toBe('AL007'); // Birmingham, AL +15.8% (TX270 is unranked)
+    expect(C.unranked.map((r) => r.mha)).toEqual(['TX270']);
+    expect(C.rows.find((r) => r.mha === 'TX270')?.note?.kind).toBe('temporary-current');
+    expect(bahChangesUnrankedNote(C)).toBe(
+      "Not ranked: Abilene/Dyess AFB, TX. DTMO changed this area's rate during the year, so it's shown only in the full table.",
+    );
     expect(C.topIncreases.map((r) => r.mha)).toEqual(ups);
     expect(C.topDecreases.map((r) => r.mha)).toEqual(downs);
     expect(C.largestIncrease?.mha).toBe(ups[0]);
@@ -114,6 +130,7 @@ test.describe('/bah/changes data', () => {
     // Full table default order is % change, descending.
     const pcts = C.rows.map((r) => r.pct!);
     expect(pcts).toEqual([...pcts].sort((a, b) => b - a));
+    // Counts include every area.
     expect(C.up).toBe(all.filter((x) => x.abs > 0).length);
     expect(C.down).toBe(all.filter((x) => x.abs < 0).length);
   });
@@ -124,6 +141,13 @@ test.describe('/bah/changes data', () => {
       expect(r.station).toEqual(MHA_TO_STATION_PAGES[r.mha]?.[0] ?? null);
     }
     expect(C.rows.filter((r) => r.station).length).toBe(Object.keys(MHA_TO_STATION_PAGES).length);
+  });
+
+  test("County Cost Group note: count from the data, wording from DTMO's FAQ", () => {
+    expect(C.countyCostGroups).toBe(39);
+    expect(bahChangesCcgNote(C.countyCostGroups)).toBe(
+      '"County Cost Group" areas: DTMO groups remote or low-population counties with similar housing costs into 39 County Cost Groups, using HUD Fair Market Rent estimates. The groups are based on housing cost similarity, not geographic proximity.',
+    );
   });
 
   test('the client table gets only the slim rows', () => {
@@ -189,11 +213,11 @@ test.describe('/bah/changes text', () => {
 
 test.describe('/bah/changes — release-day flip (fixture data)', () => {
   // SYNTHETIC 2027 table: every 2026 E-5 rate + $30, except TX270 −$300 (its
-  // 2026 temporary increase ends) and NC182 unchanged. Never shown on the site.
+  // 2026 temporary increase ends), CA038 −$10 and NC182 unchanged. Never shown on the site.
   const fixture2027: MhaRateTable = Object.fromEntries(
     Object.entries(BAH_RATES_BY_YEAR['2026']).map(([m, set]) => {
       const e5 = set.w['E-5'];
-      const next = m === 'TX270' ? e5 - 300 : m === 'NC182' ? e5 : e5 + 30;
+      const next = m === 'TX270' ? e5 - 300 : m === 'CA038' ? e5 - 10 : m === 'NC182' ? e5 : e5 + 30;
       return [m, { w: { ...set.w, 'E-5': next }, wo: set.wo }];
     }),
   );
@@ -213,18 +237,21 @@ test.describe('/bah/changes — release-day flip (fixture data)', () => {
     expect(bahChangesH1(F.year)).toBe('2027 BAH Changes by Military Housing Area');
     expect(bahChangesDescription(F)).toContain('How 2027 BAH changed from 2026 in all 338');
     expect(bahChangesScopeLine(F)).toBe('338 housing areas · E-5 with dependents · 2026 → 2027 · source DTMO');
-    expect([F.up, F.same, F.down]).toEqual([336, 1, 1]);
+    expect([F.up, F.same, F.down]).toEqual([335, 1, 2]);
     expect(F.release).toBeUndefined(); // no 2027 row in releaseHistory.ts yet
   });
 
-  test('rows and top lists use the fixture; TX270 is marked as an ended temporary increase', () => {
+  test('rows and top lists use the fixture; TX270 is marked and left out of the rankings', () => {
     const tx = F.rows.find((r) => r.mha === 'TX270') as BahChangeRow;
     expect(tx.prior).toBe(1872);
     expect(tx.current).toBe(1572);
     expect(tx.abs).toBe(-300);
     expect(tx.note?.kind).toBe('temporary-prior');
-    expect(F.largestDecrease?.mha).toBe('TX270');
-    expect(F.topDecreases.map((r) => r.mha)).toEqual(['TX270']);
+    // Same rule on release day: a prior-year mid-year change keeps TX270 out of the rankings.
+    expect(tx.midYear).toBe(true);
+    expect(F.unranked.map((r) => r.mha)).toEqual(['TX270']);
+    expect(F.largestDecrease?.mha).toBe('CA038');
+    expect(F.topDecreases.map((r) => r.mha)).toEqual(['CA038']);
     expect(bahChangesProtectionText(F)).toContain(TEMPORARY_INCREASE_EXCEPTION);
     expect(bahChangesProtectionText(C)).not.toContain(TEMPORARY_INCREASE_EXCEPTION);
   });
@@ -233,7 +260,7 @@ test.describe('/bah/changes — release-day flip (fixture data)', () => {
     const faqs = bahChangesFaqs(F);
     expect(faqs[0].question).toBe('When do 2028 BAH rates come out?');
     expect(faqs[0].answer).toContain('December 11, 2025 (2026 rates)');
-    expect(faqs[1].answer).toContain('1 of the 338 housing areas have a lower 2027 rate than in 2026');
+    expect(faqs[1].answer).toContain('2 of the 338 housing areas have a lower 2027 rate than in 2026');
     expect(faqs[3].answer).toContain('from its 2026 and 2027 rate files');
   });
 });

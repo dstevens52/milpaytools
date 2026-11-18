@@ -32,7 +32,7 @@ export const DTMO_BAH_LOOKUP_URL = 'https://www.travel.dod.mil/Allowances/Basic-
 const SITE = 'https://www.milpaytools.com';
 
 /** Why a row carries a footnote: a DTMO mid-year change in either year. */
-export type BahChangeNoteKind = 'midyear-current' | 'temporary-current' | 'temporary-prior';
+export type BahChangeNoteKind = 'midyear-current' | 'temporary-current' | 'midyear-prior' | 'temporary-prior';
 
 export interface BahChangeRow {
   mha: string;
@@ -48,6 +48,12 @@ export interface BahChangeRow {
   /** First /bah/[slug] page for the MHA, if any. */
   station: { slug: string; name: string } | null;
   note: { kind: BahChangeNoteKind; text: string } | null;
+  /**
+   * DTMO changed this area's rate mid-year in either year compared. Such rows
+   * stay in the full table (footnoted) but are left out of the "largest
+   * changes" tile and the top-10 lists (Claude Chat, 2026-11-18).
+   */
+  midYear: boolean;
 }
 
 export interface BahChangesInput {
@@ -72,10 +78,15 @@ export interface BahChanges {
   down: number;
   /** MHAs with no prior-year rate (new areas); not in up/same/down. */
   noPrior: number;
+  /** Top 10 by % change, mid-year-changed areas left out. */
   topIncreases: BahChangeRow[];
   topDecreases: BahChangeRow[];
   largestIncrease: BahChangeRow | null;
   largestDecrease: BahChangeRow | null;
+  /** Areas left out of the tile and top 10s because DTMO changed a rate mid-year. */
+  unranked: BahChangeRow[];
+  /** County Cost Group areas (DTMO code prefix ZZ). */
+  countyCostGroups: number;
   /** DoD's release for `year` (national average increase), if recorded. */
   release: BahRelease | undefined;
 }
@@ -102,6 +113,12 @@ function noteFor(
     return {
       kind: 'temporary-prior',
       text: `The ${input.priorYear} rate was DTMO's temporary increase effective ${formatBahDate(prev.effective)}, which expired ${formatBahDate(prev.temporary.expires)}. Rate protection doesn't cover temporary increases.`,
+    };
+  }
+  if (prev) {
+    return {
+      kind: 'midyear-prior',
+      text: `The ${input.priorYear} rate is DTMO's mid-year rate effective ${formatBahDate(prev.effective)}.`,
     };
   }
   return null;
@@ -134,6 +151,7 @@ export function buildBahChanges(input: BahChangesInput): BahChanges {
       pct,
       station: input.stationPages[mha]?.[0] ?? null,
       note: noteFor(mha, input),
+      midYear: !!input.midYearCurrent?.[mha] || !!input.midYearPrior?.[mha],
     });
   }
   rows.sort(comparePctDesc);
@@ -141,6 +159,9 @@ export function buildBahChanges(input: BahChangesInput): BahChanges {
   const withPrior = rows.filter((r) => r.abs !== null);
   const increases = withPrior.filter((r) => r.abs! > 0); // already % desc
   const decreases = withPrior.filter((r) => r.abs! < 0).reverse(); // % asc: largest fall first
+  // Rankings leave out mid-year-changed areas; the counts above include them.
+  const rankedUp = increases.filter((r) => !r.midYear);
+  const rankedDown = decreases.filter((r) => !r.midYear);
   return {
     year: input.year,
     priorYear: input.priorYear,
@@ -150,10 +171,12 @@ export function buildBahChanges(input: BahChangesInput): BahChanges {
     same: withPrior.filter((r) => r.abs === 0).length,
     down: decreases.length,
     noPrior: rows.length - withPrior.length,
-    topIncreases: increases.slice(0, 10),
-    topDecreases: decreases.slice(0, 10),
-    largestIncrease: increases[0] ?? null,
-    largestDecrease: decreases[0] ?? null,
+    topIncreases: rankedUp.slice(0, 10),
+    topDecreases: rankedDown.slice(0, 10),
+    largestIncrease: rankedUp[0] ?? null,
+    largestDecrease: rankedDown[0] ?? null,
+    unranked: withPrior.filter((r) => r.midYear && r.abs !== 0),
+    countyCostGroups: rows.filter((r) => r.mha.startsWith('ZZ')).length,
     release: bahRelease(input.year),
   };
 }
@@ -180,6 +203,25 @@ export function formatRate(n: number): string {
 }
 
 // ─── Page text (all from the data) ───────────────────────────────────────────
+
+/** Source of the County Cost Group note (DTMO FAQ). */
+export const DTMO_CCG_FAQ = {
+  url: 'https://www.travel.dod.mil/Support/ALL-FAQs/Article/2980103/',
+  label: 'DTMO FAQ: BAH Data Collection & Rate Determination',
+};
+
+/** Under the full table; worded from DTMO's FAQ only. */
+export function bahChangesCcgNote(count: number): string {
+  return `"County Cost Group" areas: DTMO groups remote or low-population counties with similar housing costs into ${count} County Cost Groups, using HUD Fair Market Rent estimates. The groups are based on housing cost similarity, not geographic proximity.`;
+}
+
+/** Under the tiles and top 10s while any area is left out of the rankings. */
+export function bahChangesUnrankedNote(c: Pick<BahChanges, 'unranked'>): string | null {
+  if (c.unranked.length === 0) return null;
+  const names = c.unranked.map((r) => r.name);
+  const list = names.length === 1 ? names[0] : `${names.slice(0, -1).join('; ')} and ${names[names.length - 1]}`;
+  return `Not ranked: ${list}. DTMO changed ${names.length === 1 ? "this area's rate" : "these areas' rates"} during the year, so ${names.length === 1 ? "it's" : "they're"} shown only in the full table.`;
+}
 
 export function bahChangesTitle(year: string): string {
   return `${year} BAH Changes: Biggest Increases and Decreases by Area`;
