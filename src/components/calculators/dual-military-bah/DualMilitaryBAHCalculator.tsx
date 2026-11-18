@@ -191,7 +191,8 @@ export function DualMilitaryBAHCalculator() {
       optimal = null;
       optimalGain = 0;
     } else if (totalA === totalB) {
-      // Same grade at the same station — with-dependents premium is identical, totals tie.
+      // Equal totals — both members' with-dependents premiums are identical here (same grade, or
+      // different grades that share rates in this MHA, e.g. E-2 + E-3), so the totals tie.
       optimal = 'tied';
       optimalGain = 0;
     } else {
@@ -219,6 +220,28 @@ export function DualMilitaryBAHCalculator() {
     };
   }, [grade1, grade2, zip1, zip2Effective, hasDependents, whoClaimsDeps, sameStation, data1, data2]);
 
+  // Why the optimal claimant wins, built from the two actual with-dependents premiums
+  // (with-dependents rate minus without-dependents rate) at these grades and this location.
+  // The difference between the premiums is exactly optimalGain. Never assume the higher grade
+  // has the larger premium: across all MHAs and grade pairs the lower grade's is larger ~46% of
+  // the time (math-audit-round-1 DM-01).
+  const premiumExplanation = useMemo((): string | null => {
+    if (!results || !results.hasDependents) return null;
+    const premium1 = results.scenarioA.m1 - results.scenarioB.m1;
+    const premium2 = results.scenarioB.m2 - results.scenarioA.m2;
+    const label1 = `Member 1 (${grade1})`;
+    const label2 = `Member 2 (${grade2})`;
+    if (results.optimal === 'tied') {
+      return `The with-dependents premium (the with-dependents rate minus the without-dependents rate) is ${fmt(premium1)}/month for both members here, so the household total is the same whoever claims.`;
+    }
+    if (results.optimal !== 'member1' && results.optimal !== 'member2') return null;
+    const [winLabel, winPremium, loseLabel, losePremium] =
+      results.optimal === 'member1'
+        ? [label1, premium1, label2, premium2]
+        : [label2, premium2, label1, premium1];
+    return `The with-dependents premium (the with-dependents rate minus the without-dependents rate) here is ${fmt(winPremium)}/month for ${winLabel} and ${fmt(losePremium)}/month for ${loseLabel}, so the household total is highest when ${winLabel} claims. The larger premium isn't always the higher-ranking member's — it depends on both grades and the location.`;
+  }, [results, grade1, grade2]);
+
   const actionSteps = useMemo((): ActionStep[] => {
     if (!results) return [];
     const steps: ActionStep[] = [];
@@ -233,7 +256,7 @@ export function DualMilitaryBAHCalculator() {
         // Same-station couple with a sub-optimal claiming choice
         steps.push({
           label: 'Consider switching who claims dependents for a higher total household BAH',
-          description: `Having ${results.optimal === 'member1' ? 'Member 1' : 'Member 2'} claim the dependents results in ${fmt(results.optimalGain)}/month more (${fmt(results.optimalGain * 12)}/year). The rate gap between the with-dependents and without-dependents rates is larger at higher pay grades, so assigning dependents to the higher-ranking member produces the higher total.`,
+          description: `Having ${results.optimal === 'member1' ? 'Member 1' : 'Member 2'} claim the dependents results in ${fmt(results.optimalGain)}/month more (${fmt(results.optimalGain * 12)}/year). ${premiumExplanation ?? ''}`.trim(),
           priority: 'high',
         });
       } else if (results.optimal === null) {
@@ -269,7 +292,7 @@ export function DualMilitaryBAHCalculator() {
     });
 
     return steps;
-  }, [results, whoClaimsDeps]);
+  }, [results, whoClaimsDeps, premiumExplanation]);
 
   // Station-page links resolved server-side (no client zipToMha). data2 covers
   // zip2 when the members are at different stations (zip2Effective === zip2 then).
@@ -495,7 +518,8 @@ export function DualMilitaryBAHCalculator() {
                   {fmt(results.total * 12)}/year combined
                 </p>
                 <p className="text-xs text-zinc-400 mt-1">
-                  Rates from official {results.dataYear} DTMO tables · Both amounts are tax-free
+                  Rates from official {results.dataYear} DTMO tables · Both amounts are excluded
+                  from federal taxable income
                 </p>
               </div>
 
@@ -503,10 +527,11 @@ export function DualMilitaryBAHCalculator() {
               {results.hasDependents && (
                 <>
                   {results.optimal === 'tied' && (
-                    <div className="flex-none text-sm rounded-lg px-4 py-3 border bg-zinc-50 border-zinc-200 text-zinc-700 leading-snug">
-                      <span className="font-semibold">Same rank</span>
-                      <br />
-                      <span className="text-xs">Total is identical either way</span>
+                    <div
+                      className="flex-none text-sm rounded-lg px-4 py-3 border bg-zinc-50 border-zinc-200 text-zinc-700 leading-snug"
+                      data-testid="dual-tie-badge"
+                    >
+                      <span className="font-semibold">Same total either way</span>
                     </div>
                   )}
                   {(results.optimal === 'member1' || results.optimal === 'member2') && (
@@ -694,20 +719,16 @@ export function DualMilitaryBAHCalculator() {
               {/* Table footer note */}
               <div className="mt-2 space-y-1.5">
                 {sameStation && results.optimal === 'tied' && (
-                  <p className="text-xs text-zinc-500">
-                    Same rank means the total household BAH is identical regardless of who claims
-                    dependents — the with-dependents premium is the same for both members.
+                  <p className="text-xs text-zinc-500" data-testid="dual-premium-explanation">
+                    {premiumExplanation}
                   </p>
                 )}
                 {sameStation &&
                   results.optimal !== null &&
                   results.optimal !== 'tied' &&
                   results.optimalGain > 0 && (
-                    <p className="text-xs text-zinc-500">
-                      The configuration that results in the highest total household BAH based on
-                      current rates: the rate gap between the with-dependents and without-dependents
-                      rates is larger at higher pay grades, so assigning dependents to the
-                      higher-ranking member produces the higher total.{' '}
+                    <p className="text-xs text-zinc-500" data-testid="dual-premium-explanation">
+                      {premiumExplanation}{' '}
                       <span className="font-medium">
                         Difference: {fmt(results.optimalGain)}/mo ({fmt(results.optimalGain * 12)}
                         /yr).

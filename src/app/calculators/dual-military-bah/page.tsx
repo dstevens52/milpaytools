@@ -243,12 +243,14 @@ export default function DualMilitaryBAHPage() {
 
           <div>
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">
-              Why the higher-ranking member should claim dependents
+              Which member should claim dependents
             </h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               BAH rates are set by pay grade and location. The with-dependents premium —
-              the dollar difference between the with and without rates — increases at higher
-              pay grades. An O-5 receives a larger premium than an E-5 in the same MHA.
+              the dollar difference between the with and without rates — is different for each
+              grade in each housing area, and it does not always grow with rank. In many areas a
+              junior member&apos;s premium is larger than a senior member&apos;s, so the member
+              with the larger premium is the one whose claim produces the higher household total.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               The higher-ranking member often has the larger with-dependent rate premium, but the best configuration depends on the actual rate gap at each member&apos;s grade and duty station. The calculator shows you both scenarios and the exact dollar difference, so you can confirm the optimal configuration for your specific grades and location.

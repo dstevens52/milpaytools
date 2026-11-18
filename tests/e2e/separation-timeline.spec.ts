@@ -1,5 +1,44 @@
 import { test, expect, type Page } from '@playwright/test';
 
+// SEP-01 (math-audit-round-2): the BDD window runs 180 to 90 days before separation. A past
+// opening date reads "Expired" only once the window has closed. Today is pinned to Jun 1, 2026.
+test.describe('Separation timeline — BDD window status (SEP-01)', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.clock.setFixedTime(new Date(2026, 5, 1, 10, 0, 0));
+  });
+
+  test('separation 150 days out: window open, not expired', async ({ page }) => {
+    // Oct 29, 2026: window opened May 2 (30 days ago), closes Jul 31.
+    await page.goto('/calculators/separation-timeline?date=2026-10-29');
+    const card = page.getByTestId('timeline-item-bdd-opens');
+    await expect(card).toContainText('Active now');
+    await expect(card).toContainText('Opened 30 days ago');
+    await expect(card).not.toContainText('Expired');
+    await expect(page.getByTestId('timeline-item-bdd-closes')).toContainText('60 days away');
+  });
+
+  test('separation 90 days out: last day of the window is still open', async ({ page }) => {
+    // Aug 30, 2026: window opened Mar 3 (90 days ago), closes today.
+    await page.goto('/calculators/separation-timeline?date=2026-08-30');
+    await expect(page.getByTestId('timeline-item-bdd-opens')).toContainText('Active now');
+    await expect(page.getByTestId('timeline-item-bdd-opens')).toContainText('Opened 90 days ago');
+  });
+
+  test('separation 60 days out: window closed, opening reads expired', async ({ page }) => {
+    // Jul 31, 2026: window opened Feb 1 and closed May 2.
+    await page.goto('/calculators/separation-timeline?date=2026-07-31');
+    await expect(page.getByTestId('timeline-item-bdd-opens')).toContainText('Expired');
+    await expect(page.getByTestId('timeline-item-bdd-closes')).toContainText('Expired');
+  });
+
+  test('separation 200 days out: window not yet open', async ({ page }) => {
+    // Dec 18, 2026: window opens Jun 21 (20 days away).
+    await page.goto('/calculators/separation-timeline?date=2026-12-18');
+    await expect(page.getByTestId('timeline-item-bdd-opens')).toContainText('Approaching');
+    await expect(page.getByTestId('timeline-item-bdd-opens')).toContainText('20 days away');
+  });
+});
+
 test.describe('Separation Benefits Timeline Calculator', () => {
   // Run serially — parallel execution with shared localhost causes flaky date-fill behavior
   test.describe.configure({ mode: 'serial' });

@@ -164,6 +164,9 @@ function buildTimeline(
   // ── Pre-separation ────────────────────────────────────────────────────────
 
   if (vaFiled !== 'yes') {
+    // A past opening date is not "Expired" while the window is still open (through bddCloses).
+    // math-audit-round-2 SEP-01.
+    const bddWindowOpen = today >= bddOpens && today <= bddCloses;
     items.push({
       id: 'bdd-opens',
       phase: 'pre',
@@ -171,7 +174,7 @@ function buildTimeline(
       what: 'File your VA disability claim through Benefits Delivery at Discharge. Filing now may help VA process your claim sooner.',
       date: bddOpens,
       isRange: false,
-      status: pointStatus(bddOpens),
+      status: bddWindowOpen ? 'active' : pointStatus(bddOpens),
       daysFromToday: diffDays(today, bddOpens),
       daysUntilStart: null,
       daysUntilEnd: null,
@@ -349,11 +352,18 @@ function TimelineCard({ item }: { item: TimelineItem }) {
       return null;
     }
     if (item.daysFromToday === null) return null;
+    // An opening date that has passed while its window is still open reads "Opened N days ago".
+    if (item.status === 'active' && item.daysFromToday < 0) {
+      return `Opened ${fmtDaysLabel(item.daysFromToday)}`;
+    }
     return fmtDaysLabel(item.daysFromToday);
   })();
 
   return (
-    <div className={['flex gap-3 rounded-lg border bg-white p-4', s.border].join(' ')}>
+    <div
+      className={['flex gap-3 rounded-lg border bg-white p-4', s.border].join(' ')}
+      data-testid={`timeline-item-${item.id}`}
+    >
       {/* Date badge */}
       <div className={['flex-none w-28 rounded-md px-2 py-3 flex flex-col items-center justify-center gap-1', s.dateBg].join(' ')}>
         {dateNode}
