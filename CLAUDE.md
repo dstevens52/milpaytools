@@ -49,47 +49,47 @@ MilPayTools.com is a free military financial calculator and education platform f
 
 ## Testing
 
-### When to run what (tiered policy, updated 2026-11-10 — this is the only testing rule; it overrides any "run after every change" line elsewhere)
-The full three-browser suite takes 20+ minutes. Calculator math gives the same answer in every
-browser; cross-browser bugs come from shared UI. Test accordingly.
-1. **While iterating:** only the specs for what you changed, Chromium only
-   (`npx playwright test <specs> --project=chromium`). 1–3 minutes.
-   Always also run `npm run test:pay-table` (data-only: locks `src/data/pay-tables/2026.ts` to
-   `docs/sources/dfas-2026-basic-pay.csv`, no browser or server, ~2 seconds),
-   `npm run test:pay-raise` (data-only: 2027 raise golden values, tiers, caps and status modes) and
-   `npm run test:figures` (data-only: guards the `check:figures` dollar-figure report tool).
-2. **Before the PR (once per branch):** affected specs on all three browsers + the full suite on
-   Chromium only. ~8–10 minutes. This is the default pre-merge gate for calculator logic, data,
-   content and template changes.
-3. **Full three-browser gate** only when the change touches shared code used across many pages
-   (layout, `ResultCard`, `EmailSignup`, `BaseSearchInput`, `StationPageClient`, `constants.ts`,
-   shared `src/lib` helpers, global CSS, `next.config.ts`, Playwright config) or before a big release.
-4. **Finish all review before gating.** Fold in every pending fix, data spot-check and copy edit
-   first, so the gate runs once. Don't start a gate while more changes are known to be coming.
-   If code changes after the gate, re-run only tier 1 for the changed files plus tier 2 if it was
-   more than a copy/spacing fix.
-5. **Don't re-run a suite to investigate a single failure.** Re-run just that spec file.
-6. **Gate runs use the production build, one browser at a time, `--workers=1` on this machine**
-   (added 2026-10-18 with `--workers=2` after a three-browser run on `next dev` was killed for low
-   memory; lowered to `--workers=1` on 2026-11-16 after `--workers=2` runs were stopped for low
-   memory three times on Nov 15–16. A `--workers=1` run was stopped once too (02b-2 WebKit), so
-   close other heavy apps before a gate):
-   `npm run build`, then `E2E_SERVER=prod npx playwright test --project=<browser> --workers=1 --reporter=json`
-   (`E2E_SERVER=prod` makes the Playwright webServer run `next start` instead of `next dev`).
-   The same applies to repeated reliability runs (`--repeat-each`). Expect a full suite on one
-   browser to take roughly twice as long as it did with 2 workers.
-   Before starting, make sure nothing is already listening on :3000 (a leftover `next start`
-   makes Playwright test a stale build). If a run is stopped partway, the stopped run leaves its
-   `next start` behind: stop it before the next run.
-7. Baseline failures and their root causes are in `tests/KNOWN_FAILURES.md`.
+### What runs where (updated 2026-11-18, Dan — this is the only testing rule; it overrides any "run after every change" line elsewhere)
+**Local is for iterating. CI is the gate.** (Since the CI gate went live, CI results have matched
+local ones on builds 9a and 1b; the old local gate steps are retired.)
+1. **Local, while iterating** — all of these, nothing more:
+   - `npx tsc --noEmit -p .` and `npx eslint <changed files>` (no new lint problems versus `main`).
+   - The data-only tests: `npm run test:pay-table` (locks `src/data/pay-tables/2026.ts` to
+     `docs/sources/dfas-2026-basic-pay.csv`), `npm run test:pay-raise` (2027 raise golden values,
+     tiers, caps, status modes), `npm run test:figures` (guards the `check:figures` tool). Seconds
+     each; no browser or server.
+   - The 1–3 spec files being changed, **Chromium only**, on the default `next dev` server:
+     `npx playwright test <specs> --project=chromium --reporter=json`.
+2. **Not local:** no production builds (`npm run build`), no full suite, no Firefox/WebKit or
+   multi-browser runs, no `--repeat-each`. Those are CI's job (the full gate on every PR; repeat
+   runs via the workflow's manual run, below). This machine has run out of memory on local gates.
+3. **Finish all review before pushing.** Fold in every pending fix, data spot-check and copy edit
+   first, so CI runs once. If code changes after a CI run, re-run tier 1 for the changed files and
+   push; CI runs again on the new commit.
+4. **Don't re-run a suite to investigate a single failure.** Re-run just that spec file (locally
+   on Chromium, or in CI with the repeat run if it only fails in Firefox/WebKit/CI).
+5. A local spec run uses :3000 with `reuseExistingServer`. Never run two local test sessions at
+   once, and stop any leftover `next start`/`next dev` on :3000 first (it makes Playwright test a
+   stale build).
+6. Baseline failures and their root causes are in `tests/KNOWN_FAILURES.md`.
 
 ### CI gate (GitHub Actions, added 2026-11-18)
-Tiers 2 and 3 now run in GitHub Actions (`.github/workflows/e2e.yml`) whenever a PR to `main` is
-opened or updated, drafts included. Tier 1 stays local, unchanged. The local gate steps above stay
-as the fallback until CI results have matched local ones on two builds (Claude Chat marks that switch).
+The full suite runs in GitHub Actions (`.github/workflows/e2e.yml`) whenever a PR to `main` is
+opened or gets new commits, drafts included.
 - **Build flow:** run the tier 1 checks locally → push the branch → open a **draft** PR (a draft
   creates only a Vercel preview, never a production deploy) → CI runs the full suite on all three
-  browsers against a production build → the PR is marked ready only after Claude Chat signs off.
+  browsers against a production build → the PR is marked ready only after Claude Chat signs off
+  (unless Dan says otherwise for that PR). Marking a PR ready does **not** re-run CI: the run on
+  the same commit already counts.
+- **Repeat runs (proving a flake fixed):** Actions → "E2E gate" → Run workflow, or
+  `gh workflow run e2e.yml --ref <branch> -f specs="tests/e2e/a.spec.ts tests/e2e/b.spec.ts" -f browsers="webkit" -f repeat_each=10`.
+  Runs only those specs, `--repeat-each=N`, `--retries=0`, on each chosen browser against a
+  production build. The `repeat` job fails on any failure (no known-failures allowance); its job
+  summary has the stats block. A flake counts as fixed after a clean repeat run plus a clean PR run.
+- **Stuck "pending" check:** GitHub occasionally leaves a finished job listed as `in_progress` (seen
+  once on `versions`, run 44334615844: every step completed, conclusion `success`). It's on GitHub's
+  side; only `report` is required, so it doesn't block a merge. `gh pr checks --watch` waits on it
+  forever, so read the run with `gh run view <id>` instead.
 - **`report` is a required status check on `main`** (branch protection, set 2026-11-18): a PR
   can't merge until it passes.
 - **The gate is the `report` job.** It merges every shard and runs `scripts/ci-known-failures.ts`
@@ -104,14 +104,12 @@ as the fallback until CI results have matched local ones on two builds (Claude C
   read from `package-lock.json` (upgrading Playwright upgrades the image), on `ubuntu-24.04`
   (`ubuntu-latest` is 26.04, which Playwright 1.59.1 doesn't support). 2 shards per browser,
   `--workers=2`, `--retries=0`. No secrets or env vars are needed.
-- Local tests still use :3000 with `reuseExistingServer`. Never run two local test sessions at
-  once, and stop any leftover `next start` first.
 
 ### Reference
-- Which tests to run when: see the tiered policy above
-- 1299+ Playwright tests covering all calculators, BAH pages, and cross-browser (Chrome/Firefox/WebKit)
+- Which tests to run where: see "What runs where" above
+- ~1,440 Playwright tests per browser (4,330+ across Chromium/Firefox/WebKit) covering all calculators and BAH pages
 - Fort Bragg and Fort Hood are commonly used as test reference pages
-- **Baseline gate must use the JSON reporter:** `npx playwright test --reporter=json > results.json`
+- **Any run reported as evidence uses the JSON reporter** (CI does): `npx playwright test <specs> --reporter=json > results.json`
   The `--reporter=line` reporter silently drops failures from its counts (verified 2026-07-10:
   28 known failures showed as 0 failed + 30 "did not run" under line; JSON showed 28 unexpected).
   Never use `--reporter=line` for a build gate or regression check.
@@ -198,4 +196,4 @@ Before flagging any figure as wrong, the full lookup chain must be established a
 - One type of change at a time for code modifications
 - Cap at 5-8 files for code changes per prompt
 - Verify between builds
-- Test per the tiered policy in the Testing section (not the full suite after every change)
+- Test per "What runs where" in the Testing section (local = iterate; CI = the gate)
