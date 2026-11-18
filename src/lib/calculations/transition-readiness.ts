@@ -11,7 +11,7 @@ import { BAS_RATES, EMPLOYEE_FICA_RATE } from '@/data/constants';
 import { estimateAnnualFederalTax, FILING_STATUS_LABEL } from '@/lib/calculations/federalTax';
 import { estimateTaxAdvantage } from '@/lib/utils';
 import { ENLISTED_GRADES } from '@/types/military';
-import { vaRates } from '@/data/va-rates/2026';
+import { CURRENT_VA_RATES } from '@/data/va-rates/registry';
 import { calculateHigh3Average, calculatePension } from '@/lib/calculations/retirement';
 import {
   getStateMilitaryRetirementTax,
@@ -21,6 +21,9 @@ import {
   type StateMilitaryRetirementTax,
   type StateTaxContext,
 } from '@/data/state-military-retirement-tax';
+
+/** Current-year VA compensation table (switches years in the registry). */
+const vaRates = CURRENT_VA_RATES.table;
 
 // Healthcare replacement cost benchmarks (KFF 2025 Employer Health Benefits Survey)
 const HEALTHCARE_MONTHLY_MARKETPLACE = {
@@ -229,7 +232,7 @@ function buildActionSteps(
     steps.push({
       label: 'File your VA disability claim before you separate',
       description:
-        `The Benefits Delivery at Discharge (BDD) program lets the VA process your claim while you're still serving. File 180–90 days before separation. Even a 20% rating adds $${Math.round(vaRates[20].veteranAlone)}/month — tax-free for life.`,
+        `The Benefits Delivery at Discharge (BDD) program lets the VA process your claim while you're still serving. File 180–90 days before separation. Even a 20% rating adds $${Math.round(vaRates[20].veteranAlone)}/month, excluded from federal taxable income.`,
       priority: 'high',
       href: '/calculators/va-disability',
     });

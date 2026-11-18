@@ -9,12 +9,13 @@ import { getTransitionReadinessExample } from '@/lib/calculations/transition-rea
 import { FILING_STATUS_LABEL } from '@/lib/calculations/transition-readiness';
 import { formatCurrency } from '@/lib/utils';
 import { ogImage } from '@/lib/og';
-import { vaRates } from '@/data/va-rates/2026';
+import { CURRENT_VA_RATES } from '@/data/va-rates/registry';
 import Link from 'next/link';
 
-// Current VA rates for the prose below — resolved from va-rates/2026.ts at build time.
-const VA_20_ALONE = Math.round(vaRates[20].veteranAlone); // $357
-const VA_40_WITH_SPOUSE = Math.round(vaRates[40].withSpouse); // $883
+// Current VA rates for the prose below — the registry's current year, resolved at build time.
+const vaRates = CURRENT_VA_RATES.table;
+const VA_20_ALONE = Math.round(vaRates[20].veteranAlone);
+const VA_40_WITH_SPOUSE = Math.round(vaRates[40].withSpouse);
 
 const TITLE = 'Transition Readiness Calculator 2026: Am I Financially Ready to Leave the Military?';
 const DESC =
@@ -196,7 +197,7 @@ export default function TransitionReadinessPage() {
               depends on claim complexity, exams, records, and workload.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              {`Even a 20% rating adds $${VA_20_ALONE}/month tax-free for life. A 40% rating with a spouse adds roughly $${VA_40_WITH_SPOUSE}/month. This income is excluded from federal income tax and doesn't count against your civilian salary in most contexts. It can meaningfully close the income gap from day one.`}
+              {`Even a 20% rating adds $${VA_20_ALONE}/month. A 40% rating with a spouse adds roughly $${VA_40_WITH_SPOUSE}/month. This income is excluded from federal income tax and doesn't count against your civilian salary in most contexts. It can meaningfully close the income gap from day one.`}
             </p>
           </div>
 

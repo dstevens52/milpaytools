@@ -21,7 +21,7 @@
 
 import type { RetirementInput, RetirementOutput, High3PayGroup } from '@/types/calculator';
 import { payTable } from '@/data/pay-tables/2026';
-import { vaRates } from '@/data/va-rates/2026';
+import { CURRENT_VA_RATES } from '@/data/va-rates/registry';
 import {
   LEGACY_RETIREMENT_MULTIPLIER,
   BRS_RETIREMENT_MULTIPLIER,
@@ -30,6 +30,9 @@ import {
 import { lookupBasePay } from '@/lib/calculations/basePay';
 import { tspMonthContribution } from '@/lib/calculations/tspGrowth';
 import { estimateMarginalRate, getYOSBracket } from '@/lib/utils';
+
+/** Current-year VA compensation table (switches years in the registry). */
+const vaRates = CURRENT_VA_RATES.table;
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 

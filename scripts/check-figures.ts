@@ -99,6 +99,10 @@ async function loadIndex(year: string): Promise<{ index: DataIndex; skipped: Ski
       skipped.push({ group: group.id, file, reason: `edited in place; it holds DATA_YEAR ${String(mod.DATA_YEAR)}` });
       continue;
     }
+    if (group.entries(mod).length === 0) {
+      skipped.push({ group: group.id, file, reason: 'no figures in the file yet (placeholder)' });
+      continue;
+    }
     loaded.push({ group, mod });
   }
   return { index: buildIndex(year, loaded), skipped };
