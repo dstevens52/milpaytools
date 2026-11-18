@@ -252,7 +252,7 @@ export function calculateCombinedRating(disabilities: DisabilityEntry[]): Combin
   const excludedText = best.excluded.map(describeMember).join(', ');
   const exceptionStep: CalculationStep = {
     type: 'bilateral-exception',
-    label: `Bilateral factor exception (38 CFR § 4.26(d)): ${excludedText} combined separately`,
+    label: `Bilateral factor exception (38 CFR § 4.26(d)): ${excludedText} combined separately.`,
     detail: `With every bilateral rating inside the factor, the combined value is ${withFactor.exact}%, which rounds to ${withFactor.rounded}%. Leaving ${best.excluded.length === 1 ? 'this rating' : 'these ratings'} out of the factor gives ${best.result.rounded}%, so VA uses the higher rating.`,
   };
 

@@ -35,14 +35,25 @@ function monthYear(iso: string): string {
 }
 
 /**
- * When the first payment at a new rate arrives. VA pays each month's
- * compensation after the month ends, on the 1st of the next month; when the 1st
- * is a weekend or legal holiday it pays on the business day before
- * (38 U.S.C. § 5120(e)). January 1 is always a holiday, so the December payment
- * — the first at the new rates — arrives at the end of December.
+ * "December 31" — the last weekday of the effective month. VA pays each month's
+ * compensation on the 1st of the next month; when the 1st is a weekend or legal
+ * holiday it pays on the business day before (38 U.S.C. § 5120(e)). January 1
+ * is always a holiday, so December's payment moves back into December.
  */
-export function vaFirstPaymentText(effectiveDate: string): string {
-  return `VA pays each month's compensation after the month ends, so the first payment at the new rates is the one for ${monthYear(effectiveDate)}. VA normally pays on the 1st of the next month; because January 1 is a federal holiday, that payment arrives on the last business day of December (38 U.S.C. § 5120(e)).`;
+export function vaDecemberPaymentDay(effectiveDate: string): string {
+  const [y, m] = effectiveDate.split('-').map(Number);
+  const d = new Date(Date.UTC(y, m, 0)); // last day of the effective month
+  while (d.getUTCDay() === 0 || d.getUTCDay() === 6) d.setUTCDate(d.getUTCDate() - 1);
+  return d.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', day: 'numeric' });
+}
+
+/**
+ * When the first payment at the new rates arrives (wording approved by Claude
+ * Chat, 2026-11-18). `lawPending` adds "If the law is signed in time".
+ */
+export function vaFirstPaymentText(effectiveDate: string, lawPending = false): string {
+  const lead = lawPending ? 'If the law is signed in time, the' : 'The';
+  return `${lead} first payment at the new rates is ${monthYear(effectiveDate)}'s, which VA normally pays on ${vaDecemberPaymentDay(effectiveDate)} because January 1 is a federal holiday (38 U.S.C. § 5120(e)).`;
 }
 
 /** "the 2026 rates, effective December 1, 2025 (2.8% COLA)" */
@@ -70,7 +81,7 @@ export function vaRatesNotice(
   const checked = formatVaDate(config.checkedDate);
   const ssa = `${RETIREE_COLA_2027.percent}%`;
   const using = `This site shows only VA's published figures, so the amounts on this page use ${vaRatesYearPhrase(current)}.`;
-  const timing = vaFirstPaymentText(VA_2027_EFFECTIVE_DATE);
+  const timing = vaFirstPaymentText(VA_2027_EFFECTIVE_DATE, config.status === 'law-pending');
 
   if (config.status === 'published' && published2027) {
     return {
