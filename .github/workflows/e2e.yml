@@ -14,6 +14,9 @@ name: E2E gate
 # No secrets: the build and the tests need no env vars (see CI_BUILD_REPORT.md).
 # Nothing here deploys, calls IndexNow or touches the live site.
 
+# Runners are pinned to ubuntu-24.04: ubuntu-latest moved to 26.04, which
+# Playwright 1.59.1 does not support.
+
 on:
   pull_request:
     branches: [main]
@@ -31,8 +34,31 @@ env:
   NEXT_TELEMETRY_DISABLED: '1'
 
 jobs:
+  # The Playwright version from package-lock.json picks the container image, so
+  # the image always matches the installed @playwright/test.
+  versions:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      playwright: ${{ steps.pw.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: package-lock.json
+          sparse-checkout-cone-mode: false
+      - id: pw
+        run: |
+          v=$(node -p "require('./package-lock.json').packages['node_modules/@playwright/test'].version")
+          test -n "$v" && echo "version=$v" | tee -a "$GITHUB_OUTPUT"
+
+  # Build inside the same image the tests run in, so `next start` sees the same
+  # paths and OS as `next build`. The image ships the browsers and their system
+  # packages; installing those on a plain runner took 12–20 minutes per job.
   build:
-    runs-on: ubuntu-24.04 # Playwright 1.59.1 has no browsers for ubuntu-latest (26.04)
+    needs: versions
+    runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.versions.outputs.playwright }}-noble
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
@@ -43,7 +69,9 @@ jobs:
       - run: npm ci
       - run: npm run build
       - name: Working tree after prebuild (informational)
-        run: git status --porcelain
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git status --porcelain
       # .next is a hidden folder (upload-artifact skips those by default) and
       # .next/cache is not needed by `next start`, so ship one tar without it.
       - name: Pack build output
@@ -57,7 +85,7 @@ jobs:
           retention-days: 3
 
   data-tests:
-    runs-on: ubuntu-24.04 # Playwright 1.59.1 has no browsers for ubuntu-latest (26.04)
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
@@ -73,17 +101,20 @@ jobs:
       - run: npm run test:pay-dates
 
   e2e:
-    needs: build
-    runs-on: ubuntu-24.04 # Playwright 1.59.1 has no browsers for ubuntu-latest (26.04)
+    needs: [versions, build]
+    runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.versions.outputs.playwright }}-noble
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         browser: [chromium, firefox, webkit]
-        shard: [1, 2, 3, 4]
+        shard: [1, 2]
     env:
       E2E_SERVER: prod
-      SHARD_TOTAL: 4 # keep in step with matrix.shard
+      SHARD_TOTAL: 2 # keep in step with matrix.shard
+      HOME: /root # Firefox refuses to start as root when HOME isn't root's
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -91,21 +122,6 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - name: Playwright version
-        id: pw
-        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
-      - name: Cache ${{ matrix.browser }} download
-        id: browser-cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}-${{ matrix.browser }}
-      - name: Install ${{ matrix.browser }} + system deps
-        if: steps.browser-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps ${{ matrix.browser }}
-      - name: Install system deps only (browser cached)
-        if: steps.browser-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps ${{ matrix.browser }}
       - uses: actions/download-artifact@v4
         with:
           name: next-build
@@ -133,7 +149,7 @@ jobs:
   report:
     needs: e2e
     if: ${{ always() }}
-    runs-on: ubuntu-24.04 # Playwright 1.59.1 has no browsers for ubuntu-latest (26.04)
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
