@@ -8,29 +8,38 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema, faqPageSchema } from '@/lib/schema';
 import { calculateCombinedRating, getCompensation } from '@/lib/calculations/va-disability';
 import { formatCurrency } from '@/lib/utils';
+import { CURRENT_VA_RATES } from '@/data/va-rates/registry';
+import { VA_RATES_2027_STATUS } from '@/data/va-rates/2027-status';
+import { formatVaDate, vaRatesNotice } from '@/lib/calculations/vaRatesStatus';
+
+// Rate year, effective date and COLA all come from the registry
+// (src/data/va-rates/registry.ts); loading 2027 needs no edit here.
+const RATES = CURRENT_VA_RATES;
+const YEAR = RATES.year;
+const EFFECTIVE = formatVaDate(RATES.effectiveDate);
+const TITLE = `VA Disability Rating Calculator ${YEAR} | Combined Rating`;
+const DESCRIPTION = `Calculate your combined VA disability rating and ${YEAR} monthly compensation — every step shown, bilateral factor automatic.`;
+const OG_TITLE = `VA Disability Rating Calculator ${YEAR}`;
 
 export const metadata: Metadata = {
-  title: { absolute: 'VA Disability Rating Calculator 2026 | Combined Rating' },
-  description:
-    'Calculate your combined VA disability rating and 2026 monthly compensation — every step shown, bilateral factor automatic.',
+  title: { absolute: TITLE },
+  description: DESCRIPTION,
   alternates: {
     canonical: '/calculators/va-disability',
   },
   openGraph: {
-    title: 'VA Disability Rating Calculator 2026 | Combined Rating',
-    description:
-      'Calculate your combined VA disability rating and 2026 monthly compensation — every step shown, bilateral factor automatic.',
+    title: TITLE,
+    description: DESCRIPTION,
     type: 'website',
     url: '/calculators/va-disability',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'VA Disability Rating Calculator 2026', sub: 'See your combined rating with step-by-step VA math' }),
+    images: ogImage({ type: 'calculator', title: OG_TITLE, sub: 'See your combined rating with step-by-step VA math' }),
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'VA Disability Rating Calculator 2026 | Combined Rating',
-    description:
-      'Calculate your combined VA disability rating and 2026 monthly compensation — every step shown, bilateral factor automatic.',
-    images: ogImage({ type: 'calculator', title: 'VA Disability Rating Calculator 2026', sub: 'See your combined rating with step-by-step VA math' }),
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ogImage({ type: 'calculator', title: OG_TITLE, sub: 'See your combined rating with step-by-step VA math' }),
   },
 };
 
@@ -50,8 +59,8 @@ export default function VADisabilityPage() {
   const exRemAfterBilateral = 100 - exPair.combinedAfterFactor; // capacity left after the knees
   const exBackReduction = exRemAfterBilateral * 0.5; // 50% back applied to that remainder
 
-  // ── 2026 reference rate table — every figure read from the same lib/data the
-  //    calculator uses (getCompensation → vaRates 2026). No hand-keyed dollars. ──
+  // ── Current-year reference rate table — every figure read from the same lib/data
+  //    the calculator uses (getCompensation → registry). No hand-keyed dollars. ──
   const aloneDeps = { hasSpouse: false, childrenUnder18: 0, schoolChildren: 0, dependentParents: 0 };
   const spouseDeps = { hasSpouse: true, childrenUnder18: 0, schoolChildren: 0, dependentParents: 0 };
   const spouseChildDeps = { hasSpouse: true, childrenUnder18: 1, schoolChildren: 0, dependentParents: 0 };
@@ -62,6 +71,7 @@ export default function VADisabilityPage() {
     spouseChild: getCompensation(rating, spouseChildDeps).monthly,
   }));
   const comp70Alone = getCompensation(70, aloneDeps).monthly;
+  const ratesNotice = vaRatesNotice();
 
   // ── FAQ: single source for both the visible list and the FAQPage schema.
   //    Dollar figures (Q4) are lib-rendered; the combined-rating arithmetic is
@@ -75,16 +85,16 @@ export default function VADisabilityPage() {
     {
       question: 'How does the VA combined rating work?',
       answer:
-        'The VA lists your ratings highest to lowest, then combines them one at a time using the 38 CFR § 4.25 table. Each rating applies to your remaining healthy capacity rather than the original 100%, so each additional condition adds less than its face value. After combining every condition — and adding the bilateral factor where it applies — the VA rounds the final value once to the nearest 10%. It never rounds between steps.',
+        'The VA lists your ratings highest to lowest, then combines them one at a time using the 38 CFR § 4.25 table. Each rating applies to your remaining healthy capacity rather than the original 100%, so each additional condition adds less than its face value. After combining every condition — and adding the bilateral factor where it applies — the VA rounds the final value once to the nearest 10%. It never rounds to the nearest 10% between steps.',
     },
     {
       question: 'What is the bilateral factor?',
       answer:
-        'The bilateral factor (38 CFR § 4.26) is a 10% bonus the VA adds when you have compensable disabilities on both sides of a paired body part — both arms or both legs. The two sides are combined first, then 10% of that combined value is added before the result is folded into your overall rating. It applies only when both sides carry a rating above 0%, and it does not apply to vision or hearing, which are rated under separate rules (38 CFR §§ 4.75–4.79).',
+        'The bilateral factor (38 CFR § 4.26) is a 10% bonus the VA adds when you have compensable disabilities on both sides of a paired body part — both arms or both legs. The two sides are combined first, then 10% of that combined value is added before the result is folded into your overall rating. It applies only when both sides carry a rating above 0%, and it does not apply to vision or hearing, which are rated under separate rules (38 CFR §§ 4.75–4.79). If leaving one or more bilateral ratings out of the factor would give a higher combined rating, VA combines them separately instead (§ 4.26(d)); the calculator checks this automatically.',
     },
     {
-      question: 'How much is 70% VA disability in 2026?',
-      answer: `In 2026, a 70% VA disability rating pays ${formatCurrency(comp70Alone, true)}/month for a veteran with no dependents (effective December 1, 2025, after the 2.8% COLA). Veterans rated 30% or higher receive more when they have a spouse, children, or dependent parents. VA disability compensation is not subject to federal income tax.`,
+      question: `How much is 70% VA disability in ${YEAR}?`,
+      answer: `In ${YEAR}, a 70% VA disability rating pays ${formatCurrency(comp70Alone, true)}/month for a veteran with no dependents (effective ${EFFECTIVE}, after the ${RATES.colaPercent}% COLA). Veterans rated 30% or higher receive more when they have a spouse, children, or dependent parents. VA disability compensation is not subject to federal income tax.`,
     },
     {
       question: 'Are VA disability benefits taxable?',
@@ -100,7 +110,7 @@ export default function VADisabilityPage() {
 
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'VA Disability Rating Calculator 2026', description: 'Calculate your combined VA disability rating and 2026 monthly compensation — every step shown, bilateral factor automatic.', url: '/calculators/va-disability' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: OG_TITLE, description: DESCRIPTION, url: '/calculators/va-disability' })} />
       <JsonLdScript schema={faqPageSchema(faqs)} />
 
       {/* ── Page intro ───────────────────────────────────────────────── */}
@@ -119,10 +129,10 @@ export default function VADisabilityPage() {
           <div className="inline-flex items-center gap-2.5 rounded-full bg-zinc-900 px-4 py-1.5 mb-2">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-              Free &middot; No Account &middot; No Personal Info &middot; Official 2026 DoD &amp; VA Data
+              Free &middot; No Account &middot; No Personal Info &middot; Official {YEAR} DoD &amp; VA Data
             </span>
           </div>
-          <div className="hidden md:block"><DataCurrencyBadge source="Official VA rates effective December 1, 2025 (2.8% COLA)" /></div>
+          <div className="hidden md:block"><DataCurrencyBadge source={`Official VA rates effective ${EFFECTIVE} (${RATES.colaPercent}% COLA)`} /></div>
         </div>
       </div>
 
@@ -145,7 +155,7 @@ export default function VADisabilityPage() {
               <ul className="text-xs text-zinc-600 space-y-1 leading-relaxed list-disc list-inside">
                 <li>Combined VA disability rating using the whole-person formula</li>
                 <li>Bilateral factor impact on paired body parts</li>
-                <li>2026 monthly compensation based on rating and dependents</li>
+                <li>{YEAR} monthly compensation based on rating and dependents, including a spouse who receives Aid &amp; Attendance</li>
               </ul>
             </div>
             <div>
@@ -156,7 +166,6 @@ export default function VADisabilityPage() {
                 <li>Effective dates or back pay amounts</li>
                 <li>Special Monthly Compensation (SMC)</li>
                 <li>TDIU approval</li>
-                <li>Spouse Aid &amp; Attendance added amounts</li>
                 <li>VA healthcare priority group or state-level benefits</li>
               </ul>
             </div>
@@ -172,7 +181,7 @@ export default function VADisabilityPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          The VA combined rating is not calculated by adding percentages together — it uses a whole-person formula (38 CFR § 4.25) where each additional rating is applied to the remaining healthy capacity, not the original 100%. That is why 50% + 30% equals 65% combined (which rounds to 70%), not 80%. This calculator applies the official VA math step by step, including the bilateral factor, and shows your 2026 monthly compensation — excluded from federal taxable income. This calculator estimates the combined rating math — it does not determine whether VA will grant service connection or what rating VA will assign to any specific condition.
+          The VA combined rating is not calculated by adding percentages together — it uses a whole-person formula (38 CFR § 4.25) where each additional rating is applied to the remaining healthy capacity, not the original 100%. That is why 50% + 30% equals 65% combined (which rounds to 70%), not 80%. This calculator applies the official VA math step by step, including the bilateral factor, and shows your {YEAR} monthly compensation — excluded from federal taxable income. This calculator estimates the combined rating math — it does not determine whether VA will grant service connection or what rating VA will assign to any specific condition.
         </p>
       </div>
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -189,7 +198,7 @@ export default function VADisabilityPage() {
             <ExampleRow label={`50% back applied to remaining ${exRemAfterBilateral.toFixed(1)}%`} value={`−${exBackReduction.toFixed(1)} pts`} />
             <ExampleRow label="Combined before rounding" value={`${exRating.exact.toFixed(1)}%`} />
             <ExampleRow label="VA rounded rating (nearest 10%)" value={`${exRating.rounded}%`} highlight />
-            <ExampleRow label="2026 monthly compensation — veteran alone" value={`${formatCurrency(exComp.monthly, true)}/mo`} highlight />
+            <ExampleRow label={`${YEAR} monthly compensation — veteran alone`} value={`${formatCurrency(exComp.monthly, true)}/mo`} highlight />
             <ExampleRow label="Annual VA compensation" value={`${formatCurrency(exComp.annual)}/yr`} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
@@ -236,8 +245,9 @@ export default function VADisabilityPage() {
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">The bilateral factor explained</h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               Under 38 CFR § 4.26, if you have compensable disabilities affecting <em>both sides</em>{' '}
-              of a paired body part — both arms, both legs, or paired skeletal muscles — you receive a
-              10% bonus on the combined value of those bilateral disabilities.
+              of a paired body part — both arms or both legs — you receive a 10% bonus on the combined
+              value of those bilateral disabilities. § 4.26 also covers paired skeletal muscles; this
+              calculator models the arms and legs only, not paired skeletal muscles.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               <strong>Example:</strong> Left knee 20% + Right knee 10%. On the § 4.25 table these
@@ -345,13 +355,32 @@ export default function VADisabilityPage() {
           </div>
         </div>
 
-        {/* ── 2026 reference rate table (lib-rendered) ──────────────────── */}
+        {/* ── Current-year reference rate table (lib-rendered) ──────────────────── */}
         <div>
           <h2 className="text-xl font-semibold text-zinc-900 mb-3">
-            2026 VA disability monthly compensation by rating
+            {YEAR} VA disability monthly compensation by rating
           </h2>
+          {ratesNotice && (
+            <div
+              className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 mb-4 text-sm text-amber-900 leading-relaxed"
+              data-testid="va-rates-notice"
+            >
+              <p className="font-semibold mb-1">{ratesNotice.heading}</p>
+              <p>{ratesNotice.body}</p>
+              <p className="mt-1 text-xs">
+                Sources:{' '}
+                <a href={VA_RATES_2027_STATUS.billUrl} target="_blank" rel="noopener noreferrer" className="underline">
+                  {VA_RATES_2027_STATUS.billCitation} on Congress.gov
+                </a>
+                {' · '}
+                <a href={VA_RATES_2027_STATUS.vaTableUrl} target="_blank" rel="noopener noreferrer" className="underline">
+                  VA.gov compensation rates
+                </a>
+              </p>
+            </div>
+          )}
           <p className="text-zinc-600 text-sm leading-relaxed mb-4">
-            Monthly compensation for each combined rating, effective December 1, 2025 (2.8% COLA).
+            Monthly compensation for each combined rating, effective {EFFECTIVE} ({RATES.colaPercent}% COLA).
             Dependent additions begin at 30% — at 10% and 20% the rate is the same regardless of
             dependents.
           </p>
@@ -406,10 +435,10 @@ export default function VADisabilityPage() {
             rel="noopener noreferrer"
             className="text-blue-700 underline"
           >
-            VA.gov 2026 compensation rates
+            VA.gov {YEAR} compensation rates
           </a>{' '}
-          (effective December 1, 2025); combined-rating method per 38 CFR §§ 4.25–4.26.
-          Last reviewed: June 13, 2026.
+          (effective {EFFECTIVE}); combined-rating method per 38 CFR §§ 4.25–4.26.
+          Last reviewed: November 18, 2026.
         </p>
 
         {/* Disclaimer */}
@@ -424,9 +453,9 @@ export default function VADisabilityPage() {
               rel="noopener noreferrer"
               className="text-blue-700 underline"
             >
-              2026 VA compensation rates
+              {YEAR} VA compensation rates
             </a>{' '}
-            (effective December 1, 2025, 2.8% COLA). Actual ratings are determined by the VA
+            (effective {EFFECTIVE}, {RATES.colaPercent}% COLA). Actual ratings are determined by the VA
             based on medical evidence, C&amp;P exam findings, and adjudicator review. This tool is
             not affiliated with the Department of Veterans Affairs or the Department of Defense.
             Verify all figures with your regional VA office or an{' '}
@@ -448,7 +477,7 @@ export default function VADisabilityPage() {
             Learn More
           </p>
           <div className="flex flex-wrap gap-2">
-                <a href="/guides/va-disability" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">VA Disability Benefits Guide: ratings, the bilateral factor &amp; 2026 rates →</a>
+                <a href="/guides/va-disability" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">VA Disability Benefits Guide: ratings, the bilateral factor &amp; {YEAR} rates →</a>
           </div>
         </div>
 

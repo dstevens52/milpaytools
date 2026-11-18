@@ -23,6 +23,14 @@ import type { VADisabilityTable } from '@/data/types';
 
 export const DATA_YEAR = '2026';
 
+export const VA_RATES_META = {
+  /** The 2026 rates took effect December 1, 2025. */
+  effectiveDate: '2025-12-01',
+  colaPercent: 2.8 as number | null,
+  sourceUrl: 'https://www.va.gov/disability/compensation-rates/veteran-rates/',
+  fetchedDate: null as string | null,
+};
+
 export const vaRates: VADisabilityTable = {
   0: {
     veteranAlone: 0,

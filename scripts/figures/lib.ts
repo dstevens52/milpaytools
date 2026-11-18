@@ -197,7 +197,9 @@ export const SOURCE_GROUPS: SourceGroup[] = [
     file: 'src/data/va-rates/{Y}.ts',
     entries: (mod) => {
       const out: [string, number][] = [];
-      const table = mod.vaRates as Record<string, Record<string, number>>;
+      // null while the year's table is unpublished (src/data/va-rates/2027.ts placeholder).
+      const table = mod.vaRates as Record<string, Record<string, number>> | null;
+      if (!table) return out;
       for (const [rating, cols] of Object.entries(table)) {
         for (const [col, v] of Object.entries(cols)) if (v > 0) out.push([`va:${rating}%/${col}`, v]);
       }

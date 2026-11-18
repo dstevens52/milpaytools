@@ -11,7 +11,7 @@
  */
 
 import { test, expect } from '@playwright/test';
-import { vaCompensation, combinedRating, getBasePay } from './helpers/data';
+import { vaCompensation, combinedRating, getBasePay, vaRate } from './helpers/data';
 import { vaAmount, formatCurrency } from './helpers/format';
 import { calculateTotalCompensation } from '../../src/lib/calculations/total-compensation';
 
@@ -52,17 +52,20 @@ test.describe('VA Disability — edge cases', () => {
     await expect(page.getByText(/51% → rounds to 50%/)).toBeVisible();
   });
 
-  // A lone 18–23 school child with no under-18 children is paid at the Table B
-  // "1 child" base (no additional school-child line). Output must match the lib.
-  test('single school-age-only child (18–23) at 50% matches the with-1-child rate', async ({ page }) => {
+  // VA-01: a school child (18–23) is never the Table B "1 child" base — the base
+  // comes from under-18 children only, and every school child adds the
+  // school-child amount (38 U.S.C. § 1115(1)(F); VA rate-table footnote).
+  // Expected value built from the table cells, not from the lib under test.
+  test('single school-age-only child (18–23) at 50% = veteran alone + school-child amount', async ({ page }) => {
     await page.getByRole('button', { name: '50%', exact: true }).click();
     await page.getByRole('button', { name: '+ Add Rating' }).click();
     await page.getByRole('button', { name: /Increase Children 18.23 in school/ }).click();
 
-    const comp = vaCompensation(50, {
+    const expected = vaRate(50, 'veteranAlone') + vaRate(50, 'additionalSchoolChild');
+    expect(vaCompensation(50, {
       hasSpouse: false, childrenUnder18: 0, schoolChildren: 1, dependentParents: 0,
-    });
-    await expect(page.locator('p.text-4xl').filter({ hasText: vaAmount(comp.monthly) })).toBeVisible();
+    }).monthly).toBeCloseTo(expected, 2);
+    await expect(page.locator('p.text-4xl').filter({ hasText: vaAmount(expected) })).toBeVisible();
   });
 
   // 50 & 10 combine to exactly 55 on the §4.25 table — the boundary rounds UP to 60%.

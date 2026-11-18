@@ -67,13 +67,14 @@ export function VADisabilityUnlocks({
     if (!nextThreshold || disabilities.length === 0) return null;
     const testRatings = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
     for (const r of testRatings) {
-      const { newRounded } = whatIfAddRating(disabilities, r);
+      const { newRounded, newExact } = whatIfAddRating(disabilities, r);
       if (newRounded >= nextThreshold) {
         const nextComp = getCompensation(nextThreshold, deps);
         const diff = nextComp.monthly - compensation.monthly;
         return {
           minRating: r,
           newRounded,
+          newExact,
           diff,
           diffAnnual: diff * 12,
         };
@@ -222,7 +223,7 @@ export function VADisabilityUnlocks({
           <p className="text-sm text-blue-800 leading-relaxed mt-1.5">
             An additional condition rated at approximately{' '}
             <strong>{nextData.minRating}%</strong> or higher would bring your combined rating
-            to {nextData.newRounded}%, which rounds to <strong>{nextThreshold}%</strong>.
+            to {nextData.newExact}%, which rounds to <strong>{nextData.newRounded}%</strong>.
           </p>
           {nextData.diff > 0.5 && (
             <p className="text-sm text-blue-900 font-medium mt-2 tabular-nums">

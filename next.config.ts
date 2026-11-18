@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Build date (UTC, YYYY-MM-DD), inlined into server and client bundles alike.
+  // src/data/va-rates/registry.ts switches to the next VA rate year on its
+  // effective date using this, so prerendered HTML and hydration always agree.
+  env: {
+    BUILD_DATE: new Date().toISOString().slice(0, 10),
+  },
   async redirects() {
     return [
       {

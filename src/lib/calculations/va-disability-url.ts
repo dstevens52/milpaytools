@@ -12,6 +12,7 @@
  *   r  — ratings (required). Comma-separated `rating[.locationCode]` pairs,
  *        positional. A bare `rating` (no suffix) means Other / Non-bilateral.
  *   sp — spouse: `1` = yes, omitted = no
+ *   aa — spouse receives Aid & Attendance: `1` = yes (only with sp=1), omitted = no
  *   c  — children under 18 (integer count, omitted when 0)
  *   cs — children 18–23 in an approved school program (omitted when 0)
  *   dp — dependent parents (omitted when 0)
@@ -148,6 +149,7 @@ export function serializeVADisabilityState(state: VADisabilityShareState): strin
   }
 
   if (deps.hasSpouse) parts.push('sp=1');
+  if (deps.hasSpouse && deps.spouseAidAttendance) parts.push('aa=1');
   if (deps.childrenUnder18 > 0) parts.push(`c=${deps.childrenUnder18}`);
   if (deps.schoolChildren > 0) parts.push(`cs=${deps.schoolChildren}`);
   if (deps.dependentParents > 0) parts.push(`dp=${deps.dependentParents}`);
@@ -184,7 +186,7 @@ export function parseVADisabilityState(search: string): VADisabilityShareState |
   const params = rawParams(search);
   const hasNew = 'r' in params;
   const hasLegacy = 'ratings' in params;
-  const hasDeps = 'sp' in params || 'c' in params || 'cs' in params || 'dp' in params;
+  const hasDeps = 'sp' in params || 'aa' in params || 'c' in params || 'cs' in params || 'dp' in params;
 
   if (!hasNew && !hasLegacy && !hasDeps) return null;
 
@@ -229,6 +231,8 @@ export function parseVADisabilityState(search: string): VADisabilityShareState |
         childrenUnder18: clampDep(params.c, DEP_MAX.c),
         schoolChildren: clampDep(params.cs, DEP_MAX.cs),
         dependentParents: clampDep(params.dp, DEP_MAX.dp),
+        // Set only when true, so states without A&A keep their old shape.
+        ...(params.sp === '1' && params.aa === '1' ? { spouseAidAttendance: true } : {}),
       };
 
   return { disabilities, deps };

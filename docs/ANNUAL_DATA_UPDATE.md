@@ -42,6 +42,24 @@ each item below must be re-traced against the new source and revised by hand.
   CPI-W increase; the REDUX figure is computed (percent − 1), never typed. Record the source in
   `docs/sources/` (see `pay-raise-cola-2027.md`).
 
+## VA disability compensation rates — November/December (VA publishes)
+
+- [ ] The new rates take effect December 1 and need the annual veterans' COLA law. Track it in
+  `src/data/va-rates/{YYYY}-status.ts` (`'law-pending'` → `'law-enacted'` → `'published'`,
+  `checkedDate`, `lawCitation`). While pending, the calculator shows a dated notice and the prior
+  year's table; never a projected figure.
+- [ ] When VA.gov shows the new tables: copy every cell into `src/data/va-rates/{YYYY}.ts`
+  (header: URL + date fetched; `colaPercent`; `fetchedDate`) and set the status to
+  `'published'`. Data-only — no component edits. `tests/e2e/va-rates-registry.spec.ts` then
+  runs its typo check (each cell vs. the prior cell × (1 + COLA), about a dollar of tolerance):
+  a miss means compare with VA.gov, never adjust the figure.
+- [ ] `src/data/va-rates/registry.ts` switches the calculator, retirement, transition readiness
+  and the rate table on the effective date, using the BUILD date (`BUILD_DATE` in
+  `next.config.ts`). If the data lands before December 1, redeploy production on December 1.
+  The calculator's title and copy follow the registry year; no hand edits.
+- [ ] For the following year: add the next `{YYYY}.ts` placeholder (`vaRates: null`) and status
+  file, and point the registry at them.
+
 ## Key dates calendar — October
 
 - [ ] Each October, create `calendar-{next year}.ts` from the same template

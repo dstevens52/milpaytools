@@ -21,6 +21,7 @@ import {
 import { VADisabilityUnlocks } from './VADisabilityUnlocks';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { InfoTip } from '@/components/calculators/shared/InfoTip';
+import { vaRatesShortStatus } from '@/lib/calculations/vaRatesStatus';
 
 // ─── Constants ─────────────────────────────────────────────────────────────
 
@@ -58,6 +59,7 @@ function stepBg(type: CalculationStep['type']): string {
   if (type === 'bilateral-header') return 'bg-blue-50 border-blue-200 font-medium text-blue-900';
   if (type === 'bilateral-apply') return 'bg-blue-50/50 border-blue-100 text-blue-800';
   if (type === 'bilateral-factor') return 'bg-blue-100 border-blue-200 font-medium text-blue-900';
+  if (type === 'bilateral-exception') return 'bg-amber-50 border-amber-200 font-medium text-amber-900';
   if (type === 'result') return 'bg-zinc-100 border-zinc-300 font-semibold text-zinc-900';
   if (type === 'round') return 'bg-red-50 border-red-200 font-bold text-red-800';
   if (type === 'init') return 'bg-zinc-50 border-zinc-200 text-zinc-600';
@@ -224,20 +226,29 @@ export function VADisabilityCalculator() {
   }
 
   function updateDeps(patch: Partial<DependentConfig>) {
-    setDeps((prev) => ({ ...prev, ...patch }));
+    setDeps((prev) => {
+      const next = { ...prev, ...patch };
+      // Aid & Attendance is a spouse amount: no spouse, no A&A.
+      if (!next.hasSpouse) delete next.spouseAidAttendance;
+      return next;
+    });
   }
 
   // ── TDIU threshold note ───────────────────────────────────────────────
+  // 38 CFR § 4.16(a): TDIU may be assigned "where the schedular rating is less
+  // than total" (eCFR, checked 2026-11-18), so no note at a 100% combined rating.
+  const tdiuApplies = result.rounded < 100;
   const hasHighSingle = disabilities.some((d) => d.rating >= 60);
   const hasMediumSingle = disabilities.some((d) => d.rating >= 40);
   const tdiuNote =
-    result.rounded >= 70 && hasMediumSingle
+    tdiuApplies && result.rounded >= 70 && hasMediumSingle
       ? 'You may qualify for TDIU (Total Disability based on Individual Unemployability) if unable to maintain substantially gainful employment. Contact your VSO.'
       : result.rounded === 60 && hasHighSingle
       ? 'At 60% with a single 60%+ disability, you may qualify for TDIU if unable to work.'
       : null;
 
   const dependentsApply = result.rounded >= 30;
+  const ratesShortStatus = vaRatesShortStatus();
   const anyDependents =
     deps.hasSpouse || deps.childrenUnder18 > 0 || deps.schoolChildren > 0 || deps.dependentParents > 0;
 
@@ -377,6 +388,20 @@ export function VADisabilityCalculator() {
                   </button>
                 ))}
               </div>
+              {deps.hasSpouse && (
+                <label className="mt-2 flex items-start gap-2 text-xs text-zinc-600 leading-snug cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={!!deps.spouseAidAttendance}
+                    onChange={(e) => updateDeps({ spouseAidAttendance: e.target.checked })}
+                    className="mt-0.5 h-4 w-4 shrink-0 accent-red-700"
+                  />
+                  <span>
+                    Spouse receives Aid &amp; Attendance
+                    <span className="block text-zinc-400">Added at 30% or higher</span>
+                  </span>
+                </label>
+              )}
             </div>
 
             {/* Children under 18 */}
@@ -450,6 +475,12 @@ export function VADisabilityCalculator() {
                 <p className="text-sm text-zinc-500 mt-2">
                   Combined value: {result.exact}% → rounds to {result.rounded}%
                 </p>
+                {result.bilateralException && (
+                  <p className="text-xs text-amber-800 mt-1">
+                    Bilateral factor left out for {result.bilateralException.excluded.length === 1 ? 'one rating' : `${result.bilateralException.excluded.length} ratings`}:
+                    {' '}that gives {result.rounded}% instead of {result.bilateralException.withFactorRounded}% (38 CFR § 4.26(d)).
+                  </p>
+                )}
                 {result.bilateralApplied && (
                   <InfoTip
                     label={`Bilateral factor: 10% of bilateral combined value (+${result.bilateralPairs.reduce((acc, p) => acc + p.factorAddition, 0).toFixed(1)} pts)`}
@@ -483,6 +514,7 @@ export function VADisabilityCalculator() {
                     </p>
                     <p className="text-xs text-zinc-400 mt-1">
                       {compensation.dataYear} VA rates
+                      {ratesShortStatus && <> · {ratesShortStatus}</>}
                     </p>
                     <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
                       Monthly compensation depends on VA&apos;s final decision, effective date,

@@ -247,7 +247,10 @@ test.describe('Deployment math — SDP simple interest (DEP-07)', () => {
 // SHA-256 of the outputs below, computed from main's transition-readiness.ts (617f4d9) before the
 // federalTax.ts extraction; the branch reproduces it, and a 5,040-case grid was also byte-identical.
 // Any drift in transition readiness changes the hash.
-const TR_GOLDEN_SHA256 = '8f5230f81ca2245f34b0e2444e9ebf512523c57d97475f5220796e6ac126df1e';
+// Updated in build 06 (VA): the only change is the BDD action-step copy ("— tax-free for life." →
+// ", excluded from federal taxable income."). With the old sentence restored, the branch reproduced
+// the previous golden (8f5230f8…), so every number is unchanged by the VA rate registry.
+const TR_GOLDEN_SHA256 = 'ecdfd438c15b2f799685af769725053bee29d82e52cafb4665191d8d00536605';
 
 function transitionSnapshot(): string {
   const out: unknown[] = [TR.FILING_STATUS_LABEL];
