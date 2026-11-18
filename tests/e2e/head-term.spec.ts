@@ -84,6 +84,28 @@ test.describe('homepage', () => {
     await expect(first).toHaveText('military pay calculator');
   });
 
+  for (const width of [360, 390]) {
+    test(`sample card fits at ${width}px: "View →" inside the card, no sideways scroll`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 800 });
+      await page.goto('/');
+      const card = page.getByTestId('home-sample-card');
+      const view = card.getByRole('link', { name: 'View →' });
+      await expect(view).toBeVisible();
+      const c = (await card.boundingBox())!;
+      const v = (await view.boundingBox())!;
+      expect(c.x).toBeGreaterThanOrEqual(0);
+      expect(c.x + c.width).toBeLessThanOrEqual(width);
+      // The hero clips overflow, so a clipped button wouldn't scroll: check the box itself.
+      expect(v.x).toBeGreaterThanOrEqual(c.x);
+      expect(v.x + v.width).toBeLessThanOrEqual(c.x + c.width);
+      for (const t of ['Sample', 'E-5 · 8yrs · San Diego · w/ dep', 'Civilian equiv.']) {
+        const b = (await card.getByText(t, { exact: true }).boundingBox())!;
+        expect(b.x + b.width, t).toBeLessThanOrEqual(c.x + c.width);
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+    });
+  }
+
   test('Organization and WebSite JSON-LD', async ({ page }) => {
     await page.goto('/');
     const blocks = await jsonLd(page);
@@ -108,6 +130,21 @@ test.describe('/calculators', () => {
     expect(items.map((i) => i.position)).toEqual(items.map((_, i) => i + 1));
     expect(new Set(items.map((i) => i.url))).toEqual(new Set(CALCULATORS.map((c) => `${BASE}${c.href}`)));
     for (const i of items) expect(i.name, i.url).toBe(CALCULATORS.find((c) => `${BASE}${c.href}` === i.url)!.name);
+  });
+});
+
+test.describe('C1 copy (FIX_QUEUE row 6)', () => {
+  test('total compensation says "excluded from federal taxable income", never "tax-free"', async ({ page }) => {
+    await page.goto('/calculators/total-compensation');
+    const main = page.locator('main');
+    await expect(main.getByText('Allowances Excluded from Federal Taxable Income')).toBeVisible();
+    await expect(main).toContainText('excluded from federal taxable income');
+    await expect(main).not.toContainText(/tax-free/i);
+  });
+
+  test('retirement page: BRS for members who entered on or after January 1, 2018', async ({ page }) => {
+    await page.goto('/calculators/retirement');
+    await expect(page.locator('main')).toContainText('BRS is mandatory for members who entered on or after January 1, 2018.');
   });
 });
 
