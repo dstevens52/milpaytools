@@ -7,8 +7,9 @@ import { faqPageSchema } from '@/lib/schema';
 // carry a question the page doesn't show.
 //
 // Answers are plain strings. The only markup they support is a markdown-style
-// internal link, [text](/path): rendered as <Link> on the page, reduced to its
-// link text in the schema.
+// link: internal [text](/path), rendered as <Link>, or external
+// [text](https://…), rendered as an <a> opening in a new tab. Either is reduced
+// to its link text in the schema.
 //
 // visibleElsewhere: the question is shown in its own section of the page (with
 // a data-faq-question attribute on that section), so this list skips it while
@@ -20,7 +21,7 @@ export interface FaqItem {
   visibleElsewhere?: boolean;
 }
 
-const LINK_RE = /\[([^\]]+)\]\((\/[^)\s]+)\)/g;
+const LINK_RE = /\[([^\]]+)\]\((\/[^)\s]+|https:\/\/[^)\s]+)\)/g;
 
 function renderAnswer(text: string): ReactNode[] {
   const parts: ReactNode[] = [];
@@ -29,9 +30,15 @@ function renderAnswer(text: string): ReactNode[] {
     const idx = m.index ?? 0;
     if (idx > last) parts.push(text.slice(last, idx));
     parts.push(
-      <Link key={idx} href={m[2]} className="text-blue-700 underline hover:text-blue-800">
-        {m[1]}
-      </Link>
+      m[2].startsWith('/') ? (
+        <Link key={idx} href={m[2]} className="text-blue-700 underline hover:text-blue-800">
+          {m[1]}
+        </Link>
+      ) : (
+        <a key={idx} href={m[2]} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline hover:text-blue-800">
+          {m[1]}
+        </a>
+      )
     );
     last = idx + m[0].length;
   }
