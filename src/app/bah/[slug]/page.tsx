@@ -14,7 +14,7 @@ import { getColaAreaByMha } from '@/data/cola/2026/constants';
 import { StationPageClient } from '@/components/calculators/bah/StationPageClient';
 import { ogImage } from '@/lib/og';
 import { stationSerpMeta } from '@/lib/stationSerp';
-import { formatMhaName } from '@/lib/mhaDisplay';
+import { displayMhaName } from '@/lib/mhaDisplay';
 import { OCONUS_V2_STATIONS, getRenderableOconusV2, oconusTitle, oconusDescription, OCONUS_OG_SUB } from '@/data/oconus';
 import { OconusStationPage } from '@/components/oconus/OconusStationPage';
 import { oconusFaqs } from '@/data/oconus/sharedCopy';
@@ -164,7 +164,7 @@ export default async function StationPage({
   const ratesWO = mhaCode ? getMHARates(mhaCode, false) : null;
   // Display label only (AFB, NAS… casing): this page shows it but never looks anything up by it.
   const rawLocationName = mhaCode ? getLocationName(station.zip) : null;
-  const locationName = rawLocationName ? formatMhaName(rawLocationName) : null;
+  const locationName = rawLocationName ? displayMhaName(mhaCode, rawLocationName) : null;
   // DTMO mid-year change for this MHA in the current BAH year (e.g. TX270 Abilene,
   // May 16, 2026), or null.
   const midYearChange = getBahMidYearChange(mhaCode);

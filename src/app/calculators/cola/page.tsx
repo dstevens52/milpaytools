@@ -10,6 +10,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { FaqSection, type FaqItem } from '@/components/FaqSection';
 import { webApplicationSchema } from '@/lib/schema';
 import { lookupCola } from '@/lib/calculations/cola';
+import { displayMhaName } from '@/lib/mhaDisplay';
 import { COLA_AREAS, COLA_SOURCE, DATA_YEAR, highestIndexArea } from '@/data/cola/2026/constants';
 
 // ── Everything below is computed from src/data/cola/2026/constants.ts ─────────
@@ -73,7 +74,7 @@ export default function ColaPage() {
   const exEligible = lookupCola('98101'); // Seattle
   const exNotEligible = lookupCola('93940'); // Monterey
   const exEligibleLabel = exEligible.status === 'eligible' ? exEligible.dtmoName : 'ZIP 98101';
-  const exNotEligibleLabel = exNotEligible.status === 'not-found' ? 'ZIP 93940' : exNotEligible.mhaName;
+  const exNotEligibleLabel = exNotEligible.status === 'not-found' ? 'ZIP 93940' : displayMhaName(exNotEligible.mhaCode, exNotEligible.mhaName);
   const statusText = (r: typeof exEligible) =>
     r.status === 'eligible'
       ? `${DATA_YEAR} COLA area · ${r.index}% index`
