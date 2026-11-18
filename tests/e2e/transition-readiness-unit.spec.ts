@@ -14,8 +14,11 @@ import {
   getStateMilitaryRetirementTax,
 } from '../../src/data/state-military-retirement-tax';
 import { payTable } from '../../src/data/pay-tables/2026';
-import { vaRates } from '../../src/data/va-rates/2026';
+import { CURRENT_VA_RATES } from '../../src/data/va-rates/registry';
 import type { TransitionReadinessInput, FilingStatus } from '../../src/types/calculator';
+
+/** Current-year VA table: the same one the transition lib reads. */
+const vaRates = CURRENT_VA_RATES.table;
 
 // Unit-level checks for retired pay, the VA waiver, and household taxes — no browser page needed.
 

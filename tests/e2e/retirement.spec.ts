@@ -1,13 +1,16 @@
 import { test, expect, type Page } from '@playwright/test';
 import { getBasePay } from './helpers/data';
 import { calculateRetirement } from '@/lib/calculations/retirement';
-import { vaRates } from '@/data/va-rates/2026';
+import { CURRENT_VA_RATES } from '@/data/va-rates/registry';
 import { formatCurrency } from '@/lib/utils';
 import type { RetirementInput } from '@/types/calculator';
 import {
   RETIREMENT_HERO_INPUT,
   retirementHeroStrip,
 } from '@/components/calculators/retirement/examples';
+
+/** Current-year VA table: the same one the retirement lib reads. */
+const vaRates = CURRENT_VA_RATES.table;
 
 test.describe('Military Retirement Calculator', () => {
   test.beforeEach(async ({ page }) => {

@@ -198,3 +198,24 @@ test.describe('VA disability URL — retired eye locations (backward compat)', (
     expect(r.exact).toBe(44);
   });
 });
+
+test.describe('VA disability URL — spouse Aid & Attendance (VA-04)', () => {
+  const one = [{ rating: 50, label: '', side: 'none' as const, pairKey: null }];
+
+  test('aa=1 round-trips with a spouse', () => {
+    const s = state(one, { hasSpouse: true, spouseAidAttendance: true });
+    const q = serializeVADisabilityState(s);
+    expect(q).toBe('r=50&sp=1&aa=1');
+    expect(parseVADisabilityState(`?${q}`)!.deps).toEqual(s.deps);
+  });
+
+  test('A&A is dropped without a spouse, both ways', () => {
+    expect(serializeVADisabilityState(state(one, { spouseAidAttendance: true }))).toBe('r=50');
+    expect(parseVADisabilityState('?r=50&aa=1')!.deps.spouseAidAttendance).toBeUndefined();
+  });
+
+  test('links without aa keep their old shape (no A&A key)', () => {
+    expect(parseVADisabilityState('?r=50&sp=1')!.deps).toEqual({ ...DEFAULT_DEPS, hasSpouse: true });
+    expect('spouseAidAttendance' in parseVADisabilityState('?r=50&sp=1')!.deps).toBe(false);
+  });
+});

@@ -8,7 +8,7 @@
 
 import { payTable } from '../../../src/data/pay-tables/2026';
 import { BAS_RATES } from '../../../src/data/constants';
-import { vaRates } from '../../../src/data/va-rates/2026';
+import { CURRENT_VA_RATES } from '../../../src/data/va-rates/registry';
 import { lookupBAH } from '../../../src/lib/calculations/bah';
 import {
   calculateCombinedRating,
@@ -98,8 +98,8 @@ export function vaCompensation(rounded: number, deps: DependentConfig) {
 }
 
 /** Raw VA rate at a given rating percentage and dependent column key. */
-export function vaRate(pct: number, key: keyof typeof vaRates[100]): number {
-  const row = vaRates[pct as keyof typeof vaRates];
+export function vaRate(pct: number, key: keyof (typeof CURRENT_VA_RATES.table)[100]): number {
+  const row = CURRENT_VA_RATES.table[pct];
   if (!row) throw new Error(`No VA rate for ${pct}%`);
   return row[key] as number;
 }
