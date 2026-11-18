@@ -1,4 +1,4 @@
-import { expect, type Locator } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 
 /**
  * Wait until React has hydrated the page and owns `control`, so an interaction
@@ -35,4 +35,34 @@ export async function waitForHydration(control: Locator, timeout = 15_000): Prom
       { message: 'React hydration (root committed and control owned by React)', timeout, intervals: [50, 100, 250] },
     )
     .toBe(true);
+}
+
+/**
+ * Hold back the page's client JavaScript so a test can act BEFORE hydration
+ * (build 1b). Call before `page.goto`, navigate with `waitUntil: 'commit'` (the
+ * default 'load' would wait for the held scripts), act on the prerendered HTML,
+ * then call the returned `release()` and `waitForHydration()`.
+ *
+ * Only `/_next/static/**.js` is held. Stylesheets load normally so the page
+ * still lays out and Playwright's actionability checks work.
+ */
+export async function holdClientJs(page: Page): Promise<() => void> {
+  let release!: () => void;
+  const gate = new Promise<void>((r) => {
+    release = r;
+  });
+  await page.route(
+    (url) => url.pathname.startsWith('/_next/static/') && url.pathname.endsWith('.js'),
+    async (route) => {
+      await gate;
+      await route.continue().catch(() => {});
+    },
+  );
+  return release;
+}
+
+/** Assert React does not own `control` yet, so an action on it really is pre-hydration. */
+export async function expectNotHydrated(control: Locator): Promise<void> {
+  const owned = await control.evaluate((el) => Object.keys(el).some((k) => k.startsWith('__reactProps$')));
+  expect(owned, 'control is still server HTML (not hydrated)').toBe(false);
 }
