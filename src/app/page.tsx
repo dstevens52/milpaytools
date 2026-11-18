@@ -128,15 +128,17 @@ function HeroSection() {
               See your real pay →
             </Link>
 
-            {/* Sample output card */}
+            {/* Sample output card. Phones (< sm): two rows, "Sample" + "View →" on top and
+                the two figures below, so nothing is clipped at 360-390 px (S8). sm+: one row. */}
             <div
-              className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 w-full md:w-fit"
+              className="flex flex-wrap sm:flex-nowrap items-center gap-x-2 gap-y-1.5 bg-white rounded-xl px-3 py-2 w-full md:w-fit"
               style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}
+              data-testid="home-sample-card"
             >
-              <span style={{ fontSize: 9, color: '#bbb', textTransform: 'uppercase', letterSpacing: '0.08em', lineHeight: 1, whiteSpace: 'nowrap', border: '1px solid #e5e5e5', borderRadius: 4, padding: '2px 5px', flexShrink: 0 }}>
+              <span className="order-1 sm:order-none" style={{ fontSize: 9, color: '#bbb', textTransform: 'uppercase', letterSpacing: '0.08em', lineHeight: 1, whiteSpace: 'nowrap', border: '1px solid #e5e5e5', borderRadius: 4, padding: '2px 5px', flexShrink: 0 }}>
                 Sample
               </span>
-              <div className="flex-none">
+              <div className="flex-none order-3 sm:order-none">
                 <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
                   E-5 · 8yrs · San Diego · w/ dep
                 </p>
@@ -145,8 +147,8 @@ function HeroSection() {
                   <span style={{ fontSize: 11, color: '#999' }}>/mo</span>
                 </div>
               </div>
-              <div className="h-[30px] w-px bg-[#e5e5e5] flex-none" aria-hidden="true" />
-              <div className="flex-none">
+              <div className="h-[30px] w-px bg-[#e5e5e5] flex-none order-3 sm:order-none" aria-hidden="true" />
+              <div className="flex-none order-3 sm:order-none">
                 <p style={{ fontSize: 9, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: 4 }}>
                   Civilian equiv.
                 </p>
@@ -157,11 +159,13 @@ function HeroSection() {
               </div>
               <Link
                 href="/calculators/total-compensation"
-                className="flex flex-none ml-1 transition-opacity hover:opacity-80"
+                className="flex flex-none order-2 sm:order-none ml-auto sm:ml-1 transition-opacity hover:opacity-80"
                 style={{ background: '#c0392b', color: '#fff', fontSize: 11, fontWeight: 600, padding: '5px 12px', borderRadius: 6, whiteSpace: 'nowrap' }}
               >
                 View →
               </Link>
+              {/* Phone row break: ends the "Sample / View" row. */}
+              <div className="basis-full h-0 order-2 sm:hidden" aria-hidden="true" />
             </div>
           </div>
 
