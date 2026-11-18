@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import type { Metadata } from 'next';
 import { DUTY_STATIONS, STATION_BY_SLUG, type DutyStation } from '@/data/duty-stations/stations';
 import { getMHACode, getMHARates, getMHARatesForYear, getLocationName, getNationalAverages, getBahMidYearChange, CURRENT_BAH_YEAR, PRIOR_BAH_YEAR } from '@/lib/calculations/bah';
@@ -407,6 +408,14 @@ export default async function StationPage({
             {noticeMode === 'next-year-status' && <Bah2027Notice stationName={station.name} />}
             {noticeMode === 'transition' && (
               <BahTransitionNotice text={bahTransitionText(CURRENT_BAH_CONFIG, priorE5W ?? null)} />
+            )}
+            {/* /bah/changes row for this MHA. Body text only: title/meta untouched (SERP test). */}
+            {mhaCode && (
+              <p className="text-xs mt-2" data-testid="bah-changes-station-link">
+                <Link href={`/bah/changes#mha-${mhaCode}`} className="font-medium text-red-700 hover:text-red-800 underline">
+                  {`How ${station.name} compares nationally →`}
+                </Link>
+              </p>
             )}
             {/* Station email alert: CONUS station pages only (this template), one per page. */}
             <div className="mt-3" data-testid="bah-station-alert">

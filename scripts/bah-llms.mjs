@@ -11,6 +11,7 @@
  *  - "{YYYY} BAH rates for …" (the /bah hub line and every station line)
  *  - the hub line's "all {N} ZIP codes"
  *  - the sources line "- {YYYY} BAH Rates: Defense Travel Management Office …"
+ *  - the /bah/changes line's "from {PRIOR} to {YYYY}"
  * Blog-post titles and descriptions are left alone (their figures belong to the
  * posts; see `check:figures --next-year`).
  */
@@ -23,7 +24,7 @@ import { tsImport } from 'tsx/esm/api';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const FILE = path.join(ROOT, 'public', 'llms.txt');
 
-const { BAH_YEAR } = await tsImport('../src/data/bah/current.ts', import.meta.url);
+const { BAH_YEAR, BAH_PRIOR_YEAR } = await tsImport('../src/data/bah/current.ts', import.meta.url);
 const { BAH_ZIP_COUNT } = await tsImport('../src/lib/calculations/bah.ts', import.meta.url);
 const zips = BAH_ZIP_COUNT.toLocaleString('en-US');
 
@@ -33,6 +34,7 @@ const lines = before.split('\n').map((line) => {
   let out = line.replace(/\b20\d\d BAH rates for\b/g, `${BAH_YEAR} BAH rates for`);
   if (line.startsWith('- [BAH Calculator](/bah)')) out = out.replace(/\ball [\d,]+ ZIP codes\b/, `all ${zips} ZIP codes`);
   out = out.replace(/^- 20\d\d BAH Rates: Defense Travel Management Office/, `- ${BAH_YEAR} BAH Rates: Defense Travel Management Office`);
+  if (line.startsWith('- [BAH Changes by Military Housing Area](')) out = out.replace(/from 20\d\d to 20\d\d/, `from ${BAH_PRIOR_YEAR} to ${BAH_YEAR}`);
   if (out !== line) changes++;
   return out;
 });

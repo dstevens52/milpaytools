@@ -166,6 +166,11 @@ the rate-protection paragraph, and its year-over-year line compares against the 
   Chat checks `/bah`, `/bah/fort-hood`, `/bah/dyess-afb`, the ZIP calculator with 76549 (expect
   the "2026 rate (through Dec 31, 2026)" line under the result), and
   `/calculators/dual-military-bah`.
+- `/bah/changes` flips with `BAH_YEAR` (no edits): check it reads 2026 → 2027, the national
+  average tile shows DoD's 2027 figure (from the `releaseHistory.ts` row added in step 3), and
+  Abilene/Dyess (TX270) is marked "The 2026 rate was DTMO's temporary increase…" with the
+  temporary-increase line in the rate-protection box. Its `llms.txt` line's years are updated by
+  `npm run bah:llms`; `npm run bah:urls` includes it for IndexNow.
 - Transition tense: **fixed** (`feat/bah-2027-what-we-know`). While `BAH_EFFECTIVE_NOTICE` is
   true, station FAQs say "Starting January 1, 2027, an E-5 with dependents at {station} will
   receive $X…" (`bahE5RateFaqAnswer` in `src/lib/calculations/bahTransition.ts`). Spot-check one

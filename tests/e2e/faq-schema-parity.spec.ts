@@ -14,6 +14,7 @@ const PAGES: { path: string; faqCount: number }[] = [
   { path: '/calculators/pcs', faqCount: 2 },
   // /bah: 3 + the four 2027 FAQs (feat/bah-2027-what-we-know).
   { path: '/bah', faqCount: 7 },
+  { path: '/bah/changes', faqCount: 4 },
   { path: '/calculators/guard-reserve', faqCount: 2 },
   { path: '/calculators/dual-military-bah', faqCount: 5 },
   // Pay rank pages: flat grade, compound Army title, E-9, officer.
