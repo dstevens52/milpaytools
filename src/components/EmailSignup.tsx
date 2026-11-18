@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useSyncExternalStore } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { fireNewsletterSignup } from '@/lib/analytics';
 
 export interface EmailSignupProps {
@@ -10,8 +10,6 @@ export interface EmailSignupProps {
   variant?: 'inline' | 'card';
   darkBg?: boolean;
 }
-
-const noopSubscribe = () => () => {};
 
 export function EmailSignup({
   headline,
@@ -25,7 +23,14 @@ export function EmailSignup({
   const inputRef = useRef<HTMLInputElement>(null);
   // false on the server and during hydration, true once hydrated. The submit button stays
   // disabled until then, so a submit before JS runs can't reload the page and lose the address.
-  const hydrated = useSyncExternalStore(noopSubscribe, () => true, () => false);
+  // Not useSyncExternalStore: a server/client snapshot mismatch in this footer component
+  // (every page) made selects in other calculators lose a pick made during hydration
+  // (education half-time, retirement months: 20/20 WebKit failures; build 1b).
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time mount flag (see above)
+    setHydrated(true);
+  }, []);
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
 
