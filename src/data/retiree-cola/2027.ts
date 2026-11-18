@@ -50,3 +50,71 @@ export const RETIREE_COLA_2027: RetireeCola = {
 export function reduxPercent(cola: RetireeCola = RETIREE_COLA_2027): number {
   return Math.round((cola.percent - 1) * 10) / 10;
 }
+
+// ─── /pay/raise "2027 COLA for military retired pay" section (S8) ───────────
+//
+// Every item here comes from an official DFAS or SSA page, recorded with its URL.
+// An item DFAS hasn't published for 2027 is null, and the section leaves it out.
+// Never fill one in from a past year's notice.
+//
+// Checked 2026-11-18 (Chrome, pages read in full):
+// - SSA latest COLA page: "The latest COLA is 3.6 percent … beginning with the
+//   December 2026 benefits".
+// - DFAS CSB/REDUX page (updated Dec 18, 2024): "Cost of Living Adjustments (COLA)
+//   are also reduced by one percent." A standing rule, not a 2027 notice.
+// - DFAS retiree newsletter / COLA page (updated Sept 30, 2026): latest COLA article
+//   is the 2026 one (December 2025 issue). No 2027 notice, so no 2027 effective-date
+//   or first-payment statement and no 2027 partial-COLA table.
+//
+// When DFAS posts its 2027 notice: fill `timing` and `partialFirstYear` from it
+// (quote the notice in the comment), set `checked`, and the section shows them.
+//
+// RETIREE_COLA_2027 above stays the source for the /pay/raise FAQ answer, which is
+// frozen under the pay meta guard until ~Dec 10; the percent is shared, not copied.
+
+export interface OfficialSource {
+  name: string;
+  url: string;
+}
+
+export interface RetireeColaSection {
+  /** COLA year (the increase takes effect the December before). */
+  year: number;
+  /** ISO date the DFAS and SSA pages were last read for this section. */
+  checked: string;
+  /** The 2027 COLA percent (SSA). */
+  percent: { value: number; source: OfficialSource };
+  /** When the increase takes effect and the first retired pay / annuitant payment with it (DFAS 2027 notice). */
+  timing: {
+    effectiveDate: string;
+    firstRetiredPayDate: string;
+    firstAnnuitantPayDate: string;
+    source: OfficialSource;
+  } | null;
+  /** CSB/REDUX: COLA minus this many percentage points (DFAS). */
+  redux: { minusPoints: number; source: OfficialSource } | null;
+  /** DFAS table of first COLAs for members whose retired pay started during 2026. */
+  partialFirstYear: {
+    rows: { retiredPayStarted: string; percent: number; reduxPercent?: number }[];
+    source: OfficialSource;
+  } | null;
+}
+
+export const SSA_LATEST_COLA: OfficialSource = {
+  name: 'SSA: Latest Cost-of-Living Adjustment',
+  url: 'https://www.ssa.gov/oact/cola/latestCOLA.html',
+};
+
+export const DFAS_CSB_REDUX: OfficialSource = {
+  name: 'DFAS: Career Status Bonus (CSB)/REDUX',
+  url: 'https://www.dfas.mil/retiredmilitary/plan/estimate/csbredux/',
+};
+
+export const RETIREE_COLA_2027_SECTION: RetireeColaSection = {
+  year: 2027,
+  checked: '2026-11-18',
+  percent: { value: RETIREE_COLA_2027.percent, source: SSA_LATEST_COLA },
+  timing: null, // DFAS 2027 COLA notice not posted as of 2026-11-18
+  redux: { minusPoints: 1, source: DFAS_CSB_REDUX },
+  partialFirstYear: null, // DFAS 2027 table not posted as of 2026-11-18
+};

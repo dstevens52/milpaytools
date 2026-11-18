@@ -6,6 +6,7 @@ import {
   TIER_ASSUMPTION_NOTE,
 } from '@/data/pay-raise/2027';
 import { RETIREE_COLA_2027 } from '@/data/retiree-cola/2027';
+import { retireeColaSectionCopy, RETIREE_COLA_SECTION_ID } from '@/lib/calculations/retireeColaSection';
 import {
   getColumns,
   resultFor,
@@ -154,6 +155,7 @@ export default function PayRaisePage() {
   const checked = formatIsoDate(config.lastChecked);
   const isPending = config.status === 'pending';
   const estimateCols = columns.some((c) => c.kind !== 'official-table');
+  const cola = retireeColaSectionCopy();
 
   return (
     <>
@@ -254,6 +256,32 @@ export default function PayRaisePage() {
             {config.caps.pending && <p>{`† ${CAP_NOTE_PENDING} Shown at the ${config.caps.capYear} cap.`}</p>}
             {config.status !== 'official-table' && <p>{`* ${TIER_ASSUMPTION_NOTE}`}</p>}
           </div>
+        </section>
+
+        {/* ── Retiree COLA (DFAS/SSA figures only: src/data/retiree-cola/2027.ts) ── */}
+        <section id={RETIREE_COLA_SECTION_ID} className="scroll-mt-20" aria-labelledby="retiree-cola-h" data-testid="retiree-cola-section">
+          <h2 id="retiree-cola-h" className="text-xl font-semibold text-zinc-900 mb-3">
+            {cola.heading}
+          </h2>
+          <div className="space-y-3 text-sm text-zinc-700 leading-relaxed">
+            {cola.paragraphs.map((p) => (
+              <p key={p.key} data-cola-item={p.key}>{p.text}</p>
+            ))}
+            {cola.pendingNote && (
+              <p className="text-zinc-500" data-testid="retiree-cola-pending">{cola.pendingNote}</p>
+            )}
+          </div>
+          <p className="text-xs text-zinc-500 mt-3 leading-relaxed">
+            Sources:{' '}
+            {cola.sources.map((src, i, arr) => (
+              <span key={src.url}>
+                <a href={src.url} target="_blank" rel="noopener noreferrer" className="underline">
+                  {src.name}
+                </a>
+                {i < arr.length - 1 ? '; ' : '.'}
+              </span>
+            ))}
+          </p>
         </section>
 
         {/* ── FAQ ─────────────────────────────────────────────────────── */}
