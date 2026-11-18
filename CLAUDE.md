@@ -83,6 +83,28 @@ browser; cross-browser bugs come from shared UI. Test accordingly.
    `next start` behind: stop it before the next run.
 7. Baseline failures and their root causes are in `tests/KNOWN_FAILURES.md`.
 
+### CI gate (GitHub Actions, added 2026-11-18)
+Tiers 2 and 3 now run in GitHub Actions (`.github/workflows/e2e.yml`) whenever a PR to `main` is
+opened or updated, drafts included. Tier 1 stays local, unchanged. The local gate steps above stay
+as the fallback until CI results have matched local ones on two builds (Claude Chat marks that switch).
+- **Build flow:** run the tier 1 checks locally → push the branch → open a **draft** PR (a draft
+  creates only a Vercel preview, never a production deploy) → CI runs the full suite on all three
+  browsers against a production build → the PR is marked ready only after Claude Chat signs off.
+- **The gate is the `report` job.** It merges every shard and runs `scripts/ci-known-failures.ts`
+  against `tests/known-failures.json` (the machine-readable twin of `KNOWN_FAILURES.md`; keep both
+  in step). It fails on any new failure, a report with zero tests, or tests missing versus
+  `--list` (a crashed or timed-out shard). The shard jobs stay green when tests fail.
+- **Reading results:** `gh pr checks <PR>`; the job summary of the `report` job holds the stats
+  block and the three lists; `gh run download <run-id> -n merged-report` gets `merged-report.json`
+  (and `-n html-report` the HTML report). Paste the merged `stats` block verbatim and the
+  classifier's three lists (new / known still failing / known now passing) into the build report.
+- **Setup:** build and browser jobs run in the `mcr.microsoft.com/playwright` image whose tag is
+  read from `package-lock.json` (upgrading Playwright upgrades the image), on `ubuntu-24.04`
+  (`ubuntu-latest` is 26.04, which Playwright 1.59.1 doesn't support). 2 shards per browser,
+  `--workers=2`, `--retries=0`. No secrets or env vars are needed.
+- Local tests still use :3000 with `reuseExistingServer`. Never run two local test sessions at
+  once, and stop any leftover `next start` first.
+
 ### Reference
 - Which tests to run when: see the tiered policy above
 - 1299+ Playwright tests covering all calculators, BAH pages, and cross-browser (Chrome/Firefox/WebKit)

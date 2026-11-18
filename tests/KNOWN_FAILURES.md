@@ -11,6 +11,10 @@
 > than "skipped". The JSON reporter is authoritative. Use `npx playwright test --reporter=json` for
 > all baseline gate checks — never `--reporter=line`. See CLAUDE.md Testing section.
 
+> **CI (2026-11-18):** every entry here also lives in `tests/known-failures.json`, which the
+> GitHub Actions gate (`.github/workflows/e2e.yml`, `scripts/ci-known-failures.ts`) reads to tell
+> known failures from new ones. Keep the two in step. CI-only entries are under "CI only" below.
+
 This file is the baseline to diff future **local** runs against. A new failure that
 is NOT listed here is a regression. The conditional `test.skip()` data-guards (skip
 when reference BAH/pay data is absent) and the `transition-readiness.spec.ts:92`
@@ -178,6 +182,33 @@ indicator on its own — treat both as flakes and re-run in isolation to confirm
 **Pattern:** when `:40` (firefox) fails in a run, `:235` (webkit) tends to pass, and vice versa.
 Both test healthcare/disability rate rendering under a specific browser rendering path.
 If both fail in the same run, treat that as a real signal and investigate before dismissing.
+
+## CI only (GitHub Actions, added 2026-11-18)
+
+Seen in the CI gate (`.github/workflows/e2e.yml`: production build in the
+`mcr.microsoft.com/playwright:v1.59.1-noble` container, `--workers=2`, `--retries=0`) and not in
+local runs. Marked `ciOnly: true` in `tests/known-failures.json`. Each failed in one CI run and
+passed in the other, so they are listed as flaky.
+
+**Common cause (probable):** the CI production server is much faster than the local gate (a
+quarter of one browser's suite runs in ~1.5 minutes), so a test can type into the page before
+React has hydrated it. The two input tests below wait with `waitForLoadState('networkidle')`,
+which does not prove hydration; `ga-events.spec.ts` moved to `waitForHydration()` for this
+reason (c990b86). Changing the tests is out of scope for the CI build: it's a follow-up.
+
+- `guard-reserve.spec.ts:175` — "days warning when entries exceed a year" — **webkit**.
+  CI run 1 (44294712122): `getByText(/Annual drill \(52 weekends/)` not found within 8 s after
+  filling weekends = 52 and additional days = 300. Passed in CI run 2, and 10/10 locally on WebKit
+  (`--repeat-each=10`, `next dev`). The test's own comment names the WebKit pre-hydration fill.
+- `bah-2027-hub.spec.ts:263` — "alert signup posts source bah-alert-{slug}" — **webkit**.
+  CI run 2 (44299164032): the intercepted POST carried `email: ""` although the input showed
+  `test@example.com` (`toHaveValue` passed), i.e. the DOM had the text but React state didn't.
+  Passed in CI run 1. The test's comment records the same failure once before.
+  **Possible real issue (not fixed):** a real visitor who types before hydration and then
+  submits may send an empty email.
+- `ga-events.spec.ts:294` — `va-disability` case of "calculation_run: user action only" —
+  **webkit**. CI run 2: "after burst" expected 2 `calculation_run` events, got 3 (the burst was
+  split by timing). Passed in CI run 1. Same loop as the Firefox entries above.
 
 ## Known issues (not Playwright failures)
 

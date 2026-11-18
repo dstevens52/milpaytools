@@ -127,6 +127,10 @@ jobs:
           name: next-build
       - name: Unpack build output
         run: tar -xf next-build.tar && rm next-build.tar && test -f .next/BUILD_ID && echo "BUILD_ID $(cat .next/BUILD_ID)"
+      # The container runs as root but the checkout belongs to the runner user;
+      # without this, git refuses the repo and specs that call git grep fail.
+      - name: Trust the checkout for git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       # --retries=0 overrides the config's CI retries (2) so CI matches the local gate.
       # The exit code is recorded, not raised: the report job is the gate.
       - name: Playwright ${{ matrix.browser }} shard ${{ matrix.shard }}/${{ env.SHARD_TOTAL }}
