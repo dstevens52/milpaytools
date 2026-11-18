@@ -12,7 +12,8 @@ export const GA_MEASUREMENT_ID = 'G-YQFJ5J3P52';
  * localStorage key for the per-browser analytics opt-out. Set by
  * /internal/disable-analytics, cleared by /internal/enable-analytics. When set:
  * the GA4 loader in layout.tsx doesn't load gtag, every gtag event below is
- * skipped, and Vercel Analytics drops its events (AnalyticsWrapper.tsx).
+ * skipped, Vercel Analytics drops its events (AnalyticsWrapper.tsx), and the
+ * Microsoft Clarity loader (CLARITY_LOADER_JS) doesn't load Clarity.
  * The Redis calculator counters (/admin/stats) are not affected.
  */
 export const ANALYTICS_OPT_OUT_KEY = 'milpaytools_disable_analytics';
@@ -32,6 +33,55 @@ export function analyticsDisabled(): boolean {
     return false;
   }
 }
+
+// ─── Where the inline loaders may run ─────────────────────────────────────────
+
+/**
+ * The only hosts where GA4 and Microsoft Clarity load. Both inline loaders in
+ * layout.tsx check location.hostname against this list, behind the server-side
+ * NEXT_PUBLIC_VERCEL_ENV === 'production' guard, so localhost, `next start` and
+ * *.vercel.app previews load neither.
+ */
+export const ANALYTICS_HOSTS = ['milpaytools.com', 'www.milpaytools.com'] as const;
+
+/**
+ * ANALYTICS_HOSTS as the JS array literal the inline loaders embed:
+ * `['milpaytools.com', 'www.milpaytools.com']`. Single quotes and ', ' on
+ * purpose: the GA loader's rendered output is byte-identical to the
+ * hand-written list it replaced.
+ */
+export const ANALYTICS_HOSTS_JS = '[' + ANALYTICS_HOSTS.map((h) => `'${h}'`).join(', ') + ']';
+
+// ─── Microsoft Clarity ────────────────────────────────────────────────────────
+
+/** Microsoft Clarity project ID. */
+export const CLARITY_PROJECT_ID = 'wpo718gj4q';
+
+/**
+ * The inline Clarity loader for layout.tsx (plain ES5; it runs outside the
+ * bundle). It loads Clarity only when all of these hold:
+ * - the host is in ANALYTICS_HOSTS;
+ * - the opt-out flag isn't set (either key);
+ * - the browser isn't automated (`navigator.webdriver`). Every Playwright
+ *   browser sets it, so test runs never reach Clarity, including
+ *   test:e2e:live against production; so do most headless crawlers.
+ * Then the standard Clarity snippet, unchanged.
+ * Tested by tests/e2e/clarity-guard.spec.ts, which runs this exact string.
+ */
+export const CLARITY_LOADER_JS = `(function(){
+  var ALLOWED = ${ANALYTICS_HOSTS_JS};
+  if (ALLOWED.indexOf(window.location.hostname) === -1) return;
+  try {
+    if (localStorage.getItem('${ANALYTICS_OPT_OUT_KEY}') === 'true' ||
+        localStorage.getItem('${LEGACY_ANALYTICS_OPT_OUT_KEY}') === 'true') return;
+  } catch (e) {}
+  if (navigator.webdriver) return;
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "${CLARITY_PROJECT_ID}");
+})();`;
 
 // ─── Page URLs sent to GA (allowlist) ─────────────────────────────────────────
 //
