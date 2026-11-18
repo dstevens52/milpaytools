@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect, useRef, type ReactNode } from 'react';
+import { useState, useMemo, useEffect, useRef, type ReactNode, type RefObject } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatCurrency } from '@/lib/utils';
@@ -97,6 +97,9 @@ const GRADE_GROUPS: { label: string; grades: PayGrade[] }[] = [
 ];
 
 const fmt = (n: number) => formatCurrency(n);
+
+// The grade the prerendered page shows before hydration (and the default without ?rank=).
+const SERVER_DEFAULT_GRADE: PayGrade = 'E-5';
 
 // ─── URL param normalization helpers ─────────────────────────────────────────
 
@@ -223,9 +226,10 @@ interface RankSelectorProps {
   hasDependents: boolean;
   onGradeChange: (g: PayGrade) => void;
   onDepChange: (v: boolean) => void;
+  selectRef: RefObject<HTMLSelectElement | null>;
 }
 
-function RankSelector({ availableGrades, selectedGrade, hasDependents, onGradeChange, onDepChange }: RankSelectorProps) {
+function RankSelector({ availableGrades, selectedGrade, hasDependents, onGradeChange, onDepChange, selectRef }: RankSelectorProps) {
   return (
     <div className="flex flex-wrap items-end gap-4">
       <div className="flex-1 min-w-[160px]">
@@ -234,6 +238,7 @@ function RankSelector({ availableGrades, selectedGrade, hasDependents, onGradeCh
         </label>
         <select
           id="station-pay-grade"
+          ref={selectRef}
           value={selectedGrade}
           onChange={(e) => onGradeChange(e.target.value as PayGrade)}
           className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
@@ -374,23 +379,36 @@ export function StationPageClient({
   notice = null,
   ratesEffectiveLabel = BAH_EFFECTIVE_DATE_LABEL,
 }: StationPageClientProps) {
-  const [selectedGrade, setSelectedGrade] = useState<PayGrade>('E-5');
+  const [selectedGrade, setSelectedGrade] = useState<PayGrade>(SERVER_DEFAULT_GRADE);
   const [hasDependents, setHasDependents] = useState(true);
   const [userHasInteracted, setUserHasInteracted] = useState(false);
+  const gradeSelectRef = useRef<HTMLSelectElement>(null);
 
-  // Read URL params on mount — does NOT trigger a URL write
+  // On mount: a rank picked before hydration wins; otherwise URL params apply.
+  // The page is prerendered with E-5 selected and a pick made before hydration stays in the
+  // DOM without reaching React (the select showed O-3 next to E-5 numbers). It is a real
+  // change, so it updates the URL and sends station_rate_lookup like any other pick.
+  // URL params alone do NOT trigger a URL write or an event.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const rankRaw = params.get('rank');
     const depRaw = params.get('dep');
+    const dep = depRaw ? normalizeDep(depRaw) : null;
+    if (dep !== null) setHasDependents(dep);
+
+    const domGrade = gradeSelectRef.current ? normalizeGrade(gradeSelectRef.current.value) : null;
+    if (domGrade && domGrade !== SERVER_DEFAULT_GRADE) {
+      setUserHasInteracted(true);
+      setSelectedGrade(domGrade);
+      trackRateLookup(domGrade, dep ?? true);
+      return;
+    }
     if (rankRaw) {
       const g = normalizeGrade(rankRaw);
       if (g) setSelectedGrade(g);
     }
-    if (depRaw) {
-      const d = normalizeDep(depRaw);
-      if (d !== null) setHasDependents(d);
-    }
+    // Mount only. trackRateLookup reads refs and props that are fixed for this page view.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Sync URL only after the user has actively changed a selector
@@ -494,6 +512,7 @@ export function StationPageClient({
                 hasDependents={hasDependents}
                 onGradeChange={handleGradeChange}
                 onDepChange={handleDepChange}
+                selectRef={gradeSelectRef}
               />
               <div>
                 <p className="text-4xl sm:text-5xl font-extrabold text-zinc-900 tabular-nums leading-none" data-testid="bah-rate-card-amount">
