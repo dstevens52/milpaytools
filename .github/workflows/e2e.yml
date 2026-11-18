@@ -17,11 +17,31 @@ name: E2E gate
 # Runners are pinned to ubuntu-24.04: ubuntu-latest moved to 26.04, which
 # Playwright 1.59.1 does not support.
 
+# No `ready_for_review`: drafts already run the gate, so marking a PR ready would only re-run the
+# whole suite on a commit that has passed (it did on #42 and #43).
+#
+# Manual runs (workflow_dispatch): with `specs` empty, the full gate. With `specs` set, a repeat
+# run instead (proving a flake fixed): only those spec files, --repeat-each=N, on each chosen
+# browser, against a production build; the `repeat` job fails on any failure.
+#   gh workflow run e2e.yml --ref <branch> -f specs="tests/e2e/a.spec.ts" -f browsers="webkit" -f repeat_each=10
 on:
   pull_request:
     branches: [main]
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
+    inputs:
+      specs:
+        description: 'Repeat run: spec files, space-separated (e.g. tests/e2e/a.spec.ts tests/e2e/b.spec.ts). Empty = full gate.'
+        type: string
+        default: ''
+      browsers:
+        description: 'Repeat run: browsers, space-separated (chromium firefox webkit)'
+        type: string
+        default: 'chromium firefox webkit'
+      repeat_each:
+        description: 'Repeat run: --repeat-each (1-50)'
+        type: number
+        default: 10
 
 concurrency:
   group: e2e-${{ github.event.pull_request.number || github.ref }}
@@ -36,11 +56,16 @@ env:
 jobs:
   # The Playwright version from package-lock.json picks the container image, so
   # the image always matches the installed @playwright/test.
+  # Also decides the mode: `full` (PRs, and manual runs with no specs) or `repeat`.
   versions:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     outputs:
       playwright: ${{ steps.pw.outputs.version }}
+      mode: ${{ steps.mode.outputs.mode }}
+      specs: ${{ steps.mode.outputs.specs }}
+      browsers: ${{ steps.mode.outputs.browsers }}
+      repeat_each: ${{ steps.mode.outputs.repeat_each }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -50,6 +75,38 @@ jobs:
         run: |
           v=$(node -p "require('./package-lock.json').packages['node_modules/@playwright/test'].version")
           test -n "$v" && echo "version=$v" | tee -a "$GITHUB_OUTPUT"
+      # Inputs go through env, never into the script text, and are validated before use.
+      - id: mode
+        env:
+          SPECS: ${{ github.event_name == 'workflow_dispatch' && inputs.specs || '' }}
+          BROWSERS: ${{ github.event_name == 'workflow_dispatch' && inputs.browsers || '' }}
+          REPEAT: ${{ github.event_name == 'workflow_dispatch' && inputs.repeat_each || '' }}
+        run: |
+          specs=$(echo "$SPECS" | xargs)
+          if [ -z "$specs" ]; then
+            echo "mode=full" | tee -a "$GITHUB_OUTPUT"
+            echo 'browsers=["chromium"]' >> "$GITHUB_OUTPUT" # placeholder; `repeat` is skipped
+            exit 0
+          fi
+          if ! printf '%s' "$specs" | grep -Eq '^[A-Za-z0-9._/: -]+$'; then
+            echo "::error::specs may only contain letters, digits, . _ / : - and spaces"; exit 1
+          fi
+          list='['
+          for b in $BROWSERS; do
+            case "$b" in chromium|firefox|webkit) ;; *) echo "::error::unknown browser: $b"; exit 1 ;; esac
+            list="$list\"$b\","
+          done
+          list="${list%,}]"
+          if [ "$list" = '[]' ] || [ "$list" = '[' ]; then echo "::error::no browsers chosen"; exit 1; fi
+          if ! printf '%s' "$REPEAT" | grep -Eq '^[0-9]+$' || [ "$REPEAT" -lt 1 ] || [ "$REPEAT" -gt 50 ]; then
+            echo "::error::repeat_each must be 1-50"; exit 1
+          fi
+          {
+            echo "mode=repeat"
+            echo "specs=$specs"
+            echo "browsers=$list"
+            echo "repeat_each=$REPEAT"
+          } | tee -a "$GITHUB_OUTPUT"
 
   # Build inside the same image the tests run in, so `next start` sees the same
   # paths and OS as `next build`. The image ships the browsers and their system
@@ -85,6 +142,8 @@ jobs:
           retention-days: 3
 
   data-tests:
+    needs: versions
+    if: ${{ needs.versions.outputs.mode != 'repeat' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -102,6 +161,7 @@ jobs:
 
   e2e:
     needs: [versions, build]
+    if: ${{ needs.versions.outputs.mode != 'repeat' }}
     runs-on: ubuntu-24.04
     container:
       image: mcr.microsoft.com/playwright:v${{ needs.versions.outputs.playwright }}-noble
@@ -150,9 +210,90 @@ jobs:
           path: blob-report
           retention-days: 7
 
+  # Repeat run (manual, `specs` set): chosen specs × --repeat-each on each chosen browser. No
+  # known-failures allowance: any failure fails the job. Not a required check.
+  repeat:
+    needs: [versions, build]
+    if: ${{ needs.versions.outputs.mode == 'repeat' }}
+    runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.versions.outputs.playwright }}-noble
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: ${{ fromJSON(needs.versions.outputs.browsers) }}
+    env:
+      E2E_SERVER: prod
+      HOME: /root
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: next-build
+      - name: Unpack build output
+        run: tar -xf next-build.tar && rm next-build.tar && test -f .next/BUILD_ID && echo "BUILD_ID $(cat .next/BUILD_ID)"
+      - name: Trust the checkout for git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Playwright ${{ matrix.browser }} × ${{ needs.versions.outputs.repeat_each }}
+        env:
+          SPECS: ${{ needs.versions.outputs.specs }}
+          REPEAT: ${{ needs.versions.outputs.repeat_each }}
+          BROWSER: ${{ matrix.browser }}
+          PLAYWRIGHT_JSON_OUTPUT_FILE: repeat-report.json
+        run: |
+          set -f # specs are validated in `versions`; no globbing
+          set +e
+          npx playwright test $SPECS --project="$BROWSER" --repeat-each="$REPEAT" \
+            --workers=2 --retries=0 --reporter=json,list
+          echo "Playwright exit code: $?"
+          exit 0
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: repeat-report-${{ matrix.browser }}
+          path: repeat-report.json
+          retention-days: 14
+      - name: Result (gate for this run)
+        env:
+          SPECS: ${{ needs.versions.outputs.specs }}
+          REPEAT: ${{ needs.versions.outputs.repeat_each }}
+          BROWSER: ${{ matrix.browser }}
+        run: |
+          node -e '
+            const fs = require("fs");
+            if (!fs.existsSync("repeat-report.json")) { console.log("::error::no report"); process.exit(1); }
+            const r = JSON.parse(fs.readFileSync("repeat-report.json", "utf8"));
+            const s = r.stats;
+            const fails = [];
+            (function walk(x) {
+              (x.suites || []).forEach(walk);
+              (x.specs || []).forEach((sp) => sp.tests.forEach((t) => t.results.forEach((res) => {
+                if (res.status !== "passed" && res.status !== "skipped") fails.push(`${sp.file}:${sp.line} ${sp.title} (${res.status})`);
+              })));
+            })(r);
+            const lines = [
+              `## Repeat run — ${process.env.BROWSER} × ${process.env.REPEAT}`,
+              `Specs: \`${process.env.SPECS}\``,
+              "", "### stats (verbatim)", "```json", JSON.stringify(s, null, 2), "```", "",
+              `### Failures: ${fails.length}`, ...fails.map((f) => `- ${f}`),
+            ];
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join("\n") + "\n");
+            console.log(lines.join("\n"));
+            if (s.expected + s.unexpected + s.flaky === 0) { console.log("::error::zero tests ran (check the spec paths)"); process.exit(1); }
+            if (s.unexpected > 0 || s.flaky > 0 || fails.length) process.exit(1);
+          '
+
+  # `!= 'repeat'`, not `== 'full'`: if `versions` fails, mode is empty and `report` must still
+  # run (and fail on zero tests). A skipped required check counts as passing.
   report:
-    needs: e2e
-    if: ${{ always() }}
+    needs: [versions, e2e]
+    if: ${{ always() && needs.versions.outputs.mode != 'repeat' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
