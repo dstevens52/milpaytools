@@ -31,28 +31,34 @@ const TSP_2027_ANNOUNCED_SHORT = (() => {
   return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 })();
 
+// S8 (2026-11-18). The meta claims 2026 and 2027 limits: the page shows both
+// ("TSP Contribution Limits: 2026 and 2027" below). Drop "and 2027" if that table goes.
+const TSP_TITLE = 'Military TSP Calculator 2026: BRS Match, Roth vs Traditional';
+const TSP_DESC =
+  'Project your TSP balance with BRS matching, Roth vs Traditional and your fund mix. 2026 and 2027 contribution limits. Free, no account.';
+
 export const metadata: Metadata = {
-  title: { absolute: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator' },
+  title: { absolute: TSP_TITLE },
   description:
-    'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 and 2027 contribution limits.',
+    TSP_DESC,
   alternates: {
     canonical: '/calculators/tsp',
   },
   openGraph: {
-    title: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator',
+    title: TSP_TITLE,
     description:
-      'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 and 2027 contribution limits.',
+      TSP_DESC,
     type: 'website',
     url: '/calculators/tsp',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'TSP Growth Projector 2026', sub: 'Project your balance with BRS matching and Roth comparison' }),
+    images: ogImage({ type: 'calculator', title: 'Military TSP Calculator 2026', sub: 'Project your balance with BRS matching and Roth comparison' }),
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'TSP Growth Projector 2026 | Thrift Savings Plan Calculator',
+    title: TSP_TITLE,
     description:
-      'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 and 2027 contribution limits.',
-    images: ogImage({ type: 'calculator', title: 'TSP Growth Projector 2026', sub: 'Project your balance with BRS matching and Roth comparison' }),
+      TSP_DESC,
+    images: ogImage({ type: 'calculator', title: 'Military TSP Calculator 2026', sub: 'Project your balance with BRS matching and Roth comparison' }),
   },
 };
 
@@ -93,7 +99,7 @@ export default function TSPPage() {
 
   return (
     <>
-      <JsonLdScript schema={webApplicationSchema({ name: 'TSP Growth Projector 2026', description: 'Project your military TSP balance at retirement. Includes BRS matching, fund allocation, Roth vs Traditional comparison, and compound growth chart. 2026 and 2027 contribution limits.', url: '/calculators/tsp' })} />
+      <JsonLdScript schema={webApplicationSchema({ name: 'Military TSP Calculator', description: TSP_DESC, url: '/calculators/tsp' })} />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
         className="border-b border-zinc-200"
@@ -109,8 +115,11 @@ export default function TSPPage() {
           </div>
           <p className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-1">TSP Growth Projector</p>
           <h1 className="text-[28px] sm:text-[36px] font-extrabold text-zinc-900 leading-tight tracking-tight mb-2">
-            Your TSP could be worth more than you think — run the numbers.
+            Military TSP Calculator
           </h1>
+          <p className="text-lg sm:text-xl font-semibold text-zinc-800 leading-snug mb-2">
+            Your TSP could be worth more than you think — run the numbers.
+          </p>
           <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
             Project your TSP growth year by year — with BRS matching, fund allocation, Roth vs. Traditional comparison, and 2026 contribution limits.
           </p>
