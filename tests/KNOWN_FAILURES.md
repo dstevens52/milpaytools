@@ -11,6 +11,10 @@
 > than "skipped". The JSON reporter is authoritative. Use `npx playwright test --reporter=json` for
 > all baseline gate checks — never `--reporter=line`. See CLAUDE.md Testing section.
 
+> **CI (2026-11-18):** every entry here also lives in `tests/known-failures.json`, which the
+> GitHub Actions gate (`.github/workflows/e2e.yml`, `scripts/ci-known-failures.ts`) reads to tell
+> known failures from new ones. Keep the two in step. CI-only entries are under "CI only" below.
+
 This file is the baseline to diff future **local** runs against. A new failure that
 is NOT listed here is a regression. The conditional `test.skip()` data-guards (skip
 when reference BAH/pay data is absent) and the `transition-readiness.spec.ts:92`
@@ -26,6 +30,11 @@ when reference BAH/pay data is absent) and the `transition-readiness.spec.ts:92`
 ### BAH release day — lookup API dynamic import (added 2026-11-14)
 - `bah-release-day.spec.ts:237` — "lookup API serves EDUCATION_BAH_YEAR rates on request;
   rejects unregistered years" — all browsers
+
+> **Kept, 2026-11-18 (Dan):** it passed on all three browsers in every GitHub Actions gate run on
+> PR #41 (CI's shard order loads the route module before this test), but it still fails locally,
+> on all browsers. Fixing the test's dynamic import is a CI follow-up; until then CI lists it
+> under "known failures now passing" on every run.
 
 ```
 SyntaxError: Cannot use import statement outside a module
@@ -140,22 +149,18 @@ in a full-suite run, re-run it in isolation before treating it as a regression.
   The *other* bah failure (02b-1 gate: 0 events after one rank change) was a change before
   hydration; follow-up 4 reproduced and fixed that one (the test now waits for hydration) and it
   is no longer listed.
-- `ga-events.spec.ts:294` (same `calculation_run` loop; was `:274`), two cases left of three seen
-  in the 2026-11-15 Build 04 gate (`feat/station-first-screen`, `--workers=1`, foreground batches):
-  a page load, a shared-link load, one change and a burst with 3 s quiet waits, close to the 30 s
-  limit under load, sometimes stuck on `networkidle`. Build 04 doesn't touch these calculators.
-  - `compare` — firefox: `page.goto(…, 'networkidle')` never settled. Alone: 4/5, then 10/10.
-    A `main` build gave 10/10 and the branch 10/10 in back-to-back runs, so not caused by Build 04.
-  - `va-loan` — firefox: timeout in the wait after the burst. Alone: 5/5.
-  **Fix in place, not yet cleared** (follow-up 4, `test/ga-events-hydration-wait`): the loop no
-  longer uses `networkidle` (it waits for hydration) and has a 60 s timeout. Repeated runs of the
-  old spec never reproduced these, so a clean repeated run of the new one can't clear them.
-  Remove them after a full Firefox run in CI in which they don't appear. (The 2026-11-18
-  follow-up 5 gate passed them on Firefox, but in foreground batches, not one full run.)
+- `ga-events.spec.ts:294` (same `calculation_run` loop; was `:274`): **all three cases seen in
+  the 2026-11-15 Build 04 gate are now cleared** (follow-up 4 replaced `networkidle` with a
+  hydration wait and a 60 s timeout).
+  (The `compare` and `va-loan` cases, firefox, were removed 2026-11-18 (approved by Dan): they
+  passed three full-suite Firefox runs in the GitHub Actions gate on PR #41 (runs 44294712122,
+  44299164032, 44301157082), the condition set when the fix went in.)
   (The `dual-military-bah` case, chromium, was removed 2026-11-18: it didn't appear in the
   follow-up 5 gate's single full-suite Chromium run, `--workers=1`, 1427/0/2/0.)
   (The `education` case, `networkidle` timeout on Firefox, was removed: the old spec failed it 2/190
   in a Firefox `--repeat-each=10` run, the new spec passed 190/190.)
+  The `bah` case (firefox) above and the CI-only `va-disability` case (webkit) below are separate
+  entries and stay listed.
 - `deployment-math.spec.ts:425` — round trip: every input survives copy link → reload — webkit.
   Failed once in the 2026-11-15 Build 04 gate: right after the reload the BAH line read $3,054
   instead of $2,427 (looks like a BAH lookup race). The spec file alone on WebKit passed 105/105
@@ -178,6 +183,35 @@ indicator on its own — treat both as flakes and re-run in isolation to confirm
 **Pattern:** when `:40` (firefox) fails in a run, `:235` (webkit) tends to pass, and vice versa.
 Both test healthcare/disability rate rendering under a specific browser rendering path.
 If both fail in the same run, treat that as a real signal and investigate before dismissing.
+
+## CI only (GitHub Actions, added 2026-11-18)
+
+Seen in the CI gate (`.github/workflows/e2e.yml`: production build in the
+`mcr.microsoft.com/playwright:v1.59.1-noble` container, `--workers=2`, `--retries=0`) and not in
+local runs. Marked `ciOnly: true` in `tests/known-failures.json`. Shakedown runs on PR #41:
+run 1 = 44294712122 (plain runner), run 2 = 44299164032 and run 3 = 44301157082 (container).
+**Each failed in 2 of the 3 runs**, so these are frequent in CI, not rare: the hydration-wait
+follow-up below should come soon, or the gate output will carry them on most PRs.
+
+**Common cause (probable):** the CI production server is much faster than the local gate (a
+quarter of one browser's suite runs in ~1.5 minutes), so a test can type into the page before
+React has hydrated it. The two input tests below wait with `waitForLoadState('networkidle')`,
+which does not prove hydration; `ga-events.spec.ts` moved to `waitForHydration()` for this
+reason (c990b86). Changing the tests is out of scope for the CI build: it's a follow-up.
+
+- `guard-reserve.spec.ts:175` — "days warning when entries exceed a year" — **webkit**.
+  CI run 1 (44294712122): `getByText(/Annual drill \(52 weekends/)` not found within 8 s after
+  filling weekends = 52 and additional days = 300. Passed in CI run 2; failed again in run 3. 10/10 locally on WebKit
+  (`--repeat-each=10`, `next dev`). The test's own comment names the WebKit pre-hydration fill.
+- `bah-2027-hub.spec.ts:263` — "alert signup posts source bah-alert-{slug}" — **webkit**.
+  CI run 2 (44299164032): the intercepted POST carried `email: ""` although the input showed
+  `test@example.com` (`toHaveValue` passed), i.e. the DOM had the text but React state didn't.
+  Failed again in run 3; passed in run 1. The test's comment records the same failure once before.
+  **Possible real issue (not fixed):** a real visitor who types before hydration and then
+  submits may send an empty email.
+- `ga-events.spec.ts:294` — `va-disability` case of "calculation_run: user action only" —
+  **webkit**. CI run 2: "after burst" expected 2 `calculation_run` events, got 3 (the burst was
+  split by timing; 4 in run 3). Passed in CI run 1. Same loop as the Firefox entries above.
 
 ## Known issues (not Playwright failures)
 

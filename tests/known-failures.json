@@ -1,0 +1,177 @@
+{
+  "$comment": "Machine-readable twin of tests/KNOWN_FAILURES.md, read by scripts/ci-known-failures.ts in the CI gate (.github/workflows/e2e.yml). KNOWN_FAILURES.md stays the human explanation; keep both in step. Match = browser + file (relative to tests/e2e) + full title (describe titles joined with ' › '); line numbers are informational only. kind: 'failure' = fails every full run; 'flaky' = load-dependent, fails some runs. ciOnly: true = seen only in GitHub Actions, not locally.",
+  "entries": [
+    {
+      "id": "bah-release-day-lookup-import",
+      "kind": "failure",
+      "file": "bah-release-day.spec.ts",
+      "line": 237,
+      "title": "Education: GI Bill MHA uses EDUCATION_BAH_YEAR, not BAH_YEAR › lookup API serves EDUCATION_BAH_YEAR rates on request; rejects unregistered years",
+      "browsers": [
+        "chromium",
+        "firefox",
+        "webkit"
+      ],
+      "ciOnly": false,
+      "reason": "Dynamic import of the route throws 'Cannot use import statement outside a module'; depends on run order (passes when an earlier test loaded the module). Kept 2026-11-18 (Dan): passes in every CI run (shard order), still fails locally; fixing the dynamic import is a CI follow-up.",
+      "section": "BAH release day — lookup API dynamic import"
+    },
+    {
+      "id": "pay-charts-w4-20yos",
+      "kind": "flaky",
+      "file": "pay-charts.spec.ts",
+      "line": 79,
+      "title": "Pay Charts › W-4 at 20 YOS shows correct pay",
+      "browsers": [
+        "firefox"
+      ],
+      "ciOnly": false,
+      "reason": "Failed once in a full run (2026-06-12), passed alone.",
+      "section": "Known flaky tests"
+    },
+    {
+      "id": "compare-async-rapid-zip",
+      "kind": "flaky",
+      "file": "compare-async.spec.ts",
+      "line": 24,
+      "title": "Compare Calculator — async route migration (two ZIPs) › rapid destination ZIP change lands on the FINAL location (race-safe)",
+      "browsers": [
+        "webkit"
+      ],
+      "ciOnly": false,
+      "reason": "Failed once in a full run (2026-06-12), passed alone.",
+      "section": "Known flaky tests"
+    },
+    {
+      "id": "healthcare-tamp-gap",
+      "kind": "flaky",
+      "file": "healthcare-comparison.spec.ts",
+      "line": 77,
+      "title": "Healthcare Cost Comparison Calculator › TAMP option hides annual gap section",
+      "browsers": [
+        "firefox"
+      ],
+      "ciOnly": false,
+      "reason": "Failed once in a full run (2026-06-12), passed alone.",
+      "section": "Known flaky tests"
+    },
+    {
+      "id": "va-disability-reddit-13-conditions",
+      "kind": "flaky",
+      "file": "va-disability.spec.ts",
+      "line": 207,
+      "title": "VA Disability Calculator › Reddit case: 13 conditions with bilateral legs → 100% and walkthrough shows \"rounds to 64\"",
+      "browsers": [
+        "firefox"
+      ],
+      "ciOnly": false,
+      "reason": "~26 clicks + 7 dropdowns; click timeout under full-suite load (2026-11-15), passed alone.",
+      "section": "Known flaky tests"
+    },
+    {
+      "id": "bah-station-rank-e7",
+      "kind": "flaky",
+      "file": "bah-station.spec.ts",
+      "line": 63,
+      "title": "BAH Station Page — Fort Bragg (upgraded, rich data) › rank selector updates the displayed BAH value when grade changes to E-7",
+      "browsers": [
+        "firefox",
+        "chromium"
+      ],
+      "ciOnly": false,
+      "reason": "$2,094 not found within 8 s under load (firefox 2026-11-13, chromium 2026-11-15); spec file alone passes.",
+      "section": "Known flaky tests"
+    },
+    {
+      "id": "ga-events-calc-run-bah",
+      "kind": "flaky",
+      "file": "ga-events.spec.ts",
+      "line": 294,
+      "title": "calculation_run: user action only › bah: none on load or shared link; one per change or burst",
+      "browsers": [
+        "firefox"
+      ],
+      "ciOnly": false,
+      "reason": "Unexplained inputValue timeout under full-suite load (2026-11-15); kept on purpose.",
+      "section": "Known flaky tests"
+    },
+    {
+      "id": "deployment-share-round-trip",
+      "kind": "flaky",
+      "file": "deployment-math.spec.ts",
+      "line": 425,
+      "title": "Deployment calculator — share link › round trip: every input survives copy link → reload",
+      "browsers": [
+        "webkit"
+      ],
+      "ciOnly": false,
+      "reason": "BAH line read $3,054 instead of $2,427 right after reload (looks like a lookup race), once (2026-11-15).",
+      "section": "Known flaky tests"
+    },
+    {
+      "id": "data-accuracy-va-40-spouse",
+      "kind": "flaky",
+      "file": "data-accuracy.spec.ts",
+      "line": 41,
+      "title": "VA Disability — known answers › VA: 40% with spouse = $882.84/mo",
+      "browsers": [
+        "firefox"
+      ],
+      "ciOnly": false,
+      "reason": "Swapping flake pair with the TRS premium test.",
+      "section": "Intermittently swapping flake pair"
+    },
+    {
+      "id": "data-accuracy-trs-premium",
+      "kind": "flaky",
+      "file": "data-accuracy.spec.ts",
+      "line": 244,
+      "title": "Healthcare Comparison — known answers › Healthcare: TRS member-only premium = $57.88/mo",
+      "browsers": [
+        "webkit"
+      ],
+      "ciOnly": false,
+      "reason": "Swapping flake pair with the VA 40% test.",
+      "section": "Intermittently swapping flake pair"
+    },
+    {
+      "id": "ci-guard-reserve-days-warning",
+      "kind": "flaky",
+      "file": "guard-reserve.spec.ts",
+      "line": 175,
+      "title": "Guard & Reserve Pay Calculator › days warning when entries exceed a year",
+      "browsers": [
+        "webkit"
+      ],
+      "ciOnly": true,
+      "reason": "Fill can land before hydration on the fast CI prod server (test waits on networkidle, not hydration); the label never updated. Failed CI runs 1 and 3, passed run 2 and 10/10 locally.",
+      "section": "CI only (GitHub Actions)"
+    },
+    {
+      "id": "ci-bah-2027-hub-alert-signup",
+      "kind": "flaky",
+      "file": "bah-2027-hub.spec.ts",
+      "line": 263,
+      "title": "Station pages (rendered) › alert signup posts source bah-alert-{slug} (request intercepted, nothing sent)",
+      "browsers": [
+        "webkit"
+      ],
+      "ciOnly": true,
+      "reason": "Posted email \"\": fill landed before hydration (test waits on networkidle, not hydration). Failed CI runs 2 and 3, passed run 1.",
+      "section": "CI only (GitHub Actions)"
+    },
+    {
+      "id": "ci-ga-events-calc-run-va-disability",
+      "kind": "flaky",
+      "file": "ga-events.spec.ts",
+      "line": 294,
+      "title": "calculation_run: user action only › va-disability: none on load or shared link; one per change or burst",
+      "browsers": [
+        "webkit"
+      ],
+      "ciOnly": true,
+      "reason": "after burst: 3 (run 2) or 4 (run 3) calculation_run events instead of 2 (burst split by timing). Failed CI runs 2 and 3, passed run 1.",
+      "section": "CI only (GitHub Actions)"
+    }
+  ]
+}

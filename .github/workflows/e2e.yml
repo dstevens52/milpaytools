@@ -1,0 +1,195 @@
+name: E2E gate
+
+# Tier 2/3 test gate (CLAUDE.md "Testing" → "CI gate"). Every PR to main gets the
+# full Playwright suite on all three browsers against a production build
+# (`next start` on localhost), plus the data-only checks. Tier 1 stays local.
+#
+# The `report` job is the gate: it merges every shard's blob report, classifies
+# failures against tests/known-failures.json (scripts/ci-known-failures.ts) and
+# fails only on new failures, zero tests, or tests missing from the report.
+# The e2e shard jobs themselves stay green when tests fail, so a known failure
+# never shows as a red check; a shard that crashes or times out leaves tests
+# missing, which the report job catches.
+#
+# No secrets: the build and the tests need no env vars (see CI_BUILD_REPORT.md).
+# Nothing here deploys, calls IndexNow or touches the live site.
+
+# Runners are pinned to ubuntu-24.04: ubuntu-latest moved to 26.04, which
+# Playwright 1.59.1 does not support.
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+
+jobs:
+  # The Playwright version from package-lock.json picks the container image, so
+  # the image always matches the installed @playwright/test.
+  versions:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      playwright: ${{ steps.pw.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: package-lock.json
+          sparse-checkout-cone-mode: false
+      - id: pw
+        run: |
+          v=$(node -p "require('./package-lock.json').packages['node_modules/@playwright/test'].version")
+          test -n "$v" && echo "version=$v" | tee -a "$GITHUB_OUTPUT"
+
+  # Build inside the same image the tests run in, so `next start` sees the same
+  # paths and OS as `next build`. The image ships the browsers and their system
+  # packages; installing those on a plain runner took 12–20 minutes per job.
+  build:
+    needs: versions
+    runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.versions.outputs.playwright }}-noble
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Working tree after prebuild (informational)
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git status --porcelain
+      # .next is a hidden folder (upload-artifact skips those by default) and
+      # .next/cache is not needed by `next start`, so ship one tar without it.
+      - name: Pack build output
+        run: |
+          tar -cf next-build.tar --exclude=.next/cache .next
+          ls -lh next-build.tar
+      - uses: actions/upload-artifact@v4
+        with:
+          name: next-build
+          path: next-build.tar
+          retention-days: 3
+
+  data-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # Data-only specs: no page fixture, no browser, no server.
+      - run: npm run test:pay-table
+      - run: npm run test:pay-raise
+      - run: npm run test:figures
+      - run: npm run test:pay-dates
+
+  e2e:
+    needs: [versions, build]
+    runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.versions.outputs.playwright }}-noble
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+        shard: [1, 2]
+    env:
+      E2E_SERVER: prod
+      SHARD_TOTAL: 2 # keep in step with matrix.shard
+      HOME: /root # Firefox refuses to start as root when HOME isn't root's
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: next-build
+      - name: Unpack build output
+        run: tar -xf next-build.tar && rm next-build.tar && test -f .next/BUILD_ID && echo "BUILD_ID $(cat .next/BUILD_ID)"
+      # The container runs as root but the checkout belongs to the runner user;
+      # without this, git refuses the repo and specs that call git grep fail.
+      - name: Trust the checkout for git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      # --retries=0 overrides the config's CI retries (2) so CI matches the local gate.
+      # The exit code is recorded, not raised: the report job is the gate.
+      - name: Playwright ${{ matrix.browser }} shard ${{ matrix.shard }}/${{ env.SHARD_TOTAL }}
+        env:
+          PLAYWRIGHT_BLOB_OUTPUT_NAME: report-${{ matrix.browser }}-${{ matrix.shard }}.zip
+        run: |
+          set +e
+          npx playwright test --project=${{ matrix.browser }} --shard=${{ matrix.shard }}/${{ env.SHARD_TOTAL }} \
+            --workers=2 --retries=0 --reporter=blob,list
+          code=$?
+          echo "Playwright exit code: $code (gate is decided in the report job)" | tee -a "$GITHUB_STEP_SUMMARY"
+          exit 0
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: blob-${{ matrix.browser }}-${{ matrix.shard }}
+          path: blob-report
+          retention-days: 7
+
+  report:
+    needs: e2e
+    if: ${{ always() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: blob-*
+          path: all-blob-reports
+          merge-multiple: true
+      - name: Blob reports received
+        run: ls -l all-blob-reports || true
+      # The test list for this commit, to prove every test came back.
+      - name: List expected tests
+        run: npx playwright test --list --reporter=json > expected-list.json
+      - name: Merge reports
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_FILE: merged-report.json
+          PLAYWRIGHT_HTML_OUTPUT_DIR: playwright-report
+        run: npx playwright merge-reports --reporter=json,html ./all-blob-reports
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: merged-report
+          path: |
+            merged-report.json
+            expected-list.json
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: html-report
+          path: playwright-report
+          retention-days: 14
+      - name: Classify against known failures (gate)
+        run: npx tsx scripts/ci-known-failures.ts merged-report.json --expected expected-list.json --summary "$GITHUB_STEP_SUMMARY"
