@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
   formatChangeDollars,
@@ -15,6 +15,16 @@ import {
  * enhancement: real <button>s in the headers, aria-sort on the active header.
  * Receives only the slim rows (no rate tables).
  */
+
+/** Area name with a line-break opportunity after each "/" (e.g. "Shreveport/Barksdale AFB"). */
+function breakable(name: string) {
+  return name.split('/').map((part, i) => (
+    <Fragment key={i}>
+      {i > 0 && <>/<wbr /></>}
+      {part}
+    </Fragment>
+  ));
+}
 
 type SortKey = 'pct' | 'abs' | 'name';
 type Dir = 'ascending' | 'descending';
@@ -65,7 +75,7 @@ export function BahChangesTable({
     <button
       type="button"
       onClick={() => onSort(k)}
-      className="font-semibold text-zinc-700 hover:text-red-700 underline decoration-dotted underline-offset-2"
+      className="font-semibold text-zinc-700 hover:text-red-700 underline decoration-dotted underline-offset-2 sm:whitespace-nowrap"
       data-testid={`bah-changes-sort-${k}`}
     >
       {label}
@@ -78,21 +88,21 @@ export function BahChangesTable({
       className="overflow-auto max-h-[70vh] md:max-h-none rounded-lg border border-zinc-200"
       data-testid="bah-changes-scroll"
     >
-      <table className="w-full text-sm" data-testid="bah-changes-table">
+      <table className="w-full text-[13px] sm:text-sm" data-testid="bah-changes-table">
         <caption className="sr-only">
           {`BAH for an E-5 with dependents in every Military Housing Area, ${priorYear} and ${year}, with the change. Use the column buttons to sort.`}
         </caption>
         <thead className="sticky top-0 z-10 bg-zinc-50">
           <tr className="border-b border-zinc-200 text-left">
-            <th scope="col" aria-sort={ariaSort('name')} className="px-3 py-2.5">
+            <th scope="col" aria-sort={ariaSort('name')} className="px-1.5 sm:px-3 py-2.5">
               {sortButton('name', 'Area (A–Z)')}
             </th>
-            <th scope="col" className="px-3 py-2.5 font-semibold text-zinc-700 text-right">{priorYear}</th>
-            <th scope="col" className="px-3 py-2.5 font-semibold text-zinc-700 text-right">{year}</th>
-            <th scope="col" aria-sort={ariaSort('abs')} className="px-3 py-2.5 text-right">
+            <th scope="col" className="px-1.5 sm:px-3 py-2.5 font-semibold text-zinc-700 text-right">{priorYear}</th>
+            <th scope="col" className="px-1.5 sm:px-3 py-2.5 font-semibold text-zinc-700 text-right">{year}</th>
+            <th scope="col" aria-sort={ariaSort('abs')} className="px-1.5 sm:px-3 py-2.5 text-right">
               {sortButton('abs', '$ change')}
             </th>
-            <th scope="col" aria-sort={ariaSort('pct')} className="px-3 py-2.5 text-right">
+            <th scope="col" aria-sort={ariaSort('pct')} className="px-1.5 sm:px-3 py-2.5 text-right">
               {sortButton('pct', '% change')}
             </th>
           </tr>
@@ -100,29 +110,29 @@ export function BahChangesTable({
         <tbody>
           {sorted.map((r) => (
             <tr key={r.mha} id={`mha-${r.mha}`} className="border-b border-zinc-100 last:border-0 target:bg-amber-50" data-mha={r.mha}>
-              <th scope="row" className="px-3 py-2 text-left font-normal text-zinc-800">
+              <th scope="row" className="px-1.5 sm:px-3 py-2 text-left font-normal text-zinc-800">
                 {r.href ? (
                   <Link href={r.href} className="text-blue-700 underline hover:text-blue-800">
-                    {r.name}
+                    {breakable(r.name)}
                   </Link>
                 ) : (
-                  r.name
+                  breakable(r.name)
                 )}
                 {r.marked && <sup className="text-amber-700 ml-0.5">†</sup>}
               </th>
-              <td className="px-3 py-2 text-right tabular-nums text-zinc-600 whitespace-nowrap">
+              <td className="px-1.5 sm:px-3 py-2 text-right tabular-nums text-zinc-600 whitespace-nowrap">
                 {r.prior === null ? '—' : formatRate(r.prior)}
               </td>
-              <td className="px-3 py-2 text-right tabular-nums text-zinc-900 whitespace-nowrap">{formatRate(r.current)}</td>
+              <td className="px-1.5 sm:px-3 py-2 text-right tabular-nums text-zinc-900 whitespace-nowrap">{formatRate(r.current)}</td>
               <td
-                className={`px-3 py-2 text-right tabular-nums whitespace-nowrap ${
+                className={`px-1.5 sm:px-3 py-2 text-right tabular-nums whitespace-nowrap ${
                   r.abs === null ? 'text-zinc-500' : r.abs > 0 ? 'text-green-700' : r.abs < 0 ? 'text-red-700' : 'text-zinc-500'
                 }`}
               >
                 {r.abs === null ? 'new' : formatChangeDollars(r.abs)}
               </td>
               <td
-                className={`px-3 py-2 text-right tabular-nums whitespace-nowrap ${
+                className={`px-1.5 sm:px-3 py-2 text-right tabular-nums whitespace-nowrap ${
                   r.pct === null ? 'text-zinc-500' : r.pct > 0 ? 'text-green-700' : r.pct < 0 ? 'text-red-700' : 'text-zinc-500'
                 }`}
               >

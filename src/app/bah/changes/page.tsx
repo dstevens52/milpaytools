@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Fragment } from 'react';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { FaqSection } from '@/components/FaqSection';
 import { BahChangesTable } from '@/components/bah-stations/BahChangesTable';
@@ -54,15 +55,25 @@ export const metadata: Metadata = {
   },
 };
 
+/** Area name with a line-break opportunity after each "/" (e.g. "Shreveport/Barksdale AFB"). */
+function breakable(name: string) {
+  return name.split('/').map((part, i) => (
+    <Fragment key={i}>
+      {i > 0 && <>/<wbr /></>}
+      {part}
+    </Fragment>
+  ));
+}
+
 function AreaName({ row }: { row: BahChangeRow }) {
   return (
     <>
       {row.station ? (
         <Link href={`/bah/${row.station.slug}`} className="text-blue-700 underline hover:text-blue-800">
-          {row.name}
+          {breakable(row.name)}
         </Link>
       ) : (
-        row.name
+        breakable(row.name)
       )}
       {row.note && <sup className="text-amber-700 ml-0.5">†</sup>}
     </>
@@ -72,29 +83,29 @@ function AreaName({ row }: { row: BahChangeRow }) {
 function TopTable({ rows, caption, testId }: { rows: BahChangeRow[]; caption: string; testId: string }) {
   return (
     <div className="overflow-x-auto rounded-lg border border-zinc-200">
-      <table className="w-full text-sm" data-testid={testId}>
+      <table className="w-full text-[13px] sm:text-sm" data-testid={testId}>
         <caption className="sr-only">{caption}</caption>
         <thead>
           <tr className="bg-zinc-50 border-b border-zinc-200 text-left">
-            <th scope="col" className="px-3 py-2.5 font-semibold text-zinc-700">Area</th>
-            <th scope="col" className="px-3 py-2.5 font-semibold text-zinc-700 text-right">{C.priorYear}</th>
-            <th scope="col" className="px-3 py-2.5 font-semibold text-zinc-700 text-right">{C.year}</th>
-            <th scope="col" className="px-3 py-2.5 font-semibold text-zinc-700 text-right">$ change</th>
-            <th scope="col" className="px-3 py-2.5 font-semibold text-zinc-700 text-right">% change</th>
+            <th scope="col" className="px-2 sm:px-3 py-2.5 font-semibold text-zinc-700">Area</th>
+            <th scope="col" className="px-2 sm:px-3 py-2.5 font-semibold text-zinc-700 text-right">{C.priorYear}</th>
+            <th scope="col" className="px-2 sm:px-3 py-2.5 font-semibold text-zinc-700 text-right">{C.year}</th>
+            <th scope="col" className="px-2 sm:px-3 py-2.5 font-semibold text-zinc-700 text-right sm:whitespace-nowrap">$ change</th>
+            <th scope="col" className="px-2 sm:px-3 py-2.5 font-semibold text-zinc-700 text-right sm:whitespace-nowrap">% change</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((r) => (
             <tr key={r.mha} className="border-b border-zinc-100 last:border-0" data-mha={r.mha}>
-              <th scope="row" className="px-3 py-2 text-left font-normal text-zinc-800">
+              <th scope="row" className="px-2 sm:px-3 py-2 text-left font-normal text-zinc-800">
                 <AreaName row={r} />
               </th>
-              <td className="px-3 py-2 text-right tabular-nums text-zinc-600 whitespace-nowrap">{formatRate(r.prior!)}</td>
-              <td className="px-3 py-2 text-right tabular-nums text-zinc-900 whitespace-nowrap">{formatRate(r.current)}</td>
-              <td className={`px-3 py-2 text-right tabular-nums whitespace-nowrap ${r.abs! > 0 ? 'text-green-700' : 'text-red-700'}`}>
+              <td className="px-2 sm:px-3 py-2 text-right tabular-nums text-zinc-600 whitespace-nowrap">{formatRate(r.prior!)}</td>
+              <td className="px-2 sm:px-3 py-2 text-right tabular-nums text-zinc-900 whitespace-nowrap">{formatRate(r.current)}</td>
+              <td className={`px-2 sm:px-3 py-2 text-right tabular-nums whitespace-nowrap ${r.abs! > 0 ? 'text-green-700' : 'text-red-700'}`}>
                 {formatChangeDollars(r.abs!)}
               </td>
-              <td className={`px-3 py-2 text-right tabular-nums whitespace-nowrap ${r.pct! > 0 ? 'text-green-700' : 'text-red-700'}`}>
+              <td className={`px-2 sm:px-3 py-2 text-right tabular-nums whitespace-nowrap ${r.pct! > 0 ? 'text-green-700' : 'text-red-700'}`}>
                 {formatChangePct(r.pct!)}
               </td>
             </tr>
@@ -175,12 +186,12 @@ export default function BahChangesPage() {
             </div>
             <div className="rounded-lg border border-zinc-200 bg-white p-4" data-testid="bah-changes-tile-counts">
               <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 mb-1">{`Areas, E-5 with dependents`}</p>
-              <p className="text-lg font-bold text-zinc-900 leading-snug">
-                <span className="text-green-700">{`${C.up} up`}</span>
+              <p className="text-base font-bold text-zinc-900 leading-snug">
+                <span className="text-green-700 whitespace-nowrap">{`${C.up} up`}</span>
                 {' · '}
-                <span className="text-zinc-700">{`${C.same} unchanged`}</span>
+                <span className="text-zinc-700 whitespace-nowrap">{`${C.same} unchanged`}</span>
                 {' · '}
-                <span className="text-red-700">{`${C.down} down`}</span>
+                <span className="text-red-700 whitespace-nowrap">{`${C.down} down`}</span>
               </p>
               <p className="text-xs text-zinc-600 mt-1">
                 {`Of ${C.count} housing areas, ${C.priorYear} → ${C.year}.`}
@@ -211,7 +222,7 @@ export default function BahChangesPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
         {/* ── Top 10s ─────────────────────────────────────────────────────── */}
         <div className="grid gap-8 lg:grid-cols-2">
-          <section aria-labelledby="increases-h">
+          <section aria-labelledby="increases-h" className="min-w-0">
             <h2 id="increases-h" className="text-xl font-semibold text-zinc-900 mb-1">
               {`Top ${C.topIncreases.length} largest BAH increases for ${C.year}`}
             </h2>
@@ -220,7 +231,7 @@ export default function BahChangesPage() {
             <Notes rows={C.topIncreases} />
           </section>
 
-          <section aria-labelledby="decreases-h">
+          <section aria-labelledby="decreases-h" className="min-w-0">
             <h2 id="decreases-h" className="text-xl font-semibold text-zinc-900 mb-1">
               {`Top ${C.topDecreases.length} largest BAH decreases for ${C.year}`}
             </h2>
