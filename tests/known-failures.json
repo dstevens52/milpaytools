@@ -170,7 +170,7 @@
         "webkit"
       ],
       "ciOnly": true,
-      "reason": "Fill can land before hydration on the fast CI prod server (test waits on networkidle, not hydration); the label never updated. CI run 1 only; passed CI run 2 and 10/10 locally.",
+      "reason": "Fill can land before hydration on the fast CI prod server (test waits on networkidle, not hydration); the label never updated. Failed CI runs 1 and 3, passed run 2 and 10/10 locally.",
       "section": "CI only (GitHub Actions)"
     },
     {
@@ -183,7 +183,7 @@
         "webkit"
       ],
       "ciOnly": true,
-      "reason": "Posted email \"\": fill landed before hydration (test waits on networkidle, not hydration). CI run 2 only.",
+      "reason": "Posted email \"\": fill landed before hydration (test waits on networkidle, not hydration). Failed CI runs 2 and 3, passed run 1.",
       "section": "CI only (GitHub Actions)"
     },
     {
@@ -196,7 +196,7 @@
         "webkit"
       ],
       "ciOnly": true,
-      "reason": "after burst: 3 calculation_run events instead of 2 (burst split by timing). CI run 2 only.",
+      "reason": "after burst: 3 (run 2) or 4 (run 3) calculation_run events instead of 2 (burst split by timing). Failed CI runs 2 and 3, passed run 1.",
       "section": "CI only (GitHub Actions)"
     }
   ]

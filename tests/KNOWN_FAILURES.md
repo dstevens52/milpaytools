@@ -187,8 +187,10 @@ If both fail in the same run, treat that as a real signal and investigate before
 
 Seen in the CI gate (`.github/workflows/e2e.yml`: production build in the
 `mcr.microsoft.com/playwright:v1.59.1-noble` container, `--workers=2`, `--retries=0`) and not in
-local runs. Marked `ciOnly: true` in `tests/known-failures.json`. Each failed in one CI run and
-passed in the other, so they are listed as flaky.
+local runs. Marked `ciOnly: true` in `tests/known-failures.json`. Shakedown runs on PR #41:
+run 1 = 44294712122 (plain runner), run 2 = 44299164032 and run 3 = 44301157082 (container).
+**Each failed in 2 of the 3 runs**, so these are frequent in CI, not rare: the hydration-wait
+follow-up below should come soon, or the gate output will carry them on most PRs.
 
 **Common cause (probable):** the CI production server is much faster than the local gate (a
 quarter of one browser's suite runs in ~1.5 minutes), so a test can type into the page before
@@ -198,17 +200,17 @@ reason (c990b86). Changing the tests is out of scope for the CI build: it's a fo
 
 - `guard-reserve.spec.ts:175` — "days warning when entries exceed a year" — **webkit**.
   CI run 1 (44294712122): `getByText(/Annual drill \(52 weekends/)` not found within 8 s after
-  filling weekends = 52 and additional days = 300. Passed in CI run 2, and 10/10 locally on WebKit
+  filling weekends = 52 and additional days = 300. Passed in CI run 2; failed again in run 3. 10/10 locally on WebKit
   (`--repeat-each=10`, `next dev`). The test's own comment names the WebKit pre-hydration fill.
 - `bah-2027-hub.spec.ts:263` — "alert signup posts source bah-alert-{slug}" — **webkit**.
   CI run 2 (44299164032): the intercepted POST carried `email: ""` although the input showed
   `test@example.com` (`toHaveValue` passed), i.e. the DOM had the text but React state didn't.
-  Passed in CI run 1. The test's comment records the same failure once before.
+  Failed again in run 3; passed in run 1. The test's comment records the same failure once before.
   **Possible real issue (not fixed):** a real visitor who types before hydration and then
   submits may send an empty email.
 - `ga-events.spec.ts:294` — `va-disability` case of "calculation_run: user action only" —
   **webkit**. CI run 2: "after burst" expected 2 `calculation_run` events, got 3 (the burst was
-  split by timing). Passed in CI run 1. Same loop as the Firefox entries above.
+  split by timing; 4 in run 3). Passed in CI run 1. Same loop as the Firefox entries above.
 
 ## Known issues (not Playwright failures)
 
