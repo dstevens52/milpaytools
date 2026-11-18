@@ -36,6 +36,7 @@ const BASE_URL = 'https://www.milpaytools.com';
 export const STATIC_PATHS = [
   '/',
   '/bah',
+  '/bah/changes',
   '/calculators',
   '/calculators/cola',
   '/calculators/compare',

@@ -137,6 +137,11 @@ export default function BahHubPage() {
                 See every 2027 key date →
               </Link>
             </p>
+            <p className="text-xs mt-1" data-testid="bah-changes-hub-link">
+              <Link href="/bah/changes" className="font-medium text-red-700 hover:text-red-800 underline">
+                {`See which areas' BAH rose or fell for ${BAH_YEAR} →`}
+              </Link>
+            </p>
           </div>
         </div>
       </div>

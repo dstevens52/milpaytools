@@ -74,6 +74,8 @@
 
 ## BAH by Duty Station
 
+- [BAH Changes by Military Housing Area](https://www.milpaytools.com/bah/changes): How BAH changed from 2025 to 2026 in every military housing area, for an E-5 with dependents: the biggest increases and decreases, a full sortable table, DoD's national average increase and how rate protection works. Official DTMO rates only; no estimates.
+
 - [Fort Bragg](https://www.milpaytools.com/bah/fort-bragg): Fayetteville, NC — Army. 2026 BAH rates for the 82nd Airborne Division's home station, the largest U.S. military installation by population.
 
 - [Fort Campbell](https://www.milpaytools.com/bah/fort-campbell): Clarksville, TN — Army. 2026 BAH rates for the home of the 101st Airborne Division (Air Assault), straddling the Kentucky-Tennessee border.
