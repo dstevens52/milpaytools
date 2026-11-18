@@ -4,23 +4,31 @@
  *
  * Legal references:
  *   38 CFR § 4.25 — Combined ratings table
- *   38 CFR § 4.26 — Bilateral factor
+ *   38 CFR § 4.26 — Bilateral factor (incl. the (d) exception)
+ *   38 U.S.C. § 1115 — Additional compensation for dependents
  *
  * Combined rating algorithm ("whole person" method):
  *   1. Sort ratings highest to lowest.
- *   2. Apply each rating to the REMAINING healthy percentage.
- *   3. Round the final result ONCE to nearest 10% (never between steps).
+ *   2. Apply each rating to the REMAINING healthy percentage. Each pairwise
+ *      step is a whole-number § 4.25 table value.
+ *   3. Round the final result ONCE to the nearest 10% (never to a 10% step
+ *      in between).
  *
  * Bilateral factor (§ 4.26):
- *   Applies when BOTH sides of a paired body part (arms, legs, or
- *   paired skeletal muscles) have compensable (>0%) ratings. Eyes are
- *   NOT a § 4.26 pair — vision is rated under §§ 4.75–4.79.
- *   1. Combine the bilateral pair using VA math.
- *   2. Add 10% of that combined value.
+ *   Applies when BOTH sides of a paired extremity (arms or legs) have
+ *   compensable (>0%) ratings. § 4.26 also covers paired skeletal muscles;
+ *   this calculator does not model those. Eyes are NOT a § 4.26 pair — vision
+ *   is rated under §§ 4.75–4.79.
+ *   1. Combine the bilateral ratings using VA math.
+ *   2. Add 10% of that combined value (capped at 100).
  *   3. Use the adjusted value as a single input to the overall calculation.
+ *   4. § 4.26(d): if leaving one or more bilateral ratings out of the factor
+ *      gives a higher combined evaluation, use that instead.
+ *
+ * Rates: the current-year table from src/data/va-rates/registry.ts.
  */
 
-import { vaRates, DATA_YEAR } from '@/data/va-rates/2026';
+import { CURRENT_VA_RATES, type VaRatesYear } from '@/data/va-rates/registry';
 import { combinePair } from './va-combined-table';
 
 // ─── Public Types ──────────────────────────────────────────────────────────
@@ -41,10 +49,12 @@ export interface DependentConfig {
   childrenUnder18: number;   // 0–10
   schoolChildren: number;    // ages 18-23 attending an approved school program, 0–5
   dependentParents: number;  // 0–2
+  /** Spouse receives Aid & Attendance (38 U.S.C. § 1115(1)(E)). Counts only with a spouse at 30%+. */
+  spouseAidAttendance?: boolean;
 }
 
 export interface CalculationStep {
-  type: 'init' | 'apply' | 'bilateral-header' | 'bilateral-apply' | 'bilateral-factor' | 'sort' | 'result' | 'round';
+  type: 'init' | 'apply' | 'bilateral-header' | 'bilateral-apply' | 'bilateral-factor' | 'bilateral-exception' | 'sort' | 'result' | 'round';
   label: string;
   detail: string;
   value?: number;
@@ -60,8 +70,17 @@ export interface BilateralPairResult {
   combinedBeforeFactor: number;
   /** 10% of combinedBeforeFactor, carried to one decimal. */
   factorAddition: number;
-  /** combinedBeforeFactor + factor, rounded to the nearest whole number per § 4.26. */
+  /** combinedBeforeFactor + factor, rounded to the nearest whole number per § 4.26, capped at 100. */
   combinedAfterFactor: number;
+}
+
+/** Set when § 4.26(d) took one or more bilateral ratings out of the factor. */
+export interface BilateralException {
+  /** The ratings combined separately instead of inside the bilateral factor. */
+  excluded: Omit<DisabilityEntry, 'id'>[];
+  /** Combined value and rating with every bilateral rating inside the factor. */
+  withFactorExact: number;
+  withFactorRounded: number;
 }
 
 export interface CombinedRatingResult {
@@ -70,6 +89,7 @@ export interface CombinedRatingResult {
   steps: CalculationStep[];
   bilateralApplied: boolean;
   bilateralPairs: BilateralPairResult[];
+  bilateralException: BilateralException | null;
 }
 
 export interface CompensationBreakdownLine {
@@ -137,14 +157,29 @@ function pairLabel(pairKeys: string[]): string {
 
 /**
  * Apply the § 4.26 bilateral factor: add 10% of the combined bilateral value
- * (not combine), then round to the nearest whole number. § 4.26's own worked
- * example mandates this rounding (30 & 10 → 37 + 3.7 = 40.7 → 41). Integer
- * arithmetic avoids float drift on half-point subtotals.
+ * (not combine), then round to the nearest whole number, as with every § 4.25
+ * table value (e.g. 30 & 10 → 37 + 3.7 = 40.7 → 41). The regulation's own
+ * example is 60, 20, 10, 10 with the 10s bilateral: 19 + 1.9 → 21, then
+ * 60 & 21 → 68, 68 & 20 → 74 → 70%. Integer arithmetic avoids float drift on
+ * half-point subtotals.
+ *
+ * Returns the uncapped value; callers cap at 100 (§ 4.25: a combined value
+ * can't exceed 100).
  */
 function applyBilateralFactor(combined: number): number {
   // round half up of combined × 1.1  =  ⌊(combined×11 + 5) / 10⌋
   return Math.floor((combined * 11 + 5) / 10);
 }
+
+/** "left leg 10%" — how an excluded bilateral rating is named in the steps. */
+function describeMember(d: Omit<DisabilityEntry, 'id'>): string {
+  const limb = d.pairKey === 'arm' ? 'arm' : d.pairKey === 'leg' ? 'leg' : 'condition';
+  const where = d.side === 'none' ? limb : `${d.side} ${limb}`;
+  return d.label ? `${d.label} (${where}) ${d.rating}%` : `${where} ${d.rating}%`;
+}
+
+/** Most bilateral ratings for which every subset is tried (2^12 = 4,096 passes). */
+const MAX_EXHAUSTIVE_BILATERAL = 12;
 
 // ─── Main Calculation ──────────────────────────────────────────────────────
 
@@ -153,24 +188,92 @@ function applyBilateralFactor(combined: number): number {
  * following the 38 CFR § 4.25 Combined Ratings Table and the § 4.26 bilateral
  * factor. Every pairwise combination is an integer table value.
  *
- * 38 CFR § 4.26 (quoted from memory — verify verbatim against eCFR before
- * relying on the text): "...the ratings for the disabilities of the right and
- * left sides will be combined as usual, and 10 percent of this value will be
- * added (i.e., not combined) before proceeding with further combinations...
- * the rating for such disabilities including the bilateral factor... will be
- * treated as one disability for the purpose of arranging in order of severity
- * and for all further combinations." Per § 4.26(c) / (a) — "arms" and "legs"
- * meaning the upper and lower extremities as a whole — when MORE THAN ONE
- * paired group qualifies (e.g. both arms AND both legs), all qualifying
- * bilateral members are combined together into ONE computation with a single
- * 10% factor, not a separate factor per group.
+ * 38 CFR § 4.26 (eCFR, checked 2026-11-18): "...the ratings for the
+ * disabilities of the right and left sides will be combined as usual, and 10
+ * percent of this value will be added (i.e., not combined) before proceeding
+ * with further combinations... the rating for such disabilities including the
+ * bilateral factor in this section will be treated as one disability for the
+ * purpose of arranging in order of severity and for all further combinations."
+ * Per § 4.26(a)–(b) — "arms" and "legs" meaning the upper and lower extremities
+ * as a whole — when MORE THAN ONE paired group qualifies (e.g. both arms AND
+ * both legs), all qualifying bilateral members are combined together into ONE
+ * computation with a single 10% factor, not a separate factor per group.
+ *
+ * § 4.26(d) (added by 88 FR 22917, Apr. 14, 2023; text checked against eCFR
+ * 2026-11-18): "In cases where the combined evaluation is lower than what could
+ * be achieved by not including one or more bilateral disabilities in the
+ * bilateral factor calculation, those bilateral disabilities will be removed
+ * from the bilateral factor calculation and combined separately, to achieve the
+ * combined evaluation most favorable to the veteran." Every subset of the
+ * compensable bilateral ratings is tried out of the factor; the highest ROUNDED
+ * rating wins. The factor stays as applied unless leaving ratings out gives a
+ * strictly higher rating.
  */
 export function calculateCombinedRating(disabilities: DisabilityEntry[]): CombinedRatingResult {
+  const withFactor = combineOnce(disabilities);
+  if (!withFactor.bilateralApplied) return withFactor;
+
+  // Compensable members of the qualifying bilateral groups. 0% members change
+  // nothing wherever they sit, so they are never moved.
+  const qualifying = new Set(withFactor.bilateralPairs.flatMap((p) => p.pairKeys));
+  const candidates = disabilities.filter((d) => d.pairKey && qualifying.has(d.pairKey) && d.rating > 0);
+
+  const subsets: DisabilityEntry[][] = [];
+  if (candidates.length <= MAX_EXHAUSTIVE_BILATERAL) {
+    for (let mask = 1; mask < 1 << candidates.length; mask++) {
+      subsets.push(candidates.filter((_, i) => mask & (1 << i)));
+    }
+  } else {
+    // Very long lists: each rating alone, then all of them.
+    subsets.push(...candidates.map((c) => [c]), candidates);
+  }
+
+  let best: { result: CombinedRatingResult; excluded: DisabilityEntry[] } | null = null;
+  for (const removed of subsets) {
+    const ids = new Set(removed.map((d) => d.id));
+    const r = combineOnce(disabilities.map((d) => (ids.has(d.id) ? { ...d, pairKey: null } : d)));
+    if (r.rounded <= withFactor.rounded) continue;
+    // Everything now outside the factor: the removed ratings plus any partner
+    // left without a compensable rating on the other side.
+    const stillPaired = new Set(r.bilateralPairs.flatMap((p) => p.pairKeys));
+    const excluded = candidates.filter((d) => ids.has(d.id) || !d.pairKey || !stillPaired.has(d.pairKey));
+    if (
+      !best ||
+      r.rounded > best.result.rounded ||
+      (r.rounded === best.result.rounded &&
+        (excluded.length < best.excluded.length ||
+          (excluded.length === best.excluded.length && r.exact > best.result.exact)))
+    ) {
+      best = { result: r, excluded };
+    }
+  }
+  if (!best) return withFactor;
+
+  const excludedText = best.excluded.map(describeMember).join(', ');
+  const exceptionStep: CalculationStep = {
+    type: 'bilateral-exception',
+    label: `Bilateral factor exception (38 CFR § 4.26(d)): ${excludedText} combined separately`,
+    detail: `With every bilateral rating inside the factor, the combined value is ${withFactor.exact}%, which rounds to ${withFactor.rounded}%. Leaving ${best.excluded.length === 1 ? 'this rating' : 'these ratings'} out of the factor gives ${best.result.rounded}%, so VA uses the higher rating.`,
+  };
+
+  return {
+    ...best.result,
+    steps: [exceptionStep, ...best.result.steps],
+    bilateralException: {
+      excluded: best.excluded.map((d) => ({ rating: d.rating, label: d.label, side: d.side, pairKey: d.pairKey })),
+      withFactorExact: withFactor.exact,
+      withFactorRounded: withFactor.rounded,
+    },
+  };
+}
+
+/** One pass of § 4.25 / § 4.26 with every qualifying bilateral rating inside the factor. */
+function combineOnce(disabilities: DisabilityEntry[]): CombinedRatingResult {
   const steps: CalculationStep[] = [];
   const bilateralPairs: BilateralPairResult[] = [];
 
   if (disabilities.length === 0) {
-    return { exact: 0, rounded: 0, steps: [], bilateralApplied: false, bilateralPairs: [] };
+    return { exact: 0, rounded: 0, steps: [], bilateralApplied: false, bilateralPairs: [], bilateralException: null };
   }
 
   // ── Identify qualifying bilateral groups ─────────────────────────────────
@@ -217,12 +320,17 @@ export function calculateCombinedRating(disabilities: DisabilityEntry[]): Combin
     }
 
     const factorAddition = combined / 10;
-    const combinedAfterFactor = applyBilateralFactor(combined);
+    const uncapped = applyBilateralFactor(combined);
+    const combinedAfterFactor = Math.min(100, uncapped);
+    const sum = `${combined} + ${factorAddition.toFixed(1)} = ${(combined + factorAddition).toFixed(1)}`;
 
     steps.push({
       type: 'bilateral-factor',
       label: `Bilateral factor: 10% of ${combined} = ${factorAddition.toFixed(1)}`,
-      detail: `${combined} + ${factorAddition.toFixed(1)} = ${(combined + factorAddition).toFixed(1)} → rounds to ${combinedAfterFactor}`,
+      detail:
+        uncapped > 100
+          ? `${sum} → capped at 100 (a combined value can't exceed 100%)`
+          : `${sum} → rounds to ${combinedAfterFactor}`,
       value: combinedAfterFactor,
     });
 
@@ -291,18 +399,32 @@ export function calculateCombinedRating(disabilities: DisabilityEntry[]): Combin
     steps,
     bilateralApplied: qualifyingGroups.length > 0,
     bilateralPairs,
+    bilateralException: null,
   };
 }
 
 // ─── Compensation Lookup ───────────────────────────────────────────────────
 
+/**
+ * Monthly compensation for a rounded rating and dependents, from the
+ * current-year table (or `rates`, for tests pinned to one year).
+ *
+ * Children (38 U.S.C. § 1115(1)(F); VA rate-table footnote: "Rates for each
+ * school child are shown separately. They are not included with any other
+ * compensation rates. All other entries on this chart reflecting a rate for
+ * children show the rate payable for children under 18 or helpless."):
+ *   - the Table B "with 1 child" base is chosen from UNDER-18 children only;
+ *   - each further under-18 child adds `additionalChild`;
+ *   - EVERY child 18–23 in school adds `additionalSchoolChild`.
+ */
 export function getCompensation(
   roundedRating: number,
-  deps: DependentConfig
+  deps: DependentConfig,
+  rates: VaRatesYear = CURRENT_VA_RATES,
 ): CompensationResult {
-  const entry = vaRates[roundedRating];
+  const entry = rates.table[roundedRating];
   const empty: CompensationResult = {
-    monthly: 0, annual: 0, dataYear: DATA_YEAR, breakdown: [], hasDependents: false,
+    monthly: 0, annual: 0, dataYear: rates.year, breakdown: [], hasDependents: false,
   };
   if (!entry) return empty;
 
@@ -311,7 +433,8 @@ export function getCompensation(
 
   const under18Count = Math.max(0, Math.floor(deps.childrenUnder18));
   const schoolCount = Math.max(0, Math.min(5, Math.floor(deps.schoolChildren)));
-  const hasAnyChild = (under18Count + schoolCount) > 0;
+  // Table B (the "with 1 child" columns) is for children under 18 only.
+  const hasUnder18Child = under18Count > 0;
   const parents = Math.max(0, Math.min(2, Math.floor(deps.dependentParents)));
 
   // Direct lookup from Table A (no children) or Table B (with 1 child).
@@ -319,10 +442,10 @@ export function getCompensation(
   let baseRate: number;
   let baseLabel: string;
 
-  if (!dependentsApply || (!deps.hasSpouse && !hasAnyChild && parents === 0)) {
+  if (!dependentsApply || (!deps.hasSpouse && !hasUnder18Child && parents === 0)) {
     baseRate = entry.veteranAlone;
     baseLabel = 'Veteran alone';
-  } else if (deps.hasSpouse && hasAnyChild) {
+  } else if (deps.hasSpouse && hasUnder18Child) {
     baseRate = parents === 2 ? entry.withSpouseAnd1ChildAnd2Parents
              : parents === 1 ? entry.withSpouseAnd1ChildAnd1Parent
              : entry.withSpouseAnd1Child;
@@ -336,7 +459,7 @@ export function getCompensation(
     baseLabel = parents > 0
       ? `Veteran + spouse + ${parents} parent${parents > 1 ? 's' : ''}`
       : 'Veteran + spouse';
-  } else if (hasAnyChild) {
+  } else if (hasUnder18Child) {
     baseRate = parents === 2 ? entry.with1ChildAnd2Parents
              : parents === 1 ? entry.with1ChildAnd1Parent
              : entry.with1Child;
@@ -354,7 +477,7 @@ export function getCompensation(
 
   if (dependentsApply) {
     // Under-18 children beyond the first (Table B already includes 1 child).
-    const additionalUnder18 = hasAnyChild ? Math.max(0, under18Count - 1) : 0;
+    const additionalUnder18 = hasUnder18Child ? Math.max(0, under18Count - 1) : 0;
     if (additionalUnder18 > 0) {
       const amt = additionalUnder18 * entry.additionalChild;
       breakdown.push({
@@ -364,17 +487,21 @@ export function getCompensation(
       monthly += amt;
     }
 
-    // School children (18-23): when under-18 children exist, the Table B base
-    // used an under-18 child, so all school children are additional. When there
-    // are no under-18 children, the first school child is the Table B base.
-    const additionalSchool = under18Count > 0 ? schoolCount : Math.max(0, schoolCount - 1);
-    if (additionalSchool > 0) {
-      const amt = additionalSchool * entry.additionalSchoolChild;
+    // School children (18–23): every one is paid the separate school-child
+    // amount; none is ever the Table B base.
+    if (schoolCount > 0) {
+      const amt = schoolCount * entry.additionalSchoolChild;
       breakdown.push({
-        label: `${additionalSchool} school child${additionalSchool > 1 ? 'ren' : ''} (18–23)`,
+        label: `${schoolCount} school child${schoolCount > 1 ? 'ren' : ''} (18–23)`,
         amount: amt,
       });
       monthly += amt;
+    }
+
+    // Spouse Aid & Attendance (38 U.S.C. § 1115(1)(E)): a spouse is required.
+    if (deps.hasSpouse && deps.spouseAidAttendance && entry.spouseAA > 0) {
+      breakdown.push({ label: 'Spouse receives Aid & Attendance', amount: entry.spouseAA });
+      monthly += entry.spouseAA;
     }
   }
 
@@ -389,7 +516,7 @@ export function getCompensation(
   return {
     monthly,
     annual: parseFloat((monthly * 12).toFixed(2)),
-    dataYear: DATA_YEAR,
+    dataYear: rates.year,
     breakdown,
     hasDependents,
   };
