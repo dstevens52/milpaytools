@@ -239,6 +239,11 @@ type CalcCase = {
   change: (control: Locator) => Promise<void>;
   /** Fires once per page view (first change only). */
   once?: boolean;
+  /**
+   * Three quick changes that must land inside the 800 ms debounce. Default: three `change`
+   * calls. Override when Playwright's per-action overhead can spread them past the debounce.
+   */
+  burst?: (control: Locator) => Promise<void>;
 };
 
 const mainSelect = (n: number) => (page: Page) => page.locator('main select').nth(n);
@@ -273,10 +278,19 @@ const CALCS: CalcCase[] = [
   { name: 'transition-readiness', path: '/calculators/transition-readiness', deep: '?rank=e5&yos=6&zip=28310&sal=60000&exp=4000', control: mainSelect(0), change: toggleSelect('O-3', 'E-7') },
   { name: 'tsp', path: '/calculators/tsp', deep: '?balance=10000&rank=e5&yos=6', control: byCss('select#pay-grade'), change: toggleSelect('O-3', 'E-7') },
   {
-    // One click per change (the picked rating, 10% by default, stays selected after an add),
-    // so a burst of three stays inside the 800 ms debounce on slower browsers.
+    // One click per change (the picked rating, 10% by default, stays selected after an add).
+    // The burst clicks in-page: three Playwright clicks on WebKit in CI spread past the 800 ms
+    // debounce (3–4 events instead of 2; CI-only flake, build 1b). A macrotask between clicks
+    // lets React commit each add, so it is still three real changes.
     name: 'va-disability', path: '/calculators/va-disability', deep: '?r=50,30',
     control: (p) => p.getByRole('button', { name: '+ Add Rating' }), change: (btn) => btn.click(),
+    burst: (btn) =>
+      btn.evaluate(async (el) => {
+        for (let i = 0; i < 3; i++) {
+          (el as HTMLElement).click();
+          await new Promise((r) => setTimeout(r, 0));
+        }
+      }),
   },
   { name: 'va-loan', path: '/calculators/va-loan', deep: '?price=300000&zip=28310&rank=e5', control: byCss('#loan-term'), change: toggleSelect('15', '20') },
   { name: 'va-refinance', path: '/calculators/va-refinance', deep: '?balance=200000&currRate=7&newRate=6', control: byCss('#new-loan-term'), change: toggleSelect('15', '20') },
@@ -314,7 +328,8 @@ test.describe('calculation_run: user action only', () => {
       expect(ga.events('calculation_run')).toEqual([{ calculator_name: c.name, event_category: 'calculator' }]);
 
       // A burst of three quick changes → one more (none for once-per-page calculators).
-      for (let i = 0; i < 3; i++) await c.change(c.control(page));
+      if (c.burst) await c.burst(c.control(page));
+      else for (let i = 0; i < 3; i++) await c.change(c.control(page));
       await page.waitForTimeout(2000);
       expect(runs(ga, c.name), 'after burst').toBe(c.once ? 1 : 2);
       expectNoPersonalData(ga.calls);

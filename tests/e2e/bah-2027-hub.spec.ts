@@ -35,6 +35,7 @@ import {
 } from '@/lib/calculations/bahTransition';
 import { temporaryIncreasePendingText } from '@/data/bah/midYear';
 import { RATE_PROTECTION_RULE } from '@/data/bah/rateProtection';
+import { waitForHydration } from './helpers/hydration';
 
 // Temporary-increase exception (approved wording, Nov 13, 2026).
 const NEXT_YEAR_REPLACES = "so when a temporary increase ends, the next year's published rate replaces it.";
@@ -267,11 +268,11 @@ test.describe('Station pages (rendered)', () => {
       await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true }) });
     });
     await page.goto('/bah/naval-station-norfolk');
-    // The page is prerendered: typing before React hydrates is lost (WebKit posted an
-    // empty email once). Wait for hydration, then confirm the value stuck.
-    await page.waitForLoadState('networkidle');
+    // Wait for hydration (not networkidle, which doesn't prove it): the button is disabled
+    // until then. Typing before hydration is covered by pre-hydration.spec.ts (build 1b).
     const alert = page.getByTestId('bah-station-alert');
     const input = alert.getByPlaceholder('you@example.com');
+    await waitForHydration(alert.getByRole('button', { name: 'Notify me' }));
     await input.fill('test@example.com');
     await expect(input).toHaveValue('test@example.com');
     await alert.getByRole('button', { name: 'Notify me' }).click();
