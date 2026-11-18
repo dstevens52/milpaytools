@@ -2,21 +2,6 @@
   "$comment": "Machine-readable twin of tests/KNOWN_FAILURES.md, read by scripts/ci-known-failures.ts in the CI gate (.github/workflows/e2e.yml). KNOWN_FAILURES.md stays the human explanation; keep both in step. Match = browser + file (relative to tests/e2e) + full title (describe titles joined with ' › '); line numbers are informational only. kind: 'failure' = fails every full run; 'flaky' = load-dependent, fails some runs. ciOnly: true = seen only in GitHub Actions, not locally.",
   "entries": [
     {
-      "id": "bah-release-day-lookup-import",
-      "kind": "failure",
-      "file": "bah-release-day.spec.ts",
-      "line": 237,
-      "title": "Education: GI Bill MHA uses EDUCATION_BAH_YEAR, not BAH_YEAR › lookup API serves EDUCATION_BAH_YEAR rates on request; rejects unregistered years",
-      "browsers": [
-        "chromium",
-        "firefox",
-        "webkit"
-      ],
-      "ciOnly": false,
-      "reason": "Dynamic import of the route throws 'Cannot use import statement outside a module'; depends on run order (passes when an earlier test loaded the module). Kept 2026-11-18 (Dan): passes in every CI run (shard order), still fails locally; fixing the dynamic import is a CI follow-up.",
-      "section": "BAH release day — lookup API dynamic import"
-    },
-    {
       "id": "pay-charts-w4-20yos",
       "kind": "flaky",
       "file": "pay-charts.spec.ts",

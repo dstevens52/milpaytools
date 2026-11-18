@@ -61,7 +61,7 @@
 - **~Dec 10–17, BAH release day:** `docs/RELEASE_DAY_BAH_2027.md` + flip `/bah/changes` + station titles to 2027 + IndexNow + outreach notes.
 - **January:** 2027 pay flip; `/pay/drill` and `/pay/bas` reference pages; a military ranks chart section on `/pay` (grade × branch titles from `ranks.ts`); a retiree COLA H2 with an id on `/pay/raise`; TSP-limit cleanup; decide state BAH pages, branch pay charts and a separate PPM calculator.
 - **Bing decline diagnosis (Claude Chat, no build):** pull Bing page + keyword exports for Aug 12–Sep 11 vs Oct 13–Nov 12 and find which pages lost clicks (Fable report §G).
-- **CI follow-ups:** unpin `ubuntu-24.04` when Playwright supports the newer runner image. `bah-release-day.spec.ts:237` passes in CI but fails locally on all three browsers — environment-specific; investigate before removing.
+- **CI follow-ups:** unpin `ubuntu-24.04` when Playwright supports the newer runner image.
 - **Analytics follow-ups:** `newsletter_signup` key event once the first signup arrives; Clarity localhost-session filter (Claude Chat); move `STATS_SECRET` out of the URL; Vercel Analytics full-URL exposure.
 
 ---

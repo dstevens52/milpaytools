@@ -20,14 +20,19 @@ is NOT listed here is a regression. The conditional `test.skip()` data-guards (s
 when reference BAH/pay data is absent) and the `transition-readiness.spec.ts:92`
 `test.fixme` are expected and excluded from the counts below.
 
-## Failing tests (1 test; depends on run order)
+## Failing tests (0 tests)
 
 > 2026-10-18: the Total Comp base pay, BRS match tiering, and share-button clusters (27 failures
 > = 9 tests × 3 browsers) were fixed in the tests, and `va-disability.spec.ts:207` (webkit) was
-> marked `test.slow()` — see "Resolved 2026-10-18" below. Apart from the entry below, any failure
-> in a full run is either a listed flake (re-run that spec file alone) or a regression.
+> marked `test.slow()` — see "Resolved 2026-10-18" below. Any failure in a full run is either a
+> listed flake (re-run that spec file alone) or a regression.
 
-### BAH release day — lookup API dynamic import (added 2026-11-14)
+### Removed 2026-11-18 — BAH release day lookup API dynamic import (added 2026-11-14)
+
+> **Removed from `tests/known-failures.json`, 2026-11-18 (Claude Chat, build 06 PR B):** it passed
+> on all three browsers in every CI gate run (PR #41, #45, #46). CI is the gate, so it's no longer
+> listed. **Locally it can still fail** when the spec runs alone (the dynamic import below); that
+> is a local test-loading quirk, not a regression. The history is kept below.
 - `bah-release-day.spec.ts:237` — "lookup API serves EDUCATION_BAH_YEAR rates on request;
   rejects unregistered years" — all browsers
 
