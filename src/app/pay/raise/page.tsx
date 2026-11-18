@@ -281,6 +281,10 @@ export default function PayRaisePage() {
               <span className="text-zinc-500">— base pay plus BAH, BAS and TSP match</span>
             </li>
             <li>
+              <Link href="/va-disability-rates" className="text-blue-700 underline hover:text-blue-800">2027 VA Disability Rates</Link>{' '}
+              <span className="text-zinc-500">— VA COLA status and the full rate table</span>
+            </li>
+            <li>
               <Link href="/blog/2026-military-pay-raise-explained" className="text-blue-700 underline hover:text-blue-800">2026 Military Pay Raise Explained</Link>{' '}
               <span className="text-zinc-500">— what the 3.8% raise meant in dollars</span>
             </li>

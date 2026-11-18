@@ -53,6 +53,11 @@ export const CALENDAR_SOURCES = {
     name: "S. 4487, Veterans' Compensation Cost-of-Living Adjustment Act of 2026",
     url: 'https://www.congress.gov/bill/119th-congress/senate-bill/4487',
   },
+  // The House bill that passed both chambers (Nov 2026); status in src/data/va-rates/2027-status.ts.
+  hr8552: {
+    name: "H.R. 8552, Veterans' Compensation Cost-of-Living Adjustment Act of 2026",
+    url: 'https://www.congress.gov/bill/119th-congress/house-bill/8552',
+  },
   irs202567: { name: 'IRS Notice 2025-67 (2026 limits, the precedent)', url: 'https://www.irs.gov/pub/irs-drop/n-25-67.pdf' },
   irs202666: { name: 'IRS Notice 2026-66 (2027 limits, announced Nov 12, 2026)', url: 'https://www.irs.gov/pub/irs-drop/n-26-66.pdf' },
   bah2026Release: {
@@ -153,13 +158,13 @@ export function getCalendar2027(config: PayRaiseConfig = PAY_RAISE_2027): Calend
     },
     {
       id: 'va-cola',
-      dateLabel: `${formatIsoDate(cola.effectiveDate)}, once the law passes`,
+      dateLabel: `${formatIsoDate(cola.effectiveDate)}, once the law is signed`,
       isoDate: null,
       title: 'VA disability COLA',
-      body: `VA rates rise by the Social Security COLA (${colaPct}) once Congress passes the annual VA COLA law; VA then publishes the 2027 rate tables.`,
+      body: `VA rates rise by the Social Security COLA (${colaPct}) once the annual VA COLA law is signed; VA then publishes the 2027 rate tables.`,
       status: 'pending',
-      source: CALENDAR_SOURCES.s4487,
-      link: { href: '/calculators/va-disability', label: 'VA disability calculator →' },
+      source: CALENDAR_SOURCES.hr8552,
+      link: { href: '/va-disability-rates', label: '2027 VA disability rates →' },
     },
     {
       // Deliberate exception to "no $ in calendar text": the official 2027 limits

@@ -220,6 +220,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.9,
     },
+    // Same priority as /pay/raise (Fable SEO Spec 4).
+    {
+      url: `${BASE_URL}/va-disability-rates`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
     {
       url: `${BASE_URL}/pay/dates`,
       lastModified: now,

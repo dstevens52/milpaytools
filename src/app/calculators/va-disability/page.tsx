@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
@@ -357,6 +358,11 @@ export default function VADisabilityPage() {
 
         {/* ── Current-year reference rate table (lib-rendered) ──────────────────── */}
         <div>
+          <p className="text-sm text-zinc-700 mb-3" data-testid="va-rates-page-link">
+            <Link href="/va-disability-rates" className="font-semibold text-red-700 underline hover:text-red-800">
+              2027 VA disability rates: COLA status and the full rate table by dependents →
+            </Link>
+          </p>
           <h2 className="text-xl font-semibold text-zinc-900 mb-3">
             {YEAR} VA disability monthly compensation by rating
           </h2>
