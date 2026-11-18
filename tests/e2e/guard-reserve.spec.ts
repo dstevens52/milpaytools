@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { getBasePay } from './helpers/data';
+import { waitForHydration } from './helpers/hydration';
 import { calculateGuardReserve, type GuardReserveInput } from '@/lib/calculations/guardReserve';
 
 // Expected values are typed from the build #4 rules and the 2026 DFAS/BAS tables
@@ -173,8 +174,9 @@ test.describe('Guard & Reserve Pay Calculator', () => {
   });
 
   test('days warning when entries exceed a year', async ({ page }) => {
-    // WebKit can fill before hydration, which drops the change events — wait first.
-    await page.waitForLoadState('networkidle');
+    // A fill before hydration never reaches React (queue row 1c) — wait for hydration first.
+    // networkidle doesn't prove hydration (WebKit CI-only flake, build 1b).
+    await waitForHydration(page.locator('#gr-weekends'));
     await page.locator('#gr-weekends').fill('52');
     await page.locator('#gr-addl').fill('300');
     await expect(page.getByText(/Annual drill \(52 weekends/)).toBeVisible();

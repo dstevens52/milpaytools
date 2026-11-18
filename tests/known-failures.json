@@ -133,45 +133,6 @@
       "ciOnly": false,
       "reason": "Swapping flake pair with the VA 40% test.",
       "section": "Intermittently swapping flake pair"
-    },
-    {
-      "id": "ci-guard-reserve-days-warning",
-      "kind": "flaky",
-      "file": "guard-reserve.spec.ts",
-      "line": 175,
-      "title": "Guard & Reserve Pay Calculator › days warning when entries exceed a year",
-      "browsers": [
-        "webkit"
-      ],
-      "ciOnly": true,
-      "reason": "Fill can land before hydration on the fast CI prod server (test waits on networkidle, not hydration); the label never updated. Failed CI runs 1 and 3, passed run 2 and 10/10 locally.",
-      "section": "CI only (GitHub Actions)"
-    },
-    {
-      "id": "ci-bah-2027-hub-alert-signup",
-      "kind": "flaky",
-      "file": "bah-2027-hub.spec.ts",
-      "line": 263,
-      "title": "Station pages (rendered) › alert signup posts source bah-alert-{slug} (request intercepted, nothing sent)",
-      "browsers": [
-        "webkit"
-      ],
-      "ciOnly": true,
-      "reason": "Posted email \"\": fill landed before hydration (test waits on networkidle, not hydration). Failed CI runs 2 and 3, passed run 1.",
-      "section": "CI only (GitHub Actions)"
-    },
-    {
-      "id": "ci-ga-events-calc-run-va-disability",
-      "kind": "flaky",
-      "file": "ga-events.spec.ts",
-      "line": 294,
-      "title": "calculation_run: user action only › va-disability: none on load or shared link; one per change or burst",
-      "browsers": [
-        "webkit"
-      ],
-      "ciOnly": true,
-      "reason": "after burst: 3 (run 2) or 4 (run 3) calculation_run events instead of 2 (burst split by timing). Failed CI runs 2 and 3, passed run 1.",
-      "section": "CI only (GitHub Actions)"
     }
   ]
 }
