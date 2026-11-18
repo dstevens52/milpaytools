@@ -191,7 +191,8 @@ export function DualMilitaryBAHCalculator() {
       optimal = null;
       optimalGain = 0;
     } else if (totalA === totalB) {
-      // Same grade at the same station — with-dependents premium is identical, totals tie.
+      // Equal totals — both members' with-dependents premiums are identical here (same grade, or
+      // different grades that share rates in this MHA, e.g. E-2 + E-3), so the totals tie.
       optimal = 'tied';
       optimalGain = 0;
     } else {
@@ -517,7 +518,8 @@ export function DualMilitaryBAHCalculator() {
                   {fmt(results.total * 12)}/year combined
                 </p>
                 <p className="text-xs text-zinc-400 mt-1">
-                  Rates from official {results.dataYear} DTMO tables · Both amounts are tax-free
+                  Rates from official {results.dataYear} DTMO tables · Both amounts are excluded
+                  from federal taxable income
                 </p>
               </div>
 
@@ -525,10 +527,11 @@ export function DualMilitaryBAHCalculator() {
               {results.hasDependents && (
                 <>
                   {results.optimal === 'tied' && (
-                    <div className="flex-none text-sm rounded-lg px-4 py-3 border bg-zinc-50 border-zinc-200 text-zinc-700 leading-snug">
-                      <span className="font-semibold">Same rank</span>
-                      <br />
-                      <span className="text-xs">Total is identical either way</span>
+                    <div
+                      className="flex-none text-sm rounded-lg px-4 py-3 border bg-zinc-50 border-zinc-200 text-zinc-700 leading-snug"
+                      data-testid="dual-tie-badge"
+                    >
+                      <span className="font-semibold">Same total either way</span>
                     </div>
                   )}
                   {(results.optimal === 'member1' || results.optimal === 'member2') && (

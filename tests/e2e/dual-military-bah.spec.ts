@@ -47,6 +47,26 @@ test.describe('Dual Military BAH — recommendation explanation (DM-01)', () => 
     );
   });
 
+  test('E-2 + E-3 at Fort Bragg: equal totals show the tie badge, not "Same rank"', async ({ page }) => {
+    // Different grades that share rates in NC182 — a tie that is not "same rank".
+    expect(getBAH('28310', 'E-2', true)).toBe(getBAH('28310', 'E-3', true));
+    expect(getBAH('28310', 'E-2', false)).toBe(getBAH('28310', 'E-3', false));
+    const e2 = premium('28310', 'E-2');
+
+    await page.goto('/calculators/dual-military-bah?rank1=e2&rank2=e3&zip=28310&dependents=yes');
+    await expect(page.getByTestId('dual-tie-badge')).toHaveText('Same total either way');
+    await expect(page.getByText('Same rank')).toHaveCount(0);
+    await expect(page.getByTestId('dual-premium-explanation')).toContainText(
+      `${bahAmount(e2)}/month for both members`,
+    );
+  });
+
+  test('result footnote: excluded from federal taxable income, never "tax-free"', async ({ page }) => {
+    await page.goto('/calculators/dual-military-bah?rank1=o3&rank2=e5&zip=28310&dependents=yes');
+    await expect(page.getByText(/Both amounts are excluded\s+from federal taxable income/)).toBeVisible();
+    await expect(page.getByText(/tax-free/i)).toHaveCount(0);
+  });
+
   test('page copy no longer says the higher-ranking member should claim', async ({ page }) => {
     await page.goto('/calculators/dual-military-bah');
     await expect(page.getByRole('heading', { name: 'Which member should claim dependents' })).toBeVisible();
