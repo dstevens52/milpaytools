@@ -90,6 +90,8 @@ as the fallback until CI results have matched local ones on two builds (Claude C
 - **Build flow:** run the tier 1 checks locally → push the branch → open a **draft** PR (a draft
   creates only a Vercel preview, never a production deploy) → CI runs the full suite on all three
   browsers against a production build → the PR is marked ready only after Claude Chat signs off.
+- **`report` is a required status check on `main`** (branch protection, set 2026-11-18): a PR
+  can't merge until it passes.
 - **The gate is the `report` job.** It merges every shard and runs `scripts/ci-known-failures.ts`
   against `tests/known-failures.json` (the machine-readable twin of `KNOWN_FAILURES.md`; keep both
   in step). It fails on any new failure, a report with zero tests, or tests missing versus

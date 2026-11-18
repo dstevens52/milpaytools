@@ -13,7 +13,7 @@
         "webkit"
       ],
       "ciOnly": false,
-      "reason": "Dynamic import of the route throws 'Cannot use import statement outside a module'; depends on run order (passes when an earlier test loaded the module).",
+      "reason": "Dynamic import of the route throws 'Cannot use import statement outside a module'; depends on run order (passes when an earlier test loaded the module). Kept 2026-11-18 (Dan): passes in every CI run (shard order), still fails locally; fixing the dynamic import is a CI follow-up.",
       "section": "BAH release day — lookup API dynamic import"
     },
     {
@@ -93,32 +93,6 @@
       ],
       "ciOnly": false,
       "reason": "Unexplained inputValue timeout under full-suite load (2026-11-15); kept on purpose.",
-      "section": "Known flaky tests"
-    },
-    {
-      "id": "ga-events-calc-run-compare",
-      "kind": "flaky",
-      "file": "ga-events.spec.ts",
-      "line": 294,
-      "title": "calculation_run: user action only › compare: none on load or shared link; one per change or burst",
-      "browsers": [
-        "firefox"
-      ],
-      "ciOnly": false,
-      "reason": "networkidle never settled (2026-11-15). Fix in place; remove after a full Firefox CI run without it.",
-      "section": "Known flaky tests"
-    },
-    {
-      "id": "ga-events-calc-run-va-loan",
-      "kind": "flaky",
-      "file": "ga-events.spec.ts",
-      "line": 294,
-      "title": "calculation_run: user action only › va-loan: none on load or shared link; one per change or burst",
-      "browsers": [
-        "firefox"
-      ],
-      "ciOnly": false,
-      "reason": "Timeout after the burst (2026-11-15). Fix in place; remove after a full Firefox CI run without it.",
       "section": "Known flaky tests"
     },
     {

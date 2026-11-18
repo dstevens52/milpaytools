@@ -31,6 +31,11 @@ when reference BAH/pay data is absent) and the `transition-readiness.spec.ts:92`
 - `bah-release-day.spec.ts:237` — "lookup API serves EDUCATION_BAH_YEAR rates on request;
   rejects unregistered years" — all browsers
 
+> **Kept, 2026-11-18 (Dan):** it passed on all three browsers in every GitHub Actions gate run on
+> PR #41 (CI's shard order loads the route module before this test), but it still fails locally,
+> on all browsers. Fixing the test's dynamic import is a CI follow-up; until then CI lists it
+> under "known failures now passing" on every run.
+
 ```
 SyntaxError: Cannot use import statement outside a module
     at tests/e2e/bah-release-day.spec.ts:238:21
@@ -144,22 +149,18 @@ in a full-suite run, re-run it in isolation before treating it as a regression.
   The *other* bah failure (02b-1 gate: 0 events after one rank change) was a change before
   hydration; follow-up 4 reproduced and fixed that one (the test now waits for hydration) and it
   is no longer listed.
-- `ga-events.spec.ts:294` (same `calculation_run` loop; was `:274`), two cases left of three seen
-  in the 2026-11-15 Build 04 gate (`feat/station-first-screen`, `--workers=1`, foreground batches):
-  a page load, a shared-link load, one change and a burst with 3 s quiet waits, close to the 30 s
-  limit under load, sometimes stuck on `networkidle`. Build 04 doesn't touch these calculators.
-  - `compare` — firefox: `page.goto(…, 'networkidle')` never settled. Alone: 4/5, then 10/10.
-    A `main` build gave 10/10 and the branch 10/10 in back-to-back runs, so not caused by Build 04.
-  - `va-loan` — firefox: timeout in the wait after the burst. Alone: 5/5.
-  **Fix in place, not yet cleared** (follow-up 4, `test/ga-events-hydration-wait`): the loop no
-  longer uses `networkidle` (it waits for hydration) and has a 60 s timeout. Repeated runs of the
-  old spec never reproduced these, so a clean repeated run of the new one can't clear them.
-  Remove them after a full Firefox run in CI in which they don't appear. (The 2026-11-18
-  follow-up 5 gate passed them on Firefox, but in foreground batches, not one full run.)
+- `ga-events.spec.ts:294` (same `calculation_run` loop; was `:274`): **all three cases seen in
+  the 2026-11-15 Build 04 gate are now cleared** (follow-up 4 replaced `networkidle` with a
+  hydration wait and a 60 s timeout).
+  (The `compare` and `va-loan` cases, firefox, were removed 2026-11-18 (approved by Dan): they
+  passed three full-suite Firefox runs in the GitHub Actions gate on PR #41 (runs 44294712122,
+  44299164032, 44301157082), the condition set when the fix went in.)
   (The `dual-military-bah` case, chromium, was removed 2026-11-18: it didn't appear in the
   follow-up 5 gate's single full-suite Chromium run, `--workers=1`, 1427/0/2/0.)
   (The `education` case, `networkidle` timeout on Firefox, was removed: the old spec failed it 2/190
   in a Firefox `--repeat-each=10` run, the new spec passed 190/190.)
+  The `bah` case (firefox) above and the CI-only `va-disability` case (webkit) below are separate
+  entries and stay listed.
 - `deployment-math.spec.ts:425` — round trip: every input survives copy link → reload — webkit.
   Failed once in the 2026-11-15 Build 04 gate: right after the reload the BAH line read $3,054
   instead of $2,427 (looks like a BAH lookup race). The spec file alone on WebKit passed 105/105
