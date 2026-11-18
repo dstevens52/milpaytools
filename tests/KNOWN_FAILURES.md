@@ -190,14 +190,21 @@ Seen in the CI gate (`.github/workflows/e2e.yml`: production build in the
 `mcr.microsoft.com/playwright:v1.59.1-noble` container, `--workers=2`, `--retries=0`) and not in
 local runs. Marked `ciOnly: true` in `tests/known-failures.json`. Shakedown runs on PR #41:
 run 1 = 44294712122 (plain runner), run 2 = 44299164032 and run 3 = 44301157082 (container).
-**Each failed in 2 of the 3 runs**, so these are frequent in CI, not rare: the hydration-wait
-follow-up below should come soon, or the gate output will carry them on most PRs.
+**Currently none.** The three entries below were removed on 2026-11-18 (build 1b, PR #43) after
+10/10 local WebKit runs each (production build, `--workers=1`) and a clean PR CI run (44332346443:
+0 unexpected). Kept here as history.
 
-**Common cause (probable):** the CI production server is much faster than the local gate (a
-quarter of one browser's suite runs in ~1.5 minutes), so a test can type into the page before
-React has hydrated it. The two input tests below wait with `waitForLoadState('networkidle')`,
-which does not prove hydration; `ga-events.spec.ts` moved to `waitForHydration()` for this
-reason (c990b86). Changing the tests is out of scope for the CI build: it's a follow-up.
+**Resolved 2026-11-18 (build 1b):**
+- Alert signup: a real bug, fixed in the app. `EmailSignup` read React state, which never saw an
+  address typed before hydration. The input is now read from the DOM at submit, and the button
+  is disabled until hydrated. The test waits with `waitForHydration()`; `pre-hydration.spec.ts`
+  covers typing before hydration.
+- Guard-reserve days warning: the test now waits with `waitForHydration()` instead of
+  `networkidle`. The app side (a fill before hydration is ignored) is queue row 1c.
+- ga-events va-disability: not hydration. Three Playwright clicks on WebKit in CI spread past
+  the 800 ms debounce. The burst now clicks in-page.
+
+Original entries (each failed in 2 of the 3 shakedown runs):
 
 - `guard-reserve.spec.ts:175` — "days warning when entries exceed a year" — **webkit**.
   CI run 1 (44294712122): `getByText(/Annual drill \(52 weekends/)` not found within 8 s after
@@ -207,8 +214,7 @@ reason (c990b86). Changing the tests is out of scope for the CI build: it's a fo
   CI run 2 (44299164032): the intercepted POST carried `email: ""` although the input showed
   `test@example.com` (`toHaveValue` passed), i.e. the DOM had the text but React state didn't.
   Failed again in run 3; passed in run 1. The test's comment records the same failure once before.
-  **Possible real issue (not fixed):** a real visitor who types before hydration and then
-  submits may send an empty email.
+  This was a real issue for visitors who typed before hydration (fixed in build 1b).
 - `ga-events.spec.ts:294` — `va-disability` case of "calculation_run: user action only" —
   **webkit**. CI run 2: "after burst" expected 2 `calculation_run` events, got 3 (the burst was
   split by timing; 4 in run 3). Passed in CI run 1. Same loop as the Firefox entries above.
