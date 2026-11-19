@@ -56,8 +56,17 @@ export interface StationTotalPayRow {
 
 export interface StationTotalPayData {
   rows: StationTotalPayRow[];
-  /** Year of the basic pay table (BAS follows it). */
+  /**
+   * The one year every figure in the section belongs to: the basic pay table's
+   * year (BAS follows it), with that same year's BAH. Never mixed.
+   */
   payYear: string;
+  /**
+   * A newer BAH year that is already loaded while its pay table isn't (BAH
+   * release day to the January pay flip), or null. The section stays on
+   * `payYear` and says when the newer totals appear.
+   */
+  pendingYear: string | null;
   /** DFAS footnote rate for an E-1 with less than 4 months of service. */
   e1Under4Months: number;
   /** Grades whose first published column is above "2 or less" (e.g. E-8 starts at Over 8). */
@@ -113,5 +122,29 @@ export function stationTotalPay(
     return keys.length > 0 && Math.min(...keys) > 0;
   });
 
-  return { rows, payYear: PAY_TABLE_YEAR, e1Under4Months: E1_UNDER_4_MONTHS, lateStartGrades };
+  return { rows, payYear: PAY_TABLE_YEAR, pendingYear: null, e1Under4Months: E1_UNDER_4_MONTHS, lateStartGrades };
+}
+
+/** With/without-dependents BAH for one MHA in one year, or null when that year isn't loaded. */
+export type BahRatesForYear = (year: string) => { w: Record<string, number>; wo: Record<string, number> } | null;
+
+/**
+ * The section for one station, never mixing years. Its year is the pay table's
+ * year, with BAH for that same year (from the registry, via `ratesForYear`):
+ * - BAH year = pay year: both current.
+ * - BAH year newer (2027 BAH loaded, 2027 pay table not yet): stays on the pay
+ *   year's BAH and sets `pendingYear` to the newer year.
+ * - No BAH loaded for the pay year: null (the section is not shown).
+ * When both newer tables are loaded, it switches to the newer year by itself.
+ */
+export function stationTotalPayForYears(
+  ratesForYear: BahRatesForYear,
+  bahYear: string,
+  payYear: string = PAY_TABLE_YEAR,
+): StationTotalPayData | null {
+  if (payYear !== PAY_TABLE_YEAR) throw new Error(`stationTotalPay: pay table ${PAY_TABLE_YEAR} is loaded, not ${payYear}`);
+  const rates = ratesForYear(payYear);
+  if (!rates) return null;
+  const data = stationTotalPay(rates.w, rates.wo);
+  return { ...data, pendingYear: Number(bahYear) > Number(payYear) ? bahYear : null };
 }

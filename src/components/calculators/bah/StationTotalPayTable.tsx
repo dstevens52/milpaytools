@@ -42,7 +42,6 @@ interface Props {
   stationName: string;
   stationSlug: string;
   zip: string;
-  bahYear: string;
   selectedGrade: PayGrade;
   hasDependents: boolean;
 }
@@ -53,11 +52,12 @@ interface Props {
  * this component only picks the dependency status the page's toggle selects.
  * The prerendered HTML is the with-dependents version.
  */
-export function StationTotalPayTable({ data, stationName, stationSlug, zip, bahYear, selectedGrade, hasDependents }: Props) {
-  const { rows, payYear, e1Under4Months, lateStartGrades } = data;
+export function StationTotalPayTable({ data, stationName, stationSlug, zip, selectedGrade, hasDependents }: Props) {
+  // One year for every figure: the pay table's year and that year's BAH (never mixed).
+  const { rows, payYear, pendingYear, e1Under4Months, lateStartGrades } = data;
+  const bahYear = payYear;
   const dep = (r: StationTotalPayRow) => (hasDependents ? r.w : r.wo);
   const depText = hasDependents ? 'with dependents' : 'without dependents';
-  const yearLabel = payYear === bahYear ? bahYear : `${payYear} basic pay, ${bahYear} BAH`;
 
   const sel = rows.find((r) => r.grade === selectedGrade);
   const selDep = sel ? dep(sel) : null;
@@ -135,8 +135,13 @@ export function StationTotalPayTable({ data, stationName, stationSlug, zip, bahY
     >
       <div className="px-4 sm:px-6 py-5">
         <h2 id="station-total-pay-heading" className="text-lg font-semibold text-zinc-900 mb-1">
-          {`Total monthly pay at ${stationName} by rank (${yearLabel})`}
+          {`Total monthly pay at ${stationName} by rank (${payYear})`}
         </h2>
+        {pendingYear && (
+          <p className="text-sm text-zinc-600 mb-1" data-testid="station-total-pay-pending">
+            {`${pendingYear} totals appear when the ${pendingYear} pay table is published.`}
+          </p>
+        )}
         {lead && (
           <p className="text-sm text-zinc-600" data-testid="station-total-pay-lead">
             {lead}

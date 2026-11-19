@@ -2,10 +2,10 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { DUTY_STATIONS, STATION_BY_SLUG, type DutyStation } from '@/data/duty-stations/stations';
-import { getMHACode, getMHARates, getMHARatesForYear, getLocationName, getNationalAverages, getBahMidYearChange, CURRENT_BAH_YEAR, PRIOR_BAH_YEAR } from '@/lib/calculations/bah';
+import { getMHACode, getMHARates, getMHARatesForYear, getLocationName, getNationalAverages, getBahMidYearChange, isBahYear, CURRENT_BAH_YEAR, PRIOR_BAH_YEAR } from '@/lib/calculations/bah';
 import { mhaPercentile, yoyForGrade, siblingInstallations, nearbyDeltas, hasRateDecrease, nationalIncreaseComparison } from '@/lib/calculations/bahStats';
 import { getFMRRange } from '@/lib/calculations/fmr';
-import { stationTotalPay } from '@/lib/calculations/stationTotalPay';
+import { stationTotalPayForYears } from '@/lib/calculations/stationTotalPay';
 import { bahVsRentClause } from '@/lib/rentCompare';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema, breadcrumbListSchema } from '@/lib/schema';
@@ -181,7 +181,16 @@ export default async function StationPage({
   const ratesWOPrev = mhaCode ? getMHARatesForYear(mhaCode, false, PRIOR_BAH_YEAR) : null;
 
   // Build 04b: basic pay + BAH + BAS by rank. Resolved here so the pay table never ships.
-  const totalPay = ratesW && ratesWO ? stationTotalPay(ratesW, ratesWO) : null;
+  // One year throughout: the pay table's year with that year's BAH (stays on 2026
+  // after 2027 BAH loads, until the 2027 pay table does).
+  const totalPay = mhaCode
+    ? stationTotalPayForYears((year) => {
+        if (!isBahYear(year)) return null;
+        const w = getMHARatesForYear(mhaCode, true, year);
+        const wo = getMHARatesForYear(mhaCode, false, year);
+        return w && wo ? { w, wo } : null;
+      }, CURRENT_BAH_YEAR)
+    : null;
 
   const taxInfo = STATE_TAX_DATA[station.state] ?? null;
   // CONUS COLA: keyed by the station ZIP's MHA against the official DTMO COLA list.

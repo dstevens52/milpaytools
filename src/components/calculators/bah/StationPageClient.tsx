@@ -587,7 +587,6 @@ export function StationPageClient({
                 stationName={station.name}
                 stationSlug={station.slug}
                 zip={station.zip}
-                bahYear={currentYear}
                 selectedGrade={selectedGrade}
                 hasDependents={hasDependents}
               />

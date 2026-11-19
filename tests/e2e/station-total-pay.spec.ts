@@ -10,9 +10,9 @@
 import { test, expect, type Page } from '@playwright/test';
 import { payTable, DATA_YEAR as PAY_YEAR, E1_UNDER_4_MONTHS } from '../../src/data/pay-tables/2026';
 import { BAS_RATES } from '../../src/data/constants';
-import { getMHACode, getMHARates, CURRENT_BAH_YEAR } from '../../src/lib/calculations/bah';
+import { getMHACode, getMHARates, getMHARatesForYear, isBahYear, CURRENT_BAH_YEAR } from '../../src/lib/calculations/bah';
 import { DUTY_STATIONS, STATION_BY_SLUG } from '../../src/data/duty-stations/stations';
-import { stationTotalPay } from '../../src/lib/calculations/stationTotalPay';
+import { stationTotalPay, stationTotalPayForYears } from '../../src/lib/calculations/stationTotalPay';
 import { formatCurrency } from '../../src/lib/utils';
 import { waitForHydration } from './helpers/hydration';
 
@@ -26,11 +26,12 @@ const GRADES = [
 const fmt = (n: number) => formatCurrency(n);
 const range = (a: number, b: number) => (a === b ? fmt(a) : `${fmt(a)}–${fmt(b)}`);
 
-/** Expected row for one grade, from the raw data files. */
+/** Expected row for one grade, from the raw data files: the pay table's year and that year's BAH. */
 function expected(slug: string, grade: string, dependents: boolean) {
   const station = STATION_BY_SLUG[slug];
   const mha = getMHACode(station.zip)!;
-  const bah = getMHARates(mha, dependents)![grade];
+  expect(isBahYear(PAY_YEAR), `BAH ${PAY_YEAR} is registered`).toBe(true);
+  const bah = getMHARatesForYear(mha, dependents, PAY_YEAR as typeof CURRENT_BAH_YEAR)![grade];
   const pay = Object.values((payTable as Record<string, Record<string, number>>)[grade]);
   const min = Math.min(...pay);
   const max = Math.max(...pay);
@@ -76,6 +77,40 @@ test.describe('Station total pay: data (no browser)', () => {
   });
 });
 
+test.describe('Station total pay: release day never mixes years (no browser)', () => {
+  const NEXT = String(Number(PAY_YEAR) + 1);
+  const mha = getMHACode(STATION_BY_SLUG['fort-bragg'].zip)!;
+  const current = { w: getMHARates(mha, true)!, wo: getMHARates(mha, false)! };
+  // Stand-in next-year BAH: every rate +$123, so any leak into the section shows.
+  const bump = (r: Record<string, number>) => Object.fromEntries(Object.entries(r).map(([g, v]) => [g, v + 123]));
+  const standIn = { w: bump(current.w), wo: bump(current.wo) };
+
+  test(`${NEXT} BAH loaded, ${PAY_YEAR} pay table: the section stays on ${PAY_YEAR} pay AND ${PAY_YEAR} BAH`, () => {
+    expect(PAY_YEAR).toBe(CURRENT_BAH_YEAR); // today: both current (control for the stand-in below)
+    const asked: string[] = [];
+    const d = stationTotalPayForYears((y) => {
+      asked.push(y);
+      return y === PAY_YEAR ? current : y === NEXT ? standIn : null;
+    }, NEXT)!;
+    expect(asked).toEqual([PAY_YEAR]); // never reads the newer BAH
+    expect(d.payYear).toBe(PAY_YEAR);
+    expect(d.pendingYear).toBe(NEXT);
+    const e5 = d.rows.find((r) => r.grade === 'E-5')!;
+    expect(e5.w!.bah).toBe(current.w['E-5']);
+    expect(e5.w!.bah).not.toBe(standIn.w['E-5']);
+    for (const r of d.rows) {
+      expect(r.w!.bah, r.grade).toBe(current.w[r.grade]);
+      expect(r.wo!.bah, r.grade).toBe(current.wo[r.grade]);
+      expect(r.w!.totalMin).toBeCloseTo(r.basicMin! + current.w[r.grade] + r.bas, 2);
+    }
+  });
+
+  test('same year: no pending line; BAH missing for the pay year: no section', () => {
+    expect(stationTotalPayForYears(() => current, PAY_YEAR)!.pendingYear).toBeNull();
+    expect(stationTotalPayForYears(() => null, NEXT)).toBeNull();
+  });
+});
+
 test.describe('Station total pay: server HTML (JavaScript off)', () => {
   test.use({ javaScriptEnabled: false });
 
@@ -84,8 +119,10 @@ test.describe('Station total pay: server HTML (JavaScript off)', () => {
       const station = STATION_BY_SLUG[slug];
       await page.goto(`/bah/${slug}`);
       await expect(section(page).getByRole('heading', { level: 2 })).toHaveText(
-        `Total monthly pay at ${station.name} by rank (${PAY_YEAR === CURRENT_BAH_YEAR ? CURRENT_BAH_YEAR : `${PAY_YEAR} basic pay, ${CURRENT_BAH_YEAR} BAH`})`,
+        `Total monthly pay at ${station.name} by rank (${PAY_YEAR})`,
       );
+      // The "{next} totals appear…" line shows only while a newer BAH year is loaded.
+      await expect(page.getByTestId('station-total-pay-pending')).toHaveCount(CURRENT_BAH_YEAR === PAY_YEAR ? 0 : 1);
       const e5 = expected(slug, 'E-5', true);
       await expect(page.getByTestId('station-total-pay-lead')).toHaveText(
         `At ${station.name}, an E-5 with dependents earns between ${fmt(e5.totalMin)} and ${fmt(e5.totalMax)} a month in basic pay + BAH + BAS, depending on years of service.`,
@@ -128,7 +165,7 @@ test.describe('Station total pay: server HTML (JavaScript off)', () => {
     await expect(foot).toContainText(`An E-1 with less than 4 months of service gets ${fmt(E1_UNDER_4_MONTHS)} basic pay.`);
     await expect(foot).toContainText('(E-8, E-9, W-5, O-1E, O-2E, and O-3E start above the first column)');
     await expect(foot.getByRole('link', { name: `DFAS ${PAY_YEAR} basic pay` })).toHaveAttribute('href', /dfas\.mil/);
-    await expect(foot.getByRole('link', { name: `DTMO ${CURRENT_BAH_YEAR} BAH` })).toHaveAttribute('href', /travel\.dod\.mil/);
+    await expect(foot.getByRole('link', { name: `DTMO ${PAY_YEAR} BAH` })).toHaveAttribute('href', /travel\.dod\.mil/);
     await expect(foot.getByRole('link', { name: 'DFAS BAS' })).toHaveAttribute('href', /dfas\.mil/);
     await expect(section(page)).not.toContainText('tax-free');
   });
