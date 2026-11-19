@@ -370,7 +370,7 @@ function vaRefinanceExample(): CalculatorSummaryExample {
 
 const SUMMARIES: Record<SummaryKey, Omit<CalculatorSummaryData, 'key' | 'example'> & { example: (() => CalculatorSummaryExample) | null }> = {
   'total-compensation': {
-    what: 'Adds up your monthly military pay (base pay, BAH and BAS), then the TSP match, the value of allowances excluded from federal taxable income, and the civilian salary it would take to match it.',
+    what: 'Adds up your monthly military pay (base pay, BAH and BAS), then the TSP match, the tax value of BAH and BAS (both excluded from federal taxable income), and the civilian salary it would take to match it.',
     inputs: 'pay grade, years of service, duty station ZIP, dependents, retirement system, TSP contribution, government housing or meal card',
     example: totalCompExample,
     basis: 'Built on official DFAS pay tables and DTMO BAH rates.',
