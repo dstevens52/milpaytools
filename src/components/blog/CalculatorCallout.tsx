@@ -18,7 +18,7 @@ const CALCULATOR_CONFIG = {
   },
   'total-compensation': {
     href: '/calculators/total-compensation',
-    label: 'Total Compensation Calculator',
+    label: 'Military Pay Calculator',
     defaultText: 'See your exact total military compensation — base pay, BAH, BAS, TSP match, and the civilian salary equivalent.',
   },
   bah: {
@@ -28,7 +28,7 @@ const CALCULATOR_CONFIG = {
   },
   'va-disability': {
     href: '/calculators/va-disability',
-    label: 'VA Disability Rating Calculator',
+    label: 'VA Disability Calculator',
     defaultText: 'Calculate your combined VA disability rating using the official whole-person formula. Shows every step of the math.',
   },
   'va-loan': {

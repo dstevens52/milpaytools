@@ -325,7 +325,7 @@ export default function PartnersPage() {
                 href="/calculators/total-compensation"
                 className="inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors"
               >
-                Total Compensation Calculator →
+                Military Pay Calculator →
               </Link>
             </div>
           </div>
