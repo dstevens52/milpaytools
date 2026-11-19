@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { formatCurrency } from '@/lib/utils';
 import { YoYDelta } from '@/components/calculators/bah/YoYDelta';
 import { BAH_YEAR, BAH_PRIOR_YEAR, BAH_EFFECTIVE_DATE_LABEL } from '@/data/bah/current';
@@ -55,6 +56,48 @@ function GradeLabel({ label }: { label: string }) {
   );
 }
 
+/** One grade's row. Same markup as before; memoized so unchanged rows skip re-rendering. */
+const RateRow = memo(function RateRow({
+  grade, w, wo, prevW, prevWO, showYoYW, showYoYWO, isSelected, boldW, boldWO, currentYear, priorYear,
+}: {
+  grade: string;
+  w: number | undefined;
+  wo: number | undefined;
+  prevW: number | undefined;
+  prevWO: number | undefined;
+  showYoYW: boolean;
+  showYoYWO: boolean;
+  isSelected: boolean;
+  boldW: boolean;
+  boldWO: boolean;
+  currentYear: string;
+  priorYear: string;
+}) {
+  return (
+    <tr
+      data-grade={grade}
+      aria-current={isSelected ? 'true' : undefined}
+      className={`transition-colors ${isSelected ? 'bg-red-50' : 'hover:bg-zinc-50'}`}
+    >
+      <td className="px-2.5 sm:px-4 py-2.5 text-zinc-700 font-medium align-top">
+        <GradeLabel label={RANK_DISPLAY[grade as keyof typeof RANK_DISPLAY]} />
+      </td>
+      <td className={`px-2.5 sm:px-4 py-2.5 text-right tabular-nums align-top ${boldW ? 'font-bold' : ''}`}>
+        <span className="block text-zinc-900 font-semibold">{w !== undefined ? fmt(w) : '—'}</span>
+        {w !== undefined && showYoYW && (
+          <YoYDelta curr={w} prev={prevW} currentYear={currentYear} priorYear={priorYear} compact className="block text-[11px] font-normal mt-0.5" />
+        )}
+      </td>
+      <td className={`px-2.5 sm:px-4 py-2.5 text-right tabular-nums align-top ${boldWO ? 'font-bold' : ''}`}>
+        <span className="block text-zinc-600">{wo !== undefined ? fmt(wo) : '—'}</span>
+        {wo !== undefined && showYoYWO && (
+          <YoYDelta curr={wo} prev={prevWO} currentYear={currentYear} priorYear={priorYear} compact className="block text-[11px] font-normal mt-0.5" />
+        )}
+      </td>
+    </tr>
+  );
+});
+
 /**
  * The station page's full BAH rate table: every pay grade, with and without
  * dependents. Open by default since Build 04 (no preview line, no expander), so
@@ -65,34 +108,29 @@ export function CollapsibleRateTable({ locationName, ratesW, ratesWO, selectedGr
   const hasPrevW = !!ratesWPrev && Object.keys(ratesWPrev).length > 0;
   const hasPrevWO = !!ratesWOPrev && Object.keys(ratesWOPrev).length > 0;
 
+  // Each row is a memoized RateRow with primitive props: a rank change re-renders only the rows
+  // whose highlight changes (P1 #8, docs/perf/p1-step1-report.md).
   function renderRow(grade: string) {
     const w = ratesW[grade];
     const wo = ratesWO[grade];
     if (w === undefined && wo === undefined) return null;
     const isSelected = selectedGrade === grade;
     return (
-      <tr
+      <RateRow
         key={grade}
-        data-grade={grade}
-        aria-current={isSelected ? 'true' : undefined}
-        className={`transition-colors ${isSelected ? 'bg-red-50' : 'hover:bg-zinc-50'}`}
-      >
-        <td className="px-2.5 sm:px-4 py-2.5 text-zinc-700 font-medium align-top">
-          <GradeLabel label={RANK_DISPLAY[grade as keyof typeof RANK_DISPLAY]} />
-        </td>
-        <td className={`px-2.5 sm:px-4 py-2.5 text-right tabular-nums align-top ${isSelected && selectedHasDependents === true ? 'font-bold' : ''}`}>
-          <span className="block text-zinc-900 font-semibold">{w !== undefined ? fmt(w) : '—'}</span>
-          {w !== undefined && hasPrevW && (
-            <YoYDelta curr={w} prev={ratesWPrev![grade]} currentYear={currentYear} priorYear={priorYear} compact className="block text-[11px] font-normal mt-0.5" />
-          )}
-        </td>
-        <td className={`px-2.5 sm:px-4 py-2.5 text-right tabular-nums align-top ${isSelected && selectedHasDependents === false ? 'font-bold' : ''}`}>
-          <span className="block text-zinc-600">{wo !== undefined ? fmt(wo) : '—'}</span>
-          {wo !== undefined && hasPrevWO && (
-            <YoYDelta curr={wo} prev={ratesWOPrev![grade]} currentYear={currentYear} priorYear={priorYear} compact className="block text-[11px] font-normal mt-0.5" />
-          )}
-        </td>
-      </tr>
+        grade={grade}
+        w={w}
+        wo={wo}
+        prevW={hasPrevW ? ratesWPrev![grade] : undefined}
+        prevWO={hasPrevWO ? ratesWOPrev![grade] : undefined}
+        showYoYW={hasPrevW}
+        showYoYWO={hasPrevWO}
+        isSelected={isSelected}
+        boldW={isSelected && selectedHasDependents === true}
+        boldWO={isSelected && selectedHasDependents === false}
+        currentYear={currentYear}
+        priorYear={priorYear}
+      />
     );
   }
 
