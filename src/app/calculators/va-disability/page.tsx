@@ -131,7 +131,8 @@ export default function VADisabilityPage() {
           <div className="inline-flex items-center gap-2.5 rounded-full bg-zinc-900 px-4 py-1.5 mb-2">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-none" aria-hidden="true" />
             <span className="text-[11px] font-semibold text-white uppercase tracking-wide">
-              Free &middot; No Account &middot; No Personal Info &middot; Official {YEAR} DoD &amp; VA Data
+              {/* One string: the JSX form rendered "2026DoD" (the space after {YEAR} was dropped). */}
+              {`Free · No Account · No Personal Info · Official ${YEAR} DoD & VA Data`}
             </span>
           </div>
           <div className="hidden md:block"><DataCurrencyBadge source={`Official VA rates effective ${EFFECTIVE} (${RATES.colaPercent}% COLA)`} /></div>

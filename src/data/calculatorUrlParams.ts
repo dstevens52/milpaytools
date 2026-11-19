@@ -36,7 +36,21 @@ export interface CalculatorUrlSpec {
   example: { label: string; params: Readonly<Record<string, string>> };
 }
 
+import { ALLOCATION_PRESETS } from '@/data/tsp/2026/constants';
+
 export const SITE_ORIGIN = 'https://www.milpaytools.com';
+
+/** "60% C, 25% S and 15% I Fund" from an allocation (funds at 0% left out). */
+export function describeFundMix(allocation: Readonly<Record<string, number>>): string {
+  const parts = Object.entries(allocation)
+    .filter(([, pct]) => pct > 0)
+    .map(([fund, pct]) => `${pct}% ${fund}`);
+  const list = parts.length > 1 ? `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}` : parts[0];
+  return `${list} Fund`;
+}
+
+/** The TSP calculator's default fund mix (the aggressive preset); no URL setting changes it. */
+const TSP_DEFAULT_MIX = describeFundMix(ALLOCATION_PRESETS.aggressive);
 
 const GRADE = 'pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work)';
 const YES_NO = 'yes or no (1/0 and true/false also work)';
@@ -117,7 +131,7 @@ export const CALCULATOR_URL_PARAMS = {
       { name: 'more_years', values: 'years left to serve (match stops after), 1–30', default: '20 minus yos, at least 1' },
     ],
     example: {
-      label: 'E-5, 6 years of service, no current balance, 5% of base pay under BRS, projected 39 years',
+      label: `E-5, 6 years of service, no current balance, 5% of base pay under BRS, projected 39 years at the default ${TSP_DEFAULT_MIX} mix and its blended average annual return (an assumption, not a forecast); results are in future dollars`,
       params: { rank: 'e5', yos: '6', balance: '0', years: '39', match: 'yes' },
     },
   },

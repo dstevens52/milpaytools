@@ -9,7 +9,7 @@
  * checks the rendered block and that the example link shows the same figure.
  */
 
-import { CALCULATOR_URL_PARAMS, exampleHref, type CalculatorKey } from '@/data/calculatorUrlParams';
+import { CALCULATOR_URL_PARAMS, describeFundMix, exampleHref, type CalculatorKey } from '@/data/calculatorUrlParams';
 import { BAH_YEAR } from '@/data/bah/current';
 import { ALLOCATION_PRESETS } from '@/data/tsp/2026/constants';
 import { DATA_YEAR as COLA_YEAR } from '@/data/cola/2026/constants';
@@ -124,13 +124,14 @@ function vaDisabilityExample(): CalculatorSummaryExample {
 function tspExample(): CalculatorSummaryExample {
   // The calculator's defaults for this link: current age 26, 5% of base pay, aggressive
   // preset, 4.5% annual raise, match stops after 20 − 6 = 14 more years.
+  const allocation = { ...ALLOCATION_PRESETS.aggressive };
   const p = projectTSP({
     startingBalance: 0,
     monthlyContribution: getBasePayMonthly('E-5', 6) * 0.05,
     retirementSystem: 'brs',
     payGrade: 'E-5',
     yearsOfService: 6,
-    allocation: { ...ALLOCATION_PRESETS.aggressive },
+    allocation,
     yearsToProject: 39,
     moreYearsToServe: 14,
     annualPayRaisePct: 4.5,
@@ -138,7 +139,8 @@ function tspExample(): CalculatorSummaryExample {
   return {
     lead: 'an E-5 with 6 years of service contributing 5% of base pay under BRS, from age 26 to 65',
     figure: sampleFmt(nonZero(p.finalBalance, 'tsp')),
-    tail: ' projected balance, at the calculator’s assumed fund returns',
+    // Rate shown the way the calculator shows it ("Blended annual return: 8.98%").
+    tail: `, assuming a ${(p.blendedAnnualReturn * 100).toFixed(2)}% average annual return (the blended rate of a ${describeFundMix(allocation)} mix; not a forecast), in future dollars`,
     href: href('tsp'),
   };
 }

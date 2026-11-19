@@ -65,7 +65,7 @@ Each calculator reads the settings below from its URL, so a link can open a fill
 - `match`: yes = BRS with government match, no = legacy (no match). Default: yes.
 - `roth`: yes = Roth, no = Traditional. Default: Roth.
 - `more_years`: years left to serve (match stops after), 1–30. Default: 20 minus yos, at least 1.
-- Example (E-5, 6 years of service, no current balance, 5% of base pay under BRS, projected 39 years): https://www.milpaytools.com/calculators/tsp?rank=e5&yos=6&balance=0&years=39&match=yes
+- Example (E-5, 6 years of service, no current balance, 5% of base pay under BRS, projected 39 years at the default 60% C, 25% S and 15% I Fund mix and its blended average annual return (an assumption, not a forecast); results are in future dollars): https://www.milpaytools.com/calculators/tsp?rank=e5&yos=6&balance=0&years=39&match=yes
 
 ### Military Retirement Calculator (/calculators/retirement)
 - `system`: brs or high3. Default: brs.
