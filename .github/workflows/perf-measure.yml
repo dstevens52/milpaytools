@@ -13,11 +13,21 @@ name: Perf measure (P1)
 #
 # Run: push to perf/measure (or perf/fixes) touching scripts/perf/** or this file, or
 #   gh workflow run perf-measure.yml --ref <branch>   (once the workflow is on main)
+#   gh workflow run perf-measure.yml --ref <branch> -f webkit_runs=20 -f webkit_only=true   (WebKit samples only)
 on:
   push:
     branches: [perf/measure, perf/fixes]
     paths: ['scripts/perf/**', '.github/workflows/perf-measure.yml']
   workflow_dispatch:
+    inputs:
+      webkit_runs:
+        description: 'WebKit trace runs per page (1-30)'
+        type: number
+        default: 3
+      webkit_only:
+        description: 'Only the WebKit trace (skips route weights, Chromium, production and analyzer passes)'
+        type: boolean
+        default: false
 
 concurrency:
   group: perf-measure-${{ github.ref }}
@@ -79,17 +89,24 @@ jobs:
               console.error("server did not start"); process.exit(1);
             })();'
       - name: 1/2/5 — route weights (every sitemap page)
+        if: ${{ !inputs.webkit_only }}
         run: npx tsx scripts/perf/route-weights.ts --base http://localhost:3000 --out perf-out/route-weights.json
       - name: 4 — interaction trace, Chromium 4× CPU (local build)
+        if: ${{ !inputs.webkit_only }}
         run: npx tsx scripts/perf/trace-interactions.ts --base http://localhost:3000 --mode local --runs 3 --trace-dir perf-out/traces --out perf-out/trace-local.json
       - name: 4 — WebKit, unthrottled (local build)
         continue-on-error: true
-        run: npx tsx scripts/perf/trace-interactions.ts --base http://localhost:3000 --mode local --browser webkit --runs 3 --out perf-out/trace-webkit.json
+        env:
+          RUNS: ${{ inputs.webkit_runs || 3 }}
+        run: |
+          if ! printf '%s' "$RUNS" | grep -Eq '^[0-9]+$' || [ "$RUNS" -lt 1 ] || [ "$RUNS" -gt 30 ]; then echo "::error::webkit_runs must be 1-30"; exit 1; fi
+          npx tsx scripts/perf/trace-interactions.ts --base http://localhost:3000 --mode local --browser webkit --runs "$RUNS" --out perf-out/trace-webkit.json
       - name: 6 — production with analytics running, collection blocked, Chromium 4× CPU
+        if: ${{ !inputs.webkit_only }}
         continue-on-error: true
         run: npx tsx scripts/perf/trace-interactions.ts --base https://www.milpaytools.com --mode prod --runs 3 --trace-dir perf-out/traces --out perf-out/trace-prod.json
       - name: 3/5 — module attribution (Turbopack analyzer)
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && !inputs.webkit_only }}
         run: |
           pkill -f "next start" || true
           npx next experimental-analyze -o 2>&1 | tail -20

@@ -157,7 +157,7 @@ function window_(p: Perf, from: number, to: number) {
   const byInteraction = new Map<number, (typeof ev)[number]>();
   for (const e of ev) if (!byInteraction.has(e.interactionId) || byInteraction.get(e.interactionId)!.duration < e.duration) byInteraction.set(e.interactionId, e);
   const interactions = [...byInteraction.values()].map((e) => ({
-    name: e.name, target: e.target, duration: e.duration,
+    name: e.name, target: e.target, duration: e.duration, at: Math.round(e.start - from),
     inputDelay: Math.round(e.processingStart - e.start),
     processing: Math.round(e.processingEnd - e.processingStart),
     presentation: Math.round(e.start + e.duration - e.processingEnd),
@@ -235,8 +235,21 @@ async function visit(browser: Browser, path: string, interactions: Interaction[]
     let prof = null;
     if (cdp && opts.profile) prof = summarizeProfile((await cdp.send('Profiler.stop')).profile as CpuProfile);
     const t1 = await page.evaluate(() => performance.now());
+    // Requests that started during this interaction (what a slow "presentation" may wait on).
+    const requests = await page.evaluate(
+      ([from, base]) =>
+        (performance.getEntriesByType('resource') as PerformanceResourceTiming[])
+          .filter((r) => r.startTime >= from)
+          .map((r) => ({
+            url: r.name.replace(base, '').slice(0, 120),
+            type: r.initiatorType,
+            start: Math.round(r.startTime - from),
+            end: Math.round(r.responseEnd - from),
+          })),
+      [t0, BASE] as const,
+    );
     const perf = (await page.evaluate(() => (window as unknown as { __perf: unknown }).__perf)) as Perf;
-    results.push({ name: it.name, label: r.label, changed: r.before !== r.after || it.kind === 'click', before: r.before, after: r.after, profile: prof, metrics: { ...window_(perf, t0, t1), error } });
+    results.push({ name: it.name, label: r.label, changed: r.before !== r.after || it.kind === 'click', before: r.before, after: r.after, profile: prof, metrics: { ...window_(perf, t0, t1), requests, error } });
   }
   if (opts.trace && BROWSER === 'chromium') await browser.stopTracing();
   const perf = (await page.evaluate(() => (window as unknown as { __perf: unknown }).__perf)) as Perf;
