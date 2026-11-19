@@ -5,12 +5,25 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { formatCurrency } from '@/lib/utils';
+import { retirementExample, lifetimeNominal, cents } from '@/lib/calculations/retirementExample';
 
 const TITLE = 'Military Retirement & TSP Guide: BRS vs High-3';
 const DESC =
   'How BRS and High-3 differ, what your pension is worth, and how TSP choices compound over a career. Plain-English guide, free calculators. No account.';
 const CANONICAL = '/guides/retirement-tsp';
 const DATE = '2026-04-12';
+// Worked examples, computed with the retirement calculator's functions (C1): today's
+// pay table, retiring at exactly 20 years. No hand-typed pension figures.
+const E7 = retirementExample('E-7', 20);
+const O5 = retirementExample('O-5', 20);
+const E7_PENSION = formatCurrency(E7.high3Pension); // whole dollars, e.g. "$3,059"
+const E7_ANNUAL = formatCurrency(E7.high3Pension * 12);
+const E7_LIFETIME = lifetimeNominal(E7.high3Pension, 44); // age 38 to 82
+const E7_LIFETIME_TEXT = `$${(E7_LIFETIME / 1_000_000).toFixed(1)} million`;
+const usdCents = (n: number) => formatCurrency(cents(n), true);
+const O5_BREAKDOWN = O5.breakdown.map((b) => `${b.months} months at ${b.column}`).join(' + ');
+
 const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Retirement & TSP Guide 2026', sub: 'Pension, TSP, TRICARE, and VA disability in one picture' });
 
 export const metadata: Metadata = {
@@ -64,7 +77,7 @@ const FAQS = [
   {
     question: 'Is it worth staying to 20 years for the pension?',
     answer:
-      'The 20-year pension cliff is significant. An E-7 retiring at 38 with a $3,100/month pension who lives to 82 collects for 44 years — with COLA, the lifetime nominal value can exceed $2.9 million. Healthcare: TRICARE for retirees is worth an estimated $10,000–$15,000/year compared to civilian coverage. The financial case for staying to 20 is strong, but career factors and quality of life matter equally.',
+      `The 20-year pension cliff is significant. An E-7 retiring at 38 with a ${E7_PENSION}/month pension who lives to 82 collects for 44 years — with COLA, the lifetime nominal value is about ${E7_LIFETIME_TEXT}. Healthcare: TRICARE for retirees is worth an estimated $10,000–$15,000/year compared to civilian coverage. The financial case for staying to 20 is strong, but career factors and quality of life matter equally.`,
   },
   {
     question: 'How does VA disability interact with military retirement pay?',
@@ -159,9 +172,9 @@ const ACCORDION = [
           <strong className="text-zinc-800">Example — O-5 retiring at exactly 20 years:</strong>
         </p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li>Final base pay: ~$12,033/month (2026 O-5 at 20 years)</li>
-          <li>Highest 36-month average: ~$11,820/month</li>
-          <li>Pension: 50% × $11,820 = <strong className="text-zinc-800">$5,910/month ($70,920/year)</strong>, for life with COLA</li>
+          <li>Base pay in the 20th year: {usdCents(O5.finalYearMonthlyPay)}/month ({O5.payTableYear} O-5, Over 18 column)</li>
+          <li>Highest 36-month average: {usdCents(O5.high3Average)}/month ({O5_BREAKDOWN})</li>
+          <li>Pension: 50% × {usdCents(O5.high3Average)} = <strong className="text-zinc-800">{usdCents(O5.high3Pension)}/month ({formatCurrency(O5.high3Pension * 12)}/year)</strong>, for life with COLA</li>
         </ul>
         <p>
           <strong className="text-zinc-800">BRS pension formula:</strong> 2.0% × years of service × High-3 average base pay. At 20 years, that equals 40% of the High-3 average — compared to 50% under High-3&apos;s 2.5% multiplier. BRS compensates for the lower pension with government TSP contributions over a career.
@@ -294,9 +307,9 @@ const ACCORDION = [
         </p>
         <p><strong className="text-zinc-800">What the pension is actually worth:</strong></p>
         <p>
-          An E-7 retiring at age 38 with a $3,100/month pension who lives to 82 will collect for{' '}
-          44 years. With COLA adjustments, the lifetime nominal value can easily exceed{' '}
-          <strong className="text-zinc-800">$2.9 million</strong>.
+          An E-7 retiring at age 38 with a {E7_PENSION}/month pension who lives to 82 will collect for{' '}
+          44 years. With COLA adjustments, the lifetime nominal value comes to about{' '}
+          <strong className="text-zinc-800">{E7_LIFETIME_TEXT}</strong>.
         </p>
         <p><strong className="text-zinc-800">TRICARE:</strong> Military retirees qualify for TRICARE coverage — one of the most comprehensive and affordable health insurance options available. For a family, the difference between TRICARE and civilian employer coverage can exceed $10,000–$15,000/year. This benefit is frequently underweighted in retirement calculations.</p>
         <p>
@@ -431,8 +444,8 @@ export default function RetirementTspGuidePage() {
           <div className="rounded-lg bg-red-50 border border-red-200 px-5 py-4 mb-8 flex items-start gap-3">
             <div className="w-1 self-stretch rounded-full bg-red-500 flex-none" aria-hidden="true" />
             <p className="text-base font-semibold text-red-800 leading-snug">
-              An E-7 retiring at 38 with a $3,100/month pension will collect over{' '}
-              <span className="text-red-700">$2.9 million in lifetime pension value alone.</span>{' '}
+              An E-7 retiring at 38 with a {E7_PENSION}/month pension will collect about{' '}
+              <span className="text-red-700">{E7_LIFETIME_TEXT} in lifetime pension value alone.</span>{' '}
               But contributing 3% to TSP instead of 5% costs roughly $493/year in available government matching.
             </p>
           </div>
@@ -542,8 +555,8 @@ export default function RetirementTspGuidePage() {
                 </div>
                 <div className="px-5 py-1 divide-y divide-zinc-100">
                   {[
-                    { label: 'Monthly pension', value: '$3,100' },
-                    { label: 'Annual pension', value: '$37,200' },
+                    { label: 'Monthly pension', value: E7_PENSION },
+                    { label: 'Annual pension', value: E7_ANNUAL },
                     { label: 'Est. TRICARE savings', value: '~$12,000/yr' },
                   ].map(({ label, value }) => (
                     <div key={label} className="flex items-center justify-between py-2.5">
@@ -555,7 +568,7 @@ export default function RetirementTspGuidePage() {
                 <div className="mx-5 my-3 rounded-lg bg-red-50 border border-red-200 px-4 py-3">
                   <div className="flex items-center justify-between mb-1.5">
                     <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Lifetime pension value</p>
-                    <p className="text-2xl font-bold tabular-nums text-red-700">~$2.4M</p>
+                    <p className="text-2xl font-bold tabular-nums text-red-700">{`~$${(E7_LIFETIME / 1_000_000).toFixed(1)}M`}</p>
                   </div>
                   <div className="flex items-center justify-between">
                     <p className="text-xs text-zinc-500">CRDP eligible</p>

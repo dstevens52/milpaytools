@@ -92,7 +92,7 @@ export interface RetiredPaySplit {
   grossRetiredPayAnnual: number;
   vaWaiverAnnual: number;
   taxableRetiredPayAnnual: number; // after the VA waiver — federally taxable
-  crscAnnual: number;              // tax-free
+  crscAnnual: number;              // non-taxable (DFAS: CRSC "is non-taxable")
   receivesCRDP: boolean;
 }
 
@@ -101,7 +101,7 @@ export interface RetiredPaySplit {
  * - 50%+ rating with 20+ years: CRDP — full retired pay and full VA comp.
  * - Below 50%: retired pay is reduced dollar-for-dollar by VA comp (VA waiver).
  *   If the user says the disability is combat-related, CRSC restores the waived
- *   amount tax-free, capped at the waived amount.
+ *   amount as non-taxable pay, capped at the waived amount.
  */
 export function splitRetiredPay(
   grossRetiredPayAnnual: number,

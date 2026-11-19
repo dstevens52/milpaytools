@@ -17,7 +17,7 @@ Military retirement pays an immediate monthly pension beginning the day a servic
 <QuickAnswer>
   <QAItem>Regular active-duty longevity retirement generally requires 20 years of qualifying service — there is no partial longevity pension at 10, 12, or 15 years. Separate rules apply for medical disability retirement and Guard/Reserve retirement.</QAItem>
   <QAItem>Under High-3 (legacy system), retirement pay is 2.5% × years of service × the average of your highest 36 months of base pay — 50% of High-3 at exactly 20 years</QAItem>
-  <QAItem>Under BRS (Blended Retirement System, for those who entered service after January 1, 2018), the pension is 2.0% × years × High-3 — plus government TSP matching of up to 5% of base pay</QAItem>
+  <QAItem>Under BRS (Blended Retirement System, for those who entered service on or after January 1, 2018), the pension is 2.0% × years × High-3 — plus government TSP matching of up to 5% of base pay</QAItem>
   <QAItem>Retirement pay begins immediately when you retire — an E-7 retiring at 20 years starts collecting around age 38–40, not at 65</QAItem>
   <QAItem>Military retirement pay receives annual cost-of-living adjustments (COLA) — it's inflation-protected income for life</QAItem>
   <QAItem>Military retirees and their families qualify for TRICARE retiree healthcare at significantly lower cost than comparable civilian coverage</QAItem>
@@ -31,7 +31,7 @@ Regular active-duty longevity retirement generally requires 20 years of qualifyi
 
 Under High-3 (the legacy system), this is a pure cliff: 20 years earns a pension; anything less earns nothing from the defined benefit.
 
-Under BRS (Blended Retirement System, which applies to anyone who entered service after January 1, 2018, or opted in during the 2018 transition window), separating before 20 still means no pension — but any TSP balance and vested government matching contributions belong to the member. BRS members who leave before 20 don't walk away completely empty-handed the way High-3 members do, but the defined pension itself still requires 20 years.
+Under BRS (Blended Retirement System, which applies to anyone who entered service on or after January 1, 2018, or opted in during the 2018 transition window), separating before 20 still means no pension — but any TSP balance and vested government matching contributions belong to the member. BRS members who leave before 20 don't walk away completely empty-handed the way High-3 members do, but the defined pension itself still requires 20 years.
 
 Reserve and Guard members can also earn retirement, but the calculation is different — based on "retirement points" accumulated over years of service, with the pension typically beginning at age 60. Some Reserve Component members may qualify for reduced-age retirement based on qualifying active-duty service, but the pension does not usually begin immediately after reaching 20 qualifying years.
 
@@ -52,12 +52,10 @@ High-3 is the average of your highest 36 months of base pay (they don't have to 
 - Multiplier: 2.5% × 20 years = **50%**
 - You receive 50% of your High-3 average as a monthly pension
 
-For an E-7 retiring at 20 years using 2026 pay tables:
-- Base pay at 18 years: $6,000.90/month
-- Base pay at 19 years: $6,177.30/month
-- Base pay at 20 years: $6,245.70/month
-- High-3 average: ($6,000.90 + $6,177.30 + $6,245.70) ÷ 3 = **$6,141.30/month**
-- Monthly pension: 50% × $6,141.30 = **$3,070.65/month** ($36,848/year)
+For an E-7 retiring at exactly 20 years using 2026 pay tables:
+- The last 36 months of base pay: <High3Breakdown />
+- High-3 average: those 36 months ÷ 36 = **<RetirementFigure name="high3Average" />/month**
+- Monthly pension: 50% × <RetirementFigure name="high3Average" /> = **<RetirementFigure name="high3Pension" />/month** (<RetirementFigure name="high3Annual" format="dollars" />/year)
 
 That pension begins the day you retire. Each year beyond 20 adds another 2.5% permanently. At 22 years: 55%. At 30 years: 75%.
 
@@ -75,7 +73,7 @@ The BRS pension uses the same structure but with a lower multiplier:
 
 At 20 years: 2.0% × 20 = **40%** of your High-3
 
-Using the same E-7 example: 40% × $6,141.30 = **$2,456.52/month** ($29,478/year)
+Using the same E-7 example: 40% × <RetirementFigure name="high3Average" /> = **<RetirementFigure name="brsPension" />/month** (<RetirementFigure name="brsAnnual" format="dollars" />/year)
 
 That's 20% less than the High-3 pension. This trade-off is the core of the BRS: a smaller pension in exchange for the portable savings component.
 
@@ -103,13 +101,13 @@ An E-7 who enlists at 18–20 and retires at 20 years is approximately 38–40 y
 
 An O-5 who commissions at 22 and retires at 20 years is around 42 — still well before any civilian retirement threshold.
 
-This early start date dramatically increases the lifetime value of the pension. At 2.5% annual COLA starting from age 38 or 40, an E-7 pension grows for decades — from ~$37,000/year at retirement to potentially $70,000–90,000/year by age 65, before accounting for any years of service beyond 20.
+This early start date dramatically increases the lifetime value of the pension. At 2.5% annual COLA starting from age 38 or 40, an E-7 pension grows for decades — from about <RetirementFigure name="high3Annual" format="thousands" />/year at retirement to about <RetirementFigure name="high3AnnualInYear" format="thousands" years="28" />/year by age 65 if it starts at 38 (about <RetirementFigure name="high3AnnualInYear" format="thousands" years="26" /> if it starts at 40), before accounting for any years of service beyond 20.
 
 **Nominal lifetime value (High-3, E-7, retiring at 38, life expectancy 82):**
 
-Starting at $36,848/year with 2.5% average COLA, total nominal payments over 44 years approach **$2.5 million**.
+Starting at <RetirementFigure name="high3Annual" format="dollars" />/year with 2.5% average COLA, total nominal payments over 44 years come to about **<RetirementFigure name="high3Lifetime" format="millions" years="44" />**.
 
-The present value — discounting future payments at a 6% rate — is approximately **$560,000–$700,000** in today's dollars. That's equivalent to the lump sum you'd need to purchase a comparable commercial annuity.
+The present value — what those future payments are worth in today's dollars once they're discounted — is much lower than the nominal total, but still large: it's roughly the lump sum you'd need to buy a comparable inflation-adjusted commercial annuity.
 
 ## Cost-of-living adjustments (COLA)
 
@@ -178,9 +176,9 @@ For members past 20 years, the pension is vested. The question becomes: what doe
 
 Each additional year adds 2.5% (High-3) or 2.0% (BRS) of your High-3 average to the pension multiplier — permanently.
 
-For an E-7 with a High-3 average of $6,141/month:
-- Each additional year: 2.5% × $6,141 = **$153/month** more in pension
-- Over 44 years of collection: **$81,000+ in additional lifetime payments** per additional year served
+For an E-7 with a High-3 average of <RetirementFigure name="high3Average" format="dollars" />/month:
+- Each additional year: 2.5% × <RetirementFigure name="high3Average" format="dollars" /> = **<RetirementFigure name="perExtraYear" format="dollars" />/month** more in pension
+- Over 44 years of collection: **about <RetirementFigure name="perExtraYearTotal" format="thousands" years="44" /> in additional lifetime payments** per additional year served, before COLA
 
 That's just the incremental pension value — it doesn't include the additional base pay, BAH, and BAS you receive while serving that year.
 
