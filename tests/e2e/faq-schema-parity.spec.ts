@@ -11,7 +11,8 @@ import { BAH_EXPECTED as BX } from './fixtures/bah-expected';
 
 const PAGES: { path: string; faqCount: number }[] = [
   { path: '/calculators/total-compensation', faqCount: 3 },
-  { path: '/calculators/pcs', faqCount: 2 },
+  // PCS: 2 + travel days, per diem, TLE, PPM incentive (build 07).
+  { path: '/calculators/pcs', faqCount: 6 },
   // /bah: 3 + the four 2027 FAQs (feat/bah-2027-what-we-know).
   { path: '/bah', faqCount: 7 },
   { path: '/bah/changes', faqCount: 4 },

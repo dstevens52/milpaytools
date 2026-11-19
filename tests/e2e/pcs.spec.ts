@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
 // PCS calculator section labels are rendered as small-caps uppercase headings.
 // Entitlement row labels appear in the results panel on the right side.
@@ -28,11 +28,16 @@ test.describe('PCS Cost Estimator', () => {
     await expect(page.locator('input[name="moveType"][value="gov"]')).toBeChecked();
   });
 
-  test('switching to Full PPM shows PPM reimbursement section', async ({ page }) => {
+  test('switching to Full PPM shows the PPM incentive explanation, no dollar figure', async ({ page }) => {
     // Move type uses radio inputs inside label elements, not buttons
     await page.locator('label').filter({ hasText: 'Full PPM / DITY' }).click();
-    // "Gross reimbursement estimate" is unique to the PPM section — stable across language versions
-    await expect(page.getByText('Gross reimbursement estimate').first()).toBeVisible();
+    const panel = page.getByTestId('pcs-ppm-panel');
+    await expect(panel).toContainText('100% of the Government Constructed Cost (GCC)');
+    await expect(panel).toContainText('MilMove or DPS');
+    const text = await panel.innerText();
+    expect(text.length).toBeGreaterThan(100);
+    expect(text).not.toMatch(/\$\d/); // no PPM dollar figure (audit PCS-06)
+    await expect(page.getByText('Gross reimbursement estimate')).toHaveCount(0);
   });
 
   test('with-dependents toggle is active by default', async ({ page }) => {
@@ -90,5 +95,115 @@ test.describe('PCS Cost Estimator', () => {
     // 66062 is Olathe, KS — residential area with no military base page
     await page.getByLabel('Moving to (optional)').pressSequentially('66062', { delay: 50 });
     await expect(page.getByRole('link', { name: /Moving to/i })).not.toBeVisible();
+  });
+});
+
+// ── Build 07: JTR rules in the results panel (docs/sources/pcs-rules-2026.md) ──
+
+async function resultsText(page: Page, waitFor: string): Promise<string> {
+  const results = page.getByTestId('pcs-results');
+  // URL params apply after hydration — wait for them before reading figures.
+  await expect(results).toContainText(waitFor);
+  return (await results.innerText()).replace(/\s+/g, ' ');
+}
+
+test.describe('PCS estimator — JTR rules (build 07)', () => {
+  test('E-5, spouse + 2 children under 12, 1,120 miles', async ({ page }) => {
+    await page.goto('/calculators/pcs?rank=e5&dep=yes&dep12=1&depu12=2&movetype=gov&miles=1120&povs=1');
+    const text = await resultsText(page, '1,120 miles');
+    for (const v of [
+      '4 travel days · 1,120 miles', // 1,120 ÷ 350 = 3 r 70 → 4 (was 3)
+      '$5,769', // total
+      '$3,548.02', // DLA
+      '$229.60', // MALT
+      '$724.00', // per diem — member: 4 × $181, no 75% day
+      '$1,267.00', // dependents: 75% + 50% + 50%
+      'Per Diem — Dependents (3)',
+      '9,000 lbs', // E-5 with dependents
+    ]) {
+      expect(text, `missing "${v}"`).toContain(v);
+    }
+    expect(text).not.toContain('75% on');
+  });
+
+  test('TLE: "up to" ceiling by family size, $290 cap, 21-day total', async ({ page }) => {
+    await page.goto('/calculators/pcs?rank=e5&dep=yes&dep12=1&depu12=3&movetype=gov&miles=1000&tleold=14&tlenew=14');
+    const text = await resultsText(page, '1,000 miles');
+    expect(text).toContain('TLE (21 days)');
+    expect(text).toContain('Up to $6,090.00'); // 21 × $290 (175% × $181 = $316.75 → cap)
+    expect(text).toContain('up to $290.00/day');
+    await expect(page.getByTestId('pcs-tle-days-note')).toContainText('You entered 28; the estimate counts 21.');
+  });
+
+  test('single member: TLE at 65%, weight from the without-dependents column', async ({ page }) => {
+    await page.goto('/calculators/pcs?rank=e4&dep=no&movetype=gov&miles=1000&tleold=10');
+    const text = await resultsText(page, '1,000 miles');
+    expect(text).toContain('Up to $1,176.50'); // 10 × 65% × $181
+    expect(text).toContain('7,000 lbs'); // E-4 without dependents
+  });
+
+  test('no dependent traveling: second-POV MALT not paid', async ({ page }) => {
+    await page.goto('/calculators/pcs?rank=e5&dep=no&movetype=gov&miles=1120&povs=2');
+    const text = await resultsText(page, '1,120 miles');
+    expect(text).toContain('$229.60'); // one POV (was $459.20)
+    expect(text).not.toContain('$459.20');
+    await expect(page.getByTestId('pcs-second-pov-note')).toBeVisible();
+  });
+
+  test('distance 0: DLA and TLE not counted, note shown', async ({ page }) => {
+    await page.goto('/calculators/pcs?rank=e5&dep=yes&dep12=1&movetype=gov&miles=0&tleold=5');
+    await expect(page.getByTestId('pcs-local-move-note')).toBeVisible();
+    const text = await resultsText(page, '0 miles');
+    expect(text).toContain('Not counted');
+    expect(text).toContain('rate: $3,548.02');
+    expect(text).toContain('Government move entitlements total $0');
+  });
+
+  test('prior-enlisted officer: ?rank=o1e loads O-1E with its own DLA', async ({ page }) => {
+    await page.goto('/calculators/pcs?rank=o1e&dep=yes&dep12=1&movetype=gov&miles=1000');
+    await expect(page.locator('#rank')).toHaveValue('O-1E');
+    const text = await resultsText(page, '1,000 miles');
+    expect(text).toContain('$3,621.10');
+    expect(text).toContain('12,000 lbs'); // O-1 row, with dependents
+    await expect(page.locator('#rank optgroup[label="Officer (prior enlisted)"] option')).toHaveCount(3);
+  });
+
+  test('share link carries every input, including the dependent age split', async ({ page }) => {
+    await page.addInitScript(() => {
+      (window as unknown as { __copied: string[] }).__copied = [];
+      Object.defineProperty(navigator, 'clipboard', {
+        configurable: true,
+        value: { writeText: async (t: string) => { (window as unknown as { __copied: string[] }).__copied.push(t); } },
+      });
+    });
+    await page.goto('/calculators/pcs?rank=o2e&dep=yes&dep12=2&depu12=3&movetype=partial-ppm&miles=1500&povs=2&hhg=4000&tleold=6&tlenew=9');
+    await resultsText(page, '1,500 miles');
+    await page.getByRole('button', { name: 'Copy result link' }).click();
+    const handle = await page.waitForFunction(() => {
+      const c = (window as unknown as { __copied: string[] }).__copied;
+      return c.length > 0 ? c[c.length - 1] : null;
+    });
+    const url = new URL((await handle.jsonValue()) as string);
+    expect(Object.fromEntries(url.searchParams)).toEqual({
+      rank: 'o2e', dep: 'yes', dep12: '2', depu12: '3', movetype: 'partial-ppm',
+      miles: '1500', povs: '2', hhg: '4000', tleold: '6', tlenew: '9',
+    });
+  });
+
+  test('computed figures in the page copy keep their spaces (JSX line-wrap guard)', async ({ page }) => {
+    await page.goto('/calculators/pcs?movetype=full-ppm&miles=1000');
+    await resultsText(page, '1,000 miles');
+    const text = await page.locator('main').innerText();
+    expect(text.length).toBeGreaterThan(2000);
+    expect(text.match(/\d%[A-Za-z]/g)).toBeNull();
+    expect(text.match(/\$\d[\d,.]*[A-Za-z]/g)).toBeNull();
+    expect(text.match(/[\w)]·/g)).toBeNull(); // "Table 5-37· pro-gear"
+  });
+
+  test('old share link (numdep=2) reads as two dependents 12 or older', async ({ page }) => {
+    await page.goto('/calculators/pcs?rank=e5&dep=yes&numdep=2&movetype=gov&miles=1000');
+    await resultsText(page, '1,000 miles');
+    await expect(page.locator('#depsAge12Plus')).toHaveValue('2');
+    await expect(page.locator('#depsUnder12')).toHaveValue('0');
   });
 });

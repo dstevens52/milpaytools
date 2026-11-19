@@ -54,10 +54,10 @@ test.describe('DLA 2026 rates match the official table', () => {
     expect(mismatches).toEqual([]);
   });
 
-  test('grades in the official table but not in the code are exactly O-1E, O-2E, O-3E', () => {
-    // Known gap, reported to Dan 2026-10-17 — the estimator has no prior-enlisted
-    // officer grades. If this list changes, the code or the table changed.
+  test('every grade in the official table is in the code, O-1E–O-3E included', () => {
+    // The prior-enlisted rows were the known gap reported 2026-10-17; added in build 07 (PCS-05).
+    expect(Object.keys(OFFICIAL).length).toBe(27);
     const missing = Object.keys(OFFICIAL).filter((g) => !(g in withDependents) || !(g in withoutDependents));
-    expect(missing.sort()).toEqual(['O-1E', 'O-2E', 'O-3E']);
+    expect(missing).toEqual([]);
   });
 });

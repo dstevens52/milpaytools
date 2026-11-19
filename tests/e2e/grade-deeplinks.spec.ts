@@ -81,7 +81,8 @@ test.describe('PCS: old and new share links', () => {
     await expect(page.locator('#rank')).toHaveValue('E-7');
   });
 
-  for (const bad of ['x5', 'E-99', 'O-1E', '']) {
+  // O-1E–O-3E are valid PCS grades since build 07 (PCS-05); O-4E doesn't exist.
+  for (const bad of ['x5', 'E-99', 'O-4E', '']) {
     test(`invalid ?rank=${JSON.stringify(bad)} falls back to E-5 without an error`, async ({ page }) => {
       const errors: string[] = [];
       page.on('pageerror', (e) => errors.push(e.message));

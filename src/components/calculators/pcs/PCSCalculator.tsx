@@ -16,12 +16,15 @@ import {
   ENLISTED_GRADES,
   WARRANT_GRADES,
   OFFICER_GRADES,
+  PRIOR_ENLISTED_OFFICER_GRADES,
   RANK_DISPLAY,
 } from '@/types/military';
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { calculatePCS, getWeightAllowance } from '@/lib/calculations/pcs';
-import type { PCSMoveType, PCSInput, PCSOutput } from '@/lib/calculations/pcs';
+import type { PCSMoveType, PCSInput, PCSOutput, TLERoute } from '@/lib/calculations/pcs';
+import { PCS_RATES_2026, PCS_PPM_SOURCE_URL } from '@/data/pcs/2026/constants';
+import { PCS_PER_DIEM_RATE } from '@/data/pcs/conusPerDiem';
 import type { SearchResult } from '@/lib/stationSearch';
 import { parseBool, parseGrade, gradeToParam } from '@/lib/urlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
@@ -54,10 +57,23 @@ const GRADE_GROUPS = [
   { label: 'Enlisted', options: ENLISTED_GRADES.map((g) => ({ value: g, label: RANK_DISPLAY[g] })) },
   { label: 'Warrant Officer', options: WARRANT_GRADES.map((g) => ({ value: g, label: RANK_DISPLAY[g] })) },
   { label: 'Officer', options: OFFICER_GRADES.map((g) => ({ value: g, label: RANK_DISPLAY[g] })) },
+  {
+    label: 'Officer (prior enlisted)',
+    options: PRIOR_ENLISTED_OFFICER_GRADES.map((g) => ({ value: g, label: RANK_DISPLAY[g] })),
+  },
 ];
 
-/** Every grade the rank select offers — ?rank= must be one of these (O-1E–O-3E are not modeled; audit PCS-05). */
+/** Every grade the rank select offers — ?rank= must be one of these. */
 const PCS_GRADES: ReadonlySet<string> = new Set(GRADE_GROUPS.flatMap((g) => g.options.map((o) => o.value)));
+
+const R = PCS_RATES_2026;
+const PER_DIEM_DAILY = PCS_PER_DIEM_RATE.lodging + PCS_PER_DIEM_RATE.mie;
+const PER_DIEM_LABEL = `${PCS_PER_DIEM_RATE.fiscalYear} standard CONUS rate`;
+const MAX_DEPS = 10;
+
+function pct(n: number): string {
+  return `${Math.round(n * 100)}%`;
+}
 
 // ─── Move type config ─────────────────────────────────────────────────────────
 
@@ -65,17 +81,17 @@ const MOVE_TYPES: { value: PCSMoveType; label: string; description: string }[] =
   {
     value: 'gov',
     label: 'Government Move',
-    description: 'Government contracts a moving company. No PPM net proceeds, but no hassle.',
+    description: 'Government contracts a moving company. No PPM incentive, but no hassle.',
   },
   {
     value: 'full-ppm',
     label: 'Full PPM / DITY',
-    description: 'You move everything yourself. Reimbursed at government cost estimate — net proceeds are taxable.',
+    description: `You move everything yourself. The incentive is ${pct(R.ppmIncentivePercentOfGcc)} of what the government would have paid to move the same weight the same distance.`,
   },
   {
     value: 'partial-ppm',
     label: 'Partial PPM',
-    description: 'Government ships most items; you self-move a portion for additional reimbursement.',
+    description: 'Government ships most items; you self-move a portion and get a PPM incentive for that weight.',
   },
 ];
 
@@ -156,38 +172,27 @@ function getRouteType(a: RouteClass, b: RouteClass): RouteClass {
 function buildActionSteps(input: PCSInput, output: PCSOutput): ActionStep[] {
   const steps: ActionStep[] = [];
   const isPPM = input.moveType !== 'gov';
+  const rankLabel = RANK_DISPLAY[input.rank as PayGrade] ?? input.rank;
 
-  if (isPPM && output.ppmAfterTaxProfit > 2000) {
+  if (isPPM) {
     steps.push({
-      label: 'PPM savings opportunity',
-      description: `A ${input.moveType === 'full-ppm' ? 'full' : 'partial'} PPM move could net approximately ${fmt(output.ppmAfterTaxProfit)} after estimated expenses and taxes. Request a 60% advance (${fmt(output.ppmAdvanceAmount)}) to cover upfront costs like truck rental.`,
+      label: 'Get your official PPM estimate',
+      description: `Your PPM incentive is ${pct(R.ppmIncentivePercentOfGcc)} of the Government Constructed Cost for your weight and distance, computed for your move. Get the estimate in your move system (MilMove or DPS) or from your transportation office before you rent a truck. You can request an advance of up to ${pct(R.ppmAdvancePercent)} of the incentive.`,
       priority: 'high',
-    });
-  } else if (isPPM && output.ppmAfterTaxProfit > 0 && output.ppmAfterTaxProfit <= 2000) {
-    steps.push({
-      label: 'PPM margin is slim',
-      description: `After estimated expenses and taxes, the PPM move would net approximately ${fmt(output.ppmAfterTaxProfit)}. A government move may be less stressful with a similar financial outcome — weigh the effort against the gain.`,
-      priority: 'medium',
-    });
-  } else if (isPPM && output.ppmAfterTaxProfit <= 0) {
-    steps.push({
-      label: 'PPM produces no savings at these inputs',
-      description: `Your estimated expenses exceed the reimbursement at ${input.hhgWeight.toLocaleString()} lbs. Consider reducing expenses or using a government move for this distance.`,
-      priority: 'medium',
     });
   }
 
   if (!isPPM) {
     steps.push({
       label: 'Consider a partial PPM',
-      description: `Government moves ship most items for free — but if you move any portion yourself, you receive additional PPM reimbursement. Even a small self-moved load can put money in your pocket.`,
+      description: `Government moves ship most items for free — but if you move any portion yourself, you receive a PPM incentive for that weight. Your ${rankLabel} weight allowance is ${output.weightAllowance.toLocaleString('en-US')} lbs.`,
       priority: 'medium',
     });
   }
 
   steps.push({
     label: 'Check your BAH at the gaining station',
-    description: `Your housing allowance changes with every PCS. Look up the E-5 with/without dependents BAH rate at your new duty station ZIP code before making housing decisions.`,
+    description: `Your housing allowance changes with every PCS. Look up the ${rankLabel} ${input.hasDependents ? 'with' : 'without'} dependents BAH rate at your new duty station ZIP code before making housing decisions.`,
     href: '/bah',
     priority: 'high',
   });
@@ -275,7 +280,8 @@ export function PCSCalculator() {
   // Inputs
   const [rank, setRank] = useState<string>('E-5');
   const [hasDependents, setHasDependents] = useState(true);
-  const [numDependents, setNumDependents] = useState(1);
+  const [depsAge12Plus, setDepsAge12Plus] = useState(1);
+  const [depsUnder12, setDepsUnder12] = useState(0);
   const [moveType, setMoveType] = useState<PCSMoveType>('gov');
   const [zipFrom, setZipFrom] = useState('');
   const [zipTo, setZipTo] = useState('');
@@ -287,9 +293,8 @@ export function PCSCalculator() {
   const [hhgWeight, setHhgWeight] = useState(5000);
   const [tleOldDays, setTleOldDays] = useState(0);
   const [tleNewDays, setTleNewDays] = useState(0);
-  const [ppmExpenses, setPpmExpenses] = useState(2000);
 
-  const weightAllowance = useMemo(() => getWeightAllowance(rank), [rank]);
+  const weightAllowance = useMemo(() => getWeightAllowance(rank, hasDependents), [rank, hasDependents]);
 
   // Station lookup via MHA — matches station ZIPs and any ZIP variant in the same housing area
   // Station-page links — resolved server-side (no client zipToMha).
@@ -305,6 +310,15 @@ export function PCSCalculator() {
     if (!fromClass || !toClass) return 'conus';
     return getRouteType(fromClass, toClass);
   }, [zipFrom, zipTo, fromMeta, toMeta]);
+
+  // TLE: 21 days for a new PDS in CONUS; 7 days when moving from CONUS to Alaska or Hawaii
+  // (OCONUS under the JTR). Overseas mode shows no TLE at all.
+  const tleRoute = useMemo((): TLERoute => {
+    const fromClass = zipFrom || fromMeta ? classifyEndpoint(zipFrom, fromMeta) : null;
+    const toClass = zipTo || toMeta ? classifyEndpoint(zipTo, toMeta) : null;
+    return toClass === 'ak-hi' && fromClass !== 'ak-hi' ? 'conus-to-oconus' : 'conus';
+  }, [zipFrom, zipTo, fromMeta, toMeta]);
+  const tleMaxDays = tleRoute === 'conus-to-oconus' ? R.tle.maxDaysConusToOconus : R.tle.maxDaysConus;
 
   // Overseas mode: show DLA only plus an explanation panel — no total.
   const isOverseas = routeType === 'oconus';
@@ -328,15 +342,16 @@ export function PCSCalculator() {
   const input: PCSInput = useMemo(() => ({
     rank,
     hasDependents,
-    numDependents: hasDependents ? numDependents : 0,
+    depsAge12Plus: hasDependents ? depsAge12Plus : 0,
+    depsUnder12: hasDependents ? depsUnder12 : 0,
     moveType,
     distance: Math.max(0, effectiveDistance),
     numPOVs,
     hhgWeight: Math.min(hhgWeight, weightAllowance),
     tleOldDays,
     tleNewDays,
-    ppmExpenses,
-  }), [rank, hasDependents, numDependents, moveType, effectiveDistance, numPOVs, hhgWeight, weightAllowance, tleOldDays, tleNewDays, ppmExpenses]);
+    tleRoute,
+  }), [rank, hasDependents, depsAge12Plus, depsUnder12, moveType, effectiveDistance, numPOVs, hhgWeight, weightAllowance, tleOldDays, tleNewDays, tleRoute]);
 
   const output: PCSOutput = useMemo(() => calculatePCS(input), [input]);
   const actionSteps = useMemo(() => buildActionSteps(input, output), [input, output]);
@@ -357,7 +372,9 @@ export function PCSCalculator() {
     // else — including O-1E–O-3E — leaves the default rank in place.
     const r = parseGrade(p.get('rank'));
     const dep = parseBool(p.get('dep'));
-    const nd = p.get('numdep');
+    const d12 = p.get('dep12');
+    const du12 = p.get('depu12');
+    const nd = p.get('numdep'); // older share links: one count, read as 12 or older
     const mt = p.get('movetype') as PCSMoveType | null;
     const from = p.get('from');
     const to = p.get('to');
@@ -366,51 +383,64 @@ export function PCSCalculator() {
     const hhg = p.get('hhg');
     const tleold = p.get('tleold');
     const tlenew = p.get('tlenew');
-    const ppmexp = p.get('ppmexp');
+    const count = (raw: string | null): number | null => {
+      if (!raw) return null;
+      const n = parseInt(raw, 10);
+      return !isNaN(n) && n >= 0 && n <= MAX_DEPS ? n : null;
+    };
+    const tleDaysParam = (raw: string | null): number | null => {
+      if (!raw) return null;
+      const n = parseInt(raw, 10);
+      return !isNaN(n) && n >= 0 && n <= R.tle.maxDaysConus ? n : null;
+    };
 
     if (r && PCS_GRADES.has(r)) setRank(r);
     if (dep !== null) setHasDependents(dep);
-    if (nd) { const n = parseInt(nd, 10); if (!isNaN(n) && n >= 0 && n <= 10) setNumDependents(n); }
+    if (d12 !== null || du12 !== null) {
+      setDepsAge12Plus(count(d12) ?? 0);
+      setDepsUnder12(count(du12) ?? 0);
+    } else {
+      const n = count(nd);
+      if (n !== null) setDepsAge12Plus(n);
+    }
     if (mt === 'gov' || mt === 'full-ppm' || mt === 'partial-ppm') setMoveType(mt);
     if (from) setZipFrom(from);
     if (to) setZipTo(to);
     if (miles) { const n = parseInt(miles, 10); if (!isNaN(n) && n >= 0) { setManualMiles(n); setShowManualOverride(true); } }
     if (povs === '2') setNumPOVs(2);
     if (hhg) { const n = parseInt(hhg, 10); if (!isNaN(n) && n > 0) setHhgWeight(n); }
-    if (tleold) { const n = parseInt(tleold, 10); if (!isNaN(n) && n >= 0 && n <= 14) setTleOldDays(n); }
-    if (tlenew) { const n = parseInt(tlenew, 10); if (!isNaN(n) && n >= 0 && n <= 14) setTleNewDays(n); }
-    if (ppmexp) { const n = parseInt(ppmexp, 10); if (!isNaN(n) && n >= 0) setPpmExpenses(n); }
+    const tleOld = tleDaysParam(tleold);
+    if (tleOld !== null) setTleOldDays(tleOld);
+    const tleNew = tleDaysParam(tlenew);
+    if (tleNew !== null) setTleNewDays(tleNew);
   }, []);
 
   function getShareUrl() {
     const p = new URLSearchParams();
     p.set('rank', gradeToParam(rank as PayGrade));
     p.set('dep', hasDependents ? 'yes' : 'no');
-    if (hasDependents) p.set('numdep', String(numDependents));
+    if (hasDependents) {
+      p.set('dep12', String(depsAge12Plus));
+      p.set('depu12', String(depsUnder12));
+    }
     p.set('movetype', moveType);
     if (zipFrom) p.set('from', zipFrom);
     if (zipTo) p.set('to', zipTo);
     if (showManualOverride || autoDistance === null) p.set('miles', String(manualMiles));
     p.set('povs', String(numPOVs));
-    if (moveType !== 'gov') {
-      p.set('hhg', String(hhgWeight));
-      p.set('ppmexp', String(ppmExpenses));
-    }
+    if (moveType !== 'gov') p.set('hhg', String(hhgWeight));
     if (tleOldDays > 0) p.set('tleold', String(tleOldDays));
     if (tleNewDays > 0) p.set('tlenew', String(tleNewDays));
     return `${window.location.origin}/calculators/pcs?${p.toString()}`;
   }
 
   const isPPM = moveType !== 'gov';
-  const tleDays = Math.min(tleOldDays + tleNewDays, 21);
+  const tleDaysEntered = tleOldDays + tleNewDays;
   const weightExceedsAllowance = hhgWeight > weightAllowance;
-
-  const ppmProfitColor =
-    output.ppmAfterTaxProfit > 2000
-      ? 'bg-green-50 border-green-200'
-      : output.ppmAfterTaxProfit > 0
-      ? 'bg-yellow-50 border-yellow-200'
-      : 'bg-red-50 border-red-200';
+  const depsTraveling = hasDependents ? depsAge12Plus + depsUnder12 : 0;
+  const rankLabel = RANK_DISPLAY[rank as PayGrade] ?? rank;
+  const weightRow = R.weightAllowance.rowFor[rank];
+  const secondPovDropped = numPOVs === 2 && output.maltPOVs < 2;
 
   return (
     <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -469,17 +499,34 @@ export function PCSCalculator() {
 
                 {hasDependents && (
                   <div>
-                    <Label htmlFor="numDep">Dependents traveling with you</Label>
-                    <input
-                      id="numDep"
-                      type="number"
-                      min={0}
-                      max={10}
-                      value={numDependents}
-                      onChange={(e) => setNumDependents(Math.max(0, Math.min(10, parseInt(e.target.value) || 0)))}
-                      className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
-                    />
-                    <p className="text-xs text-zinc-400 mt-1">Affects per diem calculation only</p>
+                    <p className="block text-sm font-medium text-zinc-700 mb-1">Dependents traveling with you</p>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label htmlFor="depsAge12Plus" className="block text-xs text-zinc-500 mb-1">Age 12 or older (incl. spouse)</label>
+                        <input
+                          id="depsAge12Plus"
+                          type="number"
+                          min={0}
+                          max={MAX_DEPS}
+                          value={depsAge12Plus}
+                          onChange={(e) => setDepsAge12Plus(Math.max(0, Math.min(MAX_DEPS, parseInt(e.target.value) || 0)))}
+                          className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="depsUnder12" className="block text-xs text-zinc-500 mb-1">Under 12</label>
+                        <input
+                          id="depsUnder12"
+                          type="number"
+                          min={0}
+                          max={MAX_DEPS}
+                          value={depsUnder12}
+                          onChange={(e) => setDepsUnder12(Math.max(0, Math.min(MAX_DEPS, parseInt(e.target.value) || 0)))}
+                          className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
+                        />
+                      </div>
+                    </div>
+                    <p className="text-xs text-zinc-400 mt-1">Sets per diem, TLE and second-vehicle mileage</p>
                   </div>
                 )}
               </div>
@@ -629,6 +676,11 @@ export function PCSCalculator() {
                     <option value={1}>1 vehicle</option>
                     <option value={2}>2 vehicles</option>
                   </select>
+                  {secondPovDropped && (
+                    <p className="text-xs text-amber-700 mt-1" data-testid="pcs-second-pov-note">
+                      Mileage for a second vehicle needs a dependent traveling with you, so it&apos;s paid for one vehicle.
+                    </p>
+                  )}
                 </div>
                 )}
 
@@ -659,7 +711,7 @@ export function PCSCalculator() {
               </div>
             </div>
 
-            {/* Optional — TLE days and PPM expenses; none apply in overseas mode */}
+            {/* Optional — TLE days; none apply in overseas mode */}
             {!isOverseas && (
             <div>
               <SectionHeading>Optional</SectionHeading>
@@ -672,9 +724,9 @@ export function PCSCalculator() {
                       id="tleOld"
                       type="number"
                       min={0}
-                      max={14}
+                      max={R.tle.maxDaysConus}
                       value={tleOldDays}
-                      onChange={(e) => setTleOldDays(Math.max(0, Math.min(14, parseInt(e.target.value) || 0)))}
+                      onChange={(e) => setTleOldDays(Math.max(0, Math.min(R.tle.maxDaysConus, parseInt(e.target.value) || 0)))}
                       className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
                     />
                   </div>
@@ -684,36 +736,20 @@ export function PCSCalculator() {
                       id="tleNew"
                       type="number"
                       min={0}
-                      max={14}
+                      max={R.tle.maxDaysConus}
                       value={tleNewDays}
-                      onChange={(e) => setTleNewDays(Math.max(0, Math.min(14, parseInt(e.target.value) || 0)))}
+                      onChange={(e) => setTleNewDays(Math.max(0, Math.min(R.tle.maxDaysConus, parseInt(e.target.value) || 0)))}
                       className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
                     />
                   </div>
                 </div>
-                {tleDays > 0 && (
-                  <p className="text-xs text-zinc-500">
-                    {tleDays} combined TLE days
-                    {tleDays === 21 && ' (21-day max — CONUS-to-CONUS; verify with Finance for OCONUS moves)'}
-                    {' '}— keep all lodging receipts
-                  </p>
-                )}
-
-                {isPPM && (
-                  <div>
-                    <Label htmlFor="ppmExp">Estimated PPM expenses ($)</Label>
-                    <input
-                      id="ppmExp"
-                      type="number"
-                      min={0}
-                      step={100}
-                      value={ppmExpenses}
-                      onChange={(e) => setPpmExpenses(Math.max(0, parseInt(e.target.value) || 0))}
-                      className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
-                    />
-                    <p className="text-xs text-zinc-400 mt-1">Truck rental, fuel, packing supplies, etc.</p>
-                  </div>
-                )}
+                <p className="text-xs text-zinc-500" data-testid="pcs-tle-days-note">
+                  {tleRoute === 'conus-to-oconus'
+                    ? `Up to ${tleMaxDays} days in total for a move from CONUS to Alaska or Hawaii.`
+                    : `Up to ${tleMaxDays} days in total, split across the old and new stations.`}
+                  {tleDaysEntered > tleMaxDays && ` You entered ${tleDaysEntered}; the estimate counts ${tleMaxDays}.`}
+                  {tleDaysEntered > 0 && ' Keep all lodging receipts.'}
+                </p>
               </div>
             </div>
             )}
@@ -731,11 +767,17 @@ export function PCSCalculator() {
               Total estimated PCS entitlements
             </p>
             <p className="text-4xl font-black tabular-nums">
-              {fmt(isPPM ? output.ppmMoveTotal : output.govMoveTotal)}
+              {fmt(output.govMoveTotal)}
             </p>
             <p className="text-xs text-red-300 mt-1">
-              Based on 2026 rates · {output.travelDays} travel {output.travelDays === 1 ? 'day' : 'days'} · {effectiveDistance.toLocaleString()} miles
+              {output.travelDays} travel {output.travelDays === 1 ? 'day' : 'days'} · {effectiveDistance.toLocaleString()} miles · 2026 DLA and MALT · {PER_DIEM_LABEL}
             </p>
+            {output.tleTotal > 0 && (
+              <p className="text-xs text-red-200 mt-1">Includes TLE up to {fmt(output.tleTotal)}</p>
+            )}
+            {isPPM && (
+              <p className="text-xs text-red-200 mt-1">Plus your PPM incentive, set for your move by your transportation office</p>
+            )}
           </div>
           )}
 
@@ -755,7 +797,7 @@ export function PCSCalculator() {
               <div className="rounded-lg border border-zinc-200 bg-white p-5" data-testid="pcs-overseas-dla">
                 <EntitlementRow
                   label={PCS_OVERSEAS_DLA_LABEL}
-                  value={fmtDecimals(output.dla)}
+                  value={fmtDecimals(output.dlaRate)}
                   sub={PCS_OVERSEAS_DLA_NOTE}
                 />
               </div>
@@ -802,39 +844,57 @@ export function PCSCalculator() {
           {/* Entitlement breakdown */}
           <div className="rounded-lg border border-zinc-200 bg-white p-5">
             <h3 className="font-semibold text-zinc-900 mb-1">Entitlement Breakdown</h3>
-            <p className="text-xs text-zinc-400 mb-4">2026 DTMO rates — verify with your Finance Office</p>
+            <p className="text-xs text-zinc-400 mb-4">2026 DTMO rates · {PER_DIEM_LABEL} — verify with your Finance Office</p>
+
+            {output.isLocalMove && (
+              <div className="rounded-md bg-amber-50 border border-amber-300 px-3 py-2 mb-2" data-testid="pcs-local-move-note">
+                <p className="text-xs text-amber-800 leading-relaxed">
+                  No distance yet, or a local move. DLA and TLE depend on the move type: a local move pays them only
+                  with a household goods relocation. Enter your stations or mileage to see the full estimate.
+                </p>
+              </div>
+            )}
 
             <EntitlementRow
               label="DLA (Dislocation Allowance)"
-              value={fmtDecimals(output.dla)}
-              sub={`${hasDependents ? 'With' : 'Without'} dependents · one-time payment`}
+              value={output.isLocalMove ? 'Not counted' : fmtDecimals(output.dla)}
+              dim={output.isLocalMove}
+              sub={
+                output.isLocalMove
+                  ? `${hasDependents ? 'With' : 'Without'} dependents rate: ${fmtDecimals(output.dlaRate)} · depends on the move type`
+                  : `${hasDependents ? 'With' : 'Without'} dependents · one-time payment`
+              }
             />
             <EntitlementRow
               label="MALT (Mileage)"
               value={fmtDecimals(output.malt)}
               sub={
-                routeType === 'ak-hi'
-                  ? `${effectiveDistance.toLocaleString()} mi × $0.205 × ${numPOVs} POV${numPOVs > 1 ? 's' : ''} — AK/HI planning estimate`
-                  : `${effectiveDistance.toLocaleString()} mi × $0.205 × ${numPOVs} POV${numPOVs > 1 ? 's' : ''}`
+                `${effectiveDistance.toLocaleString()} mi × $${R.maltPerMile} × ${output.maltPOVs} POV${output.maltPOVs > 1 ? 's' : ''}` +
+                (routeType === 'ak-hi' ? ' — AK/HI planning estimate' : '') +
+                (secondPovDropped ? ' · a second POV needs a dependent traveling with you' : '')
               }
             />
             <EntitlementRow
               label="Per Diem — Member"
               value={fmtDecimals(output.perDiemMember)}
-              sub={`${output.travelDays} day${output.travelDays !== 1 ? 's' : ''} · first/last day at 75% · standard CONUS rate`}
+              sub={`${output.travelDays} day${output.travelDays !== 1 ? 's' : ''} × $${PER_DIEM_DAILY} (${PER_DIEM_LABEL}: $${PCS_PER_DIEM_RATE.lodging} lodging + $${PCS_PER_DIEM_RATE.mie} M&IE)`}
             />
-            {hasDependents && numDependents > 0 && (
+            {depsTraveling > 0 && (
               <EntitlementRow
-                label={`Per Diem — Dependents (${numDependents})`}
+                label={`Per Diem — Dependents (${depsTraveling})`}
                 value={fmtDecimals(output.perDiemDependents)}
-                sub="75% of member rate per dependent (approx.)"
+                sub={[
+                  depsAge12Plus > 0 ? `${depsAge12Plus} age 12+ at ${pct(R.dependentPerDiemShare.age12OrOlder)}` : null,
+                  depsUnder12 > 0 ? `${depsUnder12} under 12 at ${pct(R.dependentPerDiemShare.under12)}` : null,
+                ].filter(Boolean).join(' · ') + ' of the member\'s rate'}
               />
             )}
-            {output.tleTotal > 0 && (
+            {output.tleDays > 0 && (
               <EntitlementRow
                 label={`TLE (${output.tleDays} days)`}
-                value={fmtDecimals(output.tleTotal)}
-                sub="Actual lodging + M&IE · keep all receipts · 14-day max"
+                value={output.isLocalMove ? 'Not counted' : `Up to ${fmtDecimals(output.tleTotal)}`}
+                dim={output.isLocalMove}
+                sub={`${pct(output.tlePercent)} of the ${PER_DIEM_LABEL} = up to ${fmtDecimals(output.tleDailyRate)}/day (cap $${R.tle.dailyCap}/day, lodging taxes included) · higher-cost areas have higher locality rates · keep all receipts`}
               />
             )}
             <EntitlementRow
@@ -843,93 +903,49 @@ export function PCSCalculator() {
               highlight
             />
             <p className="text-xs text-zinc-400 mt-3 leading-relaxed">
+              Per diem for driving (MALT Plus) is the full standard CONUS rate for each authorized travel day. Days when you fly part of the way follow different rules and aren&apos;t modeled. Some housing-shortage areas allow extra TLE days; see DTMO&apos;s{' '}
+              <a href={R.tle.extensionsUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Locations with Approved TLE Extensions</a>.
+            </p>
+            <p className="text-xs text-zinc-400 mt-2 leading-relaxed">
               This estimate uses station coordinates for planning. Official PCS mileage is determined by DTOD and your orders. Alaska, Hawaii, overseas, ferry, port, or air-travel routes may differ significantly — verify with your transportation or finance office.
             </p>
           </div>
 
-          {/* PPM section */}
+          {/* PPM section — no dollar figure: the incentive is computed per move */}
           {isPPM && (
-            <div className={`rounded-lg border p-5 ${ppmProfitColor}`}>
-              <h3 className="font-semibold text-zinc-900 mb-1">
-                PPM / DITY Reimbursement
+            <div className="rounded-lg border border-zinc-200 bg-white p-5" data-testid="pcs-ppm-panel">
+              <h3 className="font-semibold text-zinc-900 mb-2">
+                How your PPM incentive is set
               </h3>
-              <p className="text-xs text-zinc-500 mb-4">
-                PPM reimbursement rates vary by distance and are calculated by your Transportation Office (TMO). The estimate shown uses an approximate rate per hundredweight and may differ from your actual entitlement.
+              <p className="text-sm text-zinc-600 leading-relaxed mb-3">
+                {`The PPM incentive is ${pct(R.ppmIncentivePercentOfGcc)} of the Government Constructed Cost (GCC): what it would have cost the government to move the same weight the same distance. It's computed for each move, so this estimator doesn't show a dollar figure.`}
               </p>
-
               <EntitlementRow
-                label="Weight"
+                label="Weight you plan to self-move"
                 value={`${Math.min(hhgWeight, weightAllowance).toLocaleString()} lbs`}
-                sub={`Allowance: ${weightAllowance.toLocaleString()} lbs`}
+                sub={`Your allowance: ${weightAllowance.toLocaleString()} lbs · the incentive uses the weight on your weight tickets, up to the allowance`}
               />
-              <EntitlementRow
-                label="Gross reimbursement estimate"
-                value={fmtDecimals(output.ppmGrossReimbursement)}
-                sub={`${(Math.min(hhgWeight, weightAllowance) / 100).toFixed(0)} cwt × $${210}/cwt`}
-              />
-              <EntitlementRow
-                label="Less estimated expenses"
-                value={`−${fmt(ppmExpenses)}`}
-                sub="Truck, fuel, packing supplies"
-              />
-              <EntitlementRow
-                label="Gross proceeds (before tax)"
-                value={fmtDecimals(output.ppmGrossProfit)}
-              />
-              <EntitlementRow
-                label="After-tax net proceeds"
-                value={fmtDecimals(output.ppmAfterTaxProfit)}
-                highlight={output.ppmAfterTaxProfit > 0}
-                sub="PPM proceeds above expenses are taxable income. 22% federal is an estimate — actual rate depends on your total income and filing status."
-              />
-              {output.ppmAfterTaxProfit > 0 && (
-                <div className="mt-3 rounded-md bg-white bg-opacity-60 border border-zinc-200 px-3 py-2">
-                  <p className="text-xs text-zinc-600">
-                    <span className="font-semibold">60% advance available:</span>{' '}
-                    {fmt(output.ppmAdvanceAmount)} — request this upfront to cover truck rental and expenses before reimbursement.
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Government vs PPM comparison */}
-          {isPPM && (
-            <div className="rounded-lg border border-zinc-200 bg-white p-5">
-              <h3 className="font-semibold text-zinc-900 mb-4">Move Type Comparison</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-md bg-zinc-50 border border-zinc-200 p-4">
-                  <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1">Government Move</p>
-                  <p className="text-2xl font-black text-zinc-900 tabular-nums">{fmt(output.govMoveTotal)}</p>
-                  <p className="text-xs text-zinc-400 mt-1">DLA + MALT + Per Diem + TLE</p>
-                </div>
-                <div className={`rounded-md border p-4 ${output.ppmAfterTaxProfit > 0 ? 'bg-green-50 border-green-200' : 'bg-zinc-50 border-zinc-200'}`}>
-                  <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1">PPM Move</p>
-                  <p className={`text-2xl font-black tabular-nums ${output.ppmAfterTaxProfit > 0 ? 'text-green-700' : 'text-zinc-900'}`}>
-                    {fmt(output.ppmMoveTotal)}
-                  </p>
-                  <p className="text-xs text-zinc-400 mt-1">Includes after-tax net proceeds</p>
-                </div>
-              </div>
-              {output.ppmAfterTaxProfit > 0 && (
-                <div className="mt-3 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-green-600 flex-none" />
-                  <p className="text-sm text-zinc-600">
-                    PPM advantage: <span className="font-semibold text-green-700">{fmt(output.ppmMoveTotal - output.govMoveTotal)}</span> more than a government move (after estimated expenses and taxes)
-                  </p>
-                </div>
-              )}
+              <ul className="mt-3 space-y-1.5 text-sm text-zinc-600 leading-relaxed list-disc pl-5">
+                <li>Get the official estimate in your move system (MilMove or DPS) or from your transportation office.</li>
+                <li>You can request an advance of up to {pct(R.ppmAdvancePercent)} of the incentive.</li>
+                <li>The incentive is taxable income; documented moving costs (truck rental, fuel, packing materials) reduce the taxable part. Keep every receipt and weight ticket.</li>
+              </ul>
+              <a href={PCS_PPM_SOURCE_URL} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-sm text-blue-700 hover:underline">
+                Military OneSource: preparing to move or PCS →
+              </a>
             </div>
           )}
 
           {/* Weight allowance card */}
-          <div className="rounded-lg border border-zinc-200 bg-white p-4">
+          <div className="rounded-lg border border-zinc-200 bg-white p-4" data-testid="pcs-weight-card">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-zinc-700">
-                  HHG weight allowance — {RANK_DISPLAY[rank as PayGrade] ?? rank}
+                  HHG weight allowance — {rankLabel}, {hasDependents ? 'with' : 'without'} dependents
                 </p>
-                <p className="text-xs text-zinc-400 mt-0.5">JTR Table 5-37 · 2026</p>
+                <p className="text-xs text-zinc-400 mt-0.5">
+                  {`JTR Table 5-37${weightRow ? ` (${weightRow} row)` : ''} · pro-gear doesn't count against it`}
+                </p>
               </div>
               <p className="text-xl font-bold text-zinc-900 tabular-nums">
                 {output.weightAllowance.toLocaleString()} lbs
