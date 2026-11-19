@@ -131,12 +131,12 @@ export const CALCULATORS: CalculatorDetail[] = [
     icon: '📦',
     name: 'PCS Cost Estimator',
     description:
-      'Estimate total PCS entitlements — DLA, MALT mileage, per diem, TLE, and PPM/DITY net proceeds. Compare government move vs. PPM to see the financial outcome of each option.',
+      'Estimate total PCS entitlements — DLA, MALT mileage, per diem and TLE by family size — plus your weight allowance and how a PPM/DITY incentive is set.',
     features: [
       'DLA by rank and dependency status',
       'MALT mileage + travel days',
-      'PPM net proceeds after expenses and tax',
-      'Government vs. PPM comparison',
+      'Per diem and TLE by family size',
+      'Weight allowance and how the PPM incentive works',
     ],
     group: 'active-duty',
     supportsOconus: false,

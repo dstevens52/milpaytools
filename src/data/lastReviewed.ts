@@ -28,7 +28,7 @@ export const CALCULATOR_LAST_REVIEWED = {
   'va-disability': '2026-11-18',
   tsp: '2026-11-18', // S8: title, H1, meta
   retirement: '2026-11-18', // C1: BRS "on or after January 1, 2018"
-  pcs: '2026-11-14',
+  pcs: '2026-11-18',
   'guard-reserve': '2026-11-14',
   education: '2026-11-13',
   cola: '2026-11-12',
@@ -50,7 +50,7 @@ export const PAGE_LAST_REVIEWED = {
   '/about': '2026-05-30',
   '/privacy': '2026-05-31',
   '/terms': '2026-05-30',
-  '/partners': '2026-11-12',
+  '/partners': '2026-11-18',
   '/pay/raise': '2026-11-18', // S8: retiree COLA section
   '/pay/dates': '2026-11-13',
   '/va-disability-rates': '2026-11-18',

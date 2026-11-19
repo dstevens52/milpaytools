@@ -7,7 +7,7 @@
 - [VA Disability Rating](/calculators/va-disability): Combined rating calculator with bilateral factor and 2026 compensation rates
 - [TSP Growth Projector](/calculators/tsp): Retirement savings projections with fund allocation
 - [Military Retirement](/calculators/retirement): High-3 and BRS pension projections with lifetime value
-- [PCS Calculator](/calculators/pcs): Military move and PPM (DITY) estimator — DLA, MALT, per diem, TLE, and PPM net proceeds
+- [PCS Calculator](/calculators/pcs): Military move estimator — DLA, MALT, per diem and TLE by family size (JTR rules), HHG weight allowance, and how the PPM (DITY) incentive is set (100% of the Government Constructed Cost; no dollar estimate)
 - [Guard/Reserve Pay](/calculators/guard-reserve): Drill pay, annual training, and TRICARE Reserve Select
 - [Education Benefits](/calculators/education): GI Bill vs VR&E vs TA comparison by school
 - [CONUS COLA](/calculators/cola): Cost of living allowance lookup by ZIP
