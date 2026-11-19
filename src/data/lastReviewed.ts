@@ -29,7 +29,7 @@ export const CALCULATOR_LAST_REVIEWED = {
   tsp: '2026-11-18', // S8: title, H1, meta
   retirement: '2026-11-18', // C1: BRS "on or after January 1, 2018"
   pcs: '2026-11-18',
-  'guard-reserve': '2026-11-14',
+  'guard-reserve': '2026-11-19', // GR-26: BRS contributions stop after 26 years
   education: '2026-11-13',
   cola: '2026-11-12',
   'dual-military-bah': '2026-11-18',

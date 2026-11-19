@@ -6,7 +6,9 @@
  * - BRS: the government contributes 1% of basic OR inactive-duty pay automatically
  *   (from the 60th day of service) and matches on the same pay base from 2 years and
  *   1 day of service — dollar-for-dollar on the first 3%, 50¢ per dollar on the next
- *   2%, capped at 5% (5 U.S.C. § 8440e). Drill pay counts.
+ *   2%, capped at 5% (5 U.S.C. § 8440e). Drill pay counts. Automatic and matching
+ *   contributions end after 26 years of service (RET-09, shared with active duty in
+ *   brs.ts); the member's own contributions continue.
  * - Annual Training / short orders: active-duty basic pay plus BAS for each day.
  *   Housing for orders of 30 days or fewer is generally BAH-RC/T (non-locality) and is
  *   not modeled here.
@@ -14,7 +16,7 @@
  */
 
 import { lookupBasePay } from '@/lib/calculations/basePay';
-import { calcBRSMatch } from '@/lib/calculations/tspGrowth';
+import { brsPhaseAtYOS, brsTierContribution } from '@/lib/calculations/brs';
 import { TRICARE_RATES_2026 } from '@/data/tricare/2026/constants';
 import { BAS_RATES } from '@/data/constants';
 import { ENLISTED_GRADES } from '@/types/military';
@@ -40,10 +42,12 @@ export interface BRSMatchResult {
   govAutoContrib: number;
   govMatchContrib: number;
   totalGovContrib: number;
-  /** false when YOS < 2 — automatic 1% only. */
+  /** false when YOS < 2 (automatic 1% only) or YOS ≥ 26 (contributions ended). */
   matchingEligible: boolean;
-  /** false when YOS < 1 — the 60-day point can't be confirmed from whole years. */
+  /** false at 26+ YOS (contributions ended); at 0 YOS the member is treated as past the 60-day point, as in brs.ts. */
   automaticEligible: boolean;
+  /** true at 26+ YOS: government contributions have stopped (RET-09). */
+  contributionsEnded: boolean;
 }
 
 export interface GuardReserveOutput {
@@ -151,10 +155,11 @@ export function calculateTRSPremium(plan: TRSPlan): { monthly: number; annual: n
 /**
  * BRS government TSP contributions for a Reserve Component member.
  * Pay base = all basic pay earned in a paid status (drill + AT + additional duty).
- * Tier math reuses the shared BRS helper (tspGrowth.calcBRSMatch: 1% automatic,
- * dollar-for-dollar on 3%, 50¢ on the next 2%, capped at 5% of pay).
- * Timing: automatic 1% from 60 days of service (YOS ≥ 1 here); matching from
- * 2 years of service (YOS ≥ 2).
+ * Tier math and timing come from the shared BRS helper (brs.ts): 1% automatic,
+ * dollar-for-dollar on 3%, 50¢ on the next 2%, capped at 5% of pay; matching from
+ * 2 years of service; nothing after 26 years (RET-09). Years of service is the same
+ * count the pay table uses. Same timing as every other calculator: a member at 0
+ * years is treated as past the 60-day point and gets the automatic 1% (GR-26 review).
  */
 export function calculateBRSMatch(
   payBase: number,
@@ -162,8 +167,10 @@ export function calculateBRSMatch(
   brsEnrolled: boolean,
   yearsOfService: number,
 ): BRSMatchResult {
-  const automaticEligible = yearsOfService >= 1;
-  const matchingEligible = yearsOfService >= 2;
+  const phase = brsPhaseAtYOS(yearsOfService);
+  const contributionsEnded = phase === 'ended';
+  const automaticEligible = !contributionsEnded;
+  const matchingEligible = phase === 'full';
   const none = {
     payBase,
     memberContrib: 0,
@@ -172,12 +179,13 @@ export function calculateBRSMatch(
     totalGovContrib: 0,
     matchingEligible,
     automaticEligible,
+    contributionsEnded,
   };
   if (!brsEnrolled || payBase <= 0) return none;
 
   const memberPct = Math.min(Math.max(tspContribPct, 0), 100) / 100;
   const memberContrib = payBase * memberPct;
-  const tiers = calcBRSMatch(payBase, memberContrib, 'brs');
+  const tiers = brsTierContribution(payBase, memberContrib);
 
   const govAutoContrib = automaticEligible ? tiers.auto : 0;
   const govMatchContrib = matchingEligible && automaticEligible ? tiers.total - tiers.auto : 0;
@@ -190,6 +198,7 @@ export function calculateBRSMatch(
     totalGovContrib: govAutoContrib + govMatchContrib,
     matchingEligible,
     automaticEligible,
+    contributionsEnded,
   };
 }
 

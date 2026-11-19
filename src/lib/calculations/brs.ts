@@ -23,8 +23,9 @@
  *     brsGovContribution with the member's actual service month.
  *   - Snapshots shown for "a member at N years of service" (total-compensation.ts, the
  *     TSP calculator's match box) call brsContributionAtYOS.
- *   - Guard/Reserve applies its own timing (YOS-based, from inactive-duty pay) and
- *     uses the untimed tiers through tspGrowth.calcBRSMatch, so it is not gated twice.
+ *   - Guard/Reserve (guardReserve.calculateBRSMatch) uses brsPhaseAtYOS for matching
+ *     and the 26-year stop and brsTierContribution for the tiers, on an annual pay base
+ *     (drill + AT + additional duty), with the same timing as the other calculators.
  *
  * Pure functions — no React, no side effects.
  */
