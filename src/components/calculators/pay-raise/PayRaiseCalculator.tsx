@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import {
   ENLISTED_GRADES,
   WARRANT_GRADES,
@@ -19,9 +19,10 @@ import {
   CAP_NOTE_PENDING,
   ESTIMATE_NOTE,
 } from '@/lib/calculations/payRaise';
-import { parseGrade } from '@/lib/urlParams';
+import { parseGrade, gradeToParam } from '@/lib/urlParams';
 import { formatCurrency } from '@/lib/utils';
 import { fireCalculatorEvent } from '@/lib/analytics';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 
 const GRADE_GROUPS: { label: string; grades: readonly PayGrade[] }[] = [
   { label: 'Enlisted', grades: ENLISTED_GRADES },
@@ -86,8 +87,18 @@ export function PayRaiseCalculator() {
   const selectClass =
     'w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500';
 
+  // A grade or years picked before hydration wins over ?grade=/?yos= (build 1c); the URL
+  // is then rewritten to match. The replayed change goes through setGrade/setYos, so it
+  // sends calculation_run like any other pick.
+  const rootRef = useRef<HTMLDivElement>(null);
+  const getRoot = useCallback(() => rootRef.current, []);
+  usePreHydrationSync(getRoot, {
+    calculator: 'pay-raise',
+    shareUrl: () => `${window.location.pathname}?grade=${gradeToParam(grade)}&yos=${yos}`,
+  });
+
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white p-5 sm:p-6" data-testid="raise-calculator">
+    <div ref={rootRef} className="rounded-lg border border-zinc-200 bg-white p-5 sm:p-6" data-testid="raise-calculator">
       <div className="flex flex-col sm:flex-row gap-4 mb-5">
         <div className="flex-1">
           <label htmlFor="raise-grade" className="block text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-1.5">

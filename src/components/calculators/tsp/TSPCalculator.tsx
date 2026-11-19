@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Legend, ReferenceLine,
@@ -177,7 +178,7 @@ export function TSPCalculator() {
   }, [yos, moreYearsToServeDirty]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   useEffect(() => {
     if (!projection || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
@@ -290,6 +291,10 @@ export function TSPCalculator() {
   const atFullMatch = monthlyContrib >= basePay * 0.05;
   const contribPct = basePay > 0 ? (monthlyContrib / basePay) * 100 : 0;
 
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'tsp', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
+
   return (
     <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
 
@@ -368,6 +373,7 @@ export function TSPCalculator() {
               <button
                 key={s}
                 type="button"
+                aria-disabled={inert}
                 onClick={() => setRetirementSystem(s)}
                 className={[
                   'px-4 py-2 rounded-md text-sm font-medium border transition-colors',
@@ -399,6 +405,7 @@ export function TSPCalculator() {
                   <button
                     key={m}
                     type="button"
+                    aria-disabled={inert}
                     onClick={() => { setContribMode(m); setContribValue(m === 'percent' ? '5' : String(Math.round(monthlyContrib))); }}
                     className={[
                       'px-3 py-2 text-sm font-medium transition-colors',
@@ -443,6 +450,7 @@ export function TSPCalculator() {
                 <button
                   key={t}
                   type="button"
+                  aria-disabled={inert}
                   onClick={() => setContribType(t)}
                   className={[
                     'flex-1 text-sm font-medium transition-colors',
@@ -535,6 +543,7 @@ export function TSPCalculator() {
             <button
               key={p}
               type="button"
+              aria-disabled={inert}
               onClick={() => applyPreset(p)}
               className={[
                 'px-3 py-1.5 rounded-md text-sm font-medium border transition-colors',

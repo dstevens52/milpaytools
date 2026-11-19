@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import { readUrlParams } from '@/data/calculatorUrlParams';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -423,7 +424,7 @@ export function SeparationTimelineCalculator() {
   const [vaFiled, setVaFiled] = useState<VaOption>('unknown');
 
   const _gaFiredRef = useRef(false);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const sepDate = useMemo(() => parseISODate(sepDateStr), [sepDateStr]);
@@ -481,6 +482,10 @@ export function SeparationTimelineCalculator() {
   const sepItems = timelineItems?.filter((i) => i.phase === 'sep') ?? [];
   const postItems = timelineItems?.filter((i) => i.phase === 'post') ?? [];
 
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'separation-timeline', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
+
   return (
     <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Inputs */}
@@ -513,6 +518,7 @@ export function SeparationTimelineCalculator() {
                 <button
                   key={opt}
                   type="button"
+                  aria-disabled={inert}
                   onClick={() => setSepType(opt)}
                   aria-pressed={sepType === opt}
                   className={[

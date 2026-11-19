@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import {
   type PlanTier,
   type VaRating,
@@ -203,7 +204,7 @@ export function HealthcareComparisonCalculator() {
   const annualGap = result.annualPremium + result.estimatedDeductibleUsage;
 
   // ── Fire analytics once: 800 ms after the first result change the person caused ──
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {
     if (firedRef.current || !gaInteracted()) return;
@@ -233,6 +234,10 @@ export function HealthcareComparisonCalculator() {
   }
 
   const selectCls = 'w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600';
+
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'healthcare-comparison', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
 
   return (
     <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
@@ -298,6 +303,7 @@ export function HealthcareComparisonCalculator() {
                   <button
                     key={t}
                     type="button"
+                    aria-disabled={inert}
                     onClick={() => setTier(t)}
                     className={[
                       'flex-1 py-2 text-sm font-medium rounded-md border transition-colors capitalize',

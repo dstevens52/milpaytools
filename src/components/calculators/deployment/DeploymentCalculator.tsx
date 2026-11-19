@@ -6,6 +6,7 @@ import { FILING_STATUSES, FILING_STATUS_LABEL, isFilingStatus, type FilingStatus
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync, useHydrated } from '@/components/calculators/shared/usePreHydrationSync';
 import { DEPLOYMENT_RATES_2026 } from '@/data/deployment/2026/constants';
 import type { HDPLevel } from '@/data/deployment/2026/constants';
 import { TSP_CONSTANTS_2026 } from '@/data/tsp/2026/constants';
@@ -70,10 +71,13 @@ function Toggle({
   labelOff: string;
   disabled?: boolean;
 }) {
+  // Inert until hydrated: a click before the JS runs would be lost (build 1c).
+  const inert = useHydrated() ? undefined : true;
   return (
     <div className={['flex rounded-md border border-zinc-300 overflow-hidden h-[36px] text-xs sm:text-sm', disabled ? 'opacity-50' : ''].join(' ')}>
       <button
         type="button"
+        aria-disabled={inert}
         onClick={() => onChange(false)}
         disabled={disabled}
         className={[
@@ -85,6 +89,7 @@ function Toggle({
       </button>
       <button
         type="button"
+        aria-disabled={inert}
         onClick={() => onChange(true)}
         disabled={disabled}
         className={[
@@ -369,13 +374,16 @@ export function DeploymentCalculator() {
   }, [result, isCombatZone, usingSDP, tspPct]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   useEffect(() => {
     if (!result || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('deployment'), 800);
     return () => clearTimeout(_gaTimerRef.current);
   }, [result, gaInteracted]);
+
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  usePreHydrationSync(gaRoot, { calculator: 'deployment', shareUrl: getShareUrl });
 
   return (
     <div ref={gaAttach} className="space-y-6">

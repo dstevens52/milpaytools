@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import {
   AreaChart,
   Area,
@@ -230,7 +231,7 @@ export function RetirementCalculator() {
   const output = useMemo(() => calculateRetirement(input), [input]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   useEffect(() => {
     if (!gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
@@ -330,6 +331,10 @@ export function RetirementCalculator() {
     ? `${retirementYOS} yrs ${output.retirementMonths} mo`
     : `${retirementYOS} yrs`;
 
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'retirement', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
+
   return (
     <div ref={gaAttach} className="space-y-5">
       {/* ── Inputs ── */}
@@ -345,6 +350,7 @@ export function RetirementCalculator() {
             {(['high3', 'brs'] as const).map((sys) => (
               <button
                 key={sys}
+                aria-disabled={inert}
                 onClick={() => setRetirementSystem(sys)}
                 className={[
                   'px-4 py-2 rounded-md text-sm font-semibold border transition-colors',

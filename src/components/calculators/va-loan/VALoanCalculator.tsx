@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import { formatCurrency } from '@/lib/utils';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
@@ -310,7 +311,7 @@ export function VALoanCalculator() {
 
   // ─── Analytics ────────────────────────────────────────────────────────────
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   useEffect(() => {
     if (!gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
@@ -338,6 +339,10 @@ export function VALoanCalculator() {
     : 0;
   const bahFullyCovered = hasBahResult && !!bahResult && bahResult.monthlyRate >= calc.totalPITI;
   const bahNearlyCovered = !bahFullyCovered && bahCoveragePct >= 90;
+
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'va-loan', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
 
   return (
     <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -369,6 +374,7 @@ export function VALoanCalculator() {
               <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[38px] flex-none">
                 <button
                   type="button"
+                  aria-disabled={inert}
                   onClick={() => switchDownType('dollar')}
                   className={[
                     'px-3 text-sm font-medium transition-colors',
@@ -377,6 +383,7 @@ export function VALoanCalculator() {
                 >$</button>
                 <button
                   type="button"
+                  aria-disabled={inert}
                   onClick={() => switchDownType('percent')}
                   className={[
                     'px-3 text-sm font-medium transition-colors border-l border-zinc-300',
@@ -489,8 +496,8 @@ export function VALoanCalculator() {
             <p className="text-sm text-zinc-500 mt-0.5">Compare your housing allowance to this estimated payment</p>
           </div>
           <div className="flex gap-3 flex-none ml-4" role="group" aria-labelledby="vl-bah-label">
-            <button type="button" onClick={() => setBahActive(false)} className={btnCls(!bahActive)}>No</button>
-            <button type="button" onClick={() => setBahActive(true)} className={btnCls(bahActive)}>Yes</button>
+            <button type="button" aria-disabled={inert} onClick={() => setBahActive(false)} className={btnCls(!bahActive)}>No</button>
+            <button type="button" aria-disabled={inert} onClick={() => setBahActive(true)} className={btnCls(bahActive)}>Yes</button>
           </div>
         </div>
 
@@ -518,11 +525,13 @@ export function VALoanCalculator() {
               <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[42px] mt-1">
                 <button
                   type="button"
+                  aria-disabled={inert}
                   onClick={() => setBahDependents(false)}
                   className={['flex-1 text-sm font-medium transition-colors', !bahDependents ? 'bg-red-700 text-white' : 'bg-white text-zinc-600 hover:bg-zinc-50'].join(' ')}
                 >Without</button>
                 <button
                   type="button"
+                  aria-disabled={inert}
                   onClick={() => setBahDependents(true)}
                   className={['flex-1 text-sm font-medium transition-colors border-l border-zinc-300', bahDependents ? 'bg-red-700 text-white' : 'bg-white text-zinc-600 hover:bg-zinc-50'].join(' ')}
                 >With Dependents</button>
@@ -541,8 +550,8 @@ export function VALoanCalculator() {
           <div className="flex flex-col gap-1">
             <span id="vl-use-label" className="text-sm font-medium text-zinc-700">VA loan use</span>
             <div className="flex gap-3 mt-1" role="group" aria-labelledby="vl-use-label">
-              <button type="button" onClick={() => setFirstUse(true)} className={btnCls(firstUse)}>First use</button>
-              <button type="button" onClick={() => setFirstUse(false)} className={btnCls(!firstUse)}>Subsequent use</button>
+              <button type="button" aria-disabled={inert} onClick={() => setFirstUse(true)} className={btnCls(firstUse)}>First use</button>
+              <button type="button" aria-disabled={inert} onClick={() => setFirstUse(false)} className={btnCls(!firstUse)}>Subsequent use</button>
             </div>
             <p className="text-xs text-zinc-500 mt-1">
               First use = you&apos;ve never used a VA loan for a standard home purchase, or your entitlement has been fully restored. Subsequent use = you&apos;ve previously used a VA loan benefit for a home purchase.
@@ -553,8 +562,8 @@ export function VALoanCalculator() {
           <div className="flex flex-col gap-1">
             <span id="vl-disability-label" className="text-sm font-medium text-zinc-700">VA disability rating</span>
             <div className="flex gap-3 mt-1" role="group" aria-labelledby="vl-disability-label">
-              <button type="button" onClick={() => setDisabilityExempt(false)} className={btnCls(!disabilityExempt)}>None</button>
-              <button type="button" onClick={() => setDisabilityExempt(true)} className={btnCls(disabilityExempt)}>10%+ (exempt)</button>
+              <button type="button" aria-disabled={inert} onClick={() => setDisabilityExempt(false)} className={btnCls(!disabilityExempt)}>None</button>
+              <button type="button" aria-disabled={inert} onClick={() => setDisabilityExempt(true)} className={btnCls(disabilityExempt)}>10%+ (exempt)</button>
             </div>
             {disabilityExempt ? (
               <div className="mt-2 rounded-md bg-green-50 border border-green-200 px-3 py-2">
@@ -588,8 +597,8 @@ export function VALoanCalculator() {
             <div className="flex flex-col gap-1">
               <span id="vl-finance-label" className="text-sm font-medium text-zinc-700">Finance funding fee</span>
               <div className="flex gap-3 mt-1" role="group" aria-labelledby="vl-finance-label">
-                <button type="button" onClick={() => setFinanceFee(true)} className={btnCls(financeFee)}>Yes (roll in)</button>
-                <button type="button" onClick={() => setFinanceFee(false)} className={btnCls(!financeFee)}>No (pay at closing)</button>
+                <button type="button" aria-disabled={inert} onClick={() => setFinanceFee(true)} className={btnCls(financeFee)}>Yes (roll in)</button>
+                <button type="button" aria-disabled={inert} onClick={() => setFinanceFee(false)} className={btnCls(!financeFee)}>No (pay at closing)</button>
               </div>
               <p className="text-xs text-zinc-500 mt-1">
                 {financeFee

@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
@@ -308,7 +309,7 @@ export function BAHCalculator() {
   const errB = zipErrorFor(zipB, lookupB.data);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   useEffect(() => {
     if (!result || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
@@ -367,6 +368,10 @@ export function BAHCalculator() {
     return `${window.location.origin}/bah?${p.toString()}`;
   }
 
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'bah', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
+
   return (
     <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* ── Inputs ────────────────────────────────────────────────────── */}
@@ -389,6 +394,7 @@ export function BAHCalculator() {
             <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[42px]">
               <button
                 type="button"
+                aria-disabled={inert}
                 onClick={() => setHasDependents(false)}
                 className={[
                   'flex-1 text-sm font-medium transition-colors',
@@ -401,6 +407,7 @@ export function BAHCalculator() {
               </button>
               <button
                 type="button"
+                aria-disabled={inert}
                 onClick={() => setHasDependents(true)}
                 className={[
                   'flex-1 text-sm font-medium transition-colors border-l border-zinc-300',
@@ -420,6 +427,7 @@ export function BAHCalculator() {
             <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[42px]">
               <button
                 type="button"
+                aria-disabled={inert}
                 onClick={() => setMode('single')}
                 className={[
                   'flex-1 text-sm font-medium transition-colors',
@@ -432,6 +440,7 @@ export function BAHCalculator() {
               </button>
               <button
                 type="button"
+                aria-disabled={inert}
                 onClick={() => setMode('compare')}
                 className={[
                   'flex-1 text-sm font-medium transition-colors border-l border-zinc-300',

@@ -5,6 +5,7 @@ import { calculateTotalCompensation } from '@/lib/calculations/total-compensatio
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import { formatCurrency } from '@/lib/utils';
 import { ResultCard } from '@/components/calculators/shared/ResultCard';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
@@ -278,13 +279,17 @@ export function TotalCompensationCalculator() {
   ]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   useEffect(() => {
     if (!gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
     _gaTimerRef.current = setTimeout(() => fireCalculatorEvent('total-compensation'), 800);
     return () => clearTimeout(_gaTimerRef.current);
   }, [result, gaInteracted]);
+
+  // After the URL effect above: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'total-compensation', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
 
   return (
     <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -327,6 +332,7 @@ export function TotalCompensationCalculator() {
                 <button
                   key={label}
                   type="button"
+                  aria-disabled={inert}
                   onClick={() => setHasDependents(value)}
                   className={[
                     'flex-1 rounded-md border px-3 py-2 text-sm font-medium transition-colors text-center',
@@ -351,6 +357,7 @@ export function TotalCompensationCalculator() {
                 <button
                   key={label}
                   type="button"
+                  aria-disabled={inert}
                   onClick={() => setGovHousing(value)}
                   className={[
                     'flex-1 rounded-md border px-3 py-2 text-sm font-medium transition-colors text-center',
@@ -376,6 +383,7 @@ export function TotalCompensationCalculator() {
                 <button
                   key={label}
                   type="button"
+                  aria-disabled={inert}
                   onClick={() => setMealCard(value)}
                   className={[
                     'flex-1 rounded-md border px-3 py-2 text-sm font-medium transition-colors text-center',
@@ -401,6 +409,7 @@ export function TotalCompensationCalculator() {
                 <button
                   key={value}
                   type="button"
+                  aria-disabled={inert}
                   onClick={() => setRetirementSystem(value)}
                   className={[
                     'flex-1 rounded-md border px-3 py-2 text-sm font-medium transition-colors text-center',
