@@ -6,6 +6,7 @@ import { colaForMha, type ColaLookupResult } from '@/lib/calculations/colaMha';
 import { COLA_AREAS, COLA_SOURCE } from '@/data/cola/2026/constants';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { COLA_OVERSEAS_LINE } from '@/data/oconus/stationSearchCopy';
 import { useBahLookup } from '@/components/calculators/shared/useBahLookup';
@@ -35,7 +36,7 @@ export function ColaCalculator() {
   const station = bahData?.stationPages?.[0] ?? null;
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   useEffect(() => {
     if (!result || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
@@ -73,6 +74,10 @@ export function ColaCalculator() {
       {label}
     </a>
   );
+
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'cola', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
 
   return (
     <div ref={gaAttach} className="bg-white rounded-lg border border-zinc-200 shadow-sm">

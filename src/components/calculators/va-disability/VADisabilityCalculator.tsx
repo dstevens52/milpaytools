@@ -3,6 +3,7 @@
 import { useState, useMemo, useId, useEffect, useRef } from 'react';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync, useHydrated } from '@/components/calculators/shared/usePreHydrationSync';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
 import { Input } from '@/components/ui/Input';
@@ -114,6 +115,8 @@ function CounterInput({
   onChange: (n: number) => void;
   hint?: string;
 }) {
+  // Inert until hydrated: a click before the JS runs would be lost (build 1c).
+  const inert = useHydrated() ? undefined : true;
   return (
     <div>
       <p className="text-sm font-medium text-zinc-700 mb-1">{label}</p>
@@ -121,6 +124,7 @@ function CounterInput({
       <div className="flex items-center gap-2">
         <button
           type="button"
+          aria-disabled={inert}
           onClick={() => onChange(Math.max(min, value - 1))}
           disabled={value <= min}
           className="w-8 h-8 rounded border border-zinc-300 bg-white text-zinc-600 font-bold text-lg leading-none hover:bg-zinc-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
@@ -131,6 +135,7 @@ function CounterInput({
         <span className="w-6 text-center font-semibold text-zinc-900 tabular-nums">{value}</span>
         <button
           type="button"
+          aria-disabled={inert}
           onClick={() => onChange(Math.min(max, value + 1))}
           disabled={value >= max}
           className="w-8 h-8 rounded border border-zinc-300 bg-white text-zinc-600 font-bold text-lg leading-none hover:bg-zinc-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
@@ -184,7 +189,7 @@ export function VADisabilityCalculator() {
   );
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   useEffect(() => {
     if (disabilities.length === 0 || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
@@ -252,6 +257,10 @@ export function VADisabilityCalculator() {
   const anyDependents =
     deps.hasSpouse || deps.childrenUnder18 > 0 || deps.schoolChildren > 0 || deps.dependentParents > 0;
 
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'va-disability', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
+
   return (
     <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
 
@@ -317,6 +326,7 @@ export function VADisabilityCalculator() {
                   <button
                     key={r}
                     type="button"
+                    aria-disabled={inert}
                     onClick={() => setNewRating(r)}
                     className={[
                       'px-2.5 py-1 rounded text-sm font-medium border transition-colors',
@@ -350,6 +360,7 @@ export function VADisabilityCalculator() {
           </div>
           <button
             type="button"
+            aria-disabled={inert}
             onClick={addDisability}
             className="px-4 py-2 bg-red-700 text-white text-sm font-semibold rounded-md hover:bg-red-800 transition-colors"
           >
@@ -375,6 +386,7 @@ export function VADisabilityCalculator() {
                   <button
                     key={String(val)}
                     type="button"
+                    aria-disabled={inert}
                     onClick={() => updateDeps({ hasSpouse: val })}
                     className={[
                       'px-4 py-2 text-sm font-medium transition-colors',

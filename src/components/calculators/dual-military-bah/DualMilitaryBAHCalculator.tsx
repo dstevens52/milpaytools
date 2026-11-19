@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
@@ -307,7 +308,7 @@ export function DualMilitaryBAHCalculator() {
   }, [data2, sameStation, stationM1]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   useEffect(() => {
     if (!results || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
@@ -326,6 +327,10 @@ export function DualMilitaryBAHCalculator() {
     hasDependents && whoClaimsDeps === 'member1' ? 'with dependents' : 'without dependents';
   const m2DepLabel =
     hasDependents && whoClaimsDeps === 'member2' ? 'with dependents' : 'without dependents';
+
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'dual-military-bah', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
 
   return (
     <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
@@ -365,6 +370,7 @@ export function DualMilitaryBAHCalculator() {
             <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[42px] max-w-xs" role="group" aria-labelledby="dm-station-label">
               <button
                 type="button"
+                aria-disabled={inert}
                 onClick={() => setSameStation(true)}
                 className={[
                   'flex-1 text-sm font-medium transition-colors',
@@ -377,6 +383,7 @@ export function DualMilitaryBAHCalculator() {
               </button>
               <button
                 type="button"
+                aria-disabled={inert}
                 onClick={() => setSameStation(false)}
                 className={[
                   'flex-1 text-sm font-medium transition-colors border-l border-zinc-300',
@@ -423,6 +430,7 @@ export function DualMilitaryBAHCalculator() {
             <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[42px] max-w-xs" role="group" aria-labelledby="dm-deps-label">
               <button
                 type="button"
+                aria-disabled={inert}
                 onClick={() => setHasDependents(false)}
                 className={[
                   'flex-1 text-sm font-medium transition-colors',
@@ -435,6 +443,7 @@ export function DualMilitaryBAHCalculator() {
               </button>
               <button
                 type="button"
+                aria-disabled={inert}
                 onClick={() => setHasDependents(true)}
                 className={[
                   'flex-1 text-sm font-medium transition-colors border-l border-zinc-300',
@@ -462,6 +471,7 @@ export function DualMilitaryBAHCalculator() {
               <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[42px] max-w-xs" role="group" aria-labelledby="dm-claims-label">
                 <button
                   type="button"
+                  aria-disabled={inert}
                   onClick={() => setWhoClaimsDeps('member1')}
                   className={[
                     'flex-1 text-sm font-medium transition-colors',
@@ -474,6 +484,7 @@ export function DualMilitaryBAHCalculator() {
                 </button>
                 <button
                   type="button"
+                  aria-disabled={inert}
                   onClick={() => setWhoClaimsDeps('member2')}
                   className={[
                     'flex-1 text-sm font-medium transition-colors border-l border-zinc-300',

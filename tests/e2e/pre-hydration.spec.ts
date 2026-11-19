@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Locator, type Page } from '@playwright/test';
 import { holdClientJs, expectNotHydrated, waitForHydration } from './helpers/hydration';
 import { getBAH } from './helpers/data';
 import { formatCurrency } from '../../src/lib/utils';
@@ -173,5 +173,136 @@ test.describe('Station page — rank picked before hydration (follow-up 3)', () 
     await page.waitForTimeout(500);
     expect(new URL(page.url()).search).toBe('?rank=e7');
     expect(await events('station_rate_lookup')).toEqual([]);
+  });
+});
+
+// ─── Build 1c: every calculator ─────────────────────────────────────────────
+// A value picked or typed before hydration must drive the results. The oracle is the
+// calculator itself: the same change made AFTER hydration on a fresh page gives the
+// expected results, and they must differ from the defaults (so the change mattered).
+
+type PreCase = {
+  name: string;
+  path: string;
+  /** A control that exists in the server HTML (asserted not hydrated, then awaited). */
+  control: (p: Page) => Locator;
+  /** The changes: one select and one text input where the calculator has them. */
+  act: (p: Page) => Promise<void>;
+  /** Text that reflects the result. */
+  result: (p: Page) => Locator;
+};
+
+async function resultText(loc: Locator): Promise<string> {
+  return (await loc.count()) ? (await loc.first().innerText()).trim() : '';
+}
+
+async function expectedAfterHydration(page: Page, c: PreCase): Promise<{ before: string; after: string }> {
+  const p2 = await page.context().newPage();
+  await p2.goto(c.path);
+  await waitForHydration(c.control(p2));
+  await p2.waitForTimeout(500);
+  const before = await resultText(c.result(p2));
+  await c.act(p2);
+  let after = before;
+  await expect
+    .poll(async () => (after = await resultText(c.result(p2))), { message: `${c.name}: the change moves the result`, timeout: 10_000 })
+    .not.toBe(before);
+  await p2.waitForTimeout(500);
+  after = await resultText(c.result(p2));
+  await p2.close();
+  return { before, after };
+}
+
+async function expectPreHydrationChangeApplied(page: Page, c: PreCase) {
+  const { after } = await expectedAfterHydration(page, c);
+  const release = await holdClientJs(page);
+  await page.goto(c.path, { waitUntil: 'commit' });
+  const control = c.control(page);
+  await expect(control).toBeVisible();
+  await expectNotHydrated(control);
+  await c.act(page);
+  release();
+  await waitForHydration(control);
+  await expect(c.result(page).first()).toHaveText(after, { timeout: 10_000 });
+}
+
+/** The "Rank / Pay Grade"-style select by label, a text field by label. */
+const byLabel = (label: string | RegExp) => (p: Page) => p.getByLabel(label, { exact: typeof label === 'string' });
+const byCss = (css: string) => (p: Page) => p.locator(css);
+
+const PRE_CASES: PreCase[] = [
+  {
+    name: 'total-compensation',
+    path: '/calculators/total-compensation',
+    control: byLabel('Rank / Pay Grade'),
+    act: async (p) => {
+      await p.getByLabel('Rank / Pay Grade').selectOption('E-7');
+      await p.getByLabel('Duty Station').fill('28310');
+    },
+    result: (p) => p.getByTestId('tc-monthly-total'),
+  },
+];
+
+test.describe('Calculators — input made before hydration drives the results (build 1c)', () => {
+  test.describe.configure({ timeout: 60_000 });
+  for (const c of PRE_CASES) {
+    test(`${c.name}: select + text changed before hydration → same results as after`, async ({ page }) => {
+      await expectPreHydrationChangeApplied(page, c);
+    });
+  }
+});
+
+test.describe('Total compensation — URL precedence and analytics (build 1c)', () => {
+  test('?rank=e5, E-7 picked before hydration → E-7 results and the URL says e7', async ({ page }) => {
+    const p2 = await page.context().newPage();
+    await p2.goto('/calculators/total-compensation?rank=e7&zip=28310');
+    await waitForHydration(p2.getByLabel('Rank / Pay Grade'));
+    await expect(p2.getByTestId('tc-monthly-total')).toBeVisible();
+    const e7 = await p2.getByTestId('tc-monthly-total').innerText();
+    await p2.close();
+
+    const events = await recordGtag(page);
+    const release = await holdClientJs(page);
+    await page.goto('/calculators/total-compensation?rank=e5&zip=28310&utm_source=test', { waitUntil: 'commit' });
+    const rank = page.getByLabel('Rank / Pay Grade');
+    await expect(rank).toBeVisible();
+    await expectNotHydrated(rank);
+    await rank.selectOption('E-7');
+
+    release();
+    await waitForHydration(rank);
+    await expect(rank).toHaveValue('E-7');
+    await expect(page.getByTestId('tc-monthly-total')).toHaveText(e7);
+    await expect(page).toHaveURL(/[?&]rank=e7(&|$)/);
+    await expect(page).toHaveURL(/[?&]zip=28310(&|$)/);
+    await expect(page).toHaveURL(/[?&]utm_source=test(&|$)/);
+    await expect
+      .poll(() => events('calculation_run'))
+      .toEqual([{ calculator_name: 'total-compensation', event_category: 'calculator' }]);
+    await page.waitForTimeout(1500);
+    expect(await events('calculation_run'), 'exactly one').toHaveLength(1);
+  });
+
+  test('held JS, nothing changed: no calculation_run, URL untouched, buttons inert then live', async ({ page }) => {
+    const events = await recordGtag(page);
+    const release = await holdClientJs(page);
+    await page.goto('/calculators/total-compensation?rank=e6', { waitUntil: 'commit' });
+    const withDeps = page.getByRole('button', { name: 'With dependents' });
+    await expect(withDeps).toBeVisible();
+    await expectNotHydrated(withDeps);
+    await expect(withDeps).toHaveAttribute('aria-disabled', 'true');
+    await expect(withDeps).toBeDisabled(); // Playwright treats aria-disabled as disabled
+    await withDeps.click({ force: true }); // lost: no JS yet, and inert
+
+    release();
+    await waitForHydration(withDeps);
+    await expect(withDeps).not.toHaveAttribute('aria-disabled');
+    await expect(page.getByLabel('Rank / Pay Grade')).toHaveValue('E-6');
+    await page.waitForTimeout(2000);
+    expect(new URL(page.url()).search).toBe('?rank=e6');
+    expect(await events('calculation_run')).toEqual([]);
+
+    await withDeps.click(); // works once hydrated
+    await expect(withDeps).toHaveClass(/bg-red-700/);
   });
 });

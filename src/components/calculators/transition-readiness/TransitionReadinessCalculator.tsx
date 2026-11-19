@@ -12,6 +12,7 @@ import { STATE_MILITARY_RETIREMENT_TAX, type StateMilitaryRetirementTax } from '
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import { formatCurrency } from '@/lib/utils';
 import { ResultCard } from '@/components/calculators/shared/ResultCard';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
@@ -368,7 +369,7 @@ export function TransitionReadinessCalculator() {
   const hasEngaged = civilianSalary > 0 && result.rawMonthlyExpenses > 0;
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   useEffect(() => {
     if (!hasEngaged || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
@@ -387,6 +388,10 @@ export function TransitionReadinessCalculator() {
   const printDate = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
   // ── Render ──────────────────────────────────────────────────────────────
+
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'transition-readiness', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
 
   return (
     <>
@@ -457,6 +462,7 @@ export function TransitionReadinessCalculator() {
                       <button
                         key={label}
                         type="button"
+                        aria-disabled={inert}
                         onClick={() => setHasDependents(value)}
                         className={[
                           'flex-1 rounded-md border px-3 py-2 text-sm font-medium transition-colors text-center',
@@ -518,6 +524,7 @@ export function TransitionReadinessCalculator() {
                       <button
                         key={value}
                         type="button"
+                        aria-disabled={inert}
                         onClick={() => setRetirementSystem(value)}
                         className={[
                           'flex-1 rounded-md border px-3 py-2 text-sm font-medium transition-colors text-center',
@@ -670,6 +677,7 @@ export function TransitionReadinessCalculator() {
                   <button
                     key={mode}
                     type="button"
+                    aria-disabled={inert}
                     onClick={() => setExpenseMode(mode)}
                     className={[
                       'rounded-md border px-3 py-1.5 text-xs font-medium transition-colors',

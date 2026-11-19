@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import { Card } from '@/components/ui/Card';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
@@ -361,7 +362,7 @@ export function PCSCalculator() {
   const actionSteps = useMemo(() => buildActionSteps(input, output), [input, output]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   useEffect(() => {
     if (!gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
@@ -448,6 +449,10 @@ export function PCSCalculator() {
   // No distance and no station pair with coordinates yet: show a prompt, never "$0".
   const needsInput = effectiveDistance === 0 && autoDistance === null && !milesEntered;
 
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'pcs', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
+
   return (
     <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
@@ -489,6 +494,7 @@ export function PCSCalculator() {
                       <button
                         key={String(val)}
                         type="button"
+                        aria-disabled={inert}
                         onClick={() => setHasDependents(val)}
                         className={[
                           'flex-1 py-2 text-xs font-medium transition-colors',
@@ -623,6 +629,7 @@ export function PCSCalculator() {
                     {routeType === 'ak-hi' ? (
                       <button
                         type="button"
+                        aria-disabled={inert}
                         onClick={() => setShowManualOverride(true)}
                         className="text-xs font-semibold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-400 rounded px-2.5 py-1 transition-colors"
                       >
@@ -631,6 +638,7 @@ export function PCSCalculator() {
                     ) : (
                       <button
                         type="button"
+                        aria-disabled={inert}
                         onClick={() => setShowManualOverride(true)}
                         className="text-xs text-blue-600 hover:text-blue-800 hover:underline"
                       >
@@ -656,6 +664,7 @@ export function PCSCalculator() {
                     {autoDistance !== null ? (
                       <button
                         type="button"
+                        aria-disabled={inert}
                         onClick={() => setShowManualOverride(false)}
                         className="text-xs text-blue-600 hover:text-blue-800 hover:underline mt-1 block"
                       >

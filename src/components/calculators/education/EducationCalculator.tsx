@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync, useHydrated } from '@/components/calculators/shared/usePreHydrationSync';
 import { Card } from '@/components/ui/Card';
 import { isValidZip } from '@/lib/utils';
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
@@ -55,6 +56,8 @@ function RadioGroup<T extends string>({
   value: T;
   onChange: (v: T) => void;
 }) {
+  // Inert until hydrated: a click before the JS runs would be lost (build 1c).
+  const inert = useHydrated() ? undefined : true;
   return (
     <div>
       <p className="text-sm font-medium text-zinc-700 mb-2">{label}</p>
@@ -63,6 +66,7 @@ function RadioGroup<T extends string>({
           <button
             key={o.value}
             type="button"
+            aria-disabled={inert}
             onClick={() => onChange(o.value)}
             className={[
               'px-3 py-2 text-sm font-medium transition-colors',
@@ -338,7 +342,7 @@ export function EducationCalculator() {
   const result = useMemo(() => compareAllBenefits(input), [input]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   useEffect(() => {
     if (!gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
@@ -385,6 +389,10 @@ export function EducationCalculator() {
 
   const mhaMonthsPerYear = EDUCATION_RATES.giBill.mhaMonthsPerYear;
   const tierPct = GI_BILL_TIERS[serviceTier] ?? 0;
+
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'education', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
 
   return (
     <div ref={gaAttach} className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">

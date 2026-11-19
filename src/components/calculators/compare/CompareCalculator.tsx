@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { compareLocations, validStateCode } from '@/lib/calculations/compare';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import type { CompareResult, LocationData } from '@/lib/calculations/compare';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
@@ -290,7 +291,7 @@ export function CompareCalculator() {
   }, [dataB, bothReady, stationPagesA]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   useEffect(() => {
     if (!result || !gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
@@ -301,6 +302,10 @@ export function CompareCalculator() {
   // Display names for each location
   const nameA = result?.locA.locationName || `ZIP ${zipA}`;
   const nameB = result?.locB.locationName || `ZIP ${zipB}`;
+
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'compare', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
 
   return (
     <div ref={gaAttach} className="space-y-6">
@@ -345,6 +350,7 @@ export function CompareCalculator() {
             <span className="block text-sm font-medium text-zinc-700 mb-1.5">Dependents</span>
             <div className="flex rounded-md border border-zinc-300 overflow-hidden h-[38px]">
               <button
+                aria-disabled={inert}
                 onClick={() => setHasDependents(true)}
                 className={[
                   'flex-1 text-sm font-medium transition-colors',
@@ -354,6 +360,7 @@ export function CompareCalculator() {
                 With deps
               </button>
               <button
+                aria-disabled={inert}
                 onClick={() => setHasDependents(false)}
                 className={[
                   'flex-1 text-sm font-medium border-l border-zinc-300 transition-colors',

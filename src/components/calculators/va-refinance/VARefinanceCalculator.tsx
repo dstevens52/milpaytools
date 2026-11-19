@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import { formatCurrency } from '@/lib/utils';
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
@@ -258,7 +259,7 @@ export function VARefinanceCalculator() {
 
   // ─── Analytics ────────────────────────────────────────────────────────────────
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   useEffect(() => {
     if (!gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
@@ -342,6 +343,10 @@ export function VARefinanceCalculator() {
 
   const feeLabel = refType === 'irrrl' ? '0.5%' : (firstUse ? '2.15%' : '3.30%');
 
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'va-refinance', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
+
   return (
     <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
@@ -349,10 +354,10 @@ export function VARefinanceCalculator() {
       <Card variant="default">
         <h2 id="rf-type-label" className="text-lg font-semibold text-zinc-900 mb-4">Refinance Type</h2>
         <div className="flex gap-3" role="group" aria-labelledby="rf-type-label">
-          <button type="button" onClick={() => setRefType('irrrl')} className={btnCls(refType === 'irrrl')}>
+          <button type="button" aria-disabled={inert} onClick={() => setRefType('irrrl')} className={btnCls(refType === 'irrrl')}>
             VA Streamline (IRRRL)
           </button>
-          <button type="button" onClick={() => setRefType('cashout')} className={btnCls(refType === 'cashout')}>
+          <button type="button" aria-disabled={inert} onClick={() => setRefType('cashout')} className={btnCls(refType === 'cashout')}>
             VA Cash-Out Refinance
           </button>
         </div>
@@ -514,8 +519,8 @@ export function VARefinanceCalculator() {
             <div className="flex flex-col gap-1 sm:col-span-2">
               <span id="rf-use-label" className="text-sm font-medium text-zinc-700">VA loan use</span>
               <div className="flex gap-3 mt-1 max-w-xs" role="group" aria-labelledby="rf-use-label">
-                <button type="button" onClick={() => setFirstUse(true)} className={btnCls(firstUse)}>First use</button>
-                <button type="button" onClick={() => setFirstUse(false)} className={btnCls(!firstUse)}>Subsequent use</button>
+                <button type="button" aria-disabled={inert} onClick={() => setFirstUse(true)} className={btnCls(firstUse)}>First use</button>
+                <button type="button" aria-disabled={inert} onClick={() => setFirstUse(false)} className={btnCls(!firstUse)}>Subsequent use</button>
               </div>
               <p className="text-xs text-zinc-500 mt-1">Cash-out funding fee: 2.15% first use · 3.30% subsequent use</p>
             </div>

@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import { Card } from '@/components/ui/Card';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import {
@@ -221,7 +222,7 @@ export function GuardReserveCalculator() {
   const actionSteps = useMemo(() => buildActionSteps(output, input), [output, input]);
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { attach: gaAttach, hasInteracted: gaInteracted } = useUserInputGate();
+  const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
   useEffect(() => {
     if (!gaInteracted()) return;
     clearTimeout(_gaTimerRef.current);
@@ -273,6 +274,10 @@ export function GuardReserveCalculator() {
     ...(output.atBAS + output.additionalBAS > 0 ? [{ label: 'BAS', value: output.atBAS + output.additionalBAS, color: 'bg-amber-400' }] : []),
     ...(output.brs.totalGovContrib > 0 ? [{ label: 'TSP gov contributions', value: output.brs.totalGovContrib, color: 'bg-blue-400' }] : []),
   ];
+
+  // After the URL effect: input made before hydration wins over URL params (build 1c).
+  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'guard-reserve', shareUrl: getShareUrl });
+  const inert = hydrated ? undefined : true;
 
   return (
     <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -433,6 +438,7 @@ export function GuardReserveCalculator() {
                   <span className="text-sm font-medium text-zinc-700">BRS enrolled</span>
                   <button
                     type="button"
+                    aria-disabled={inert}
                     onClick={() => setBrsEnrolled(!brsEnrolled)}
                     className={[
                       'relative inline-flex h-6 w-11 rounded-full transition-colors focus:outline-none',
