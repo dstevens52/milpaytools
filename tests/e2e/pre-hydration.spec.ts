@@ -188,7 +188,9 @@ type PreCase = {
   control: (p: Page) => Locator;
   /** The changes: one select and one text input where the calculator has them. */
   act: (p: Page) => Promise<void>;
-  /** Text that reflects the result. */
+  /** Optional step after hydration, in both runs (e.g. a button that commits the inputs). */
+  then?: (p: Page) => Promise<void>;
+  /** Text that reflects the result (`main` when the calculator has no single result element). */
   result: (p: Page) => Locator;
 };
 
@@ -203,6 +205,7 @@ async function expectedAfterHydration(page: Page, c: PreCase): Promise<{ before:
   await p2.waitForTimeout(500);
   const before = await resultText(c.result(p2));
   await c.act(p2);
+  if (c.then) await c.then(p2);
   let after = before;
   await expect
     .poll(async () => (after = await resultText(c.result(p2))), { message: `${c.name}: the change moves the result`, timeout: 10_000 })
@@ -223,12 +226,17 @@ async function expectPreHydrationChangeApplied(page: Page, c: PreCase) {
   await c.act(page);
   release();
   await waitForHydration(control);
-  await expect(c.result(page).first()).toHaveText(after, { timeout: 10_000 });
+  if (c.then) await c.then(page);
+  await expect(c.result(page).first()).toHaveText(after, { timeout: 10_000, useInnerText: true });
 }
 
-/** The "Rank / Pay Grade"-style select by label, a text field by label. */
-const byLabel = (label: string | RegExp) => (p: Page) => p.getByLabel(label, { exact: typeof label === 'string' });
-const byCss = (css: string) => (p: Page) => p.locator(css);
+/** A control by its associated label. */
+const byLabel = (label: string) => (p: Page) => p.getByLabel(label, { exact: true }).first();
+/** A control by the visible label right before it (for labels without htmlFor). */
+const afterLabel = (text: string) => (p: Page) =>
+  p.locator(`xpath=//label[contains(normalize-space(.), "${text}")]/following::*[self::input or self::select][1]`).first();
+const byId = (id: string) => (p: Page) => p.locator(`#${id}`).first();
+const main = (p: Page) => p.locator('main');
 
 const PRE_CASES: PreCase[] = [
   {
@@ -240,6 +248,189 @@ const PRE_CASES: PreCase[] = [
       await p.getByLabel('Duty Station').fill('28310');
     },
     result: (p) => p.getByTestId('tc-monthly-total'),
+  },
+  {
+    name: 'bah',
+    path: '/bah',
+    control: byLabel('Pay Grade'),
+    act: async (p) => {
+      await byLabel('Pay Grade')(p).selectOption('E-7');
+      await byLabel('Duty Station')(p).fill('28310');
+    },
+    result: (p) => p.getByTestId('bah-monthly-rate'),
+  },
+  {
+    name: 'cola (ZIP only)',
+    path: '/calculators/cola',
+    control: byId('zip'),
+    act: async (p) => {
+      await byId('zip')(p).fill('28310');
+    },
+    result: (p) => p.getByTestId('cola-result-area'),
+  },
+  {
+    name: 'compare',
+    path: '/calculators/compare',
+    control: afterLabel('Pay grade'),
+    act: async (p) => {
+      await afterLabel('Pay grade')(p).selectOption('E-7');
+      await afterLabel('Years of service')(p).fill('12');
+    },
+    result: main,
+  },
+  {
+    name: 'deployment',
+    path: '/calculators/deployment',
+    control: byId('pay-grade'),
+    act: async (p) => {
+      await byId('pay-grade')(p).selectOption('E-7');
+      await byId('zip')(p).fill('28310');
+    },
+    result: (p) => p.getByTestId('deployment-results'),
+  },
+  {
+    name: 'dual-military-bah',
+    path: '/calculators/dual-military-bah',
+    control: byLabel('Pay Grade'),
+    act: async (p) => {
+      await byLabel('Pay Grade')(p).selectOption('E-7');
+      await byLabel('Shared Duty Station')(p).fill('28310');
+    },
+    result: main,
+  },
+  {
+    name: 'education',
+    path: '/calculators/education',
+    control: afterLabel('Active duty time since'),
+    act: async (p) => {
+      await afterLabel('Active duty time since')(p).selectOption({ index: 2 });
+      await p.getByPlaceholder('e.g. 92101, 78234, 28310').fill('92101');
+    },
+    result: main,
+  },
+  {
+    name: 'guard-reserve',
+    path: '/calculators/guard-reserve',
+    control: byId('gr-rank'),
+    act: async (p) => {
+      await byId('gr-rank')(p).selectOption({ index: 6 });
+      await byId('gr-weekends')(p).fill('10');
+    },
+    result: (p) => p.getByTestId('gr-total-value'),
+  },
+  {
+    name: 'healthcare-comparison (selects only by default)',
+    path: '/calculators/healthcare-comparison',
+    control: byId('family-select'),
+    act: async (p) => {
+      await byId('family-select')(p).selectOption({ index: 1 });
+      await byId('path-select')(p).selectOption({ index: 1 }); // income field only shows on some paths
+    },
+    result: main,
+  },
+  {
+    name: 'pay charts (/pay, selects only)',
+    path: '/pay',
+    control: afterLabel('Pay Grade'),
+    act: async (p) => {
+      await afterLabel('Pay Grade')(p).selectOption('E-7');
+      await afterLabel('Years of Service')(p).selectOption('10');
+    },
+    result: main,
+  },
+  {
+    name: 'pay raise (/pay/raise, selects only)',
+    path: '/pay/raise',
+    control: byId('raise-grade'),
+    act: async (p) => {
+      await byId('raise-grade')(p).selectOption('E-7');
+      await byId('raise-yos')(p).selectOption('10');
+    },
+    result: (p) => p.getByTestId('raise-calculator'),
+  },
+  {
+    name: 'pcs',
+    path: '/calculators/pcs',
+    control: byId('rank'),
+    act: async (p) => {
+      await byId('rank')(p).selectOption({ index: 8 });
+      await byLabel('Moving from (optional)')(p).fill('28310');
+      await byLabel('Moving to (optional)')(p).fill('98433');
+    },
+    result: main,
+  },
+  {
+    name: 'retirement',
+    path: '/calculators/retirement',
+    control: afterLabel('Current Rank'),
+    act: async (p) => {
+      await afterLabel('Current Rank')(p).selectOption({ index: 6 });
+      await afterLabel('Current TSP Balance')(p).fill('80000');
+    },
+    result: main,
+  },
+  {
+    name: 'separation-timeline',
+    path: '/calculators/separation-timeline',
+    control: byId('tamp-select'),
+    act: async (p) => {
+      await byId('tamp-select')(p).selectOption({ index: 1 });
+      await byId('sep-date')(p).fill('2027-09-30');
+    },
+    result: main,
+  },
+  {
+    name: 'transition-readiness',
+    path: '/calculators/transition-readiness',
+    control: byLabel('Rank / Pay Grade'),
+    act: async (p) => {
+      await byLabel('Rank / Pay Grade')(p).selectOption('E-7');
+      await byLabel('Target Civilian Salary (annual gross)')(p).fill('90000');
+    },
+    result: main,
+  },
+  {
+    name: 'tsp',
+    path: '/calculators/tsp',
+    control: byLabel('Pay Grade'),
+    act: async (p) => {
+      await byLabel('Pay Grade')(p).selectOption('E-7');
+      await byLabel('Current TSP Balance')(p).fill('50000');
+    },
+    result: main,
+  },
+  {
+    name: 'va-disability (select + text, then + Add Rating)',
+    path: '/calculators/va-disability',
+    control: byLabel('Body Location'),
+    act: async (p) => {
+      await byLabel('Body Location')(p).selectOption({ index: 1 });
+      await byLabel('Condition Label (optional)')(p).fill('Knee test');
+    },
+    then: async (p) => {
+      await p.getByRole('button', { name: '+ Add Rating' }).click();
+    },
+    result: main,
+  },
+  {
+    name: 'va-loan',
+    path: '/calculators/va-loan',
+    control: byLabel('Loan term'),
+    act: async (p) => {
+      await byLabel('Loan term')(p).selectOption({ index: 1 });
+      await afterLabel('Home price')(p).fill('400000');
+    },
+    result: main,
+  },
+  {
+    name: 'va-refinance',
+    path: '/calculators/va-refinance',
+    control: byLabel('New loan term'),
+    act: async (p) => {
+      await byLabel('New loan term')(p).selectOption({ index: 1 });
+      await afterLabel('Current loan balance')(p).fill('250000');
+    },
+    result: main,
   },
 ];
 

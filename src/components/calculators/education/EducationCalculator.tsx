@@ -391,8 +391,7 @@ export function EducationCalculator() {
   const tierPct = GI_BILL_TIERS[serviceTier] ?? 0;
 
   // After the URL effect: input made before hydration wins over URL params (build 1c).
-  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'education', shareUrl: getShareUrl });
-  const inert = hydrated ? undefined : true;
+  usePreHydrationSync(gaRoot, { calculator: 'education', shareUrl: getShareUrl });
 
   return (
     <div ref={gaAttach} className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">

@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { fireCalculatorEvent, fireDeepLinkEvent } from '@/lib/analytics';
 import { gradeToParam } from '@/lib/urlParams';
+import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import { payTable } from '@/data/pay-tables/2026';
 import {
   ENLISTED_GRADES,
@@ -340,8 +341,13 @@ export function PayChartsClient({ payPages }: PayChartsClientProps) {
     return acc;
   }, {});
 
+  // A grade or years picked before hydration drives the lookup (build 1c). No URL params here.
+  const rootRef = useRef<HTMLDivElement>(null);
+  const getRoot = useCallback(() => rootRef.current, []);
+  usePreHydrationSync(getRoot);
+
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+    <div ref={rootRef} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
 
       {/* ── Quick Lookup ─────────────────────────────────────────────────── */}
       <section>

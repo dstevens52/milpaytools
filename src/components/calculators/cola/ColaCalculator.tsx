@@ -76,8 +76,7 @@ export function ColaCalculator() {
   );
 
   // After the URL effect: input made before hydration wins over URL params (build 1c).
-  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'cola', shareUrl: getShareUrl });
-  const inert = hydrated ? undefined : true;
+  usePreHydrationSync(gaRoot, { calculator: 'cola', shareUrl: getShareUrl });
 
   return (
     <div ref={gaAttach} className="bg-white rounded-lg border border-zinc-200 shadow-sm">

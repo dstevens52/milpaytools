@@ -383,8 +383,7 @@ export function DeploymentCalculator() {
   }, [result, gaInteracted]);
 
   // After the URL effect: input made before hydration wins over URL params (build 1c).
-  const hydrated = usePreHydrationSync(gaRoot, { calculator: 'deployment', shareUrl: getShareUrl });
-  const inert = hydrated ? undefined : true;
+  usePreHydrationSync(gaRoot, { calculator: 'deployment', shareUrl: getShareUrl });
 
   return (
     <div ref={gaAttach} className="space-y-6">

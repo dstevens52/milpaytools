@@ -70,7 +70,6 @@ export function usePreHydrationSync(
   useEffect(() => {
     const el = root();
     const replayed = el ? replayPreHydrationInput(el) : 0;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time mount flag (see above)
     setHydrated(true);
     if (replayed > 0 && window.location.search) setUrlPending(true);
     // Mount only.
