@@ -10,6 +10,7 @@
 import { test, expect } from '@playwright/test';
 import { payTable } from '../../src/data/pay-tables/2026';
 import { vaRates } from '../../src/data/va-rates/2026';
+import { BAS_RATES } from '../../src/data/constants';
 import { formatCurrency } from '../../src/lib/utils';
 
 const pay = (g: string, col: number) => (payTable as Record<string, Record<number, number>>)[g][col];
@@ -71,6 +72,14 @@ test.describe('C1: computed retirement figures', () => {
     await expect(article).toContainText(`Total nominal payments over 44 years: approximately ${mill(life(E7.high3))}`);
     await expect(article).toContainText(`the same 44-year nominal total is approximately ${mill(life(E7.brs))}`);
     await expect(article).toContainText('entered service on or after January 1, 2018');
+    // Row 6 item B: the 20th year is paid at Over 18; allowances "excluded from federal taxable income".
+    await expect(article).not.toContainText(/tax-free/i);
+    await expect(article).not.toContainText('$6,245.70/month = ');
+    await expect(article).toContainText(`Base pay (final year, paid at the Over 18 rate): ${usd(pay('E-7', 18))}/month = ${usd0(pay('E-7', 18) * 12)}/year (taxable)`);
+    await expect(article).toContainText(`BAS: ${usd(BAS_RATES.enlisted)}/month = ${usd0(BAS_RATES.enlisted * 12)}/year (excluded from federal taxable income)`);
+    const total = pay('E-7', 18) * 12 + 2000 * 12 + BAS_RATES.enlisted * 12 + 15000 + 25000;
+    await expect(article).toContainText(`in the 20th year: approximately ${usd0(Math.round(total / 1000) * 1000)}`);
+    for (const y of [12, 14, 16, 18, 20]) await expect(article).toContainText(`At ${y} years: ${usd(pay('E-7', y))}/month`);
     await page.goto('/blog/how-military-retirement-works');
     await expect(page.locator('article')).toContainText(`total nominal payments over 44 years come to about ${mill(life(E7.high3))}`);
     const k = (n: number) => usd0(Math.round(n / 1000) * 1000);
@@ -96,6 +105,20 @@ test.describe('C1: computed retirement figures', () => {
     // The stated advantage still matches the table.
     expect(usd(r2(net + 2 * va) - taxCrsc - (gross - taxCrdp))).toBe('$397.86');
     await expect(article).toContainText(`a difference of ${usd(r2(0.32 * pension) - r2(0.32 * net))}/month`);
+
+    // Bracket table: every row = tax on the CRDP pension − tax on the CRSC retirement pay.
+    const adv = (rate: number) => r2(rate * pension) - r2(rate * net);
+    expect(usd0(adv(0.12))).toBe('$217'); // control: the old hand-typed row said $214
+    for (const pct of [12, 22, 24, 32]) {
+      const a = adv(pct / 100);
+      await expect(article.locator('tr', { hasText: `${pct}%` }).last()).toHaveText(`${pct}%+${usd0(a)}/month (${usd0(a * 12)}/year)`);
+    }
+    await expect(article).toContainText(`CRSC advantage: ${usd(adv(0.22))}/month — ${usd0(adv(0.22) * 12)}/year.`);
+    const vaCombat = vaRates[40].veteranAlone;
+    const crdpAdv = r2(gross - taxCrdp) - r2(net + va + vaCombat - taxCrsc);
+    await expect(article).toContainText(`CRDP advantage: ${usd(crdpAdv)}/month — ${usd0(crdpAdv * 12)}/year.`);
+    await expect(article).toContainText(`CRSC only fills in ${usd(vaCombat)} of the ${usd(va)} offset. The remaining ${usd(va - vaCombat)} is simply gone`);
+    expect(rows.join('|')).not.toContain('NaN');
 
     await expect(article).not.toContainText(/tax-free/i);
     await expect(article).toContainText('non-taxable (not subject to federal income tax)');

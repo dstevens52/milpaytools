@@ -1,4 +1,6 @@
 import { formatCurrency } from '@/lib/utils';
+import { BAS_RATES } from '@/data/constants';
+import { lookupBasePay } from '@/lib/calculations/basePay';
 import {
   retirementExample,
   annualInYear,
@@ -39,7 +41,10 @@ type RetirementFigureName =
   | 'perExtraYearTotal'
   | 'high3AnnualInYear'
   | 'high3Lifetime'
-  | 'brsLifetime';
+  | 'brsLifetime'
+  | 'basEnlisted'
+  | 'basEnlistedAnnual'
+  | 'basicPayAt';
 
 interface Props {
   name: RetirementFigureName;
@@ -83,8 +88,40 @@ export function RetirementFigure({ name, grade = 'E-7', yos: yosProp = 20, forma
     high3AnnualInYear: () => annualInYear(ex.high3Pension, years),
     high3Lifetime: () => lifetimeNominal(ex.high3Pension, years),
     brsLifetime: () => lifetimeNominal(ex.brsPension, years),
+    basEnlisted: () => BAS_RATES.enlisted,
+    basEnlistedAnnual: () => BAS_RATES.enlisted * 12,
+    // Monthly basic pay for `grade` with `years` completed years of service.
+    basicPayAt: () => lookupBasePay(grade, years),
   };
   return <>{format(values[name](), f)}</>;
+}
+
+/**
+ * The 20th-year compensation total in what-walking-away-at-12-years-costs: final-year
+ * basic pay (lib) + BAS (lib) + the post's stated example amounts, which the post
+ * lists right above the total (BAH example a month, TRICARE value, retirement accrual).
+ */
+export function FinalYearCompTotal({
+  bahMonthly,
+  tricare,
+  accrual,
+  grade = 'E-7',
+  yos = 20,
+}: {
+  bahMonthly: string;
+  tricare: string;
+  accrual: string;
+  grade?: string;
+  yos?: number | string;
+}) {
+  const ex = retirementExample(grade, num(yos, 'yos'));
+  const total =
+    ex.finalYearMonthlyPay * 12 +
+    num(bahMonthly, 'bahMonthly') * 12 +
+    BAS_RATES.enlisted * 12 +
+    num(tricare, 'tricare') +
+    num(accrual, 'accrual');
+  return <>{format(total, 'thousands')}</>;
 }
 
 /** "12 months at the Over 16 rate ($6,000.90) and 24 months at the Over 18 rate ($6,177.30)". */
@@ -106,11 +143,26 @@ type CrdpCrscName =
   | 'netCrdp'
   | 'netCrscFull'
   | 'netCrscPartial'
-  | 'taxDiff';
+  | 'taxDiff'
+  | 'advantageFull'
+  | 'advantagePartial'
+  | 'uncovered';
 
 /** One figure from the crdp-vs-crsc worked example (E-7 at 20, 70% VA, 40% combat-related). */
-export function CrdpCrscFigure({ name, rate: rateProp = 0.22, format: f = 'cents' }: { name: CrdpCrscName; rate?: number | string; format?: Format }) {
+export function CrdpCrscFigure({
+  name,
+  rate: rateProp = 0.22,
+  format: f = 'cents',
+  times: timesProp = 1,
+}: {
+  name: CrdpCrscName;
+  rate?: number | string;
+  format?: Format;
+  /** Multiply the monthly figure (e.g. times="12" for a year). */
+  times?: number | string;
+}) {
   const rate = num(rateProp, 'rate');
+  const times = num(timesProp, 'times');
   const ex = crdpCrscExample(retirementExample('E-7', 20).high3Pension);
   const values: Record<CrdpCrscName, () => number> = {
     va: () => ex.va,
@@ -124,6 +176,12 @@ export function CrdpCrscFigure({ name, rate: rateProp = 0.22, format: f = 'cents
     netCrscFull: () => ex.net(rate).crscFull,
     netCrscPartial: () => ex.net(rate).crscPartial,
     taxDiff: () => ex.tax(rate).crdp - ex.tax(rate).crsc,
+    // Example 1 (all combat-related): CRSC take-home minus CRDP take-home.
+    advantageFull: () => ex.net(rate).crscFull - ex.net(rate).crdp,
+    // Example 2 (40% combat-related): CRDP take-home minus CRSC take-home.
+    advantagePartial: () => ex.net(rate).crdp - ex.net(rate).crscPartial,
+    // The part of the offset CRSC doesn't cover in example 2.
+    uncovered: () => ex.va - ex.vaCombat,
   };
-  return <>{format(values[name](), f)}</>;
+  return <>{format(values[name]() * times, f)}</>;
 }

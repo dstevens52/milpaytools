@@ -39,11 +39,11 @@ The 12-to-20 stretch is 8 more years of service. Here's what that window is actu
 Using 2026 DFAS pay tables, an E-7 retiring at exactly 20 years of service:
 
 **Monthly base pay at key milestones:**
-- At 12 years: $5,591.70/month
-- At 14 years: $5,835.00/month
-- At 16 years: $6,000.90/month
-- At 18 years: $6,177.30/month
-- At 20 years: $6,245.70/month
+- At 12 years: <RetirementFigure name="basicPayAt" years="12" />/month
+- At 14 years: <RetirementFigure name="basicPayAt" years="14" />/month
+- At 16 years: <RetirementFigure name="basicPayAt" years="16" />/month
+- At 18 years: <RetirementFigure name="basicPayAt" years="18" />/month
+- At 20 years: <RetirementFigure name="basicPayAt" years="20" />/month
 
 **High-3 average** (the final 36 months of base pay ÷ 36: <High3Breakdown />):
 **<RetirementFigure name="high3Average" />/month**
@@ -122,16 +122,16 @@ Those contributions — invested in the TSP at 7% average annual return for 8 ye
 Put all the pieces together: pension, healthcare, and TSP matching. What civilian job would need to offer to replace it?
 
 **E-7 annual compensation at 20-year retirement:**
-- Base pay (final year): $6,245.70/month = $74,948/year (taxable)
-- BAH (varies by station, $2,000/month used as a moderate example): $24,000/year (tax-free)
-- BAS: $476.95/month = $5,723/year (tax-free)
+- Base pay (final year, paid at the Over 18 rate): <RetirementFigure name="finalYearPay" />/month = <RetirementFigure name="finalYearPayAnnual" format="dollars" />/year (taxable)
+- BAH (varies by station, $2,000/month used as a moderate example): $24,000/year (excluded from federal taxable income)
+- BAS: <RetirementFigure name="basEnlisted" />/month = <RetirementFigure name="basEnlistedAnnual" format="dollars" />/year (excluded from federal taxable income)
 - TRICARE value: $15,000/year avoided cost
 - Retirement accrual (pension + BRS matching, annualized): equivalent to $25,000+/year in deferred compensation
 
-**Total annual value of military compensation in the 20th year: approximately $145,000**
+**Total annual value of military compensation in the 20th year: approximately <FinalYearCompTotal bahMonthly="2000" tricare="15000" accrual="25000" />**
 
 A civilian job replacing this income stream would need to offer:
-- Base salary sufficient to cover the taxable portion (~$75,000)
+- Base salary sufficient to cover the taxable portion (~<RetirementFigure name="finalYearPayAnnual" format="thousands" />)
 - Benefits package covering family healthcare ($15,000–$25,000/year in premiums)
 - Retirement match generating $25,000+ in annual retirement accrual
 - The equivalent of a lifetime pension beginning at age 38

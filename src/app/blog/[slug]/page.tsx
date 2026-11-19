@@ -7,7 +7,7 @@ import { CalculatorCallout } from '@/components/blog/CalculatorCallout';
 import { KeyFact } from '@/components/blog/KeyFact';
 import { QuickAnswer, QAItem } from '@/components/blog/QuickAnswer';
 import { TransitionReadinessExample, TransitionExampleFigure } from '@/components/blog/TransitionReadinessExample';
-import { RetirementFigure, High3Breakdown, CrdpCrscFigure } from '@/components/blog/RetirementFigure';
+import { RetirementFigure, High3Breakdown, CrdpCrscFigure, FinalYearCompTotal } from '@/components/blog/RetirementFigure';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -26,6 +26,7 @@ const mdxComponents = {
   RetirementFigure,
   High3Breakdown,
   CrdpCrscFigure,
+  FinalYearCompTotal,
 };
 
 const GUIDE_TITLES: Record<string, string> = {
