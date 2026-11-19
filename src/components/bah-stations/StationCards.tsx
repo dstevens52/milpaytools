@@ -54,9 +54,9 @@ function fmt(n: number) {
 }
 
 /**
- * The /bah station list, rendered on the server (P1 #5, docs/perf/p1-step1-report.md). Every
- * card is in the HTML; the client filter (StationSearch) only hides cards and groups by their
- * data-station-slug / data-station-group attributes.
+ * The /bah station list (P1 #5, docs/perf/p1-step1-report.md), rendered by StationSearch and
+ * prerendered in full, so every card is in the HTML. The filter only hides cards and groups by
+ * their data-station-slug / data-station-group attributes.
  */
 export function StationCards({ cards }: { cards: StationCard[] }) {
   return (

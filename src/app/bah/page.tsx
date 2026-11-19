@@ -3,7 +3,7 @@ import { DUTY_STATIONS, STATION_BY_SLUG } from '@/data/duty-stations/stations';
 import { getMHACode, getMHARates, BAH_ZIP_COUNT } from '@/lib/calculations/bah';
 import { BAH_YEAR } from '@/data/bah/current';
 import { StationSearch } from '@/components/bah-stations/StationSearch';
-import { StationCards, stationSearchItems, toStationCard, type StationCard } from '@/components/bah-stations/StationCards';
+import { toStationCard, type StationCard } from '@/components/bah-stations/StationCards';
 import { OCONUS_V2_STATIONS } from '@/data/oconus';
 import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
@@ -209,9 +209,7 @@ export default function BahHubPage() {
           <p className="text-sm text-zinc-500 mb-8">
             Select an installation below, or search by name, city, state, or branch.
           </p>
-          <StationSearch items={stationSearchItems(stationsWithRates)}>
-            <StationCards cards={stationsWithRates} />
-          </StationSearch>
+          <StationSearch cards={stationsWithRates} />
         </div>
       </section>
 

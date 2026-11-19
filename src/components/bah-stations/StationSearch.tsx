@@ -1,26 +1,31 @@
 'use client';
 
-import { useId, useMemo, useState, type ReactNode } from 'react';
-import type { StationSearchItem } from './StationCards';
+import { useId, useMemo, useState } from 'react';
+import { StationCards, stationSearchItems, type StationCard } from './StationCards';
 
 export type { StationCard } from './StationCards';
 
 interface Props {
-  /** One entry per card, in the same order as the cards (stationSearchItems()). */
-  items: StationSearchItem[];
-  /** The server-rendered card list (<StationCards>). */
-  children: ReactNode;
+  /** Card fields only (toStationCard): this list is serialized into the page's RSC payload. */
+  cards: StationCard[];
 }
 
 /**
- * The /bah hub filter (P1 #5). The cards are server-rendered children; this component holds only
- * the query and hides non-matching cards and empty state groups with a generated <style> rule
- * keyed on their data attributes. Matching is unchanged: a card matches when the query is a
- * substring of its name, city, state, state name, former name or one of its branches.
+ * The /bah hub station list and filter (P1 #5, docs/perf/p1-step1-report.md).
+ *
+ * Every card is server-rendered into the HTML (this client component is prerendered with an
+ * empty query). It receives the slim card list, not full station records, and filtering hides
+ * non-matching cards and empty state groups with a generated <style> rule keyed on their data
+ * attributes, so a keystroke re-renders no cards. Matching is unchanged: a card matches when the
+ * query is a substring of its name, city, state, state name, former name or one of its branches.
+ *
+ * Why not server-rendered cards passed as children: React serializes those into the RSC payload
+ * as full element trees (~200 KB here, measured in CI run 44627654486), against ~25 KB of props.
  */
-export function StationSearch({ items, children }: Props) {
+export function StationSearch({ cards }: Props) {
   const [query, setQuery] = useState('');
   const scope = `station-cards-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
+  const items = useMemo(() => stationSearchItems(cards), [cards]);
 
   const { matches, css } = useMemo(() => {
     const q = query.toLowerCase().trim();
@@ -41,6 +46,9 @@ export function StationSearch({ items, children }: Props) {
     }
     return { matches: n, css: hidden.length ? `${hidden.join(',')}{display:none}` : '' };
   }, [query, items, scope]);
+
+  // Rendered once: the card list never changes, only the <style> rule above does.
+  const list = useMemo(() => <StationCards cards={cards} />, [cards]);
 
   return (
     <div>
@@ -66,7 +74,7 @@ export function StationSearch({ items, children }: Props) {
       )}
 
       {css && <style>{css}</style>}
-      <div id={scope}>{children}</div>
+      <div id={scope}>{list}</div>
     </div>
   );
 }
