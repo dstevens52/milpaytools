@@ -164,6 +164,20 @@ test.describe('calc_deeplink_click', () => {
     expectNoPersonalData(ga.calls);
   });
 
+  test('station page → total compensation (total-pay-by-rank table, Build 04b)', async ({ page }) => {
+    const ga = await recordGa(page);
+    await page.goto('/bah/fort-bragg');
+    await waitForHydration(page.getByRole('button', { name: 'Without', exact: true }));
+    await page.getByRole('button', { name: 'Without', exact: true }).click();
+    await page.getByTestId('station-total-pay').locator('tr[data-grade="W-3"]').getByRole('link', { name: 'Your exact total →' }).click();
+    await expect(page).toHaveURL(/\/calculators\/total-compensation\?rank=w3&zip=\d{5}&dependents=no/);
+    await settle(page);
+    expect(ga.events('calc_deeplink_click')).toEqual([
+      { from_page_type: 'bah-station', to_calculator: 'total-compensation', grade: 'w3', station: 'fort-bragg', placement: 'station-total-table' },
+    ]);
+    expectNoPersonalData(ga.calls);
+  });
+
   test('/pay Quick Lookup → total compensation', async ({ page }) => {
     const ga = await recordGa(page);
     await page.goto('/pay');

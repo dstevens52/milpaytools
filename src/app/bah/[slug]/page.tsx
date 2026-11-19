@@ -5,6 +5,7 @@ import { DUTY_STATIONS, STATION_BY_SLUG, type DutyStation } from '@/data/duty-st
 import { getMHACode, getMHARates, getMHARatesForYear, getLocationName, getNationalAverages, getBahMidYearChange, CURRENT_BAH_YEAR, PRIOR_BAH_YEAR } from '@/lib/calculations/bah';
 import { mhaPercentile, yoyForGrade, siblingInstallations, nearbyDeltas, hasRateDecrease, nationalIncreaseComparison } from '@/lib/calculations/bahStats';
 import { getFMRRange } from '@/lib/calculations/fmr';
+import { stationTotalPay } from '@/lib/calculations/stationTotalPay';
 import { bahVsRentClause } from '@/lib/rentCompare';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema, breadcrumbListSchema } from '@/lib/schema';
@@ -178,6 +179,9 @@ export default async function StationPage({
   // Small resolved objects (~24 grades) become props; the dataset never ships.
   const ratesWPrev = mhaCode ? getMHARatesForYear(mhaCode, true, PRIOR_BAH_YEAR) : null;
   const ratesWOPrev = mhaCode ? getMHARatesForYear(mhaCode, false, PRIOR_BAH_YEAR) : null;
+
+  // Build 04b: basic pay + BAH + BAS by rank. Resolved here so the pay table never ships.
+  const totalPay = ratesW && ratesWO ? stationTotalPay(ratesW, ratesWO) : null;
 
   const taxInfo = STATE_TAX_DATA[station.state] ?? null;
   // CONUS COLA: keyed by the station ZIP's MHA against the official DTMO COLA list.
@@ -427,6 +431,7 @@ export default async function StationPage({
             </div>
           </>
         }
+        totalPay={totalPay}
         ratesEffectiveLabel={
           midYearChange
             ? `${formatBahDate(midYearChange.effective)} (DTMO mid-year change)`
