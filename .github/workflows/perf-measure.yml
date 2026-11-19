@@ -1,0 +1,113 @@
+name: Perf measure (P1)
+
+# P1 performance, Step 1 (docs/audits/FIX_QUEUE.md row 11): measurement only. Builds the app
+# once, serves it with `next start`, and runs the scripts in scripts/perf/ (route weights,
+# throttled interaction traces, module attribution). One pass also loads production with
+# analytics scripts running but every collection request aborted (scripts/perf/policy.ts), to
+# measure third-party cost; nothing is sent to GA4, Clarity, Vercel Analytics or the site's
+# /api/ routes. Not a gate, not run on PRs, deploys nothing.
+#
+# Module attribution comes from the Turbopack analyzer (`next experimental-analyze -o`), read by
+# scripts/perf/analyze-modules.ts. Turbopack 16.2 ignores productionBrowserSourceMaps (run
+# 44612766179: 51 of 52 chunks had no map), so source maps aren't used.
+#
+# Run: push to perf/measure (or perf/fixes) touching scripts/perf/** or this file, or
+#   gh workflow run perf-measure.yml --ref <branch>   (once the workflow is on main)
+on:
+  push:
+    branches: [perf/measure, perf/fixes]
+    paths: ['scripts/perf/**', '.github/workflows/perf-measure.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: perf-measure-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+
+jobs:
+  versions:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      playwright: ${{ steps.pw.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: package-lock.json
+          sparse-checkout-cone-mode: false
+      - id: pw
+        run: |
+          v=$(node -p "require('./package-lock.json').packages['node_modules/@playwright/test'].version")
+          test -n "$v" && echo "version=$v" | tee -a "$GITHUB_OUTPUT"
+
+  measure:
+    needs: versions
+    runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.versions.outputs.playwright }}-noble
+    timeout-minutes: 60
+    env:
+      HOME: /root
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Trust the checkout for git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Production build
+        run: |
+          mkdir -p perf-out
+          npm run build 2>&1 | tee perf-out/build.log
+          test -f .next/BUILD_ID
+      - name: Start next start on :3000
+        run: |
+          nohup npx next start -p 3000 > perf-out/server.log 2>&1 &
+          node -e '
+            (async () => {
+              for (let i = 0; i < 60; i++) {
+                try { const r = await fetch("http://localhost:3000/"); if (r.ok) { console.log("server up"); return; } } catch {}
+                await new Promise((r) => setTimeout(r, 2000));
+              }
+              console.error("server did not start"); process.exit(1);
+            })();'
+      - name: 1/2/5 — route weights (every sitemap page)
+        run: npx tsx scripts/perf/route-weights.ts --base http://localhost:3000 --out perf-out/route-weights.json
+      - name: 4 — interaction trace, Chromium 4× CPU (local build)
+        run: npx tsx scripts/perf/trace-interactions.ts --base http://localhost:3000 --mode local --runs 3 --trace-dir perf-out/traces --out perf-out/trace-local.json
+      - name: 4 — WebKit, unthrottled (local build)
+        continue-on-error: true
+        run: npx tsx scripts/perf/trace-interactions.ts --base http://localhost:3000 --mode local --browser webkit --runs 3 --out perf-out/trace-webkit.json
+      - name: 6 — production with analytics running, collection blocked, Chromium 4× CPU
+        continue-on-error: true
+        run: npx tsx scripts/perf/trace-interactions.ts --base https://www.milpaytools.com --mode prod --runs 3 --trace-dir perf-out/traces --out perf-out/trace-prod.json
+      - name: 3/5 — module attribution (Turbopack analyzer)
+        if: ${{ !cancelled() }}
+        run: |
+          pkill -f "next start" || true
+          npx next experimental-analyze -o 2>&1 | tail -20
+          npx tsx scripts/perf/analyze-modules.ts --dir .next/diagnostics/analyze/data --out perf-out/modules.json
+          tar -czf perf-out/turbopack-analyze.tgz .next/diagnostics
+      - name: Summary
+        if: ${{ !cancelled() }}
+        run: |
+          npx tsx scripts/perf/summarize.ts perf-out > perf-out/summary.md || true
+          cat perf-out/summary.md >> "$GITHUB_STEP_SUMMARY" || true
+      - name: Compress traces
+        if: ${{ !cancelled() }}
+        run: |
+          [ -d perf-out/traces ] && gzip -9 perf-out/traces/*.json || true
+          ls -la perf-out perf-out/traces || true
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: perf-out
+          path: perf-out
+          retention-days: 30
