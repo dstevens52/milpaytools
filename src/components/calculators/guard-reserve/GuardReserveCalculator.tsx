@@ -668,10 +668,20 @@ export function GuardReserveCalculator() {
                   <Row
                     label="Government auto-contribution (1%)"
                     value={fmtD(output.brs.govAutoContrib)}
-                    sub={output.brs.automaticEligible ? undefined : 'Automatic 1% starts after 60 days of service'}
+                    sub={
+                      output.brs.automaticEligible || output.brs.contributionsEnded
+                        ? undefined
+                        : 'Automatic 1% starts after 60 days of service'
+                    }
                   />
-                  {!output.brs.matchingEligible && (
-                    <p className="text-xs text-zinc-500 py-1" data-testid="gr-brs-matching-note">Matching starts after 2 years of service.</p>
+                  {output.brs.contributionsEnded ? (
+                    <p className="text-xs text-zinc-500 py-1" data-testid="gr-brs-ended-note">
+                      Automatic and matching contributions stop after 26 years of service. Your own TSP contributions continue.
+                    </p>
+                  ) : (
+                    !output.brs.matchingEligible && (
+                      <p className="text-xs text-zinc-500 py-1" data-testid="gr-brs-matching-note">Matching starts after 2 years of service.</p>
+                    )
                   )}
                   {output.brs.govMatchContrib > 0 && (
                     <Row

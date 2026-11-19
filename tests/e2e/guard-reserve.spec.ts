@@ -196,3 +196,62 @@ test.describe('Guard & Reserve — URL params', () => {
     await expect(page.locator('#gr-rank')).toHaveValue('O-3');
   });
 });
+
+// ─── GR-26: government TSP contributions stop after 26 years (RET-09) ────────
+// Rule: automatic and matching contributions end after 26 years of service; the
+// member's own contributions continue (Coast Guard "Vesting in the TSP" checklist,
+// militarypay.defense.gov; TSP booklet "Managing Accounts for Members of the
+// Uniformed Services"). Pay base = (12 weekends × 4 periods + 15 AT days) × monthly ÷ 30.
+
+test.describe('Guard & Reserve — GR-26 (26-year stop)', () => {
+  const E8 = { ...BASE, rank: 'E-8', brsEnrolled: true, tspContribPct: 5 };
+  const payBase = (yos: number) => (63 * getBasePay('E-8', yos)) / 30;
+
+  test('E-8, BRS 5%: 25 YOS → full 5% from the government; 27 YOS → none, member 5% continues', () => {
+    const at25 = calculateGuardReserve({ ...E8, yearsOfService: 25 });
+    expect(at25.brs.payBase).toBeCloseTo(payBase(25), 6);
+    expect(at25.brs.contributionsEnded).toBe(false);
+    expect(at25.brs.govAutoContrib).toBeCloseTo(payBase(25) * 0.01, 6);
+    expect(at25.brs.govMatchContrib).toBeCloseTo(payBase(25) * 0.04, 6);
+    expect(at25.brs.totalGovContrib).toBeCloseTo(payBase(25) * 0.05, 6);
+
+    const at27 = calculateGuardReserve({ ...E8, yearsOfService: 27 });
+    expect(at27.brs.contributionsEnded).toBe(true);
+    expect(at27.brs.automaticEligible).toBe(false);
+    expect(at27.brs.matchingEligible).toBe(false);
+    expect(at27.brs.govAutoContrib).toBe(0);
+    expect(at27.brs.govMatchContrib).toBe(0);
+    expect(at27.brs.totalGovContrib).toBe(0);
+    expect(at27.brs.memberContrib).toBeCloseTo(payBase(27) * 0.05, 6);
+    expect(at27.totalValue).toBeCloseTo(at27.totalMilitaryPay, 9);
+  });
+
+  test('boundary: 26 YOS is the first year with no government contribution', () => {
+    expect(calculateGuardReserve({ ...E8, yearsOfService: 26 }).brs.totalGovContrib).toBe(0);
+    expect(calculateGuardReserve({ ...E8, yearsOfService: 26 }).brs.contributionsEnded).toBe(true);
+  });
+
+  test('under 26 YOS unchanged: 0 → none, 1 → 1% only, 2–25 → full 5% at a 5% contribution', () => {
+    for (let yos = 0; yos <= 25; yos++) {
+      const r = calculateGuardReserve({ ...E8, rank: 'E-5', yearsOfService: yos });
+      const expected = yos === 0 ? 0 : yos === 1 ? 0.01 : 0.05;
+      expect(r.brs.contributionsEnded, `YOS ${yos}`).toBe(false);
+      expect(r.brs.totalGovContrib, `YOS ${yos}`).toBeCloseTo(r.brs.payBase * expected, 6);
+    }
+  });
+
+  test('UI: 27 YOS shows the 26-year note and $0 government contribution; 25 YOS does not', async ({ page }) => {
+    await page.goto('/calculators/guard-reserve?rank=e8&yos=27&brs=yes&tsp=5');
+    const note = page.getByTestId('gr-brs-ended-note');
+    await expect(note).toHaveText(
+      'Automatic and matching contributions stop after 26 years of service. Your own TSP contributions continue.',
+    );
+    await expect(page.getByTestId('gr-brs-matching-note')).toHaveCount(0);
+    await expect(page.getByText('Automatic 1% starts after 60 days of service')).toHaveCount(0);
+
+    await page.goto('/calculators/guard-reserve?rank=e8&yos=25&brs=yes&tsp=5');
+    await waitForHydration(page.locator('#gr-rank'));
+    await expect(page.getByText('Government matching contribution')).toBeVisible();
+    await expect(page.getByTestId('gr-brs-ended-note')).toHaveCount(0);
+  });
+});

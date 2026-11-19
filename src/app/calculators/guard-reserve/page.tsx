@@ -196,7 +196,8 @@ export default function GuardReservePage() {
               Under the Blended Retirement System (BRS), the government&apos;s TSP contributions apply
               to drill pay and active-duty pay — Annual Training, ADOS, and other active duty orders.
               The 1% automatic contribution starts after 60 days of service; matching starts after
-              2 years of service.
+              2 years of service. Both stop after 26 years of service; your own TSP contributions
+              can continue.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               The structure mirrors active duty: 1% automatic contribution, dollar-for-dollar
