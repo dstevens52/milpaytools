@@ -24,6 +24,7 @@ import { ALLOCATION_PRESETS, TSP_CONSTANTS_2026, type FundKey } from '@/data/tsp
 import { TSP_CONSTANTS_2027 } from '@/data/tsp/2027/constants';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool } from '@/lib/urlParams';
+import { readUrlParams } from '@/data/calculatorUrlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 
 // ─── Grade dropdown groups ────────────────────────────────────────────────
@@ -211,7 +212,7 @@ export function TSPCalculator() {
   // ── URL params ────────────────────────────────────────────────────────
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = readUrlParams('tsp', window.location.search);
     const bal = params.get('balance');
     const contrib = params.get('contribution');
     const years = params.get('years');
@@ -589,7 +590,7 @@ export function TSPCalculator() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <div>
                 <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1">Projected Balance</p>
-                <p className="text-4xl font-black text-red-700 tabular-nums leading-none">{fmtM(projection.finalBalance)}</p>
+                <p className="text-4xl font-black text-red-700 tabular-nums leading-none" data-testid="tsp-final-balance">{fmtM(projection.finalBalance)}</p>
                 <p className="text-sm text-zinc-500 mt-1">at age {targetAge} ({yearsToProject} years)</p>
                 {projection.phase2Years > 0 ? (
                   <p className="text-xs text-zinc-400 mt-2">

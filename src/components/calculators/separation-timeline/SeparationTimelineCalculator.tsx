@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
+import { readUrlParams } from '@/data/calculatorUrlParams';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -451,7 +452,7 @@ export function SeparationTimelineCalculator() {
 
   // Read URL params on mount
   useEffect(() => {
-    const p = new URLSearchParams(window.location.search);
+    const p = readUrlParams('separation-timeline', window.location.search);
     const dateParam = p.get('date');
     const typeParam = p.get('type');
     const tampParam = p.get('tamp');

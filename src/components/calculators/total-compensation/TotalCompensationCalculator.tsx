@@ -22,6 +22,7 @@ import {
 import type { TotalCompensationInput, ActionStep } from '@/types/calculator';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
+import { readUrlParams } from '@/data/calculatorUrlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { InfoTip } from '@/components/calculators/shared/InfoTip';
 
@@ -193,7 +194,7 @@ export function TotalCompensationCalculator() {
 
   // Pre-populate from URL params on mount
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = readUrlParams('total-compensation', window.location.search);
     const gr = parseGrade(params.get('rank'));
     const yosRaw = params.get('yos');
     const gz = parseZip(params.get('zip'));
@@ -460,7 +461,7 @@ export function TotalCompensationCalculator() {
           <p className="text-red-200 text-sm font-medium uppercase tracking-wider mb-1">
             {result.inKindMonthly > 0 ? 'Monthly Cash Compensation' : 'Total Monthly Compensation'}
           </p>
-          <p className="text-4xl font-bold tabular-nums tracking-tight">
+          <p className="text-4xl font-bold tabular-nums tracking-tight" data-testid="tc-monthly-total">
             {formatCurrency(result.cashMonthly)}
           </p>
           <p className="text-red-200 text-sm mt-1">

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
+import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { DualMilitaryBAHCalculator } from '@/components/calculators/dual-military-bah/DualMilitaryBAHCalculator';
 import { GuidePromo } from '@/components/calculators/shared/GuidePromo';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -121,6 +122,8 @@ export default function DualMilitaryBAHPage() {
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <DualMilitaryBAHCalculator />
 
+      <CalculatorSummary calc="dual-military-bah" />
+
       {/* ── Collapsible rules ────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-4">
         <details className="group">
@@ -166,7 +169,7 @@ export default function DualMilitaryBAHPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          {`When two active-duty members are co-located with children, only one can receive the with-dependents BAH rate — and the financially optimal choice isn't always the higher-ranking member. The correct choice depends on which member has the larger gap between their with-dependents and without-dependents BAH rates, which varies by rank and duty station in ways that require checking the actual ${BAH_YEAR} DTMO rate tables. This calculator models both scenarios side by side to identify which dependent designation produces the highest combined BAH.`}
+          {`When two active-duty members are co-located with children, only one can receive the with-dependents BAH rate — and the financially optimal choice isn't always the higher-ranking member. The correct choice depends on which member has the larger gap between their with-dependents and without-dependents BAH rates, which varies by rank and duty station in ways that require checking the actual ${BAH_YEAR} DTMO rate tables.`}
         </p>
       </div>
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

@@ -3,6 +3,7 @@ import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
+import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { TotalCompensationCalculator } from '@/components/calculators/total-compensation/TotalCompensationCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -162,10 +163,12 @@ export default function TotalCompensationPage() {
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <TotalCompensationCalculator />
 
+      <CalculatorSummary calc="total-compensation" />
+
       {/* ── Direct answer — solid background, below the calculator ────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Total military compensation includes base pay, BAH, BAS, TSP matching, and the tax advantage of allowances excluded from federal taxable income — together these often exceed what most service members realize. An E-5 with 6 years stationed in a mid-cost market typically receives $75,000–$90,000 in total compensation value per year, though the number varies significantly by duty station. This calculator breaks down every component and shows the civilian pretax salary equivalent needed to match your full package.
+          Total military compensation includes base pay, BAH, BAS, TSP matching, and the tax advantage of allowances excluded from federal taxable income — together these often exceed what most service members realize, and the total varies significantly by duty station.
         </p>
       </div>
 

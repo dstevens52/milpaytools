@@ -30,6 +30,10 @@
  */
 
 import type { DisabilityEntry, DependentConfig } from './va-disability';
+import type { UrlParamName } from '@/data/calculatorUrlParams';
+
+/** Query parameters this calculator reads — declared in src/data/calculatorUrlParams.ts. */
+type VaParam = UrlParamName<'va-disability'>;
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -106,7 +110,7 @@ function safeDecode(s: string): string {
  * BEFORE decoding — otherwise an encoded comma inside a label (`%2C`) would be
  * decoded too early and corrupt positional splitting.
  */
-function rawParams(search: string): Record<string, string> {
+function rawParams(search: string): Partial<Record<VaParam, string>> {
   const s = search.startsWith('?') ? search.slice(1) : search;
   const out: Record<string, string> = {};
   for (const pair of s.split('&')) {
@@ -184,9 +188,10 @@ export function serializeVADisabilityState(state: VADisabilityShareState): strin
  */
 export function parseVADisabilityState(search: string): VADisabilityShareState | null {
   const params = rawParams(search);
-  const hasNew = 'r' in params;
-  const hasLegacy = 'ratings' in params;
-  const hasDeps = 'sp' in params || 'aa' in params || 'c' in params || 'cs' in params || 'dp' in params;
+  const has = (name: VaParam) => params[name] !== undefined;
+  const hasNew = has('r');
+  const hasLegacy = has('ratings');
+  const hasDeps = has('sp') || has('aa') || has('c') || has('cs') || has('dp');
 
   if (!hasNew && !hasLegacy && !hasDeps) return null;
 
@@ -194,7 +199,7 @@ export function parseVADisabilityState(search: string): VADisabilityShareState |
 
   if (hasNew) {
     // New schema: `rating[.locationCode]`, positional.
-    const raw = safeDecode(params.r);
+    const raw = safeDecode(params.r ?? '');
     const labels = parseLabels(params.l);
     raw
       .split(',')
@@ -214,7 +219,7 @@ export function parseVADisabilityState(search: string): VADisabilityShareState |
       });
   } else if (hasLegacy) {
     // Legacy: `?ratings=10,10,60` — all non-bilateral, no labels, no deps.
-    safeDecode(params.ratings)
+    safeDecode(params.ratings ?? '')
       .split(',')
       .map((s) => parseInt(s.trim(), 10))
       .filter((n) => !isNaN(n) && VALID_RATINGS.has(n))

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
+import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { VADisabilityCalculator } from '@/components/calculators/va-disability/VADisabilityCalculator';
 import { DataCurrencyBadge } from '@/components/calculators/shared/DataCurrencyBadge';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -147,29 +148,21 @@ export default function VADisabilityPage() {
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <VADisabilityCalculator />
 
-      {/* ── What this calculator does and does not do ────────────────── */}
+      <CalculatorSummary calc="va-disability" />
+
+      {/* ── What this calculator does not do (what it does: the summary block above) ── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-0">
         <div className="rounded-lg border border-zinc-200 bg-zinc-50 px-5 py-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <p className="text-xs font-semibold text-zinc-700 mb-1.5">This calculator estimates:</p>
-              <ul className="text-xs text-zinc-600 space-y-1 leading-relaxed list-disc list-inside">
-                <li>Combined VA disability rating using the whole-person formula</li>
-                <li>Bilateral factor impact on paired body parts</li>
-                <li>{YEAR} monthly compensation based on rating and dependents, including a spouse who receives Aid &amp; Attendance</li>
-              </ul>
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-zinc-700 mb-1.5">This calculator does not estimate:</p>
-              <ul className="text-xs text-zinc-600 space-y-1 leading-relaxed list-disc list-inside">
-                <li>Whether VA will grant service connection for a condition</li>
-                <li>The rating VA will assign for a specific medical condition</li>
-                <li>Effective dates or back pay amounts</li>
-                <li>Special Monthly Compensation (SMC)</li>
-                <li>TDIU approval</li>
-                <li>VA healthcare priority group or state-level benefits</li>
-              </ul>
-            </div>
+          <div>
+            <p className="text-xs font-semibold text-zinc-700 mb-1.5">This calculator does not estimate:</p>
+            <ul className="text-xs text-zinc-600 space-y-1 leading-relaxed list-disc list-inside">
+              <li>Whether VA will grant service connection for a condition</li>
+              <li>The rating VA will assign for a specific medical condition</li>
+              <li>Effective dates or back pay amounts</li>
+              <li>Special Monthly Compensation (SMC)</li>
+              <li>TDIU approval</li>
+              <li>VA healthcare priority group or state-level benefits</li>
+            </ul>
           </div>
           <p className="text-xs text-zinc-500 mt-3 pt-3 border-t border-zinc-200">
             A small difference near a rounding threshold can move you from 60% to 70%, or from 90% to 100% — this calculator shows the math before you file, appeal, or plan around your expected rating. Always verify estimates with your VA decision letter, C&P exam results, or an accredited VSO.
@@ -182,7 +175,7 @@ export default function VADisabilityPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          The VA combined rating is not calculated by adding percentages together — it uses a whole-person formula (38 CFR § 4.25) where each additional rating is applied to the remaining healthy capacity, not the original 100%. That is why 50% + 30% equals 65% combined (which rounds to 70%), not 80%. This calculator applies the official VA math step by step, including the bilateral factor, and shows your {YEAR} monthly compensation — excluded from federal taxable income. This calculator estimates the combined rating math — it does not determine whether VA will grant service connection or what rating VA will assign to any specific condition.
+          The VA combined rating is not calculated by adding percentages together — it uses a whole-person formula (38 CFR § 4.25) where each additional rating is applied to the remaining healthy capacity, not the original 100%. That is why 50% + 30% equals 65% combined (which rounds to 70%), not 80%. This calculator estimates the combined rating math — it does not determine whether VA will grant service connection or what rating VA will assign to any specific condition.
         </p>
       </div>
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

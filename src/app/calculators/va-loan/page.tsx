@@ -3,6 +3,7 @@ import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
+import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { VALoanCalculator } from '@/components/calculators/va-loan/VALoanCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -108,7 +109,7 @@ export default function VALoanPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100 hidden md:block">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          A VA loan allows eligible service members and veterans to purchase a home with no down payment and no monthly mortgage insurance. The main VA-specific cost is the funding fee — 2.15% of the loan amount at first use with no down payment, or 3.30% at subsequent use — though veterans receiving VA disability compensation are commonly exempt. This calculator estimates your monthly PITI, shows your funding fee or exemption savings, and optionally compares the estimated payment to your BAH.
+          A VA loan allows eligible service members and veterans to purchase a home with no down payment and no monthly mortgage insurance. The main VA-specific cost is the funding fee — 2.15% of the loan amount at first use with no down payment, or 3.30% at subsequent use — though veterans receiving VA disability compensation are commonly exempt.
         </p>
       </div>
           <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
@@ -133,6 +134,8 @@ export default function VALoanPage() {
 
       {/* ── Calculator ────────────────────────────────────────────────── */}
       <VALoanCalculator />
+
+      <CalculatorSummary calc="va-loan" />
 
       {/* ── Next steps cards ─────────────────────────────────────────── */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -399,8 +402,8 @@ export default function VALoanPage() {
           <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-3">Related Calculators</p>
           <div className="flex flex-wrap gap-2">
             <Link href="/bah" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">BAH Calculator →</Link>
-            <a href="/calculators/va-disability" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">VA Disability Rating →</a>
-            <a href="/calculators/total-compensation" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Total Compensation →</a>
+            <a href="/calculators/va-disability" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">VA Disability Calculator →</a>
+            <a href="/calculators/total-compensation" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Military Pay Calculator →</a>
             <a href="/calculators/pcs" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">PCS Cost Estimator →</a>
             <a href="/calculators/compare" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Compare PCS Stations →</a>
             <a href="/calculators/retirement" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Retirement Calculator →</a>

@@ -22,6 +22,7 @@ import { SERVICE_TIER_LABELS, GI_BILL_TIERS, EDUCATION_RATES, EDUCATION_BAH_YEAR
 const TIER_RANGE = tierRange();
 const VA_RATINGS = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
+import { readUrlParams } from '@/data/calculatorUrlParams';
 
 // ─── Formatters ────────────────────────────────────────────────────────────
 
@@ -346,7 +347,7 @@ export function EducationCalculator() {
   }, [result, gaInteracted]);
 
   useEffect(() => {
-    const p = new URLSearchParams(window.location.search);
+    const p = readUrlParams('education', window.location.search);
     const s = p.get('status') as ServiceStatus | null;
     const t = p.get('tier') as ServiceTier | null;
     const va = p.get('va');

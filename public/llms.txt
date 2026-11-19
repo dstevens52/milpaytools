@@ -21,6 +21,221 @@
 - [VA Loan Payment Calculator](/calculators/va-loan): VA loan monthly payment estimator with funding fee calculation, disability exemption waiver, and BAH comparison — educational only, no rate quotes
 - [VA Refinance Calculator](/calculators/va-refinance): IRRRL and cash-out refinance savings estimator, monthly savings, break-even point, and VA net tangible benefit requirement checks
 
+<!-- calculator-url-settings:start (generated from src/data/calculatorUrlParams.ts; run npm run llms:params) -->
+## Calculator link settings
+
+Each calculator reads the settings below from its URL, so a link can open a filled-in result. A missing or unrecognized setting falls back to the default shown. Results are estimates built on official tables (DFAS pay tables, DTMO BAH and COLA rates, VA compensation rates and funding fees, GSA per diem, TRICARE fees); the healthcare comparison also uses published survey averages. No account or personal information is needed.
+
+### Military Pay Calculator (/calculators/total-compensation)
+- `rank`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work). Default: E-5.
+- `yos`: years of service, whole number 0–40. Default: 6.
+- `zip`: 5-digit ZIP code of the duty station (sets BAH). Default: none (results appear once a ZIP is entered).
+- `dependents`: yes or no (1/0 and true/false also work). Default: no.
+- `retirement`: brs or legacy. Default: brs.
+- `tsp`: TSP contribution, percent of base pay, 0–92 (BRS only). Default: 5.
+- `housing`: yes or no (1/0 and true/false also work); yes = government housing (no BAH cash). Default: no.
+- `meals`: yes or no (1/0 and true/false also work); yes = meal card (no BAS cash). Default: no.
+- Example (E-5, 8 years of service, Fort Bragg (ZIP 28310), with dependents): https://www.milpaytools.com/calculators/total-compensation?rank=e5&yos=8&zip=28310&dependents=yes
+
+### BAH Calculator (/bah)
+- `zip`: 5-digit ZIP code. Default: none (results appear once a ZIP is entered).
+- `rank`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work). Default: E-5.
+- `dependents`: yes or no (1/0 and true/false also work). Default: no.
+- `mode`: single or compare. Default: single.
+- `zipb`: 5-digit ZIP code of the second location (compare mode). Default: none.
+- Example (E-5 with dependents at Fort Bragg (ZIP 28310)): https://www.milpaytools.com/bah?zip=28310&rank=e5&dependents=yes
+
+### VA Disability Calculator (/calculators/va-disability)
+- `r`: ratings, comma-separated, each 0–100 in steps of 10; add a body location for the bilateral factor: .lue / .rue (left / right arm), .lle / .rle (left / right leg), e.g. 50,30.lle,20.rle. Default: none (no ratings entered).
+- `sp`: 1 = spouse. Default: no spouse.
+- `aa`: 1 = spouse receives Aid and Attendance (only with sp=1). Default: no.
+- `c`: children under 18, 0–10. Default: 0.
+- `cs`: children 18–23 in school, 0–5. Default: 0.
+- `dp`: dependent parents, 0–2. Default: 0.
+- `l`: condition labels, comma-separated, in the same order as r (optional). Default: none.
+- `ratings`: older links: ratings only, comma-separated, no locations or dependents (used when r is absent). Default: none.
+- Example (50% back, 30% left knee and 20% right knee (bilateral factor), veteran alone): https://www.milpaytools.com/calculators/va-disability?r=50,30.lle,20.rle
+
+### TSP Growth Projector (/calculators/tsp)
+- `rank`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work). Default: E-5.
+- `yos`: years of service, 0–40. Default: 6.
+- `balance`: current TSP balance in dollars. Default: 0.
+- `contribution`: monthly contribution in dollars (switches the input to dollars). Default: 5% of base pay.
+- `years`: years to project, 1–60 (target age = 26 + years; current age is not a URL setting). Default: 39 (age 26 to 65).
+- `match`: yes = BRS with government match, no = legacy (no match). Default: yes.
+- `roth`: yes = Roth, no = Traditional. Default: Roth.
+- `more_years`: years left to serve (match stops after), 1–30. Default: 20 minus yos, at least 1.
+- Example (E-5, 6 years of service, no current balance, 5% of base pay under BRS, projected 39 years): https://www.milpaytools.com/calculators/tsp?rank=e5&yos=6&balance=0&years=39&match=yes
+
+### Military Retirement Calculator (/calculators/retirement)
+- `system`: brs or high3. Default: brs.
+- `rank`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work); grade at retirement. Default: E-7.
+- `yos`: years of service at retirement, 20–40 (older links: under 20 sets current years). Default: 20.
+- `months`: extra months of service at retirement, 0–11. Default: 0.
+- `currank`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work); current grade. Default: same as rank (E-7).
+- `curyos`: current years of service, 0–39. Default: 10.
+- `tsp`: TSP contribution, percent of base pay, 0–50. Default: 5.
+- `bal`: current TSP balance in dollars. Default: 0.
+- `ret`: assumed TSP annual return: 5, 6, 7, 8 or 10. Default: 7.
+- `varating`: VA disability rating, 0–100 in steps of 10. Default: 0.
+- Example (E-7 retiring at 20 years under BRS, currently at 10 years): https://www.milpaytools.com/calculators/retirement?system=brs&rank=e7&yos=20&currank=e7&curyos=10
+
+### PCS Calculator (/calculators/pcs)
+- `rank`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work). Default: E-5.
+- `dep`: yes or no (1/0 and true/false also work). Default: yes.
+- `dep12`: dependents age 12 or older, 0–10. Default: 1.
+- `depu12`: dependents under 12, 0–10. Default: 0.
+- `numdep`: older links: one dependent count, read as age 12 or older (used when dep12 and depu12 are absent). Default: none.
+- `movetype`: gov, full-ppm or partial-ppm. Default: gov.
+- `from`: 5-digit ZIP code of the old duty station. Default: none.
+- `to`: 5-digit ZIP code of the new duty station. Default: none.
+- `miles`: distance in miles (sets a manual distance; otherwise estimated from from and to). Default: none.
+- `povs`: 2 = a second privately owned vehicle. Default: 1.
+- `hhg`: household goods weight in pounds (PPM moves). Default: 5000.
+- `tleold`: TLE days at the old station, 0–21. Default: 0.
+- `tlenew`: TLE days at the new station, 0–21. Default: 0.
+- Example (E-5 with a spouse, government-arranged move of 1,000 miles, one vehicle): https://www.milpaytools.com/calculators/pcs?rank=e5&dep=yes&dep12=1&depu12=0&movetype=gov&miles=1000
+
+### Guard & Reserve Pay Calculator (/calculators/guard-reserve)
+- `rank`: pay grade e1–e9, w1–w5 or o1–o10; any case, hyphen optional. Default: E-5.
+- `yos`: years of service, 0–40. Default: 6.
+- `weekends`: drill weekends per year, 0–52. Default: 12.
+- `periods`: drill periods per weekend: 4, 6 or 8. Default: 4.
+- `at`: Annual Training days, 0–365. Default: 15.
+- `addl`: additional active-duty days, 0–365. Default: 0.
+- `trs`: TRICARE Reserve Select: none, member or family. Default: none.
+- `brs`: yes or no (1/0 and true/false also work). Default: no.
+- `tsp`: TSP contribution, percent, 0–100 (BRS only). Default: 5.
+- Example (E-5, 6 years of service, 12 drill weekends (4 periods each) and 15 days of Annual Training): https://www.milpaytools.com/calculators/guard-reserve?rank=e5&yos=6&weekends=12&periods=4&at=15
+
+### Education Benefits Calculator (/calculators/education)
+- `status`: veteran, active-duty or guard-reserve. Default: veteran.
+- `tier`: Post-9/11 GI Bill service length: lt-90, 90d, 6mo, 12mo, 18mo, 24mo, 30mo or 36mo+ (write 36mo%2B in a URL). Default: 36mo+.
+- `va`: VA disability rating, 0–100 in steps of 10. Default: 0.
+- `school`: public, private or online. Default: public.
+- `online`: public or private (online schools only). Default: private.
+- `zip`: 5-digit ZIP code of the school (sets the GI Bill housing allowance). Default: 92101.
+- `tuition`: annual tuition in dollars. Default: 12000.
+- `years`: program length in years, 1–4. Default: 4.
+- `enrollment`: full, three-quarter or half. Default: full.
+- Example (veteran at the 100% Post-9/11 GI Bill tier, full time at a public school in San Diego (ZIP 92093)): https://www.milpaytools.com/calculators/education?status=veteran&tier=36mo%2B&school=public&zip=92093&tuition=15000&years=4&enrollment=full
+
+### CONUS COLA Calculator (/calculators/cola)
+- `zip`: 5-digit ZIP code. Default: none (results appear once a ZIP is entered).
+- Example (Seattle (ZIP 98101)): https://www.milpaytools.com/calculators/cola?zip=98101
+
+### Compare Your PCS Move (/calculators/compare)
+- `zip1`: 5-digit ZIP code of the current station. Default: 28310 (Fort Bragg).
+- `zip2`: 5-digit ZIP code of the new station. Default: 98433 (JBLM).
+- `rank`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work). Default: E-5.
+- `yos`: years of service, 0–40. Default: 8.
+- `dependents`: yes or no (1/0 and true/false also work). Default: yes.
+- `residence`: state of legal residence, 2-letter code (adds state income tax). Default: none (state tax not included).
+- `change`: yes or no (1/0 and true/false also work); yes = change legal residence to the new station's state (only with residence). Default: no.
+- Example (E-5, 8 years of service, with dependents, Fort Bragg (ZIP 28310) to San Diego (ZIP 92134)): https://www.milpaytools.com/calculators/compare?zip1=28310&zip2=92134&rank=e5&yos=8&dependents=yes
+
+### Deployment Pay Calculator (/calculators/deployment)
+- `rank`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work). Default: E-6.
+- `yos`: years of service, 0–40. Default: 10.
+- `zip`: 5-digit ZIP code of the home station (sets BAH). Default: 28310 (Fort Bragg).
+- `dependents`: yes or no (1/0 and true/false also work). Default: yes.
+- `fsa`: yes or no (1/0 and true/false also work); Family Separation Allowance (needs dependents). Default: same as dependents.
+- `fs`: tax filing status: single, mfj or hoh. Default: from dependents.
+- `months`: deployment length in months, 1–18. Default: 9.
+- `cz`: yes or no (1/0 and true/false also work); combat zone (tax exclusion). Default: yes.
+- `idp`: yes or no (1/0 and true/false also work); Imminent Danger Pay. Default: yes.
+- `hdp`: Hardship Duty Pay per month: 0, 50 or 100. Default: 100.
+- `tsp`: TSP contribution, percent of base pay, 0–100. Default: 10.
+- `sdp`: yes or no (1/0 and true/false also work); Savings Deposit Program (combat zone only). Default: yes.
+- `sdpDeposit`: SDP deposit in dollars, 0–10000. Default: 10000.
+- Example (E-5, 8 years of service, with dependents, home station Fort Bragg, 9 months in a combat zone with Imminent Danger Pay and FSA): https://www.milpaytools.com/calculators/deployment?rank=e5&yos=8&zip=28310&dependents=yes&fsa=yes&months=9&cz=yes&idp=yes&hdp=0&tsp=0&sdp=no
+
+### 2027 Military Pay Raise Calculator (/pay/raise)
+- `grade`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work). Default: E-5.
+- `yos`: years of service, 0–40. Default: 6.
+- Example (E-5 with 8 years of service): https://www.milpaytools.com/pay/raise?grade=e5&yos=8
+
+### Dual Military BAH Calculator (/calculators/dual-military-bah)
+- `rank1`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work); first member. Default: O-3.
+- `rank2`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work); second member. Default: E-5.
+- `zip`: 5-digit ZIP code; both members at the same station. Default: none.
+- `zip1`: 5-digit ZIP code of the first member's station (different stations). Default: none.
+- `zip2`: 5-digit ZIP code of the second member's station (different stations). Default: none.
+- `dependents`: yes or no (1/0 and true/false also work); children or other dependents. Default: yes.
+- `claims`: 1 or 2: which member claims the dependents. Default: 1.
+- Example (two E-5s at Fort Bragg (ZIP 28310) with a child, the first member claiming): https://www.milpaytools.com/calculators/dual-military-bah?rank1=e5&rank2=e5&zip=28310&dependents=yes&claims=1
+
+### Transition Readiness Calculator (/calculators/transition-readiness)
+- `rank`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work). Default: E-6.
+- `yos`: years of service, 0–40. Default: 10.
+- `zip`: 5-digit ZIP code of the duty station (sets BAH). Default: none.
+- `dep`: yes or no (1/0 and true/false also work). Default: yes.
+- `sm`: separation month, 0–11 (0 = January). Default: 14 months from today.
+- `sy`: separation year, 2024–2035. Default: 14 months from today.
+- `rs`: brs or legacy. Default: legacy.
+- `sal`: civilian salary offer in dollars per year. Default: 0.
+- `sp`: spouse income in dollars per year. Default: 0.
+- `va`: expected VA rating, 0–100 in steps of 10, or -1 = not filed yet. Default: 30.
+- `crsc`: yes or no (1/0 and true/false also work); CRSC eligible. Default: no.
+- `st`: state you plan to live in, 2-letter code. Default: none.
+- `str`: state income tax rate, percent, 0–15. Default: 5.
+- `fs`: tax filing status: single, mfj or hoh. Default: from dependents and spouse income.
+- `mode`: quick or detailed (expense entry). Default: quick.
+- `exp`: monthly expenses in dollars (quick mode). Default: 0.
+- `ef`: emergency fund in dollars. Default: 25000.
+- `tsp`: TSP balance in dollars. Default: 45000.
+- `sav`: other savings in dollars. Default: 0.
+- `hca`: healthcare plan after service: marketplace, employer, va or ns (not sure). Default: employer.
+- Example (E-6, 10 years of service, with dependents, at JBSA (ZIP 78234), civilian offer of 75,000 a year, monthly expenses of 4,200): https://www.milpaytools.com/calculators/transition-readiness?rank=e6&yos=10&zip=78234&dep=yes&sal=75000&exp=4200
+
+### Separation Benefits Timeline (/calculators/separation-timeline)
+- `date`: separation date, YYYY-MM-DD. Default: none (results appear once a date is entered).
+- `type`: separating or retiring. Default: separating.
+- `tamp`: TAMP eligible: yes, no or unknown. Default: unknown.
+- `va`: VA claim filed: yes, no or unknown. Default: unknown.
+- Example (separating on June 30, 2027, TAMP eligible, VA claim not yet filed): https://www.milpaytools.com/calculators/separation-timeline?date=2027-06-30&type=separating&tamp=yes&va=no
+
+### Healthcare Cost Comparison (/calculators/healthcare-comparison)
+- `family`: single, married-no-kids, married-1-child, married-2-children, married-3plus or single-parent. Default: single.
+- `path`: coverage after service: employer, aca-no-subsidy, aca-subsidy, va, trs or tamp. Default: employer.
+- `tier`: bronze, silver or gold (employer and ACA paths). Default: silver.
+- `rating`: VA rating band (va path): 50plus, 30to40, 10to20 or 0sc. Default: 50plus.
+- `income`: annual household income in dollars (aca-subsidy path). Default: none.
+- `tamp`: true = eligible for TAMP. Default: not eligible.
+- Example (married with two children, average employer silver plan): https://www.milpaytools.com/calculators/healthcare-comparison?family=married-2-children&path=employer&tier=silver
+
+### VA Loan Payment Calculator (/calculators/va-loan)
+- `price`: home price in dollars. Default: 350000.
+- `down`: down payment: dollars, or percent when downType=percent. Default: 0.
+- `downType`: dollar or percent. Default: dollar.
+- `rate`: interest rate, percent, above 0 and below 30. Default: 6.
+- `term`: 30, 20, 15 or arm5. Default: 30.
+- `tax`: annual property tax in dollars. Default: 4200.
+- `ins`: annual homeowners insurance in dollars. Default: 1400.
+- `firstUse`: yes or no (1/0 and true/false also work); first use of the VA loan benefit. Default: yes.
+- `exempt`: yes or no (1/0 and true/false also work); exempt from the funding fee (VA disability compensation). Default: no.
+- `financeFee`: yes or no (1/0 and true/false also work); roll the funding fee into the loan. Default: yes.
+- `zip`: 5-digit ZIP code for the BAH comparison. Default: none.
+- `rank`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work); for the BAH comparison. Default: E-5.
+- `dep`: yes or no (1/0 and true/false also work); for the BAH comparison. Default: no.
+- `bah`: yes or no (1/0 and true/false also work); show the BAH comparison. Default: yes when zip is given, otherwise no.
+- Example (home price 350,000, first use, no down payment): https://www.milpaytools.com/calculators/va-loan?price=350000&down=0&firstUse=yes&exempt=no
+
+### VA Refinance Calculator (/calculators/va-refinance)
+- `type`: irrrl or cashout. Default: irrrl.
+- `balance`: current loan balance in dollars. Default: 300000.
+- `currRate`: current interest rate, percent, above 0 and below 30. Default: 7.
+- `yearsRem`: years left on the current loan, 1–50. Default: 25.
+- `newRate`: new interest rate, percent, above 0 and below 30. Default: 6.
+- `newTerm`: new loan term in years: 15, 20, 25 or 30. Default: 30.
+- `closing`: closing costs in dollars. Default: 2500.
+- `credits`: lender credits in dollars. Default: 0.
+- `exempt`: yes or no (1/0 and true/false also work); exempt from the funding fee. Default: no.
+- `firstUse`: yes or no (1/0 and true/false also work); first use (cash-out funding fee). Default: yes.
+- `firstPmt`: date of the current loan's first payment, YYYY-MM-DD (IRRRL seasoning check). Default: none.
+- Example (IRRRL on a balance of 300,000, not exempt from the funding fee): https://www.milpaytools.com/calculators/va-refinance?type=irrrl&balance=300000&exempt=no
+<!-- calculator-url-settings:end -->
+
 ## Guides (9)
 - [Starting Service: Military Pay & Benefits from Day One](/guides/starting-service): New service member guide — total compensation, BAH, TSP enrollment, LES, and first-year financial checkpoints
 - [Navigating Service: PCS, Deployment & Duty Station Financial Tools](/guides/navigating-service): PCS orders, deployment pay, PCS pay comparison, and longer-term financial planning for active-duty service members mid-career

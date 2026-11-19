@@ -11,6 +11,7 @@ import { ActSteps } from '@/components/calculators/shared/ActStep';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
+import { readUrlParams } from '@/data/calculatorUrlParams';
 import {
   ENLISTED_GRADES,
   WARRANT_GRADES,
@@ -99,7 +100,7 @@ export function DualMilitaryBAHCalculator() {
   // Same station: ?rank1=e7&rank2=e5&zip=92134&dependents=yes&claims=1
   // Diff station: ?rank1=e7&rank2=e5&zip1=92134&zip2=28310&dependents=yes&claims=2
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = readUrlParams('dual-military-bah', window.location.search);
     const gr1 = parseGrade(params.get('rank1'));
     const gr2 = parseGrade(params.get('rank2'));
     const zipSame = parseZip(params.get('zip'));
@@ -510,7 +511,7 @@ export function DualMilitaryBAHCalculator() {
                 <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1">
                   Total Household BAH
                 </p>
-                <p className="text-4xl font-bold text-zinc-900 tabular-nums leading-none">
+                <p className="text-4xl font-bold text-zinc-900 tabular-nums leading-none" data-testid="dual-household-bah">
                   {fmt(results.total)}
                   <span className="text-base font-normal text-zinc-500 ml-1">/mo</span>
                 </p>

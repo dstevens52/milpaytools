@@ -13,6 +13,7 @@ import { ENLISTED_GRADES, WARRANT_GRADES, OFFICER_GRADES, PRIOR_ENLISTED_OFFICER
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
+import { readUrlParams } from '@/data/calculatorUrlParams';
 import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
 import { BAH_YEAR } from '@/data/bah/current';
 import { bahPriorRateSubline } from '@/lib/calculations/bahTransition';
@@ -197,7 +198,7 @@ function LocationResult({ zip, result, loading, errorMsg, hasDependents, label, 
         <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-2">{label}</p>
       )}
       <p className="text-xs text-zinc-500 mb-1">{result.locationName} ({result.mhaCode})</p>
-      <p className="text-4xl font-bold text-zinc-900 tabular-nums leading-none">
+      <p className="text-4xl font-bold text-zinc-900 tabular-nums leading-none" data-testid="bah-monthly-rate">
         {fmt(result.monthlyRate)}
         <span className="text-base font-normal text-zinc-500 ml-1">/mo</span>
       </p>
@@ -341,7 +342,7 @@ export function BAHCalculator() {
 
   // Pre-populate from URL params on mount (the hook fetches when zip is set).
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = readUrlParams('bah', window.location.search);
     const gz = parseZip(params.get('zip'));
     const gzb = parseZip(params.get('zipb'));
     const gr = parseGrade(params.get('rank'));

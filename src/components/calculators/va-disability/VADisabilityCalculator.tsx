@@ -505,7 +505,7 @@ export function VADisabilityCalculator() {
                   </div>
                 ) : (
                   <div>
-                    <p className="text-4xl font-bold text-zinc-900 tabular-nums leading-none">
+                    <p className="text-4xl font-bold text-zinc-900 tabular-nums leading-none" data-testid="va-monthly-comp">
                       {fmt(compensation.monthly)}
                       <span className="text-base font-normal text-zinc-500 ml-1">/mo</span>
                     </p>

@@ -10,6 +10,7 @@ import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput
 import { COLA_OVERSEAS_LINE } from '@/data/oconus/stationSearchCopy';
 import { useBahLookup } from '@/components/calculators/shared/useBahLookup';
 import { parseZip } from '@/lib/urlParams';
+import { readUrlParams } from '@/data/calculatorUrlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { COLA_AREA_TABLE_ID } from './ColaAreaTable';
 
@@ -43,7 +44,7 @@ export function ColaCalculator() {
   }, [result, gaInteracted]);
 
   useEffect(() => {
-    const p = new URLSearchParams(window.location.search);
+    const p = readUrlParams('cola', window.location.search);
     const gz = parseZip(p.get('zip'));
     if (gz) setZip(gz);
   }, []);

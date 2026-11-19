@@ -3,6 +3,7 @@ import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
+import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { ColaCalculator } from '@/components/calculators/cola/ColaCalculator';
 import { ColaAreaTable } from '@/components/calculators/cola/ColaAreaTable';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
@@ -137,6 +138,8 @@ export default function ColaPage() {
 
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-6 md:py-10 space-y-10">
         <ColaCalculator />
+
+        <CalculatorSummary calc="cola" nested />
 
         <ColaAreaTable />
 

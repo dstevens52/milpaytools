@@ -7,6 +7,7 @@ import { OCONUS_V2_STATIONS } from '@/data/oconus';
 import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
+import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { BAHCalculator } from '@/components/calculators/bah/BAHCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { FaqSection, type FaqItem } from '@/components/FaqSection';
@@ -156,12 +157,14 @@ export default function BahHubPage() {
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <BAHCalculator />
 
+      <CalculatorSummary calc="bah" />
+
       {/* ── Example Calculation ──────────────────────────────────────── */}
 
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          {`BAH (Basic Allowance for Housing) is a monthly payment based on duty station location, pay grade, and dependency status — excluded from federal taxable income. Rates vary significantly by location: an E-5 with dependents receives ${formatCurrency(exLowWithDep)}/month in some markets and `}{formatCurrency(exSdWithDep)}{`/month in San Diego. This calculator looks up your exact ${BAH_YEAR} BAH rate using official DTMO data for all ${ZIP_COUNT} ZIP codes.`}
+          {`BAH (Basic Allowance for Housing) is a monthly payment based on duty station location, pay grade, and dependency status — excluded from federal taxable income. Rates vary significantly by location: an E-5 with dependents receives ${formatCurrency(exLowWithDep)}/month in some markets and `}{formatCurrency(exSdWithDep)}{`/month in San Diego.`}
         </p>
       </div>
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

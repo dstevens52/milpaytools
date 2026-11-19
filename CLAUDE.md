@@ -36,6 +36,8 @@ MilPayTools.com is a free military financial calculator and education platform f
 - `BaseSearchInput` — type-ahead input for base names and ZIP codes, used across BAH, Dual Military BAH, COLA, and PCS calculators
 - Calculator pages share common patterns: 3-step plan (dark strip), trust pill badges, static example, disclaimer, post-result email signup
 - Branch emblems: SVGs in /public/images/branches/, rendered as semi-transparent watermarks in BAH page heroes
+- Calculator URL settings: `src/data/calculatorUrlParams.ts` is the one list of the query parameters each calculator reads. Calculators read their URL with `readUrlParams('<key>', window.location.search)` (get() is typed to the declared names). After changing a parameter, run `npm run llms:params` to rewrite the llms.txt "Calculator link settings" section; `tests/e2e/llms-url-params.spec.ts` fails if llms.txt, the list and the code disagree.
+- `CalculatorSummary` — server-rendered "What this calculator does" block after each calculator (`/calculators/*` and `/bah`). Copy and lib-computed example figures live in `src/lib/calculatorSummaries.ts`; the example link comes from the URL-settings list. `tests/e2e/calculator-summary.spec.ts` checks the figure in the server HTML and in the calculator opened from the link.
 
 ## Content Guidelines
 - NEVER imply first-person military service. Dan writes from "someone who builds financial tools" perspective.
