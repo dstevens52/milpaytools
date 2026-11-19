@@ -112,10 +112,14 @@ function swallowInertClick(e: Event) {
 
 const SKIP_INPUT_TYPES = new Set(['hidden', 'email', 'password', 'file', 'submit', 'button', 'reset', 'image']);
 
-/** The option the server rendered as selected (React writes `selected` on it). */
-function serverSelectValue(sel: HTMLSelectElement): string {
+/**
+ * The option the server rendered as selected: React's server HTML writes `selected` on
+ * it. null when no option carries it, i.e. React created this select on the client
+ * (a client-side navigation): there was no server HTML to change, so nothing to replay.
+ */
+function serverSelectValue(sel: HTMLSelectElement): string | null {
   for (const o of sel.options) if (o.defaultSelected) return o.value;
-  return sel.options[0]?.value ?? '';
+  return null;
 }
 
 /**
@@ -138,11 +142,17 @@ function replayPreHydrationInput(root: HTMLElement): number {
   const fields = root.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
     'input, select, textarea',
   );
+  // An event can make React hydrate synchronously and run this effect before the
+  // event's own handler (a pick made just as the JS lands). That event delivers its
+  // target's value itself; replaying the target too would let React's controlled-input
+  // restore reset the DOM to the server value before that handler reads it.
+  const inFlight = typeof window !== 'undefined' ? window.event?.target : undefined;
   for (const el of fields) {
-    if (el.disabled || el.closest('[data-presync="off"]')) continue;
+    if (el.disabled || el === inFlight || el.closest('[data-presync="off"]')) continue;
 
     if (el instanceof HTMLSelectElement) {
-      if (el.multiple || el.value === serverSelectValue(el)) continue;
+      const server = serverSelectValue(el);
+      if (el.multiple || server === null || el.value === server) continue;
       el.dispatchEvent(new Event('change', { bubbles: true }));
       replayed++;
       continue;
