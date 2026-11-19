@@ -50,26 +50,26 @@ if (rw) {
   p();
 }
 
-const at = read('attribution.json') as {
-  chunksScanned: number; chunksWithoutMap: number;
-  pages: { path: string; jsRaw: number; jsGz: number; rollup: { group: string; raw: number; gzEst: number }[]; files: { group: string; raw: number }[] }[];
-  dataInBrowser: { module: string; chars: number; chunks: number; pagesLoadingIt: number }[];
+const mod = read('modules.json') as {
+  routes: { route: string; clientJs: number; clientJsCompressed: number; nomodulePolyfill: number; groups: { module: string; size: number; gz: number }[] }[];
+  named: { page: string; route?: string }[];
+  dataModules: { module: string; size: number; routeCount: number; routes: string[] }[];
 } | null;
-if (at) {
-  p(`## 3. What the first-load JS is made of (source maps; ${at.chunksScanned} chunks, ${at.chunksWithoutMap} without a map)`);
-  for (const pg of at.pages) {
-    p(`**${pg.path}** — ${kb(pg.jsRaw)} KB raw / ${kb(pg.jsGz)} KB gzip`);
-    p('| Group | raw KB | gzip KB (est.) |');
+if (mod) {
+  p('## 3. What each route’s client JS is made of (Turbopack analyzer; all client chunks of the route; nomodule polyfill excluded)');
+  for (const route of [...new Set(mod.named.map((n) => n.route).filter(Boolean))] as string[]) {
+    const r = mod.routes.find((x) => x.route === route);
+    if (!r) continue;
+    p(`**${route}** — ${kb(r.clientJs)} KB minified / ${kb(r.clientJsCompressed)} KB compressed`);
+    p('| Module or package | KB | compressed KB |');
     p('|---|---:|---:|');
-    pg.rollup.slice(0, 14).forEach((r) => p(`| ${r.group} | ${kb(r.raw)} | ${kb(r.gzEst)} |`));
-    p();
-    p('App files in this page’s JS (top 12): ' + pg.files.slice(0, 12).map((f) => `\`${f.group}\` ${kb(f.raw)} KB`).join(', '));
+    r.groups.slice(0, 10).forEach((g) => p(`| ${g.module} | ${kb(g.size)} | ${kb(g.gz)} |`));
     p();
   }
-  p('## 5. `src/data` and `src/lib` modules found in browser chunks (top 25)');
-  p('| Module | KB (sum across chunks) | chunks | pages loading it |');
-  p('|---|---:|---:|---:|');
-  at.dataInBrowser.slice(0, 25).forEach((d) => p(`| ${d.module} | ${kb(d.chars)} | ${d.chunks} | ${d.pagesLoadingIt} |`));
+  p('## 5. `src/data` and `src/lib` modules in client JS (top 20)');
+  p('| Module | KB (minified) | routes shipping it |');
+  p('|---|---:|---|');
+  mod.dataModules.slice(0, 20).forEach((d) => p(`| ${d.module} | ${kb(d.size)} | ${d.routeCount}: ${d.routes.slice(0, 8).join(', ')}${d.routeCount > 8 ? ', …' : ''} |`));
   p();
 }
 

@@ -1,14 +1,15 @@
 name: Perf measure (P1)
 
 # P1 performance, Step 1 (docs/audits/FIX_QUEUE.md row 11): measurement only. Builds the app
-# once with browser source maps, serves it with `next start`, and runs the scripts in
-# scripts/perf/ (route weights, chunk attribution, throttled interaction traces). One pass
-# also loads production with analytics scripts running but every collection request aborted
-# (scripts/perf/policy.ts), to measure third-party cost; nothing is sent to GA4, Clarity,
-# Vercel Analytics or the site's /api/ routes. Not a gate, not run on PRs, deploys nothing.
+# once, serves it with `next start`, and runs the scripts in scripts/perf/ (route weights,
+# throttled interaction traces, module attribution). One pass also loads production with
+# analytics scripts running but every collection request aborted (scripts/perf/policy.ts), to
+# measure third-party cost; nothing is sent to GA4, Clarity, Vercel Analytics or the site's
+# /api/ routes. Not a gate, not run on PRs, deploys nothing.
 #
-# The source-map flag is patched into the job's checkout of next.config.ts only; the repo's
-# config is unchanged. Source maps add one `//# sourceMappingURL` comment per chunk (~50 bytes).
+# Module attribution comes from the Turbopack analyzer (`next experimental-analyze -o`), read by
+# scripts/perf/analyze-modules.ts. Turbopack 16.2 ignores productionBrowserSourceMaps (run
+# 44612766179: 51 of 52 chunks had no map), so source maps aren't used.
 #
 # Run: push to perf/measure (or perf/fixes) touching scripts/perf/** or this file, or
 #   gh workflow run perf-measure.yml --ref <branch>   (once the workflow is on main)
@@ -61,14 +62,11 @@ jobs:
       - run: npm ci
       - name: Trust the checkout for git
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
-      - name: Build with browser source maps (job-local config patch)
+      - name: Production build
         run: |
           mkdir -p perf-out
-          sed -i 's/^const nextConfig: NextConfig = {$/const nextConfig: NextConfig = {\n  productionBrowserSourceMaps: true,/' next.config.ts
-          grep -n 'productionBrowserSourceMaps: true' next.config.ts
           npm run build 2>&1 | tee perf-out/build.log
           test -f .next/BUILD_ID
-          echo "source maps: $(find .next/static -name '*.js.map' | wc -l), chunks: $(find .next/static -name '*.js' | wc -l)"
       - name: Start next start on :3000
         run: |
           nohup npx next start -p 3000 > perf-out/server.log 2>&1 &
@@ -82,8 +80,6 @@ jobs:
             })();'
       - name: 1/2/5 — route weights (every sitemap page)
         run: npx tsx scripts/perf/route-weights.ts --base http://localhost:3000 --out perf-out/route-weights.json
-      - name: 3/5 — chunk attribution (source maps)
-        run: npx tsx scripts/perf/attribute-chunks.ts --weights perf-out/route-weights.json --out perf-out/attribution.json
       - name: 4 — interaction trace, Chromium 4× CPU (local build)
         run: npx tsx scripts/perf/trace-interactions.ts --base http://localhost:3000 --mode local --runs 3 --trace-dir perf-out/traces --out perf-out/trace-local.json
       - name: 4 — WebKit, unthrottled (local build)
@@ -92,18 +88,18 @@ jobs:
       - name: 6 — production with analytics running, collection blocked, Chromium 4× CPU
         continue-on-error: true
         run: npx tsx scripts/perf/trace-interactions.ts --base https://www.milpaytools.com --mode prod --runs 3 --trace-dir perf-out/traces --out perf-out/trace-prod.json
+      - name: 3/5 — module attribution (Turbopack analyzer)
+        if: ${{ !cancelled() }}
+        run: |
+          pkill -f "next start" || true
+          npx next experimental-analyze -o 2>&1 | tail -20
+          npx tsx scripts/perf/analyze-modules.ts --dir .next/diagnostics/analyze/data --out perf-out/modules.json
+          tar -czf perf-out/turbopack-analyze.tgz .next/diagnostics
       - name: Summary
         if: ${{ !cancelled() }}
         run: |
           npx tsx scripts/perf/summarize.ts perf-out > perf-out/summary.md || true
           cat perf-out/summary.md >> "$GITHUB_STEP_SUMMARY" || true
-      - name: Turbopack analyzer output (informational)
-        if: ${{ !cancelled() }}
-        continue-on-error: true
-        run: |
-          pkill -f "next start" || true
-          npx next experimental-analyze -o 2>&1 | tail -20
-          tar -czf perf-out/turbopack-analyze.tgz .next/diagnostics 2>/dev/null || echo "no .next/diagnostics output"
       - name: Compress traces
         if: ${{ !cancelled() }}
         run: |
