@@ -200,6 +200,35 @@ test.describe('PCS estimator — JTR rules (build 07)', () => {
     expect(text.match(/[\w)]·/g)).toBeNull(); // "Table 5-37· pro-gear"
   });
 
+  test('default state: a prompt instead of figures, and no "$0" in the server HTML', async ({ page, request }) => {
+    const prompt = 'Enter your old and new duty stations to see your estimate';
+    const res = await request.get('/calculators/pcs');
+    expect(res.status()).toBe(200);
+    const html = (await res.text()).replace(/<!-- -->/g, '');
+    const text = html.replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<[^>]+>/g, ' ');
+    expect(text.length).toBeGreaterThan(5000);
+    expect(text).toContain(prompt);
+    expect(text).toContain('$3,548.02'); // DLA rate shown for reference
+    expect(text.match(/\$0(?![.,]?\d)/g)).toBeNull(); // "$0.205" is a rate, not a $0 figure
+
+    await page.goto('/calculators/pcs');
+    await expect(page.getByTestId('pcs-needs-input')).toHaveText(prompt);
+    const results = (await page.getByTestId('pcs-results').innerText()).replace(/\s+/g, ' ');
+    expect(results).not.toMatch(/\$0(?![.,]?\d)/);
+    expect(results).not.toContain('Government move entitlements total');
+
+    // Entering a mileage replaces the prompt with figures.
+    await page.locator('#distance').fill('1120');
+    await expect(page.getByTestId('pcs-needs-input')).toHaveCount(0);
+    await expect(page.getByTestId('pcs-results')).toContainText('4 travel days · 1,120 miles');
+  });
+
+  test('retired post 301-redirects to the calculator', async ({ request }) => {
+    const res = await request.get('/blog/pcs-that-costs-14000-vs-makes-6000', { maxRedirects: 0 });
+    expect(res.status()).toBe(301);
+    expect(new URL(res.headers()['location'], 'http://x').pathname).toBe('/calculators/pcs');
+  });
+
   test('old share link (numdep=2) reads as two dependents 12 or older', async ({ page }) => {
     await page.goto('/calculators/pcs?rank=e5&dep=yes&numdep=2&movetype=gov&miles=1000');
     await resultsText(page, '1,000 miles');

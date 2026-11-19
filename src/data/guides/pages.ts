@@ -62,9 +62,9 @@ export const GUIDE_PAGES: GuidePage[] = [
     slug: 'pcs',
     title: 'Military PCS Guide: Entitlements & Move Costs',
     description:
-      'DLA, MALT mileage, per diem, TLE, and PPM net proceeds, plus how BAH and state income tax change when you move between duty stations.',
+      'DLA, MALT mileage, per diem, TLE, and how a PPM incentive is set, plus how BAH and state income tax change when you move between duty stations.',
     category: 'Career Transition',
-    date: '2026-04-12',
+    date: '2026-11-18', // Build 07: PPM 100% of GCC, tax wording
     readTime: 17,
     calculators: ['pcs', 'bah', 'compare', 'cola'],
   },

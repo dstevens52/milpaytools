@@ -75,3 +75,9 @@ Copied from the JTR edition dated Oct 1, 2024 (pages 5C-8 and 5C-9). No later ch
 - DoD publishes no single dollar-per-cwt rate. The GCC is computed per move by the transportation office / the move system.
 - **Recommendation:** remove any computed PPM dollar figure that rests on a typed $/cwt rate (no hand-keyed figures). Explain how the incentive works and point to the official estimate in the member's move system / transportation office. The separate PPM calculator decision stays on the Dec 9 list.
 - Re-verify the "100% of GCC" status on an official .mil page during the build before the copy says it.
+
+## 7. Sources added at review (Claude Chat, 2026-11-18, PR #53)
+- **PPM incentive = 100% of the GCC:** Defense Personal Property Program (PPA), "Personally Procured Moves": https://www.ppa.mil/Your-Move/Personally-Procured-Moves/ . Also Military OneSource, "Preparing to Move or PCS" ("the government will pay you 100% of the government's constructed 'best value' cost"; advance "up to 60 percent of the incentive value"): https://www.militaryonesource.mil/resources/millife-guides/preparing-to-move-or-pcs/
+- **PPM tax wording:** USMC LOGCOM PPM checklist and expense certification: "The PPM incentive payment is taxable income. Eligible operating expenses ... can reduce the taxed portion." https://www.logcom.marines.mil/Portals/184/Docs/Sites/tvcd/files/forms/PPM-Checklist-032818-1.pdf
+- Site wording that follows from it (calculator, /guides/pcs, PCS posts): "The incentive is taxable income; documented moving costs (truck rental, fuel, packing materials) reduce the taxable part."
+- Note: ppa.mil and logcom.marines.mil return 403 to automated fetches; both were read by Claude Chat in a browser. The Military OneSource page was fetched in the build.

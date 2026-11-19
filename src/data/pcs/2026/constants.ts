@@ -185,9 +185,11 @@ export const PCS_RATES_2026 = {
     rowFor: { 'O-1E': 'O-1', 'O-2E': 'O-2', 'O-3E': 'O-3' } as Record<string, string>,
   },
 
-  // PPM: the incentive is 100% of the Government Constructed Cost (Military OneSource,
-  // "Preparing to Move or PCS": "the government will pay you 100% of the government's
-  // constructed 'best value' cost"; the temporary 130% of MAP 42-25(R) ended Sep 30, 2025).
+  // PPM: the incentive is 100% of the Government Constructed Cost (PPA, "Personally Procured
+  // Moves"; Military OneSource, "Preparing to Move or PCS": "the government will pay you 100% of
+  // the government's constructed 'best value' cost"; the temporary 130% of MAP 42-25(R) ended
+  // Sep 30, 2025). Taxable, less eligible operating expenses (USMC LOGCOM PPM checklist).
+  // Sources: docs/sources/pcs-rules-2026.md §6–7.
   ppmIncentivePercentOfGcc: 1.0,
   // PPM advance: up to 60% of the incentive value (same Military OneSource page).
   ppmAdvancePercent: 0.60,

@@ -70,6 +70,7 @@ const R = PCS_RATES_2026;
 const PER_DIEM_DAILY = PCS_PER_DIEM_RATE.lodging + PCS_PER_DIEM_RATE.mie;
 const PER_DIEM_LABEL = `${PCS_PER_DIEM_RATE.fiscalYear} standard CONUS rate`;
 const MAX_DEPS = 10;
+const NEEDS_INPUT_TEXT = 'Enter your old and new duty stations to see your estimate';
 
 function pct(n: number): string {
   return `${Math.round(n * 100)}%`;
@@ -199,7 +200,7 @@ function buildActionSteps(input: PCSInput, output: PCSOutput): ActionStep[] {
 
   steps.push({
     label: 'Buying at your new duty station instead of renting?',
-    description: `VA loans require $0 down payment and no PMI — your BAH can cover the mortgage while you build equity instead of paying rent.`,
+    description: `VA loans require no down payment and no PMI — your BAH can cover the mortgage while you build equity instead of paying rent.`,
     priority: 'medium',
   });
 
@@ -288,6 +289,8 @@ export function PCSCalculator() {
   const [fromMeta, setFromMeta] = useState<{ state: string; oconus?: boolean } | null>(null);
   const [toMeta, setToMeta] = useState<{ state: string; oconus?: boolean; name?: string } | null>(null);
   const [showManualOverride, setShowManualOverride] = useState(false);
+  // True once a mileage has been typed or loaded from a link (0 then means a local move).
+  const [milesEntered, setMilesEntered] = useState(false);
   const [manualMiles, setManualMiles] = useState(0);
   const [numPOVs, setNumPOVs] = useState<1 | 2>(1);
   const [hhgWeight, setHhgWeight] = useState(5000);
@@ -406,7 +409,7 @@ export function PCSCalculator() {
     if (mt === 'gov' || mt === 'full-ppm' || mt === 'partial-ppm') setMoveType(mt);
     if (from) setZipFrom(from);
     if (to) setZipTo(to);
-    if (miles) { const n = parseInt(miles, 10); if (!isNaN(n) && n >= 0) { setManualMiles(n); setShowManualOverride(true); } }
+    if (miles) { const n = parseInt(miles, 10); if (!isNaN(n) && n >= 0) { setManualMiles(n); setShowManualOverride(true); setMilesEntered(true); } }
     if (povs === '2') setNumPOVs(2);
     if (hhg) { const n = parseInt(hhg, 10); if (!isNaN(n) && n > 0) setHhgWeight(n); }
     const tleOld = tleDaysParam(tleold);
@@ -441,6 +444,8 @@ export function PCSCalculator() {
   const rankLabel = RANK_DISPLAY[rank as PayGrade] ?? rank;
   const weightRow = R.weightAllowance.rowFor[rank];
   const secondPovDropped = numPOVs === 2 && output.maltPOVs < 2;
+  // No distance and no station pair with coordinates yet: show a prompt, never "$0".
+  const needsInput = effectiveDistance === 0 && autoDistance === null && !milesEntered;
 
   return (
     <div ref={gaAttach} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -644,7 +649,7 @@ export function PCSCalculator() {
                       min={0}
                       max={5000}
                       value={manualMiles}
-                      onChange={(e) => setManualMiles(Math.max(0, parseInt(e.target.value) || 0))}
+                      onChange={(e) => { setManualMiles(Math.max(0, parseInt(e.target.value) || 0)); setMilesEntered(true); }}
                       className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700"
                     />
                     {autoDistance !== null ? (
@@ -766,13 +771,21 @@ export function PCSCalculator() {
             <p className="text-sm font-medium text-red-200 mb-1">
               Total estimated PCS entitlements
             </p>
+            {needsInput ? (
+              <p className="text-lg font-semibold leading-snug" data-testid="pcs-needs-input">
+                {NEEDS_INPUT_TEXT}
+              </p>
+            ) : (
+            <>
             <p className="text-4xl font-black tabular-nums">
               {fmt(output.govMoveTotal)}
             </p>
             <p className="text-xs text-red-300 mt-1">
               {output.travelDays} travel {output.travelDays === 1 ? 'day' : 'days'} · {effectiveDistance.toLocaleString()} miles · 2026 DLA and MALT · {PER_DIEM_LABEL}
             </p>
-            {output.tleTotal > 0 && (
+            </>
+            )}
+            {!needsInput && output.tleTotal > 0 && (
               <p className="text-xs text-red-200 mt-1">Includes TLE up to {fmt(output.tleTotal)}</p>
             )}
             {isPPM && (
@@ -846,11 +859,22 @@ export function PCSCalculator() {
             <h3 className="font-semibold text-zinc-900 mb-1">Entitlement Breakdown</h3>
             <p className="text-xs text-zinc-400 mb-4">2026 DTMO rates · {PER_DIEM_LABEL} — verify with your Finance Office</p>
 
+            {needsInput ? (
+            <>
+            <p className="text-sm text-zinc-600 leading-relaxed mb-2">{NEEDS_INPUT_TEXT}</p>
+            <EntitlementRow
+              label="DLA rate (for reference)"
+              value={fmtDecimals(output.dlaRate)}
+              sub={`${hasDependents ? 'With' : 'Without'} dependents · one-time payment on a move between duty stations`}
+            />
+            </>
+            ) : (
+            <>
             {output.isLocalMove && (
               <div className="rounded-md bg-amber-50 border border-amber-300 px-3 py-2 mb-2" data-testid="pcs-local-move-note">
                 <p className="text-xs text-amber-800 leading-relaxed">
-                  No distance yet, or a local move. DLA and TLE depend on the move type: a local move pays them only
-                  with a household goods relocation. Enter your stations or mileage to see the full estimate.
+                  Local move: DLA and TLE depend on the move type. A local move pays them only with a household
+                  goods relocation.
                 </p>
               </div>
             )}
@@ -902,6 +926,8 @@ export function PCSCalculator() {
               value={fmt(output.govMoveTotal)}
               highlight
             />
+            </>
+            )}
             <p className="text-xs text-zinc-400 mt-3 leading-relaxed">
               Per diem for driving (MALT Plus) is the full standard CONUS rate for each authorized travel day. Days when you fly part of the way follow different rules and aren&apos;t modeled. Some housing-shortage areas allow extra TLE days; see DTMO&apos;s{' '}
               <a href={R.tle.extensionsUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Locations with Approved TLE Extensions</a>.

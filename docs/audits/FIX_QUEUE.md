@@ -61,6 +61,7 @@
 
 ### Dated items (not builds)
 - **Dec 9:** read-out of the station title test (`docs/seo/2026-11-station-serp-test.md`) and the Nov 11 rank-page title + calculator search-match changes. Pick the station title variant for release day.
+- **Dec 9 (PCS meta unfreezes):** the `/calculators/pcs` meta description still says "PPM (DITY) proceeds at official DTMO rates"; since build 07 the calculator shows no PPM dollar figure (the incentive is 100% of the GCC, computed per move). Reword it (and the matching `faq-schema-parity.spec.ts` entry) after the read-out. Same day: decide whether a separate PPM calculator is worth building.
 - **~Dec 10 (pay meta guard lifts):** rank-page build (SEO spec 3: title P1/P2 per the Dec 9 read, answer strip, "your number" form, ten-station table) + the `/pay/[rank]` CZTE FAQ reword from Housekeeping.
 - **~Dec 10–17, BAH release day:** `docs/RELEASE_DAY_BAH_2027.md` (`/bah/changes` flips with `BAH_YEAR`; check it per step 5) + station titles to 2027 + IndexNow + outreach notes.
 - **January:** 2027 pay flip; `/pay/drill` and `/pay/bas` reference pages; a military ranks chart section on `/pay` (grade × branch titles from `ranks.ts`); ~~a retiree COLA H2 with an id on `/pay/raise`~~ (moved to S8, row 4b); TSP-limit cleanup; decide state BAH pages, branch pay charts and a separate PPM calculator.
