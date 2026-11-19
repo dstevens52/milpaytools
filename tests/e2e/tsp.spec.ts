@@ -42,7 +42,9 @@ test.describe('TSP Growth Projector', () => {
   });
 
   test('chart is rendered', async ({ page }) => {
-    await expect(page.locator('svg').first()).toBeVisible();
+    // The chart loads when it nears the viewport (P1 #7, WhenVisible), as a visitor scrolls to it.
+    await page.getByRole('heading', { name: 'Balance Growth Over Time' }).scrollIntoViewIfNeeded();
+    await expect(page.locator('.recharts-surface').first()).toBeVisible();
   });
 
   test('BRS auto-contribution note is visible', async ({ page }) => {
@@ -163,7 +165,9 @@ test.describe('TSP Growth Projector', () => {
 
   test('chart shows Separation reference line when phase2 exists', async ({ page }) => {
     // Default scenario has 14 years of service and 25 years of growth.
-    // Recharts renders the ReferenceLine label as an SVG <text> element.
+    // Recharts renders the ReferenceLine label as an SVG <text> element. The chart loads when it
+    // nears the viewport (P1 #7), so scroll to it first.
+    await page.getByRole('heading', { name: 'Balance Growth Over Time' }).scrollIntoViewIfNeeded();
     await expect(page.locator('svg text').filter({ hasText: 'Separation' })).toBeVisible();
   });
 
