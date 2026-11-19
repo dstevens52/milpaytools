@@ -947,7 +947,7 @@ export function TransitionReadinessCalculator() {
                       }]
                     : []),
                   ...(result.crscMonthly > 0
-                    ? [{ label: 'CRSC — waived amount restored (tax-free)', monthly: result.crscMonthly }]
+                    ? [{ label: 'CRSC — waived amount restored, non-taxable (not subject to federal income tax)', monthly: result.crscMonthly }]
                     : []),
                   ...(result.vaCompMonthly > 0
                     ? [{ label: `VA disability ${vaRating}% (excluded from federal taxable income)`, monthly: result.vaCompMonthly }]

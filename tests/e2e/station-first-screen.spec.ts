@@ -158,7 +158,7 @@ test.describe('Station first screen: rate table on phones', () => {
 });
 
 test.describe('Station first screen: order and moved content', () => {
-  test('DOM order: H1, rate card, table, share, 2027 notice / alert, How This Market Compares', async ({ page }) => {
+  test('DOM order: H1, rate card, table, total pay by rank, share, 2027 notice / alert, How This Market Compares', async ({ page }) => {
     await page.goto('/bah/fort-bragg');
     const order = await page.evaluate(() => {
       const q = (sel: string) => document.querySelector(sel);
@@ -167,6 +167,7 @@ test.describe('Station first screen: order and moved content', () => {
         ['h1', q('h1')],
         ['card', q('[data-testid="bah-rate-card"]')],
         ['table', q('[data-testid="bah-rate-table"]')],
+        ['total-pay', q('[data-testid="station-total-pay"]')], // Build 04b
         ['share', q('[data-testid="bah-station-share"]')],
         ['notice', q('[data-testid="bah-2027-notice"]') ?? q('[data-testid="bah-station-alert"]')],
         ['compares', compares],

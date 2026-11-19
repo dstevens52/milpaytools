@@ -13,7 +13,7 @@ export function TransitionReadinessExample() {
   const tr = getTransitionReadinessExample();
   const rows: [string, string, boolean?][] = [
     [`Salary + spouse income ($75K + $24K, after federal ${FILING_STATUS_LABEL[tr.filingStatus].toLowerCase()} + FICA + state tax)`, formatCurrency(tr.afterTaxTaxableIncomeMonthly)],
-    ['VA disability (40%, with dependents, tax-free)', formatCurrency(tr.vaCompMonthly)],
+    ['VA disability (40%, with dependents, excluded from federal taxable income)', formatCurrency(tr.vaCompMonthly)],
     ['Projected total income', formatCurrency(tr.projectedCivilianMonthly), true],
     ['Monthly expenses', formatCurrency(tr.rawMonthlyExpenses)],
     ['Healthcare replacement (family)', formatCurrency(tr.healthcareCostMonthly)],

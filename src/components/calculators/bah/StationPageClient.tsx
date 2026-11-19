@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { formatCurrency } from '@/lib/utils';
 import { CollapsibleRateTable } from '@/components/calculators/bah/CollapsibleRateTable';
+import { StationTotalPayTable } from '@/components/calculators/bah/StationTotalPayTable';
+import type { StationTotalPayData } from '@/lib/calculations/stationTotalPay';
 import {
   RANK_DISPLAY,
   ENLISTED_GRADES,
@@ -75,6 +77,8 @@ export interface StationPageClientProps {
   notice?: ReactNode;
   /** Effective date of the rates shown; differs from January 1 after a DTMO mid-year change. */
   ratesEffectiveLabel?: string;
+  /** Build 04b: basic pay + BAH + BAS by rank, computed on the server (24 rows). */
+  totalPay?: StationTotalPayData | null;
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -378,6 +382,7 @@ export function StationPageClient({
   faqs = [],
   notice = null,
   ratesEffectiveLabel = BAH_EFFECTIVE_DATE_LABEL,
+  totalPay = null,
 }: StationPageClientProps) {
   const [selectedGrade, setSelectedGrade] = useState<PayGrade>(SERVER_DEFAULT_GRADE);
   const [hasDependents, setHasDependents] = useState(true);
@@ -559,7 +564,7 @@ export function StationPageClient({
             </section>
           )}
 
-          {/* Full rate table, open, then the share button */}
+          {/* Full rate table, open, then total pay by rank (Build 04b), then the share button */}
           <div className="space-y-4">
             {hasRates && (
               <CollapsibleRateTable
@@ -574,6 +579,16 @@ export function StationPageClient({
                 selectedGrade={selectedGrade}
                 selectedHasDependents={hasDependents}
                 effectiveLabel={ratesEffectiveLabel}
+              />
+            )}
+            {hasRates && totalPay && (
+              <StationTotalPayTable
+                data={totalPay}
+                stationName={station.name}
+                stationSlug={station.slug}
+                zip={station.zip}
+                selectedGrade={selectedGrade}
+                hasDependents={hasDependents}
               />
             )}
             <div data-testid="bah-station-share">

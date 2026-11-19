@@ -267,10 +267,11 @@ export type DeepLinkFromPage = 'bah-station' | 'pay-hub' | 'pay-rank' | 'guide';
 export type DeepLinkToCalculator = 'total-compensation' | 'pay-raise';
 /**
  * Which link on the page, where a page has more than one (station pages, Build
- * 04: the rate card's button and the mid-page total-comp section). GA4 needs an
+ * 04: the rate card's button and the mid-page total-comp section; Build 04b: the
+ * "Your exact total" links in the total-pay-by-rank table). GA4 needs an
  * event-scoped custom dimension "placement" to report it.
  */
-export type DeepLinkPlacement = 'rate-card' | 'mid-page';
+export type DeepLinkPlacement = 'rate-card' | 'mid-page' | 'station-total-table';
 
 /**
  * calc_deeplink_click — a click on a page-to-calculator link that carries URL

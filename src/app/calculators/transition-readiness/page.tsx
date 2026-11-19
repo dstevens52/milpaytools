@@ -133,7 +133,7 @@ export default function TransitionReadinessPage() {
             <ExampleRow label="BAS — Enlisted" value={`${formatCurrency(tr.militaryMonthlyBAS)}/mo`} />
             <ExampleRow label="Total military compensation (pre-tax)" value={`${formatCurrency(tr.militaryTotalMonthly)}/mo`} highlight />
             <ExampleRow label={`Post-separation: $75K salary + $24K spouse income, after federal (${FILING_STATUS_LABEL[tr.filingStatus].toLowerCase()}) + FICA + state tax`} value={`${formatCurrency(tr.afterTaxTaxableIncomeMonthly)}/mo`} />
-            <ExampleRow label="VA disability — 40%, with dependents (tax-free)" value={`${formatCurrency(tr.vaCompMonthly)}/mo`} />
+            <ExampleRow label="VA disability — 40%, with dependents (excluded from federal taxable income)" value={`${formatCurrency(tr.vaCompMonthly)}/mo`} />
             <ExampleRow label="Total projected civilian income" value={`${formatCurrency(tr.projectedCivilianMonthly)}/mo`} highlight />
             <ExampleRow label="Monthly expenses" value={`${formatCurrency(tr.rawMonthlyExpenses)}/mo`} />
             <ExampleRow label="Healthcare replacement (family, market rate)" value={`+${formatCurrency(tr.healthcareCostMonthly)}/mo`} />
