@@ -44,7 +44,7 @@ export interface BRSMatchResult {
   totalGovContrib: number;
   /** false when YOS < 2 (automatic 1% only) or YOS ≥ 26 (contributions ended). */
   matchingEligible: boolean;
-  /** false when YOS < 1 (the 60-day point can't be confirmed from whole years) or YOS ≥ 26. */
+  /** false at 26+ YOS (contributions ended); at 0 YOS the member is treated as past the 60-day point, as in brs.ts. */
   automaticEligible: boolean;
   /** true at 26+ YOS: government contributions have stopped (RET-09). */
   contributionsEnded: boolean;
@@ -158,12 +158,8 @@ export function calculateTRSPremium(plan: TRSPlan): { monthly: number; annual: n
  * Tier math and timing come from the shared BRS helper (brs.ts): 1% automatic,
  * dollar-for-dollar on 3%, 50¢ on the next 2%, capped at 5% of pay; matching from
  * 2 years of service; nothing after 26 years (RET-09). Years of service is the same
- * count the pay table uses.
- *
- * One local difference from brs.ts, not a Reserve Component rule: brs.ts treats a
- * member at 0 years as past the 60-day point and shows the automatic 1%; this
- * calculator shows it from 1 year, because the 60-day point can't be confirmed from
- * whole years (unchanged since build #4).
+ * count the pay table uses. Same timing as every other calculator: a member at 0
+ * years is treated as past the 60-day point and gets the automatic 1% (GR-26 review).
  */
 export function calculateBRSMatch(
   payBase: number,
@@ -173,7 +169,7 @@ export function calculateBRSMatch(
 ): BRSMatchResult {
   const phase = brsPhaseAtYOS(yearsOfService);
   const contributionsEnded = phase === 'ended';
-  const automaticEligible = yearsOfService >= 1 && !contributionsEnded;
+  const automaticEligible = !contributionsEnded;
   const matchingEligible = phase === 'full';
   const none = {
     payBase,

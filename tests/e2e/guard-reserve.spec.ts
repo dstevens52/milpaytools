@@ -231,13 +231,24 @@ test.describe('Guard & Reserve — GR-26 (26-year stop)', () => {
     expect(calculateGuardReserve({ ...E8, yearsOfService: 26 }).brs.contributionsEnded).toBe(true);
   });
 
-  test('under 26 YOS unchanged: 0 → none, 1 → 1% only, 2–25 → full 5% at a 5% contribution', () => {
+  test('under 26 YOS: 0–1 → 1% automatic only (as brs.ts), 2–25 → full 5% at a 5% contribution', () => {
     for (let yos = 0; yos <= 25; yos++) {
       const r = calculateGuardReserve({ ...E8, rank: 'E-5', yearsOfService: yos });
-      const expected = yos === 0 ? 0 : yos === 1 ? 0.01 : 0.05;
+      const expected = yos <= 1 ? 0.01 : 0.05;
       expect(r.brs.contributionsEnded, `YOS ${yos}`).toBe(false);
       expect(r.brs.totalGovContrib, `YOS ${yos}`).toBeCloseTo(r.brs.payBase * expected, 6);
     }
+  });
+
+  test('0 YOS: automatic 1% (same as brs.ts) with the 60-day note; no match yet', async ({ page }) => {
+    const r = calculateGuardReserve({ ...BASE, rank: 'E-1', yearsOfService: 0, brsEnrolled: true });
+    expect(r.brs.automaticEligible).toBe(true);
+    expect(r.brs.govAutoContrib).toBeCloseTo(r.brs.payBase * 0.01, 9);
+    expect(r.brs.govMatchContrib).toBe(0);
+
+    await page.goto('/calculators/guard-reserve?rank=e1&yos=0&brs=yes&tsp=5');
+    await expect(page.getByText('Automatic 1% starts after 60 days of service')).toBeVisible();
+    await expect(page.getByTestId('gr-brs-matching-note')).toBeVisible();
   });
 
   test('UI: 27 YOS shows the 26-year note and $0 government contribution; 25 YOS does not', async ({ page }) => {

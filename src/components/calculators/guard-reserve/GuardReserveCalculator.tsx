@@ -668,11 +668,7 @@ export function GuardReserveCalculator() {
                   <Row
                     label="Government auto-contribution (1%)"
                     value={fmtD(output.brs.govAutoContrib)}
-                    sub={
-                      output.brs.automaticEligible || output.brs.contributionsEnded
-                        ? undefined
-                        : 'Automatic 1% starts after 60 days of service'
-                    }
+                    sub={yearsOfService < 1 ? 'Automatic 1% starts after 60 days of service' : undefined}
                   />
                   {output.brs.contributionsEnded ? (
                     <p className="text-xs text-zinc-500 py-1" data-testid="gr-brs-ended-note">

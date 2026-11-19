@@ -25,7 +25,7 @@
  *     TSP calculator's match box) call brsContributionAtYOS.
  *   - Guard/Reserve (guardReserve.calculateBRSMatch) uses brsPhaseAtYOS for matching
  *     and the 26-year stop and brsTierContribution for the tiers, on an annual pay base
- *     (drill + AT + additional duty). It shows the automatic 1% from 1 year, not 0.
+ *     (drill + AT + additional duty), with the same timing as the other calculators.
  *
  * Pure functions — no React, no side effects.
  */
