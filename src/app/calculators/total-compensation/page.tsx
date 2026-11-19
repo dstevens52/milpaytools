@@ -6,6 +6,7 @@ import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
 import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { TotalCompensationCalculator } from '@/components/calculators/total-compensation/TotalCompensationCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { DesktopHeroImage } from '@/components/DesktopHeroImage';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { FaqSection, type FaqItem } from '@/components/FaqSection';
 import { webApplicationSchema } from '@/lib/schema';
@@ -89,12 +90,13 @@ export default function TotalCompensationPage() {
         className="relative overflow-hidden border-b border-zinc-200 md:min-h-[340px]"
         style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
       >
-        {/* Soldier image — full-width background, desktop only */}
+        {/* Soldier image — full-width background, desktop only. Never downloaded below sm, nor by
+            prefetches of this page (DesktopHeroImage). */}
         <div className="absolute inset-0 hidden sm:block" aria-hidden="true">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <DesktopHeroImage
             src="/images/desk-soldier.png"
-            alt=""
+            width={1916}
+            height={821}
             className="absolute inset-0 w-full h-full object-cover"
             style={{ objectPosition: 'right center' }}
           />

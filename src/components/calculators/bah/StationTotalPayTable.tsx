@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import Link from 'next/link';
 import { formatCurrency } from '@/lib/utils';
 import type { PayGrade } from '@/types/military';
@@ -46,6 +47,69 @@ interface Props {
   hasDependents: boolean;
 }
 
+/** One rank's row. Same markup as before; memoized so unchanged rows skip re-rendering. */
+const TotalPayRow = memo(function TotalPayRow({
+  r, isSelected, hasDependents, zip, stationSlug, payYear,
+}: {
+  r: StationTotalPayRow;
+  isSelected: boolean;
+  hasDependents: boolean;
+  zip: string;
+  stationSlug: string;
+  payYear: string;
+}) {
+  const d = hasDependents ? r.w : r.wo;
+  const hasPay = r.basicMin !== null && r.basicMax !== null;
+  const href = `/calculators/total-compensation?rank=${gradeToParam(r.grade)}&zip=${zip}&dependents=${hasDependents ? 'yes' : 'no'}`;
+  return (
+    <tr
+      data-grade={r.grade}
+      aria-current={isSelected ? 'true' : undefined}
+      className={`${ROW} ${isSelected ? 'bg-red-50' : 'hover:bg-zinc-50'}`}
+    >
+      <th scope="row" className="text-left text-zinc-700 font-medium">
+        {r.grade}
+      </th>
+      <td data-col="basic" className={PART}>
+        {hasPay ? range(r.basicMin!, r.basicMax!) : '—'}
+      </td>
+      <td data-col="bah" className={PART}>
+        {d ? fmt(d.bah) : '—'}
+      </td>
+      <td data-col="bas" className={PART}>
+        {fmt(r.bas)}
+      </td>
+      <td className="text-right tabular-nums">
+        <span data-col="total" className="block sm:inline font-semibold text-zinc-900">
+          {d && d.totalMin !== null && d.totalMax !== null ? range(d.totalMin, d.totalMax) : '—'}
+        </span>
+        {/* Phones: the parts under the total (the separate columns are hidden). */}
+        <span data-col="parts" className="block sm:hidden text-[11px] leading-4 text-zinc-500 mt-0.5">
+          {`Basic ${hasPay ? range(r.basicMin!, r.basicMax!) : '—'}`}
+          <br />
+          {`+ BAH ${d ? fmt(d.bah) : '—'} + BAS ${fmt(r.bas)}`}
+        </span>
+        {!hasPay && (
+          <span className="block text-[11px] text-zinc-500 mt-0.5">{`No ${payYear} basic pay published`}</span>
+        )}
+        <Link
+          href={href}
+          onClick={() =>
+            fireDeepLinkEvent('bah-station', 'total-compensation', {
+              grade: r.grade,
+              station: stationSlug,
+              placement: 'station-total-table',
+            })
+          }
+          className="inline-block mt-1 sm:mt-0 sm:ml-3 text-xs font-medium text-red-700 underline"
+        >
+          Your exact total →
+        </Link>
+      </td>
+    </tr>
+  );
+});
+
 /**
  * Build 04b: total monthly pay (basic pay + BAH + BAS) by rank at one station.
  * Rows are computed on the server (src/lib/calculations/stationTotalPay.ts);
@@ -72,60 +136,19 @@ export function StationTotalPayTable({ data, stationName, stationSlug, zip, sele
 
   const hasMissingPay = rows.some((r) => r.basicMin === null);
 
-  function renderRow(r: StationTotalPayRow) {
-    const d = dep(r);
-    const isSelected = r.grade === selectedGrade;
-    const hasPay = r.basicMin !== null && r.basicMax !== null;
-    const href = `/calculators/total-compensation?rank=${gradeToParam(r.grade)}&zip=${zip}&dependents=${hasDependents ? 'yes' : 'no'}`;
-    return (
-      <tr
-        key={r.grade}
-        data-grade={r.grade}
-        aria-current={isSelected ? 'true' : undefined}
-        className={`${ROW} ${isSelected ? 'bg-red-50' : 'hover:bg-zinc-50'}`}
-      >
-        <th scope="row" className="text-left text-zinc-700 font-medium">
-          {r.grade}
-        </th>
-        <td data-col="basic" className={PART}>
-          {hasPay ? range(r.basicMin!, r.basicMax!) : '—'}
-        </td>
-        <td data-col="bah" className={PART}>
-          {d ? fmt(d.bah) : '—'}
-        </td>
-        <td data-col="bas" className={PART}>
-          {fmt(r.bas)}
-        </td>
-        <td className="text-right tabular-nums">
-          <span data-col="total" className="block sm:inline font-semibold text-zinc-900">
-            {d && d.totalMin !== null && d.totalMax !== null ? range(d.totalMin, d.totalMax) : '—'}
-          </span>
-          {/* Phones: the parts under the total (the separate columns are hidden). */}
-          <span data-col="parts" className="block sm:hidden text-[11px] leading-4 text-zinc-500 mt-0.5">
-            {`Basic ${hasPay ? range(r.basicMin!, r.basicMax!) : '—'}`}
-            <br />
-            {`+ BAH ${d ? fmt(d.bah) : '—'} + BAS ${fmt(r.bas)}`}
-          </span>
-          {!hasPay && (
-            <span className="block text-[11px] text-zinc-500 mt-0.5">{`No ${payYear} basic pay published`}</span>
-          )}
-          <Link
-            href={href}
-            onClick={() =>
-              fireDeepLinkEvent('bah-station', 'total-compensation', {
-                grade: r.grade,
-                station: stationSlug,
-                placement: 'station-total-table',
-              })
-            }
-            className="inline-block mt-1 sm:mt-0 sm:ml-3 text-xs font-medium text-red-700 underline"
-          >
-            Your exact total →
-          </Link>
-        </td>
-      </tr>
-    );
-  }
+  // Each row is a memoized TotalPayRow (its row object comes from server props): a rank change
+  // re-renders only the rows whose highlight changes (P1 #8, docs/perf/p1-step1-report.md).
+  const renderRow = (r: StationTotalPayRow) => (
+    <TotalPayRow
+      key={r.grade}
+      r={r}
+      isSelected={r.grade === selectedGrade}
+      hasDependents={hasDependents}
+      zip={zip}
+      stationSlug={stationSlug}
+      payYear={payYear}
+    />
+  );
 
   return (
     <section

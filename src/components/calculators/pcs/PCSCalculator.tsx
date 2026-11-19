@@ -9,7 +9,8 @@ import { Card } from '@/components/ui/Card';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { useBahLookup } from '@/components/calculators/shared/useBahLookup';
-import { DUTY_STATIONS } from '@/data/duty-stations/stations';
+// Slim station index (PCS reads slug, zip, state, oconus), not the full DUTY_STATIONS records (P1 #2).
+import { STATION_SEARCH_INDEX } from '@/data/duty-stations/searchIndex.generated';
 import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
 import { STATION_COORDINATES } from '@/data/duty-stations/coordinates';
 import { INSTALLATIONS_LOOKUP } from '@/data/installations-lookup';
@@ -112,10 +113,10 @@ function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
   return R * c;
 }
 
-// Returns coordinates for a ZIP by checking DUTY_STATIONS (slug-keyed) then INSTALLATIONS_LOOKUP (lat/lon inline).
+// Returns coordinates for a ZIP by checking the station index (slug-keyed) then INSTALLATIONS_LOOKUP (lat/lon inline).
 function getCoordinatesForZip(zip: string): { lat: number; lon: number } | null {
   if (!zip) return null;
-  const station = DUTY_STATIONS.find((s) => s.zip === zip);
+  const station = STATION_SEARCH_INDEX.find((s) => s.zip === zip);
   if (station) {
     const coords = STATION_COORDINATES[station.slug];
     if (coords) return coords;
@@ -149,7 +150,7 @@ function classifyEndpoint(
     if (meta.state === 'AK' || meta.state === 'HI') return 'ak-hi';
     return 'conus';
   }
-  const ds = zip ? DUTY_STATIONS.find((s) => s.zip === zip) : null;
+  const ds = zip ? STATION_SEARCH_INDEX.find((s) => s.zip === zip) : null;
   if (ds) {
     if (ds.oconus) return 'oconus';
     if (ds.state === 'AK' || ds.state === 'HI') return 'ak-hi';
@@ -330,7 +331,7 @@ export function PCSCalculator() {
   const overseasGuide = toMeta?.name ? publishedOconusV2ForName(toMeta.name) : undefined;
 
   // Auto-distance via haversine × 1.25 road factor when both ZIPs resolve to coordinates.
-  // Covers both DUTY_STATIONS (slug-keyed) and INSTALLATIONS_LOOKUP (inline lat/lon).
+  // Covers both the station index (slug-keyed) and INSTALLATIONS_LOOKUP (inline lat/lon).
   const autoDistance = useMemo((): number | null => {
     if (!zipFrom || !zipTo) return null;
     const c1 = getCoordinatesForZip(zipFrom);

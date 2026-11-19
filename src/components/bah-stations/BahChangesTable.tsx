@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, memo, useDeferredValue, useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
   formatChangeDollars,
@@ -14,6 +14,12 @@ import {
  * (% change, descending), so every row is in the HTML. Sorting is a client
  * enhancement: real <button>s in the headers, aria-sort on the active header.
  * Receives only the slim rows (no rate tables).
+ *
+ * Sorting speed (P1 #4, docs/perf/p1-step1-report.md): each row is a memoized <Row> whose props
+ * (the row object from `rows`) never change, so a sort only moves rows and re-renders none; and
+ * the row order follows a deferred copy of the sort state, so the click paints the new header
+ * state (aria-sort, arrow) at once and the 338-row reorder commits right after, outside the
+ * interaction's frame.
  */
 
 /** Area name with a line-break opportunity after each "/" (e.g. "Shreveport/Barksdale AFB"). */
@@ -41,6 +47,42 @@ function cmp(key: SortKey, a: BahChangeTableRow, b: BahChangeTableRow): number {
   return av - bv || (a[other] ?? 0) - (b[other] ?? 0) || b.name.localeCompare(a.name);
 }
 
+/** One table row. Memoized: the row objects come from the server props and never change. */
+const Row = memo(function Row({ r }: { r: BahChangeTableRow }) {
+  return (
+    <tr id={`mha-${r.mha}`} className="border-b border-zinc-100 last:border-0 target:bg-amber-50" data-mha={r.mha}>
+      <th scope="row" className="px-1.5 sm:px-3 py-2 text-left font-normal text-zinc-800">
+        {r.href ? (
+          <Link href={r.href} className="text-blue-700 underline hover:text-blue-800">
+            {breakable(r.name)}
+          </Link>
+        ) : (
+          breakable(r.name)
+        )}
+        {r.marked && <sup className="text-amber-700 ml-0.5">†</sup>}
+      </th>
+      <td className="px-1.5 sm:px-3 py-2 text-right tabular-nums text-zinc-600 whitespace-nowrap">
+        {r.prior === null ? '—' : formatRate(r.prior)}
+      </td>
+      <td className="px-1.5 sm:px-3 py-2 text-right tabular-nums text-zinc-900 whitespace-nowrap">{formatRate(r.current)}</td>
+      <td
+        className={`px-1.5 sm:px-3 py-2 text-right tabular-nums whitespace-nowrap ${
+          r.abs === null ? 'text-zinc-500' : r.abs > 0 ? 'text-green-700' : r.abs < 0 ? 'text-red-700' : 'text-zinc-500'
+        }`}
+      >
+        {r.abs === null ? 'new' : formatChangeDollars(r.abs)}
+      </td>
+      <td
+        className={`px-1.5 sm:px-3 py-2 text-right tabular-nums whitespace-nowrap ${
+          r.pct === null ? 'text-zinc-500' : r.pct > 0 ? 'text-green-700' : r.pct < 0 ? 'text-red-700' : 'text-zinc-500'
+        }`}
+      >
+        {r.pct === null ? '—' : formatChangePct(r.pct)}
+      </td>
+    </tr>
+  );
+});
+
 export function BahChangesTable({
   rows,
   year,
@@ -52,14 +94,17 @@ export function BahChangesTable({
 }) {
   const [sort, setSort] = useState<{ key: SortKey; dir: Dir }>({ key: 'pct', dir: 'descending' });
 
+  // Headers follow `sort` immediately; the rows follow this deferred copy (see the note above).
+  const rowSort = useDeferredValue(sort);
+
   const sorted = useMemo(() => {
     // The server order is the default; keep it untouched until the user sorts.
-    if (sort.key === 'pct' && sort.dir === 'descending') return rows;
-    const out = [...rows].sort((a, b) => cmp(sort.key, a, b));
-    if (sort.dir === 'descending') out.reverse();
+    if (rowSort.key === 'pct' && rowSort.dir === 'descending') return rows;
+    const out = [...rows].sort((a, b) => cmp(rowSort.key, a, b));
+    if (rowSort.dir === 'descending') out.reverse();
     // Rows without a prior rate stay last either way.
-    return sort.key === 'name' ? out : [...out.filter((r) => r.pct !== null), ...out.filter((r) => r.pct === null)];
-  }, [rows, sort]);
+    return rowSort.key === 'name' ? out : [...out.filter((r) => r.pct !== null), ...out.filter((r) => r.pct === null)];
+  }, [rows, rowSort]);
 
   const onSort = (key: SortKey) =>
     setSort((s) =>
@@ -109,36 +154,7 @@ export function BahChangesTable({
         </thead>
         <tbody>
           {sorted.map((r) => (
-            <tr key={r.mha} id={`mha-${r.mha}`} className="border-b border-zinc-100 last:border-0 target:bg-amber-50" data-mha={r.mha}>
-              <th scope="row" className="px-1.5 sm:px-3 py-2 text-left font-normal text-zinc-800">
-                {r.href ? (
-                  <Link href={r.href} className="text-blue-700 underline hover:text-blue-800">
-                    {breakable(r.name)}
-                  </Link>
-                ) : (
-                  breakable(r.name)
-                )}
-                {r.marked && <sup className="text-amber-700 ml-0.5">†</sup>}
-              </th>
-              <td className="px-1.5 sm:px-3 py-2 text-right tabular-nums text-zinc-600 whitespace-nowrap">
-                {r.prior === null ? '—' : formatRate(r.prior)}
-              </td>
-              <td className="px-1.5 sm:px-3 py-2 text-right tabular-nums text-zinc-900 whitespace-nowrap">{formatRate(r.current)}</td>
-              <td
-                className={`px-1.5 sm:px-3 py-2 text-right tabular-nums whitespace-nowrap ${
-                  r.abs === null ? 'text-zinc-500' : r.abs > 0 ? 'text-green-700' : r.abs < 0 ? 'text-red-700' : 'text-zinc-500'
-                }`}
-              >
-                {r.abs === null ? 'new' : formatChangeDollars(r.abs)}
-              </td>
-              <td
-                className={`px-1.5 sm:px-3 py-2 text-right tabular-nums whitespace-nowrap ${
-                  r.pct === null ? 'text-zinc-500' : r.pct > 0 ? 'text-green-700' : r.pct < 0 ? 'text-red-700' : 'text-zinc-500'
-                }`}
-              >
-                {r.pct === null ? '—' : formatChangePct(r.pct)}
-              </td>
-            </tr>
+            <Row key={r.mha} r={r} />
           ))}
         </tbody>
       </table>

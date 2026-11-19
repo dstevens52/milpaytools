@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect, useRef, type ReactNode, type RefObject } from 'react';
+import { memo, useState, useMemo, useEffect, useRef, type ReactNode, type RefObject } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatCurrency } from '@/lib/utils';
@@ -159,7 +159,7 @@ function getBranchEmblem(station: DutyStation): string | null {
 
 // Compact hero (Build 04): H1, one facts line, one smaller former-name/branch
 // line. The installation sentence lives in "How {name} BAH is set".
-function HeroBanner({
+const HeroBanner = memo(function HeroBanner({
   station,
   year,
   mhaLabel,
@@ -220,7 +220,7 @@ function HeroBanner({
       )}
     </div>
   );
-}
+});
 
 // ─── RankSelector sub-component ──────────────────────────────────────────────
 
@@ -297,7 +297,7 @@ function RankSelector({ availableGrades, selectedGrade, hasDependents, onGradeCh
 
 // ─── ShareButton sub-component ───────────────────────────────────────────────
 
-function ShareButton({ station, year }: { station: DutyStation; year: string }) {
+const ShareButton = memo(function ShareButton({ station, year }: { station: DutyStation; year: string }) {
   const [copied, setCopied] = useState(false);
 
   async function handleClick() {
@@ -352,7 +352,7 @@ function ShareButton({ station, year }: { station: DutyStation; year: string }) 
       )}
     </button>
   );
-}
+});
 
 // ─── Main StationPageClient component ────────────────────────────────────────
 
@@ -473,6 +473,241 @@ export function StationPageClient({
   // Total-pay deep link (rate card button and mid-page CTA). Short-form grade
   // (gradeToParam, Build 01) so the calculator reads it.
   const totalPayHref = `/calculators/total-compensation?rank=${gradeToParam(selectedGrade)}&zip=${station.zip}&dependents=${hasDependents ? 'yes' : 'no'}`;
+
+  // Sections that don't depend on the selected grade or dependency status, built once per page
+  // view (their inputs are server props). React skips re-rendering an element it has already
+  // rendered, so a rank change no longer reconciles these (P1 #8, docs/perf/p1-step1-report.md).
+  // How BAH is set, year-over-year summary, decrease notice.
+  const staticExplainer = useMemo(
+    () => (
+      <>
+          {/* How BAH geography works (MHA explainer) + same-MHA siblings */}
+          {hasRates && (
+            <div className="bg-blue-50/50 rounded-lg border border-blue-100 p-5" data-testid="bah-how-set">
+              <h2 className="text-base font-semibold text-zinc-900 mb-1.5">How {station.name} BAH is set</h2>
+              {station.installationDetail && (
+                <p className="text-sm text-zinc-600 leading-relaxed mb-3" data-testid="bah-installation-detail">
+                  {station.installationDetail}
+                </p>
+              )}
+              <p className="text-sm text-zinc-600 leading-relaxed">
+                BAH is set by Military Housing Area (MHA), not by your specific ZIP code or
+                neighborhood. {station.name} falls in the <strong>{mhaLabel ?? locationName}</strong> MHA —
+                every installation and address in that MHA receives the same rate for a given pay grade
+                and dependency status, so multiple bases can share one rate.
+              </p>
+              {siblings.length > 0 && (
+                <p className="text-sm text-zinc-600 leading-relaxed mt-3">
+                  {station.name} shares the {mhaLabel ?? locationName} MHA with{' '}
+                  {siblings.map((s, i) => (
+                    <span key={s.slug}>
+                      <Link href={`/bah/${s.slug}`} className="text-red-700 hover:text-red-800 underline underline-offset-2">
+                        {s.name}
+                      </Link>
+                      {i < siblings.length - 2 ? ', ' : i === siblings.length - 2 ? (siblings.length === 2 ? ' and ' : ', and ') : ''}
+                    </span>
+                  ))}
+                  {' '}— all receive identical BAH.
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Year-over-year summary */}
+          {hasRates && yoySummary && (
+            <p className="text-sm text-zinc-500 leading-relaxed px-1">
+              {yoySummary}
+              {!hasDecrease && (
+                <>
+                  {' '}
+                  <span className="text-zinc-400">
+                    Year-over-year change reflects published table rates; individual rate protection may
+                    keep your personal rate higher.
+                  </span>
+                </>
+              )}
+            </p>
+          )}
+
+          {/* Decrease context — only where one or more grades decreased. Rate
+              protection, or the end of a prior-year temporary increase (built on
+              the server). Supersedes the generic rate-protection footnote. */}
+          {hasRates && hasDecrease && decreaseNotice && (
+            <div className="rounded-lg bg-amber-50 border border-amber-100 p-4" data-testid="bah-decrease-notice" data-kind={decreaseNotice.kind}>
+              <p className="text-sm text-zinc-700 leading-relaxed">{decreaseNotice.text}</p>
+            </div>
+          )}
+      </>
+    ),
+    [decreaseNotice, hasDecrease, hasRates, locationName, mhaLabel, siblings, station.installationDetail, station.name, yoySummary],
+  );
+  // No-data fallback and state income tax.
+  const staticFallbackAndTax = useMemo(
+    () => (
+      <>
+          {/* No data fallback */}
+          {!hasRates && (
+            <div className="bg-white rounded-lg border border-zinc-200 p-6">
+              <p className="text-zinc-600 text-sm">
+                BAH rate data for this ZIP code could not be loaded. Use the{' '}
+                <Link href="/bah" className="text-red-700 hover:text-red-800 underline">
+                  BAH calculator
+                </Link>{' '}
+                and enter the ZIP code manually for exact rates.
+              </p>
+            </div>
+          )}
+
+          {/* State income tax */}
+          {station.localHousingTips?.stateTaxNote && (
+            <div className="bg-white rounded-lg border border-zinc-200 p-6">
+              <p className="text-xs text-zinc-500 uppercase tracking-wide font-semibold mb-3">
+                State income tax
+              </p>
+              <p className="text-sm text-zinc-600">{station.localHousingTips.stateTaxNote}</p>
+            </div>
+          )}
+      </>
+    ),
+    [hasRates, station.localHousingTips?.stateTaxNote],
+  );
+  // Disclaimer, FAQ, calculator CTAs, nearby stations, data source.
+  const staticTail = useMemo(
+    () => (
+      <>
+          {/* Housing data master disclaimer */}
+          {hasRichData && (
+            <div className="rounded-lg bg-slate-50 border border-slate-200 p-4">
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Rent and cost figures on this page are approximate and provided for informational and educational purposes only. They reflect market estimates at time of publication and may not reflect current conditions. This is not financial, tax, or housing advice. Always verify figures independently and consult a qualified professional before making financial commitments.
+              </p>
+            </div>
+          )}
+
+          {/* FAQ section — single source of truth shared with FAQPage schema */}
+          {hasRates && faqs.length > 0 && (
+            <div className="bg-white rounded-lg border border-zinc-200 p-6">
+              <h2 className="text-lg font-semibold text-zinc-900 mb-5">Frequently Asked Questions</h2>
+              <div className="space-y-5">
+                {faqs.map((f, i) => (
+                  <div key={f.question} className={i > 0 ? 'border-t border-zinc-100 pt-5' : ''}>
+                    <h3 className="text-sm font-semibold text-zinc-900 mb-1.5">{f.question}</h3>
+                    <p className="text-sm text-zinc-600 leading-relaxed">{f.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Calculator CTAs */}
+          <div className="bg-zinc-900 rounded-lg p-6">
+            <h2 className="text-white font-semibold mb-1">What to do next</h2>
+            <p className="text-zinc-400 text-sm mb-5">
+              BAH is the starting point. Here are the calculations that matter most for your PCS decision.
+            </p>
+            {/* Primary CTA */}
+            <Link
+              href="/calculators/compare"
+              className="flex items-center justify-between px-5 py-3.5 rounded-md bg-red-700 text-white text-sm font-semibold hover:bg-red-800 transition-colors mb-4"
+            >
+              <span>Compare {station.name} to another duty station</span>
+              <span className="ml-3 flex-none">→</span>
+            </Link>
+            {/* Secondary CTAs */}
+            <div className="flex flex-col gap-2.5">
+              <Link
+                href="/calculators/total-compensation"
+                className="text-sm text-zinc-300 hover:text-white transition-colors"
+              >
+                See your total military compensation at {station.name} →
+              </Link>
+              <Link
+                href="/calculators/pcs"
+                className="text-sm text-zinc-300 hover:text-white transition-colors"
+              >
+                Estimate your PCS move costs →
+              </Link>
+              <Link
+                href="/calculators/va-loan"
+                className="text-sm text-zinc-300 hover:text-white transition-colors"
+              >
+                VA loan payment calculator →
+              </Link>
+              <Link
+                href="/blog/how-bah-builds-wealth"
+                className="text-sm text-zinc-300 hover:text-white transition-colors"
+              >
+                How BAH can build long-term wealth →
+              </Link>
+              <Link
+                href="/blog/how-much-does-an-e5-really-make-2026"
+                className="text-sm text-zinc-300 hover:text-white transition-colors"
+              >
+                How much does an E-5 really make in 2026? →
+              </Link>
+            </div>
+            {/* The station email alert lives under the dated notice (page.tsx), one per page. */}
+          </div>
+
+          {/* Nearby Stations */}
+          {nearbyData.length > 0 && (
+            <div className="bg-white rounded-lg border border-zinc-200 p-6">
+              <h2 className="text-lg font-semibold text-zinc-900 mb-4">
+                Nearby &amp; Comparable Installations
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {nearbyData.map((s) => (
+                  <Link
+                    key={s.slug}
+                    href={`/bah/${s.slug}`}
+                    className="rounded-lg border border-zinc-200 p-4 hover:border-zinc-300 hover:shadow-sm transition-all"
+                  >
+                    <p className="font-semibold text-zinc-900 text-sm mb-1">{s.name}</p>
+                    <p className="text-xs text-zinc-500 mb-2">{s.city}, {s.state}</p>
+                    {s.e5Rate && (
+                      <p className="text-sm font-semibold text-red-700">
+                        {fmt(s.e5Rate)}/mo{' '}
+                        <span className="text-xs font-normal text-zinc-400">E-5 w/dep</span>
+                        {s.e5Delta !== undefined && s.e5Delta !== 0 && (
+                          <span className="block text-xs font-normal text-zinc-500 mt-0.5">
+                            {s.e5Delta > 0 ? '+' : '−'}{fmt(Math.abs(s.e5Delta))} vs here
+                          </span>
+                        )}
+                        {s.e5Delta === 0 && (
+                          <span className="block text-xs font-normal text-zinc-500 mt-0.5">same as here</span>
+                        )}
+                      </p>
+                    )}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Data source disclaimer */}
+          <div className="rounded-lg bg-slate-50 border border-slate-200 p-4 text-xs text-slate-500 leading-relaxed">
+            <p className="font-semibold text-slate-600 mb-1">Data Source &amp; Disclaimer</p>
+            <p>
+              {`BAH rates are from the Defense Travel Management Office (DTMO) ${currentYear} BAH data, effective`}{' '}
+              {ratesEffectiveLabel}. Rates are set by Military Housing Area (MHA), not individual ZIP code —
+              all ZIPs in the same MHA receive identical rates. This page is for informational purposes
+              only and is not affiliated with DoD, DTMO, or any government agency. Verify your
+              entitlement at{' '}
+              <a
+                href="https://www.travel.dod.mil/Allowances/Basic-Allowance-for-Housing/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                travel.dod.mil
+              </a>
+              .
+            </p>
+          </div>
+      </>
+    ),
+    [currentYear, faqs, hasRates, hasRichData, nearbyData, ratesEffectiveLabel, station.name],
+  );
 
   return (
     <>
@@ -744,62 +979,7 @@ export function StationPageClient({
             </div>
           )}
 
-          {/* How BAH geography works (MHA explainer) + same-MHA siblings */}
-          {hasRates && (
-            <div className="bg-blue-50/50 rounded-lg border border-blue-100 p-5" data-testid="bah-how-set">
-              <h2 className="text-base font-semibold text-zinc-900 mb-1.5">How {station.name} BAH is set</h2>
-              {station.installationDetail && (
-                <p className="text-sm text-zinc-600 leading-relaxed mb-3" data-testid="bah-installation-detail">
-                  {station.installationDetail}
-                </p>
-              )}
-              <p className="text-sm text-zinc-600 leading-relaxed">
-                BAH is set by Military Housing Area (MHA), not by your specific ZIP code or
-                neighborhood. {station.name} falls in the <strong>{mhaLabel ?? locationName}</strong> MHA —
-                every installation and address in that MHA receives the same rate for a given pay grade
-                and dependency status, so multiple bases can share one rate.
-              </p>
-              {siblings.length > 0 && (
-                <p className="text-sm text-zinc-600 leading-relaxed mt-3">
-                  {station.name} shares the {mhaLabel ?? locationName} MHA with{' '}
-                  {siblings.map((s, i) => (
-                    <span key={s.slug}>
-                      <Link href={`/bah/${s.slug}`} className="text-red-700 hover:text-red-800 underline underline-offset-2">
-                        {s.name}
-                      </Link>
-                      {i < siblings.length - 2 ? ', ' : i === siblings.length - 2 ? (siblings.length === 2 ? ' and ' : ', and ') : ''}
-                    </span>
-                  ))}
-                  {' '}— all receive identical BAH.
-                </p>
-              )}
-            </div>
-          )}
-
-          {/* Year-over-year summary */}
-          {hasRates && yoySummary && (
-            <p className="text-sm text-zinc-500 leading-relaxed px-1">
-              {yoySummary}
-              {!hasDecrease && (
-                <>
-                  {' '}
-                  <span className="text-zinc-400">
-                    Year-over-year change reflects published table rates; individual rate protection may
-                    keep your personal rate higher.
-                  </span>
-                </>
-              )}
-            </p>
-          )}
-
-          {/* Decrease context — only where one or more grades decreased. Rate
-              protection, or the end of a prior-year temporary increase (built on
-              the server). Supersedes the generic rate-protection footnote. */}
-          {hasRates && hasDecrease && decreaseNotice && (
-            <div className="rounded-lg bg-amber-50 border border-amber-100 p-4" data-testid="bah-decrease-notice" data-kind={decreaseNotice.kind}>
-              <p className="text-sm text-zinc-700 leading-relaxed">{decreaseNotice.text}</p>
-            </div>
-          )}
+          {staticExplainer}
 
           {/* Mid-page CTA — catches users at peak engagement after looking up their rate */}
           {hasRates && (
@@ -833,28 +1013,7 @@ export function StationPageClient({
             </div>
           )}
 
-          {/* No data fallback */}
-          {!hasRates && (
-            <div className="bg-white rounded-lg border border-zinc-200 p-6">
-              <p className="text-zinc-600 text-sm">
-                BAH rate data for this ZIP code could not be loaded. Use the{' '}
-                <Link href="/bah" className="text-red-700 hover:text-red-800 underline">
-                  BAH calculator
-                </Link>{' '}
-                and enter the ZIP code manually for exact rates.
-              </p>
-            </div>
-          )}
-
-          {/* State income tax */}
-          {station.localHousingTips?.stateTaxNote && (
-            <div className="bg-white rounded-lg border border-zinc-200 p-6">
-              <p className="text-xs text-zinc-500 uppercase tracking-wide font-semibold mb-3">
-                State income tax
-              </p>
-              <p className="text-sm text-zinc-600">{station.localHousingTips.stateTaxNote}</p>
-            </div>
-          )}
+          {staticFallbackAndTax}
 
           {/* Key Insights — only for basic pages without full StoryBrand sections */}
           {!hasRichData && (
@@ -923,135 +1082,7 @@ export function StationPageClient({
           </div>
           )}
 
-          {/* Housing data master disclaimer */}
-          {hasRichData && (
-            <div className="rounded-lg bg-slate-50 border border-slate-200 p-4">
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Rent and cost figures on this page are approximate and provided for informational and educational purposes only. They reflect market estimates at time of publication and may not reflect current conditions. This is not financial, tax, or housing advice. Always verify figures independently and consult a qualified professional before making financial commitments.
-              </p>
-            </div>
-          )}
-
-          {/* FAQ section — single source of truth shared with FAQPage schema */}
-          {hasRates && faqs.length > 0 && (
-            <div className="bg-white rounded-lg border border-zinc-200 p-6">
-              <h2 className="text-lg font-semibold text-zinc-900 mb-5">Frequently Asked Questions</h2>
-              <div className="space-y-5">
-                {faqs.map((f, i) => (
-                  <div key={f.question} className={i > 0 ? 'border-t border-zinc-100 pt-5' : ''}>
-                    <h3 className="text-sm font-semibold text-zinc-900 mb-1.5">{f.question}</h3>
-                    <p className="text-sm text-zinc-600 leading-relaxed">{f.answer}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Calculator CTAs */}
-          <div className="bg-zinc-900 rounded-lg p-6">
-            <h2 className="text-white font-semibold mb-1">What to do next</h2>
-            <p className="text-zinc-400 text-sm mb-5">
-              BAH is the starting point. Here are the calculations that matter most for your PCS decision.
-            </p>
-            {/* Primary CTA */}
-            <Link
-              href="/calculators/compare"
-              className="flex items-center justify-between px-5 py-3.5 rounded-md bg-red-700 text-white text-sm font-semibold hover:bg-red-800 transition-colors mb-4"
-            >
-              <span>Compare {station.name} to another duty station</span>
-              <span className="ml-3 flex-none">→</span>
-            </Link>
-            {/* Secondary CTAs */}
-            <div className="flex flex-col gap-2.5">
-              <Link
-                href="/calculators/total-compensation"
-                className="text-sm text-zinc-300 hover:text-white transition-colors"
-              >
-                See your total military compensation at {station.name} →
-              </Link>
-              <Link
-                href="/calculators/pcs"
-                className="text-sm text-zinc-300 hover:text-white transition-colors"
-              >
-                Estimate your PCS move costs →
-              </Link>
-              <Link
-                href="/calculators/va-loan"
-                className="text-sm text-zinc-300 hover:text-white transition-colors"
-              >
-                VA loan payment calculator →
-              </Link>
-              <Link
-                href="/blog/how-bah-builds-wealth"
-                className="text-sm text-zinc-300 hover:text-white transition-colors"
-              >
-                How BAH can build long-term wealth →
-              </Link>
-              <Link
-                href="/blog/how-much-does-an-e5-really-make-2026"
-                className="text-sm text-zinc-300 hover:text-white transition-colors"
-              >
-                How much does an E-5 really make in 2026? →
-              </Link>
-            </div>
-            {/* The station email alert lives under the dated notice (page.tsx), one per page. */}
-          </div>
-
-          {/* Nearby Stations */}
-          {nearbyData.length > 0 && (
-            <div className="bg-white rounded-lg border border-zinc-200 p-6">
-              <h2 className="text-lg font-semibold text-zinc-900 mb-4">
-                Nearby &amp; Comparable Installations
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {nearbyData.map((s) => (
-                  <Link
-                    key={s.slug}
-                    href={`/bah/${s.slug}`}
-                    className="rounded-lg border border-zinc-200 p-4 hover:border-zinc-300 hover:shadow-sm transition-all"
-                  >
-                    <p className="font-semibold text-zinc-900 text-sm mb-1">{s.name}</p>
-                    <p className="text-xs text-zinc-500 mb-2">{s.city}, {s.state}</p>
-                    {s.e5Rate && (
-                      <p className="text-sm font-semibold text-red-700">
-                        {fmt(s.e5Rate)}/mo{' '}
-                        <span className="text-xs font-normal text-zinc-400">E-5 w/dep</span>
-                        {s.e5Delta !== undefined && s.e5Delta !== 0 && (
-                          <span className="block text-xs font-normal text-zinc-500 mt-0.5">
-                            {s.e5Delta > 0 ? '+' : '−'}{fmt(Math.abs(s.e5Delta))} vs here
-                          </span>
-                        )}
-                        {s.e5Delta === 0 && (
-                          <span className="block text-xs font-normal text-zinc-500 mt-0.5">same as here</span>
-                        )}
-                      </p>
-                    )}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Data source disclaimer */}
-          <div className="rounded-lg bg-slate-50 border border-slate-200 p-4 text-xs text-slate-500 leading-relaxed">
-            <p className="font-semibold text-slate-600 mb-1">Data Source &amp; Disclaimer</p>
-            <p>
-              {`BAH rates are from the Defense Travel Management Office (DTMO) ${currentYear} BAH data, effective`}{' '}
-              {ratesEffectiveLabel}. Rates are set by Military Housing Area (MHA), not individual ZIP code —
-              all ZIPs in the same MHA receive identical rates. This page is for informational purposes
-              only and is not affiliated with DoD, DTMO, or any government agency. Verify your
-              entitlement at{' '}
-              <a
-                href="https://www.travel.dod.mil/Allowances/Basic-Allowance-for-Housing/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
-              >
-                travel.dod.mil
-              </a>
-              .
-            </p>
-          </div>
+          {staticTail}
 
         </div>
       </div>

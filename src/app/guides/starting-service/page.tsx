@@ -6,6 +6,7 @@ import { lookupBAH } from '@/lib/calculations/bah';
 import { BAS_RATES } from '@/data/constants';
 import { EmailSignup } from '@/components/EmailSignup';
 import { TrackedLink } from '@/components/TrackedLink';
+import { DesktopHeroImage } from '@/components/DesktopHeroImage';
 
 export const metadata: Metadata = {
   title: 'New to the Military: First-Year Pay Guide',
@@ -88,12 +89,13 @@ export default function StartingServicePage() {
         className="relative overflow-hidden border-b border-zinc-200"
         style={{ background: 'linear-gradient(to bottom, #f2e8d8 0%, #faf8f5 100%)' }}
       >
-        {/* Soldier image — full-width background, desktop only */}
+        {/* Soldier image — full-width background, desktop only. Never downloaded below sm, nor by
+            prefetches of this page (DesktopHeroImage). */}
         <div className="absolute inset-0 hidden sm:block" aria-hidden="true">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <DesktopHeroImage
             src="/images/young-soldier.png"
-            alt=""
+            width={1916}
+            height={821}
             className="absolute inset-0 w-full h-full object-cover"
             style={{ objectPosition: 'right center' }}
           />

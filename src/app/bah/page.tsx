@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { DUTY_STATIONS, STATION_BY_SLUG } from '@/data/duty-stations/stations';
 import { getMHACode, getMHARates, BAH_ZIP_COUNT } from '@/lib/calculations/bah';
 import { BAH_YEAR } from '@/data/bah/current';
-import { StationSearch, type StationCard } from '@/components/bah-stations/StationSearch';
+import { StationSearch } from '@/components/bah-stations/StationSearch';
+import { toStationCard, type StationCard } from '@/components/bah-stations/StationCards';
 import { OCONUS_V2_STATIONS } from '@/data/oconus';
 import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
@@ -71,10 +72,12 @@ export const metadata: Metadata = {
 
 export default function BahHubPage() {
   const dutyCards: StationCard[] = DUTY_STATIONS.map((s) => {
-    if (s.oconus) return { ...s, e5Rate: null };
+    // toStationCard: the card fields only. Spreading the DutyStation sent every station's full
+    // record (housing tips, market data) to the browser: 242 KB of the page's RSC payload (P1 #5).
+    if (s.oconus) return toStationCard({ ...s, e5Rate: null });
     const mhaCode = getMHACode(s.zip);
     const rates = mhaCode ? getMHARates(mhaCode, true) : null;
-    return { ...s, e5Rate: rates?.['E-5'] ?? null };
+    return toStationCard({ ...s, e5Rate: rates?.['E-5'] ?? null });
   });
   // Published v2 OCONUS guides with no duty-station entry (e.g. RAF Lakenheath
   // & Mildenhall). Stations already in DUTY_STATIONS are skipped by slug, so
@@ -206,7 +209,7 @@ export default function BahHubPage() {
           <p className="text-sm text-zinc-500 mb-8">
             Select an installation below, or search by name, city, state, or branch.
           </p>
-          <StationSearch stations={stationsWithRates} />
+          <StationSearch cards={stationsWithRates} />
         </div>
       </section>
 

@@ -63,7 +63,9 @@ test.describe('Military Retirement Calculator', () => {
   });
 
   test('pension chart is rendered', async ({ page }) => {
-    await expect(page.locator('svg').first()).toBeVisible();
+    // The chart loads when it nears the viewport (P1 #7, WhenVisible), as a visitor scrolls to it.
+    await page.getByRole('heading', { name: /Projected Monthly Income Over Time/ }).scrollIntoViewIfNeeded();
+    await expect(page.locator('.recharts-surface').first()).toBeVisible();
   });
 
   test('BRS vs High-3 comparison toggle works', async ({ page }) => {
