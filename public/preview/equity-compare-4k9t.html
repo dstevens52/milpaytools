@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Debt Consolidation Cash-Flow Comparison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a loan officer's worksheet. Inputs in a left rail, three option columns on the right,
+   detail (charts, cost table, equity) below the columns. Option colors carry through every view. */
+:root{
+  --bg:#F2F4F3;
+  --surface:#FFFFFF;
+  --ink:#15212A;
+  --muted:#5A6A72;
+  --line:#D9E0DE;
+  --accent:#0D5961;
+  --opt-sq:#6A7884;
+  --opt-co:#B0601B;
+  --opt-fig:#0C7A71;
+  --good:#1D7A3B; --good-bg:#E4F3E8;
+  --bad:#B3261E;  --bad-bg:#FCEBE9;
+  --warn:#8A5B00; --warn-bg:#FFF3D1;
+  --field:#F7F9F8;
+  --font-display:'IBM Plex Sans Condensed','Arial Narrow',Arial,sans-serif;
+  --font-body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1619; --surface:#172126; --ink:#E6ECEB; --muted:#93A3A8; --line:#2A383D;
+    --accent:#5FC2BA; --opt-sq:#9AA8B2; --opt-co:#E59A55; --opt-fig:#4FC4B6;
+    --good:#6FD08E; --good-bg:#16301F; --bad:#F2877F; --bad-bg:#3A1C1A; --warn:#F0C25A; --warn-bg:#352A10;
+    --field:#121B1F; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1619; --surface:#172126; --ink:#E6ECEB; --muted:#93A3A8; --line:#2A383D;
+  --accent:#5FC2BA; --opt-sq:#9AA8B2; --opt-co:#E59A55; --opt-fig:#4FC4B6;
+  --good:#6FD08E; --good-bg:#16301F; --bad:#F2877F; --bad-bg:#3A1C1A; --warn:#F0C25A; --warn-bg:#352A10;
+  --field:#121B1F; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:14px;line-height:1.45}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0;font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header.top{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--surface)}
+header.top h1{font-size:20px;letter-spacing:.2px}
+header.top p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.proto{font-family:var(--font-display);font-size:12px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--warn);background:var(--warn-bg);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent);padding:4px 10px;border-radius:999px;white-space:nowrap}
+
+.layout{display:grid;grid-template-columns:minmax(300px,360px) 1fr;gap:20px;padding:20px;align-items:start;max-width:1500px;margin:0 auto}
+@media (max-width:980px){.layout{grid-template-columns:1fr;padding:16px}}
+
+/* Inputs rail */
+aside.inputs{background:var(--surface);border:1px solid var(--line);border-radius:10px;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
+@media (max-width:980px){aside.inputs{position:static;max-height:none}}
+.sec{padding:14px 16px;border-bottom:1px solid var(--line);display:grid;gap:10px}
+.sec:last-child{border-bottom:0}
+.sec h2{font-size:14px;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+.sec h2 .sw{width:10px;height:10px;border-radius:2px;display:inline-block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
+.field{display:grid;gap:3px}
+.field label{font-size:12px;color:var(--muted)}
+.field input,.field select{width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:var(--field);font-variant-numeric:tabular-nums}
+.field input:focus,.field select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+.hint{font-size:12px;color:var(--muted)}
+.check{display:flex;gap:8px;align-items:center;font-size:13px}
+.check input{width:16px;height:16px;accent-color:var(--accent)}
+
+.debt{border:1px solid var(--line);border-radius:8px;padding:10px;display:grid;gap:8px;background:var(--field)}
+.debt.off{opacity:.65}
+.debt-head{display:grid;grid-template-columns:1fr 1fr 28px;gap:8px;align-items:end}
+.debt .field input,.debt .field select{background:var(--surface)}
+.icon-btn{border:1px solid var(--line);background:var(--surface);border-radius:6px;height:34px;width:28px;cursor:pointer;color:var(--muted)}
+.icon-btn:hover{color:var(--bad);border-color:var(--bad)}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 12px;cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Results */
+main{display:grid;gap:20px;min-width:0}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between}
+.toggle{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 8px;cursor:pointer;user-select:none}
+.toggle input{position:absolute;opacity:0;pointer-events:none}
+.toggle .track{width:34px;height:20px;border-radius:999px;background:var(--line);position:relative;transition:background .15s}
+.toggle .track::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.25);transition:left .15s}
+.toggle input:checked + .track{background:var(--accent)}
+.toggle input:checked + .track::after{left:17px}
+.toggle input:focus-visible + .track{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.toggle .track,.toggle .track::after{transition:none}}
+
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:1180px){.cards{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:10px;padding:14px 16px;display:grid;gap:10px;align-content:start}
+.card h3{font-size:17px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card .desc{color:var(--muted);font-size:12.5px;margin-top:-6px}
+.big{font-family:var(--font-display);font-size:34px;font-weight:600;line-height:1}
+.big small{font-size:14px;color:var(--muted);font-weight:500;margin-left:4px}
+.delta{display:inline-flex;align-items:center;gap:6px;font-weight:600;padding:4px 10px;border-radius:6px;font-size:13.5px;width:max-content}
+.delta.good{background:var(--good-bg);color:var(--good)}
+.delta.bad{background:var(--bad-bg);color:var(--bad)}
+.delta.base{background:var(--field);color:var(--muted);border:1px solid var(--line)}
+.later{font-size:12.5px;color:var(--muted)}
+.later strong{color:var(--ink);font-weight:600}
+dl.facts{display:grid;grid-template-columns:1fr auto;gap:5px 12px;margin:0;font-size:13px;border-top:1px solid var(--line);padding-top:10px}
+dl.facts dt{color:var(--muted)}
+dl.facts dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;font-weight:500}
+dl.facts dd.neg{color:var(--bad)}
+dl.facts dd.pos{color:var(--good);font-weight:600}
+dl.facts dd.mut{color:var(--muted);font-weight:400}
+dl.facts .total{border-top:1px dashed var(--line);padding-top:5px;font-weight:600;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:999px;letter-spacing:.2px}
+.chip.win{background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c);border:1px solid color-mix(in srgb,var(--c) 40%,transparent)}
+.chip.flag{background:var(--bad-bg);color:var(--bad)}
+.chip.caution{background:var(--warn-bg);color:var(--warn)}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:grid;gap:12px;min-width:0;align-content:start}
+.panel-head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+.panel h2{font-size:17px}
+.panel .sub{color:var(--muted);font-size:12.5px}
+.summary p{margin:0 0 8px;max-width:80ch}
+.summary p:last-child{margin-bottom:0}
+.summary .lead{font-weight:500}
+
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.tab{border:0;background:none;padding:8px 12px;cursor:pointer;color:var(--muted);font-weight:500;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:3px;border-radius:2px;display:inline-block}
+.chart-wrap{position:relative}
+.chart-wrap svg{width:100%;height:auto;display:block}
+.chart-wrap svg text{fill:var(--muted);font-family:var(--font-body);font-size:11px}
+.tip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12px;box-shadow:0 4px 14px rgba(0,0,0,.12);min-width:170px;display:none;z-index:2}
+.tip b{display:block;margin-bottom:4px}
+.tip div{display:flex;justify-content:space-between;gap:12px;font-variant-numeric:tabular-nums}
+
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums;min-width:640px}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{font-family:var(--font-display);font-weight:600;font-size:13px;color:var(--muted)}
+thead th .sw{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
+td .s{display:block;font-size:11.5px}
+td .s.pos{color:var(--good)} td .s.neg{color:var(--bad)} td .s.mut{color:var(--muted)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:1180px){.two{grid-template-columns:1fr}}
+.bar-row{display:grid;gap:4px}
+.bar-label{display:flex;justify-content:space-between;font-size:12.5px}
+.bar{position:relative;height:22px;border-radius:5px;background:var(--field);border:1px solid var(--line);overflow:visible;display:flex}
+.bar span{height:100%}
+.bar .mark{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
+.bar-key{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.bar-key i{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:5px;vertical-align:-1px}
+.stat-line{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:7px 0;font-size:13px}
+.stat-line:last-child{border-bottom:0}
+.stat-line span:last-child{font-variant-numeric:tabular-nums;font-weight:500;text-align:right}
+
+footer.notes{color:var(--muted);font-size:12px;padding:0 20px 28px;max-width:1500px;margin:0 auto}
+footer.notes ul{margin:6px 0 0;padding-left:18px;display:grid;gap:3px}
+.copied{color:var(--good);font-size:12.5px;font-weight:500}
+</style>
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Debt Consolidation Cash-Flow Comparison</h1>
+    <p>Stay as is, cash-out refinance, or a Figure HELOC behind the current first mortgage. Loan officer worksheet.</p>
+  </div>
+  <span class="proto">Internal prototype · Not for consumer use</span>
+</header>
+
+<div class="layout">
+  <aside class="inputs" aria-label="Scenario inputs">
+    <section class="sec">
+      <h2>Borrower &amp; property</h2>
+      <div class="grid2">
+        <div class="field"><label for="homeValue">Home value ($)</label><input id="homeValue" data-k="homeValue" type="number" step="1000" min="0"></div>
+        <div class="field"><label for="mtgBal">1st mortgage balance ($)</label><input id="mtgBal" data-k="mtgBal" type="number" step="1000" min="0"></div>
+        <div class="field"><label for="mtgRate">1st mortgage rate (%)</label><input id="mtgRate" data-k="mtgRate" type="number" step="0.125" min="0"></div>
+        <div class="field"><label for="mtgYears">Years left on 1st</label><input id="mtgYears" data-k="mtgYears" type="number" step="1" min="1" max="40"></div>
+        <div class="field"><label>Current P&amp;I</label><div id="mtgPayOut" class="num" style="padding:7px 0;font-weight:600">–</div></div>
+      </div>
+      <div class="hint">Payments are principal and interest. Taxes and insurance are the same in every option, so they're left out.</div>
+    </section>
+
+    <section class="sec">
+      <h2>Debts to consolidate</h2>
+      <div id="debts" style="display:grid;gap:10px"></div>
+      <div class="btn-row"><button class="btn" id="addDebt" type="button">+ Add debt</button></div>
+      <div class="hint">For cards, enter what the borrower actually pays each month. For installment loans, months left fills in the payment.</div>
+    </section>
+
+    <section class="sec">
+      <h2><span class="sw" style="background:var(--opt-co)"></span>Cash-out refinance</h2>
+      <div class="grid2">
+        <div class="field"><label for="coProgram">Program</label>
+          <select id="coProgram" data-k="co.program">
+            <option value="conv">Conventional</option>
+            <option value="fha">FHA</option>
+            <option value="va">VA</option>
+          </select></div>
+        <div class="field"><label for="coMaxLtv">Max LTV (%)</label><input id="coMaxLtv" data-k="co.maxLtv" type="number" step="1" min="0" max="100"></div>
+        <div class="field"><label for="coRate">Rate (%)</label><input id="coRate" data-k="co.rate" type="number" step="0.125" min="0"></div>
+        <div class="field"><label for="coTerm">Term (years)</label>
+          <select id="coTerm" data-k="co.term"><option>30</option><option>25</option><option>20</option><option>15</option></select></div>
+        <div class="field"><label for="coCosts">Closing costs ($)</label><input id="coCosts" data-k="co.costs" type="number" step="100" min="0"></div>
+        <div class="field"><label for="coExtra">Extra cash to borrower ($)</label><input id="coExtra" data-k="co.extraCash" type="number" step="1000" min="0"></div>
+      </div>
+      <label class="check"><input type="checkbox" id="coFinance" data-k="co.finance"> Roll closing costs into the loan</label>
+    </section>
+
+    <section class="sec">
+      <h2><span class="sw" style="background:var(--opt-fig)"></span>Figure HELOC (fixed)</h2>
+      <div class="grid2">
+        <div class="field"><label for="figRate">Quoted fixed rate (%)</label><input id="figRate" data-k="fig.rate" type="number" step="0.125" min="0"></div>
+        <div class="field"><label for="figTerm">Term (years)</label>
+          <select id="figTerm" data-k="fig.term"><option>5</option><option>10</option><option>15</option><option>30</option></select></div>
+        <div class="field"><label for="figFee">Origination fee (%)</label><input id="figFee" data-k="fig.feePct" type="number" step="0.01" min="0" max="10"></div>
+        <div class="field"><label for="figMaxCltv">Max CLTV (%)</label><input id="figMaxCltv" data-k="fig.maxCltv" type="number" step="1" min="0" max="100"></div>
+        <div class="field"><label for="figExtra">Extra cash to borrower ($)</label><input id="figExtra" data-k="fig.extraCash" type="number" step="1000" min="0"></div>
+      </div>
+      <div class="hint">Figure draws the full line at closing and deducts the fee from it. The line is sized so the borrower nets enough to pay off the selected debts.</div>
+    </section>
+
+    <section class="sec">
+      <div class="btn-row"><button class="btn" id="reset" type="button">Reset to sample borrower</button></div>
+    </section>
+  </aside>
+
+  <main>
+    <div class="toolbar">
+      <label class="toggle" for="accel">
+        <input type="checkbox" id="accel">
+        <span class="track" aria-hidden="true"></span>
+        <span>Keep paying today's amount (put the savings toward the new loan)</span>
+      </label>
+      <span class="hint" id="accelHint"></span>
+    </div>
+
+    <section class="cards" id="cards" aria-label="Option comparison"></section>
+
+    <section class="panel summary" aria-labelledby="sumTitle">
+      <div class="panel-head">
+        <h2 id="sumTitle">What the numbers show</h2>
+        <div class="btn-row"><button class="btn" id="copySum" type="button">Copy summary</button><span id="copied" class="copied" aria-live="polite"></span></div>
+      </div>
+      <div id="summary"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="chartTitle">
+      <div class="panel-head">
+        <h2 id="chartTitle">Over 30 years</h2>
+        <div class="legend">
+          <span><i style="background:var(--opt-sq)"></i>Stay as is</span>
+          <span><i style="background:var(--opt-co)"></i>Cash-out refi</span>
+          <span><i style="background:var(--opt-fig)"></i>Figure HELOC</span>
+        </div>
+      </div>
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-chart="pay" type="button">Monthly payment</button>
+        <button class="tab" role="tab" aria-selected="false" data-chart="cum" type="button">Cash-flow savings to date</button>
+        <button class="tab" role="tab" aria-selected="false" data-chart="cost" type="button">Interest + fees to date</button>
+        <button class="tab" role="tab" aria-selected="false" data-chart="bal" type="button">Debt remaining</button>
+      </div>
+      <div class="sub" id="chartNote"></div>
+      <div class="chart-wrap" id="chartWrap"><div class="tip" id="tip"></div></div>
+    </section>
+
+    <section class="panel" aria-labelledby="costTitle">
+      <div class="panel-head">
+        <h2 id="costTitle">Interest and fees paid, by year</h2>
+        <span class="sub">All household debt in the comparison, including the 1st mortgage. Green = less than staying as is.</span>
+      </div>
+      <div class="table-wrap"><table id="costTable"></table></div>
+    </section>
+
+    <section class="two">
+      <div class="panel" aria-labelledby="beTitle">
+        <h2 id="beTitle">Breakeven</h2>
+        <div id="breakeven"></div>
+      </div>
+      <div class="panel" aria-labelledby="eqTitle">
+        <h2 id="eqTitle">Equity &amp; credit</h2>
+        <div id="equity" style="display:grid;gap:12px"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer class="notes">
+  <strong>Assumptions.</strong>
+  <ul>
+    <li>Illustration only. Not a loan offer, rate quote or approval. Rates, fees and limits are entered by the loan officer and must come from current pricing.</li>
+    <li>Card payments are held at the amount entered; real minimums usually fall as balances drop. Installment debts amortize over the months left.</li>
+    <li>Paying off debt with home equity turns unsecured debt into debt secured by the home. Paid-off cards are assumed to stay open with a zero balance.</li>
+    <li>Figure HELOC is modeled as a fixed-rate, fully amortizing loan with the full line drawn at closing and the origination fee deducted from the draw. Redraws are not modeled.</li>
+    <li>Interest deductibility is not considered. Borrowers should consult a tax professional.</li>
+  </ul>
+</footer>
+
+<script id="engine">
+/* ---------- Calculation engine (no DOM) ---------- */
+const H = 360;
+
+function pmt(P, ratePct, n){
+  if (!(P > 0) || !(n > 0)) return 0;
+  const r = ratePct / 1200;
+  if (r === 0) return P / n;
+  return P * r / (1 - Math.pow(1 + r, -n));
+}
+
+function simulate(loans){
+  const ls = loans.map(l => ({...l}));
+  const pay = new Float64Array(H), intr = new Float64Array(H), bal = new Float64Array(H);
+  const payoff = {};
+  for (let m = 0; m < H; m++){
+    let P = 0, I = 0, B = 0;
+    for (const l of ls){
+      if (l.bal <= 0.005) continue;
+      const i = l.bal * l.rate / 1200;
+      const p = Math.min(l.pay + (l.extra || 0), l.bal + i);
+      l.bal = l.bal + i - p;
+      if (l.bal <= 0.005){ l.bal = 0; payoff[l.id] = m + 1; }
+      P += p; I += i;
+    }
+    for (const l of ls) B += l.bal;
+    pay[m] = P; intr[m] = I; bal[m] = B;
+  }
+  let debtFree = null;
+  for (let m = 0; m < H; m++){ if (bal[m] <= 0.5){ debtFree = m + 1; break; } }
+  const cumInt = new Float64Array(H);
+  let c = 0; for (let m = 0; m < H; m++){ c += intr[m]; cumInt[m] = c; }
+  return {pay, intr, bal, cumInt, payoff, debtFree, unpaid: ls.filter(l => l.bal > 0.5).map(l => l.id)};
+}
+
+function compute(s){
+  const mtgPay = pmt(s.mtgBal, s.mtgRate, Math.round(s.mtgYears * 12));
+  const debts = s.debts.filter(d => d.balance > 0);
+  const inc = debts.filter(d => d.include), exc = debts.filter(d => !d.include);
+  const incBal = inc.reduce((a, d) => a + d.balance, 0);
+  const asLoans = ds => ds.map(d => ({id: d.id, bal: d.balance, rate: d.rate, pay: d.payment}));
+  const mtgLoan = {id: 'mtg', bal: s.mtgBal, rate: s.mtgRate, pay: mtgPay};
+
+  // Status quo
+  const sqSim = simulate([mtgLoan, ...asLoans(debts)]);
+  const sqPay1 = sqSim.pay[0];
+  const neverPays = debts.filter(d => sqSim.unpaid.includes(d.id) && d.payment <= d.balance * d.rate / 1200 + 0.005);
+
+  function withAccel(loans, targetId){
+    const base = simulate(loans);
+    const extra = Math.max(0, sqPay1 - base.pay[0]);
+    const accel = simulate(loans.map(l => l.id === targetId ? {...l, extra} : l));
+    return {base, accel, extra};
+  }
+
+  // Cash-out refi
+  const coLoan = s.mtgBal + incBal + s.co.extraCash + (s.co.finance ? s.co.costs : 0);
+  const coPay = pmt(coLoan, s.co.rate, s.co.term * 12);
+  const coSims = withAccel([{id: 'new', bal: coLoan, rate: s.co.rate, pay: coPay}, ...asLoans(exc)], 'new');
+  const coLtv = s.homeValue > 0 ? coLoan / s.homeValue * 100 : 0;
+  const coMaxLoan = s.homeValue * s.co.maxLtv / 100;
+
+  // Figure HELOC
+  const figNet = incBal + s.fig.extraCash;
+  const feeFrac = Math.min(Math.max(s.fig.feePct / 100, 0), 0.5);
+  const figLine = figNet > 0 ? figNet / (1 - feeFrac) : 0;
+  const figFee = figLine - figNet;
+  const figPay = pmt(figLine, s.fig.rate, s.fig.term * 12);
+  const figSims = withAccel([mtgLoan, {id: 'fig', bal: figLine, rate: s.fig.rate, pay: figPay}, ...asLoans(exc)], 'fig');
+  const figCltv = s.homeValue > 0 ? (s.mtgBal + figLine) / s.homeValue * 100 : 0;
+  const figMaxLine = Math.max(0, s.homeValue * s.fig.maxCltv / 100 - s.mtgBal);
+
+  const cost = (sim, fees) => { const a = new Float64Array(H); for (let m = 0; m < H; m++) a[m] = sim.cumInt[m] + fees; return a; };
+
+  function breakeven(optCost, sqCost){
+    let first = null, lastOk = null;
+    for (let m = 0; m < H; m++){
+      if (sqCost[m] - optCost[m] >= 0){ if (first === null) first = m + 1; lastOk = m + 1; }
+    }
+    const behindAfter = (first !== null && sqCost[H-1] - optCost[H-1] < 0) ? lastOk : null;
+    return {first, behindAfter};
+  }
+
+  const sqCost = cost(sqSim, 0);
+  const build = (key, sims, fees, extra) => {
+    const out = {};
+    for (const mode of ['base', 'accel']){
+      const sim = sims[mode];
+      const c = cost(sim, fees);
+      out[mode] = {sim, cost: c, pay1: sim.pay[0], cashflow: sqPay1 - sim.pay[0], be: breakeven(c, sqCost)};
+    }
+    out.extra = sims.extra;
+    return out;
+  };
+
+  const cards = debts.filter(d => d.type === 'card');
+  const cardLimit = cards.reduce((a, d) => a + (d.limit || 0), 0);
+  const cardBal = cards.reduce((a, d) => a + d.balance, 0);
+  const cardBalAfter = cards.filter(d => !d.include).reduce((a, d) => a + d.balance, 0);
+
+  return {
+    mtgPay, debts, inc, exc, incBal,
+    sq: {sim: sqSim, cost: sqCost, pay1: sqPay1, neverPays},
+    co: {loan: coLoan, pay: coPay, ltv: coLtv, maxLoan: coMaxLoan, fees: s.co.costs,
+         cashToClose: s.co.finance ? s.co.costs : 0, ...build('co', coSims, s.co.costs)},
+    fig: {line: figLine, net: figNet, fee: figFee, pay: figPay, cltv: figCltv, maxLine: figMaxLine,
+          ...build('fig', figSims, figFee)},
+    util: {limit: cardLimit, before: cardLimit > 0 ? cardBal / cardLimit * 100 : null,
+           after: cardLimit > 0 ? cardBalAfter / cardLimit * 100 : null}
+  };
+}
+if (typeof module !== 'undefined') module.exports = {pmt, simulate, compute, H};
+</script>
+
+<script>
+/* ---------- UI ---------- */
+const SAMPLE = () => ({
+  homeValue: 450000, mtgBal: 240000, mtgRate: 3.25, mtgYears: 24,
+  debts: [
+    {id: 'd1', type: 'card', name: 'Visa', balance: 18500, rate: 24.99, payment: 555, limit: 25000, months: 0, include: true},
+    {id: 'd2', type: 'card', name: 'Store card', balance: 7200, rate: 21.49, payment: 216, limit: 10000, months: 0, include: true},
+    {id: 'd3', type: 'auto', name: 'Auto loan', balance: 28000, rate: 7.9, payment: 0, limit: 0, months: 52, include: true},
+    {id: 'd4', type: 'personal', name: 'Personal loan', balance: 12000, rate: 13.5, payment: 0, limit: 0, months: 36, include: true}
+  ],
+  co: {program: 'conv', maxLtv: 80, rate: 6.375, term: 30, costs: 7500, extraCash: 0, finance: true},
+  fig: {rate: 8.25, term: 10, feePct: 2.99, maxCltv: 85, extraCash: 0}
+});
+const TYPES = {card: 'Credit card', auto: 'Auto loan', personal: 'Personal loan', student: 'Student loan', other: 'Other'};
+const PROGRAM_LTV = {conv: 80, fha: 80, va: 90};
+
+let state = SAMPLE();
+state.debts.forEach(fillInstallment);
+let accel = false;
+let chartMode = 'pay';
+let nextId = 10;
+
+const $ = id => document.getElementById(id);
+const money = v => (v < -0.5 ? '−' : '') + '$' + Math.round(Math.abs(v)).toLocaleString('en-US');
+const pct = (v, d = 1) => (isFinite(v) ? v.toFixed(d) : '–') + '%';
+const dur = m => { if (m == null) return '30+ yrs'; const y = Math.floor(m / 12), r = m % 12; return y ? (r ? `${y} yr ${r} mo` : `${y} yr`) : `${r} mo`; };
+const esc = t => String(t).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+
+function fillInstallment(d){
+  if (d.type !== 'card' && d.months > 0) d.payment = Math.round(pmt(d.balance, d.rate, d.months) * 100) / 100;
+}
+
+/* ----- inputs ----- */
+function getPath(path){ return path.split('.').reduce((o, k) => o[k], state); }
+function setPath(path, v){ const ks = path.split('.'); const last = ks.pop(); ks.reduce((o, k) => o[k], state)[last] = v; }
+
+function bindInputs(){
+  document.querySelectorAll('aside [data-k]').forEach(el => {
+    const k = el.dataset.k;
+    const v = getPath(k);
+    if (el.type === 'checkbox') el.checked = !!v; else el.value = v;
+    if (el.dataset.bound) return;
+    el.dataset.bound = '1';
+    el.addEventListener('input', () => {
+      let val = el.type === 'checkbox' ? el.checked : (el.tagName === 'SELECT' && k !== 'co.term' && k !== 'fig.term' ? el.value : parseFloat(el.value));
+      if (typeof val === 'number' && !isFinite(val)) val = 0;
+      setPath(k, val);
+      if (k === 'co.program'){ state.co.maxLtv = PROGRAM_LTV[val]; $('coMaxLtv').value = state.co.maxLtv; }
+      update();
+    });
+  });
+}
+
+function renderDebts(){
+  const box = $('debts');
+  box.innerHTML = state.debts.map(d => {
+    const isCard = d.type === 'card';
+    return `<div class="debt${d.include ? '' : ' off'}" data-id="${d.id}">
+      <div class="debt-head">
+        <div class="field"><label for="t_${d.id}">Type</label><select id="t_${d.id}" data-f="type">${Object.entries(TYPES).map(([k, v]) => `<option value="${k}"${k === d.type ? ' selected' : ''}>${v}</option>`).join('')}</select></div>
+        <div class="field"><label for="n_${d.id}">Name</label><input id="n_${d.id}" data-f="name" type="text" value="${esc(d.name)}"></div>
+        <button class="icon-btn" type="button" data-remove aria-label="Remove ${esc(d.name)}">×</button>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="b_${d.id}">Balance ($)</label><input id="b_${d.id}" data-f="balance" type="number" step="100" min="0" value="${d.balance}"></div>
+        <div class="field"><label for="r_${d.id}">Rate (%)</label><input id="r_${d.id}" data-f="rate" type="number" step="0.01" min="0" value="${d.rate}"></div>
+        <div class="field"><label for="p_${d.id}">Monthly payment ($)</label><input id="p_${d.id}" data-f="payment" type="number" step="1" min="0" value="${Math.round(d.payment * 100) / 100}"></div>
+        ${isCard
+          ? `<div class="field"><label for="l_${d.id}">Credit limit ($)</label><input id="l_${d.id}" data-f="limit" type="number" step="500" min="0" value="${d.limit}"></div>`
+          : `<div class="field"><label for="m_${d.id}">Months left</label><input id="m_${d.id}" data-f="months" type="number" step="1" min="0" value="${d.months}"></div>`}
+      </div>
+      <label class="check"><input type="checkbox" data-f="include"${d.include ? ' checked' : ''}> Pay off with the new loan</label>
+    </div>`;
+  }).join('');
+}
+
+$('debts').addEventListener('input', e => {
+  const row = e.target.closest('.debt'); if (!row) return;
+  const d = state.debts.find(x => x.id === row.dataset.id);
+  const f = e.target.dataset.f; if (!f) return;
+  if (f === 'include'){ d.include = e.target.checked; row.classList.toggle('off', !d.include); }
+  else if (f === 'type'){ d.type = e.target.value; if (d.type !== 'card' && !d.months) d.months = 48; fillInstallment(d); renderDebts(); }
+  else if (f === 'name'){ d.name = e.target.value; }
+  else {
+    const v = parseFloat(e.target.value); d[f] = isFinite(v) ? v : 0;
+    if (d.type !== 'card' && (f === 'balance' || f === 'rate' || f === 'months')){
+      fillInstallment(d);
+      const p = row.querySelector('[data-f="payment"]'); if (p) p.value = Math.round(d.payment * 100) / 100;
+    }
+  }
+  update();
+});
+$('debts').addEventListener('click', e => {
+  if (!e.target.closest('[data-remove]')) return;
+  const id = e.target.closest('.debt').dataset.id;
+  state.debts = state.debts.filter(d => d.id !== id);
+  renderDebts(); update();
+});
+$('addDebt').addEventListener('click', () => {
+  state.debts.push({id: 'd' + (nextId++), type: 'card', name: 'New card', balance: 5000, rate: 22.99, payment: 150, limit: 8000, months: 0, include: true});
+  renderDebts(); update();
+});
+$('reset').addEventListener('click', () => {
+  state = SAMPLE(); state.debts.forEach(fillInstallment);
+  bindInputs(); renderDebts(); update();
+});
+$('accel').addEventListener('change', e => { accel = e.target.checked; update(); });
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  chartMode = t.dataset.chart;
+  document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x === t ? 'true' : 'false'));
+  renderChart();
+}));
+
+/* ----- rendering ----- */
+let R = null;
+const OPTS = [
+  {key: 'sq', name: 'Stay as is', color: 'var(--opt-sq)', desc: 'Keep the 1st mortgage and pay each debt as scheduled.'},
+  {key: 'co', name: 'Cash-out refi', color: 'var(--opt-co)', desc: 'New 1st mortgage pays off the old one and the selected debts.'},
+  {key: 'fig', name: 'Figure HELOC', color: 'var(--opt-fig)', desc: 'Keep the 1st mortgage. A fixed-rate Figure line pays off the selected debts.'}
+];
+const mode = () => accel ? 'accel' : 'base';
+const view = key => key === 'sq' ? {sim: R.sq.sim, cost: R.sq.cost, pay1: R.sq.pay1, cashflow: 0} : R[key][mode()];
+
+function update(){
+  R = compute(state);
+  $('mtgPayOut').textContent = money(R.mtgPay) + '/mo';
+  $('accelHint').textContent = accel ? `New loan gets an extra ${money(R.fig.extra)}/mo (Figure) or ${money(R.co.extra)}/mo (cash-out), so total outlay matches today's ${money(R.sq.pay1)}.` : '';
+  renderCards(); renderSummary(); renderChart(); renderTable(); renderBreakeven(); renderEquity();
+}
+
+function paymentLater(sim){
+  // first meaningful change in payment after month 1
+  const p0 = sim.pay[0];
+  for (let m = 1; m < H; m++){
+    if (Math.abs(sim.pay[m] - p0) > 25) return {month: m + 1, pay: sim.pay[m]};
+  }
+  return null;
+}
+
+function renderCards(){
+  const views = OPTS.map(o => ({...o, v: view(o.key)}));
+  const best = (fn, keys) => keys.reduce((a, k) => fn(k) > fn(a) ? k : a);
+  const bestCash = best(k => view(k).cashflow, ['co', 'fig']);
+  const cost10 = k => view(k).cost[119];
+  const bestCost = ['sq', 'co', 'fig'].reduce((a, k) => cost10(k) < cost10(a) ? k : a);
+
+  $('cards').innerHTML = views.map(o => {
+    const v = o.v, sim = v.sim;
+    const chips = [];
+    if (!accel && o.key === bestCash && v.cashflow > 0) chips.push(`<span class="chip win">Most monthly relief</span>`);
+    if (o.key === bestCost) chips.push(`<span class="chip win">Lowest 10-yr cost</span>`);
+    const flags = [];
+    const excPay = R.exc.reduce((a, d) => a + d.payment, 0);
+    const payRows = (first, firstLbl, second, other) => `
+        <dt>${firstLbl}</dt><dd>${money(first)}/mo</dd>
+        ${second ? `<dt>2nd lien (Figure)</dt><dd>${money(second)}/mo</dd>` : ''}
+        <dt>Other debt payments</dt>${other === null ? `<dd class="pos">Paid off</dd>` : `<dd>${money(other)}/mo</dd>`}
+        <dt class="total">Total</dt><dd class="total">${money(first + (second || 0) + (other || 0))}/mo</dd>`;
+    const otherAfter = R.exc.length ? excPay : (R.inc.length ? null : 0);
+    let facts = '';
+    if (o.key === 'sq'){
+      R.sq.neverPays.forEach(d => flags.push(`<span class="chip flag">${esc(d.name)}: payment doesn't cover interest</span>`));
+      facts = `
+${payRows(R.mtgPay, '1st mortgage P&amp;I', 0, R.debts.reduce((a, d) => a + d.payment, 0))}
+      </dl><dl class="facts">
+        <dt>1st mortgage</dt><dd>${money(state.mtgBal)} at ${pct(state.mtgRate, 3)}</dd>
+        <dt>Other debt balances</dt><dd>${money(R.debts.reduce((a, d) => a + d.balance, 0))}</dd>`;
+    } else if (o.key === 'co'){
+      if (R.co.ltv > state.co.maxLtv + 1e-9) flags.push(`<span class="chip flag">Loan is over the program max of ${money(R.co.maxLoan)} for this home value</span>`);
+      facts = `${payRows(R.co.pay, 'New 1st mortgage P&amp;I', 0, otherAfter)}
+      </dl><dl class="facts">
+        <dt>New loan</dt><dd>${money(R.co.loan)}</dd>
+        <dt>1st mortgage rate</dt><dd>${pct(state.mtgRate, 3)} → ${pct(state.co.rate, 3)}</dd>
+        <dt>Closing costs</dt><dd>${money(R.co.fees)}${state.co.finance ? ' (financed)' : ' (at closing)'}</dd>`;
+    } else {
+      if (R.fig.cltv > state.fig.maxCltv + 1e-9) flags.push(`<span class="chip flag">Line is over the max of ${money(R.fig.maxLine)} for this home value</span>`);
+      facts = `${payRows(R.mtgPay, '1st mortgage P&amp;I (kept)', R.fig.pay, otherAfter)}
+      </dl><dl class="facts">
+        <dt>Figure line</dt><dd>${money(R.fig.line)}</dd>
+        <dt>1st mortgage rate</dt><dd>${pct(state.mtgRate, 3)} (kept)</dd>
+        <dt>Figure rate / term</dt><dd>${pct(state.fig.rate, 3)} · ${state.fig.term} yr</dd>
+        <dt>Origination fee</dt><dd>${money(R.fig.fee)} (${pct(state.fig.feePct, 2)})</dd>`;
+    }
+    let delta;
+    if (o.key === 'sq') delta = `<span class="delta base">Baseline</span>`;
+    else if (accel) delta = `<span class="delta base">Same outlay as today</span>`;
+    else delta = v.cashflow >= 0
+      ? `<span class="delta good">+${money(v.cashflow)}/mo cash flow</span>`
+      : `<span class="delta bad">${money(v.cashflow)}/mo cash flow</span>`;
+    const later = paymentLater(sim);
+    const laterTxt = later
+      ? `<div class="later">Payment changes to <strong>${money(later.pay)}/mo</strong> in month ${later.month} (${dur(later.month)}) as a debt pays off.</div>`
+      : `<div class="later">Payment stays level.</div>`;
+    return `<article class="card" style="--c:${o.color}">
+      <h3>${o.name}</h3>
+      <div class="desc">${o.desc}</div>
+      <div class="big num">${money(v.pay1)}<small>/mo</small></div>
+      ${delta}
+      ${laterTxt}
+      ${chips.length ? `<div class="chips">${chips.join('')}</div>` : ''}
+      ${flags.length ? `<div class="chips">${flags.join('')}</div>` : ''}
+      <dl class="facts">${facts}</dl>
+    </article>`;
+  }).join('');
+}
+
+function costPhrase(diff){ // diff = sq - opt ; positive = saves
+  return diff >= 0 ? `saves ${money(diff)}` : `costs ${money(-diff)} more`;
+}
+
+function summaryParas(){
+  const s = state, sq = R.sq, co = R.co, fig = R.fig;
+  const out = [];
+  const nDebts = R.debts.length;
+  out.push(`<p class="lead">Today the borrower pays ${money(sq.pay1)}/mo across the 1st mortgage and ${nDebts} other debt${nDebts === 1 ? '' : 's'}. ${R.inc.length ? `This comparison pays off ${money(R.incBal)} of it.` : 'No debts are selected for payoff.'}</p>`);
+
+  const coB = co.base, figB = fig.base;
+  const d10 = k => sq.cost[119] - R[k].base.cost[119];
+  const d30 = k => sq.cost[H - 1] - R[k].base.cost[H - 1];
+
+  const coCf = coB.cashflow >= 0 ? `frees up ${money(coB.cashflow)}/mo` : `raises the payment ${money(-coB.cashflow)}/mo`;
+  let coTxt = `<strong>Cash-out refi:</strong> ${coCf} by rolling everything into a new ${s.co.term}-year loan of ${money(co.loan)} at ${pct(s.co.rate, 3)}`;
+  coTxt += s.co.rate > s.mtgRate ? `, which gives up the ${pct(s.mtgRate, 3)} rate on the existing ${money(s.mtgBal)}.` : '.';
+  coTxt += ` Over 10 years it ${costPhrase(d10('co'))} in interest and fees compared with staying as is`;
+  coTxt += Math.sign(d10('co')) !== Math.sign(d30('co')) ? `; over 30 years it ${costPhrase(d30('co'))}.` : '.';
+  out.push(`<p>${coTxt}</p>`);
+
+  const figCf = figB.cashflow >= 0 ? `frees up ${money(figB.cashflow)}/mo` : `raises the payment ${money(-figB.cashflow)}/mo`;
+  let figTxt = `<strong>Figure HELOC:</strong> ${figCf}, keeps the ${pct(s.mtgRate, 3)} 1st mortgage, and pays off the ${money(fig.line)} line in ${s.fig.term} years at ${pct(s.fig.rate, 3)} fixed.`;
+  figTxt += ` Over 10 years it ${costPhrase(d10('fig'))} in interest and fees compared with staying as is.`;
+  out.push(`<p>${figTxt}</p>`);
+
+  const gap = coB.cashflow - figB.cashflow;
+  const costGap = R.co.base.cost[119] - R.fig.base.cost[119];
+  let cmp = '';
+  if (Math.abs(gap) >= 1){
+    const more = gap > 0 ? 'The cash-out refi' : 'The Figure HELOC';
+    cmp += `${more} gives ${money(Math.abs(gap))}/mo more monthly relief. `;
+  }
+  if (Math.abs(costGap) >= 1){
+    const cheaper = costGap > 0 ? 'the Figure HELOC' : 'the cash-out refi';
+    cmp += `Over 10 years, ${cheaper} costs ${money(Math.abs(costGap))} less in interest and fees.`;
+  }
+  if (cmp) out.push(`<p>${cmp}</p>`);
+
+  const p60 = sq.sim.pay[59];
+  if (p60 < sq.pay1 - 50) out.push(`<p>Staying as is, the payment also drops on its own as debts pay off: about ${money(p60)}/mo by year 5. Monthly savings from either option shrink once that happens, which the cash-flow chart shows.</p>`);
+
+
+  if (R.incBal > 0) out.push(`<p class="hint">Both options move ${money(R.incBal)} of unsecured and auto debt onto the home. Results depend on the rates and fees entered; this is an illustration, not a quote.</p>`);
+  return out;
+}
+function renderSummary(){ $('summary').innerHTML = summaryParas().join(''); }
+
+$('copySum').addEventListener('click', async () => {
+  const text = [...$('summary').querySelectorAll('p')].map(p => p.textContent).join('\n\n');
+  try { await navigator.clipboard.writeText(text); $('copied').textContent = 'Copied'; }
+  catch { $('copied').textContent = 'Copy blocked here. Select the text instead.'; }
+  setTimeout(() => $('copied').textContent = '', 2500);
+});
+
+/* ----- chart ----- */
+function niceStep(range, target){
+  const raw = range / target; const p = Math.pow(10, Math.floor(Math.log10(raw)));
+  const n = raw / p; return (n < 1.5 ? 1 : n < 3 ? 2 : n < 7 ? 5 : 10) * p;
+}
+function seriesFor(key){
+  const v = view(key);
+  if (chartMode === 'pay') return Array.from(v.sim.pay);
+  if (chartMode === 'bal') return Array.from(v.sim.bal);
+  if (chartMode === 'cost') return Array.from(v.cost);
+  // cumulative cash-flow savings vs status quo
+  const sq = R.sq.sim.pay; let c = 0; return Array.from(v.sim.pay, (p, m) => (c += sq[m] - p));
+}
+const CHART_NOTES = {
+  pay: 'Total monthly payment across all debts. Steps down as each debt is paid off.',
+  cum: 'Running total of monthly savings versus staying as is. Where a line turns down, that option is costing more per month than staying as is would.',
+  cost: 'Running total of interest paid plus upfront fees. Where lines cross, the cheaper option changes.',
+  bal: 'Total owed across all debts, including the 1st mortgage.'
+};
+function renderChart(){
+  const wrap = $('chartWrap');
+  $('chartNote').textContent = CHART_NOTES[chartMode];
+  const W = 760, Hh = 280, L = 64, Rr = 16, T = 14, B = 30;
+  const series = OPTS.filter(o => !(chartMode === 'cum' && o.key === 'sq')).map(o => ({...o, vals: seriesFor(o.key)}));
+  let lo = 0, hi = 0;
+  series.forEach(s => s.vals.forEach(x => { if (x < lo) lo = x; if (x > hi) hi = x; }));
+  if (hi === lo) hi = lo + 1;
+  const step = niceStep(hi - lo, 5);
+  lo = Math.floor(lo / step) * step; hi = Math.ceil(hi / step) * step;
+  const x = m => L + (m / (H - 1)) * (W - L - Rr);
+  const y = v => T + (1 - (v - lo) / (hi - lo)) * (Hh - T - B);
+  const fmtAxis = v => { const a = Math.abs(v); const s = v < 0 ? '−' : ''; return a >= 1e6 ? `${s}$${(a / 1e6).toFixed(a % 1e6 ? 1 : 0)}M` : a >= 1000 ? `${s}$${+(a / 1000).toFixed(a % 1000 ? 1 : 0)}k` : `${s}$${Math.round(a)}`; };
+  let g = '';
+  for (let v = lo; v <= hi + step / 2; v += step){
+    g += `<line x1="${L}" x2="${W - Rr}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="${Math.abs(v) < 1e-9 ? 1.5 : 1}"/>`;
+    g += `<text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${fmtAxis(v)}</text>`;
+  }
+  for (let yr = 0; yr <= 30; yr += 5){
+    const m = Math.min(yr * 12, H - 1);
+    g += `<text x="${x(m)}" y="${Hh - 8}" text-anchor="middle">${yr === 0 ? 'Now' : 'Yr ' + yr}</text>`;
+  }
+  let lines = '';
+  series.forEach(s => {
+    const pts = s.vals.map((v, m) => `${x(m).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+    lines += `<polyline points="${pts}" fill="none" stroke="${s.color}" stroke-width="2.25" stroke-linejoin="round"/>`;
+    const lm = H - 1;
+    lines += `<circle cx="${x(lm)}" cy="${y(s.vals[lm])}" r="3.5" fill="${s.color}"/>`;
+  });
+  const svg = `<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="${CHART_NOTES[chartMode]}">${g}${lines}
+    <line id="cursor" x1="0" x2="0" y1="${T}" y2="${Hh - B}" stroke="var(--muted)" stroke-dasharray="3 3" visibility="hidden"/>
+    <rect x="${L}" y="${T}" width="${W - L - Rr}" height="${Hh - T - B}" fill="transparent" id="hit"/></svg>`;
+  const tip = $('tip');
+  wrap.innerHTML = svg; wrap.appendChild(tip);
+  const svgEl = wrap.querySelector('svg'), hit = wrap.querySelector('#hit'), cur = wrap.querySelector('#cursor');
+  const move = ev => {
+    const rect = svgEl.getBoundingClientRect();
+    const sx = (ev.clientX - rect.left) * (W / rect.width);
+    const m = Math.max(0, Math.min(H - 1, Math.round((sx - L) / (W - L - Rr) * (H - 1))));
+    cur.setAttribute('x1', x(m)); cur.setAttribute('x2', x(m)); cur.setAttribute('visibility', 'visible');
+    tip.innerHTML = `<b>Month ${m + 1} (${dur(m + 1)})</b>` + series.map(s => `<div><span style="color:${s.color}">${s.name}</span><span>${money(s.vals[m])}</span></div>`).join('');
+    tip.style.display = 'block';
+    const px = (x(m) / W) * rect.width;
+    tip.style.left = Math.min(px + 12, rect.width - tip.offsetWidth - 4) + 'px';
+    tip.style.top = '10px';
+  };
+  hit.addEventListener('mousemove', move);
+  hit.addEventListener('mouseleave', () => { tip.style.display = 'none'; cur.setAttribute('visibility', 'hidden'); });
+}
+
+/* ----- cost table ----- */
+function renderTable(){
+  const hs = [1, 5, 10, 20, 30];
+  const head = `<thead><tr><th>By end of</th>${OPTS.map(o => `<th><span class="sw" style="background:${o.color}"></span>${o.name}</th>`).join('')}</tr></thead>`;
+  const rows = hs.map(yr => {
+    const i = yr * 12 - 1;
+    const cells = OPTS.map(o => {
+      const v = view(o.key);
+      const c = v.cost[i], owed = v.sim.bal[i];
+      let sub;
+      if (o.key === 'sq') sub = `<span class="s mut">Owed: ${money(owed)}</span>`;
+      else {
+        const d = R.sq.cost[i] - c;
+        sub = `<span class="s ${d >= 0 ? 'pos' : 'neg'}">${d >= 0 ? 'Saves ' + money(d) : 'Costs ' + money(-d) + ' more'}</span><span class="s mut">Owed: ${money(owed)}</span>`;
+      }
+      return `<td>${money(c)}${sub}</td>`;
+    }).join('');
+    return `<tr><td>Year ${yr}</td>${cells}</tr>`;
+  }).join('');
+  $('costTable').innerHTML = head + `<tbody>${rows}</tbody>`;
+}
+
+/* ----- breakeven ----- */
+function renderBreakeven(){
+  const lines = ['co', 'fig'].map(k => {
+    const o = OPTS.find(x => x.key === k), v = view(k), fees = R[k].fees ?? R[k].fee;
+    let main;
+    if (v.be.first === null) main = `Never pays back its ${money(fees)} in fees within 30 years.`;
+    else if (v.be.first <= 1 && fees > 0) main = `Ahead from month 1. Interest saved covers the ${money(fees)} in fees right away.`;
+    else main = `Recovers its ${money(fees)} in fees by month ${v.be.first} (${dur(v.be.first)}).`;
+    if (v.be.behindAfter) main += ` Falls behind staying as is after month ${v.be.behindAfter} (${dur(v.be.behindAfter)}), because the longer loan keeps charging interest.`;
+    const simple = !accel && v.cashflow > 0 && fees > 0 ? `<div class="hint">Simple breakeven (fees ÷ monthly savings): ${Math.ceil(fees / v.cashflow)} months. This ignores how long each debt runs, so the line above is the better test.</div>` : '';
+    return `<div class="stat-line" style="display:block"><div style="font-weight:600;color:${o.color}">${o.name}</div><div>${main}</div>${simple}</div>`;
+  }).join('');
+  $('breakeven').innerHTML = `<div class="sub">Counts interest and upfront fees together, compared with staying as is.</div>${lines}`;
+}
+
+/* ----- equity & credit ----- */
+function renderEquity(){
+  const hv = state.homeValue || 1;
+  const w = v => Math.max(0, Math.min(100, v / hv * 100));
+  const bar = (label, segs, cltv, maxPct, color) => {
+    const used = segs.reduce((a, s) => a + s.v, 0);
+    const eq = Math.max(0, hv - used);
+    return `<div class="bar-row">
+      <div class="bar-label"><span style="font-weight:600;color:${color}">${label}</span><span class="num">Equity left ${money(eq)}</span></div>
+      <div class="bar">${segs.map(s => `<span style="width:${w(s.v)}%;background:${s.c}" title="${s.n}: ${money(s.v)}"></span>`).join('')}
+        ${maxPct ? `<i class="mark" style="left:calc(${Math.min(maxPct, 100)}% - 1px)" title="Max ${maxPct}%"></i>` : ''}</div>
+    </div>`;
+  };
+  const first = 'color-mix(in srgb, var(--opt-sq) 55%, transparent)';
+  let html = `<div class="sub">Share of the ${money(state.homeValue)} home value that's borrowed. The black tick is the max allowed.</div>`;
+  html += bar('Stay as is', [{n: '1st mortgage', v: state.mtgBal, c: first}], state.mtgBal / hv * 100, 0, 'var(--opt-sq)');
+  html += bar('Cash-out refi', [{n: 'New 1st mortgage', v: R.co.loan, c: 'var(--opt-co)'}], R.co.ltv, state.co.maxLtv, 'var(--opt-co)');
+  html += bar('Figure HELOC', [{n: '1st mortgage', v: state.mtgBal, c: first}, {n: 'Figure line', v: R.fig.line, c: 'var(--opt-fig)'}], R.fig.cltv, state.fig.maxCltv, 'var(--opt-fig)');
+  html += `<div class="bar-key"><span><i style="background:${first}"></i>Existing 1st</span><span><i style="background:var(--opt-co)"></i>New 1st (cash-out)</span><span><i style="background:var(--opt-fig)"></i>Figure line</span></div>`;
+  if (R.util.before !== null){
+    html += `<div><div class="stat-line"><span>Revolving card utilization</span><span>${pct(R.util.before, 0)} → ${pct(R.util.after, 0)}</span></div>
+      <div class="hint">After payoff, if the paid-off cards stay open. Lower utilization usually helps the score; closing the cards would undo some of that.</div></div>`;
+  }
+  $('equity').innerHTML = html;
+}
+
+bindInputs(); renderDebts(); update();
+</script>
+</body>
+</html>
