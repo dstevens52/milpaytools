@@ -103,21 +103,23 @@ test.describe('PCS estimator — overseas moves', () => {
 });
 
 test.describe('PCS estimator — stateside moves unchanged', () => {
-  // Snapshot captured from production (main @ d0c1688, before this branch):
-  // E-5 with 1 dependent, government move, 1,000 manual miles, 1 POV.
-  test('E-5, 1 dependent, 1,000 miles: same figures as before', async ({ page }) => {
+  // E-5 with 1 dependent (an old numdep=1 link → one dependent 12 or older), government
+  // move, 1,000 manual miles, 1 POV. Figures follow build 07 (docs/sources/pcs-rules-2026.md):
+  // 1,000 ÷ 350 = 2 r 300 → 3 days; MALT Plus at the FY2027 standard CONUS rate ($181/day);
+  // dependent 12+ at 75%.
+  test('E-5, 1 dependent, 1,000 miles: stateside figures', async ({ page }) => {
     await page.goto('/calculators/pcs?rank=E-5&dep=yes&numdep=1&movetype=gov&miles=1000&povs=1');
     const results = page.getByTestId('pcs-results');
     // URL params apply after hydration — wait for them before reading figures.
     await expect(results).toContainText('1,000 miles');
     const text = (await results.innerText()).replace(/\s+/g, ' ');
     for (const v of [
-      '$4,536', // total
+      '$4,703', // total
       '3 travel days · 1,000 miles',
       '$3,548.02', // DLA
       '$205.00', // MALT
-      '$447.50', // per diem — member
-      '$335.63', // per diem — dependents
+      '$543.00', // per diem — member: 3 × $181
+      '$407.25', // per diem — dependent 12+: 75% of $543
     ]) {
       expect(text, `missing "${v}"`).toContain(v);
     }
@@ -130,10 +132,11 @@ test.describe('PCS estimator — stateside moves unchanged', () => {
     await expect(page.getByText('Save or share your PCS estimate')).toBeVisible();
   });
 
-  test('stateside PPM move still shows PPM weight and expense inputs', async ({ page }) => {
+  test('stateside PPM move shows the PPM weight input and panel (no expense input)', async ({ page }) => {
     await page.goto('/calculators/pcs?rank=E-5&dep=yes&numdep=1&movetype=full-ppm&miles=1000&povs=1');
     await expect(page.getByTestId('pcs-results')).toContainText('1,000 miles');
     await expect(page.locator('#hhgWeight')).toHaveCount(1);
-    await expect(page.locator('#ppmExp')).toHaveCount(1);
+    await expect(page.locator('#ppmExp')).toHaveCount(0);
+    await expect(page.getByTestId('pcs-ppm-panel')).toBeVisible();
   });
 });

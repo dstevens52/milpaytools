@@ -38,6 +38,8 @@ const nextConfig: NextConfig = {
       // RAF Mildenhall shares RAF Lakenheath's OHA/COLA locality (GB352) and
       // housing office — one combined page. 301 by request (permanent: true is 308).
       { source: '/bah/raf-mildenhall', destination: '/bah/raf-lakenheath', statusCode: 301 },
+      // Retired post (build 07): its premise relied on a TLE surplus the JTR doesn't allow.
+      { source: '/blog/pcs-that-costs-14000-vs-makes-6000', destination: '/calculators/pcs', statusCode: 301 },
     ];
   },
 };

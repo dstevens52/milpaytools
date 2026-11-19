@@ -6,13 +6,32 @@ import { PCSCalculator } from '@/components/calculators/pcs/PCSCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { FaqSection, type FaqItem } from '@/components/FaqSection';
 import { webApplicationSchema } from '@/lib/schema';
-import { calculatePCS } from '@/lib/calculations/pcs';
+import { calculatePCS, calculateTLE, calculateTravelDays } from '@/lib/calculations/pcs';
+import { PCS_RATES_2026 } from '@/data/pcs/2026/constants';
+import { PCS_PER_DIEM_RATE } from '@/data/pcs/conusPerDiem';
 import { formatCurrency } from '@/lib/utils';
 
 // Absolute title (no " | MilPayTools" suffix) — 54 chars.
 const PCS_TITLE = 'PCS & PPM Calculator 2026: Army, Navy, Air Force, USMC';
 const PCS_DESC =
   '2026 PCS calculator: DLA, MALT, per diem, TLE and PPM (DITY) proceeds at official DTMO rates. Army, Navy, Air Force, Marines, Space Force and Coast Guard.';
+
+// ── Figures used in copy and FAQs — all from the data files ─────────────────
+const R = PCS_RATES_2026;
+const PD = PCS_PER_DIEM_RATE;
+const PD_DAILY = PD.lodging + PD.mie;
+const pct = (n: number) => `${Math.round(n * 100)}%`;
+const usd = (n: number) => `$${n.toLocaleString('en-US', { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 })}`;
+const miles = (n: number) => n.toLocaleString('en-US');
+
+// Travel-day worked example (JTR 050205).
+const TD_EX_MILES = 1120;
+const TD_EX_DAYS = calculateTravelDays(TD_EX_MILES);
+const TD_EX_BLOCKS = Math.floor(TD_EX_MILES / R.milesPerTravelDay);
+const TD_EX_REM = TD_EX_MILES % R.milesPerTravelDay;
+
+// TLE worked example: member, spouse and two children under 12, standard CONUS rate.
+const TLE_EX = calculateTLE(1, 0, 1, 2);
 
 const PCS_FAQS: FaqItem[] = [
   {
@@ -24,6 +43,35 @@ const PCS_FAQS: FaqItem[] = [
     question: 'What is a PPM, and is it the same as a DITY move?',
     answer:
       'A Personally Procured Move (PPM) is when you move some or all of your belongings yourself and are reimbursed. It replaced the older "DITY" name. Some branches still use the older term informally.',
+  },
+  {
+    question: 'How many travel days do I get for a PCS by car?',
+    answer:
+      `${R.milesOneDayMax} miles or less is 1 travel day. For a longer move, divide the official distance by ${R.milesPerTravelDay}, round down, and add 1 day if ${R.milesRemainderForExtraDay} or more miles are left over. ` +
+      `Example: ${miles(TD_EX_MILES)} miles ÷ ${R.milesPerTravelDay} = ${TD_EX_BLOCKS} with ${TD_EX_REM} miles left over, so ${TD_EX_DAYS} travel days. ` +
+      'The distance is the official DTOD distance on your orders, not the miles you actually drive.',
+  },
+  {
+    question: 'How much is PCS per diem when I drive?',
+    answer:
+      `Driving is paid as MALT Plus: the full standard CONUS per diem for each authorized travel day, with no reduced first or last day. The ${PD.fiscalYear} standard CONUS rate is ${usd(PD_DAILY)} a day (${usd(PD.lodging)} lodging + ${usd(PD.mie)} meals and incidentals). ` +
+      `Each dependent traveling with you gets ${pct(R.dependentPerDiemShare.age12OrOlder)} of your rate if 12 or older and ${pct(R.dependentPerDiemShare.under12)} if under 12. ` +
+      `Mileage (MALT) is $${R.maltPerMile} a mile per vehicle, for up to ${R.maltMaxPOVs} vehicles; the second needs a dependent traveling with you.`,
+  },
+  {
+    question: 'How much TLE can I get for a PCS?',
+    answer:
+      `Up to ${R.tle.maxDaysConus} days in total for a move to a new duty station in CONUS, split across the old and new locations (${R.tle.maxDaysConusToOconus} days when moving from CONUS overseas). ` +
+      `The daily amount is a percentage of the local lodging and meals rate: ${pct(R.tle.percent.onePerson)} for one person, ${pct(R.tle.percent.twoPeople)} for the member and one dependent, plus ${pct(R.tle.percent.eachAdditional12OrOlder)} for each additional dependent 12 or older and ${pct(R.tle.percent.eachAdditionalUnder12)} for each one under 12. ` +
+      `It's never more than $${R.tle.dailyCap} a day, lodging taxes and fees included, and the lodging part can't exceed what you actually pay. ` +
+      `Example: a member, spouse and two children under 12 at the ${PD.fiscalYear} standard CONUS rate get up to ${pct(TLE_EX.percent)} × ${usd(PD_DAILY)} = ${usd(TLE_EX.dailyRate)} a day. Higher-cost areas have higher locality rates.`,
+  },
+  {
+    question: 'How is the PPM incentive calculated?',
+    answer:
+      `It's ${pct(R.ppmIncentivePercentOfGcc)} of the Government Constructed Cost (GCC): what it would have cost the government to move the same weight the same distance. ` +
+      'It is computed for your move in your move system (MilMove or DPS) or by your transportation office, so there is no single rate per pound. ' +
+      `You can request an advance of up to ${pct(R.ppmAdvancePercent)} of the incentive. The incentive is taxable income; documented moving costs such as truck rental, fuel and packing materials reduce the taxable part.`,
   },
 ];
 
@@ -39,34 +87,49 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/calculators/pcs',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'PCS Calculator 2026', sub: 'DLA, MALT, per diem, TLE, and PPM net proceeds' }),
+    images: ogImage({ type: 'calculator', title: 'PCS Calculator 2026', sub: 'DLA, MALT, per diem, TLE and PPM pay explained' }),
   },
   twitter: {
     card: 'summary_large_image',
     title: PCS_TITLE,
     description: PCS_DESC,
-    images: ogImage({ type: 'calculator', title: 'PCS Calculator 2026', sub: 'DLA, MALT, per diem, TLE, and PPM net proceeds' }),
+    images: ogImage({ type: 'calculator', title: 'PCS Calculator 2026', sub: 'DLA, MALT, per diem, TLE and PPM pay explained' }),
   },
 };
 
 export default function PCSPage() {
   // ── Worked-example values, computed server-side from the PCS lib ──────────────
-  // Scenario: E-6, married + 2 dependents (3 travelers), Fort Campbell, KY → JBLM, WA
-  // (~2,200 mi), 1 authorized POV, 20 combined TLE days, full PPM of the 11,000-lb
-  // weight allowance with ~$4,500 in move costs. 2026 DTMO rates.
-  const exPpmExpenses = 4500;
+  // Scenario: E-6, spouse + 1 child under 12 (3 travelers), Fort Campbell, KY → JBLM, WA
+  // (~2,200 mi), 1 POV, 20 combined TLE days, full PPM.
+  const exMiles = 2200;
   const exPcs = calculatePCS({
     rank: 'E-6',
     hasDependents: true,
-    numDependents: 2,
+    depsAge12Plus: 1,
+    depsUnder12: 1,
     moveType: 'full-ppm',
-    distance: 2200,
+    distance: exMiles,
     numPOVs: 1,
     hhgWeight: 11000,
     tleOldDays: 10,
     tleNewDays: 10,
-    ppmExpenses: exPpmExpenses,
   });
+
+  // Hero sample strip: E-5 with a spouse, Fort Bragg → JBLM (estimated 2,973 mi), 1 POV.
+  const heroMiles = 2973;
+  const hero = calculatePCS({
+    rank: 'E-5',
+    hasDependents: true,
+    depsAge12Plus: 1,
+    depsUnder12: 0,
+    moveType: 'gov',
+    distance: heroMiles,
+    numPOVs: 1,
+    hhgWeight: 0,
+    tleOldDays: 0,
+    tleNewDays: 0,
+  });
+  const whole = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
 
   return (
     <>
@@ -110,7 +173,7 @@ export default function PCSPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100 hidden md:block">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          A PCS move triggers several financial entitlements — Dislocation Allowance (DLA), MALT mileage at $0.205/mile, per diem for travel days, and Temporary Lodging Expense (TLE) for transition. Service members who arrange a Personally Procured Move (PPM) can keep the difference between the government&apos;s weight estimate and their actual shipping cost, which often generates $1,000–$5,000 in net proceeds on longer moves. This calculator estimates all major PCS entitlements using 2026 DTMO rates for your rank and family situation.
+          A PCS move triggers several financial entitlements — Dislocation Allowance (DLA), MALT mileage at ${R.maltPerMile}/mile, per diem for travel days, and Temporary Lodging Expense (TLE) for transition. Service members who arrange a Personally Procured Move (PPM) get an incentive of {pct(R.ppmIncentivePercentOfGcc)} of what the government would have paid to move the same weight the same distance. This calculator estimates DLA, MALT, per diem and TLE from 2026 DTMO rates and the {PD.fiscalYear} standard CONUS per diem rate for your rank and family.
         </p>
       </div>
         <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
@@ -119,15 +182,15 @@ export default function PCSPage() {
               Sample output
             </span>
             <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
-              E-5 &middot; w/dep &middot; Fort Bragg &rarr; JBLM &middot; 2,973 mi
+              E-5 &middot; w/spouse &middot; Fort Bragg &rarr; JBLM &middot; {miles(heroMiles)} mi
             </p>
             <div className="flex items-baseline gap-3 min-w-0 flex-1 overflow-hidden">
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">DLA <span className="font-semibold text-zinc-700">$3,548</span></span>
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">MALT <span className="font-semibold text-zinc-700">$609</span></span>
-              <span className="text-[12px] text-zinc-500 whitespace-nowrap">Per diem <span className="font-semibold text-zinc-700">$2,663</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">DLA <span className="font-semibold text-zinc-700">{whole(hero.dla)}</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">MALT <span className="font-semibold text-zinc-700">{whole(hero.malt)}</span></span>
+              <span className="text-[12px] text-zinc-500 whitespace-nowrap">Per diem <span className="font-semibold text-zinc-700">{whole(hero.perDiemTotal)}</span></span>
             </div>
             <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
-              Gov move total: <span className="font-semibold text-red-700">$6,820</span>
+              Gov move total: <span className="font-semibold text-red-700">{whole(hero.govMoveTotal)}</span>
             </p>
           </div>
         </div>
@@ -145,22 +208,19 @@ export default function PCSPage() {
             Government Move vs. PPM: E-6 from Fort Campbell, KY to JBLM, WA
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: E-6, married with 2 dependents (3 total travelers), PCS from Fort Campbell, KY to Joint Base Lewis-McChord, WA — approximately 2,200 miles. Assumes 1 authorized POV, 6 travel days, and 20 days combined TLE. 2026 DTMO rates.
+            Scenario: E-6, spouse and one child under 12 (3 travelers), PCS from Fort Campbell, KY to Joint Base Lewis-McChord, WA — approximately {miles(exMiles)} miles. Assumes 1 POV, {exPcs.travelDays} travel days, and {exPcs.tleDays} days combined TLE. 2026 DTMO rates and the {PD.fiscalYear} standard CONUS per diem rate.
           </p>
           <ExampleTable>
             <ExampleRow label="DLA — Dislocation Allowance (E-6 with dependents)" value={formatCurrency(exPcs.dla)} />
-            <ExampleRow label="MALT mileage (2,200 mi × $0.205, 1 POV)" value={formatCurrency(exPcs.malt)} />
-            <ExampleRow label="Per diem — member (6 days: 2 × $134.25 + 4 × $179)" value={formatCurrency(exPcs.perDiemMember)} />
-            <ExampleRow label="Per diem — 2 dependents (75% of member rate each)" value={formatCurrency(exPcs.perDiemDependents)} />
-            <ExampleRow label="TLE — Temporary Lodging Expense (20 days × $179)" value={formatCurrency(exPcs.tleTotal)} />
+            <ExampleRow label={`MALT mileage (${miles(exMiles)} mi × $${R.maltPerMile}, 1 POV)`} value={formatCurrency(exPcs.malt)} />
+            <ExampleRow label={`Per diem — member (${exPcs.travelDays} days × ${usd(PD_DAILY)})`} value={formatCurrency(exPcs.perDiemMember)} />
+            <ExampleRow label={`Per diem — spouse (${pct(R.dependentPerDiemShare.age12OrOlder)}) and child under 12 (${pct(R.dependentPerDiemShare.under12)})`} value={formatCurrency(exPcs.perDiemDependents)} />
+            <ExampleRow label={`TLE — up to ${exPcs.tleDays} days × ${usd(exPcs.tleDailyRate)} (${pct(exPcs.tlePercent)} of ${usd(PD_DAILY)})`} value={formatCurrency(exPcs.tleTotal)} />
             <ExampleRow label="Total government move entitlement" value={formatCurrency(exPcs.govMoveTotal)} highlight />
-            <ExampleRow label="PPM — gross reimbursement (11,000 lbs ÷ 100 × $210/cwt)" value={formatCurrency(exPcs.ppmGrossReimbursement)} />
-            <ExampleRow label="PPM — estimated move costs (truck rental, fuel, supplies)" value={`−${formatCurrency(exPpmExpenses)}`} />
-            <ExampleRow label="PPM — gross proceeds" value={formatCurrency(exPcs.ppmGrossProfit)} />
-            <ExampleRow label="PPM — after-tax proceeds (22% tax)" value={formatCurrency(exPcs.ppmAfterTaxProfit)} highlight />
+            <ExampleRow label={`HHG weight allowance (E-6 with dependents, JTR Table 5-37)`} value={`${exPcs.weightAllowance.toLocaleString('en-US')} lbs`} />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> DLA, MALT, per diem, and TLE ({formatCurrency(exPcs.govMoveTotal)}) are paid the same way regardless of which move type you choose. With a PPM, you keep all of those entitlements AND net {formatCurrency(exPcs.ppmAfterTaxProfit)} after tax — bringing total PPM compensation to {formatCurrency(exPcs.ppmMoveTotal)} vs. {formatCurrency(exPcs.govMoveTotal)} for a government move. The E-6 keeps approximately {formatCurrency(exPcs.ppmAfterTaxProfit)} more by choosing PPM over a government move. The net proceeds come from moving efficiently under the 11,000-lb weight allowance; actual amounts depend on real moving costs and how much of the weight allowance you use.
+            <strong>What this means:</strong> DLA, MALT, per diem, and TLE ({formatCurrency(exPcs.govMoveTotal)}, with TLE at its ceiling) are paid the same way whichever move type you choose. With a full PPM, the E-6 also gets an incentive of {pct(R.ppmIncentivePercentOfGcc)} of what the government would have paid to move the same weight, up to {exPcs.weightAllowance.toLocaleString('en-US')} lbs, the same distance. That figure is computed for each move: get it from your move system or transportation office before you decide.
           </p>
         </ExampleBox>
       </section>
@@ -188,7 +248,8 @@ export default function PCSPage() {
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">MALT and the DTOD distance</h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               MALT (Monetary Allowance in Lieu of Transportation) reimburses you for driving your
-              POV at a flat per-mile rate — $0.205/mile in 2026. The reimbursable distance is the
+              POV at a flat per-mile rate — ${R.maltPerMile}/mile in 2026, for up to {R.maltMaxPOVs} vehicles
+              (the second needs a dependent traveling with you). The reimbursable distance is the
               official DTOD (Defense Table of Official Distances) route, not what your GPS shows.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
@@ -209,26 +270,31 @@ export default function PCSPage() {
           <div id="ppm" className="scroll-mt-20">
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">PPM calculator: what a PPM (DITY) move pays</h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              A PPM move (formerly DITY — Do It Yourself) lets you move your own household goods
-              and get reimbursed at the government&apos;s cost to do the same move commercially.
-              The difference between the reimbursement and your actual costs is your net proceeds.
+              A PPM move (formerly DITY — Do It Yourself) lets you move your own household goods.
+              The incentive is {pct(R.ppmIncentivePercentOfGcc)}{' '}of the Government Constructed Cost (GCC): what it
+              would have cost the government to move the same weight the same distance. The GCC is
+              computed for each move, so there is no single rate per pound and this calculator
+              doesn&apos;t estimate a dollar figure. Get the official estimate in your move system
+              (MilMove or DPS) or from your transportation office.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              PPM net proceeds are taxable income. The calculator estimates the after-tax amount at a ~22%
-              federal effective rate — your actual tax will depend on your filing status and total
-              income. Keep all receipts for the weight ticket, truck rental, fuel, and supplies.
+              The incentive is paid on the weight on your weight tickets, up to your weight allowance,
+              and you can request an advance of up to {pct(R.ppmAdvancePercent)}. It is taxable income;
+              documented moving costs (truck rental, fuel, packing materials) reduce the taxable part.
+              Keep every receipt and weight ticket.
             </p>
           </div>
 
           <div>
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">TLE: Temporary Lodging Expense</h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              TLE reimburses temporary lodging and meals near your old or new duty station during a PCS. For many CONUS-to-CONUS moves, TLE may be available for up to 21 days, subject to location, receipts, daily caps, and JTR rules. OCONUS-related moves follow different limits, and TLA (Temporary Lodging Allowance) may apply overseas instead.
+              TLE reimburses temporary lodging and meals near your old or new duty station during a PCS: up to {R.tle.maxDaysConus} days in total for a new duty station in CONUS, split across both locations, and {R.tle.maxDaysConusToOconus} days when moving from CONUS overseas, where TLA (Temporary Lodging Allowance) takes over. The daily amount is {pct(R.tle.percent.onePerson)} of the local lodging and meals rate for one person, {pct(R.tle.percent.twoPeople)} for two people, plus {pct(R.tle.percent.eachAdditional12OrOlder)} for each additional family member 12 or older and {pct(R.tle.percent.eachAdditionalUnder12)} under 12, capped at ${R.tle.dailyCap} a day including lodging taxes.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              This calculator uses the standard CONUS per diem rate ($179/day) as a TLE estimate.
-              Actual TLE is based on your documented lodging receipts and M&IE — you must submit
-              receipts to your finance office to receive reimbursement.
+              This calculator uses the {PD.fiscalYear} standard CONUS rate ({usd(PD_DAILY)}/day) as the local rate, so its TLE figure is an &ldquo;up to&rdquo;
+              amount; higher-cost areas have higher locality rates. Some housing-shortage areas allow extra days: see DTMO&apos;s{' '}
+              <a href={R.tle.extensionsUrl} target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">Locations with Approved TLE Extensions</a>.
+              You must submit lodging receipts to your finance office to be reimbursed.
             </p>
           </div>
 
@@ -237,26 +303,29 @@ export default function PCSPage() {
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               The weight allowance is the maximum household goods weight the government will ship
               or reimburse for a PPM move. Exceeding your allowance means paying out-of-pocket for
-              the overage. The allowance increases significantly with rank.
+              the overage. It rises with rank and is higher with dependents: an E-5 gets{' '}
+              {R.weightAllowance.withDependents['E-5'].toLocaleString('en-US')} lbs with dependents and{' '}
+              {R.weightAllowance.withoutDependents['E-5'].toLocaleString('en-US')} lbs without (JTR Table 5-37).
+              Prior-enlisted officers (O-1E to O-3E) use the O-1 to O-3 rows.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              Pro-gear (professional books, papers, equipment) may not count against your weight
-              allowance — check with your TMO for details. Unaccompanied baggage and items in
-              temporary storage may have separate limits.
+              Pro-gear (professional books, papers, equipment) doesn&apos;t count against your weight
+              allowance. Unaccompanied baggage and items in temporary storage may have separate limits.
             </p>
           </div>
 
           <div>
             <h2 className="text-xl font-semibold text-zinc-900 mb-3">Per diem travel days</h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              Travel days for PCS per diem are calculated per JTR: 1 day for the first 400 miles,
-              then 1 day per 350 miles thereafter (with a rounding rule for remainders). The first
-              and last travel day are paid at 75% of the full daily rate.
+              When you drive, you get 1 travel day for {R.milesOneDayMax} miles or less. Longer moves get the
+              official distance ÷ {R.milesPerTravelDay}, rounded down, plus 1 day if {R.milesRemainderForExtraDay} or more
+              miles are left over: {miles(TD_EX_MILES)} miles is {TD_EX_DAYS} days. Each day pays the full
+              standard CONUS rate ({usd(PD_DAILY)} for {PD.fiscalYear}), with no reduced first or last day.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              Dependents traveling with you receive approximately 75% of the member&apos;s per diem
-              rate (per JTR, for dependents age 12 and older). Younger dependents may receive a
-              lower rate — verify the current JTR rules if this applies to your family.
+              Dependents traveling with you receive {pct(R.dependentPerDiemShare.age12OrOlder)}{' '}of the member&apos;s
+              rate each if 12 or older and {pct(R.dependentPerDiemShare.under12)}{' '}if under 12. Days when you fly part
+              of the way follow different rules that this calculator doesn&apos;t model.
             </p>
           </div>
         </div>
@@ -289,10 +358,10 @@ export default function PCSPage() {
             >
               travel.dod.mil
             </a>
-            ). MALT rate: $0.205/mile. Per diem at standard CONUS rates. PPM reimbursement rates
-            are approximate — actual rates vary by distance and origin/destination, and are
-            calculated by your installation&apos;s Transportation Office (TMO). TLE estimate uses
-            standard CONUS per diem; actual TLE requires documented lodging receipts. Always verify
+            ). MALT rate: ${R.maltPerMile}/mile. Per diem and the TLE ceiling use the {PD.fiscalYear} standard
+            CONUS rate ({usd(PD.lodging)} lodging + {usd(PD.mie)}{' '}M&amp;IE); actual TLE requires documented
+            lodging receipts. The PPM incentive is computed for each move by your transportation
+            office and is not estimated here. Always verify
             your specific entitlements with your TMO and Finance Office before making financial
             decisions about your move.
           </p>

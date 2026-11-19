@@ -6,6 +6,7 @@ import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { getMHACode, getMHARates } from '@/lib/calculations/bah';
+import { PCS_RATES_2026 } from '@/data/pcs/2026/constants';
 
 const TITLE = 'Military PCS Guide: Entitlements & Move Costs';
 const DESC =
@@ -59,7 +60,7 @@ const FAQS = [
   {
     question: 'Should I use a government move or do a PPM (DITY move)?',
     answer:
-      'A government contracted move is simpler but gives you no financial upside. A Personally Procured Move (PPM) reimburses you 95% of what a contracted move would have cost — creating net proceeds when you can move for less. Typical PPM net proceeds range from $1,000–$8,000 depending on move distance and how efficiently you move. PPM net proceeds are taxable income.',
+      `A government contracted move is simpler but gives you no financial upside. A Personally Procured Move (PPM) pays an incentive of ${Math.round(PCS_RATES_2026.ppmIncentivePercentOfGcc * 100)}% of the Government Constructed Cost — what it would have cost the government to move the same weight the same distance — so you keep the difference when you move for less. The incentive is taxable income; documented moving costs (truck rental, fuel, packing materials) reduce the taxable part.`,
   },
   {
     question: 'How does BAH change at my new station?',
@@ -119,7 +120,7 @@ const IMPACT_CARDS = [
     bullets: [
       'DLA: $2,389 (E-6, no dep) / $3,548 (E-6, w/ dep) — varies by rank',
       'MALT: $0.205/mile — less than actual driving costs',
-      'PPM net proceeds: $1,000–$8,000 if you move yourself',
+      `PPM incentive: ${Math.round(PCS_RATES_2026.ppmIncentivePercentOfGcc * 100)}% of the Government Constructed Cost if you move yourself`,
     ],
     cta: 'Estimate my move costs →',
     href: '/calculators/pcs',
@@ -193,24 +194,27 @@ const ACCORDION = [
         </p>
         <p>
           <strong className="text-zinc-800">PPM (Personally Procured Move):</strong> You manage your
-          own move and the government reimburses you{' '}
-          <strong className="text-zinc-800">95% of what a contracted move would have cost</strong>{' '}
-          them. When you can move for less than that, the difference is your net proceeds.
+          own move and get an incentive of{' '}
+          <strong className="text-zinc-800">{Math.round(PCS_RATES_2026.ppmIncentivePercentOfGcc * 100)}% of the Government Constructed Cost</strong>{' '}
+          — what it would have cost the government to move the same weight the same distance. It&apos;s
+          computed for each move: get the official estimate in your move system (MilMove or DPS) or from
+          your transportation office. When you can move for less, you keep the difference.
         </p>
-        <p>Typical PPM net proceeds range from <strong className="text-zinc-800">$1,000–$8,000</strong> depending on distance and how efficiently you move. Self-packing and using a rented truck increases it; hiring a full-service mover reduces it.</p>
+        <p>Self-packing and using a rented truck lowers your costs; hiring a full-service mover raises them.</p>
         <p>
-          <strong className="text-zinc-800">Tax note:</strong> PPM net proceeds are taxable income. The
-          government will report it — plan for a tax payment in the year of the move.
+          <strong className="text-zinc-800">Tax note:</strong> The incentive is taxable income; documented
+          moving costs (truck rental, fuel, packing materials) reduce the taxable part. Keep every receipt
+          and weight ticket.
         </p>
         <p>
-          For a full worked example — an E-6 from Fort Campbell to JBLM, with the entitlements and the
-          after-tax PPM proceeds broken out — see{' '}
+          For how the incentive works and when a PPM pays off — with the entitlements you get either
+          way — see{' '}
           <Link href="/blog/ppm-dity-move-worth-it" className="font-semibold text-red-700 hover:text-red-800 transition-colors">
             Is a PPM/DITY Move Worth It?
           </Link>
         </p>
         <Link href="/calculators/pcs" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
-          Calculate PPM net proceeds for your move →
+          Estimate your PCS entitlements and weight allowance →
         </Link>
       </div>
     ),
@@ -401,11 +405,11 @@ const ACCORDION = [
 
 const RELATED = [
   {
-    href: '/blog/pcs-that-costs-14000-vs-makes-6000',
+    href: '/blog/pcs-financial-planning-guide',
     border: 'border-l-blue-500',
     label: 'PCS PLANNING',
-    title: 'The PCS That Costs $14,000 — And the One That Makes $6,000',
-    description: 'Two scenarios for the same E-6 family on the same move — $20,000 apart based purely on knowing the entitlements.',
+    title: 'PCS Financial Planning: Month-by-Month Guide',
+    description: 'The PCS money timeline from orders drop to final voucher: DLA, mileage, per diem, TLE, PPM and the deadlines that matter.',
   },
   {
     href: '/blog/the-47000-gap-bah-duty-station',
@@ -661,7 +665,7 @@ export default function PcsGuidePage() {
               Understanding your PCS finances
             </h2>
             <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-3">
-              A PCS move affects both one-time reimbursements and ongoing monthly compensation. DLA, MALT, per diem, TLE, and PPM proceeds may offset moving costs, while BAH, CONUS COLA, and local cost of living can change the household budget for the entire assignment. The biggest mistake is treating PCS as only a moving expense instead of a full financial reset.
+              A PCS move affects both one-time reimbursements and ongoing monthly compensation. DLA, MALT, per diem, TLE, and a PPM incentive may offset moving costs, while BAH, CONUS COLA, and local cost of living can change the household budget for the entire assignment. The biggest mistake is treating PCS as only a moving expense instead of a full financial reset.
             </p>
             <p className="text-base text-zinc-500">
               Expand any section to go deeper. The calculators above give you the numbers — these

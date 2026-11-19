@@ -54,7 +54,7 @@ const CALCULATOR_CONFIG = {
   pcs: {
     href: '/calculators/pcs',
     label: 'PCS Cost Estimator',
-    defaultText: 'Estimate your total PCS entitlements — DLA, mileage (MALT), per diem, TLE, and PPM/DITY net proceeds. Uses 2026 DTMO rates.',
+    defaultText: 'Estimate your total PCS entitlements — DLA, mileage (MALT), per diem and TLE by family size — and see how a PPM/DITY incentive is set. Uses 2026 DTMO rates.',
   },
   cola: {
     href: '/calculators/cola',
