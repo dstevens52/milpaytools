@@ -24,3 +24,11 @@ dollars. A blank cell means DFAS leaves that cell blank.
 
 `src/data/pay-tables/2026.ts` is checked against this file, cell by cell, by
 `tests/e2e/pay-table-dfas.spec.ts` (`npm run test:pay-table`).
+
+## `pcs-rules-2026.md` — PCS allowance rules (build 07)
+
+Claude Chat's rule check of 2026-11-18 (copied verbatim from the build pack): POV travel days
+(JTR 050205), MALT Plus flat per diem (Table 5-4), standard CONUS per diem FY2026/FY2027 (GSA),
+TLE (Tables 5-13/5-17, $290 cap, 21 days), HHG weight allowances (Table 5-37, both columns,
+JTR edition dated Oct 1, 2024), second-POV MALT (050203, Table 5-1), PPM incentive (GCC).
+Read by `src/data/pcs/` and `src/lib/calculations/pcs.ts`.
