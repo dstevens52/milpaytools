@@ -210,8 +210,18 @@ async function expectedAfterHydration(page: Page, c: PreCase): Promise<{ before:
   await expect
     .poll(async () => (after = await resultText(c.result(p2))), { message: `${c.name}: the change moves the result`, timeout: 10_000 })
     .not.toBe(before);
-  await p2.waitForTimeout(500);
-  after = await resultText(c.result(p2));
+  // Settled: no lookup in flight and two reads 750 ms apart agree.
+  await expect
+    .poll(
+      async () => {
+        const a = await resultText(c.result(p2));
+        await p2.waitForTimeout(750);
+        after = await resultText(c.result(p2));
+        return a === after && !/Looking up…|Checking the/.test(after);
+      },
+      { message: `${c.name}: reference result settles`, timeout: 15_000 },
+    )
+    .toBe(true);
   await p2.close();
   return { before, after };
 }

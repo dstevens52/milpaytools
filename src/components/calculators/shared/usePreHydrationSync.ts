@@ -131,6 +131,17 @@ function setValueUntracked(el: HTMLInputElement | HTMLTextAreaElement, value: st
   Object.getOwnPropertyDescriptor(proto, 'value')?.set?.call(el, value);
 }
 
+function setCheckedUntracked(el: HTMLInputElement, checked: boolean) {
+  Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'checked')?.set?.call(el, checked);
+}
+
+/** The DOM event React's onChange listens to for this control. */
+function changeEventFor(el: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement): readonly string[] {
+  if (el instanceof HTMLSelectElement) return ['change'];
+  if (el instanceof HTMLInputElement && (el.type === 'checkbox' || el.type === 'radio')) return ['click'];
+  return ['input', 'change'];
+}
+
 /**
  * Replays each pre-hydration change as the event React listens for. Returns the
  * number of fields replayed. During hydration React sets `defaultValue` /
@@ -142,18 +153,22 @@ function replayPreHydrationInput(root: HTMLElement): number {
   const fields = root.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
     'input, select, textarea',
   );
-  // An event can make React hydrate synchronously and run this effect before the
-  // event's own handler (a pick made just as the JS lands). That event delivers its
-  // target's value itself; replaying the target too would let React's controlled-input
-  // restore reset the DOM to the server value before that handler reads it.
-  const inFlight = typeof window !== 'undefined' ? window.event?.target : undefined;
+  // An event can make React hydrate synchronously and run this effect before that
+  // event reaches its handler (a pick made just as the JS lands). When it is the event
+  // React's onChange listens to on its target, that event delivers the value: the
+  // target is only primed (React's last-seen value set back to the server's, so the
+  // event registers as a change), never replayed. A nested replay would let React's
+  // controlled-input restore reset the DOM before the outer handler reads it.
+  const ev = typeof window !== 'undefined' ? window.event : undefined;
   for (const el of fields) {
-    if (el.disabled || el === inFlight || el.closest('[data-presync="off"]')) continue;
+    if (el.disabled || el.closest('[data-presync="off"]')) continue;
+    const primeOnly = !!ev && ev.target === el && changeEventFor(el).includes(ev.type);
 
     if (el instanceof HTMLSelectElement) {
       const server = serverSelectValue(el);
       if (el.multiple || server === null || el.value === server) continue;
-      el.dispatchEvent(new Event('change', { bubbles: true }));
+      // A select has no last-seen value: React runs onChange on every change event.
+      if (!primeOnly) el.dispatchEvent(new Event('change', { bubbles: true }));
       replayed++;
       continue;
     }
@@ -164,7 +179,8 @@ function replayPreHydrationInput(root: HTMLElement): number {
       if (el.type === 'radio' && !el.checked) continue;
       const checked = el.checked;
       el.checked = !checked; // through React's tracker: its last-seen value is the server's
-      el.click(); // back to the visitor's choice; React sees the change and runs onChange
+      if (primeOnly) setCheckedUntracked(el, checked);
+      else el.click(); // back to the visitor's choice; React sees the change and runs onChange
       replayed++;
       continue;
     }
@@ -174,7 +190,7 @@ function replayPreHydrationInput(root: HTMLElement): number {
     const value = el.value;
     el.value = el.defaultValue; // through React's tracker: its last-seen value is the server's
     setValueUntracked(el, value); // DOM back to the visitor's text, tracker untouched
-    el.dispatchEvent(new Event('input', { bubbles: true }));
+    if (!primeOnly) el.dispatchEvent(new Event('input', { bubbles: true }));
     replayed++;
   }
   return replayed;
