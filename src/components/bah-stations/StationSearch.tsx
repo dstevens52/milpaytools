@@ -1,55 +1,46 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import Link from 'next/link';
-import type { DutyStation } from '@/data/duty-stations/stations';
+import { useId, useMemo, useState, type ReactNode } from 'react';
+import type { StationSearchItem } from './StationCards';
 
-/** One card in the hub list: a duty station, or a v2 OCONUS station with no duty-station entry. */
-export type StationCard = Pick<DutyStation, 'name' | 'slug' | 'formerName' | 'city' | 'state' | 'stateName'> & {
-  branches: string[];
-  oconus?: boolean;
-  e5Rate: number | null;
-};
+export type { StationCard } from './StationCards';
 
 interface Props {
-  stations: StationCard[];
+  /** One entry per card, in the same order as the cards (stationSearchItems()). */
+  items: StationSearchItem[];
+  /** The server-rendered card list (<StationCards>). */
+  children: ReactNode;
 }
 
-function fmt(n: number) {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
-}
-
-export function StationSearch({ stations }: Props) {
+/**
+ * The /bah hub filter (P1 #5). The cards are server-rendered children; this component holds only
+ * the query and hides non-matching cards and empty state groups with a generated <style> rule
+ * keyed on their data attributes. Matching is unchanged: a card matches when the query is a
+ * substring of its name, city, state, state name, former name or one of its branches.
+ */
+export function StationSearch({ items, children }: Props) {
   const [query, setQuery] = useState('');
+  const scope = `station-cards-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
 
-  const filtered = useMemo(() => {
+  const { matches, css } = useMemo(() => {
     const q = query.toLowerCase().trim();
-    if (!q) return stations;
-    return stations.filter(
-      (s) =>
-        s.name.toLowerCase().includes(q) ||
-        s.city.toLowerCase().includes(q) ||
-        s.state.toLowerCase().includes(q) ||
-        s.stateName.toLowerCase().includes(q) ||
-        (s.formerName && s.formerName.toLowerCase().includes(q)) ||
-        s.branches.some((b) => b.toLowerCase().includes(q))
-    );
-  }, [query, stations]);
-
-  // Group filtered results by state
-  const grouped = useMemo(() => {
-    const map = new Map<string, typeof filtered>();
-    for (const s of filtered) {
-      const key = s.oconus ? 'OCONUS' : s.stateName;
-      if (!map.has(key)) map.set(key, []);
-      map.get(key)!.push(s);
+    if (!q) return { matches: items.length, css: '' };
+    const visibleGroups = new Set<string>();
+    const hidden: string[] = [];
+    let n = 0;
+    for (const it of items) {
+      if (it.fields.some((f) => f.includes(q))) {
+        n++;
+        visibleGroups.add(it.group);
+      } else {
+        hidden.push(`#${scope} [data-station-slug="${it.slug}"]`);
+      }
     }
-    return Array.from(map.entries()).sort(([a], [b]) => {
-      if (a === 'OCONUS') return 1;
-      if (b === 'OCONUS') return -1;
-      return a.localeCompare(b);
-    });
-  }, [filtered]);
+    for (const g of new Set(items.map((i) => i.group))) {
+      if (!visibleGroups.has(g)) hidden.push(`#${scope} [data-station-group="${g.replace(/["\\]/g, '\\$&')}"]`);
+    }
+    return { matches: n, css: hidden.length ? `${hidden.join(',')}{display:none}` : '' };
+  }, [query, items, scope]);
 
   return (
     <div>
@@ -64,53 +55,18 @@ export function StationSearch({ stations }: Props) {
         />
         {query && (
           <p className="text-xs text-zinc-500 mt-2">
-            {filtered.length} result{filtered.length !== 1 ? 's' : ''} for &ldquo;{query}&rdquo;
+            {matches} result{matches !== 1 ? 's' : ''} for &ldquo;{query}&rdquo;
           </p>
         )}
       </div>
 
       {/* Results */}
-      {grouped.length === 0 && (
+      {matches === 0 && (
         <p className="text-sm text-zinc-500">No installations found. Try a different search term.</p>
       )}
 
-      <div className="space-y-10">
-        {grouped.map(([stateName, list]) => (
-          <div key={stateName}>
-            <h2
-              id={stateName === 'OCONUS' ? 'oconus' : undefined}
-              className="scroll-mt-20 text-sm font-semibold text-zinc-500 uppercase tracking-widest mb-3 pb-2 border-b border-zinc-200">
-              {stateName}
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {list.map((s) => (
-                <Link
-                  key={s.slug}
-                  href={`/bah/${s.slug}`}
-                  className="bg-white rounded-lg border border-zinc-200 p-4 hover:border-zinc-300 hover:shadow-sm transition-all group"
-                >
-                  <p className="font-semibold text-zinc-900 text-sm group-hover:text-red-700 transition-colors mb-0.5">
-                    {s.name}
-                  </p>
-                  {s.formerName && (
-                    <p className="text-xs text-zinc-400 mb-1">formerly {s.formerName}</p>
-                  )}
-                  <p className="text-xs text-zinc-500 mb-2">{s.city}, {s.state} &middot; {s.branches.join(' / ')}</p>
-                  {s.e5Rate !== null && (
-                    <p className="text-sm font-bold text-red-700">
-                      {fmt(s.e5Rate)}
-                      <span className="text-xs font-normal text-zinc-400">/mo E-5 w/dep</span>
-                    </p>
-                  )}
-                  {s.oconus && (
-                    <p className="text-xs text-amber-600 font-medium">OCONUS — OHA applies</p>
-                  )}
-                </Link>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
+      {css && <style>{css}</style>}
+      <div id={scope}>{children}</div>
     </div>
   );
 }
