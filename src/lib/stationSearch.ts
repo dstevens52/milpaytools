@@ -5,7 +5,9 @@
  * installations-lookup.ts (~110 additional bases). Stations results appear first.
  */
 
-import { DUTY_STATIONS } from '@/data/duty-stations/stations';
+// The slim generated index, not DUTY_STATIONS: the full records cost 229 KB of client JS on every
+// route with a station input (P1 #2). Same entries, same order (tests/e2e/station-search-index.spec.ts).
+import { STATION_SEARCH_INDEX } from '@/data/duty-stations/searchIndex.generated';
 import { INSTALLATIONS_LOOKUP, type InstallationLookup } from '@/data/installations-lookup';
 
 export interface SearchResult {
@@ -51,7 +53,7 @@ export function searchStations(query: string, excludeOconus = true): SearchResul
   // --- Duty stations (stations.ts) — higher priority ---
   const stationScored: Array<[SearchResult, number]> = [];
 
-  for (const s of DUTY_STATIONS) {
+  for (const s of STATION_SEARCH_INDEX) {
     if (excludeOconus && s.oconus) continue;
 
     const name   = normalize(s.name);
