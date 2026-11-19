@@ -3,6 +3,7 @@ import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
+import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { CompareCalculator } from '@/components/calculators/compare/CompareCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -119,7 +120,7 @@ export default function ComparePage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100 hidden md:block">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Comparing two duty stations financially requires looking beyond base pay — BAH differences of $1,000–$2,000/month between assignments are common, and CONUS COLA may apply at some stations. Your state income tax doesn&apos;t change with a PCS move: military pay is taxed by your state of legal residence (SCRA). An E-5 with dependents stationed in San Diego receives approximately {formatCurrency(sdVsBraggAnnual)} more per year in BAH than the same rank at Fort Bragg, before factoring in cost of living. This calculator produces a side-by-side comparison of total compensation at two stations using official 2026 DTMO and DFAS data.
+          Comparing two duty stations financially requires looking beyond base pay — BAH differences of $1,000–$2,000/month between assignments are common, and CONUS COLA may apply at some stations. Your state income tax doesn&apos;t change with a PCS move: military pay is taxed by your state of legal residence (SCRA). An E-5 with dependents stationed in San Diego receives approximately {formatCurrency(sdVsBraggAnnual)} more per year in BAH than the same rank at Fort Bragg, before factoring in cost of living.
         </p>
       </div>
         <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
@@ -143,6 +144,8 @@ export default function ComparePage() {
 
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-6 md:py-10 space-y-10">
         <CompareCalculator />
+
+        <CalculatorSummary calc="compare" nested />
 
         
 {/* Example Calculation */}

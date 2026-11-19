@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
+import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -104,7 +105,7 @@ export default function VARefinancePage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100 hidden md:block">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          An IRRRL (VA Streamline Refinance) allows existing VA loan holders to lower their interest rate with minimal paperwork — VA generally does not require a full appraisal or income underwriting, though lenders may apply overlays — and carries a 0.50% funding fee, the lowest of any VA loan type. A VA cash-out refinance carries a higher funding fee (2.15% or 3.30%) and requires a full appraisal and underwriting. This calculator estimates monthly savings, break-even timeline, and whether the VA&apos;s net tangible benefit requirement is met for your specific scenario.
+          An IRRRL (VA Streamline Refinance) allows existing VA loan holders to lower their interest rate with minimal paperwork — VA generally does not require a full appraisal or income underwriting, though lenders may apply overlays — and carries a 0.50% funding fee, the lowest of any VA loan type. A VA cash-out refinance carries a higher funding fee (2.15% or 3.30%) and requires a full appraisal and underwriting.
         </p>
       </div>
           <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
@@ -127,6 +128,8 @@ export default function VARefinancePage() {
 
       {/* ── Calculator ────────────────────────────────────────────────── */}
       <VARefinanceCalculator />
+
+      <CalculatorSummary calc="va-refinance" />
 
       {/* ── Next steps cards ─────────────────────────────────────────── */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -319,9 +322,9 @@ export default function VARefinancePage() {
           <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-3">Related Calculators</p>
           <div className="flex flex-wrap gap-2">
             <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">VA Loan Calculator →</Link>
-            <Link href="/calculators/va-disability" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">VA Disability Rating →</Link>
+            <Link href="/calculators/va-disability" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">VA Disability Calculator →</Link>
             <Link href="/bah" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">BAH Calculator →</Link>
-            <Link href="/calculators/total-compensation" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Total Compensation →</Link>
+            <Link href="/calculators/total-compensation" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">Military Pay Calculator →</Link>
             <Link href="/guides/va-home-loans" className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md">VA Home Loans Guide →</Link>
           </div>
         </div>

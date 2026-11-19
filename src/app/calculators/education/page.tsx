@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
+import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { EducationCalculator } from '@/components/calculators/education/EducationCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -113,11 +114,13 @@ export default function EducationCalculatorPage() {
       <div className="min-h-screen bg-zinc-50">
         <EducationCalculator />
 
+        <CalculatorSummary calc="education" />
+
         
       {/* ── Direct answer ──────────────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Military education benefits work very differently from each other: the Post-9/11 GI Bill covers tuition plus a monthly housing allowance based on E-5 with-dependents BAH at the school&apos;s ZIP code (at the 100% tier and full time, from {usd0(MHA_MIN)} to {usd0(MHA_MAX)}/month depending on location); VR&amp;E (Chapter 31) covers tuition with no cap without consuming GI Bill months; and Tuition Assistance covers up to {TA_CAP}/year while on active duty. This calculator compares total program value side by side for your specific school, eligibility level, and situation.
+          Military education benefits work very differently from each other: the Post-9/11 GI Bill covers tuition plus a monthly housing allowance based on E-5 with-dependents BAH at the school&apos;s ZIP code (at the 100% tier and full time, from {usd0(MHA_MIN)} to {usd0(MHA_MAX)}/month depending on location); VR&amp;E (Chapter 31) covers tuition with no cap without consuming GI Bill months; and Tuition Assistance covers up to {TA_CAP}/year while on active duty.
         </p>
       </div>
 

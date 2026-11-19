@@ -27,6 +27,7 @@ import { PCS_RATES_2026, PCS_PPM_SOURCE_URL } from '@/data/pcs/2026/constants';
 import { PCS_PER_DIEM_RATE } from '@/data/pcs/conusPerDiem';
 import type { SearchResult } from '@/lib/stationSearch';
 import { parseBool, parseGrade, gradeToParam } from '@/lib/urlParams';
+import { readUrlParams } from '@/data/calculatorUrlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { publishedOconusV2ForName } from '@/data/oconus';
 import { isMilitaryMailZip } from '@/lib/militaryMailZip';
@@ -370,7 +371,7 @@ export function PCSCalculator() {
 
   // Pre-populate from URL params on mount
   useEffect(() => {
-    const p = new URLSearchParams(window.location.search);
+    const p = readUrlParams('pcs', window.location.search);
     // Accepts both e5 (current share links) and E-5 (older share links); anything
     // else — including O-1E–O-3E — leaves the default rank in place.
     const r = parseGrade(p.get('rank'));
@@ -777,7 +778,7 @@ export function PCSCalculator() {
               </p>
             ) : (
             <>
-            <p className="text-4xl font-black tabular-nums">
+            <p className="text-4xl font-black tabular-nums" data-testid="pcs-total">
               {fmt(output.govMoveTotal)}
             </p>
             <p className="text-xs text-red-300 mt-1">
@@ -1012,7 +1013,7 @@ export function PCSCalculator() {
                 BAH Calculator → Look up housing allowance at your new duty station
               </Link>
               <Link href="/calculators/total-compensation" className="text-sm text-blue-700 hover:underline font-medium">
-                Total Compensation Calculator → See how the move changes your full pay picture
+                Military Pay Calculator → See how the move changes your full pay picture
               </Link>
             </div>
           </div>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
+import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { PCSCalculator } from '@/components/calculators/pcs/PCSCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { FaqSection, type FaqItem } from '@/components/FaqSection';
@@ -173,7 +174,7 @@ export default function PCSPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100 hidden md:block">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          A PCS move triggers several financial entitlements — Dislocation Allowance (DLA), MALT mileage at ${R.maltPerMile}/mile, per diem for travel days, and Temporary Lodging Expense (TLE) for transition. Service members who arrange a Personally Procured Move (PPM) get an incentive of {pct(R.ppmIncentivePercentOfGcc)} of what the government would have paid to move the same weight the same distance. This calculator estimates DLA, MALT, per diem and TLE from 2026 DTMO rates and the {PD.fiscalYear} standard CONUS per diem rate for your rank and family.
+          A PCS move triggers several financial entitlements — Dislocation Allowance (DLA), MALT mileage at ${R.maltPerMile}/mile, per diem for travel days, and Temporary Lodging Expense (TLE) for transition. Service members who arrange a Personally Procured Move (PPM) get an incentive of {pct(R.ppmIncentivePercentOfGcc)} of what the government would have paid to move the same weight the same distance.
         </p>
       </div>
         <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
@@ -200,6 +201,8 @@ export default function PCSPage() {
       <div className="bg-zinc-50">
         <PCSCalculator />
       </div>
+
+      <CalculatorSummary calc="pcs" />
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

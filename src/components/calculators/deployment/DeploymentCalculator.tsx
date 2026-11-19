@@ -15,6 +15,7 @@ import { ActSteps } from '@/components/calculators/shared/ActStep';
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
+import { readUrlParams, type UrlParamName } from '@/data/calculatorUrlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 
 // ─── Pay grade options ────────────────────────────────────────────────────────
@@ -269,8 +270,8 @@ export function DeploymentCalculator() {
   // params missing from older links keep their defaults.
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const int = (key: string): number | null => {
+    const params = readUrlParams('deployment', window.location.search);
+    const int = (key: UrlParamName<'deployment'>): number | null => {
       const raw = params.get(key);
       if (raw === null || !/^-?\d+$/.test(raw.trim())) return null;
       return parseInt(raw, 10);
@@ -766,7 +767,7 @@ export function DeploymentCalculator() {
                 <p className="text-[10px] font-bold uppercase tracking-widest text-blue-500 mb-1">
                   Total deployment financial benefit
                 </p>
-                <p className="text-3xl font-bold text-blue-700 tabular-nums">
+                <p className="text-3xl font-bold text-blue-700 tabular-nums" data-testid="deployment-tour-total">
                   {fmt(result.tour.totalTourBenefit)}
                 </p>
                 <p className="text-xs text-blue-600 mt-1 leading-snug">

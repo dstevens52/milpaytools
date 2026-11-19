@@ -34,6 +34,7 @@ import {
 import { DATA_YEAR } from '@/data/pay-tables/2026';
 import { TSP_CONSTANTS_2026 } from '@/data/tsp/2026/constants';
 import { parseGrade, gradeToParam } from '@/lib/urlParams';
+import { readUrlParams } from '@/data/calculatorUrlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
@@ -259,7 +260,7 @@ export function RetirementCalculator() {
   // Each value is validated and clamped: an unknown grade keeps the default, numbers are
   // clamped to the input's range, and an unlisted return keeps the default.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = readUrlParams('retirement', window.location.search);
     const retGrade = parseGrade(params.get('rank'));
     const curGrade = parseGrade(params.get('currank'));
     const yos = intParam(params.get('yos'), 0, 40);
@@ -552,7 +553,7 @@ export function RetirementCalculator() {
             <p className="text-red-200 text-sm font-medium mb-1">
               Estimated Monthly Pension · {retirementLabel} · {retirementSystem === 'brs' ? 'BRS' : 'High-3'}
             </p>
-            <p className="text-4xl font-black tabular-nums">{fmt(output.monthlyPension)}<span className="text-xl font-semibold text-red-200">/mo</span></p>
+            <p className="text-4xl font-black tabular-nums" data-testid="ret-monthly-pension">{fmt(output.monthlyPension)}<span className="text-xl font-semibold text-red-200">/mo</span></p>
             <p className="text-red-200 text-sm mt-1">{fmt(output.annualPension)}/year · {fmtPct(output.pensionMultiplierPct)} multiplier</p>
           </div>
           {output.monthlyVA > 0 && (

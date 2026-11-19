@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
+import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { GuardReserveCalculator } from '@/components/calculators/guard-reserve/GuardReserveCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { FaqSection, type FaqItem } from '@/components/FaqSection';
@@ -106,12 +107,14 @@ export default function GuardReservePage() {
       {/* ── Calculator ──────────────────────────────────────────────────── */}
       <GuardReserveCalculator />
 
+      <CalculatorSummary calc="guard-reserve" />
+
       {/* ── Example Calculation ──────────────────────────────────────── */}
 
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Guard and Reserve compensation includes drill pay, Annual Training pay and BAS, possible active-duty periods, retirement points, and BRS TSP contributions when eligible; BRS contributions apply to drill pay as well as active-duty pay. TRICARE Reserve Select is a premium you pay, shown separately. A standard drilling member may earn several thousand dollars per year in drill and AT pay. This calculator combines the pay components into a single annual view using official 2026 DFAS rates.
+          Guard and Reserve compensation includes drill pay, Annual Training pay and BAS, possible active-duty periods, retirement points, and BRS TSP contributions when eligible; BRS contributions apply to drill pay as well as active-duty pay. TRICARE Reserve Select is a premium you pay, shown separately. A standard drilling member may earn several thousand dollars per year in drill and AT pay.
         </p>
       </div>
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

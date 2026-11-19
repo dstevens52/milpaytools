@@ -31,6 +31,7 @@ import {
 import type { TransitionReadinessInput, FilingStatus } from '@/types/calculator';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
+import { readUrlParams } from '@/data/calculatorUrlParams';
 
 // ─── Dropdown options ─────────────────────────────────────────────────────
 
@@ -232,7 +233,7 @@ export function TransitionReadinessCalculator() {
 
   // Pre-populate from URL params
   useEffect(() => {
-    const p = new URLSearchParams(window.location.search);
+    const p = readUrlParams('transition-readiness', window.location.search);
     const gr = parseGrade(p.get('rank'));
     const yosRaw = p.get('yos');
     const gz = parseZip(p.get('zip'));
@@ -1045,7 +1046,7 @@ export function TransitionReadinessCalculator() {
               <p className="text-sm text-zinc-700 mb-1">
                 To match your military take-home of <span className="font-semibold">{formatCurrency(result.militaryTakeHomeMonthly)}/month</span>, you would need a civilian salary of approximately:
               </p>
-              <p className="text-3xl font-bold text-zinc-900 tabular-nums mb-2">
+              <p className="text-3xl font-bold text-zinc-900 tabular-nums mb-2" data-testid="tr-grossed-up-salary">
                 {formatCurrency(result.grossedUpCivilianSalary)}/year
               </p>
               <p className="text-xs text-zinc-500 leading-relaxed">
@@ -1208,7 +1209,7 @@ export function TransitionReadinessCalculator() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-zinc-900 group-hover:text-red-700 transition-colors">
-                    VA Disability Rating Calculator
+                    VA Disability Calculator
                   </p>
                   <p className="text-xs text-zinc-500 mt-0.5">Calculate your combined rating and monthly compensation →</p>
                 </div>

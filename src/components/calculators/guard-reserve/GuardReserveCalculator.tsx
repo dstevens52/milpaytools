@@ -20,6 +20,7 @@ import {
 import type { GuardReserveInput, TRSPlan, GuardReserveOutput } from '@/lib/calculations/guardReserve';
 import { TRICARE_RATES_2026 } from '@/data/tricare/2026/constants';
 import { parseBool, parseGrade, gradeToParam } from '@/lib/urlParams';
+import { readUrlParams } from '@/data/calculatorUrlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 
 // ─── Formatters ────────────────────────────────────────────────────────────────
@@ -229,7 +230,7 @@ export function GuardReserveCalculator() {
   }, [output, gaInteracted]);
 
   useEffect(() => {
-    const p = new URLSearchParams(window.location.search);
+    const p = readUrlParams('guard-reserve', window.location.search);
     // Accepts both e5 (current share links) and E-5 (older share links).
     const r = parseGrade(p.get('rank'));
     const yos = p.get('yos');
@@ -486,7 +487,7 @@ export function GuardReserveCalculator() {
           {/* Hero banner */}
           <div className="rounded-lg bg-red-700 p-5 text-white">
             <p className="text-sm font-medium text-red-200 mb-1">Total annual Guard/Reserve value</p>
-            <p className="text-4xl font-black tabular-nums">{fmt(output.totalValue)}</p>
+            <p className="text-4xl font-black tabular-nums" data-testid="gr-total-value">{fmt(output.totalValue)}</p>
             <div className="mt-3 space-y-1 text-sm">
               <div className="flex justify-between text-red-100">
                 <span>Military pay (drill + AT + duty, incl. BAS)</span>
@@ -727,7 +728,7 @@ export function GuardReserveCalculator() {
             </p>
             <div className="mt-3 flex flex-col gap-2">
               <Link href="/calculators/total-compensation" className="text-sm text-blue-700 hover:underline font-medium">
-                Total Compensation Calculator → See full active duty pay for same rank
+                Military Pay Calculator → See full active duty pay for same rank
               </Link>
             </div>
           </div>

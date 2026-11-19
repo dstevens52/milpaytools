@@ -684,7 +684,7 @@ export default function TransitionPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <ResourceCard
                   href="/calculators/total-compensation"
-                  title="Total Compensation Calculator"
+                  title="Military Pay Calculator"
                   description="Start here. Many service members underestimate the true value of their pay and benefits by tens of thousands per year because they only compare civilian salary to base pay. See the full picture — BAH, BAS, TSP matching, and tax advantages — before you evaluate any civilian offer."
                 />
                 <ResourceCard
@@ -694,7 +694,7 @@ export default function TransitionPage() {
                 />
                 <ResourceCard
                   href="/calculators/va-disability"
-                  title="VA Disability Rating Calculator"
+                  title="VA Disability Calculator"
                   description="If you have any service-connected conditions, your VA disability rating directly affects your post-separation income. Know your estimated rating now — so your post-separation income plan is more complete before evaluating civilian offers."
                 />
                 <ResourceCard

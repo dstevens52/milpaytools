@@ -477,7 +477,7 @@ const RELATED_CALCULATORS = [
     href: '/calculators/va-disability',
     border: 'border-l-purple-500',
     label: 'Calculator',
-    title: 'VA Disability Rating',
+    title: 'VA Disability Calculator',
     description: 'Calculate your combined rating — many disability-rated veterans are exempt from the funding fee.',
   },
   {

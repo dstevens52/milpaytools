@@ -7,6 +7,7 @@ import { useUserInputGate } from '@/components/calculators/shared/useUserInputGa
 import type { CompareResult, LocationData } from '@/lib/calculations/compare';
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
+import { readUrlParams } from '@/data/calculatorUrlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
@@ -134,7 +135,7 @@ function SummaryCard({ result, nameA, nameB }: { result: CompareResult; nameA: s
     headline = (
       <>
         <span className="text-green-700">{betterName}</span> pays{' '}
-        <span className="text-green-700">{fmt(absDiff)} more per month</span>
+        <span className="text-green-700" data-testid="compare-headline-diff">{fmt(absDiff)} more per month</span>
       </>
     );
     subline = result.stateTaxIncluded
@@ -210,7 +211,7 @@ export function CompareCalculator() {
   // Pre-populate from URL params on mount
   // ?zip1=28310&zip2=98433&rank=E5&dependents=yes&yos=6
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = readUrlParams('compare', window.location.search);
     const z1 = parseZip(params.get('zip1'));
     const z2 = parseZip(params.get('zip2'));
     const gr = parseGrade(params.get('rank'));

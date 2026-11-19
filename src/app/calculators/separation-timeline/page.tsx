@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
+import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { SeparationTimelineCalculator } from '@/components/calculators/separation-timeline/SeparationTimelineCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -79,12 +80,14 @@ export default function SeparationTimelinePage() {
       {/* ── Calculator ────────────────────────────────────────────────── */}
       <SeparationTimelineCalculator />
 
+      <CalculatorSummary calc="separation-timeline" />
+
       {/* ── Example Calculation ──────────────────────────────────────── */}
 
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Military separation triggers a series of time-sensitive benefits and deadlines that run on separate clocks: SGLI free coverage extends 120 days and VGLI conversion must happen within 240 days; TAMP transitional healthcare (where eligible) runs 180 days; and the VA Benefits Delivery at Discharge window opens 90–180 days before separation. Missing any of these windows can result in gaps in coverage or permanently forfeited benefits. This calculator generates a personalized timeline of key dates based on your separation date and type.
+          Military separation triggers a series of time-sensitive benefits and deadlines that run on separate clocks: SGLI free coverage extends 120 days and VGLI conversion must happen within 240 days; TAMP transitional healthcare (where eligible) runs 180 days; and the VA Benefits Delivery at Discharge window opens 90–180 days before separation. Missing any of these windows can result in gaps in coverage or permanently forfeited benefits.
         </p>
       </div>
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -228,7 +231,7 @@ export default function SeparationTimelinePage() {
               href="/calculators/va-disability"
               className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md"
             >
-              VA Disability Rating Calculator →
+              VA Disability Calculator →
             </Link>
             <Link
               href="/transition/worksheet"

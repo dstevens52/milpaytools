@@ -3,6 +3,7 @@ import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
+import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { DeploymentCalculator } from '@/components/calculators/deployment/DeploymentCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
@@ -130,7 +131,7 @@ export default function DeploymentPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100 hidden md:block">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Deployment to a qualifying combat zone activates several pay changes: Imminent Danger Pay ({formatCurrency(R.idp)}/month) or Hostile Fire Pay ({formatCurrency(R.hfp)}/month) — never both for the same period — at rates effective {R.ratesEffectiveDate}, Family Separation Allowance ($300/month for qualifying members with dependents for 30+ days), and the Combat Zone Tax Exclusion, which excludes all enlisted and warrant officer military pay from federal taxable income in eligible months (officers up to a monthly cap). The Savings Deposit Program additionally pays 10% guaranteed annual interest on up to $10,000 deposited during a combat zone deployment. This calculator shows your full pay picture before, during, and after deployment — including estimated CZTE tax savings and Roth TSP opportunities.
+          Deployment to a qualifying combat zone activates several pay changes: Imminent Danger Pay ({formatCurrency(R.idp)}/month) or Hostile Fire Pay ({formatCurrency(R.hfp)}/month) — never both for the same period — at rates effective {R.ratesEffectiveDate}, Family Separation Allowance ($300/month for qualifying members with dependents for 30+ days), and the Combat Zone Tax Exclusion, which excludes all enlisted and warrant officer military pay from federal taxable income in eligible months (officers up to a monthly cap). The Savings Deposit Program additionally pays 10% guaranteed annual interest on up to $10,000 deposited during a combat zone deployment.
         </p>
       </div>
         <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
@@ -181,6 +182,8 @@ export default function DeploymentPage() {
       <div className="bg-zinc-50">
         <DeploymentCalculator />
       </div>
+
+      <CalculatorSummary calc="deployment" />
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

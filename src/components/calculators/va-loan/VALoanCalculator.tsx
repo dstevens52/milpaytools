@@ -20,19 +20,10 @@ import {
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
+import { readUrlParams } from '@/data/calculatorUrlParams';
+import { getFundingFeeRate, fundingFeeAmount as feeAmount } from '@/lib/calculations/vaLoanFees';
 
-// ─── Funding fee table (Purchase, effective through Nov 14, 2031) ─────────
-const FUNDING_FEE = {
-  first:      { lt5: 0.0215, gte5lt10: 0.015, gte10: 0.0125 },
-  subsequent: { lt5: 0.0330, gte5lt10: 0.015, gte10: 0.0125 },
-};
-
-function getFundingFeeRate(firstUse: boolean, downPct: number): number {
-  const tier = firstUse ? FUNDING_FEE.first : FUNDING_FEE.subsequent;
-  if (downPct < 5) return tier.lt5;
-  if (downPct < 10) return tier.gte5lt10;
-  return tier.gte10;
-}
+// ─── Funding fee table (Purchase): src/lib/calculations/vaLoanFees.ts ──────
 
 function getFundingFeeTierLabel(downPct: number): string {
   if (downPct < 5) return 'Less than 5% down';
@@ -194,7 +185,7 @@ export function VALoanCalculator() {
 
   // ─── URL pre-population ───────────────────────────────────────────────────
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = readUrlParams('va-loan', window.location.search);
     const priceRaw = params.get('price');
     const downRaw = params.get('down');
     const downTypeRaw = params.get('downType');
@@ -286,7 +277,7 @@ export function VALoanCalculator() {
     const baseLoan = Math.max(0, homePrice - downDollars);
 
     const fundingFeeRate = disabilityExempt ? 0 : getFundingFeeRate(firstUse, downPct);
-    const fundingFeeAmount = Math.round(baseLoan * fundingFeeRate);
+    const fundingFeeAmount = feeAmount(baseLoan, fundingFeeRate);
     const financedLoan = financeFee ? baseLoan + fundingFeeAmount : baseLoan;
 
     const monthlyPI = calcMonthlyPI(financedLoan, rate, termYears);
@@ -627,7 +618,7 @@ export function VALoanCalculator() {
         <div className="mt-4 pt-4 border-t border-red-600 grid grid-cols-2 sm:grid-cols-3 gap-4">
           <div>
             <p className="text-red-200 text-xs uppercase tracking-wide">Funding Fee</p>
-            <p className="text-white text-base font-semibold mt-0.5">
+            <p className="text-white text-base font-semibold mt-0.5" data-testid="vl-funding-fee">
               {disabilityExempt ? '$0 — Waived' : formatCurrency(calc.fundingFeeAmount)}
             </p>
             {disabilityExempt

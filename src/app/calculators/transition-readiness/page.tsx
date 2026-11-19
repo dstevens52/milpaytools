@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
+import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { TransitionReadinessCalculator } from '@/components/calculators/transition-readiness/TransitionReadinessCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -108,12 +109,14 @@ export default function TransitionReadinessPage() {
       {/* ── Calculator ─────────────────────────────────────────────── */}
       <TransitionReadinessCalculator />
 
+      <CalculatorSummary calc="transition-readiness" />
+
       {/* ── Example Calculation ────────────────────────────────────── */}
 
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Transition readiness requires replacing not just base pay, but the combined value of BAH, BAS, TRICARE, and tax advantages that disappear at separation. For an E-6 with a family, replacing TRICARE alone typically requires $15,000–$25,000/year in healthcare costs — often the most underestimated line item in any transition plan. This calculator compares military and civilian total compensation after taxes and benefits, identifying the minimum civilian offer needed to maintain financial parity.
+          Transition readiness requires replacing not just base pay, but the combined value of BAH, BAS, TRICARE, and tax advantages that disappear at separation. For a family, replacing TRICARE is often the most underestimated line item in a transition plan.
         </p>
       </div>
       <section className="tr-example calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -296,7 +299,7 @@ export default function TransitionReadinessPage() {
               href="/calculators/va-disability"
               className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md"
             >
-              VA Disability Rating Calculator →
+              VA Disability Calculator →
             </Link>
             <Link
               href="/blog/what-civilian-salary-do-i-need"

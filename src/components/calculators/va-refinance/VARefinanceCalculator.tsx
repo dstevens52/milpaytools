@@ -9,6 +9,8 @@ import { Select } from '@/components/ui/Select';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { parseBool } from '@/lib/urlParams';
+import { readUrlParams } from '@/data/calculatorUrlParams';
+import { getRefinanceFundingFeeRate, fundingFeeAmount as feeAmount } from '@/lib/calculations/vaLoanFees';
 import type { ActionStep } from '@/types/calculator';
 
 // ─── Mortgage math ─────────────────────────────────────────────────────────────
@@ -125,7 +127,7 @@ export function VARefinanceCalculator() {
 
   // ─── URL pre-population ──────────────────────────────────────────────────────
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = readUrlParams('va-refinance', window.location.search);
     const typeRaw = params.get('type');
     const balanceRaw = params.get('balance');
     const currRateRaw = params.get('currRate');
@@ -210,9 +212,9 @@ export function VARefinanceCalculator() {
 
     let fundingFeeRate = 0;
     if (!exempt) {
-      fundingFeeRate = refType === 'irrrl' ? 0.005 : (firstUse ? 0.0215 : 0.033);
+      fundingFeeRate = getRefinanceFundingFeeRate(refType, firstUse);
     }
-    const fundingFeeAmount = Math.round(currentBalance * fundingFeeRate);
+    const fundingFeeAmount = feeAmount(currentBalance, fundingFeeRate);
     const newLoanBalance = currentBalance + fundingFeeAmount;
     const newPayment = calcMonthlyPI(newLoanBalance, newRate, newTerm);
     const monthlySavings = currentPayment - newPayment;
@@ -234,7 +236,7 @@ export function VARefinanceCalculator() {
     // VA recoupment check uses closing costs only (VA statutory definition)
     const recoupmentPass = isFinite(vaRecoupmentMonths) && vaRecoupmentMonths <= 36;
 
-    const standardFeeAmount = Math.round(currentBalance * (refType === 'irrrl' ? 0.005 : (firstUse ? 0.0215 : 0.033)));
+    const standardFeeAmount = feeAmount(currentBalance, getRefinanceFundingFeeRate(refType, firstUse));
 
     return {
       currentPayment,
@@ -690,7 +692,7 @@ export function VARefinanceCalculator() {
         <div className="divide-y divide-zinc-100">
           <div className="flex items-center justify-between py-2.5">
             <span className="text-sm text-zinc-600">VA Funding Fee ({feeLabel})</span>
-            <span className="text-sm font-medium tabular-nums">
+            <span className="text-sm font-medium tabular-nums" data-testid="vr-funding-fee">
               {exempt
                 ? <span className="text-green-700 font-semibold">$0 — Waived (disability exemption)</span>
                 : formatCurrency(calc.fundingFeeAmount)

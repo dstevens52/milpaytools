@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
+import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSummary';
 import { TSPCalculator } from '@/components/calculators/tsp/TSPCalculator';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
@@ -137,7 +138,7 @@ export default function TSPPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100 hidden md:block">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          The Thrift Savings Plan is the military&apos;s 401(k) equivalent, with expense ratios typically under 0.06% — among the lowest of any retirement plan available. Under BRS, the government contributes 1% automatically and matches up to 4% more for members who contribute at least 5% of base pay. This calculator projects your TSP balance at retirement based on contribution rate, fund allocation, and the BRS government match.
+          The Thrift Savings Plan is the military&apos;s 401(k) equivalent, with expense ratios typically under 0.06% — among the lowest of any retirement plan available. Under BRS, the government contributes 1% automatically and matches up to 4% more for members who contribute at least 5% of base pay.
         </p>
       </div>
         <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
@@ -158,6 +159,8 @@ export default function TSPPage() {
 
       {/* ── Calculator ───────────────────────────────────────────────── */}
       <TSPCalculator />
+
+      <CalculatorSummary calc="tsp" />
 
       {/* ── Example Calculation ──────────────────────────────────────── */}
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
