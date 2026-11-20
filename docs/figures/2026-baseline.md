@@ -1,16 +1,16 @@
 # Dollar-figure report — 2026 data
 
-Generated 2026-11-20 by `npm run check:figures`. 2346 dollar figures in 66 of 71 scanned files.
+Generated 2026-11-20 by `npm run check:figures`. 2303 dollar figures in 66 of 71 scanned files.
 This is a worklist, not a test: `unbound` is not an error. Classes and `weak`: [README](./README.md).
 
 ## Summary
 
 | Class | Figures | of which `weak` |
 |---|---:|---:|
-| `data` | 1005 | 418 |
+| `data` | 985 | 400 |
 | `data-derived` | 127 | 53 |
-| `unbound` | 1214 | — |
-| **Total** | **2346** | 471 |
+| `unbound` | 1191 | — |
+| **Total** | **2303** | 453 |
 
 Files with at least one `data` or `data-derived` figure: **62**.
 
@@ -22,7 +22,7 @@ Files with at least one `data` or `data-derived` figure: **62**.
 | [src/content/blog/how-much-does-an-o3-really-make-2026.mdx](#src-content-blog-how-much-does-an-o3-really-make-2026-mdx) | 63 | 2 | 52 | 117 |
 | [src/content/blog/best-worst-bah-duty-stations-2026.mdx](#src-content-blog-best-worst-bah-duty-stations-2026-mdx) | 47 | 5 | 28 | 80 |
 | [src/content/blog/deployment-pay-explained.mdx](#src-content-blog-deployment-pay-explained-mdx) | 45 | 5 | 21 | 71 |
-| [src/app/guides/military-pay/page.tsx](#src-app-guides-military-pay-page-tsx) | 39 | 6 | 37 | 82 |
+| [src/app/guides/military-pay/page.tsx](#src-app-guides-military-pay-page-tsx) | 38 | 6 | 35 | 79 |
 | [src/content/blog/2026-military-pay-raise-explained.mdx](#src-content-blog-2026-military-pay-raise-explained-mdx) | 39 | 5 | 64 | 108 |
 | [src/content/blog/sgli-vgli-private-life-insurance.mdx](#src-content-blog-sgli-vgli-private-life-insurance-mdx) | 42 | 0 | 45 | 87 |
 | [src/app/guides/va-disability/page.tsx](#src-app-guides-va-disability-page-tsx) | 30 | 11 | 7 | 48 |
@@ -41,7 +41,6 @@ Files with at least one `data` or `data-derived` figure: **62**.
 | [src/content/blog/roth-tsp-deployment-strategy.mdx](#src-content-blog-roth-tsp-deployment-strategy-mdx) | 19 | 1 | 59 | 79 |
 | [src/content/blog/gi-bill-housing-allowance-zip-code.mdx](#src-content-blog-gi-bill-housing-allowance-zip-code-mdx) | 17 | 1 | 21 | 39 |
 | [src/content/blog/gi-bill-vs-tuition-assistance.mdx](#src-content-blog-gi-bill-vs-tuition-assistance-mdx) | 18 | 0 | 8 | 26 |
-| [src/app/guides/retirement-tsp/page.tsx](#src-app-guides-retirement-tsp-page-tsx) | 17 | 0 | 22 | 39 |
 | [src/content/blog/pcs-financial-planning-guide.mdx](#src-content-blog-pcs-financial-planning-guide-mdx) | 2 | 15 | 4 | 21 |
 | [src/content/blog/file-va-disability-before-separation.mdx](#src-content-blog-file-va-disability-before-separation-mdx) | 15 | 1 | 2 | 18 |
 | [src/content/blog/post-911-gi-bill-explained-2026.mdx](#src-content-blog-post-911-gi-bill-explained-2026-mdx) | 16 | 0 | 15 | 31 |
@@ -49,16 +48,15 @@ Files with at least one `data` or `data-derived` figure: **62**.
 | [src/content/blog/oconus-cola-trap.mdx](#src-content-blog-oconus-cola-trap-mdx) | 8 | 6 | 16 | 30 |
 | [src/content/blog/sgli-to-vgli-conversion-after-separation.mdx](#src-content-blog-sgli-to-vgli-conversion-after-separation-mdx) | 14 | 0 | 26 | 40 |
 | [src/app/guides/education-benefits/page.tsx](#src-app-guides-education-benefits-page-tsx) | 10 | 3 | 3 | 16 |
+| [src/app/guides/retirement-tsp/page.tsx](#src-app-guides-retirement-tsp-page-tsx) | 13 | 0 | 21 | 34 |
 | [src/content/blog/dual-military-financial-strategies.mdx](#src-content-blog-dual-military-financial-strategies-mdx) | 12 | 1 | 22 | 35 |
 | [src/content/blog/va-math-costs-you-money.mdx](#src-content-blog-va-math-costs-you-money-mdx) | 9 | 3 | 25 | 37 |
 | [src/content/blog/using-bah-to-buy-a-home.mdx](#src-content-blog-using-bah-to-buy-a-home-mdx) | 9 | 2 | 14 | 25 |
 | [src/content/blog/what-is-bah-military-housing-allowance.mdx](#src-content-blog-what-is-bah-military-housing-allowance-mdx) | 9 | 2 | 5 | 16 |
 | [src/content/blog/how-deployment-pay-works.mdx](#src-content-blog-how-deployment-pay-works-mdx) | 10 | 0 | 1 | 11 |
-| [src/content/blog/what-walking-away-at-12-years-costs.mdx](#src-content-blog-what-walking-away-at-12-years-costs-mdx) | 10 | 0 | 30 | 40 |
 | [src/content/blog/is-sgli-enough-life-insurance.mdx](#src-content-blog-is-sgli-enough-life-insurance-mdx) | 9 | 0 | 9 | 18 |
 | [src/content/blog/military-tax-advantages.mdx](#src-content-blog-military-tax-advantages-mdx) | 9 | 0 | 23 | 32 |
 | [src/content/blog/pcs-out-of-pocket-costs.mdx](#src-content-blog-pcs-out-of-pocket-costs-mdx) | 9 | 0 | 0 | 9 |
-| [src/content/blog/should-i-stay-to-20-years-military.mdx](#src-content-blog-should-i-stay-to-20-years-military-mdx) | 7 | 2 | 33 | 42 |
 | [src/content/blog/va-disability-math-explained.mdx](#src-content-blog-va-disability-math-explained-mdx) | 9 | 0 | 8 | 17 |
 | [src/content/blog/va-gi-bill-comparison-tool-guide.mdx](#src-content-blog-va-gi-bill-comparison-tool-guide-mdx) | 9 | 0 | 4 | 13 |
 | [src/content/blog/how-bah-builds-wealth.mdx](#src-content-blog-how-bah-builds-wealth-mdx) | 6 | 1 | 27 | 34 |
@@ -78,6 +76,8 @@ Files with at least one `data` or `data-derived` figure: **62**.
 | [src/content/blog/va-loan-vs-fha-vs-conventional.mdx](#src-content-blog-va-loan-vs-fha-vs-conventional-mdx) | 3 | 0 | 29 | 32 |
 | [src/app/guides/navigating-service/page.tsx](#src-app-guides-navigating-service-page-tsx) | 2 | 0 | 1 | 3 |
 | [src/content/blog/crdp-vs-crsc-military-retirement.mdx](#src-content-blog-crdp-vs-crsc-military-retirement-mdx) | 0 | 2 | 2 | 4 |
+| [src/content/blog/should-i-stay-to-20-years-military.mdx](#src-content-blog-should-i-stay-to-20-years-military-mdx) | 0 | 2 | 28 | 30 |
+| [src/content/blog/what-walking-away-at-12-years-costs.mdx](#src-content-blog-what-walking-away-at-12-years-costs-mdx) | 2 | 0 | 15 | 17 |
 | [src/content/blog/tsp-fund-options-explained.mdx](#src-content-blog-tsp-fund-options-explained-mdx) | 1 | 0 | 0 | 1 |
 | [src/content/blog/va-home-loan-basics.mdx](#src-content-blog-va-home-loan-basics-mdx) | 1 | 0 | 28 | 29 |
 | [src/content/blog/brs-vs-high-3-difference.mdx](#src-content-blog-brs-vs-high-3-difference-mdx) | 0 | 0 | 4 | 4 |
@@ -535,97 +535,94 @@ data 45 (9 weak) · derived 5 (1 weak) · unbound 21
 
 ### src/app/guides/military-pay/page.tsx
 
-data 39 (17 weak) · derived 6 (0 weak) · unbound 37
+data 38 (17 weak) · derived 6 (0 weak) · unbound 35
 
 | Line | Figure | Class | Sources | Flags | Context |
 |---:|---|---|---|---|---|
-| 42 | $2,407 | data-derived | `round(pay:E-1@0)` |  | …t increased 3.8% in 2026. Selected rates: E-1 under 2 years **$2,407**/month; E-5 with 6 years $4,110/month; O-3 with 6 years $7,7… |
-| 42 | $4,110 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | …ted rates: E-1 under 2 years $2,407/month; E-5 with 6 years **$4,110**/month; O-3 with 6 years $7,737/month. Most service members … |
-| 42 | $7,737 | data | `pay:O-3@6`, `pay:O-3E@6` |  | …,407/month; E-5 with 6 years $4,110/month; O-3 with 6 years **$7,737**/month. Most service members see automatic pay increases at … |
-| 47 | $1,185 | data (weak) | `bah:AL001/E-5/w`, `bah:KS105/E-1/wo`, `bah:KS105/E-2/wo`, `bah:KS105/E-3/wo`, `bah:KS105/E-4/wo` (+2 more) |  | …local rental costs. An E-5 with dependents can receive from **$1,185**/month in a low-cost area to $5,127/month in high-cost marke… |
-| 47 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` |  | …endents can receive from $1,185/month in a low-cost area to **$5,127**/month in high-cost markets. At the 22% federal bracket, $2,… |
-| 52 | $476.95 | data | `bas:enlisted` |  | …llowance for Subsistence) is a flat monthly food allowance: **$476.95** for enlisted, $328.48 for officers in 2026. It is excluded … |
-| 52 | $328.48 | data | `bas:officer` |  | …ce) is a flat monthly food allowance: $476.95 for enlisted, **$328.48** for officers in 2026. It is excluded from federal taxable i… |
-| 52 | $150 | data (weak) | `deployment:hdpLTopRatePrior`, `tricare:retiree.selectA.deductible.individual`, `tricare:adfm.selectA.deductible.e5AndAbove.individual` | range | …ial. Special and incentive pays include Hazardous Duty Pay (**$150**–$275/month), Special Duty Assignment Pay ($75–$675/month), … |
-| 52 | $275 | data (weak) | `deployment:idp` | range | …Special and incentive pays include Hazardous Duty Pay ($150–**$275**/month), Special Duty Assignment Pay ($75–$675/month), Aviat… |
-| 52 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible`, `tricare:adfm.primeA.catastrophicCap`, `tricare:adfm.selectA.catastrophicCap` |  | … Pay ($75–$675/month), Aviation Career Incentive Pay (up to **$1,000**/month), and Career Sea Pay ($70–$805/month).', }, { … |
-| 62 | $4,612.80 | data | `pay:E-6@8` |  | … consists of four drill periods. Example: E-6 with 8 years (**$4,612.80**/month active base pay) earns $153.76 per drill period, $615… |
-| 67 | $4,110 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | …Example — E-5 with 6 years, JBLM, with dependents: base pay **$4,110**/month + BAH $2,556/month + BAS $476.95/month + TSP match ~$… |
-| 67 | $2,556 | data (weak) | `bah:AL006/O-3E/w`, `bah:AL007/W-2/w`, `bah:AL007/O-7/wo`, `bah:CA042/W-5/wo`, `bah:CO045/E-1/w` (+20 more) |  | …6 years, JBLM, with dependents: base pay $4,110/month + BAH **$2,556**/month + BAS $476.95/month + TSP match ~$206/month = $7,348/… |
-| 67 | $476.95 | data | `bas:enlisted` |  | … dependents: base pay $4,110/month + BAH $2,556/month + BAS **$476.95**/month + TSP match ~$206/month = $7,348/month ($88,176/year)… |
-| 80 | $3,015 | data | `pay:E-3@2`, `bah:CA022/E-9/w`, `bah:CA034/O-6/wo`, `bah:CA041/W-1/wo`, `bah:FL423/E-8/w` (+13 more) |  | …'s only part of the picture.', bullets: ['E-3 (2 yrs): **$3,015**/mo', 'E-5 (6 yrs): $4,110/mo', 'Increases every January 1st… |
-| 80 | $4,110 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | …e.', bullets: ['E-3 (2 yrs): $3,015/mo', 'E-5 (6 yrs): **$4,110**/mo', 'Increases every January 1st'], cta: 'Look up you… |
-| 90 | $1,200 | data (weak) | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` | approx | …e most of the hidden compensation lives.', bullets: ['~**$1,200**/mo to $5,100+/mo by location', 'Excluded from federal taxab… |
-| 90 | $5,100 | data (weak) | `bah:CA044/O-5/wo`, `bah:NY219/W-1/w`, `bah:NY219/E-8/wo` |  | … hidden compensation lives.', bullets: ['~$1,200/mo to **$5,100**+/mo by location', 'Excluded from federal taxable income', '… |
-| 100 | $476.95 | data | `bas:enlisted` |  | …hese add tens of thousands per year.', bullets: ['BAS: **$476.95**/mo (enlisted)', 'TSP match: up to 5% base pay (BRS)', 'Tax … |
-| 123 | $2,407 | data-derived | `round(pay:E-1@0)` |  | …ong className="text-zinc-800"&gt;E-1 (under 2 years):&lt;/strong&gt; **$2,407**&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"&gt;E-4 (… |
-| 124 | $3,659 | data-derived | `round(pay:E-4@4)` |  | …i&gt;&lt;strong className="text-zinc-800"&gt;E-4 (4 years):&lt;/strong&gt; **$3,659**&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"&gt;E-5 (… |
-| 125 | $4,110 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | …i&gt;&lt;strong className="text-zinc-800"&gt;E-5 (6 years):&lt;/strong&gt; **$4,110**&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"&gt;E-7 (… |
-| 126 | $5,300 | data-derived | `round(pay:E-7@10)` |  | …&gt;&lt;strong className="text-zinc-800"&gt;E-7 (10 years):&lt;/strong&gt; **$5,300**&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"&gt;O-1 (… |
-| 127 | $4,150 | data-derived | `round(pay:O-1@0)`, `round(pcs:dla.withDependents.E-9)` |  | …ong className="text-zinc-800"&gt;O-1 (under 2 years):&lt;/strong&gt; **$4,150**&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"&gt;O-3 (… |
-| 128 | $7,737 | data | `pay:O-3@6`, `pay:O-3E@6` |  | …i&gt;&lt;strong className="text-zinc-800"&gt;O-3 (6 years):&lt;/strong&gt; **$7,737**&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"&gt;O-5 (… |
-| 129 | $10,715 | data-derived | `round(pay:O-5@14)` |  | …&gt;&lt;strong className="text-zinc-800"&gt;O-5 (14 years):&lt;/strong&gt; **$10,715**&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; Most service me… |
-| 154 | $1,185 | data (weak) | `bah:AL001/E-5/w`, `bah:KS105/E-1/wo`, `bah:KS105/E-2/wo`, `bah:KS105/E-3/wo`, `bah:KS105/E-4/wo` (+2 more) |  | …l className="space-y-1 pl-4 list-disc"&gt; &lt;li&gt;E-5: **$1,185**/mo (low-cost) to $5,127/mo (San Francisco area)&lt;/li&gt; … |
-| 154 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` |  | …l-4 list-disc"&gt; &lt;li&gt;E-5: $1,185/mo (low-cost) to **$5,127**/mo (San Francisco area)&lt;/li&gt; &lt;li&gt;O-3: $1,686/mo … |
-| 155 | $1,686 | data (weak) | `bah:AL001/O-3/w`, `bah:ID084/E-5/wo`, `bah:ID086/O-1E/wo`, `bah:IL335/W-3/wo`, `bah:KS101/O-2/w` (+10 more) |  | … to $5,127/mo (San Francisco area)&lt;/li&gt; &lt;li&gt;O-3: **$1,686**/mo to $6,633/mo&lt;/li&gt; &lt;li&gt;O-5: $1,827/mo to $8,06… |
-| 155 | $6,633 | data (weak) | `bah:NY349/O-3/w`, `bah:NY349/O-6/wo` |  | … (San Francisco area)&lt;/li&gt; &lt;li&gt;O-3: $1,686/mo to **$6,633**/mo&lt;/li&gt; &lt;li&gt;O-5: $1,827/mo to $8,064/mo&lt;/li&gt; … |
-| 156 | $1,827 | data (weak) | `bah:AK403/E-1/wo`, `bah:AK403/E-2/wo`, `bah:AK403/E-3/wo`, `bah:AK403/E-4/wo`, `bah:AK405/E-5/wo` (+29 more) |  | … &lt;li&gt;O-3: $1,686/mo to $6,633/mo&lt;/li&gt; &lt;li&gt;O-5: **$1,827**/mo to $8,064/mo&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; … |
-| 156 | $8,064 | data (weak) | `bah:NY349/O-5/w` |  | …1,686/mo to $6,633/mo&lt;/li&gt; &lt;li&gt;O-5: $1,827/mo to **$8,064**/mo&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; &lt;strong clas… |
-| 188 | $476.95 | data | `bas:enlisted` |  | …26 rates:{' '} &lt;strong className="text-zinc-800"&gt;**$476.95**/month enlisted&lt;/strong&gt;,{' '} &lt;strong className=… |
-| 189 | $328.48 | data | `bas:officer` |  | …/strong&gt;,{' '} &lt;strong className="text-zinc-800"&gt;**$328.48**/month officers&lt;/strong&gt;. Like BAH, it is exclude… |
-| 200 | $150 | data (weak) | `deployment:hdpLTopRatePrior`, `tricare:retiree.selectA.deductible.individual`, `tricare:adfm.selectA.deductible.e5AndAbove.individual` | range | …ace-y-1 pl-4 list-disc"&gt; &lt;li&gt;Hazardous Duty Pay: **$150**–$275/month&lt;/li&gt; &lt;li&gt;Special Duty Assignment Pay … |
-| 200 | $275 | data (weak) | `deployment:idp` | range | …-1 pl-4 list-disc"&gt; &lt;li&gt;Hazardous Duty Pay: $150–**$275**/month&lt;/li&gt; &lt;li&gt;Special Duty Assignment Pay (SDAP… |
-| 202 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible`, `tricare:adfm.primeA.catastrophicCap`, `tricare:adfm.selectA.catastrophicCap` |  | …th&lt;/li&gt; &lt;li&gt;Aviation Career Incentive Pay: up to **$1,000**/month&lt;/li&gt; &lt;li&gt;Career Sea Pay: $70–$805/month by… |
-| 253 | $4,612.80 | data | `pay:E-6@8` |  | …rgeant (E-6) with 8 years service&lt;/strong&gt;{' '} (**$4,612.80**/month active base pay): &lt;/p&gt; &lt;ul classNam… |
-| 256 | $4,612.80 | data | `pay:E-6@8` |  | …space-y-1 pl-4 list-disc"&gt; &lt;li&gt;Per drill period: **$4,612.80** ÷ 30 = $153.76&lt;/li&gt; &lt;li&gt;Per drill weekend (4 per… |
-| 283 | $4,110 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | …ssName="space-y-1 pl-4 list-disc"&gt; &lt;li&gt;Base pay: **$4,110**/month&lt;/li&gt; &lt;li&gt;BAH (with dependents): $2,556/mon… |
-| 284 | $2,556 | data (weak) | `bah:AL006/O-3E/w`, `bah:AL007/W-2/w`, `bah:AL007/O-7/wo`, `bah:CA042/W-5/wo`, `bah:CO045/E-1/w` (+20 more) |  | …ay: $4,110/month&lt;/li&gt; &lt;li&gt;BAH (with dependents): **$2,556**/month&lt;/li&gt; &lt;li&gt;BAS: $476.95/month&lt;/li&gt; … |
-| 285 | $476.95 | data | `bas:enlisted` |  | …AH (with dependents): $2,556/month&lt;/li&gt; &lt;li&gt;BAS: **$476.95**/month&lt;/li&gt; &lt;li&gt;BRS TSP matching (~5% contributio… |
-| 510 | $4,110.00 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | … {[ { label: 'Base Pay', value: '**$4,110.00**' }, { label: 'BAH (w/ dependents)', va… |
-| 511 | $2,358 | data (weak) | `bah:AZ013/O-2E/wo`, `bah:CA392/E-1/wo`, `bah:CA392/E-2/wo`, `bah:CA392/E-3/wo`, `bah:CA392/E-4/wo` (+18 more) |  | … { label: 'BAH (w/ dependents)', value: '**$2,358**' }, { label: 'BAS', value: '$476.95' }… |
-| 512 | $476.95 | data | `bas:enlisted` |  | …e: '$2,358' }, { label: 'BAS', value: '**$476.95**' }, ].map(({ label, value }) =&gt; ( … |
+| 45 | $2,407 | data-derived | `round(pay:E-1@0)` |  | …t increased 3.8% in 2026. Selected rates: E-1 under 2 years **$2,407**/month; E-5 with 6 years $4,110/month; O-3 with 6 years $7,7… |
+| 45 | $4,110 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | …ted rates: E-1 under 2 years $2,407/month; E-5 with 6 years **$4,110**/month; O-3 with 6 years $7,737/month. Most service members … |
+| 45 | $7,737 | data | `pay:O-3@6`, `pay:O-3E@6` |  | …,407/month; E-5 with 6 years $4,110/month; O-3 with 6 years **$7,737**/month. Most service members see automatic pay increases at … |
+| 50 | $1,185 | data (weak) | `bah:AL001/E-5/w`, `bah:KS105/E-1/wo`, `bah:KS105/E-2/wo`, `bah:KS105/E-3/wo`, `bah:KS105/E-4/wo` (+2 more) |  | …local rental costs. An E-5 with dependents can receive from **$1,185**/month in a low-cost area to $5,127/month in high-cost marke… |
+| 50 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` |  | …endents can receive from $1,185/month in a low-cost area to **$5,127**/month in high-cost markets. At the 22% federal bracket, $2,… |
+| 55 | $476.95 | data | `bas:enlisted` |  | …llowance for Subsistence) is a flat monthly food allowance: **$476.95** for enlisted, $328.48 for officers in 2026. It is excluded … |
+| 55 | $328.48 | data | `bas:officer` |  | …ce) is a flat monthly food allowance: $476.95 for enlisted, **$328.48** for officers in 2026. It is excluded from federal taxable i… |
+| 55 | $150 | data (weak) | `deployment:hdpLTopRatePrior`, `tricare:retiree.selectA.deductible.individual`, `tricare:adfm.selectA.deductible.e5AndAbove.individual` | range | …ial. Special and incentive pays include Hazardous Duty Pay (**$150**–$275/month), Special Duty Assignment Pay ($75–$675/month), … |
+| 55 | $275 | data (weak) | `deployment:idp` | range | …Special and incentive pays include Hazardous Duty Pay ($150–**$275**/month), Special Duty Assignment Pay ($75–$675/month), Aviat… |
+| 55 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible`, `tricare:adfm.primeA.catastrophicCap`, `tricare:adfm.selectA.catastrophicCap` |  | … Pay ($75–$675/month), Aviation Career Incentive Pay (up to **$1,000**/month), and Career Sea Pay ($70–$805/month).', }, { … |
+| 65 | $4,612.80 | data | `pay:E-6@8` |  | … consists of four drill periods. Example: E-6 with 8 years (**$4,612.80**/month active base pay) earns $153.76 per drill period, $615… |
+| 70 | $4,110 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | …Example — E-5 with 6 years, JBLM, with dependents: base pay **$4,110**/month + BAH $2,556/month + BAS $476.95/month + TSP match ~$… |
+| 70 | $2,556 | data (weak) | `bah:AL006/O-3E/w`, `bah:AL007/W-2/w`, `bah:AL007/O-7/wo`, `bah:CA042/W-5/wo`, `bah:CO045/E-1/w` (+20 more) |  | …6 years, JBLM, with dependents: base pay $4,110/month + BAH **$2,556**/month + BAS $476.95/month + TSP match ~$206/month = $7,348/… |
+| 70 | $476.95 | data | `bas:enlisted` |  | … dependents: base pay $4,110/month + BAH $2,556/month + BAS **$476.95**/month + TSP match ~$206/month = $7,348/month ($88,176/year)… |
+| 83 | $3,015 | data | `pay:E-3@2`, `bah:CA022/E-9/w`, `bah:CA034/O-6/wo`, `bah:CA041/W-1/wo`, `bah:FL423/E-8/w` (+13 more) |  | …'s only part of the picture.', bullets: ['E-3 (2 yrs): **$3,015**/mo', 'E-5 (6 yrs): $4,110/mo', 'Increases every January 1st… |
+| 83 | $4,110 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | …e.', bullets: ['E-3 (2 yrs): $3,015/mo', 'E-5 (6 yrs): **$4,110**/mo', 'Increases every January 1st'], cta: 'Look up you… |
+| 93 | $1,200 | data (weak) | `bah:OK236/E-5/w`, `bah:ZZ610/O-1/wo`, `bah:ZZ690/E-5/wo`, `education:vre.booksAnnualEstimate`, `healthcare:acaNoSubsidy.family.bronze.premium` | approx | …e most of the hidden compensation lives.', bullets: ['~**$1,200**/mo to $5,100+/mo by location', 'Excluded from federal taxab… |
+| 93 | $5,100 | data (weak) | `bah:CA044/O-5/wo`, `bah:NY219/W-1/w`, `bah:NY219/E-8/wo` |  | … hidden compensation lives.', bullets: ['~$1,200/mo to **$5,100**+/mo by location', 'Excluded from federal taxable income', '… |
+| 131 | $2,407 | data-derived | `round(pay:E-1@0)` |  | …ong className="text-zinc-800"&gt;E-1 (under 2 years):&lt;/strong&gt; **$2,407**&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"&gt;E-4 (… |
+| 132 | $3,659 | data-derived | `round(pay:E-4@4)` |  | …i&gt;&lt;strong className="text-zinc-800"&gt;E-4 (4 years):&lt;/strong&gt; **$3,659**&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"&gt;E-5 (… |
+| 133 | $4,110 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | …i&gt;&lt;strong className="text-zinc-800"&gt;E-5 (6 years):&lt;/strong&gt; **$4,110**&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"&gt;E-7 (… |
+| 134 | $5,300 | data-derived | `round(pay:E-7@10)` |  | …&gt;&lt;strong className="text-zinc-800"&gt;E-7 (10 years):&lt;/strong&gt; **$5,300**&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"&gt;O-1 (… |
+| 135 | $4,150 | data-derived | `round(pay:O-1@0)`, `round(pcs:dla.withDependents.E-9)` |  | …ong className="text-zinc-800"&gt;O-1 (under 2 years):&lt;/strong&gt; **$4,150**&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"&gt;O-3 (… |
+| 136 | $7,737 | data | `pay:O-3@6`, `pay:O-3E@6` |  | …i&gt;&lt;strong className="text-zinc-800"&gt;O-3 (6 years):&lt;/strong&gt; **$7,737**&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"&gt;O-5 (… |
+| 137 | $10,715 | data-derived | `round(pay:O-5@14)` |  | …&gt;&lt;strong className="text-zinc-800"&gt;O-5 (14 years):&lt;/strong&gt; **$10,715**&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; Most service me… |
+| 162 | $1,185 | data (weak) | `bah:AL001/E-5/w`, `bah:KS105/E-1/wo`, `bah:KS105/E-2/wo`, `bah:KS105/E-3/wo`, `bah:KS105/E-4/wo` (+2 more) |  | …l className="space-y-1 pl-4 list-disc"&gt; &lt;li&gt;E-5: **$1,185**/mo (low-cost) to $5,127/mo (San Francisco area)&lt;/li&gt; … |
+| 162 | $5,127 | data (weak) | `bah:CA019/E-5/w`, `bah:HI407/O-1E/w`, `bah:MA119/E-6/w` |  | …l-4 list-disc"&gt; &lt;li&gt;E-5: $1,185/mo (low-cost) to **$5,127**/mo (San Francisco area)&lt;/li&gt; &lt;li&gt;O-3: $1,686/mo … |
+| 163 | $1,686 | data (weak) | `bah:AL001/O-3/w`, `bah:ID084/E-5/wo`, `bah:ID086/O-1E/wo`, `bah:IL335/W-3/wo`, `bah:KS101/O-2/w` (+10 more) |  | … to $5,127/mo (San Francisco area)&lt;/li&gt; &lt;li&gt;O-3: **$1,686**/mo to $6,633/mo&lt;/li&gt; &lt;li&gt;O-5: $1,827/mo to $8,06… |
+| 163 | $6,633 | data (weak) | `bah:NY349/O-3/w`, `bah:NY349/O-6/wo` |  | … (San Francisco area)&lt;/li&gt; &lt;li&gt;O-3: $1,686/mo to **$6,633**/mo&lt;/li&gt; &lt;li&gt;O-5: $1,827/mo to $8,064/mo&lt;/li&gt; … |
+| 164 | $1,827 | data (weak) | `bah:AK403/E-1/wo`, `bah:AK403/E-2/wo`, `bah:AK403/E-3/wo`, `bah:AK403/E-4/wo`, `bah:AK405/E-5/wo` (+29 more) |  | … &lt;li&gt;O-3: $1,686/mo to $6,633/mo&lt;/li&gt; &lt;li&gt;O-5: **$1,827**/mo to $8,064/mo&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; … |
+| 164 | $8,064 | data (weak) | `bah:NY349/O-5/w` |  | …1,686/mo to $6,633/mo&lt;/li&gt; &lt;li&gt;O-5: $1,827/mo to **$8,064**/mo&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; &lt;strong clas… |
+| 196 | $476.95 | data | `bas:enlisted` |  | …26 rates:{' '} &lt;strong className="text-zinc-800"&gt;**$476.95**/month enlisted&lt;/strong&gt;,{' '} &lt;strong className=… |
+| 197 | $328.48 | data | `bas:officer` |  | …/strong&gt;,{' '} &lt;strong className="text-zinc-800"&gt;**$328.48**/month officers&lt;/strong&gt;. Like BAH, it is exclude… |
+| 208 | $150 | data (weak) | `deployment:hdpLTopRatePrior`, `tricare:retiree.selectA.deductible.individual`, `tricare:adfm.selectA.deductible.e5AndAbove.individual` | range | …ace-y-1 pl-4 list-disc"&gt; &lt;li&gt;Hazardous Duty Pay: **$150**–$275/month&lt;/li&gt; &lt;li&gt;Special Duty Assignment Pay … |
+| 208 | $275 | data (weak) | `deployment:idp` | range | …-1 pl-4 list-disc"&gt; &lt;li&gt;Hazardous Duty Pay: $150–**$275**/month&lt;/li&gt; &lt;li&gt;Special Duty Assignment Pay (SDAP… |
+| 210 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible`, `tricare:adfm.primeA.catastrophicCap`, `tricare:adfm.selectA.catastrophicCap` |  | …th&lt;/li&gt; &lt;li&gt;Aviation Career Incentive Pay: up to **$1,000**/month&lt;/li&gt; &lt;li&gt;Career Sea Pay: $70–$805/month by… |
+| 261 | $4,612.80 | data | `pay:E-6@8` |  | …rgeant (E-6) with 8 years service&lt;/strong&gt;{' '} (**$4,612.80**/month active base pay): &lt;/p&gt; &lt;ul classNam… |
+| 264 | $4,612.80 | data | `pay:E-6@8` |  | …space-y-1 pl-4 list-disc"&gt; &lt;li&gt;Per drill period: **$4,612.80** ÷ 30 = $153.76&lt;/li&gt; &lt;li&gt;Per drill weekend (4 per… |
+| 291 | $4,110 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | …ssName="space-y-1 pl-4 list-disc"&gt; &lt;li&gt;Base pay: **$4,110**/month&lt;/li&gt; &lt;li&gt;BAH (with dependents): $2,556/mon… |
+| 292 | $2,556 | data (weak) | `bah:AL006/O-3E/w`, `bah:AL007/W-2/w`, `bah:AL007/O-7/wo`, `bah:CA042/W-5/wo`, `bah:CO045/E-1/w` (+20 more) |  | …ay: $4,110/month&lt;/li&gt; &lt;li&gt;BAH (with dependents): **$2,556**/month&lt;/li&gt; &lt;li&gt;BAS: $476.95/month&lt;/li&gt; … |
+| 293 | $476.95 | data | `bas:enlisted` |  | …AH (with dependents): $2,556/month&lt;/li&gt; &lt;li&gt;BAS: **$476.95**/month&lt;/li&gt; &lt;li&gt;BRS TSP matching (~5% contributio… |
+| 518 | $4,110.00 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | … {[ { label: 'Base Pay', value: '**$4,110.00**' }, { label: 'BAH (w/ dependents)', va… |
+| 519 | $2,358 | data (weak) | `bah:AZ013/O-2E/wo`, `bah:CA392/E-1/wo`, `bah:CA392/E-2/wo`, `bah:CA392/E-3/wo`, `bah:CA392/E-4/wo` (+18 more) |  | … { label: 'BAH (w/ dependents)', value: '**$2,358**' }, { label: 'BAS', value: '$476.95' }… |
+| 520 | $476.95 | data | `bas:enlisted` |  | …e: '$2,358' }, { label: 'BAS', value: '**$476.95**' }, ].map(({ label, value }) =&gt; ( … |
 
-<details><summary>37 unbound</summary>
+<details><summary>35 unbound</summary>
 
 | Line | Figure | Flags | Context |
 |---:|---|---|---|
-| 47 | $2,500 |  | …127/month in high-cost markets. At the 22% federal bracket, **$2,500**/month in BAH is worth $3,205/month in equivalent taxable ci… |
-| 47 | $3,205 |  | …s. At the 22% federal bracket, $2,500/month in BAH is worth **$3,205**/month in equivalent taxable civilian wages.', }, { … |
-| 52 | $75 | range | …us Duty Pay ($150–$275/month), Special Duty Assignment Pay (**$75**–$675/month), Aviation Career Incentive Pay (up to $1,000/mo… |
-| 52 | $675 | range | …uty Pay ($150–$275/month), Special Duty Assignment Pay ($75–**$675**/month), Aviation Career Incentive Pay (up to $1,000/month),… |
-| 52 | $70 | range | …eer Incentive Pay (up to $1,000/month), and Career Sea Pay (**$70**–$805/month).', }, { question: 'How do I read my … |
-| 52 | $805 | range | …Incentive Pay (up to $1,000/month), and Career Sea Pay ($70–**$805**/month).', }, { question: 'How do I read my LES (… |
-| 62 | $153.76 |  | …e: E-6 with 8 years ($4,612.80/month active base pay) earns **$153.76** per drill period, $615.04 per drill weekend, approximately … |
-| 62 | $615.04 |  | …2.80/month active base pay) earns $153.76 per drill period, **$615.04** per drill weekend, approximately $7,380 per year from 48 ID… |
-| 62 | $7,380 | approx, annual | … per drill period, $615.04 per drill weekend, approximately **$7,380** per year from 48 IDT periods, plus about $2,306 for 15-day … |
-| 62 | $2,306 | approx | …proximately $7,380 per year from 48 IDT periods, plus about **$2,306** for 15-day Annual Training.', }, { question: 'Wh… |
-| 67 | $206 | approx | …0/month + BAH $2,556/month + BAS $476.95/month + TSP match ~**$206**/month = $7,348/month ($88,176/year). At the 22% federal bra… |
-| 67 | $7,348 |  | … $2,556/month + BAS $476.95/month + TSP match ~$206/month = **$7,348**/month ($88,176/year). At the 22% federal bracket, a civilia… |
-| 67 | $88,176 | annual | …+ BAS $476.95/month + TSP match ~$206/month = $7,348/month (**$88,176**/year). At the 22% federal bracket, a civilian would need ro… |
-| 67 | $110,000 | approx, range | …. At the 22% federal bracket, a civilian would need roughly **$110,000**–$120,000/year in gross wages to match this. Most E-5s under… |
-| 67 | $120,000 | range, annual | …22% federal bracket, a civilian would need roughly $110,000–**$120,000**/year in gross wages to match this. Most E-5s underestimate … |
-| 100 | $0 |  | …% base pay (BRS)', 'Tax advantage: $5K–$15K+/yr', 'TRICARE: **$0** premiums (worth $7,200–$20,400/yr)'], cta: 'See your f… |
-| 100 | $7,200 | range | …'Tax advantage: $5K–$15K+/yr', 'TRICARE: $0 premiums (worth **$7,200**–$20,400/yr)'], cta: 'See your full picture →', hr… |
-| 100 | $20,400 | range, annual | …vantage: $5K–$15K+/yr', 'TRICARE: $0 premiums (worth $7,200–**$20,400**/yr)'], cta: 'See your full picture →', href: '/ca… |
-| 160 | $2,500 |  | … taxable income under 26 U.S.C. § 134. An E-5 receiving **$2,500**/month in BAH would need $3,205/month in taxable … |
-| 161 | $3,205 |  | … An E-5 receiving $2,500/month in BAH would need **$3,205**/month in taxable civilian wages to have the same after-tax … |
-| 201 | $75 | range | …nth&lt;/li&gt; &lt;li&gt;Special Duty Assignment Pay (SDAP): **$75**–$675/month&lt;/li&gt; &lt;li&gt;Aviation Career Incentive Pa… |
-| 201 | $675 | range | …/li&gt; &lt;li&gt;Special Duty Assignment Pay (SDAP): $75–**$675**/month&lt;/li&gt; &lt;li&gt;Aviation Career Incentive Pay: up… |
-| 203 | $70 | range | …Pay: up to $1,000/month&lt;/li&gt; &lt;li&gt;Career Sea Pay: **$70**–$805/month by grade and cumulative sea duty&lt;/li&gt; &lt;… |
-| 203 | $805 | range | … up to $1,000/month&lt;/li&gt; &lt;li&gt;Career Sea Pay: $70–**$805**/month by grade and cumulative sea duty&lt;/li&gt; &lt;/ul&gt; … |
-| 256 | $153.76 |  | …st-disc"&gt; &lt;li&gt;Per drill period: $4,612.80 ÷ 30 = **$153.76**&lt;/li&gt; &lt;li&gt;Per drill weekend (4 periods): $615.04&lt;… |
-| 257 | $615.04 |  | … $153.76&lt;/li&gt; &lt;li&gt;Per drill weekend (4 periods): **$615.04**&lt;/li&gt; &lt;li&gt;Per year (standard 48 IDT periods): $7,… |
-| 258 | $7,380 |  | ….04&lt;/li&gt; &lt;li&gt;Per year (standard 48 IDT periods): **$7,380**&lt;/li&gt; &lt;li&gt;Plus 15-day Annual Training: ~$2,306&lt;/l… |
-| 259 | $2,306 | approx | …): $7,380&lt;/li&gt; &lt;li&gt;Plus 15-day Annual Training: ~**$2,306**&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; Guard and Reser… |
-| 286 | $206 | approx | …h&lt;/li&gt; &lt;li&gt;BRS TSP matching (~5% contribution): ~**$206**/month&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"… |
-| 287 | $7,348 |  | …li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"&gt;Total: **$7,348**/month — $88,176/year&lt;/strong&gt;&lt;/li&gt; &lt;/ul&gt; … |
-| 287 | $88,176 | annual | …&lt;li&gt;&lt;strong className="text-zinc-800"&gt;Total: $7,348/month — **$88,176**/year&lt;/strong&gt;&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; A… |
-| 291 | $110,000 | range | …d roughly{' '} &lt;strong className="text-zinc-800"&gt;**$110,000**–$120,000/year in gross wages&lt;/strong&gt; to match t… |
-| 291 | $120,000 | range, annual | …{' '} &lt;strong className="text-zinc-800"&gt;$110,000–**$120,000**/year in gross wages&lt;/strong&gt; to match this — and… |
-| 420 | $75,000 | range | …rs stationed at a mid-range duty station typically receives **$75,000**–$90,000 in total annual compensation value, though the numb… |
-| 420 | $90,000 | range | …oned at a mid-range duty station typically receives $75,000–**$90,000** in total annual compensation value, though the number varie… |
-| 523 | $6,945 |  | …&lt;p className="text-2xl font-bold tabular-nums text-red-700"&gt;**$6,945**&lt;/p&gt; &lt;/div&gt; &lt;div class… |
-| 527 | $97,000 | annual | … &lt;p className="text-sm font-semibold text-zinc-700"&gt;≈ **$97,000** / yr&lt;/p&gt; &lt;/div&gt; &lt;/div&gt; … |
+| 50 | $2,500 |  | …127/month in high-cost markets. At the 22% federal bracket, **$2,500**/month in BAH is worth $3,205/month in equivalent taxable ci… |
+| 50 | $3,205 |  | …s. At the 22% federal bracket, $2,500/month in BAH is worth **$3,205**/month in equivalent taxable civilian wages.', }, { … |
+| 55 | $75 | range | …us Duty Pay ($150–$275/month), Special Duty Assignment Pay (**$75**–$675/month), Aviation Career Incentive Pay (up to $1,000/mo… |
+| 55 | $675 | range | …uty Pay ($150–$275/month), Special Duty Assignment Pay ($75–**$675**/month), Aviation Career Incentive Pay (up to $1,000/month),… |
+| 55 | $70 | range | …eer Incentive Pay (up to $1,000/month), and Career Sea Pay (**$70**–$805/month).', }, { question: 'How do I read my … |
+| 55 | $805 | range | …Incentive Pay (up to $1,000/month), and Career Sea Pay ($70–**$805**/month).', }, { question: 'How do I read my LES (… |
+| 65 | $153.76 |  | …e: E-6 with 8 years ($4,612.80/month active base pay) earns **$153.76** per drill period, $615.04 per drill weekend, approximately … |
+| 65 | $615.04 |  | …2.80/month active base pay) earns $153.76 per drill period, **$615.04** per drill weekend, approximately $7,380 per year from 48 ID… |
+| 65 | $7,380 | approx, annual | … per drill period, $615.04 per drill weekend, approximately **$7,380** per year from 48 IDT periods, plus about $2,306 for 15-day … |
+| 65 | $2,306 | approx | …proximately $7,380 per year from 48 IDT periods, plus about **$2,306** for 15-day Annual Training.', }, { question: 'Wh… |
+| 70 | $206 | approx | …0/month + BAH $2,556/month + BAS $476.95/month + TSP match ~**$206**/month = $7,348/month ($88,176/year). At the 22% federal bra… |
+| 70 | $7,348 |  | … $2,556/month + BAS $476.95/month + TSP match ~$206/month = **$7,348**/month ($88,176/year). At the 22% federal bracket, a civilia… |
+| 70 | $88,176 | annual | …+ BAS $476.95/month + TSP match ~$206/month = $7,348/month (**$88,176**/year). At the 22% federal bracket, a civilian would need ro… |
+| 70 | $110,000 | approx, range | …. At the 22% federal bracket, a civilian would need roughly **$110,000**–$120,000/year in gross wages to match this. Most E-5s under… |
+| 70 | $120,000 | range, annual | …22% federal bracket, a civilian would need roughly $110,000–**$120,000**/year in gross wages to match this. Most E-5s underestimate … |
+| 107 | $0 |  | …S)', 'Tax advantage: $5K–$15K+/yr', `TRICARE: **$0** premiums for active duty (employer family plans average ${f… |
+| 168 | $2,500 |  | … taxable income under 26 U.S.C. § 134. An E-5 receiving **$2,500**/month in BAH would need $3,205/month in taxable … |
+| 169 | $3,205 |  | … An E-5 receiving $2,500/month in BAH would need **$3,205**/month in taxable civilian wages to have the same after-tax … |
+| 209 | $75 | range | …nth&lt;/li&gt; &lt;li&gt;Special Duty Assignment Pay (SDAP): **$75**–$675/month&lt;/li&gt; &lt;li&gt;Aviation Career Incentive Pa… |
+| 209 | $675 | range | …/li&gt; &lt;li&gt;Special Duty Assignment Pay (SDAP): $75–**$675**/month&lt;/li&gt; &lt;li&gt;Aviation Career Incentive Pay: up… |
+| 211 | $70 | range | …Pay: up to $1,000/month&lt;/li&gt; &lt;li&gt;Career Sea Pay: **$70**–$805/month by grade and cumulative sea duty&lt;/li&gt; &lt;… |
+| 211 | $805 | range | … up to $1,000/month&lt;/li&gt; &lt;li&gt;Career Sea Pay: $70–**$805**/month by grade and cumulative sea duty&lt;/li&gt; &lt;/ul&gt; … |
+| 264 | $153.76 |  | …st-disc"&gt; &lt;li&gt;Per drill period: $4,612.80 ÷ 30 = **$153.76**&lt;/li&gt; &lt;li&gt;Per drill weekend (4 periods): $615.04&lt;… |
+| 265 | $615.04 |  | … $153.76&lt;/li&gt; &lt;li&gt;Per drill weekend (4 periods): **$615.04**&lt;/li&gt; &lt;li&gt;Per year (standard 48 IDT periods): $7,… |
+| 266 | $7,380 |  | ….04&lt;/li&gt; &lt;li&gt;Per year (standard 48 IDT periods): **$7,380**&lt;/li&gt; &lt;li&gt;Plus 15-day Annual Training: ~$2,306&lt;/l… |
+| 267 | $2,306 | approx | …): $7,380&lt;/li&gt; &lt;li&gt;Plus 15-day Annual Training: ~**$2,306**&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; Guard and Reser… |
+| 294 | $206 | approx | …h&lt;/li&gt; &lt;li&gt;BRS TSP matching (~5% contribution): ~**$206**/month&lt;/li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"… |
+| 295 | $7,348 |  | …li&gt; &lt;li&gt;&lt;strong className="text-zinc-800"&gt;Total: **$7,348**/month — $88,176/year&lt;/strong&gt;&lt;/li&gt; &lt;/ul&gt; … |
+| 295 | $88,176 | annual | …&lt;li&gt;&lt;strong className="text-zinc-800"&gt;Total: $7,348/month — **$88,176**/year&lt;/strong&gt;&lt;/li&gt; &lt;/ul&gt; &lt;p&gt; A… |
+| 299 | $110,000 | range | …d roughly{' '} &lt;strong className="text-zinc-800"&gt;**$110,000**–$120,000/year in gross wages&lt;/strong&gt; to match t… |
+| 299 | $120,000 | range, annual | …{' '} &lt;strong className="text-zinc-800"&gt;$110,000–**$120,000**/year in gross wages&lt;/strong&gt; to match this — and… |
+| 428 | $75,000 | range | …rs stationed at a mid-range duty station typically receives **$75,000**–$90,000 in total annual compensation value, though the numb… |
+| 428 | $90,000 | range | …oned at a mid-range duty station typically receives $75,000–**$90,000** in total annual compensation value, though the number varie… |
+| 531 | $6,945 |  | …&lt;p className="text-2xl font-bold tabular-nums text-red-700"&gt;**$6,945**&lt;/p&gt; &lt;/div&gt; &lt;div class… |
+| 535 | $97,000 | annual | … &lt;p className="text-sm font-semibold text-zinc-700"&gt;≈ **$97,000** / yr&lt;/p&gt; &lt;/div&gt; &lt;/div&gt; … |
 
 </details>
 
@@ -1829,59 +1826,6 @@ data 18 (1 weak) · derived 0 (0 weak) · unbound 8
 
 </details>
 
-### src/app/guides/retirement-tsp/page.tsx
-
-data 17 (5 weak) · derived 0 (0 weak) · unbound 22
-
-| Line | Figure | Class | Sources | Flags | Context |
-|---:|---|---|---|---|---|
-| 65 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `tsp:electiveDeferralLimit` |  | … answer: '2026 limits: annual elective deferral **$24,500**; catch-up contributions age 50–59 and 64+: additional $8,00… |
-| 65 | $8,000 | data | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` |  | …4,500; catch-up contributions age 50–59 and 64+: additional **$8,000** (total $32,500 for 2026); enhanced catch-up ages 60–63 unde… |
-| 65 | $11,250 | data | `tsp:enhancedCatchUpLimit` |  | …; enhanced catch-up ages 60–63 under SECURE 2.0: additional **$11,250** (total $35,750 for 2026). In a combat zone, the 2026 total … |
-| 65 | $72,000 | data | `tsp:annualAdditionsLimit` |  | … In a combat zone, the 2026 total annual additions limit is **$72,000** — but Roth TSP contributions remain capped at $24,500 for 2… |
-| 65 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `tsp:electiveDeferralLimit` |  | …it is $72,000 — but Roth TSP contributions remain capped at **$24,500** for 2026; contributions above that from tax-exempt combat-z… |
-| 80 | $10,000 | data (weak) | `deployment:sdpMaxDeposit`, `healthcare:employer.family.gold.oopMax`, `healthcare:acaNoSubsidy.family.silver.deductible` | range | …XT}. Healthcare: TRICARE for retirees is worth an estimated **$10,000**–$15,000/year compared to civilian coverage. The financial c… |
-| 80 | $15,000 | data (weak) | `healthcare:acaNoSubsidy.family.bronze.deductible` | range, annual | …lthcare: TRICARE for retirees is worth an estimated $10,000–**$15,000**/year compared to civilian coverage. The financial case for … |
-| 196 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible`, `tricare:adfm.primeA.catastrophicCap`, `tricare:adfm.selectA.catastrophicCap` |  | …055%&lt;/strong&gt; — you pay $0.55 per year for every **$1,000** invested. The average actively managed mutual fund charges … |
-| 201 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `tsp:electiveDeferralLimit` |  | …Annual elective deferral: &lt;strong className="text-zinc-800"&gt;**$24,500**&lt;/strong&gt;&lt;/li&gt; &lt;li&gt;Catch-up (age 50–59 and 64+): … |
-| 202 | $8,000 | data | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` |  | …li&gt; &lt;li&gt;Catch-up (age 50–59 and 64+): additional **$8,000** → total $32,500 for 2026&lt;/li&gt; &lt;li&gt;Enhanced catch… |
-| 203 | $11,250 | data | `tsp:enhancedCatchUpLimit` |  | … &lt;li&gt;Enhanced catch-up (ages 60–63, SECURE 2.0): additional **$11,250** → total $35,750 for 2026&lt;/li&gt; &lt;li&gt;Combat zone: t… |
-| 204 | $72,000 | data | `tsp:annualAdditionsLimit` |  | …annual additions limit is &lt;strong className="text-zinc-800"&gt;**$72,000**&lt;/strong&gt; for 2026 — Roth TSP remains capped at $24,500; con… |
-| 204 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `tsp:electiveDeferralLimit` |  | …800"&gt;$72,000&lt;/strong&gt; for 2026 — Roth TSP remains capped at **$24,500**; contributions above that from tax-exempt combat-zone pay g… |
-| 289 | $28 | data (weak) | `tricare:adfm.selectA.copays.primary`, `tricare:adfm.selectA.copays.urgent` | range | …government matching is forfeited — approximately **$28**–$97/month depending on grade. For an E-5 at $4,110/month (6… |
-| 289 | $4,110 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | … $28–$97/month depending on grade. For an E-5 at **$4,110**/month (6 years of service), that&amp;apos;s roughly … |
-| 314 | $10,000 | data (weak) | `deployment:sdpMaxDeposit`, `healthcare:employer.family.gold.oopMax`, `healthcare:acaNoSubsidy.family.silver.deductible` | range | …e between TRICARE and civilian employer coverage can exceed **$10,000**–$15,000/year. This benefit is frequently underweighted in r… |
-| 314 | $15,000 | data (weak) | `healthcare:acaNoSubsidy.family.bronze.deductible` | range, annual | …n TRICARE and civilian employer coverage can exceed $10,000–**$15,000**/year. This benefit is frequently underweighted in retiremen… |
-
-<details><summary>22 unbound</summary>
-
-| Line | Figure | Flags | Context |
-|---:|---|---|---|
-| 20 | $3,059 |  | … = formatCurrency(E7.high3Pension); // whole dollars, e.g. "**$3,059**" const E7_ANNUAL = formatCurrency(E7.high3Pension * 12); … |
-| 65 | $32,500 |  | …p contributions age 50–59 and 64+: additional $8,000 (total **$32,500** for 2026); enhanced catch-up ages 60–63 under SECURE 2.0: a… |
-| 65 | $35,750 |  | …h-up ages 60–63 under SECURE 2.0: additional $11,250 (total **$35,750** for 2026). In a combat zone, the 2026 total annual addition… |
-| 65 | $25,500 |  | …contributions made from January 1, 2027): elective deferral **$25,500**; catch-up age 50 and older $8,500; enhanced catch-up ages 6… |
-| 65 | $8,500 |  | …2027): elective deferral $25,500; catch-up age 50 and older **$8,500**; enhanced catch-up ages 60–63 $11,750; annual additions lim… |
-| 65 | $11,750 |  | …ch-up age 50 and older $8,500; enhanced catch-up ages 60–63 **$11,750**; annual additions limit $75,000. TSP expense ratios are amo… |
-| 65 | $75,000 |  | …nhanced catch-up ages 60–63 $11,750; annual additions limit **$75,000**. TSP expense ratios are among the lowest of any retirement … |
-| 138 | $30,000 |  | …rong&gt; Some legacy-era service members accepted a **$30,000** Career Status Bonus at 15 years in exchange for a lower ret… |
-| 195 | $0.55 | annual | …="text-zinc-800"&gt;expense ratio of 0.055%&lt;/strong&gt; — you pay **$0.55** per year for every $1,000 invested. The average … |
-| 202 | $32,500 |  | …&lt;li&gt;Catch-up (age 50–59 and 64+): additional $8,000 → total **$32,500** for 2026&lt;/li&gt; &lt;li&gt;Enhanced catch-up (ages 60–63,… |
-| 203 | $35,750 |  | …tch-up (ages 60–63, SECURE 2.0): additional $11,250 → total **$35,750** for 2026&lt;/li&gt; &lt;li&gt;Combat zone: total annual addi… |
-| 213 | $25,500 |  | …Annual elective deferral: &lt;strong className="text-zinc-800"&gt;**$25,500**&lt;/strong&gt;&lt;/li&gt; &lt;li&gt;Catch-up (age 50 and older): a… |
-| 214 | $8,500 |  | …/li&gt; &lt;li&gt;Catch-up (age 50 and older): additional **$8,500**&lt;/li&gt; &lt;li&gt;Enhanced catch-up (ages 60–63, SECURE 2… |
-| 215 | $11,750 |  | … &lt;li&gt;Enhanced catch-up (ages 60–63, SECURE 2.0): additional **$11,750**&lt;/li&gt; &lt;li&gt;Annual additions limit (combat-zone max… |
-| 216 | $75,000 |  | … &lt;li&gt;Annual additions limit (combat-zone maximum): **$75,000**&lt;/li&gt; &lt;/ul&gt; &lt;p&gt;&lt;strong className="text-zin… |
-| 289 | $97 | range | …rnment matching is forfeited — approximately $28–**$97**/month depending on grade. For an E-5 at $4,110/month (6 yea… |
-| 290 | $41 | approx | …/month (6 years of service), that&amp;apos;s roughly **$41**/month or $493/year in forfeited government contributions. … |
-| 290 | $493 | annual | …rs of service), that&amp;apos;s roughly $41/month or **$493**/year in forfeited government contributions. &lt;/p&gt; … |
-| 304 | $0 |  | …t 19 years and 11 months and you receive exactly **$0** in defined-benefit pension. Retire at 20 years and … |
-| 355 | $400 |  | … non-taxable — unlike retirement pay — which can net **$400**+/month more than CRDP for a retiree in the 22% b… |
-| 449 | $493 | approx, annual | … But contributing 3% to TSP instead of 5% costs roughly **$493**/year in available government matching. &lt;/p&gt; … |
-| 560 | $12,000 | approx, annual | … { label: 'Est. TRICARE savings', value: '~**$12,000**/yr' }, ].map(({ label, value }) =&gt; ( … |
-
-</details>
-
 ### src/content/blog/pcs-financial-planning-guide.mdx
 
 data 2 (2 weak) · derived 15 (14 weak) · unbound 4
@@ -2194,6 +2138,54 @@ data 10 (1 weak) · derived 3 (3 weak) · unbound 3
 
 </details>
 
+### src/app/guides/retirement-tsp/page.tsx
+
+data 13 (1 weak) · derived 0 (0 weak) · unbound 21
+
+| Line | Figure | Class | Sources | Flags | Context |
+|---:|---|---|---|---|---|
+| 73 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `tsp:electiveDeferralLimit` |  | … answer: '2026 limits: annual elective deferral **$24,500**; catch-up contributions age 50–59 and 64+: additional $8,00… |
+| 73 | $8,000 | data | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` |  | …4,500; catch-up contributions age 50–59 and 64+: additional **$8,000** (total $32,500 for 2026); enhanced catch-up ages 60–63 unde… |
+| 73 | $11,250 | data | `tsp:enhancedCatchUpLimit` |  | …; enhanced catch-up ages 60–63 under SECURE 2.0: additional **$11,250** (total $35,750 for 2026). In a combat zone, the 2026 total … |
+| 73 | $72,000 | data | `tsp:annualAdditionsLimit` |  | … In a combat zone, the 2026 total annual additions limit is **$72,000** — but Roth TSP contributions remain capped at $24,500 for 2… |
+| 73 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `tsp:electiveDeferralLimit` |  | …it is $72,000 — but Roth TSP contributions remain capped at **$24,500** for 2026; contributions above that from tax-exempt combat-z… |
+| 204 | $1,000 | data | `education:giBill.bookStipendAnnualMax`, `healthcare:employer.single.gold.deductible`, `tricare:adfm.primeA.catastrophicCap`, `tricare:adfm.selectA.catastrophicCap` |  | …055%&lt;/strong&gt; — you pay $0.55 per year for every **$1,000** invested. The average actively managed mutual fund charges … |
+| 209 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `tsp:electiveDeferralLimit` |  | …Annual elective deferral: &lt;strong className="text-zinc-800"&gt;**$24,500**&lt;/strong&gt;&lt;/li&gt; &lt;li&gt;Catch-up (age 50–59 and 64+): … |
+| 210 | $8,000 | data | `const:TSP_CATCHUP_LIMIT`, `healthcare:employer.single.bronze.oopMax`, `tsp:catchUpLimit` |  | …li&gt; &lt;li&gt;Catch-up (age 50–59 and 64+): additional **$8,000** → total $32,500 for 2026&lt;/li&gt; &lt;li&gt;Enhanced catch… |
+| 211 | $11,250 | data | `tsp:enhancedCatchUpLimit` |  | … &lt;li&gt;Enhanced catch-up (ages 60–63, SECURE 2.0): additional **$11,250** → total $35,750 for 2026&lt;/li&gt; &lt;li&gt;Combat zone: t… |
+| 212 | $72,000 | data | `tsp:annualAdditionsLimit` |  | …annual additions limit is &lt;strong className="text-zinc-800"&gt;**$72,000**&lt;/strong&gt; for 2026 — Roth TSP remains capped at $24,500; con… |
+| 212 | $24,500 | data | `const:TSP_ELECTIVE_DEFERRAL_LIMIT`, `tsp:electiveDeferralLimit` |  | …800"&gt;$72,000&lt;/strong&gt; for 2026 — Roth TSP remains capped at **$24,500**; contributions above that from tax-exempt combat-zone pay g… |
+| 297 | $28 | data (weak) | `tricare:adfm.selectA.copays.primary`, `tricare:adfm.selectA.copays.urgent` | range | …government matching is forfeited — approximately **$28**–$97/month depending on grade. For an E-5 at $4,110/month (6… |
+| 297 | $4,110 | data | `pay:E-5@6`, `bah:AK402/O-6/w`, `bah:CA018/O-2/w`, `bah:CA035/O-7/w`, `bah:FL067/E-9/w` (+2 more) |  | … $28–$97/month depending on grade. For an E-5 at **$4,110**/month (6 years of service), that&amp;apos;s roughly … |
+
+<details><summary>21 unbound</summary>
+
+| Line | Figure | Flags | Context |
+|---:|---|---|---|
+| 22 | $3,059 |  | … = formatCurrency(E7.high3Pension); // whole dollars, e.g. "**$3,059**" const E7_ANNUAL = formatCurrency(E7.high3Pension * 12); … |
+| 73 | $32,500 |  | …p contributions age 50–59 and 64+: additional $8,000 (total **$32,500** for 2026); enhanced catch-up ages 60–63 under SECURE 2.0: a… |
+| 73 | $35,750 |  | …h-up ages 60–63 under SECURE 2.0: additional $11,250 (total **$35,750** for 2026). In a combat zone, the 2026 total annual addition… |
+| 73 | $25,500 |  | …contributions made from January 1, 2027): elective deferral **$25,500**; catch-up age 50 and older $8,500; enhanced catch-up ages 6… |
+| 73 | $8,500 |  | …2027): elective deferral $25,500; catch-up age 50 and older **$8,500**; enhanced catch-up ages 60–63 $11,750; annual additions lim… |
+| 73 | $11,750 |  | …ch-up age 50 and older $8,500; enhanced catch-up ages 60–63 **$11,750**; annual additions limit $75,000. TSP expense ratios are amo… |
+| 73 | $75,000 |  | …nhanced catch-up ages 60–63 $11,750; annual additions limit **$75,000**. TSP expense ratios are among the lowest of any retirement … |
+| 146 | $30,000 |  | …rong&gt; Some legacy-era service members accepted a **$30,000** Career Status Bonus at 15 years in exchange for a lower ret… |
+| 203 | $0.55 | annual | …="text-zinc-800"&gt;expense ratio of 0.055%&lt;/strong&gt; — you pay **$0.55** per year for every $1,000 invested. The average … |
+| 210 | $32,500 |  | …&lt;li&gt;Catch-up (age 50–59 and 64+): additional $8,000 → total **$32,500** for 2026&lt;/li&gt; &lt;li&gt;Enhanced catch-up (ages 60–63,… |
+| 211 | $35,750 |  | …tch-up (ages 60–63, SECURE 2.0): additional $11,250 → total **$35,750** for 2026&lt;/li&gt; &lt;li&gt;Combat zone: total annual addi… |
+| 221 | $25,500 |  | …Annual elective deferral: &lt;strong className="text-zinc-800"&gt;**$25,500**&lt;/strong&gt;&lt;/li&gt; &lt;li&gt;Catch-up (age 50 and older): a… |
+| 222 | $8,500 |  | …/li&gt; &lt;li&gt;Catch-up (age 50 and older): additional **$8,500**&lt;/li&gt; &lt;li&gt;Enhanced catch-up (ages 60–63, SECURE 2… |
+| 223 | $11,750 |  | … &lt;li&gt;Enhanced catch-up (ages 60–63, SECURE 2.0): additional **$11,750**&lt;/li&gt; &lt;li&gt;Annual additions limit (combat-zone max… |
+| 224 | $75,000 |  | … &lt;li&gt;Annual additions limit (combat-zone maximum): **$75,000**&lt;/li&gt; &lt;/ul&gt; &lt;p&gt;&lt;strong className="text-zin… |
+| 297 | $97 | range | …rnment matching is forfeited — approximately $28–**$97**/month depending on grade. For an E-5 at $4,110/month (6 yea… |
+| 298 | $41 | approx | …/month (6 years of service), that&amp;apos;s roughly **$41**/month or $493/year in forfeited government contributions. … |
+| 298 | $493 | annual | …rs of service), that&amp;apos;s roughly $41/month or **$493**/year in forfeited government contributions. &lt;/p&gt; … |
+| 312 | $0 |  | …t 19 years and 11 months and you receive exactly **$0** in defined-benefit pension. Retire at 20 years and … |
+| 363 | $400 |  | … non-taxable — unlike retirement pay — which can net **$400**+/month more than CRDP for a retiree in the 22% b… |
+| 457 | $493 | approx, annual | … But contributing 3% to TSP instead of 5% costs roughly **$493**/year in available government matching. &lt;/p&gt; … |
+
+</details>
+
 ### src/content/blog/dual-military-financial-strategies.mdx
 
 data 12 (9 weak) · derived 1 (1 weak) · unbound 22
@@ -2388,60 +2380,6 @@ data 10 (0 weak) · derived 0 (0 weak) · unbound 1
 
 </details>
 
-### src/content/blog/what-walking-away-at-12-years-costs.mdx
-
-data 10 (9 weak) · derived 0 (0 weak) · unbound 30
-
-| Line | Figure | Class | Sources | Flags | Context |
-|---:|---|---|---|---|---|
-| 16 | $15,000 | data (weak) | `healthcare:acaNoSubsidy.family.bronze.deductible` | range | …way also means forfeiting TRICARE retiree healthcare (worth **$15,000**–$25,000/year for a family) and 8 more years of government T… |
-| 92 | $650 | data (weak) | `healthcare:acaNoSubsidy.single.gold.premium` | range, annual, table | …ual Cost \| \|---\|---\|---\| \| TRICARE Select (retiree) \| ~$0–**$650**/year \| ~$650/year \| \| Comparable civilian PPO \| $15,000–$2… |
-| 92 | $650 | data (weak) | `healthcare:acaNoSubsidy.single.gold.premium` | approx, annual, table | …---\|---\|---\| \| TRICARE Select (retiree) \| ~$0–$650/year \| ~**$650**/year \| \| Comparable civilian PPO \| $15,000–$25,000/year in… |
-| 93 | $15,000 | data (weak) | `healthcare:acaNoSubsidy.family.bronze.deductible` | range, table | …\| ~$0–$650/year \| ~$650/year \| \| Comparable civilian PPO \| **$15,000**–$25,000/year in employer premiums \| $15,000–$25,000/year \| … |
-| 93 | $15,000 | data (weak) | `healthcare:acaNoSubsidy.family.bronze.deductible` | range, table | … civilian PPO \| $15,000–$25,000/year in employer premiums \| **$15,000**–$25,000/year \| For a married E-7 with dependents, the di… |
-| 95 | $15,000 | data (weak) | `healthcare:acaNoSubsidy.family.bronze.deductible` | range | …and comparable civilian family insurance is approximately ****$15,000**–$24,000/year**. Over a 25-year retirement, that difference … |
-| 126 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | …rmat="dollars" /&gt;/year (taxable) - BAH (varies by station, **$2,000**/month used as a moderate example): $24,000/year (excluded f… |
-| 128 | $15,000 | data (weak) | `healthcare:acaNoSubsidy.family.bronze.deductible` | annual | …ar (excluded from federal taxable income) - TRICARE value: **$15,000**/year avoided cost - Retirement accrual (pension + BRS matc… |
-| 135 | $15,000 | data (weak) | `healthcare:acaNoSubsidy.family.bronze.deductible` | range | …usands" /&gt;) - Benefits package covering family healthcare (**$15,000**–$25,000/year in premiums) - Retirement match generating $2… |
-| 162 | $3,000 | data | `bah:CA018/E-5/wo`, `bah:CA034/O-1E/w`, `bah:CA034/W-5/wo`, `bah:FL062/W-3/w`, `bah:FL062/O-7/wo` (+9 more) |  | … is underweighting the pension's value (thinking "it's only **$3,000**/month") without accounting for COLA, the early start date, … |
-
-<details><summary>30 unbound</summary>
-
-| Line | Figure | Flags | Context |
-|---:|---|---|---|
-| 16 | $0 |  | … for life — while an E-7 who separates at 12 years receives **$0** pension under regular longevity retirement. Walking away al… |
-| 16 | $25,000 | range, annual | … means forfeiting TRICARE retiree healthcare (worth $15,000–**$25,000**/year for a family) and 8 more years of government TSP match… |
-| 16 | $110,000 | range | …civilian world, an E-7 typically needs a civilian salary of **$110,000**–$135,000 with equivalent benefits — achievable, but often u… |
-| 16 | $135,000 | range | …world, an E-7 typically needs a civilian salary of $110,000–**$135,000** with equivalent benefits — achievable, but often underestim… |
-| 22 | $150,000 |  | …t 8 more years of government TSP matching adds an estimated **$150,000**+ to the member's retirement balance at age 60&lt;/QAItem&gt; &lt;… |
-| 23 | $110,000 | range | …e civilian world, an E-7 typically needs civilian salary of **$110,000**–$135,000/year with equivalent benefits&lt;/QAItem&gt; &lt;QAItem&gt;… |
-| 23 | $135,000 | range, annual | …n world, an E-7 typically needs civilian salary of $110,000–**$135,000**/year with equivalent benefits&lt;/QAItem&gt; &lt;QAItem&gt;This is f… |
-| 33 | $0 |  | …lk away at 12 years, 15 years, 19 years, and the pension is **$0**. Under BRS, separating before 20 still means no pension — b… |
-| 92 | $0 | approx, range, table | …Annual Cost \| \|---\|---\|---\| \| TRICARE Select (retiree) \| ~**$0**–$650/year \| ~$650/year \| \| Comparable civilian PPO \| $15,0… |
-| 93 | $25,000 | range, annual, table | …50/year \| ~$650/year \| \| Comparable civilian PPO \| $15,000–**$25,000**/year in employer premiums \| $15,000–$25,000/year \| For a… |
-| 93 | $25,000 | range, annual, table | …n PPO \| $15,000–$25,000/year in employer premiums \| $15,000–**$25,000**/year \| For a married E-7 with dependents, the difference… |
-| 95 | $24,000 | range, annual | …arable civilian family insurance is approximately **$15,000–**$24,000**/year**. Over a 25-year retirement, that difference represen… |
-| 95 | $375,000 | range | …year retirement, that difference represents an additional ****$375,000**–$600,000 in avoided costs** (nominal). This benefit ends… |
-| 95 | $600,000 | range | …rement, that difference represents an additional **$375,000–**$600,000** in avoided costs** (nominal). This benefit ends at age 6… |
-| 105 | $5,900 | approx | …SP matching contributions. **BRS matching for an E-7 at ~**$5,900**/month average base pay:** - 5% contribution → 5% governmen… |
-| 106 | $295 |  | …rage base pay:** - 5% contribution → 5% government match = **$295**/month in government contributions - Over 96 months (8 year… |
-| 107 | $295 |  | …th in government contributions - Over 96 months (8 years): **$295** × 96 = **$28,320 in direct government contributions** Th… |
-| 107 | $28,320 |  | …nt contributions - Over 96 months (8 years): $295 × 96 = ****$28,320** in direct government contributions** Those contributions… |
-| 113 | $295 | table | … \|---\|---\|---\| \| 8 years of matching at 7% return \| FV of **$295**/month × 96 months \| ~$38,000 \| \| Continues to grow for 22 … |
-| 113 | $38,000 | approx, table | … of matching at 7% return \| FV of $295/month × 96 months \| ~**$38,000** \| \| Continues to grow for 22 more years to age 60 \| $38,00… |
-| 114 | $38,000 | table | …38,000 \| \| Continues to grow for 22 more years to age 60 \| **$38,000** × 1.07²² \| **~$165,000** \| **Roughly $165,000 in additio… |
-| 114 | $165,000 | approx, table | …to grow for 22 more years to age 60 \| $38,000 × 1.07²² \| **~**$165,000**** \| **Roughly $165,000 in additional TSP balance at age … |
-| 116 | $165,000 | approx | …to age 60 \| $38,000 × 1.07²² \| **~$165,000** \| **Roughly **$165,000** in additional TSP balance at age 60 from 8 more years of ma… |
-| 126 | $24,000 | annual | …aries by station, $2,000/month used as a moderate example): **$24,000**/year (excluded from federal taxable income) - BAS: &lt;Retire… |
-| 129 | $25,000 |  | …accrual (pension + BRS matching, annualized): equivalent to **$25,000**+/year in deferred compensation **Total annual value of m… |
-| 135 | $25,000 | range, annual | …/&gt;) - Benefits package covering family healthcare ($15,000–**$25,000**/year in premiums) - Retirement match generating $25,000+ i… |
-| 136 | $25,000 |  | …00–$25,000/year in premiums) - Retirement match generating **$25,000**+ in annual retirement accrual - The equivalent of a lifeti… |
-| 139 | $110,000 | range | …eginning at age 38 **Realistically, a civilian salary of **$110,000**–$135,000 with strong benefits** would be needed to match th… |
-| 139 | $135,000 | range | …at age 38 **Realistically, a civilian salary of $110,000–**$135,000** with strong benefits** would be needed to match the full va… |
-| 154 | $110,000 |  | …ng civilian demand where compensation significantly exceeds **$110,000** without a degree requirement - Personal or family circumst… |
-
-</details>
-
 ### src/content/blog/is-sgli-enough-life-insurance.mdx
 
 data 9 (2 weak) · derived 0 (0 weak) · unbound 9
@@ -2535,62 +2473,6 @@ data 9 (8 weak) · derived 0 (0 weak) · unbound 0
 | 26 | $3,000 | data (weak) | `bah:CA018/E-5/wo`, `bah:CA034/O-1E/w`, `bah:CA034/W-5/wo`, `bah:FL062/W-3/w`, `bah:FL062/O-7/wo` (+9 more) | range | …The practical implication: maintain a cash buffer of $2,000–**$3,000** specifically for PCS transitions, separate from your regula… |
 | 30 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` | range | …planning — especially on longer routes — a PPM can generate **$2,000**–$5,000 in net proceeds. It requires documentation, weight t… |
 | 30 | $5,000 | data (weak) | `healthcare:employer.single.gold.oopMax`, `healthcare:acaNoSubsidy.single.silver.deductible` | range | …g — especially on longer routes — a PPM can generate $2,000–**$5,000** in net proceeds. It requires documentation, weight tickets,… |
-
-### src/content/blog/should-i-stay-to-20-years-military.mdx
-
-data 7 (6 weak) · derived 2 (2 weak) · unbound 33
-
-| Line | Figure | Class | Sources | Flags | Context |
-|---:|---|---|---|---|---|
-| 24 | $15,000 | data (weak) | `healthcare:acaNoSubsidy.family.bronze.deductible` | range | …tem&gt;Healthcare replacement after separation typically costs **$15,000**–$25,000+/year for a family — a real cost often underweighte… |
-| 46 | $6,177 | data-derived (weak) | `round(pay:E-7@18)` | approx, range | … tables: - Base pay at ~20 years of service: approximately **$6,177**–$6,246/month - High-3 average (years 18, 19, 20): approxim… |
-| 46 | $6,246 | data-derived (weak) | `round(pay:E-7@20)` | range | …: - Base pay at ~20 years of service: approximately $6,177–**$6,246**/month - High-3 average (years 18, 19, 20): approximately $… |
-| 106 | $1,500 | data (weak) | `bah:AL001/W-4/wo`, `bah:CA420/E-1/wo`, `bah:CA420/E-2/wo`, `bah:CA420/E-3/wo`, `bah:CA420/E-4/wo` (+19 more) | range | …ax-free.** A mid-career E-7 in a moderate BAH area receives **$1,500**–$2,200/month in tax-free housing plus $476.95/month in tax-… |
-| 106 | $476.95 | data | `bas:enlisted` |  | … area receives $1,500–$2,200/month in tax-free housing plus **$476.95**/month in tax-free food allowance. A civilian needs to earn … |
-| 108 | $500 | data (weak) | `healthcare:acaNoSubsidy.single.silver.premium` | range | …lian employer health insurance for a family typically costs **$500**–$2,000+/month in employee premiums — and that's before dedu… |
-| 108 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` | range | …employer health insurance for a family typically costs $500–**$2,000**+/month in employee premiums — and that's before deductibles… |
-| 108 | $15,000 | data (weak) | `healthcare:acaNoSubsidy.family.bronze.deductible` | range | …cket costs. Replacing TRICARE for a family of four can cost **$15,000**–$25,000/year, based on typical employer-sponsored and priva… |
-| 134 | $15,000 | data (weak) | `healthcare:acaNoSubsidy.family.bronze.deductible` | range | …RE.** Healthcare is not a footnote in this analysis. It's a **$15,000**–$25,000/year line item (based on typical employer-sponsored… |
-
-<details><summary>33 unbound</summary>
-
-| Line | Figure | Flags | Context |
-|---:|---|---|---|
-| 16 | $3,059 | approx | … immediate pension — for an E-7 under High-3, approximately **$3,059**/month beginning at retirement, typically around age 38–40, … |
-| 16 | $0 |  | …gular longevity retirement: every year short of 20 produces **$0** pension rather than a reduced one, which is why the gap bet… |
-| 19 | $3,059 | approx | …Item&gt;An E-7 at 20 years under High-3 receives approximately **$3,059**/month in pension — for life, starting immediately at retire… |
-| 21 | $2,447 | approx | …+&lt;/QAItem&gt; &lt;QAItem&gt;Under BRS, the pension is 20% lower (~**$2,447**/month at 20 years for E-7) but TSP matching adds a portable… |
-| 24 | $25,000 | range | …thcare replacement after separation typically costs $15,000–**$25,000**+/year for a family — a real cost often underweighted in civ… |
-| 47 | $6,118 | approx | …6/month - High-3 average (years 18, 19, 20): approximately **$6,118**/month - Pension: 50% × $6,118 = **~$3,059/month** ($36,708… |
-| 48 | $6,118 |  | …s 18, 19, 20): approximately $6,118/month - Pension: 50% × **$6,118** = **~$3,059/month** ($36,708/year) Under **BRS**, the mu… |
-| 48 | $3,059 | approx | …): approximately $6,118/month - Pension: 50% × $6,118 = **~**$3,059**/month** ($36,708/year) Under **BRS**, the multiplier dro… |
-| 48 | $36,708 | annual | … $6,118/month - Pension: 50% × $6,118 = **~$3,059/month** (**$36,708**/year) Under **BRS**, the multiplier drops to 2.0%: - Sa… |
-| 51 | $6,118 |  | …RS**, the multiplier drops to 2.0%: - Same High-3 average: **$6,118**/month - Pension: 40% × $6,118 = **~$2,447/month** ($29,364… |
-| 52 | $6,118 |  | ….0%: - Same High-3 average: $6,118/month - Pension: 40% × **$6,118** = **~$2,447/month** ($29,364/year) But BRS members have … |
-| 52 | $2,447 | approx | … High-3 average: $6,118/month - Pension: 40% × $6,118 = **~**$2,447**/month** ($29,364/year) But BRS members have TSP matching… |
-| 52 | $29,364 | annual | … $6,118/month - Pension: 40% × $6,118 = **~$2,447/month** (**$29,364**/year) But BRS members have TSP matching — up to 5% of ba… |
-| 64 | $36,708 | annual | …ears of pension payments. At 2.5% annual COLA: - Year 1: **$36,708**/year - Year 10: ~$46,600/year - Year 20: ~$59,200/year -… |
-| 65 | $46,600 | approx, annual | …At 2.5% annual COLA: - Year 1: $36,708/year - Year 10: ~**$46,600**/year - Year 20: ~$59,200/year - Year 39 (age 78): ~$93,60… |
-| 66 | $59,200 | approx, annual | …Year 1: $36,708/year - Year 10: ~$46,600/year - Year 20: ~**$59,200**/year - Year 39 (age 78): ~$93,600/year - **Nominal lifeti… |
-| 67 | $93,600 | approx, annual | …46,600/year - Year 20: ~$59,200/year - Year 39 (age 78): ~**$93,600**/year - **Nominal lifetime total: approximately $2M+** U… |
-| 70 | $1.5 | approx, range | …BRS, the pension alone is approximately 20% lower — roughly **$1.5**–1.6M in nominal lifetime value — but the TSP balance at ret… |
-| 74 | $3,059 |  | …ng to create and frequently fail to achieve. To generate **$3,059**/month in retirement income from a portfolio using the 4% wi… |
-| 74 | $918,000 |  | …io using the 4% withdrawal rule, you'd need approximately ****$918,000** in savings**. That's what you're receiving as a pension — a… |
-| 80 | $0 |  | …e. Under High-3, walking away at 15 years means receiving ****$0**** in pension — there is no partial vesting. BRS members do … |
-| 92 | $6,118 |  | …plier — permanently. For an E-7 with a High-3 average of **$6,118**/month: - Each additional year adds: 2.5% × $6,118 = **$153… |
-| 93 | $6,118 |  | …erage of $6,118/month: - Each additional year adds: 2.5% × **$6,118** = **$153/month** in pension - Over 39 years of collection:… |
-| 93 | $153 |  | …,118/month: - Each additional year adds: 2.5% × $6,118 = ****$153**/month** in pension - Over 39 years of collection: **$71,00… |
-| 94 | $71,000 |  | …**$153/month** in pension - Over 39 years of collection: ****$71,000**+ in additional lifetime pension payments** per additional y… |
-| 104 | $90,000 |  | …value what they have. The common framing is: "I can make **$90,000** in the civilian world vs. my $60,000 base pay." That compar… |
-| 104 | $60,000 |  | …raming is: "I can make $90,000 in the civilian world vs. my **$60,000** base pay." That comparison misses several significant facto… |
-| 106 | $2,200 | range | ….** A mid-career E-7 in a moderate BAH area receives $1,500–**$2,200**/month in tax-free housing plus $476.95/month in tax-free fo… |
-| 108 | $62 | approx | …ement is expensive.** TRICARE for a family is approximately **$62**/month for active duty. Civilian employer health insurance f… |
-| 108 | $25,000 | range, annual | …ts. Replacing TRICARE for a family of four can cost $15,000–**$25,000**/year, based on typical employer-sponsored and private marke… |
-| 114 | $3,059 |  | … **The pension comparison requires gross-up.** To replace **$3,059**/month in pension income from civilian employment and saving… |
-| 114 | $918,000 |  | …te that amount in addition to your regular income — or have **$918,000** saved specifically for that purpose. Most civilians don't a… |
-| 134 | $25,000 | range, annual | …althcare is not a footnote in this analysis. It's a $15,000–**$25,000**/year line item (based on typical employer-sponsored and pri… |
-
-</details>
 
 ### src/content/blog/va-disability-math-explained.mdx
 
@@ -3156,6 +3038,81 @@ data 0 (0 weak) · derived 2 (0 weak) · unbound 2
 |---:|---|---|---|
 | 15 | $400 |  | …as combat-related — and the after-tax difference can exceed **$400**/month. &lt;QuickAnswer&gt; &lt;QAItem&gt;CRDP (Concurrent Retirem… |
 | 106 | $400 |  | …t" format="dollars" /&gt; is. The tax savings at 22% is almost **$400**/month. At 32%, the gap widens further: CRDP taxes would … |
+
+</details>
+
+### src/content/blog/should-i-stay-to-20-years-military.mdx
+
+data 0 (0 weak) · derived 2 (2 weak) · unbound 28
+
+| Line | Figure | Class | Sources | Flags | Context |
+|---:|---|---|---|---|---|
+| 47 | $6,177 | data-derived (weak) | `round(pay:E-7@18)` | approx, range | … tables: - Base pay at ~20 years of service: approximately **$6,177**–$6,246/month - High-3 average (years 18, 19, 20): approxim… |
+| 47 | $6,246 | data-derived (weak) | `round(pay:E-7@20)` | range | …: - Base pay at ~20 years of service: approximately $6,177–**$6,246**/month - High-3 average (years 18, 19, 20): approximately $… |
+
+<details><summary>28 unbound</summary>
+
+| Line | Figure | Flags | Context |
+|---:|---|---|---|
+| 17 | $3,059 | approx | … immediate pension — for an E-7 under High-3, approximately **$3,059**/month beginning at retirement, typically around age 38–40, … |
+| 17 | $0 |  | …gular longevity retirement: every year short of 20 produces **$0** pension rather than a reduced one, which is why the gap bet… |
+| 20 | $3,059 | approx | …Item&gt;An E-7 at 20 years under High-3 receives approximately **$3,059**/month in pension — for life, starting immediately at retire… |
+| 22 | $2,447 | approx | …+&lt;/QAItem&gt; &lt;QAItem&gt;Under BRS, the pension is 20% lower (~**$2,447**/month at 20 years for E-7) but TSP matching adds a portable… |
+| 48 | $6,118 | approx | …6/month - High-3 average (years 18, 19, 20): approximately **$6,118**/month - Pension: 50% × $6,118 = **~$3,059/month** ($36,708… |
+| 49 | $6,118 |  | …s 18, 19, 20): approximately $6,118/month - Pension: 50% × **$6,118** = **~$3,059/month** ($36,708/year) Under **BRS**, the mu… |
+| 49 | $3,059 | approx | …): approximately $6,118/month - Pension: 50% × $6,118 = **~**$3,059**/month** ($36,708/year) Under **BRS**, the multiplier dro… |
+| 49 | $36,708 | annual | … $6,118/month - Pension: 50% × $6,118 = **~$3,059/month** (**$36,708**/year) Under **BRS**, the multiplier drops to 2.0%: - Sa… |
+| 52 | $6,118 |  | …RS**, the multiplier drops to 2.0%: - Same High-3 average: **$6,118**/month - Pension: 40% × $6,118 = **~$2,447/month** ($29,364… |
+| 53 | $6,118 |  | ….0%: - Same High-3 average: $6,118/month - Pension: 40% × **$6,118** = **~$2,447/month** ($29,364/year) But BRS members have … |
+| 53 | $2,447 | approx | … High-3 average: $6,118/month - Pension: 40% × $6,118 = **~**$2,447**/month** ($29,364/year) But BRS members have TSP matching… |
+| 53 | $29,364 | annual | … $6,118/month - Pension: 40% × $6,118 = **~$2,447/month** (**$29,364**/year) But BRS members have TSP matching — up to 5% of ba… |
+| 65 | $36,708 | annual | …ears of pension payments. At 2.5% annual COLA: - Year 1: **$36,708**/year - Year 10: ~$46,600/year - Year 20: ~$59,200/year -… |
+| 66 | $46,600 | approx, annual | …At 2.5% annual COLA: - Year 1: $36,708/year - Year 10: ~**$46,600**/year - Year 20: ~$59,200/year - Year 39 (age 78): ~$93,60… |
+| 67 | $59,200 | approx, annual | …Year 1: $36,708/year - Year 10: ~$46,600/year - Year 20: ~**$59,200**/year - Year 39 (age 78): ~$93,600/year - **Nominal lifeti… |
+| 68 | $93,600 | approx, annual | …46,600/year - Year 20: ~$59,200/year - Year 39 (age 78): ~**$93,600**/year - **Nominal lifetime total: approximately $2M+** U… |
+| 71 | $1.5 | approx, range | …BRS, the pension alone is approximately 20% lower — roughly **$1.5**–1.6M in nominal lifetime value — but the TSP balance at ret… |
+| 75 | $3,059 |  | …ng to create and frequently fail to achieve. To generate **$3,059**/month in retirement income from a portfolio using the 4% wi… |
+| 75 | $918,000 |  | …io using the 4% withdrawal rule, you'd need approximately ****$918,000** in savings**. That's what you're receiving as a pension — a… |
+| 81 | $0 |  | …e. Under High-3, walking away at 15 years means receiving ****$0**** in pension — there is no partial vesting. BRS members do … |
+| 93 | $6,118 |  | …plier — permanently. For an E-7 with a High-3 average of **$6,118**/month: - Each additional year adds: 2.5% × $6,118 = **$153… |
+| 94 | $6,118 |  | …erage of $6,118/month: - Each additional year adds: 2.5% × **$6,118** = **$153/month** in pension - Over 39 years of collection:… |
+| 94 | $153 |  | …,118/month: - Each additional year adds: 2.5% × $6,118 = ****$153**/month** in pension - Over 39 years of collection: **$71,00… |
+| 95 | $71,000 |  | …**$153/month** in pension - Over 39 years of collection: ****$71,000**+ in additional lifetime pension payments** per additional y… |
+| 105 | $90,000 |  | …value what they have. The common framing is: "I can make **$90,000** in the civilian world vs. my $60,000 base pay." That compar… |
+| 105 | $60,000 |  | …raming is: "I can make $90,000 in the civilian world vs. my **$60,000** base pay." That comparison misses several significant facto… |
+| 115 | $3,059 |  | … **The pension comparison requires gross-up.** To replace **$3,059**/month in pension income from civilian employment and saving… |
+| 115 | $918,000 |  | …te that amount in addition to your regular income — or have **$918,000** saved specifically for that purpose. Most civilians don't a… |
+
+</details>
+
+### src/content/blog/what-walking-away-at-12-years-costs.mdx
+
+data 2 (1 weak) · derived 0 (0 weak) · unbound 15
+
+| Line | Figure | Class | Sources | Flags | Context |
+|---:|---|---|---|---|---|
+| 132 | $2,000 | data (weak) | `healthcare:employer.single.silver.deductible`, `healthcare:employer.family.gold.deductible`, `healthcare:acaNoSubsidy.single.gold.deductible` |  | …rmat="dollars" /&gt;/year (taxable) - BAH (varies by station, **$2,000**/month used as a moderate example): $24,000/year (excluded f… |
+| 168 | $3,000 | data | `bah:CA018/E-5/wo`, `bah:CA034/O-1E/w`, `bah:CA034/W-5/wo`, `bah:FL062/W-3/w`, `bah:FL062/O-7/wo` (+9 more) |  | … is underweighting the pension's value (thinking "it's only **$3,000**/month") without accounting for COLA, the early start date, … |
+
+<details><summary>15 unbound</summary>
+
+| Line | Figure | Flags | Context |
+|---:|---|---|---|
+| 17 | $0 |  | … for life — while an E-7 who separates at 12 years receives **$0** pension under regular longevity retirement. Walking away al… |
+| 23 | $150,000 |  | …t 8 more years of government TSP matching adds an estimated **$150,000**+ to the member's retirement balance at age 60&lt;/QAItem&gt; &lt;… |
+| 34 | $0 |  | …lk away at 12 years, 15 years, 19 years, and the pension is **$0**. Under BRS, separating before 20 still means no pension — b… |
+| 111 | $5,900 | approx | …SP matching contributions. **BRS matching for an E-7 at ~**$5,900**/month average base pay:** - 5% contribution → 5% governmen… |
+| 112 | $295 |  | …rage base pay:** - 5% contribution → 5% government match = **$295**/month in government contributions - Over 96 months (8 year… |
+| 113 | $295 |  | …th in government contributions - Over 96 months (8 years): **$295** × 96 = **$28,320 in direct government contributions** Th… |
+| 113 | $28,320 |  | …nt contributions - Over 96 months (8 years): $295 × 96 = ****$28,320** in direct government contributions** Those contributions… |
+| 119 | $295 | table | … \|---\|---\|---\| \| 8 years of matching at 7% return \| FV of **$295**/month × 96 months \| ~$38,000 \| \| Continues to grow for 22 … |
+| 119 | $38,000 | approx, table | … of matching at 7% return \| FV of $295/month × 96 months \| ~**$38,000** \| \| Continues to grow for 22 more years to age 60 \| $38,00… |
+| 120 | $38,000 | table | …38,000 \| \| Continues to grow for 22 more years to age 60 \| **$38,000** × 1.07²² \| **~$165,000** \| **Roughly $165,000 in additio… |
+| 120 | $165,000 | approx, table | …to grow for 22 more years to age 60 \| $38,000 × 1.07²² \| **~**$165,000**** \| **Roughly $165,000 in additional TSP balance at age … |
+| 122 | $165,000 | approx | …to age 60 \| $38,000 × 1.07²² \| **~$165,000** \| **Roughly **$165,000** in additional TSP balance at age 60 from 8 more years of ma… |
+| 132 | $24,000 | annual | …aries by station, $2,000/month used as a moderate example): **$24,000**/year (excluded from federal taxable income) - BAS: &lt;Retire… |
+| 135 | $25,000 |  | …accrual (pension + BRS matching, annualized): equivalent to **$25,000**+/year in deferred compensation **Total annual value of m… |
+| 142 | $25,000 |  | …llars" /&gt; family deductible) - Retirement match generating **$25,000**+ in annual retirement accrual - The equivalent of a lifeti… |
 
 </details>
 

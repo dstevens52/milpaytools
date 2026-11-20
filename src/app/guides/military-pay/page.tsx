@@ -5,6 +5,9 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { BAS_RATES } from '@/data/constants';
+import { OFFICIAL_COMPARISON_2027 } from '@/data/tricare/2027/openSeason';
+import { formatCurrency } from '@/lib/utils';
 
 const TITLE = 'Military Pay Guide 2026: Base Pay, BAH & BAS';
 const DESC =
@@ -97,7 +100,12 @@ const PAY_LAYERS = [
     title: 'Everything Else',
     description:
       'BAS, TSP matching, tax advantages, TRICARE healthcare coverage, and special pays. Combined, these add tens of thousands per year.',
-    bullets: ['BAS: $476.95/mo (enlisted)', 'TSP match: up to 5% base pay (BRS)', 'Tax advantage: $5K–$15K+/yr', 'TRICARE: $0 premiums (worth $7,200–$20,400/yr)'],
+    bullets: [
+      `BAS: ${formatCurrency(BAS_RATES.enlisted, true)}/mo (enlisted)`,
+      'TSP match: up to 5% base pay (BRS)',
+      'Tax advantage: $5K–$15K+/yr',
+      `TRICARE: $0 premiums for active duty (employer family plans average ${formatCurrency(OFFICIAL_COMPARISON_2027.employerAvgEmployeePremium)}/yr in employee premiums)`,
+    ],
     cta: 'See your full picture →',
     href: '/calculators/total-compensation',
     secondaryHref: '/calculators/healthcare-comparison',

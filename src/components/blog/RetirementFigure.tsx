@@ -1,6 +1,7 @@
 import { formatCurrency } from '@/lib/utils';
 import { BAS_RATES } from '@/data/constants';
 import { lookupBasePay } from '@/lib/calculations/basePay';
+import { tricareValue } from '@/lib/tricarePost';
 import {
   retirementExample,
   annualInYear,
@@ -99,7 +100,9 @@ export function RetirementFigure({ name, grade = 'E-7', yos: yosProp = 20, forma
 /**
  * The 20th-year compensation total in what-walking-away-at-12-years-costs: final-year
  * basic pay (lib) + BAS (lib) + the post's stated example amounts, which the post
- * lists right above the total (BAH example a month, TRICARE value, retirement accrual).
+ * lists right above the total (BAH example a month, healthcare, retirement accrual).
+ * `tricare` is a number string or a "comparison.<field>" path (e.g. the employer
+ * average employee premium, KFF 2026 via OS27).
  */
 export function FinalYearCompTotal({
   bahMonthly,
@@ -115,11 +118,13 @@ export function FinalYearCompTotal({
   yos?: number | string;
 }) {
   const ex = retirementExample(grade, num(yos, 'yos'));
+  // A "comparison.<field>" path reads the official TRICARE comparison data (OS27) via tricareValue.
+  const healthcare = tricare.startsWith('comparison.') ? tricareValue('2027', tricare) : num(tricare, 'tricare');
   const total =
     ex.finalYearMonthlyPay * 12 +
     num(bahMonthly, 'bahMonthly') * 12 +
     BAS_RATES.enlisted * 12 +
-    num(tricare, 'tricare') +
+    healthcare +
     num(accrual, 'accrual');
   return <>{format(total, 'thousands')}</>;
 }

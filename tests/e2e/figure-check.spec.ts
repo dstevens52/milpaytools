@@ -45,7 +45,10 @@ const ROOT = join(__dirname, '..', '..');
 // Re-based 2026-11-19 (T1): 2,460 → 2,346 figures because the TRICARE costs post
 // (111) and the TAMP post (3) now render their TRICARE figures from the data
 // files; ~90% of 2,346.
-const MIN_FIGURES = 2_110;
+// Re-based 2026-11-19 (C2): 2,346 → 2,303 figures because the career posts and the
+// transition / military-pay / retirement-tsp pages now render their TRICARE and
+// civilian-healthcare figures from the data files (unsourced ranges cut); ~90% of 2,303.
+const MIN_FIGURES = 2_070;
 const MIN_FILES_WITH_FIGURES = 62;
 
 const MODULES: Record<string, Record<string, unknown>> = {
