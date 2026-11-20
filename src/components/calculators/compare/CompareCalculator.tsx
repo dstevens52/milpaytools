@@ -11,7 +11,8 @@ import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { readUrlParams } from '@/data/calculatorUrlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
-import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
+import { useCombinedBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
+import { pendingBahLabel } from '@/lib/combinedPayYear';
 import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
 import { COLA_SOURCE, DATA_YEAR as COLA_YEAR } from '@/data/cola/2026/constants';
 import { STATE_TAX_DATA } from '@/data/compare/stateTax';
@@ -253,8 +254,11 @@ export function CompareCalculator() {
   const bothReady = zipA.length === 5 && zipB.length === 5;
 
   // Both locations resolved server-side via the cached route (parallel fetches).
-  const { data: dataA } = useBahLookup(zipA);
-  const { data: dataB } = useBahLookup(zipB);
+  // One-year rule: BAH from the pay table's year; a newer loaded year shows on its own row.
+  const { data: dataA, pendingYear, pendingData: pendingA } = useCombinedBahLookup(zipA);
+  const { data: dataB, pendingData: pendingB } = useCombinedBahLookup(zipB);
+  const pendingBahA = pendingYear ? rateFor(pendingA, payGrade, hasDependents) : null;
+  const pendingBahB = pendingYear ? rateFor(pendingB, payGrade, hasDependents) : null;
   const bahA = useMemo(() => {
     const r = rateFor(dataA, payGrade, hasDependents);
     return { monthlyBAH: r ?? 0, locationName: dataA?.locationName ?? zipA, bahFound: r !== null, mha: dataA?.mha ?? null };
@@ -524,6 +528,15 @@ export function CompareCalculator() {
               valB={result.locB.bahFound ? `${fmt(result.locB.monthlyBAH)}/mo` : 'Not found'}
               badge={<DiffBadge diff={result.bahDiffMonthly} />}
             />
+            {pendingYear && pendingBahA !== null && pendingBahB !== null && (
+              <CompareRow
+                label={pendingBahLabel(pendingYear)}
+                sublabel="Not in these totals"
+                valA={`${fmt(pendingBahA)}/mo`}
+                valB={`${fmt(pendingBahB)}/mo`}
+                badge={<DiffBadge diff={pendingBahB - pendingBahA} />}
+              />
+            )}
 
             {/* Row: BAS */}
             <CompareRow
