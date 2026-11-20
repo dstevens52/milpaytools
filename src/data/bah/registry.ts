@@ -23,6 +23,7 @@ import { mhaRates as rates2026 } from './2026/mhaRates';
 import { mhaRates as rates2027 } from './2027/mhaRates';
 import { zipToMha as zipToMha2027 } from './2027/zipToMha';
 import { mhaNames as mhaNames2027 } from './2027/mhaNames';
+import { zipPriorMha as zipPriorMha2027 } from './2027/zipPriorMha';
 import { BAH_MID_YEAR_CHANGES as midYear2026 } from './2026/midYearChanges';
 import type { BahMidYearChanges } from './midYear';
 
@@ -54,7 +55,7 @@ export interface BahLookupTables {
 
 /** ZIP → MHA map and MHA names. Registered for BAH_YEAR only. */
 export const BAH_LOOKUP_TABLES: Partial<Record<BahYear, BahLookupTables>> = {
-  '2027': { zipToMha: zipToMha2027, mhaNames: mhaNames2027 },
+  '2027': { zipToMha: zipToMha2027, mhaNames: mhaNames2027, priorMhaByZip: zipPriorMha2027 },
 };
 
 /** DTMO mid-year changes, by year. A new year starts empty. */

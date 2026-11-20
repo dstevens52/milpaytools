@@ -41,6 +41,8 @@ Remapped to a different MHA: **3**. New ZIPs: 0. Dropped ZIPs: 0.
 
 Station-page ZIPs remapped: Fairchild AFB 99011 WA310→WA307
 
+Every remapped ZIP is written to `src/data/bah/2027/zipPriorMha.ts`. Register it (`BAH_LOOKUP_TABLES['2027'].priorMhaByZip`) so year-over-year figures and the "2026 rate applies" line use each ZIP's 2026 MHA. A remapped station page also shows a new MHA name and rates: check it on the preview.
+
 ## 2026 mid-year changes in the comparison base
 
 The 2026 rates compared below include these DTMO mid-year changes, so a "decrease" there may be the end of a temporary increase rather than a cut to the January 2026 rate:
