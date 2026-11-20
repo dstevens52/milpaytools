@@ -54,7 +54,7 @@ export const GUIDE_PAGES: GuidePage[] = [
     description:
       'Base pay tables, BAH by ZIP code, BAS, tax advantages, COLA, and how the pieces add up to total compensation — with the calculators for each.',
     category: 'Compensation & Pay',
-    date: '2026-04-12',
+    date: '2026-11-19', // C2: BAS computed, TRICARE bullet from the KFF employer average
     readTime: 18,
     calculators: ['total-compensation', 'bah', 'pay-charts', 'cola', 'deployment', 'guard-reserve'],
   },
@@ -74,7 +74,7 @@ export const GUIDE_PAGES: GuidePage[] = [
     description:
       'How High-3 and BRS differ, what a pension is actually worth, Roth vs Traditional TSP, and how the government match compounds over a career.',
     category: 'TSP & Retirement',
-    date: '2026-11-18', // C1: High-3, BRS match, REDUX wording
+    date: '2026-11-19', // C2: retiree TRICARE Prime fee + employer average (C1 before)
     readTime: 20,
     calculators: ['retirement', 'tsp', 'total-compensation', 'va-disability'],
   },

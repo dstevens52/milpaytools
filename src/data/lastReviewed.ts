@@ -46,7 +46,7 @@ export type CalculatorSlug = keyof typeof CALCULATOR_LAST_REVIEWED;
 
 /** Non-hub pages outside the calculator, station, rank, blog and guide groups. Keyed by path. */
 export const PAGE_LAST_REVIEWED = {
-  '/transition': '2026-11-19', // T1: TRICARE post card title
+  '/transition': '2026-11-19', // C2: TRICARE post card description (KFF employer average)
   '/about': '2026-05-30',
   '/privacy': '2026-05-31',
   '/terms': '2026-05-30',

@@ -6,6 +6,8 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema } from '@/lib/schema';
 import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
 import { getMHARates } from '@/lib/calculations/bah';
+import { OFFICIAL_COMPARISON_2027 } from '@/data/tricare/2027/openSeason';
+import { usdWhole } from '@/lib/tricarePost';
 
 const PAGE_TITLE = 'Military Transition Financial Guide 2026';
 const META_TITLE = `${PAGE_TITLE}`;
@@ -453,7 +455,7 @@ export default function TransitionPage() {
       <section className="bg-white border-b border-zinc-200 py-6 sm:py-8 px-4">
         <div className="mx-auto max-w-3xl">
           <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-            Military-to-civilian financial transition requires replacing the full value of military compensation — not just base pay — in a civilian job offer. For an E-6 with a family, BAH, BAS, TRICARE, and tax advantages typically represent $30,000–$50,000 per year in value that disappears at separation, with healthcare replacement alone running $600–$2,000/month in premiums for comparable civilian family coverage. Use the tools on this page to understand the gap before accepting any offer.
+            Military-to-civilian financial transition requires replacing the full value of military compensation — not just base pay — in a civilian job offer. For an E-6 with a family, BAH, BAS, TRICARE, and tax advantages typically represent $30,000–$50,000 per year in value that disappears at separation. For healthcare alone, the average employer family plan costs an employee {usdWhole(OFFICIAL_COMPARISON_2027.employerAvgEmployeePremium)} a year in premiums (KFF 2026, as TRICARE reports it). Use the tools on this page to understand the gap before accepting any offer.
           </p>
         </div>
       </section>
@@ -738,7 +740,7 @@ export default function TransitionPage() {
                 <ResourceCard
                   href="/blog/tricare-costs-2026-vs-civilian"
                   title="TRICARE Costs in 2027 vs 2026"
-                  description="Understand exactly what healthcare will cost as a civilian. This is often the most underestimated transition expense — the gap between TRICARE and a civilian employer plan can exceed $10,000 per year for a family."
+                  description={`Understand exactly what healthcare will cost as a civilian. This is often the most underestimated transition expense — the average employer family plan costs an employee ${usdWhole(OFFICIAL_COMPARISON_2027.employerAvgEmployeePremium)} a year in premiums plus a ${usdWhole(OFFICIAL_COMPARISON_2027.employerAvgFamilyDeductible)} deductible (KFF 2026, as TRICARE reports it).`}
                 />
                 <ResourceCard
                   href="/calculators/healthcare-comparison"

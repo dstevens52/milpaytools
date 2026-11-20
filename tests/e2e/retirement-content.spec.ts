@@ -77,7 +77,8 @@ test.describe('C1: computed retirement figures', () => {
     await expect(article).not.toContainText('$6,245.70/month = ');
     await expect(article).toContainText(`Base pay (final year, paid at the Over 18 rate): ${usd(pay('E-7', 18))}/month = ${usd0(pay('E-7', 18) * 12)}/year (taxable)`);
     await expect(article).toContainText(`BAS: ${usd(BAS_RATES.enlisted)}/month = ${usd0(BAS_RATES.enlisted * 12)}/year (excluded from federal taxable income)`);
-    const total = pay('E-7', 18) * 12 + 2000 * 12 + BAS_RATES.enlisted * 12 + 15000 + 25000;
+    // C2: healthcare is the employer average employee premium (KFF 2026 via OS27, $7,471), not the old $15,000.
+    const total = pay('E-7', 18) * 12 + 2000 * 12 + BAS_RATES.enlisted * 12 + 7471 + 25000;
     await expect(article).toContainText(`in the 20th year: approximately ${usd0(Math.round(total / 1000) * 1000)}`);
     for (const y of [12, 14, 16, 18, 20]) await expect(article).toContainText(`At ${y} years: ${usd(pay('E-7', y))}/month`);
     await page.goto('/blog/how-military-retirement-works');

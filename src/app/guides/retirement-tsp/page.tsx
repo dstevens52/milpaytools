@@ -7,6 +7,8 @@ import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { formatCurrency } from '@/lib/utils';
 import { retirementExample, lifetimeNominal, cents } from '@/lib/calculations/retirementExample';
+import { currentTricareCosts, TRICARE_COST_YEAR } from '@/data/tricare/current';
+import { OFFICIAL_COMPARISON_2027 } from '@/data/tricare/2027/openSeason';
 
 const TITLE = 'Military Retirement & TSP Guide: BRS vs High-3';
 const DESC =
@@ -23,6 +25,12 @@ const E7_LIFETIME = lifetimeNominal(E7.high3Pension, 44); // age 38 to 82
 const E7_LIFETIME_TEXT = `$${(E7_LIFETIME / 1_000_000).toFixed(1)} million`;
 const usdCents = (n: number) => formatCurrency(cents(n), true);
 const O5_BREAKDOWN = O5.breakdown.map((b) => `${b.months} months at ${b.column}`).join(' + ');
+// TRICARE (C2): the retiree Prime Group A family enrollment fee for the current TRICARE
+// cost year (flips with TRICARE_COST_YEAR on Jan. 1) and the employer average employee
+// premium (KFF 2026, via OS27). An E-7 retiring at 20 today entered before Jan. 1, 2018: Group A.
+const PRIME_A_FAMILY_FEE = formatCurrency(currentTricareCosts.retiree.primeA.enrollmentFee.family, true);
+const EMPLOYER_AVG_PREMIUM = formatCurrency(OFFICIAL_COMPARISON_2027.employerAvgEmployeePremium);
+const TRICARE_RETIREE_TEXT = `A retiree family in TRICARE Prime Group A (for members who entered service before Jan. 1, 2018, as an E-7 retiring at 20 today did) pays a ${PRIME_A_FAMILY_FEE} enrollment fee for ${TRICARE_COST_YEAR}. The average employer family plan costs an employee ${EMPLOYER_AVG_PREMIUM} a year in premiums (Kaiser Family Foundation 2026 survey, as TRICARE reports it).`;
 
 const OG_IMAGE = ogImage({ type: 'guide', title: 'Military Retirement & TSP Guide 2026', sub: 'Pension, TSP, TRICARE, and VA disability in one picture' });
 
@@ -77,7 +85,7 @@ const FAQS = [
   {
     question: 'Is it worth staying to 20 years for the pension?',
     answer:
-      `The 20-year pension cliff is significant. An E-7 retiring at 38 with a ${E7_PENSION}/month pension who lives to 82 collects for 44 years — with COLA, the lifetime nominal value is about ${E7_LIFETIME_TEXT}. Healthcare: TRICARE for retirees is worth an estimated $10,000–$15,000/year compared to civilian coverage. The financial case for staying to 20 is strong, but career factors and quality of life matter equally.`,
+      `The 20-year pension cliff is significant. An E-7 retiring at 38 with a ${E7_PENSION}/month pension who lives to 82 collects for 44 years — with COLA, the lifetime nominal value is about ${E7_LIFETIME_TEXT}. Healthcare: ${TRICARE_RETIREE_TEXT} The financial case for staying to 20 is strong, but career factors and quality of life matter equally.`,
   },
   {
     question: 'How does VA disability interact with military retirement pay?',
@@ -311,7 +319,7 @@ const ACCORDION = [
           44 years. With COLA adjustments, the lifetime nominal value comes to about{' '}
           <strong className="text-zinc-800">{E7_LIFETIME_TEXT}</strong>.
         </p>
-        <p><strong className="text-zinc-800">TRICARE:</strong> Military retirees qualify for TRICARE coverage — one of the most comprehensive and affordable health insurance options available. For a family, the difference between TRICARE and civilian employer coverage can exceed $10,000–$15,000/year. This benefit is frequently underweighted in retirement calculations.</p>
+        <p><strong className="text-zinc-800">TRICARE:</strong> Military retirees and their families can use TRICARE Prime or TRICARE Select. {TRICARE_RETIREE_TEXT} This benefit is frequently underweighted in retirement calculations.</p>
         <p>
           <strong className="text-zinc-800">The civilian salary you&apos;d need:</strong> To match
           the financial value of military retirement (pension + healthcare + commissary/exchange
@@ -557,7 +565,7 @@ export default function RetirementTspGuidePage() {
                   {[
                     { label: 'Monthly pension', value: E7_PENSION },
                     { label: 'Annual pension', value: E7_ANNUAL },
-                    { label: 'Est. TRICARE savings', value: '~$12,000/yr' },
+                    { label: 'Retiree TRICARE Prime family fee', value: `${PRIME_A_FAMILY_FEE}/yr` },
                   ].map(({ label, value }) => (
                     <div key={label} className="flex items-center justify-between py-2.5">
                       <span className="text-sm text-zinc-600">{label}</span>

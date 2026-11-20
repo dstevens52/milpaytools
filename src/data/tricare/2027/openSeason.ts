@@ -46,6 +46,8 @@ export interface ComparisonRow {
 const t = TRICARE_COSTS_2027.retiree.selectB;
 /** Employer-sponsored average annual employee premium, family coverage (KFF 2026, via OS27). */
 const EMPLOYER_AVG_EMPLOYEE_PREMIUM = 7471;
+/** Employer-sponsored average family coverage deductible, aggregate structure, PPO plans (KFF 2026, via OS27). */
+const EMPLOYER_AVG_FAMILY_DEDUCTIBLE = 3320;
 const usd0 = (n: number) => '$' + n.toLocaleString('en-US');
 
 export const OFFICIAL_COMPARISON_2027: {
@@ -54,6 +56,7 @@ export const OFFICIAL_COMPARISON_2027: {
   columns: string[];
   rows: ComparisonRow[];
   employerAvgEmployeePremium: number;
+  employerAvgFamilyDeductible: number;
   footnotes: string[];
 } = {
   source: OPEN_SEASON_SOURCE,
@@ -75,7 +78,7 @@ export const OFFICIAL_COMPARISON_2027: {
         '$1,000 network; $1,000 non-network',
         '$10,000 network',
         '$0 network',
-        '$3,320 network',
+        `${usd0(EMPLOYER_AVG_FAMILY_DEDUCTIBLE)} network`,
       ],
     },
     {
@@ -90,6 +93,7 @@ export const OFFICIAL_COMPARISON_2027: {
     },
   ],
   employerAvgEmployeePremium: EMPLOYER_AVG_EMPLOYEE_PREMIUM,
+  employerAvgFamilyDeductible: EMPLOYER_AVG_FAMILY_DEDUCTIBLE,
   footnotes: [
     'TRICARE column: TRICARE Select Group B retiree family, which TRICARE uses "as it generally has higher enrollment fees and out-of-pockets costs than the other TRICARE plans available during TRICARE Open Season." TRICARE calls its annual out-of-pocket maximum the catastrophic cap.',
     'FEHB: a sample Federal Employees Health Benefits family plan.',
