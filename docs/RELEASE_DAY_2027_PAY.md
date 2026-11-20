@@ -25,6 +25,10 @@ status — no page edits are needed on release day.
 4. **Open a PR.**
 5. **After merge,** submit `/pay/raise`, `/pay` and the rank pages (`/pay/e1` … `/pay/o6`) to
    IndexNow, and use Google Search Console "Request Indexing" for each.
+   **One-year rule (R3):** when the 2027 pay table becomes the table the site computes with (its
+   `DATA_YEAR` replaces `src/data/pay-tables/2026.ts`'s), every figure that adds pay to BAH moves to
+   2027 BAH by itself (`combinedPayBahYear()` in `src/lib/combinedPayYear.ts`) and the
+   "2027 BAH (from Jan. 1)" lines disappear. 2027 BAH must already be loaded, or the helper throws.
 
 ## Key dates calendar flips (`src/data/calendar-2027.ts`)
 

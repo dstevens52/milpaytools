@@ -198,6 +198,11 @@ shows the "temporary 2026 rates … expire December 31, 2026" paragraph instead 
 rate-protection paragraph, and its year-over-year line compares against the temporary rate.
 The station "total pay by rank" section stays on 2026 pay **and** 2026 BAH, with "2027 totals
 appear when the 2027 pay table is published" (R2: verified on 20 stations).
+**One-year rule (R3, `src/lib/combinedPayYear.ts`):** the same holds for every figure that adds pay
+to BAH (total comp, PCS compare, deployment, transition readiness, the dual-military example,
+`/transition`, the starting-service guide, the homepage sample, the `/pay/[rank]` median example):
+they stay on 2026 BAH with 2026 pay and show "2027 BAH (from Jan. 1)" as a separate line. Nothing
+to edit on release day; BAH-only pages show 2027.
 
 ## 4. Test fixture + release-day test updates + local checks (≈40 min)
 
