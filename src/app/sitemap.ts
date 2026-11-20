@@ -5,7 +5,7 @@ import { DUTY_STATIONS } from '@/data/duty-stations/stations';
 import { OCONUS_V2_STATIONS } from '@/data/oconus';
 import { PAY_PAGE_RANKS, PAY_PAGES_LAST_UPDATED } from '@/data/pay-pages/ranks';
 import { BAH_YEAR } from '@/data/bah/current';
-import { bahRelease } from '@/data/bah/releaseHistory';
+import { bahReleasedDateFor } from '@/lib/bahReleaseDate';
 import { getMHACode, getBahMidYearChange } from '@/lib/calculations/bah';
 import { CALCULATOR_LAST_REVIEWED, PAGE_LAST_REVIEWED, type CalculatorSlug } from '@/data/lastReviewed';
 
@@ -34,11 +34,9 @@ function isoFromLongDate(s: string): string {
   return `${m[3]}-${String(month).padStart(2, '0')}-${m[2].padStart(2, '0')}`;
 }
 
-/** BAH data date for the current BAH year: DoD's release date. */
+/** BAH data date for the current BAH year: DoD's release date (src/lib/bahReleaseDate.ts). */
 function bahDataDate(): string {
-  const release = bahRelease(BAH_YEAR);
-  if (!release) throw new Error(`sitemap: no BAH release recorded for ${BAH_YEAR} (src/data/bah/releaseHistory.ts)`);
-  return release.releasedDate;
+  return bahReleasedDateFor(BAH_YEAR);
 }
 
 /** A station's BAH data date: the release date, or its MHA's mid-year change if later. */

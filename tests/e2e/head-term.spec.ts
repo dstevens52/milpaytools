@@ -2,6 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import { waitForHydration } from './helpers/hydration';
 import { CALCULATORS } from '../../src/data/calculators';
 import { SOCIAL_PROFILES } from '../../src/lib/schema';
+import { BAH_YEAR } from '../../src/data/bah/current';
 
 /**
  * S8 head-term fixes: sitewide anchor text, homepage title/H1/meta, structured data,
@@ -163,5 +164,14 @@ test.describe('/calculators/tsp', () => {
     await expect(page.getByText('Your TSP could be worth more than you think — run the numbers.')).toBeVisible();
     // The meta's "2026 and 2027" claim: the page shows both years' limits.
     await expect(page.getByRole('heading', { name: 'TSP Contribution Limits: 2026 and 2027' })).toBeVisible();
+  });
+});
+
+test.describe('homepage BAH card', () => {
+  test('names the current BAH year, so it follows the year switch (R2)', async ({ page }) => {
+    await page.goto('/');
+    const card = page.locator('main a[href="/bah"]').filter({ hasText: 'BAH by ZIP Code' });
+    await expect(card).toHaveCount(1);
+    await expect(card).toContainText(`${BAH_YEAR} housing allowance for any ZIP code.`);
   });
 });
