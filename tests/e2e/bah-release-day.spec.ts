@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, readdirSync, rmSync, statSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 // In-process, data-only checks for the BAH release-day machinery (no server):
@@ -21,7 +21,16 @@ import {
   priorYearRates,
   isBahYear,
   currentZipToMha,
+  getMHACode,
+  getMHARatesForYear,
+  priorYearMhaForZip,
+  CURRENT_BAH_YEAR as CUR,
+  PRIOR_BAH_YEAR as PRI,
 } from '../../src/lib/calculations/bah';
+import { yoyForGrade, hasRateDecrease } from '../../src/lib/calculations/bahStats';
+import { bahReleasedDateFor } from '../../src/lib/bahReleaseDate';
+import { BAH_RELEASE_HISTORY } from '../../src/data/bah/releaseHistory';
+import { BAH_2027_STATUS } from '../../src/data/bah/2027-status';
 import {
   bahNoticeMode,
   bahTransitionText,
@@ -32,6 +41,11 @@ import { BAH_EXPECTED as X } from './fixtures/bah-expected';
 import { EDUCATION_BAH_YEAR } from '../../src/data/education/2026/constants';
 import { giBillBahAtZip } from '../../src/lib/calculations/educationBah';
 import { calculatePostGIBill } from '../../src/lib/calculations/education';
+// Static, not `await import(...)`: Playwright transpiles statically imported
+// TypeScript, but a dynamic import() of a .ts file goes to Node's own loader,
+// which failed with "Cannot use import statement outside a module" whenever no
+// earlier spec in the worker had already loaded the route (R2, 2026-11-20).
+import { GET as bahLookupGET } from '../../src/app/api/bah/lookup/route';
 
 const ROOT = process.cwd();
 const node = (args: string[]) =>
@@ -153,6 +167,87 @@ test.describe('Importer (scripts/bah-import.mjs)', () => {
   });
 });
 
+test.describe('Remapped ZIPs: prior-year figures use the MHA the ZIP was paid under (R2)', () => {
+  // R2 rehearsal: DTMO moved Fairchild AFB's ZIP 99011 to another MHA in the synthetic
+  // 2027 package; the station page compared 2027 rates with the NEW MHA's 2026 rate
+  // ("the 2026 rate applies: $2,748" — Fairchild was paid $2,184).
+  /** zipPriorMha.ts → its map (the importer's own output format). */
+  const readPriorMap = (file: string): Record<string, string> => {
+    const m = /zipPriorMha: Record<string, string> = (\{[\s\S]*?\});/.exec(readFileSync(file, 'utf8'));
+    expect(m, file).toBeTruthy();
+    return JSON.parse(m![1].replace(/,\s*\}$/, '}'));
+  };
+
+  test('importer writes zipPriorMha.ts: each remapped ZIP → its prior-year MHA', () => {
+    const tmp = mkdtempSync(path.join(tmpdir(), 'bah-remap-'));
+    try {
+      // A "2027" package = the 2026 files with ZIP 99011 moved WA310 → WA307.
+      const src = path.join(tmp, 'src');
+      mkdirSync(src);
+      const from = path.join(ROOT, 'data', 'sources', 'dtmo', '2026');
+      for (const f of ['bahw', 'bahwo', 'mhanames']) copyFileSync(path.join(from, `${f}26.txt`), path.join(src, `${f}27.txt`));
+      const zips = readFileSync(path.join(from, 'sorted_zipmha26.txt'), 'latin1');
+      expect(zips).toContain('99011 WA310');
+      writeFileSync(path.join(src, 'sorted_zipmha27.txt'), zips.replace('99011 WA310', '99011 WA307'), 'latin1');
+      const out = path.join(tmp, 'out');
+      const r = node(['scripts/bah-import.mjs', '--year', '2027', '--src', src, '--prior', '2026', '--out', out, '--report', path.join(tmp, 'report.md')]);
+      expect(r.status, r.stderr + r.stdout).toBe(0);
+      expect(readPriorMap(path.join(out, 'zipPriorMha.ts'))).toEqual({ '99011': 'WA310' });
+      expect(readFileSync(path.join(tmp, 'report.md'), 'utf8')).toContain('zipPriorMha.ts');
+    } finally {
+      rmSync(tmp, { recursive: true, force: true });
+    }
+  });
+
+  test('a year with a zipPriorMha.ts registers it (BAH_LOOKUP_TABLES[BAH_YEAR].priorMhaByZip)', () => {
+    const file = path.join(ROOT, 'src', 'data', 'bah', BAH_YEAR, 'zipPriorMha.ts');
+    const registered = BAH_LOOKUP_TABLES[BAH_YEAR as keyof typeof BAH_LOOKUP_TABLES]?.priorMhaByZip;
+    if (!existsSync(file)) {
+      // 2026 predates the file: nothing to register, and nothing registered.
+      expect(registered).toBeUndefined();
+      return;
+    }
+    expect(registered, `register src/data/bah/${BAH_YEAR}/zipPriorMha.ts in registry.ts`).toEqual(readPriorMap(file));
+  });
+
+  test('priorYearMhaForZip: the current MHA unless the ZIP was remapped', () => {
+    expect(priorYearMhaForZip(X.bragg.zip)).toBe(getMHACode(X.bragg.zip)); // no remap at Fort Bragg
+    expect(priorYearMhaForZip('00000')).toBeNull();
+    const remaps = BAH_LOOKUP_TABLES[BAH_YEAR as keyof typeof BAH_LOOKUP_TABLES]?.priorMhaByZip ?? {};
+    for (const [zip, prior] of Object.entries(remaps)) expect(priorYearMhaForZip(zip)).toBe(prior);
+  });
+
+  test('yoyForGrade / hasRateDecrease compare with the prior MHA when given one', () => {
+    // NC182 now vs NC183 (Seymour Johnson) in the prior year: a stand-in for a remap.
+    const y = yoyForGrade('NC182', 'E-5', true, 'NC183')!;
+    expect(y.current).toBe(getMHARatesForYear('NC182', true, CUR)!['E-5']);
+    expect(y.prior).toBe(getMHARatesForYear('NC183', true, PRI)!['E-5']);
+    expect(y.prior).not.toBe(getMHARatesForYear('NC182', true, PRI)!['E-5']); // control: the MHAs differ
+    expect(yoyForGrade('NC182', 'E-5', true)).toEqual(yoyForGrade('NC182', 'E-5', true, 'NC182')); // default = same MHA
+    expect(hasRateDecrease('NC182')).toBe(hasRateDecrease('NC182', CUR, 'NC182'));
+  });
+});
+
+test.describe('Release date for data dates (sitemap) when DoD states no percent (R2)', () => {
+  const RELEASED = { ...BAH_2027_STATUS, status: 'released' as const, releasedDate: '2026-12-12' };
+  const NO_2027_ROW = BAH_RELEASE_HISTORY.filter((r) => r.ratesYear !== 2027);
+
+  test('the history row wins', () => {
+    expect(bahReleasedDateFor('2026')).toBe('2025-12-11');
+    const withRow = [{ ...NO_2027_ROW[0], ratesYear: 2027, releasedDate: '2026-12-15' }, ...NO_2027_ROW];
+    expect(bahReleasedDateFor('2027', withRow, RELEASED)).toBe('2026-12-15');
+  });
+
+  test("no 2027 row (no percent in DoD's release): falls back to BAH_2027_STATUS.releasedDate, never throws", () => {
+    // R2: /sitemap.xml returned 500 with the row left out, which fails the build.
+    expect(bahReleasedDateFor('2027', NO_2027_ROW, RELEASED)).toBe('2026-12-12');
+  });
+
+  test('no row and no status date: a clear error naming both fixes', () => {
+    expect(() => bahReleasedDateFor('2027', NO_2027_ROW, { ...BAH_2027_STATUS, releasedDate: null })).toThrow(/releaseHistory\.ts.*BAH_2027_STATUS\.releasedDate/);
+  });
+});
+
 test.describe('IndexNow URL list (scripts/bah-urls.mjs)', () => {
   test('covers /bah, every CONUS station page, rank pages and every page that imports BAH code', () => {
     const r = node(['scripts/bah-urls.mjs', '--print']);
@@ -183,6 +278,57 @@ test.describe('IndexNow URL list (scripts/bah-urls.mjs)', () => {
     };
     walk(appDir);
     expect(missing, `pages importing BAH code but missing from bah-urls STATIC_PATHS: ${missing.join(', ')}`).toEqual([]);
+  });
+
+  test('covers every static page that reaches the BAH release status or history through any import chain', () => {
+    // R2 rehearsal: /pay, /pay/raise and /pay/dates change on release day (the key-dates
+    // calendar reads 2027-status.ts) but import no BAH code directly, so the check above
+    // missed them. Follow imports transitively from each page.tsx.
+    const SRC = path.join(ROOT, 'src');
+    const TARGETS = ['data/bah/2027-status.ts', 'data/bah/releaseHistory.ts'].map((p) => path.join(SRC, p));
+    const resolve = (from: string, spec: string): string | null => {
+      const base = spec.startsWith('@/') ? path.join(SRC, spec.slice(2)) : spec.startsWith('.') ? path.resolve(path.dirname(from), spec) : null;
+      if (!base) return null;
+      for (const c of [base, `${base}.ts`, `${base}.tsx`, path.join(base, 'index.ts'), path.join(base, 'index.tsx')]) {
+        try { if (statSync(c).isFile()) return c; } catch { /* next candidate */ }
+      }
+      return null;
+    };
+    const memo = new Map<string, boolean>();
+    const reaches = (f: string, stack: Set<string>): boolean => {
+      if (TARGETS.includes(f)) return true;
+      if (memo.has(f)) return memo.get(f)!;
+      if (stack.has(f)) return false;
+      stack.add(f);
+      const src = readFileSync(f, 'utf8');
+      const deps = [...src.matchAll(/(?:import|export)[^'"]*?from\s+['"]([^'"]+)['"]|import\(\s*['"]([^'"]+)['"]\s*\)/g)]
+        .map((m) => resolve(f, m[1] ?? m[2])).filter((x): x is string => !!x);
+      const r = deps.some((d) => reaches(d, stack));
+      stack.delete(f);
+      memo.set(f, r);
+      return r;
+    };
+    const r = node(['scripts/bah-urls.mjs', '--print']);
+    const paths = new Set((JSON.parse(r.stdout).urls as string[]).map((u) => new URL(u).pathname));
+    const appDir = path.join(SRC, 'app');
+    const found: string[] = [];
+    const missing: string[] = [];
+    const walk = (dir: string) => {
+      for (const e of readdirSync(dir)) {
+        const p = path.join(dir, e);
+        if (statSync(p).isDirectory()) walk(p);
+        else if (e === 'page.tsx' && reaches(p, new Set())) {
+          const rel = path.relative(appDir, path.dirname(p)).split(path.sep).join('/');
+          const route = rel === '' ? '/' : `/${rel}`;
+          if (route.includes('[') || route.startsWith('/_archive') || route.startsWith('/home-v')) continue;
+          found.push(route);
+          if (!paths.has(route)) missing.push(route);
+        }
+      }
+    };
+    walk(appDir);
+    expect(found).toEqual(expect.arrayContaining(['/', '/bah', '/pay', '/pay/raise', '/pay/dates'])); // control: the walk found them
+    expect(missing, `pages reaching 2027-status.ts / releaseHistory.ts but missing from bah-urls STATIC_PATHS: ${missing.join(', ')}`).toEqual([]);
   });
 });
 
@@ -235,7 +381,7 @@ test.describe('Education: GI Bill MHA uses EDUCATION_BAH_YEAR, not BAH_YEAR', ()
   });
 
   test('lookup API serves EDUCATION_BAH_YEAR rates on request; rejects unregistered years', async () => {
-    const { GET } = await import('../../src/app/api/bah/lookup/route');
+    const GET = bahLookupGET;
     const res = await GET(new Request(`http://localhost/api/bah/lookup?zip=${ZIP}&y=${BAH_YEAR}&ratesYear=${EDUCATION_BAH_YEAR}`));
     const body = await res.json();
     expect(body.ratesYear).toBe(EDUCATION_BAH_YEAR);

@@ -23,6 +23,7 @@ import {
 } from '@/data/bah/2027-status';
 import { BAH_RELEASE_HISTORY, type BahRelease } from '@/data/bah/releaseHistory';
 import { BAH_MID_YEAR_CHANGES_BY_YEAR, BAH_RATES_BY_YEAR } from '@/data/bah/registry';
+import { BAH_YEAR } from '@/data/bah/current';
 import { hasDecreaseBetween } from '@/lib/calculations/bahStats';
 import {
   bahAlertHeadline,
@@ -30,6 +31,7 @@ import {
   bahDecreaseNotice,
   bahE5RateFaqAnswer,
   bahE5RateLead,
+  bahNoticeMode,
   bahTransitionText,
   type BahYearConfig,
 } from '@/lib/calculations/bahTransition';
@@ -44,6 +46,20 @@ const NEXT_YEAR_REPLACES = "so when a temporary increase ends, the next year's p
 const ESTIMATE = /\bexpect(ed)? (to|increase)|estimat|project(ed|ion)|forecast|likely|predict|could rise|should rise/i;
 
 // ─── Fixtures ────────────────────────────────────────────────────────────────
+
+// Unit tests pass their configs explicitly, so they hold in every release-day state:
+// pending today, 'released' (runbook step 0) and after the flip (R2 rehearsal: 9 of
+// these failed only because they read the live status / history).
+const PENDING: Bah2027StatusConfig = {
+  ...BAH_2027_STATUS,
+  status: 'pending',
+  releasedDate: null,
+  avgIncreasePct: null,
+  releaseSourceUrl: null,
+  lastChecked: '2026-11-13',
+};
+/** The release history before any 2027 row (release day adds one). */
+const HISTORY_NO_2027: readonly BahRelease[] = BAH_RELEASE_HISTORY.filter((r) => r.ratesYear < 2027);
 
 const RELEASED: Bah2027StatusConfig = {
   ...BAH_2027_STATUS,
@@ -71,10 +87,10 @@ const TX270_MID_2026 = BAH_MID_YEAR_CHANGES_BY_YEAR['2026']!.TX270;
 
 test.describe('/bah #2027: modes (unit)', () => {
   test('pending: heading, status line, no figures, no estimates', () => {
-    const mode = bah2027HubMode();
+    const mode = bah2027HubMode(PENDING, '2026');
     expect(mode).toBe('pending');
     expect(bah2027HubHeading(mode)).toBe('2027 BAH rates: release date, increase history and rate protection');
-    const status = bah2027HubStatusText(mode);
+    const status = bah2027HubStatusText(mode, PENDING);
     expect(status).toContain('Not yet published as of November 13, 2026.');
     expect(status).toContain("DoD usually releases next year's BAH rates in mid-December; 2027 rates take effect January 1, 2027.");
     expect(status).toContain("Pages on this site switch to 2027 rates as soon as we've loaded and checked DoD's published rates.");
@@ -83,7 +99,7 @@ test.describe('/bah #2027: modes (unit)', () => {
   });
 
   test('pending FAQs: release history as history, rate protection, pay raise; no forecast', () => {
-    const faqs = bah2027HubFaqs();
+    const faqs = bah2027HubFaqs(PENDING, '2026', HISTORY_NO_2027);
     expect(faqs.map((f) => f.question)).toEqual([
       'When do 2027 BAH rates come out?',
       'How much will BAH go up in 2027?',
@@ -108,27 +124,27 @@ test.describe('/bah #2027: modes (unit)', () => {
     const mode = bah2027HubMode(RELEASED, '2026');
     expect(mode).toBe('released');
     expect(bah2027HubHeading(mode)).toBe('2027 BAH rates are out');
-    expect(bah2027HubStatusText(mode, RELEASED)).toBe(
+    expect(bah2027HubStatusText(mode, RELEASED, bah2027Facts(RELEASED, HISTORY_NO_2027))).toBe(
       "DoD published 2027 BAH rates on December 12, 2026, effective January 1, 2027. DoD reported a national average increase of 4.6%. Pages on this site switch to 2027 rates as soon as we've loaded and checked DoD's published rates.",
     );
-    expect(bah2027HubStatusText(mode, RELEASED_NO_PCT)).not.toMatch(/%/);
-    const faqs = bah2027HubFaqs(RELEASED, '2026');
+    expect(bah2027HubStatusText(mode, RELEASED_NO_PCT, bah2027Facts(RELEASED_NO_PCT, HISTORY_NO_2027))).not.toMatch(/%/);
+    const faqs = bah2027HubFaqs(RELEASED, '2026', HISTORY_NO_2027);
     expect(faqs[0].answer).toContain('DoD published 2027 BAH rates on December 12, 2026');
     expect(faqs[1].answer).toContain('national average increase of 4.6%');
-    expect(bah2027HubFaqs(RELEASED_NO_PCT, '2026')[1].answer).not.toContain('4.6');
+    expect(bah2027HubFaqs(RELEASED_NO_PCT, '2026', HISTORY_NO_2027)[1].answer).not.toContain('4.6');
   });
 
   test('loaded (BAH_YEAR 2027): "are out"; facts prefer the 2027 history row; works with no data at all', () => {
-    expect(bah2027HubMode(BAH_2027_STATUS, '2027')).toBe('loaded');
-    expect(bah2027Facts(BAH_2027_STATUS, HISTORY_2027)).toEqual({ releasedDate: '2026-12-12', avgIncreasePct: 4.6, sourceUrl: 'https://example.mil/2027' });
-    const faqs = bah2027HubFaqs(BAH_2027_STATUS, '2027', HISTORY_2027);
+    expect(bah2027HubMode(PENDING, '2027')).toBe('loaded');
+    expect(bah2027Facts(PENDING, HISTORY_2027)).toEqual({ releasedDate: '2026-12-12', avgIncreasePct: 4.6, sourceUrl: 'https://example.mil/2027' });
+    const faqs = bah2027HubFaqs(PENDING, '2027', HISTORY_2027);
     expect(faqs[0].answer).toBe('DoD published 2027 BAH rates on December 12, 2026, effective January 1, 2027.');
     expect(faqs[1].answer).toContain('national average increase of 4.6%');
     // Rehearsal shape: year flipped, status still pending, no 2027 row yet.
-    expect(bah2027HubStatusText('loaded', BAH_2027_STATUS, bah2027Facts(BAH_2027_STATUS))).toBe(
+    expect(bah2027HubStatusText('loaded', PENDING, bah2027Facts(PENDING, HISTORY_NO_2027))).toBe(
       'DoD has published 2027 BAH rates, effective January 1, 2027.',
     );
-    for (const f of [...faqs, ...bah2027HubFaqs(BAH_2027_STATUS, '2027')]) expect(f.answer).not.toMatch(/2028|not yet published/);
+    for (const f of [...faqs, ...bah2027HubFaqs(PENDING, '2027', HISTORY_NO_2027)]) expect(f.answer).not.toMatch(/2028|not yet published/);
   });
 });
 
@@ -193,8 +209,18 @@ test.describe('Transition tense and alert headline (unit)', () => {
     expect(bahAlertSource('fort-hood')).toBe('bah-alert-fort-hood');
   });
 
+  test('alert headline: DoD has published but the import is not live (status released) → no "is published" promise', () => {
+    // R2 rehearsal: under "DoD published 2027 BAH rates on …" the headline still said
+    // "Get an email when 2027 BAH for Fort Hood is published".
+    const h = bahAlertHeadline('Fort Hood', 'next-year-status', true);
+    expect(h).toBe('Get notified when BAH rates change for Fort Hood');
+    expect(h).not.toContain('is published');
+    // Pending is unchanged (today's page).
+    expect(bahAlertHeadline('Fort Hood', 'next-year-status', false)).toBe('Get an email when 2027 BAH for Fort Hood is published');
+  });
+
   test('station "When will…" FAQ cites the 2024 release as December 14, 2023', () => {
-    expect(bah2027FaqAnswer('Fort Hood')).toContain('the 2024 rates, December 14, 2023');
+    expect(bah2027FaqAnswer('Fort Hood', PENDING)).toContain('the 2024 rates, December 14, 2023');
   });
 });
 
@@ -205,15 +231,20 @@ test.describe('/bah #2027 section (rendered)', () => {
     await page.goto('/bah#2027');
     // The id starts with a digit (valid HTML, /bah#2027 works) but isn't a valid CSS #id selector.
     const s = page.locator('section[id="2027"]');
-    await expect(s).toHaveAttribute('data-mode', 'pending');
-    await expect(s.locator('h2')).toHaveText('2027 BAH rates: release date, increase history and rate protection');
-    await expect(s.getByTestId('bah-2027-status')).toContainText("as soon as we've loaded and checked DoD's published rates");
+    // The build's own mode: pending today; released (runbook step 0) and loaded on release day.
+    const mode = bah2027HubMode();
+    await expect(s).toHaveAttribute('data-mode', mode);
+    await expect(s.locator('h2')).toHaveText(bah2027HubHeading(mode));
+    if (mode !== 'loaded') {
+      await expect(s.getByTestId('bah-2027-status')).toContainText("as soon as we've loaded and checked DoD's published rates");
+    }
     const rows = s.getByTestId('bah-release-history').locator('tbody tr');
-    await expect(rows).toHaveCount(6);
-    await expect(rows.first()).toContainText('2026');
-    await expect(rows.first()).toContainText('4.2%');
-    await expect(rows.first().locator('a')).toHaveAttribute('href', BAH_RELEASE_HISTORY[0].sourceUrl);
-    await expect(rows.nth(2)).toContainText('December 14, 2023');
+    await expect(rows).toHaveCount(BAH_RELEASE_HISTORY.length); // 6 today (2026 → 2021); release day adds 2027
+    const top = BAH_RELEASE_HISTORY[0];
+    await expect(rows.first()).toContainText(String(top.ratesYear));
+    await expect(rows.first()).toContainText(`${top.avgIncreasePct}%`);
+    await expect(rows.first().locator('a')).toHaveAttribute('href', top.sourceUrl);
+    await expect(rows.nth(BAH_RELEASE_HISTORY.findIndex((r) => r.ratesYear === 2024))).toContainText('December 14, 2023');
     await expect(s.getByTestId('bah-release-history').locator('caption')).toHaveText('Source: DoD release for each year.');
     await expect(s).toContainText('will not see his/her Basic Allowance for Housing rate decrease');
     await expect(s).toContainText("A promotion doesn't end the protection.");
@@ -224,7 +255,7 @@ test.describe('/bah #2027 section (rendered)', () => {
 
   test('/bah FAQ JSON-LD includes the four 2027 questions; <title> unchanged', async ({ page }) => {
     await page.goto('/bah');
-    await expect(page).toHaveTitle('BAH Calculator 2026: Rates by Duty Station | MilPayTools');
+    await expect(page).toHaveTitle(`BAH Calculator ${BAH_YEAR}: Rates by Duty Station | MilPayTools`);
     const ld = await page.locator('script[type="application/ld+json"]').allTextContents();
     const faq = ld.map((t) => JSON.parse(t)).find((j) => j['@type'] === 'FAQPage');
     const qs: string[] = faq.mainEntity.map((q: { name: string }) => q.name);
@@ -241,6 +272,9 @@ test.describe('/bah #2027 section (rendered)', () => {
 
 test.describe('Station pages (rendered)', () => {
   test('/bah/dyess-afb: temporary-increase wording next to the mid-year notice, with both DTMO sources', async ({ page }) => {
+    // TX270's increase is a 2026 mid-year change: once 2027 loads, the page shows the
+    // "temporary rates ended" wording instead (bah-tx270.spec.ts, bah-station.spec.ts).
+    test.skip((BAH_YEAR as string) !== '2026', 'the 2026 mid-year notice shows only while BAH_YEAR is 2026');
     await page.goto('/bah/dyess-afb');
     await expect(page.getByTestId('bah-midyear-change')).toBeVisible();
     const t = page.getByTestId('bah-temporary-increase');
@@ -253,12 +287,17 @@ test.describe('Station pages (rendered)', () => {
     await page.goto('/bah/fort-hood');
     const alert = page.getByTestId('bah-station-alert');
     await expect(alert).toHaveCount(1);
-    await expect(alert).toContainText('Get an email when 2027 BAH for Fort Hood is published');
-    // Directly after the 2027 notice.
-    await expect(page.locator('[data-testid="bah-2027-notice"] ~ [data-testid="bah-station-alert"]')).toHaveCount(1);
+    const noticeMode = bahNoticeMode();
+    await expect(alert).toContainText(bahAlertHeadline('Fort Hood', noticeMode, BAH_2027_STATUS.status === 'released'));
     await expect(page.locator('main').getByText(/Get notified when 20\d\d BAH rates update/)).toHaveCount(0);
-    // The station FAQ cites the corrected 2024 release date.
-    await expect(page.getByText(/the 2024 rates, December 14, 2023/).first()).toBeVisible();
+    if (noticeMode === 'next-year-status') {
+      // Directly after the 2027 notice.
+      await expect(page.locator('[data-testid="bah-2027-notice"] ~ [data-testid="bah-station-alert"]')).toHaveCount(1);
+    }
+    if (noticeMode === 'next-year-status' && BAH_2027_STATUS.status === 'pending') {
+      // The station "When will…" FAQ cites the corrected 2024 release date.
+      await expect(page.getByText(/the 2024 rates, December 14, 2023/).first()).toBeVisible();
+    }
   });
 
   test('alert signup posts source bah-alert-{slug} (request intercepted, nothing sent)', async ({ page }) => {

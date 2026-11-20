@@ -1,5 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 import { PAYDAY_SOURCES } from '@/data/paydays/2027';
+import { DATA_LAST_CHECKED } from '@/data/watch';
+import { formatIsoDate } from '@/lib/calculations/payRaise';
 import { payDatesFaqs } from '@/lib/pay-dates/content';
 
 // /pay/dates (feat/pay-dates-2027). Dates and copy are unit-tested in
@@ -99,7 +101,8 @@ test.describe('/pay/dates', () => {
     for (const s of Object.values(PAYDAY_SOURCES)) {
       await expect(box.locator(`a[href="${s.url}"]`), s.name).toHaveText(s.name);
     }
-    await expect(box).toContainText('Last checked November 13, 2026.');
+    // The shared watch date (runbook step 0 bumps it on BAH release day).
+    await expect(box).toContainText(`Last checked ${formatIsoDate(DATA_LAST_CHECKED)}.`);
   });
 
   test('no client errors; no element id that shadows window.va (Vercel Analytics)', async ({ page }) => {

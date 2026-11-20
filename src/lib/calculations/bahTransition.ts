@@ -61,10 +61,17 @@ export function bahTransitionText(cfg: BahYearConfig, priorE5WithDeps: number | 
 /**
  * Station-page email alert headline. Before the new year loads it names the year
  * it's waiting for; after the switch it carries NO year (a year here once read
- * "2028" in the release-day rehearsal).
+ * "2028" in the release-day rehearsal). `released`: DoD has published the
+ * next year's rates but they aren't loaded yet (BAH_2027_STATUS.status
+ * 'released'); "when … is published" would contradict the notice right above
+ * it, so the headline carries no year then either (R2 rehearsal, 2026-11-20).
  */
-export function bahAlertHeadline(stationName: string, mode: BahNoticeMode = bahNoticeMode()): string {
-  return mode === 'next-year-status'
+export function bahAlertHeadline(
+  stationName: string,
+  mode: BahNoticeMode = bahNoticeMode(),
+  released = false,
+): string {
+  return mode === 'next-year-status' && !released
     ? `Get an email when ${BAH_STATUS_NOTICE_YEAR} BAH for ${stationName} is published`
     : `Get notified when BAH rates change for ${stationName}`;
 }

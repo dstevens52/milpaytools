@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ExpandableCalcGrid } from './home-v3/ExpandableCalcGrid';
 import { SAMPLE_SCENARIO } from '@/lib/sample-scenario';
+import { BAH_YEAR } from '@/data/bah/current';
 import { rankPageLinkText, homeStripText } from '@/lib/calculations/payRaise';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { organizationSchema, webSiteSchema } from '@/lib/schema';
@@ -287,7 +288,8 @@ const TOP_CALCULATORS = [
   {
     href: '/bah',
     title: 'BAH by ZIP Code',
-    description: '2026 housing allowance for any ZIP code. Compare two duty stations for PCS planning.',
+    // Follows the BAH year switch (R2: a literal "2026" here survived the 2027 flip).
+    description: `${BAH_YEAR} housing allowance for any ZIP code. Compare two duty stations for PCS planning.`,
     icon: (
       <div className="w-10 h-10 rounded-full bg-blue-700 flex items-center justify-center">
         <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">

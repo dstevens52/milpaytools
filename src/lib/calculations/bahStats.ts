@@ -72,13 +72,18 @@ export function hasDecreaseBetween(
  * True if any pay grade (with OR without dependents) decreased from the prior
  * year to `year` at this MHA. Returns false when prior-year data is missing.
  */
-export function hasRateDecrease(mhaCode: string, year: BahYear = CURRENT_BAH_YEAR): boolean {
+export function hasRateDecrease(
+  mhaCode: string,
+  year: BahYear = CURRENT_BAH_YEAR,
+  /** The MHA the place was paid under in the prior year (differs after a ZIP remap). */
+  priorMhaCode: string = mhaCode,
+): boolean {
   // Only the current year has a defined prior year in the registry.
   if (year !== CURRENT_BAH_YEAR) return false;
   const priorYear = PRIOR_BAH_YEAR;
   for (const hasDependents of [true, false]) {
     const current = getMHARatesForYear(mhaCode, hasDependents, year);
-    const prior = getMHARatesForYear(mhaCode, hasDependents, priorYear);
+    const prior = getMHARatesForYear(priorMhaCode, hasDependents, priorYear);
     if (!current || !prior) continue;
     for (const grade of Object.keys(current)) {
       const p = prior[grade];
@@ -165,9 +170,11 @@ export function yoyForGrade(
   mhaCode: string,
   rank: string,
   hasDependents: boolean,
+  /** The MHA the place was paid under in the prior year (differs after a ZIP remap). */
+  priorMhaCode: string = mhaCode,
 ): YoYChange | null {
   const current = getMHARatesForYear(mhaCode, hasDependents, CURRENT_BAH_YEAR)?.[rank];
-  const prior = getMHARatesForYear(mhaCode, hasDependents, PRIOR_BAH_YEAR)?.[rank];
+  const prior = getMHARatesForYear(priorMhaCode, hasDependents, PRIOR_BAH_YEAR)?.[rank];
   if (current === undefined || prior === undefined || prior <= 0) return null;
   return { abs: current - prior, pct: ((current - prior) / prior) * 100, prior, current };
 }

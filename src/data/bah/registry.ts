@@ -13,6 +13,8 @@
  *      (only BAH_YEAR registers them: the ZIP map is ~650 KB, and a prior year
  *      only needs its rates for year-over-year figures).
  *   4. Add an (empty) BAH_MID_YEAR_CHANGES_BY_YEAR entry for the new year.
+ *   4b. Register the importer's zipPriorMha.ts as that entry's priorMhaByZip
+ *      (ZIPs DTMO moved to another MHA → their prior-year MHA).
  *   5. Set BAH_YEAR / BAH_PRIOR_YEAR in current.ts.
  * tests/e2e/bah-release-day.spec.ts checks that the registry and current.ts agree.
  */
@@ -41,6 +43,13 @@ export type BahYear = keyof typeof BAH_RATES_BY_YEAR;
 export interface BahLookupTables {
   zipToMha: Record<string, string>;
   mhaNames: Record<string, string>;
+  /**
+   * ZIPs whose MHA changed from the prior year → their prior-year MHA
+   * (src/data/bah/{year}/zipPriorMha.ts, written by the importer). Prior-year
+   * figures for such a ZIP use the MHA it was paid under. Absent = no remaps
+   * recorded (the 2026 import predates it).
+   */
+  priorMhaByZip?: Record<string, string>;
 }
 
 /** ZIP → MHA map and MHA names. Registered for BAH_YEAR only. */

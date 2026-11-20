@@ -80,13 +80,15 @@ test.describe('Station total pay: data (no browser)', () => {
 test.describe('Station total pay: release day never mixes years (no browser)', () => {
   const NEXT = String(Number(PAY_YEAR) + 1);
   const mha = getMHACode(STATION_BY_SLUG['fort-bragg'].zip)!;
-  const current = { w: getMHARates(mha, true)!, wo: getMHARates(mha, false)! };
+  // The pay year's BAH (not "current"): after the BAH flip the current year is newer.
+  const payYear = PAY_YEAR as typeof CURRENT_BAH_YEAR;
+  const current = { w: getMHARatesForYear(mha, true, payYear)!, wo: getMHARatesForYear(mha, false, payYear)! };
   // Stand-in next-year BAH: every rate +$123, so any leak into the section shows.
   const bump = (r: Record<string, number>) => Object.fromEntries(Object.entries(r).map(([g, v]) => [g, v + 123]));
   const standIn = { w: bump(current.w), wo: bump(current.wo) };
 
   test(`${NEXT} BAH loaded, ${PAY_YEAR} pay table: the section stays on ${PAY_YEAR} pay AND ${PAY_YEAR} BAH`, () => {
-    expect(PAY_YEAR).toBe(CURRENT_BAH_YEAR); // today: both current (control for the stand-in below)
+    expect(current.w['E-5']).toBeGreaterThan(0); // control: real pay-year rates (R2: an equality with CURRENT_BAH_YEAR failed after the flip)
     const asked: string[] = [];
     const d = stationTotalPayForYears((y) => {
       asked.push(y);
