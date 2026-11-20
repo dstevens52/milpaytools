@@ -13,7 +13,7 @@ import { CALCULATOR_URL_PARAMS, describeFundMix, exampleHref, type CalculatorKey
 import { BAH_YEAR } from '@/data/bah/current';
 import { ALLOCATION_PRESETS } from '@/data/tsp/2026/constants';
 import { DATA_YEAR as COLA_YEAR } from '@/data/cola/2026/constants';
-import { getMHACode, getMHARates, getLocationDisplayName } from '@/lib/calculations/bah';
+import { getMHACode, getMHARates, getLocationDisplayName, combinedBahForZip } from '@/lib/calculations/bah';
 import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
 import { calculateCombinedRating, getCompensation } from '@/lib/calculations/va-disability';
 import { projectTSP, getBasePayMonthly } from '@/lib/calculations/tspGrowth';
@@ -73,6 +73,15 @@ function bahRate(zip: string, grade: PayGrade, withDependents: boolean): number 
   return (mha && getMHARates(mha, withDependents)?.[grade]) || 0;
 }
 
+/**
+ * BAH for an example that ADDS PAY (total comp, compare, deployment, transition
+ * readiness): the pay table's year, the one-year rule (src/lib/combinedPayYear.ts).
+ * BAH-only examples (BAH, dual-military household BAH) keep bahRate (BAH_YEAR).
+ */
+function payBahRate(zip: string, grade: PayGrade, withDependents: boolean): number {
+  return combinedBahForZip(zip, grade, withDependents);
+}
+
 /** Throws at build time if an example would show $0 or a non-number, so it never ships. */
 function nonZero(n: number, key: SummaryKey): number {
   if (!Number.isFinite(n) || Math.round(n) <= 0) throw new Error(`calculatorSummaries: ${key} example is ${n}`);
@@ -87,7 +96,7 @@ function totalCompExample(): CalculatorSummaryExample {
   const zip = '28310';
   const r = calculateTotalCompensation(
     { payGrade: 'E-5', yearsOfService: 8, zipCode: zip, hasDependents: true, retirementSystem: 'brs', tspContributionPct: 5, govHousing: false, mealCard: false },
-    bahRate(zip, 'E-5', true),
+    payBahRate(zip, 'E-5', true),
   );
   return {
     lead: 'an E-5 with 8 years of service and dependents at Fort Bragg',
@@ -246,7 +255,7 @@ function colaExample(): CalculatorSummaryExample {
 function compareExample(): CalculatorSummaryExample {
   const at = (zip: string) => {
     const mha = getMHACode(zip);
-    return { monthlyBAH: bahRate(zip, 'E-5', true), locationName: getLocationDisplayName(zip) ?? zip, bahFound: !!mha, mha };
+    return { monthlyBAH: payBahRate(zip, 'E-5', true), locationName: getLocationDisplayName(zip) ?? zip, bahFound: !!mha, mha };
   };
   const r = compareLocations({ payGrade: 'E-5', yearsOfService: 8, hasDependents: true, zipA: '28310', zipB: '92134', bahA: at('28310'), bahB: at('92134') });
   if (!r || r.verdict !== 'B_better') throw new Error('calculatorSummaries: compare example must favor San Diego');
@@ -265,7 +274,7 @@ function deploymentExample(): CalculatorSummaryExample {
     hasDependents: true,
     filingStatus: defaultDeploymentFilingStatus(true),
     zipCode: '28310',
-    monthlyBAH: bahRate('28310', 'E-5', true),
+    monthlyBAH: payBahRate('28310', 'E-5', true),
     bahFound: true,
     deploymentMonths: 9,
     isCombatZone: true,
@@ -328,7 +337,7 @@ function transitionExample(): CalculatorSummaryExample {
       tspBalance: 45000,
       otherSavings: 0,
     },
-    bahRate(zip, 'E-6', true),
+    payBahRate(zip, 'E-6', true),
   );
   return {
     lead: 'an E-6 with 10 years of service and dependents at JBSA (ZIP 78234)',

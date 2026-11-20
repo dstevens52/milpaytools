@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 import { lookupBasePay, calculateTotalCompensation } from '@/lib/calculations/total-compensation';
-import { lookupBAH } from '@/lib/calculations/bah';
+import { combinedBahForZip } from '@/lib/calculations/bah';
 import { BAS_RATES } from '@/data/constants';
 import { EmailSignup } from '@/components/EmailSignup';
 import { TrackedLink } from '@/components/TrackedLink';
@@ -38,7 +38,8 @@ const _ZIP = '28310';
 
 const _basePay = lookupBasePay(_GRADE, _YOS);
 const _bas = Math.round(BAS_RATES.enlisted);
-const _bah = lookupBAH({ payGrade: _GRADE, zipCode: _ZIP, hasDependents: false })?.monthlyRate ?? 0;
+// One-year rule: BAH from the same year as the pay table (src/lib/combinedPayYear.ts).
+const _bah = combinedBahForZip(_ZIP, _GRADE, false);
 const _monthly = _basePay + _bas + _bah;
 const _comp = calculateTotalCompensation({
   payGrade: _GRADE,

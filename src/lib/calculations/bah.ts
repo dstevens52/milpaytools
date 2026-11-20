@@ -18,6 +18,7 @@ import {
 import type { BahMidYearChange } from '@/data/bah/midYear';
 import { isValidZip } from '@/lib/utils';
 import { displayMhaName } from '@/lib/mhaDisplay';
+import { combinedPayBahYear, pendingBahYear } from '@/lib/combinedPayYear';
 
 export type { BahYear };
 
@@ -217,10 +218,12 @@ export function getMHACode(zipCode: string): string | null {
  * Median is used (not mean) because coastal outliers (SF, NYC) skew the mean
  * significantly upward and don't represent a typical duty station.
  */
-export function getNationalAverages(): { w: Record<string, number>; wo: Record<string, number> } {
+export function getNationalAverages(
+  year: BahYear = CURRENT_BAH_YEAR,
+): { w: Record<string, number>; wo: Record<string, number> } {
   const accumW: Record<string, number[]> = {};
   const accumWO: Record<string, number[]> = {};
-  for (const mha of Object.values(mhaRates)) {
+  for (const mha of Object.values(RATES_BY_YEAR[year])) {
     for (const [grade, rate] of Object.entries(mha.w)) {
       (accumW[grade] ??= []).push(rate);
     }
@@ -237,4 +240,70 @@ export function getNationalAverages(): { w: Record<string, number>; wo: Record<s
     w: Object.fromEntries(Object.entries(accumW).map(([g, rates]) => [g, median(rates)])),
     wo: Object.fromEntries(Object.entries(accumWO).map(([g, rates]) => [g, median(rates)])),
   };
+}
+
+// ─── One-year rule (R3): BAH for the year a pay + BAH figure uses ────────────
+
+/**
+ * The year every figure that adds pay to BAH uses (src/lib/combinedPayYear.ts),
+ * checked against the registry. Today it equals CURRENT_BAH_YEAR; from BAH
+ * release day to the January pay flip it is the prior (still-paid) year.
+ */
+export function combinedBahYear(): BahYear {
+  const year = combinedPayBahYear();
+  if (!isBahYear(year)) {
+    throw new Error(`one-year rule: BAH for ${year} is not registered (src/data/bah/registry.ts)`);
+  }
+  return year;
+}
+
+/**
+ * The MHA a ZIP was paid under in a registered year: the current ZIP map for
+ * CURRENT_BAH_YEAR, the remap-aware prior MHA for PRIOR_BAH_YEAR (R2), null for
+ * any other year (only one year's ZIP map ships).
+ */
+export function mhaForZipInYear(zipCode: string, year: BahYear): string | null {
+  if (year === CURRENT_BAH_YEAR) return getMHACode(zipCode);
+  if (year === PRIOR_BAH_YEAR) return getMHACode(zipCode) ? priorYearMhaForZip(zipCode) : null;
+  return null;
+}
+
+/** A ZIP's monthly BAH for a grade in a registered year (O-8+ use O-7), or null. */
+export function bahRateForZipInYear(
+  zipCode: string,
+  payGrade: string,
+  hasDependents: boolean,
+  year: BahYear,
+): number | null {
+  const mha = mhaForZipInYear(zipCode, year);
+  if (!mha) return null;
+  return getMHARatesForYear(mha, hasDependents, year)?.[bahGrade(payGrade)] ?? null;
+}
+
+/**
+ * A ZIP's BAH for a figure that ADDS PAY (one-year rule): the combined year's
+ * rate, 0 when the ZIP or grade has none (callers' existing fallback).
+ */
+export function combinedBahForZip(zipCode: string, payGrade: string, hasDependents: boolean): number {
+  return bahRateForZipInYear(zipCode, payGrade, hasDependents, combinedBahYear()) ?? 0;
+}
+
+/** Same for an MHA code (examples keyed by MHA, e.g. Fort Campbell KY106). */
+export function combinedBahForMha(mhaCode: string, payGrade: string, hasDependents: boolean): number {
+  return getMHARatesForYear(mhaCode, hasDependents, combinedBahYear())?.[bahGrade(payGrade)] ?? 0;
+}
+
+/**
+ * The newer BAH year's rate for the separate "2027 BAH (from Jan. 1)" line,
+ * only while that year is loaded but not yet in totals (transition); else null.
+ */
+export function pendingBahForZip(
+  zipCode: string,
+  payGrade: string,
+  hasDependents: boolean,
+): { year: string; rate: number } | null {
+  const year = pendingBahYear();
+  if (!year) return null;
+  const rate = bahRateForZipInYear(zipCode, payGrade, hasDependents, CURRENT_BAH_YEAR);
+  return rate === null ? null : { year, rate };
 }

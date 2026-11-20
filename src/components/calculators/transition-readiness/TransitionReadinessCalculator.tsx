@@ -9,7 +9,8 @@ import {
   FILING_STATUS_LABEL,
 } from '@/lib/calculations/transition-readiness';
 import { STATE_MILITARY_RETIREMENT_TAX, type StateMilitaryRetirementTax } from '@/data/state-military-retirement-tax';
-import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
+import { useCombinedBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
+import { pendingBahLabel } from '@/lib/combinedPayYear';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
@@ -318,8 +319,10 @@ export function TransitionReadinessCalculator() {
 
   // BAH resolved via the cached route; 0 until a valid ZIP resolves (matches the
   // prior behavior where an empty/invalid ZIP contributed $0 BAH).
-  const { data: bahData } = useBahLookup(zipCode);
+  // One-year rule: BAH from the pay table's year; a newer loaded year shows on its own line.
+  const { data: bahData, pendingYear, pendingData } = useCombinedBahLookup(zipCode);
   const monthlyBAH = rateFor(bahData, grade, hasDependents) ?? 0;
+  const pendingBah = pendingYear ? rateFor(pendingData, grade, hasDependents) : null;
 
   const filingStatus = filingStatusOverride ?? defaultFilingStatus(spouseIncome, hasDependents);
 
@@ -923,6 +926,9 @@ export function TransitionReadinessCalculator() {
                     monthly: result.militaryMonthlyBAH > 0 ? result.militaryMonthlyBAH : undefined,
                     value: result.militaryMonthlyBAH === 0 ? 'Enter ZIP code' : undefined,
                   },
+                  ...(pendingYear && pendingBah !== null && result.militaryMonthlyBAH > 0
+                    ? [{ label: `${pendingBahLabel(pendingYear)} — not in this total`, value: `${formatCurrency(pendingBah)}/mo` }]
+                    : []),
                   { label: 'BAS (excluded from taxable income)', monthly: result.militaryMonthlyBAS },
                   { label: spouseIncome > 0 ? 'Military household take-home' : 'Military take-home', monthly: result.militaryTakeHomeMonthly, highlight: true },
                 ]}

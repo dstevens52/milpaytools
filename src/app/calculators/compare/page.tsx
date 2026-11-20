@@ -9,7 +9,8 @@ import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import { compareLocations } from '@/lib/calculations/compare';
-import { getMHACode, getMHARates, getLocationDisplayName } from '@/lib/calculations/bah';
+import { getMHACode, getLocationDisplayName, combinedBahForZip, pendingBahForZip } from '@/lib/calculations/bah';
+import { pendingBahLabel } from '@/lib/combinedPayYear';
 import { BAH_YEAR } from '@/data/bah/current';
 import { formatCurrency } from '@/lib/utils';
 
@@ -45,8 +46,11 @@ export default function ComparePage() {
   // resolves as standard BAH, not OHA.
   const cmpFlwMha = getMHACode('65473');
   const cmpSchMha = getMHACode('96857');
-  const cmpFlwBah = (cmpFlwMha && getMHARates(cmpFlwMha, true)?.['E-5']) || 0;
-  const cmpSchBah = (cmpSchMha && getMHARates(cmpSchMha, true)?.['E-5']) || 0;
+  // One-year rule: BAH from the same year as the pay table (src/lib/combinedPayYear.ts).
+  const cmpFlwBah = combinedBahForZip('65473', 'E-5', true);
+  const cmpSchBah = combinedBahForZip('96857', 'E-5', true);
+  const cmpFlwPending = pendingBahForZip('65473', 'E-5', true);
+  const cmpSchPending = pendingBahForZip('96857', 'E-5', true);
   const cmp = compareLocations({
     payGrade: 'E-5',
     yearsOfService: 8,
@@ -65,7 +69,7 @@ export default function ComparePage() {
   const bahAt = (zip: string) => {
     const mha = getMHACode(zip);
     return {
-      monthlyBAH: (mha && getMHARates(mha, true)?.['E-5']) || 0,
+      monthlyBAH: combinedBahForZip(zip, 'E-5', true),
       locationName: getLocationDisplayName(zip) ?? zip,
       bahFound: !!mha,
       mha,
@@ -162,6 +166,12 @@ export default function ComparePage() {
             <ExampleRow label="BAS — identical at both stations" value={`${formatCurrency(cmp.monthlyBAS)}/mo`} />
             <ExampleRow label="BAH — Fort Leonard Wood, MO (with dependents)" value={`${formatCurrency(cmp.locA.monthlyBAH)}/mo`} />
             <ExampleRow label="BAH — Schofield Barracks, HI (with dependents)" value={`${formatCurrency(cmp.locB.monthlyBAH)}/mo`} />
+            {cmpFlwPending && cmpSchPending && (
+              <ExampleRow
+                label={`${pendingBahLabel(cmpFlwPending.year)} — Fort Leonard Wood / Schofield Barracks, not in these totals`}
+                value={`${formatCurrency(cmpFlwPending.rate)} / ${formatCurrency(cmpSchPending.rate)}`}
+              />
+            )}
             <ExampleRow label="BAH difference (Schofield Barracks advantage)" value={`+${formatCurrency(cmpBahAdvantage)}/mo`} highlight />
             <ExampleRow label="Monthly gross — Fort Leonard Wood" value={`${formatCurrency(cmp.locA.grossMonthly)}/mo`} highlight />
             <ExampleRow label="Monthly gross — Schofield Barracks" value={`${formatCurrency(cmp.locB.grossMonthly)}/mo`} highlight />

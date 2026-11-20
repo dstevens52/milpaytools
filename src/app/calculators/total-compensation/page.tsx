@@ -11,7 +11,8 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { FaqSection, type FaqItem } from '@/components/FaqSection';
 import { webApplicationSchema } from '@/lib/schema';
 import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
-import { getMHACode, getMHARates } from '@/lib/calculations/bah';
+import { combinedBahForZip, pendingBahForZip } from '@/lib/calculations/bah';
+import { pendingBahLabel } from '@/lib/combinedPayYear';
 import { formatCurrency, roundToNearest } from '@/lib/utils';
 
 // Absolute title (no " | MilPayTools" suffix) — 57 chars.
@@ -63,8 +64,9 @@ export default function TotalCompensationPage() {
   // ── Worked-example values, computed server-side (BAH resolved via bah.ts) ──────
   // One scenario drives both the hero "sample output" bar and the full example:
   // E-5, 8 yrs, Fort Bragg NC (28310), with dependents, BRS, 5% TSP.
-  const tcMha = getMHACode('28310');
-  const tcBah = (tcMha && getMHARates(tcMha, true)?.['E-5']) || 0;
+  // One-year rule: BAH from the same year as the pay table (src/lib/combinedPayYear.ts).
+  const tcBah = combinedBahForZip('28310', 'E-5', true);
+  const tcPendingBah = pendingBahForZip('28310', 'E-5', true);
   const tc = calculateTotalCompensation(
     {
       payGrade: 'E-5',
@@ -282,6 +284,9 @@ export default function TotalCompensationPage() {
           <ExampleTable>
             <ExampleRow label="Monthly Base Pay (E-5, 8 yrs — 2026 table)" value={`${formatCurrency(tc.monthlyBasePay)}/mo`} />
             <ExampleRow label="BAH — Fort Bragg, NC (with dependents)" value={`${formatCurrency(tc.monthlyBAH)}/mo`} />
+            {tcPendingBah && (
+              <ExampleRow label={`${pendingBahLabel(tcPendingBah.year)} — not in these totals`} value={`${formatCurrency(tcPendingBah.rate)}/mo`} />
+            )}
             <ExampleRow label="BAS — Enlisted" value={`${formatCurrency(tc.monthlyBAS)}/mo`} />
             <ExampleRow label="Monthly Gross" value={`${formatCurrency(tc.totalMonthly)}/mo`} highlight />
             <ExampleRow label="Annual (Base + BAH + BAS)" value={`${formatCurrency(tcGrossAnnual)}/yr`} />

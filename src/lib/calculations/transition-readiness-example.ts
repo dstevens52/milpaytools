@@ -12,7 +12,7 @@ import {
   defaultFilingStatus,
   solveIncreasing,
 } from '@/lib/calculations/transition-readiness';
-import { getMHACode, getMHARates } from '@/lib/calculations/bah';
+import { combinedBahForZip } from '@/lib/calculations/bah';
 import type { TransitionReadinessInput, TransitionReadinessOutput } from '@/types/calculator';
 
 // Scenario: E-6, 10 YOS, JBSA (78234), married, 14 months out, Legacy, $75k target
@@ -48,9 +48,9 @@ export const TR_EXAMPLE_INPUT: TransitionReadinessInput = {
   otherSavings: 0,
 };
 
+// One-year rule: BAH from the same year as the pay table (src/lib/combinedPayYear.ts).
 function exampleBAH(): number {
-  const mha = getMHACode(TR_EXAMPLE_INPUT.zipCode);
-  return (mha && getMHARates(mha, TR_EXAMPLE_INPUT.hasDependents)?.[TR_EXAMPLE_INPUT.payGrade]) || 0;
+  return combinedBahForZip(TR_EXAMPLE_INPUT.zipCode, TR_EXAMPLE_INPUT.payGrade, TR_EXAMPLE_INPUT.hasDependents);
 }
 
 export function getTransitionReadinessExample(): TransitionReadinessOutput {

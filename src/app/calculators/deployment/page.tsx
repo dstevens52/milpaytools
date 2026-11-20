@@ -8,7 +8,8 @@ import { DeploymentCalculator } from '@/components/calculators/deployment/Deploy
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import { calculateDeployment } from '@/lib/calculations/deployment';
-import { getMHACode, getMHARates } from '@/lib/calculations/bah';
+import { combinedBahForZip, pendingBahForZip } from '@/lib/calculations/bah';
+import { pendingBahLabel } from '@/lib/combinedPayYear';
 import { formatCurrency } from '@/lib/utils';
 import { DEPLOYMENT_RATES_2026 } from '@/data/deployment/2026/constants';
 import { TSP_CONSTANTS_2026 } from '@/data/tsp/2026/constants';
@@ -53,8 +54,9 @@ export default function DeploymentPage() {
   // ── Worked-example values; home-station BAH resolved server-side from bah.ts ───
   // Scenario: E-5, 8 yrs, married (family at Fort Bragg, 28310), 9-month CZTE
   // deployment with IDP + FSA, no HDP, no SDP.
-  const depMha = getMHACode('28310');
-  const depBah = (depMha && getMHARates(depMha, true)?.['E-5']) || 0;
+  // One-year rule: BAH from the same year as the pay table (src/lib/combinedPayYear.ts).
+  const depBah = combinedBahForZip('28310', 'E-5', true);
+  const depPendingBah = pendingBahForZip('28310', 'E-5', true);
   const dep = calculateDeployment({
     payGrade: 'E-5',
     yearsOfService: 8,
@@ -197,6 +199,9 @@ export default function DeploymentPage() {
           <ExampleTable>
             <ExampleRow label="Monthly base pay (E-5, 8 yrs)" value={`${formatCurrency(dep.pre.monthlyBasePay)}/mo`} />
             <ExampleRow label="BAH continues at home station (Fort Bragg, w/deps)" value={`${formatCurrency(dep.pre.monthlyBAH)}/mo`} />
+            {depPendingBah && (
+              <ExampleRow label={`${pendingBahLabel(depPendingBah.year)} — not in these totals`} value={`${formatCurrency(depPendingBah.rate)}/mo`} />
+            )}
             <ExampleRow label="BAS" value={`${formatCurrency(dep.pre.monthlyBAS)}/mo`} />
             <ExampleRow label="Imminent Danger Pay (IDP)" value={`+${formatCurrency(dep.during.monthlyIDP)}/mo`} />
             <ExampleRow label="Family Separation Allowance (FSA — married 30+ days away)" value={`+${formatCurrency(dep.during.monthlyFSA)}/mo`} />
