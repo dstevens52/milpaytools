@@ -16,6 +16,17 @@ import { bahNoticeMode } from '@/lib/calculations/bahTransition';
 const SHOWS_NOTICE = bahNoticeMode() === 'next-year-status';
 
 const CHECKED = formatIsoDate(DATA_LAST_CHECKED);
+// Runbook step 0 can ship 'released' while BAH_YEAR is still 2026: the notice then
+// says DoD published, and the "When will…" FAQ answers with the date (R2 rehearsal).
+const RELEASED = BAH_2027_STATUS.status === 'released';
+/** Unit tests pass this pending config, so they hold in every release-day state. */
+const PENDING: Bah2027StatusConfig = {
+  ...BAH_2027_STATUS,
+  status: 'pending',
+  releasedDate: null,
+  avgIncreasePct: null,
+  releaseSourceUrl: null,
+};
 
 async function faqQuestions(page: Page): Promise<string[]> {
   const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
@@ -32,9 +43,14 @@ for (const s of [
     await page.goto(`/bah/${s.slug}`);
     const notice = page.getByTestId('bah-2027-notice');
     await expect(notice).toBeVisible();
-    await expect(notice).toContainText(`not yet published as of ${CHECKED}`);
-    await expect(notice).toContainText('December 11, 2025');
-    await expect(notice).toContainText(`This page will show 2027 rates for ${s.name} once DoD publishes them.`);
+    if (RELEASED) {
+      await expect(notice).toContainText(`DoD published 2027 BAH rates on ${formatIsoDate(BAH_2027_STATUS.releasedDate!)}`);
+      await expect(notice).not.toContainText('not yet published');
+    } else {
+      await expect(notice).toContainText(`not yet published as of ${CHECKED}`);
+      await expect(notice).toContainText('December 11, 2025');
+      await expect(notice).toContainText(`This page will show 2027 rates for ${s.name} once DoD publishes them.`);
+    }
     await expect(notice.getByRole('link', { name: /2027 base pay raise/ })).toHaveAttribute('href', '/pay/raise');
     expect(await faqQuestions(page)).toContain(`When will 2027 BAH rates for ${s.name} be released?`);
     // Visible FAQ matches the schema.
@@ -64,34 +80,33 @@ test('/bah hub shows the notice without a station name', async ({ page }) => {
   await page.goto('/bah');
   const notice = page.getByTestId('bah-2027-notice');
   await expect(notice).toBeVisible();
-  await expect(notice).toContainText(`not yet published as of ${CHECKED}`);
+  await expect(notice).toContainText(RELEASED ? 'DoD published 2027 BAH rates on' : `not yet published as of ${CHECKED}`);
   await expect(notice).not.toContainText('This page will show 2027 rates for');
 });
 
 test.describe('2027 BAH wording (data-only)', () => {
   test('pending wording matches the spec exactly', () => {
-    expect(BAH_2027_STATUS.status).toBe('pending');
     expect(BAH_2027_STATUS.lastChecked).toBe(DATA_LAST_CHECKED);
-    expect(bah2027NoticeText('Fort Bragg')).toBe(
+    expect(bah2027NoticeText('Fort Bragg', PENDING)).toBe(
       `2027 BAH rates: not yet published as of ${CHECKED}. DoD usually releases next year's rates in mid-December (the 2026 rates came out December 11, 2025); they take effect January 1, 2027. The rates below are 2026 rates, in effect through December 31, 2026. This page will show 2027 rates for Fort Bragg once DoD publishes them.`,
     );
-    const faq = bah2027FaqAnswer('Fort Bragg');
+    const faq = bah2027FaqAnswer('Fort Bragg', PENDING);
     expect(bah2027FaqQuestion('Fort Bragg')).toBe('When will 2027 BAH rates for Fort Bragg be released?');
     for (const d of ['December 11, 2025', 'December 13, 2024', 'December 14, 2023', 'mid-December']) {
       expect(faq).toContain(d);
     }
     // Dated facts only: no promised date, no direction-of-change claims, no advice.
-    for (const t of [bah2027NoticeText('Fort Bragg'), bah2027NoticeText(), faq]) {
+    for (const t of [bah2027NoticeText('Fort Bragg', PENDING), bah2027NoticeText(undefined, PENDING), faq]) {
       expect(t).not.toMatch(/\bshould\b|plan for|expect|increase|decrease|rise|fall/i);
     }
   });
 
   test('released wording includes the released date', () => {
-    const fixture: Bah2027StatusConfig = { ...BAH_2027_STATUS, status: 'released', releasedDate: '2026-12-12' };
+    const fixture: Bah2027StatusConfig = { ...PENDING, status: 'released', releasedDate: '2026-12-12' };
     expect(bah2027NoticeText('Fort Bragg', fixture)).toBe(
       "DoD published 2027 BAH rates on December 12, 2026, effective January 1, 2027. We're updating this page; until then, check the official DoD BAH lookup.",
     );
     expect(bah2027FaqAnswer('Fort Bragg', fixture)).toContain('December 12, 2026');
-    expect(() => bah2027NoticeText(undefined, { ...BAH_2027_STATUS, status: 'released' })).toThrow();
+    expect(() => bah2027NoticeText(undefined, { ...PENDING, status: 'released' })).toThrow(); // released needs a date
   });
 });

@@ -32,10 +32,12 @@ function docRows() {
 }
 
 test.describe('BAH release history: data ↔ source doc', () => {
-  test('the doc table parses to 6 rows (2026 → 2021); an empty parse fails', () => {
+  test('the doc table parses to the 6 verified rows (2026 → 2021), newer years on top; an empty parse fails', () => {
+    // Release day adds a 2027 row on top (R2 rehearsal: an exact count of 6 failed then).
     const rows = docRows();
-    expect(rows.length).toBe(6);
-    expect(rows.map((r) => r.ratesYear)).toEqual([2026, 2025, 2024, 2023, 2022, 2021]);
+    expect(rows.length).toBeGreaterThanOrEqual(6);
+    expect(rows.slice(-6).map((r) => r.ratesYear)).toEqual([2026, 2025, 2024, 2023, 2022, 2021]);
+    expect(rows.map((r) => r.ratesYear)).toEqual([...rows.map((r) => r.ratesYear)].sort((a, b) => b - a));
   });
 
   test('releaseHistory.ts matches the doc row for row (year, percent, date, source URL)', () => {
@@ -55,7 +57,7 @@ test.describe('BAH release history: data ↔ source doc', () => {
   });
 
   test('golden percents (literals): 4.2 / 5.4 / 5.4 / 12.1 / 5.1 / 2.9', () => {
-    expect(BAH_RELEASE_HISTORY.map((r) => r.avgIncreasePct)).toEqual([4.2, 5.4, 5.4, 12.1, 5.1, 2.9]);
+    expect(BAH_RELEASE_HISTORY.filter((r) => r.ratesYear <= 2026).map((r) => r.avgIncreasePct)).toEqual([4.2, 5.4, 5.4, 12.1, 5.1, 2.9]);
   });
 });
 
@@ -76,11 +78,12 @@ test.describe('BAH release history: derived values', () => {
   test('station pages\' national average comes from the history', () => {
     expect(NATIONAL_AVG_BAH_INCREASE).toBe(NATIONAL_AVG_BAH_INCREASE_BY_YEAR);
     expect(NATIONAL_AVG_BAH_INCREASE['2026']).toBe(4.2);
-    expect(NATIONAL_AVG_BAH_INCREASE['2027']).toBeUndefined(); // no 2027 figure until DoD publishes it
+    // No 2027 figure until DoD publishes it; then only DoD's own (the history row).
+    expect(NATIONAL_AVG_BAH_INCREASE['2027']).toBe(BAH_RELEASE_HISTORY.find((r) => r.ratesYear === 2027)?.avgIncreasePct);
   });
 
   test('pending status carries no 2027 figures', () => {
-    expect(BAH_2027_STATUS.status).toBe('pending');
+    test.skip(BAH_2027_STATUS.status !== 'pending', 'DoD has published: runbook step 0 sets these fields');
     expect(BAH_2027_STATUS.avgIncreasePct).toBeNull();
     expect(BAH_2027_STATUS.releaseSourceUrl).toBeNull();
     expect(BAH_2027_STATUS.releasedDate).toBeNull();
