@@ -6,6 +6,7 @@ No estimates or projections in this file.
 
 | Rates year | Avg increase | Released | Official source |
 |---|---|---|---|
+| 2027 | 4.8% | 2026-12-11 | REHEARSAL (rehearsal/bah-2027-r2): fake row, not DoD's figure: https://example.invalid/REHEARSAL-2027-bah-release |
 | 2026 | 4.2% | 2025-12-11 | Department of War release, dateline "WASHINGTON, December 11, 2025" (myairforcebenefits.us.af.mil): https://myairforcebenefits.us.af.mil/Department-of-War-Releases-2026-Basic-Allowance-for-Housing-Rates . About $29.9B to about 1M members. |
 | 2025 | 5.4% | 2024-12-13 | DoD release / DOD News, Dec 13, 2024: https://www.army.mil/article/282083 . About $29.2B; 299 MHAs surveyed. |
 | 2024 | 5.4% | 2023-12-14 | DoD release, dateline "WASHINGTON, December 14, 2023" (myairforcebenefits.us.af.mil): https://www.myairforcebenefits.us.af.mil/News/DOD-Releases-2024-Basic-Allowance-for-Housing-Rates . About $27.9B. |

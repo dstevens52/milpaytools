@@ -8,6 +8,7 @@
 
 import { BAH_YEAR } from '../../../src/data/bah/current';
 import { BAH_EXPECTED_2026 } from './bah-expected-2026';
+import { BAH_EXPECTED_2027 } from './bah-expected-2027';
 
 export interface BahExpected {
   year: string;
@@ -48,6 +49,7 @@ export interface BahExpected {
 
 const FIXTURES: Record<string, BahExpected> = {
   '2026': BAH_EXPECTED_2026,
+  '2027': BAH_EXPECTED_2027,
 };
 
 function load(year: string): BahExpected {

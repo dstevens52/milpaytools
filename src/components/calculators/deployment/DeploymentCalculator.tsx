@@ -3,7 +3,8 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { calculateDeployment, defaultDeploymentFilingStatus } from '@/lib/calculations/deployment';
 import { FILING_STATUSES, FILING_STATUS_LABEL, isFilingStatus, type FilingStatus } from '@/lib/calculations/federalTax';
-import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
+import { useCombinedBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
+import { pendingBahLabel } from '@/lib/combinedPayYear';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import { usePreHydrationSync, useHydrated } from '@/components/calculators/shared/usePreHydrationSync';
@@ -342,8 +343,10 @@ export function DeploymentCalculator() {
   const isValidZip = zipDigits.length === 5;
 
   // BAH resolved via the cached route.
-  const { data: bahData, loading: bahLoading } = useBahLookup(zipDigits);
+  // One-year rule: BAH from the pay table's year; a newer loaded year shows on its own line.
+  const { data: bahData, loading: bahLoading, pendingYear, pendingData } = useCombinedBahLookup(zipDigits);
   const bahRate = rateFor(bahData, payGrade, hasDependents);
+  const pendingBah = pendingYear ? rateFor(pendingData, payGrade, hasDependents) : null;
   const monthlyBAH = bahRate ?? 0;
   const bahFound = bahRate !== null;
 
@@ -663,6 +666,9 @@ export function DeploymentCalculator() {
             <PhaseCard title="Before Deployment" accent="zinc">
               <PayRow label="Base pay" value={fmt(result.pre.monthlyBasePay)} />
               <PayRow label="BAH" value={fmt(result.pre.monthlyBAH)} sub={result.pre.bahFound ? undefined : 'ZIP not found'} />
+              {pendingYear && pendingBah !== null && (
+                <PayRow label={pendingBahLabel(pendingYear)} value={fmt(pendingBah)} sub="Not in these totals" dimmed />
+              )}
               <PayRow label="BAS" value={fmt(result.pre.monthlyBAS)} />
               <PayRow label="Gross monthly" value={fmt(result.pre.grossMonthly)} highlight />
               <PayRow label="Est. federal income tax" value={`−${fmt(result.pre.monthlyFederalTax)}`} sub={`On base pay only · ${filingLabel}`} />

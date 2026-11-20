@@ -19,10 +19,11 @@
  * tests/e2e/bah-release-day.spec.ts checks that the registry and current.ts agree.
  */
 
-import { mhaRates as rates2025 } from './2025/mhaRates';
 import { mhaRates as rates2026 } from './2026/mhaRates';
-import { zipToMha as zipToMha2026 } from './2026/zipToMha';
-import { mhaNames as mhaNames2026 } from './2026/mhaNames';
+import { mhaRates as rates2027 } from './2027/mhaRates';
+import { zipToMha as zipToMha2027 } from './2027/zipToMha';
+import { mhaNames as mhaNames2027 } from './2027/mhaNames';
+import { zipPriorMha as zipPriorMha2027 } from './2027/zipPriorMha';
 import { BAH_MID_YEAR_CHANGES as midYear2026 } from './2026/midYearChanges';
 import type { BahMidYearChanges } from './midYear';
 
@@ -34,8 +35,8 @@ export type MhaRateTable = Record<string, MHARateSet>;
 
 /** Monthly rates by MHA, for every registered year (build-time only). */
 export const BAH_RATES_BY_YEAR = {
-  '2025': rates2025,
   '2026': rates2026,
+  '2027': rates2027,
 } satisfies Record<string, MhaRateTable>;
 
 export type BahYear = keyof typeof BAH_RATES_BY_YEAR;
@@ -54,10 +55,11 @@ export interface BahLookupTables {
 
 /** ZIP → MHA map and MHA names. Registered for BAH_YEAR only. */
 export const BAH_LOOKUP_TABLES: Partial<Record<BahYear, BahLookupTables>> = {
-  '2026': { zipToMha: zipToMha2026, mhaNames: mhaNames2026 },
+  '2027': { zipToMha: zipToMha2027, mhaNames: mhaNames2027, priorMhaByZip: zipPriorMha2027 },
 };
 
 /** DTMO mid-year changes, by year. A new year starts empty. */
 export const BAH_MID_YEAR_CHANGES_BY_YEAR: Partial<Record<BahYear, BahMidYearChanges>> = {
   '2026': midYear2026,
+  '2027': {},
 };

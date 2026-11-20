@@ -25,6 +25,14 @@ export interface BahRelease {
 
 export const BAH_RELEASE_HISTORY: readonly BahRelease[] = [
   {
+    // REHEARSAL (rehearsal/bah-2027-r2): fake row, not DoD's figure.
+    ratesYear: 2027,
+    avgIncreasePct: 4.8,
+    releasedDate: '2026-12-11',
+    sourceUrl: 'https://example.invalid/REHEARSAL-2027-bah-release',
+    sourceLabel: 'REHEARSAL release, December 11, 2026',
+  },
+  {
     ratesYear: 2026,
     avgIncreasePct: 4.2,
     releasedDate: '2025-12-11',

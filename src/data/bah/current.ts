@@ -14,9 +14,9 @@
  *   (pages are prerendered).
  */
 
-export const BAH_YEAR = '2026';
-export const BAH_PRIOR_YEAR = '2025';
-export const BAH_EFFECTIVE_NOTICE: boolean = false;
+export const BAH_YEAR = '2027';
+export const BAH_PRIOR_YEAR = '2026';
+export const BAH_EFFECTIVE_NOTICE: boolean = true;
 
 /** "January 1, 2026" — the date BAH_YEAR's rates take effect. */
 export const BAH_EFFECTIVE_DATE_LABEL = `January 1, ${BAH_YEAR}`;
