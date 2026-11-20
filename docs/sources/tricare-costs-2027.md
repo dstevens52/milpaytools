@@ -11,6 +11,8 @@ Verified by Claude Chat on 2026-11-19 from the official pages below (read in a b
 | OS27 | tricare.mil TRICARE Open Season, https://tricare.mil/openseason (page "Last Updated 11/19/2026") | Open Season dates; official 2027 TRICARE vs civilian comparison table. |
 | NR26 | TRICARE Newsroom, "Learn your 2026 TRICARE health plan costs", Nov 7, 2025, https://newsroom.tricare.mil/News/TRICARE-News/Article/4328806/learn-your-2026-tricare-health-plan-costs | All CY2026 figures below (matches FR 2025-19819, 90 FR 50745, effective Jan 1, 2026). Group A/B definitions. |
 | PH | TRICARE Newsroom, "Preview your 2026 TRICARE pharmacy costs", Nov 13, 2025, https://newsroom.tricare.mil/News/TRICARE-News/Article/4329992/preview-your-2026-tricare-pharmacy-costs | Pharmacy copays set by the FY2018 NDAA "will be in effect through Dec. 31, 2027" (no pharmacy change in 2027). |
+| TFL | tricare.mil Health Plan Costs, https://tricare.mil/comparecosts, TRICARE For Life tab (2027 page) | Enrollment fee "$0"; "If you're eligible for premium-free Medicare Part A, you must have Medicare Part A and Part B to have TFL."; Medicare Part B "Monthly premiums based on your income". |
+| TFLNR | TRICARE Newsroom, "What are my 2026 TRICARE For Life costs?", https://newsroom.tricare.mil/News/TRICARE-News/Article/4380322/what-are-my-2026-tricare-for-life-costs | "If both Medicare and TRICARE cover the care, you'll have no out-of-pocket expenses." |
 
 ## Definitions (NR26)
 - Group A: the sponsor's initial enlistment or appointment began before Jan. 1, 2018.

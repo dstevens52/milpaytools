@@ -31,6 +31,12 @@ const REMOVED = [
   'arguably the most valuable post-65 health benefit',
   '$1,000/year per family',
   'What changed in TRICARE for 2026?',
+  // Claude Chat review (PR #65): unsourced active-duty coverage section and old TFL wording.
+  'What does active-duty TRICARE Prime cover?',
+  'no network to "go out of"',
+  "What active-duty members don't pay for",
+  "covers most of what Medicare doesn't",
+  'which most people over 65 pay anyway',
 ];
 
 test.describe('TRICARE post source (data-only)', () => {
@@ -84,6 +90,12 @@ test.describe('TRICARE post page', () => {
     }
     for (const p of REMOVED) expect(text, p).not.toContain(p);
     expect(text).not.toMatch(/TricareFigure|TricareCostTable|TricareDate|NaN|undefined/);
+    // TFL paragraph (sources TFL, TFLNR in docs/sources/tricare-costs-2027.md).
+    expect(text).toContain('must have Medicare Part A and Part B to keep TRICARE coverage through TRICARE For Life');
+    expect(text).toContain('When both Medicare and TRICARE cover the care, TRICARE says you have no out-of-pocket expenses.');
+    await expect(page.getByRole('heading', { level: 2, name: 'What do active duty members and families pay in 2027?' })).toBeVisible();
+    // Employer figure labeled the same way everywhere (comparison, example, key fact).
+    expect(text.split('($7,471, Kaiser Family Foundation 2026 survey, as TRICARE reports it)').length - 1).toBe(3);
   });
 
   test('tables: six named tables render with rows', async ({ page }) => {
