@@ -30,6 +30,8 @@ const PAGES: { path: string; faqCount: number }[] = [
   { path: '/pay/dates', faqCount: 6 },
   // /va-disability-rates: three FAQs (build 06, Fable Spec 4).
   { path: '/va-disability-rates', faqCount: 3 },
+  // TRICARE costs post: three FAQs built from the TRICARE year files (T1).
+  { path: '/blog/tricare-costs-2026-vs-civilian', faqCount: 3 },
 ];
 
 type FaqSchema = {

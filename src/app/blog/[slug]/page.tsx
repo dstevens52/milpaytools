@@ -8,6 +8,11 @@ import { KeyFact } from '@/components/blog/KeyFact';
 import { QuickAnswer, QAItem } from '@/components/blog/QuickAnswer';
 import { TransitionReadinessExample, TransitionExampleFigure } from '@/components/blog/TransitionReadinessExample';
 import { RetirementFigure, High3Breakdown, CrdpCrscFigure, FinalYearCompTotal } from '@/components/blog/RetirementFigure';
+import { TricareFigure, TricareChangeRange, TricareDate, TricareCostYear } from '@/components/blog/TricareFigure';
+import { TricareCostTable } from '@/components/blog/TricareCostTable';
+import { TricareOpenSeason, TricarePostFaq } from '@/components/blog/TricarePost';
+import { tricarePostFaqs } from '@/lib/tricarePost';
+import { OPEN_SEASON_2026_STATUS } from '@/data/tricare/2027/openSeason';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
@@ -27,6 +32,13 @@ const mdxComponents = {
   High3Breakdown,
   CrdpCrscFigure,
   FinalYearCompTotal,
+  TricareFigure,
+  TricareChangeRange,
+  TricareDate,
+  TricareCostYear,
+  TricareCostTable,
+  TricareOpenSeason,
+  TricarePostFaq,
 };
 
 const GUIDE_TITLES: Record<string, string> = {
@@ -49,6 +61,8 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
+  // Built from the TRICARE year files; the same answers render visibly in the post (<TricarePostFaq />).
+  'tricare-costs-2026-vs-civilian': tricarePostFaqs(OPEN_SEASON_2026_STATUS),
   'how-much-does-an-o3-really-make-2026': [
     {
       question: 'How much does an O-3 make in 2026?',

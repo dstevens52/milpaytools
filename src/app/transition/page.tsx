@@ -737,7 +737,7 @@ export default function TransitionPage() {
                 />
                 <ResourceCard
                   href="/blog/tricare-costs-2026-vs-civilian"
-                  title="TRICARE Costs in 2026"
+                  title="TRICARE Costs in 2027 vs 2026"
                   description="Understand exactly what healthcare will cost as a civilian. This is often the most underestimated transition expense — the gap between TRICARE and a civilian employer plan can exceed $10,000 per year for a family."
                 />
                 <ResourceCard

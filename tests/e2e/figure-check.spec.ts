@@ -19,7 +19,7 @@ import * as deployment2026 from '@/data/deployment/2026/constants';
 import * as education2026 from '@/data/education/2026/constants';
 import * as healthcare2026 from '@/data/healthcare/2026/constants';
 import * as pcs2026 from '@/data/pcs/2026/constants';
-import * as tricare2026 from '@/data/tricare/2026/constants';
+import * as tricare2026 from '@/data/tricare/2026/costs';
 import * as tsp2026 from '@/data/tsp/2026/constants';
 import * as tsp2027 from '@/data/tsp/2027/constants';
 import {
@@ -42,7 +42,10 @@ const ROOT = join(__dirname, '..', '..');
  * Parser floors, ~90% of the counts on 2026-11-11 (2,695 figures in 69 of 72
  * scanned files). A broken regex or scan path drops far below these.
  */
-const MIN_FIGURES = 2_425;
+// Re-based 2026-11-19 (T1): 2,460 → 2,346 figures because the TRICARE costs post
+// (111) and the TAMP post (3) now render their TRICARE figures from the data
+// files; ~90% of 2,346.
+const MIN_FIGURES = 2_110;
 const MIN_FILES_WITH_FIGURES = 62;
 
 const MODULES: Record<string, Record<string, unknown>> = {

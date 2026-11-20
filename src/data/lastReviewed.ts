@@ -36,7 +36,7 @@ export const CALCULATOR_LAST_REVIEWED = {
   compare: '2026-11-12',
   'transition-readiness': '2026-11-18', // also C1 VA wording
   'separation-timeline': '2026-11-18',
-  'healthcare-comparison': '2026-05-28',
+  'healthcare-comparison': '2026-11-19', // T1: HC-03 TRS deductible/cap from the TRICARE year file
   'va-loan': '2026-05-29',
   deployment: '2026-11-14', // = the "Last reviewed" date shown on the page
   'va-refinance': '2026-05-29',
@@ -46,7 +46,7 @@ export type CalculatorSlug = keyof typeof CALCULATOR_LAST_REVIEWED;
 
 /** Non-hub pages outside the calculator, station, rank, blog and guide groups. Keyed by path. */
 export const PAGE_LAST_REVIEWED = {
-  '/transition': '2026-06-11',
+  '/transition': '2026-11-19', // T1: TRICARE post card title
   '/about': '2026-05-30',
   '/privacy': '2026-05-31',
   '/terms': '2026-05-30',
