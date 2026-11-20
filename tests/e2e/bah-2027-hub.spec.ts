@@ -193,6 +193,16 @@ test.describe('Transition tense and alert headline (unit)', () => {
     expect(bahAlertSource('fort-hood')).toBe('bah-alert-fort-hood');
   });
 
+  test('alert headline: DoD has published but the import is not live (status released) → no "is published" promise', () => {
+    // R2 rehearsal: under "DoD published 2027 BAH rates on …" the headline still said
+    // "Get an email when 2027 BAH for Fort Hood is published".
+    const h = bahAlertHeadline('Fort Hood', 'next-year-status', true);
+    expect(h).toBe('Get notified when BAH rates change for Fort Hood');
+    expect(h).not.toContain('is published');
+    // Pending is unchanged (today's page).
+    expect(bahAlertHeadline('Fort Hood', 'next-year-status', false)).toBe('Get an email when 2027 BAH for Fort Hood is published');
+  });
+
   test('station "When will…" FAQ cites the 2024 release as December 14, 2023', () => {
     expect(bah2027FaqAnswer('Fort Hood')).toContain('the 2024 rates, December 14, 2023');
   });

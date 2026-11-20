@@ -48,6 +48,12 @@ export const STATIC_PATHS = [
   '/guides/education-benefits',
   '/guides/pcs',
   '/guides/starting-service',
+  // The 2027 BAH status reaches these through the key-dates calendar
+  // (src/data/calendar-2027.ts → 2027-status.ts): "2027 BAH rates" date, the
+  // /pay/raise BAH FAQ, the "last checked" date (R2 rehearsal, 2026-11-20).
+  '/pay',
+  '/pay/dates',
+  '/pay/raise',
   '/transition',
 ];
 

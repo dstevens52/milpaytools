@@ -95,6 +95,16 @@ export interface PriorYearRates {
   ratesW: Record<string, number> | null;
   ratesWO: Record<string, number> | null;
 }
+/**
+ * The MHA a ZIP was paid under in BAH_PRIOR_YEAR: its prior MHA if DTMO moved it
+ * to a different MHA this year (registry priorMhaByZip), else its current MHA.
+ * Null for a ZIP outside the dataset. Use it for every prior-year figure about a
+ * place (year-over-year change, "the prior rate applies until January 1").
+ */
+export function priorYearMhaForZip(zipCode: string): string | null {
+  return lookupTables!.priorMhaByZip?.[zipCode] ?? getMHACode(zipCode);
+}
+
 export function priorYearRates(mhaCode: string): PriorYearRates {
   return {
     year: PRIOR_BAH_YEAR,

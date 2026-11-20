@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { DUTY_STATIONS, STATION_BY_SLUG, type DutyStation } from '@/data/duty-stations/stations';
-import { getMHACode, getMHARates, getMHARatesForYear, getLocationName, getNationalAverages, getBahMidYearChange, isBahYear, CURRENT_BAH_YEAR, PRIOR_BAH_YEAR } from '@/lib/calculations/bah';
+import { getMHACode, getMHARates, getMHARatesForYear, getLocationName, getNationalAverages, getBahMidYearChange, isBahYear, priorYearMhaForZip, CURRENT_BAH_YEAR, PRIOR_BAH_YEAR } from '@/lib/calculations/bah';
 import { mhaPercentile, yoyForGrade, siblingInstallations, nearbyDeltas, hasRateDecrease, nationalIncreaseComparison } from '@/lib/calculations/bahStats';
 import { getFMRRange } from '@/lib/calculations/fmr';
 import { stationTotalPayForYears } from '@/lib/calculations/stationTotalPay';
@@ -19,7 +19,7 @@ import { displayMhaName } from '@/lib/mhaDisplay';
 import { OCONUS_V2_STATIONS, getRenderableOconusV2, oconusTitle, oconusDescription, OCONUS_OG_SUB } from '@/data/oconus';
 import { OconusStationPage } from '@/components/oconus/OconusStationPage';
 import { oconusFaqs } from '@/data/oconus/sharedCopy';
-import { bah2027FaqQuestion, bah2027FaqAnswer } from '@/data/bah/2027-status';
+import { bah2027FaqQuestion, bah2027FaqAnswer, BAH_2027_STATUS } from '@/data/bah/2027-status';
 import { Bah2027Notice } from '@/components/bah-stations/Bah2027Notice';
 import { BahTransitionNotice } from '@/components/bah-stations/BahTransitionNotice';
 import { formatBahDate, temporaryIncreaseEndingText, temporaryIncreasePendingText } from '@/data/bah/midYear';
@@ -169,16 +169,21 @@ export default async function StationPage({
   // DTMO mid-year change for this MHA in the current BAH year (e.g. TX270 Abilene,
   // May 16, 2026), or null.
   const midYearChange = getBahMidYearChange(mhaCode);
+  // The MHA this station's ZIP was paid under in the prior year: the same MHA
+  // unless DTMO moved the ZIP (registry priorMhaByZip). Every prior-year figure
+  // below (YoY, decreases, "the prior rate applies", total pay in the prior year)
+  // uses it, so a remapped station compares with what it was actually paid.
+  const priorMhaCode = mhaCode ? priorYearMhaForZip(station.zip) ?? mhaCode : null;
   // A temporary increase in the PRIOR year (e.g. TX270's 2026 increase, once 2027
   // rates load): rate protection doesn't apply to it, so the decrease paragraph and
   // FAQ say the temporary rates ended instead. Data-driven, no MHA check.
-  const priorMidYear = getBahMidYearChange(mhaCode, PRIOR_BAH_YEAR);
+  const priorMidYear = getBahMidYearChange(priorMhaCode, PRIOR_BAH_YEAR);
   const priorTemporary = priorMidYear?.temporary ? priorMidYear : null;
 
   // Prior-year rates for year-over-year deltas — resolved at build time only.
   // Small resolved objects (~24 grades) become props; the dataset never ships.
-  const ratesWPrev = mhaCode ? getMHARatesForYear(mhaCode, true, PRIOR_BAH_YEAR) : null;
-  const ratesWOPrev = mhaCode ? getMHARatesForYear(mhaCode, false, PRIOR_BAH_YEAR) : null;
+  const ratesWPrev = priorMhaCode ? getMHARatesForYear(priorMhaCode, true, PRIOR_BAH_YEAR) : null;
+  const ratesWOPrev = priorMhaCode ? getMHARatesForYear(priorMhaCode, false, PRIOR_BAH_YEAR) : null;
 
   // Build 04b: basic pay + BAH + BAS by rank. Resolved here so the pay table never ships.
   // One year throughout: the pay table's year with that year's BAH (stays on 2026
@@ -186,8 +191,9 @@ export default async function StationPage({
   const totalPay = mhaCode
     ? stationTotalPayForYears((year) => {
         if (!isBahYear(year)) return null;
-        const w = getMHARatesForYear(mhaCode, true, year);
-        const wo = getMHARatesForYear(mhaCode, false, year);
+        const m = year === PRIOR_BAH_YEAR && priorMhaCode ? priorMhaCode : mhaCode;
+        const w = getMHARatesForYear(m, true, year);
+        const wo = getMHARatesForYear(m, false, year);
         return w && wo ? { w, wo } : null;
       }, CURRENT_BAH_YEAR)
     : null;
@@ -206,10 +212,10 @@ export default async function StationPage({
   const e5W = ratesW?.['E-5'];
   const e5Median = nationalAvgs.w['E-5'];
   const e5Pctile = mhaCode ? mhaPercentile(mhaCode, 'E-5', true) : null;
-  const e5YoY = mhaCode ? yoyForGrade(mhaCode, 'E-5', true) : null;
+  const e5YoY = mhaCode ? yoyForGrade(mhaCode, 'E-5', true, priorMhaCode ?? mhaCode) : null;
   const siblings = mhaCode ? siblingInstallations(mhaCode, station.slug) : [];
   // True if any displayed pay grade decreased prior year → current year at this MHA.
-  const hasDecrease = mhaCode ? hasRateDecrease(mhaCode) : false;
+  const hasDecrease = mhaCode ? hasRateDecrease(mhaCode, CURRENT_BAH_YEAR, priorMhaCode ?? mhaCode) : false;
   // HUD 2-bedroom Fair Market Rent range for this MHA (null = OCONUS/no coverage).
   const fmr2br = mhaCode ? getFMRRange(mhaCode, 2) : null;
 
@@ -434,7 +440,7 @@ export default async function StationPage({
             <div className="mt-3" data-testid="bah-station-alert">
               <EmailSignup
                 variant="card"
-                headline={bahAlertHeadline(station.name, noticeMode)}
+                headline={bahAlertHeadline(station.name, noticeMode, BAH_2027_STATUS.status === 'released')}
                 source={bahAlertSource(station.slug)}
               />
             </div>

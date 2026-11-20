@@ -42,6 +42,7 @@ import {
   isZipInDataset,
   isTerritory,
   priorYearRates,
+  priorYearMhaForZip,
   getMHARatesForYear,
   isBahYear,
   type PriorYearRates,
@@ -120,7 +121,8 @@ export async function GET(request: Request): Promise<Response> {
       stationPages: getStationPagesForZip(zip),
       year: BAH_YEAR,
       ...ratesYearField,
-      ...priorFor(mha),
+      // Prior-year rates for this ZIP: its prior MHA if DTMO remapped it.
+      ...priorFor(priorYearMhaForZip(zip) ?? mha),
     }, 200, okCache);
   }
 
