@@ -2,6 +2,9 @@ import { test, expect } from '@playwright/test';
 import { getBAH } from './helpers/data';
 import { formatCurrency } from './helpers/format';
 import { BAH_EXPECTED as X, yoy, usd } from './fixtures/bah-expected';
+import { fmrYearForBahYear } from '../../src/lib/calculations/fmr';
+import { hudFmrCardLabel, hudFmrSourceLabel } from '../../src/lib/rentCompare';
+import { BAH_YEAR } from '../../src/data/bah/current';
 
 const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const BRAGG_YOY = yoy(X.bragg.e5W, X.bragg.priorE5W);
@@ -208,6 +211,21 @@ test.describe('BAH Station Page — Phase 2B HUD FMR rent comparison', () => {
     await expect(page.getByText(/above the area's 75th-percentile 2-bedroom rent/).first()).toBeVisible();
     await expect(page.getByText(/about 95% of typical local housing costs/).first()).toBeVisible();
     await expect(page.getByText(/HUD Small Area Fair Market Rents/).first()).toBeVisible();
+  });
+
+  test('H1: rent labels carry the HUD FY paired with the BAH year shown (card, source note, FAQ JSON-LD)', async ({ page }) => {
+    const fy = fmrYearForBahYear(BAH_YEAR)!;
+    expect(fy).toBe(BAH_YEAR);
+    await page.goto('/bah/fort-bragg');
+    const section = page.locator('div').filter({ has: page.getByRole('heading', { name: 'BAH vs. Local Rent' }) }).last();
+    await expect(section.getByText(hudFmrCardLabel(fy), { exact: true })).toBeVisible();
+    await expect(section.getByText(`${hudFmrSourceLabel(fy)}. 2-bedroom is the reference point`)).toBeVisible();
+    const ld = (await page.locator('script[type="application/ld+json"]').allTextContents()).join(' ');
+    expect(ld).toContain(`Fair Market Rent (HUD, FY${fy}) runs about`);
+    for (const other of ['2025', '2026', '2027', '2028'].filter((y) => y !== fy)) {
+      expect(await section.innerText()).not.toContain(`FY${other}`);
+      expect(ld).not.toContain(`(HUD, FY${other})`);
+    }
   });
 
   test('"within range" branch renders at a high-cost base (Presidio of Monterey)', async ({ page }) => {
