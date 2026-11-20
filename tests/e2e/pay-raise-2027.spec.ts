@@ -43,7 +43,13 @@ import {
   formatPercent,
   type RaiseResult,
 } from '@/lib/calculations/payRaise';
-import { getCalendar2027, weekdayDate, calendarLastChecked, rankKeyDatesLine } from '@/data/calendar-2027';
+import { getCalendar2027, weekdayDate, calendarLastChecked, rankKeyDatesLine, bah2027Calendar } from '@/data/calendar-2027';
+import { BAH_2027_STATUS } from '@/data/bah/2027-status';
+import { BAH_RELEASE_HISTORY } from '@/data/bah/releaseHistory';
+
+// The 2027 BAH date once DoD has released (status 'released' or the 2027 history row), else null:
+// pending today; set on BAH release day (R2 rehearsal: these golden lines assumed pending).
+const BAH_OUT = bah2027Calendar().isoDate;
 import { RETIREE_COLA_2027 } from '@/data/retiree-cola/2027';
 import { RANK_TITLE_YEARS, type RankTitleYears } from '@/data/pay-pages/titleMode';
 import { rankTitle, payRange, gradeMinMax } from '@/lib/pay-pages/rankTitle';
@@ -416,7 +422,7 @@ test.describe('2027 key dates — calendar data', () => {
       'retiree-cola': 'official',
       'va-cola': 'pending',
       'tsp-limits': 'official',
-      bah: 'expected',
+      bah: BAH_OUT ? 'official' : 'expected',
       'dec31-payday': 'official',
       'rates-effective': 'official',
       'first-payday': 'official',
@@ -431,9 +437,25 @@ test.describe('2027 key dates — calendar data', () => {
     expect(byId['tsp-limits'].source.url).toBe('https://www.irs.gov/pub/irs-drop/n-26-66.pdf');
     expect(byId['retiree-cola'].title).toContain(formatPercent(RETIREE_COLA_2027.percent));
     expect(byId['va-cola'].body).toContain(`Social Security COLA (${formatPercent(RETIREE_COLA_2027.percent)})`);
-    expect(byId.bah.body).toBe('Expected mid-December; the 2026 rates were released December 11, 2025.');
+    expect(byId.bah.body).toBe(
+      BAH_OUT
+        ? `DoD published 2027 BAH rates on ${formatIsoDate(BAH_OUT)}, effective January 1, 2027.`
+        : 'Expected mid-December; the 2026 rates were released December 11, 2025.',
+    );
     expect(byId.bah.body.toLowerCase()).not.toContain('schedule');
     expect(calendarLastChecked()).toBe(DATA_LAST_CHECKED);
+  });
+
+  test('BAH entry: official from the 2027 history row even while the status is still pending (R2)', () => {
+    const pending = { ...BAH_2027_STATUS, status: 'pending' as const, releasedDate: null, avgIncreasePct: null, releaseSourceUrl: null };
+    const noRow = BAH_RELEASE_HISTORY.filter((r) => r.ratesYear < 2027);
+    expect(bah2027Calendar(pending, noRow)).toMatchObject({ status: 'expected', isoDate: null, priorRatesYear: 2026 });
+    const withRow = [{ ...noRow[0], ratesYear: 2027, releasedDate: '2026-12-15', avgIncreasePct: 4.5 }, ...noRow];
+    expect(bah2027Calendar(pending, withRow)).toMatchObject({ status: 'official', isoDate: '2026-12-15' });
+    expect(bah2027Calendar({ ...pending, status: 'released', releasedDate: '2026-12-12' }, noRow)).toMatchObject({
+      status: 'official',
+      isoDate: '2026-12-12',
+    });
   });
 
   test('links match the build spec', () => {
@@ -462,7 +484,9 @@ test.describe('2027 key dates — calendar data', () => {
 
   test('rank-page key-dates line', () => {
     expect(rankKeyDatesLine()).toBe(
-      'Key dates: the raise takes effect January 1, 2027, and the first payday at 2027 rates is Friday, January 15, 2027. 2027 BAH is expected in mid-December.',
+      `Key dates: the raise takes effect January 1, 2027, and the first payday at 2027 rates is Friday, January 15, 2027. ${
+        BAH_OUT ? `2027 BAH rates were published ${formatIsoDate(BAH_OUT)}.` : '2027 BAH is expected in mid-December.'
+      }`,
     );
   });
 });
@@ -491,7 +515,11 @@ test.describe('2027 key dates — /pay/raise FAQs and homepage strip', () => {
       "The 2027 raise takes effect January 1, 2027. The first payday at 2027 rates is the mid-month payday on Friday, January 15, 2027. The December 31, 2026 payday covers December 16–31, so it's still at 2026 rates.",
     );
     expect(faqs['Does the raise affect BAH?']).toBe(
-      'No. BAH is set separately from basic pay, based on local housing costs, grade and dependency status. 2027 BAH rates are expected in mid-December; DoD released the 2026 rates on December 11, 2025.',
+      `No. BAH is set separately from basic pay, based on local housing costs, grade and dependency status. ${
+        BAH_OUT
+          ? `DoD published 2027 BAH rates on ${formatIsoDate(BAH_OUT)}, effective January 1, 2027.`
+          : '2027 BAH rates are expected in mid-December; DoD released the 2026 rates on December 11, 2025.'
+      }`,
     );
   });
 

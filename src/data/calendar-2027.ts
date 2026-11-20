@@ -16,7 +16,8 @@
 
 import { PAY_RAISE_2027, type PayRaiseConfig } from '@/data/pay-raise/2027';
 import { RETIREE_COLA_2027 } from '@/data/retiree-cola/2027';
-import { BAH_2027_STATUS } from '@/data/bah/2027-status';
+import { BAH_2027_STATUS, type Bah2027StatusConfig } from '@/data/bah/2027-status';
+import { BAH_RELEASE_HISTORY, type BahRelease } from '@/data/bah/releaseHistory';
 import { DATA_LAST_CHECKED } from '@/data/watch';
 import { formatIsoDate, formatPercent, raiseCalendarEntry, retireeColaTiming } from '@/lib/calculations/payRaise';
 import { TSP_CONSTANTS_2027, TSP_LIMITS_2027_ANNOUNCED, TSP_LIMITS_2027_NOTICE } from '@/data/tsp/2027/constants';
@@ -113,16 +114,29 @@ export function weekdayDate(iso: string): string {
   });
 }
 
-/** BAH expectation for 2027, from the shared BAH status (released → official). */
-export function bah2027Calendar(): {
+/**
+ * BAH expectation for 2027: official once DoD has released, from the same facts
+ * as /bah's "#2027" section: the 2027 row of releaseHistory.ts (runbook step 3),
+ * else BAH_2027_STATUS 'released' (step 0). R2 rehearsal: this read only the
+ * status, so a release-day PR that added the history row but left the status
+ * 'pending' kept "2027 BAH is expected in mid-December" on /pay pages while /bah
+ * said "2027 BAH rates are out".
+ */
+export function bah2027Calendar(
+  config: Bah2027StatusConfig = BAH_2027_STATUS,
+  history: readonly BahRelease[] = BAH_RELEASE_HISTORY,
+): {
   status: CalendarStatus;
   isoDate: string | null;
   priorReleaseIso: string;
   priorRatesYear: number;
 } {
-  const prior = BAH_2027_STATUS.pastReleases[0];
-  if (BAH_2027_STATUS.status === 'released' && BAH_2027_STATUS.releasedDate) {
-    return { status: 'official', isoDate: BAH_2027_STATUS.releasedDate, priorReleaseIso: prior.releasedDate, priorRatesYear: prior.ratesYear };
+  const prior = config.pastReleases[0];
+  const released =
+    history.find((r) => r.ratesYear === 2027)?.releasedDate ??
+    (config.status === 'released' ? config.releasedDate : null);
+  if (released) {
+    return { status: 'official', isoDate: released, priorReleaseIso: prior.releasedDate, priorRatesYear: prior.ratesYear };
   }
   return { status: 'expected', isoDate: null, priorReleaseIso: prior.releasedDate, priorRatesYear: prior.ratesYear };
 }
