@@ -51,10 +51,11 @@ export interface Bah2027StatusConfig {
 }
 
 export const BAH_2027_STATUS: Bah2027StatusConfig = {
-  status: 'pending',
-  releasedDate: null,
-  avgIncreasePct: null,
-  releaseSourceUrl: null,
+  // REHEARSAL: fake release facts (rehearsal/bah-2027-r2). Not DoD's figures.
+  status: 'released',
+  releasedDate: '2026-12-11',
+  avgIncreasePct: 4.8, // REHEARSAL
+  releaseSourceUrl: 'https://example.invalid/REHEARSAL-2027-bah-release',
   pastReleases: BAH_RELEASE_HISTORY.filter((r) => r.ratesYear < Y)
     .slice(0, 3)
     .map(({ ratesYear, releasedDate }) => ({ ratesYear, releasedDate })),

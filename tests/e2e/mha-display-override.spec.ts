@@ -44,7 +44,7 @@ test.describe('MHA display overrides — data', () => {
   });
 
   test('the 2026 typo is at mhanames26.txt line 74, as the override comment cites', () => {
-    test.skip(BAH_YEAR !== '2026', 'line number cited for the 2026 file only');
+    test.skip((BAH_YEAR as string) !== '2026', 'line number cited for the 2026 file only');
     const row = dtmoNames().find(([, c]) => c === 'GA073');
     expect(row).toEqual([74, 'GA073', 'FORT GORDON, AL']);
   });
