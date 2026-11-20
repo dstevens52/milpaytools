@@ -12,7 +12,7 @@ import {
 import { payTable, E1_UNDER_4_MONTHS } from '@/data/pay-tables/2026';
 import { YOS_BREAKPOINTS, ENLISTED_GRADES, type YearsOfService } from '@/types/military';
 import { BAS_RATES, DATA_AS_OF } from '@/data/constants';
-import { getNationalAverages, BAH_ZIP_COUNT, BAH_MHA_COUNT } from '@/lib/calculations/bah';
+import { getNationalAverages, combinedBahYear, BAH_ZIP_COUNT, BAH_MHA_COUNT } from '@/lib/calculations/bah';
 import { BAH_YEAR } from '@/data/bah/current';
 import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
 import { formatCurrency, getYOSBracket, estimateMarginalRate } from '@/lib/utils';
@@ -83,7 +83,8 @@ function resolveFigures(rank: PayPageRank) {
   const distinctCount = new Set(Object.values(entry)).size;
 
   const isEnlisted = ENLISTED_GRADES.includes(rank.grade as (typeof ENLISTED_GRADES)[number]);
-  const nationalAvgs = getNationalAverages();
+  // One-year rule: the median BAH of the pay table's year (src/lib/combinedPayYear.ts).
+  const nationalAvgs = getNationalAverages(combinedBahYear());
   const medianBAH = (rank.exampleDependents ? nationalAvgs.w : nationalAvgs.wo)[rank.grade];
 
   // Legacy + 0% TSP keeps agency-match assumptions out of the worked example —
@@ -392,7 +393,7 @@ export default async function RankPayPage({
     branchFaq,
     {
       question: `What is ${rank.title} total compensation with BAH and BAS?`,
-      answer: `Using the ${BAH_YEAR} national median BAH ${rank.exampleDependents ? 'with' : 'without'} dependents (${formatCurrency(medianBAH)}/month), an ${exampleProse} receives about ${formatCurrency(comp.totalMonthly)}/month — ${formatCurrency(comp.monthlyBasePay, true)} basic pay, ${formatCurrency(comp.monthlyBAH)} BAH, and ${formatCurrency(comp.monthlyBAS, true)} BAS — roughly ${formatCurrency(annualCash)} per year. Actual totals depend on duty station, since BAH varies by location.`,
+      answer: `Using the ${combinedBahYear()} national median BAH ${rank.exampleDependents ? 'with' : 'without'} dependents (${formatCurrency(medianBAH)}/month), an ${exampleProse} receives about ${formatCurrency(comp.totalMonthly)}/month — ${formatCurrency(comp.monthlyBasePay, true)} basic pay, ${formatCurrency(comp.monthlyBAH)} BAH, and ${formatCurrency(comp.monthlyBAS, true)} BAS — roughly ${formatCurrency(annualCash)} per year. Actual totals depend on duty station, since BAH varies by location.`,
     },
     ...(rank.faqExtras ?? []),
     {
@@ -815,7 +816,7 @@ export default async function RankPayPage({
             >
               2026 DFAS military pay tables
             </a>
-            {`, effective ${DATA_AS_OF}. BAH national median computed from the official ${BAH_YEAR} DTMO BAH rate data (${BAH_MHA_COUNT} military housing areas). BAS from the 2026 DFAS published rates. Basic pay is taxable income; verify your own pay on your LES via `}
+            {`, effective ${DATA_AS_OF}. BAH national median computed from the official ${combinedBahYear()} DTMO BAH rate data (${BAH_MHA_COUNT} military housing areas). BAS from the 2026 DFAS published rates. Basic pay is taxable income; verify your own pay on your LES via `}
             <a
               href="https://mypay.dfas.mil"
               target="_blank"

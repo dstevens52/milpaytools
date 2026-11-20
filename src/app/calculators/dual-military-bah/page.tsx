@@ -8,7 +8,8 @@ import { GuidePromo } from '@/components/calculators/shared/GuidePromo';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import { FaqSection, type FaqItem } from '@/components/FaqSection';
-import { getMHACode, getMHARates } from '@/lib/calculations/bah';
+import { combinedBahForZip, combinedBahYear, pendingBahForZip } from '@/lib/calculations/bah';
+import { pendingBahLabel } from '@/lib/combinedPayYear';
 import { lookupBasePay } from '@/lib/calculations/basePay';
 import { BAS_RATES } from '@/data/constants';
 import { formatCurrency } from '@/lib/utils';
@@ -77,13 +78,15 @@ export default function DualMilitaryBAHPage() {
   // ── Worked-example values, BAH resolved server-side from bah.ts ───────────────
   // Scenario: two E-5s at Fort Bragg (28310). Member A (8 yrs) claims the child
   // (with-dependents rate); Member B (6 yrs) gets the without-dependents rate.
-  const dmMha = getMHACode('28310');
-  const dmRatesW = dmMha ? getMHARates(dmMha, true) : null;
-  const dmRatesWO = dmMha ? getMHARates(dmMha, false) : null;
+  // One-year rule: the example adds base pay, so its BAH is the pay table's year
+  // (src/lib/combinedPayYear.ts). The calculator above shows BAH alone (BAH_YEAR).
+  const dmYear = combinedBahYear();
+  const dmPendingA = pendingBahForZip('28310', 'E-5', true);
+  const dmPendingB = pendingBahForZip('28310', 'E-5', false);
   const dmABasePay = lookupBasePay('E-5', 8);
   const dmBBasePay = lookupBasePay('E-5', 6);
-  const dmABah = dmRatesW?.['E-5'] ?? 0; // Member A — with dependents
-  const dmBBah = dmRatesWO?.['E-5'] ?? 0; // Member B — without dependents
+  const dmABah = combinedBahForZip('28310', 'E-5', true); // Member A — with dependents
+  const dmBBah = combinedBahForZip('28310', 'E-5', false); // Member B — without dependents
   const dmHouseholdBah = dmABah + dmBBah;
   const dmHouseholdBas = BAS_RATES.enlisted * 2;
   const dmGrossMonthly = dmABasePay + dmBBasePay + dmHouseholdBah + dmHouseholdBas;
@@ -178,7 +181,7 @@ export default function DualMilitaryBAHPage() {
             What Does a Dual-Military E-5 Couple Take Home at Fort Bragg?
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            {`Scenario: Two E-5s stationed together at Fort Bragg, NC (ZIP 28310). Member A has 8 years of service, Member B has 6 years. They have one child — Member A claims the dependent and receives BAH with dependents; Member B receives BAH without dependents. ${BAH_YEAR} rates.`}
+            {`Scenario: Two E-5s stationed together at Fort Bragg, NC (ZIP 28310). Member A has 8 years of service, Member B has 6 years. They have one child — Member A claims the dependent and receives BAH with dependents; Member B receives BAH without dependents. ${dmYear} rates.`}
           </p>
           <ExampleTable>
             <ExampleRow label="Member A base pay (E-5, 8 yrs)" value={`${formatCurrency(dmABasePay)}/mo`} />
@@ -186,6 +189,12 @@ export default function DualMilitaryBAHPage() {
             <ExampleRow label="Member A BAH — Fort Bragg, with dependents (claims child)" value={`${formatCurrency(dmABah)}/mo`} />
             <ExampleRow label="Member B BAH — Fort Bragg, without dependents" value={`${formatCurrency(dmBBah)}/mo`} />
             <ExampleRow label="Household BAH total" value={`${formatCurrency(dmHouseholdBah)}/mo`} highlight />
+            {dmPendingA && dmPendingB && (
+              <ExampleRow
+                label={`${pendingBahLabel(dmPendingA.year)} — household, not in these totals`}
+                value={`${formatCurrency(dmPendingA.rate + dmPendingB.rate)}/mo`}
+              />
+            )}
             <ExampleRow label="Household BAS (both enlisted)" value={`${formatCurrency(dmHouseholdBas)}/mo`} />
             <ExampleRow label="Household gross monthly" value={`${formatCurrency(dmGrossMonthly)}/mo`} highlight />
             <ExampleRow label="Household gross annual" value={`${formatCurrency(dmGrossAnnual)}/yr`} highlight />

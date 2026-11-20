@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema } from '@/lib/schema';
 import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
-import { getMHARates } from '@/lib/calculations/bah';
+import { combinedBahForMha } from '@/lib/calculations/bah';
 import { OFFICIAL_COMPARISON_2027 } from '@/data/tricare/2027/openSeason';
 import { usdWhole } from '@/lib/tricarePost';
 
@@ -38,7 +38,8 @@ export const metadata: Metadata = {
 // ── Hero proof-bar example: E-6 · 10 yrs · Fort Campbell (KY106) · with dependents ──
 // Computed from the data layer at build time, matching the /pay/[rank] worked-example
 // convention (legacy retirement + 0% TSP keeps agency-match assumptions out of the totals).
-const HERO_BAH_MONTHLY = getMHARates('KY106', true)?.['E-6'] ?? 0; // Fort Campbell, w/dep
+// One-year rule: BAH from the same year as the pay table (src/lib/combinedPayYear.ts).
+const HERO_BAH_MONTHLY = combinedBahForMha('KY106', 'E-6', true); // Fort Campbell, w/dep
 const HERO_COMP = calculateTotalCompensation(
   {
     payGrade: 'E-6',

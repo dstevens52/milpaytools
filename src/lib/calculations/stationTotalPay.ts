@@ -20,6 +20,7 @@
 
 import { payTable, DATA_YEAR as PAY_TABLE_YEAR, E1_UNDER_4_MONTHS } from '@/data/pay-tables/2026';
 import { BAS_RATES } from '@/data/constants';
+import { combinedPayBahYear, pendingBahYear } from '@/lib/combinedPayYear';
 import {
   ENLISTED_GRADES,
   WARRANT_GRADES,
@@ -143,8 +144,10 @@ export function stationTotalPayForYears(
   payYear: string = PAY_TABLE_YEAR,
 ): StationTotalPayData | null {
   if (payYear !== PAY_TABLE_YEAR) throw new Error(`stationTotalPay: pay table ${PAY_TABLE_YEAR} is loaded, not ${payYear}`);
-  const rates = ratesForYear(payYear);
+  // The one-year rule, shared with every calculator that adds pay to BAH.
+  const years = { payYear, bahYear };
+  const rates = ratesForYear(combinedPayBahYear(years));
   if (!rates) return null;
   const data = stationTotalPay(rates.w, rates.wo);
-  return { ...data, pendingYear: Number(bahYear) > Number(payYear) ? bahYear : null };
+  return { ...data, pendingYear: pendingBahYear(years) };
 }

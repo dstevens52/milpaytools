@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { BAH_YEAR } from '@/data/bah/current';
 import { displayMhaName } from '@/lib/mhaDisplay';
+import { combinedBahRatesYear, pendingBahYear } from '@/lib/combinedPayYear';
 
 /**
  * Client hook that resolves a ZIP to BAH data via the cached /api/bah/lookup
@@ -153,4 +154,24 @@ export function useBahLookup(
   }, [zip, key, ratesYear]);
 
   return { data, loading };
+}
+
+/**
+ * BAH for a calculator that ADDS IT TO PAY (one-year rule, src/lib/combinedPayYear.ts):
+ * the lookup for the pay table's year, plus, only while a newer BAH year is loaded
+ * but not yet in totals (BAH release day → January pay flip), that newer year's
+ * lookup for a separate "2027 BAH (from Jan. 1)" line. Today both years are the
+ * same: the first lookup is exactly useBahLookup(zip) and the second asks for nothing.
+ */
+export function useCombinedBahLookup(zip: string): {
+  data: BahLookupData | null;
+  loading: boolean;
+  pendingYear: string | null;
+  pendingData: BahLookupData | null;
+} {
+  const ratesYear = combinedBahRatesYear();
+  const combined = useBahLookup(zip, ratesYear ? { ratesYear } : {});
+  const pendingYear = pendingBahYear();
+  const pending = useBahLookup(pendingYear ? zip : '');
+  return { ...combined, pendingYear, pendingData: pendingYear ? pending.data : null };
 }

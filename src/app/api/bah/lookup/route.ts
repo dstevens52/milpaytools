@@ -45,6 +45,8 @@ import {
   priorYearMhaForZip,
   getMHARatesForYear,
   isBahYear,
+  mhaForZipInYear,
+  type BahYear,
   type PriorYearRates,
 } from '@/lib/calculations/bah';
 import { getStationPagesForZip, MHA_TO_STATION_PAGES } from '@/data/bah/mhaToStationPage';
@@ -110,13 +112,17 @@ export async function GET(request: Request): Promise<Response> {
       return json({ valid: false, year: BAH_YEAR }, 200, okCache);
     }
     const mha = getMHACode(zip) as string; // non-null after isZipInDataset
+    // Rates for another registered year use the MHA the ZIP had that year: a
+    // calculator adding 2026 pay to 2026 BAH during the transition (one-year rule)
+    // must get the rate a remapped ZIP was actually paid (R2/R3).
+    const ratesMha = ratesYear !== undefined ? mhaForZipInYear(zip, ratesYear as BahYear) ?? mha : mha;
     return json({
       valid: true,
       territory: false,
       mha,
       locationName: getLocationName(zip),
-      ratesW: ratesFor(mha, true),
-      ratesWO: ratesFor(mha, false),
+      ratesW: ratesFor(ratesMha, true),
+      ratesWO: ratesFor(ratesMha, false),
       // Resolved server-side so calculator clients don't import zipToMha for guide links.
       stationPages: getStationPagesForZip(zip),
       year: BAH_YEAR,

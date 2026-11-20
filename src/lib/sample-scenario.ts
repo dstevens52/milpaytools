@@ -1,4 +1,4 @@
-import { lookupBAH } from '@/lib/calculations/bah';
+import { combinedBahForZip } from '@/lib/calculations/bah';
 import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
 import type { TotalCompensationInput } from '@/types/calculator';
 
@@ -19,13 +19,11 @@ export const SAMPLE_SCENARIO_INPUT: TotalCompensationInput = {
   mealCard: false,
 };
 
-const sampleBAH = lookupBAH({
-  payGrade: SAMPLE_SCENARIO_INPUT.payGrade,
-  zipCode: SAMPLE_SCENARIO_INPUT.zipCode,
-  hasDependents: SAMPLE_SCENARIO_INPUT.hasDependents,
-});
-
-export const SAMPLE_SCENARIO = calculateTotalCompensation(
-  SAMPLE_SCENARIO_INPUT,
-  sampleBAH?.monthlyRate ?? 0,
+// One-year rule: BAH from the same year as the pay table (src/lib/combinedPayYear.ts).
+const sampleBAH = combinedBahForZip(
+  SAMPLE_SCENARIO_INPUT.zipCode,
+  SAMPLE_SCENARIO_INPUT.payGrade,
+  SAMPLE_SCENARIO_INPUT.hasDependents,
 );
+
+export const SAMPLE_SCENARIO = calculateTotalCompensation(SAMPLE_SCENARIO_INPUT, sampleBAH);

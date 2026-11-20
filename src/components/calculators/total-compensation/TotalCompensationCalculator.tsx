@@ -2,7 +2,8 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { calculateTotalCompensation } from '@/lib/calculations/total-compensation';
-import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
+import { useCombinedBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
+import { pendingBahLabel } from '@/lib/combinedPayYear';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
@@ -237,8 +238,10 @@ export function TotalCompensationCalculator() {
   // BAH resolved via the cached route. The results block is gated on a matched
   // CONUS station (valid && !territory) — NOT on the BAH value, so territories /
   // OCONUS get a tailored message instead of a silent $0 total.
-  const { data: bahData, loading: bahLoading } = useBahLookup(zipCode);
+  // One-year rule: BAH from the pay table's year; a newer loaded year shows on its own line.
+  const { data: bahData, loading: bahLoading, pendingYear, pendingData } = useCombinedBahLookup(zipCode);
   const monthlyBAH = rateFor(bahData, grade, hasDependents) ?? 0;
+  const pendingBah = pendingYear ? rateFor(pendingData, grade, hasDependents) : null;
 
   // Duty station is the required input. Derive a single state from the lookup:
   //   none      → no/incomplete ZIP entered
@@ -504,6 +507,9 @@ export function TotalCompensationCalculator() {
               govHousing
                 ? { label: 'Government Housing (in-kind benefit)', value: `${formatCurrency(result.monthlyBAH * 12)}/yr est. value` }
                 : { label: 'BAH — Housing (excluded from federal taxable income)', monthly: result.monthlyBAH },
+              ...(pendingYear && pendingBah !== null && !govHousing
+                ? [{ label: `${pendingBahLabel(pendingYear)} — not in this total`, value: `${formatCurrency(pendingBah)}/mo` }]
+                : []),
               mealCard
                 ? { label: 'Government Meals (in-kind benefit)', value: `${formatCurrency(result.monthlyBAS * 12)}/yr est. value` }
                 : { label: 'BAS — Subsistence (excluded from federal taxable income)', monthly: result.monthlyBAS },
