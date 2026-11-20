@@ -27,7 +27,19 @@ when reference BAH/pay data is absent) and the `transition-readiness.spec.ts:92`
 > marked `test.slow()` — see "Resolved 2026-10-18" below. Any failure in a full run is either a
 > listed flake (re-run that spec file alone) or a regression.
 
-### Removed 2026-11-18 — BAH release day lookup API dynamic import (added 2026-11-14)
+### Fixed in R2 (2026-11-20) — BAH release day lookup API dynamic import (added 2026-11-14)
+
+> **Fixed in R2 (`fix/bah-release-day-r2`, 2026-11-20).** Cause confirmed: the test's
+> `await import('../../src/app/api/bah/lookup/route')` bypassed Playwright's TypeScript transform
+> and went to Node 24's own loader, which can't load the route's `import` statements, unless an
+> earlier spec in the same worker had already loaded the route (CI's shard order did; a run of the
+> spec alone never did). The route is now a static import at the top of the spec. Proof: before,
+> the spec alone on Chromium (`--workers=1`) gave `{ "expected": 18, "unexpected": 1 }`; after, it
+> passed locally on Chromium, and the CI repeat run (run 44765460750, the spec alone,
+> `--repeat-each=5`, `--retries=0`) gave `{ "expected": 95, "skipped": 0, "unexpected": 0,
+> "flaky": 0 }` on each of Chromium, Firefox and WebKit. Nothing to list in `known-failures.json`.
+> The history is kept below. (Now at `bah-release-day.spec.ts` "lookup API serves
+> EDUCATION_BAH_YEAR rates on request; rejects unregistered years".)
 
 > **Removed from `tests/known-failures.json`, 2026-11-18 (Claude Chat, build 06 PR B):** it passed
 > on all three browsers in every CI gate run (PR #41, #45, #46). CI is the gate, so it's no longer
