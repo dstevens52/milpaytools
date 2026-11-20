@@ -32,6 +32,11 @@ import { BAH_EXPECTED as X } from './fixtures/bah-expected';
 import { EDUCATION_BAH_YEAR } from '../../src/data/education/2026/constants';
 import { giBillBahAtZip } from '../../src/lib/calculations/educationBah';
 import { calculatePostGIBill } from '../../src/lib/calculations/education';
+// Static, not `await import(...)`: Playwright transpiles statically imported
+// TypeScript, but a dynamic import() of a .ts file goes to Node's own loader,
+// which failed with "Cannot use import statement outside a module" whenever no
+// earlier spec in the worker had already loaded the route (R2, 2026-11-20).
+import { GET as bahLookupGET } from '../../src/app/api/bah/lookup/route';
 
 const ROOT = process.cwd();
 const node = (args: string[]) =>
@@ -235,7 +240,7 @@ test.describe('Education: GI Bill MHA uses EDUCATION_BAH_YEAR, not BAH_YEAR', ()
   });
 
   test('lookup API serves EDUCATION_BAH_YEAR rates on request; rejects unregistered years', async () => {
-    const { GET } = await import('../../src/app/api/bah/lookup/route');
+    const GET = bahLookupGET;
     const res = await GET(new Request(`http://localhost/api/bah/lookup?zip=${ZIP}&y=${BAH_YEAR}&ratesYear=${EDUCATION_BAH_YEAR}`));
     const body = await res.json();
     expect(body.ratesYear).toBe(EDUCATION_BAH_YEAR);
