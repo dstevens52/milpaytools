@@ -88,7 +88,7 @@ calendar marks 2027 BAH official.
 Local checks (Chromium), then a small draft PR:
 `npx playwright test tests/e2e/bah-2027-notice.spec.ts tests/e2e/bah-2027-hub.spec.ts tests/e2e/bah-release-history.spec.ts --project=chromium --reporter=json`
 and `npx playwright test tests/e2e/pay-raise-2027.spec.ts tests/e2e/key-dates-2027.spec.ts tests/e2e/pay-dates-page.spec.ts --project=chromium --reporter=json`.
-(R2: before `fix/bah-release-day-r2` these failed 12 and 19 tests in released mode; after it,
+(R2: before `fix/bah-release-day-r2` these failed 12 and 20 tests in released mode; after it,
 30 passed + 2 skipped and 94 passed.) IndexNow after merge: `npm run bah:urls` (now includes
 `/pay`, `/pay/raise`, `/pay/dates`).
 
@@ -260,6 +260,10 @@ appear when the 2027 pay table is published" (R2: verified on 20 stations).
     of main (2026), so they fail after the flip in any mode but 'all-b'. The Dec 9 read-out
     decides the mode (plan: `'all-b'` on release day); regenerate the snapshot or set the mode in
     the release-day PR, never both silently.
+  - **Order (Dan, 2026-11-20).** If DoD releases **after** the Dec 9 read-out: apply the winning
+    arm first (set `SERP_TEST_MODE`), then flip the year. If DoD releases **before** it: flip the
+    year in both arms (keep `'split'`) and end the read-out's post window the day before the
+    release, so 2027 titles don't mix into the measured period.
 - **Station pages** (`/bah/fort-hood`, `/bah/dyess-afb`, a decrease page, an unchanged page, any
   remapped station from step 2): rate card and table are 2027; YoY "vs 2026" (▲/▼/"No change");
   decrease pages show "Already stationed here? Rate protection keeps your higher 2026 rate …";
