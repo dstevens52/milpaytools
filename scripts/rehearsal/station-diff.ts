@@ -3,7 +3,7 @@
  * synthetic 2027 DTMO table and the 2026 DTMO table, read straight from the ASCII
  * files (scripts/rehearsal/ascii.ts; no src/ code). Exits 1 on any mismatch.
  *
- *   npx tsx scripts/rehearsal/station-diff.ts [baseUrl] [--mode transition|2027] [--out file.json]
+ *   npx tsx scripts/rehearsal/station-diff.ts [baseUrl] [--mode transition|2027] [--out file.json] [--vercel]
  *
  * "2026 table" = data/sources/dtmo/2026 (January 2026), except TX270, whose 2026
  * rates as paid were DTMO's May 16, 2026 temporary increase: those rows are read
@@ -14,6 +14,7 @@
  * station ZIP must not compare against its new MHA's 2026 rate).
  */
 import { readFileSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import { readAscii, median, GRADES } from './ascii';
 
@@ -22,6 +23,16 @@ const args = process.argv.slice(2);
 const BASE = args.find((a) => a.startsWith('http')) ?? 'http://localhost:3000';
 const MODE = (args[args.indexOf('--mode') + 1] ?? 'transition') as 'transition' | '2027';
 const OUT = args.includes('--out') ? args[args.indexOf('--out') + 1] : null;
+// --vercel: fetch through `vercel curl` (Vercel previews sit behind Vercel login).
+const VIA_VERCEL = args.includes('--vercel');
+async function getPage(url: string): Promise<{ status: number; html: string }> {
+  if (!VIA_VERCEL) {
+    const res = await fetch(url);
+    return { status: res.status, html: await res.text() };
+  }
+  const html = execFileSync('vercel', ['curl', url], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, shell: true });
+  return { status: html.includes('<html') ? 200 : 0, html };
+}
 
 export const STATIONS = [
   // increases
@@ -104,9 +115,8 @@ async function check(slug: string): Promise<Result> {
   const m26 = a26.zip[st.zip];
   const C = { w: a27.w[m27], wo: a27.wo[m27] };
   const P = { w: a26.w[m26], wo: a26.wo[m26] };
-  const res = await fetch(`${BASE}/bah/${slug}`);
-  const html = await res.text();
-  eq('HTTP status', res.status, 200);
+  const { status, html } = await getPage(`${BASE}/bah/${slug}`);
+  eq('HTTP status', status, 200);
   const main = html.slice(html.indexOf('<main'), html.indexOf('</main>'));
   const e5 = C.w['E-5'];
   const med = median(Object.values(a27.w).map((r) => r['E-5']));
