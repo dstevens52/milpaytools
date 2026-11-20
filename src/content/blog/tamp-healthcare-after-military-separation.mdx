@@ -85,7 +85,7 @@ Enroll as soon as your employment start date is confirmed — don't wait until D
 
 **Option 2: TRICARE Reserve Select (TRS)**
 
-If you're joining the National Guard or Reserves after separation, TRICARE Reserve Select is available as affordable continuation coverage. 2026 rates: $57.88/month for the member alone, $286.66/month for family.
+If you're joining the National Guard or Reserves after separation, TRICARE Reserve Select is available as affordable continuation coverage. <TricareCostYear /> rates: <TricareFigure path="premiumPlans.trsMember" year="current" format="cents" />/month for the member alone, <TricareFigure path="premiumPlans.trsFamily" year="current" format="cents" />/month for family.
 
 TRS requires active membership in a Selected Reserve unit and must be enrolled through TRICARE — it's not automatic when you join a Reserve unit. If you plan to use TRS after TAMP, treat the TAMP end date as a TRICARE qualifying life event and act within the 90-day enrollment window — earlier if you want coverage to begin with no gap.
 
@@ -135,7 +135,7 @@ For families used to $0/month active-duty TRICARE Prime, the cost adjustment is 
 |--------------|----------------------------------|
 | Active-duty TRICARE Prime | ~$0 |
 | TAMP (180-day bridge) | ~$0 |
-| TRICARE Reserve Select | ~$3,440/year |
+| TRICARE Reserve Select (<TricareCostYear />) | <TricareFigure path="premiumPlans.trsFamily" year="current" times="12" format="cents" />/year |
 | CHCBP (family) | ~$21,356/year ($5,339/quarter) |
 | Employer-sponsored PPO (family) | $6,000–$20,000+/year |
 | ACA Marketplace Silver plan (family) | $8,000–$20,000+/year |

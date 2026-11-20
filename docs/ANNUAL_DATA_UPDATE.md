@@ -60,6 +60,28 @@ each item below must be re-traced against the new source and revised by hand.
 - [ ] For the following year: add the next `{YYYY}.ts` placeholder (`vaRates: null`) and status
   file, and point the registry at them.
 
+## TRICARE costs — November (DHA publishes) and January 1
+
+- [ ] Each November DHA publishes the next calendar year's TRICARE Prime/Select costs in the
+  Federal Register ("TRICARE; Calendar Year (CY) {YYYY} TRICARE Prime and TRICARE Select
+  Out-of-Pocket Expenses") and on tricare.mil/comparecosts (premium plans: TRS, TRR, TYA), with
+  Open Season dates and the official civilian comparison on tricare.mil/openseason. Record every
+  figure with its source in `docs/sources/tricare-costs-{YYYY}.md` (template:
+  `tricare-costs-2027.md`).
+- [ ] Add `src/data/tricare/{YYYY}/costs.ts` (same `TricareCosts` shape, `src/data/tricare/types.ts`)
+  and `{YYYY}/openSeason.ts`; register the year in `TRICARE_COSTS_BY_YEAR`
+  (`src/data/tricare/current.ts`). A figure missing from the official source stays at the prior
+  year with a dated "pending" note; never filled any other way. The healthcare comparison shows
+  the next year's TRS premiums as a note automatically once the file exists.
+- [ ] Update the TRICARE costs post (`/blog/tricare-costs-2026-vs-civilian`; slug kept) to the new
+  year pair, and its POST_FAQS (built from `src/lib/tricarePost.ts`).
+- [ ] Open Season status: `'open'` from the start date; set `OPEN_SEASON_{YYYY}_STATUS = 'closed'`
+  the day after it ends (the post's Open Season section and FAQ switch wording).
+- [ ] **January 1:** flip `TRICARE_COST_YEAR` in `src/data/tricare/current.ts`. That moves the
+  healthcare comparison (TRS path + page example), the guard-reserve TRS figures (once they read
+  `current.ts`; today they read `TRICARE_RATES_2026`, derived from `2026/costs.ts`) and the TAMP
+  post's TRS figures. Recheck CHCBP premiums (not in the TRICARE year files).
+
 ## Key dates calendar — October
 
 - [ ] Each October, create `calendar-{next year}.ts` from the same template

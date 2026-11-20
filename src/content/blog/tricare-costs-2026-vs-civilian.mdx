@@ -1,191 +1,131 @@
 ---
-title: "TRICARE Costs in 2026: What You're Actually Paying vs. Civilian Health Insurance"
+title: "TRICARE 2027 Costs vs 2026: Every Fee, Premium and Copay"
 slug: tricare-costs-2026-vs-civilian
 date: "2026-04-12"
-description: "Active-duty TRICARE costs nothing. TRICARE Reserve Select costs a fraction of civilian insurance. Here's the exact 2026 comparison — and how to count healthcare in your total compensation."
+updated: "2026-11-19"
+description: "TRICARE 2027 enrollment fees, deductibles, caps, copays and premiums next to 2026, from DHA's official tables. Open Season runs Nov. 9–Dec. 8, 2026."
 category: Compensation & Pay
 calculators:
+  - healthcare-comparison
   - total-compensation
   - guard-reserve
-readTime: 9
+readTime: 10
 author: Dan Stevens
 guide: military-pay
 ---
 
-Active-duty TRICARE Prime costs $0 — no premiums, no enrollment fees, and no deductibles for care at military treatment facilities — while comparable civilian family health coverage runs $600–$2,000/month in premiums plus $3,000–$6,000 in annual deductibles. For a military family, the healthcare benefit alone represents $15,000–$25,000 per year in civilian equivalent savings. When comparing a military paycheck to a civilian job offer, counting TRICARE at $0 can close or reverse what appears to be a civilian pay advantage.
+TRICARE's 2027 costs take effect <TricareDate which="effective2027" />. Retiree enrollment fees rose with the <TricareFigure path="retireeColaPct" format="pct" /> retiree cost-of-living adjustment, most copays went up by a few dollars a visit, and pharmacy copays don't change in 2027. Active duty members still pay nothing for TRICARE. TRICARE Open Season runs <TricareDate which="openSeason" />, and no action is needed to keep a current plan.
 
 <QuickAnswer>
-  <QAItem>Active-duty members pay $0 for TRICARE Prime — no premiums, no enrollment fees, no deductibles at military treatment facilities</QAItem>
-  <QAItem>Active-duty family coverage through TRICARE Prime: no enrollment fee, $0 copays for all covered services including specialist visits</QAItem>
-  <QAItem>Tricare Reserve Select (TRS): $57.88/month for member only, $286.66/month for member + family in 2026</QAItem>
-  <QAItem>Civilian equivalent: individual plans average $400–$600/month; family plans $1,500–$2,000+/month with $3,000–$5,000 deductibles</QAItem>
-  <QAItem>Healthcare value for a military family: $15,000–$25,000/year in civilian equivalent savings</QAItem>
-  <QAItem>TRICARE coverage is global — it follows you overseas and covers combat-zone medical care at no cost</QAItem>
+  <QAItem>TRICARE Open Season runs <TricareDate which="openSeason" />; changes take effect <TricareDate which="effective2027" /></QAItem>
+  <QAItem>Retiree TRICARE Prime Group A family enrollment fee: <TricareFigure path="retiree.primeA.enrollmentFee.family" format="cents" /> a year in 2027, up from <TricareFigure path="retiree.primeA.enrollmentFee.family" year="2026" format="cents" /> in 2026</QAItem>
+  <QAItem>Retiree TRICARE Select Group B family enrollment fee: <TricareFigure path="retiree.selectB.enrollmentFee.family" format="cents" /> a year in 2027</QAItem>
+  <QAItem>TRICARE Reserve Select in 2027: <TricareFigure path="premiumPlans.trsMember" format="cents" /> a month for the member only, <TricareFigure path="premiumPlans.trsFamily" format="cents" /> for member and family</QAItem>
+  <QAItem>TRICARE Young Adult-Prime has the largest increase: <TricareFigure path="premiumPlans.tyaPrime" format="cents" /> a month in 2027, up <TricareFigure path="premiumPlans.tyaPrime" change="pct" /></QAItem>
+  <QAItem>Pharmacy copays are unchanged through <TricareDate which="pharmacyThrough" /></QAItem>
 </QuickAnswer>
 
-## Why do most service members undercount their healthcare benefit when comparing military to civilian compensation?
+## When is TRICARE Open Season, and what can you change?
 
-Ask a senior NCO or officer what their military compensation is worth, and most will quote their base pay — maybe add BAH and BAS if they've done the math. Almost none of them will include healthcare.
+<TricareOpenSeason />
 
-That's a significant oversight.
+## Group A or Group B: which costs apply to you?
 
-The healthcare benefit is one of the largest components of military total compensation by dollar value. For an active-duty family, it represents $15,000–$25,000 per year in savings compared to what a civilian in the same household composition would pay for comparable coverage. It's fully included in active-duty service, costs nothing, and provides comprehensive coverage globally — three things that are essentially impossible to find in the civilian health insurance market.
+TRICARE sets two cost levels, and which one applies depends on when the sponsor first joined:
 
-Understanding what TRICARE is actually worth changes how you think about military compensation, civilian job comparisons, and separation decisions.
+- **Group A:** the sponsor's initial enlistment or appointment began before Jan. 1, 2018.
+- **Group B:** the sponsor's initial enlistment or appointment began on or after Jan. 1, 2018.
 
-## What does active-duty TRICARE Prime actually cover?
+The premium-based plans (TRICARE Reserve Select, TRICARE Retired Reserve and TRICARE Young Adult) follow TRICARE Select Group B deductibles, copays and catastrophic caps; only their premiums are set separately.
 
-Active-duty members are enrolled in TRICARE Prime. Here's what that means in practice:
+## What do retirees pay for TRICARE Prime and Select in 2027?
 
-**What it costs you:**
-- Monthly premium: $0
-- Annual deductible: $0 (at military treatment facilities)
-- Copay for primary care at MTF: $0
-- Copay for specialist at MTF: $0
-- Copay for primary care at civilian network: $0
-- Copay for specialist at civilian network: $0
-- Out-of-pocket maximum: $1,000/year per family (in the most expensive scenario)
+Retirees, their families and others in TRICARE Prime or TRICARE Select pay an annual enrollment fee. These are the 2027 fees next to 2026:
 
-**What active-duty members don't pay for:**
-- ER visits at MTFs
-- Hospitalization
-- Mental health services
-- Preventive care
-- Prescription drugs (with minimal or no copay)
-- Maternity care
-- Pediatric care for dependent children
+<TricareCostTable name="retireeFees" />
 
-**Coverage area:** TRICARE follows you anywhere. OCONUS assignments, deployments, TDY — your coverage is continuous. There's no network to "go out of" when you're stationed in Germany or Korea.
+Deductibles and catastrophic caps (the most a family pays in a calendar year for covered care):
 
-## How much does TRICARE cost for military families with dependents?
+<TricareCostTable name="retireeDeductiblesCaps" />
 
-Active-duty family members (spouse and dependent children) are also enrolled in TRICARE Prime at no enrollment cost. This is the benefit that most dramatically understates military compensation for married service members.
+Network copays per visit. Outside the network, TRICARE Select retirees pay a <TricareFigure path="retiree.selectNonNetworkCostSharePct" format="pct" /> cost-share.
 
-**What dependents pay (Group A — active-duty family members):**
-- Enrollment fee: $0
-- Copay for primary care at MTF or civilian network: $0
-- Copay for specialist at civilian network: $0
-- Copay for urgent care: $0
-- Hospitalization at civilian facility: $0 for covered services
+<TricareCostTable name="retireeCopays" />
 
-**Compare to typical civilian employer family coverage in 2026:**
-- Employee-paid monthly premium: $600–$800/month
-- Annual deductible (individual/family): $1,500–$3,000 / $3,000–$6,000
-- Out-of-pocket maximum: $4,000–$8,000/family
-- Network restrictions: yes
-- Coverage abroad: generally not without supplemental insurance
+A few exceptions apply:
 
-**The annual cost gap:**
+- The TRICARE Prime Group A enrollment fee is waived for retirees under 65 who have Medicare Part A and Part B.
+- TRICARE Select Group A has no enrollment fee for medically retired sponsors, their family members and survivors.
+- The TRICARE Select Group A catastrophic cap is <TricareFigure path="retiree.selectACapSurvivorsMedicallyRetired" format="dollars" /> for survivors of active duty deceased sponsors and for medically retired members and their dependents.
 
-| Category | Military (Active Duty Family) | Civilian Employer Family Plan |
-|----------|------------------------------|-------------------------------|
-| Annual premium (employee share) | $0 | $7,200–$9,600 |
-| Annual deductible | $0 | $3,000–$6,000 |
-| Typical specialist copays (annual) | $0 | $500–$2,000 |
-| **Approximate annual cost** | **~$0** | **~$10,700–$17,600 (illustrative estimate)** |
+## What do active duty members and families pay in 2027?
 
-*The civilian figures are illustrative estimates based on typical employer-sponsored family plan benchmarks and may not reflect your specific employer's plan or location.*
+Active duty service members have no out-of-pocket costs for TRICARE.
 
-A military family of four pays essentially nothing for healthcare. A civilian family with comparable coverage typically pays $10,000–$18,000 per year in premiums and cost-sharing alone — before any major health events.
+Active duty family members in TRICARE Prime pay no enrollment fee, no deductible and no network copays: <TricareFigure path="adfm.primeB.copay" /> across the board. One exception: when a family member in Prime sees a specialist or gets non-emergency inpatient care without a referral, the Point of Service deductible and copays apply instead.
 
-This means the military healthcare benefit for a family is worth **$10,000–$18,000 per year** in avoided costs — a figure that belongs in any honest total compensation comparison.
+TRICARE Select has no enrollment fee for active duty families either, but it does have a deductible, which depends on the sponsor's pay grade, and network copays. Outside the network, the cost-share is <TricareFigure path="adfm.selectNonNetworkCostSharePct" format="pct" />. The same catastrophic cap applies in Prime and Select: <TricareFigure path="adfm.primeA.catastrophicCap" format="dollars" /> per family for Group A and <TricareFigure path="adfm.primeB.catastrophicCap" format="dollars" /> for Group B in 2027.
 
-<CalculatorCallout calculator="healthcare-comparison" text="See exactly what replacing TRICARE costs — employer insurance, ACA marketplace, VA healthcare, and TRICARE Reserve Select compared side by side with your estimated annual costs." ctaText="Compare Healthcare Costs →" />
+<TricareCostTable name="adfmSelect" />
 
-<CalculatorCallout calculator="total-compensation" text="TRICARE healthcare value is now included in the civilian salary equivalent. See your full compensation picture — base pay, BAH, BAS, tax advantages, and healthcare — in one number." ctaText="See My Total Compensation →" />
+## How much are Reserve Select, Retired Reserve and Young Adult premiums in 2027?
 
-## Is TRICARE Reserve Select worth it for Guard and Reserve members?
+These plans charge a monthly premium:
 
-Guard and Reserve members who aren't activated aren't covered by TRICARE Prime — but they can purchase **TRICARE Reserve Select (TRS)**, a premium-based plan that remains dramatically cheaper than anything in the civilian market.
+<TricareCostTable name="premiumPlans" />
 
-**2026 TRS premiums:**
-- Member only: **$57.88/month** ($694.56/year)
-- Member + family: **$286.66/month** ($3,439.92/year)
+TRICARE Reserve Select follows TRICARE Select Group B cost-sharing for active duty families. In 2027 the deductible is <TricareFigure path="adfm.selectB.deductible.e5AndAbove.individual" format="dollars" /> individual / <TricareFigure path="adfm.selectB.deductible.e5AndAbove.family" format="dollars" /> family for sponsors in pay grade E-5 and above, and <TricareFigure path="adfm.selectB.deductible.e1ToE4.individual" format="dollars" /> / <TricareFigure path="adfm.selectB.deductible.e1ToE4.family" format="dollars" /> for E-1–E-4. The catastrophic cap is <TricareFigure path="adfm.selectB.catastrophicCap" format="dollars" /> per family. A year of member-and-family TRS premiums comes to <TricareFigure path="premiumPlans.trsFamily" times="12" format="cents" /> in 2027.
 
-**2026 civilian market comparison:**
-- Individual plan (employer-sponsored): $400–$600/month employee share
-- Family plan (employer-sponsored): $1,500–$2,000/month employee share
-- Individual plan (ACA marketplace): $300–$800/month depending on age and location
-- Family plan (ACA marketplace): $1,000–$2,500/month
+TRICARE Retired Reserve follows TRICARE Select Group B retiree cost-sharing: in 2027 a network deductible of <TricareFigure path="retiree.selectB.deductible.individual" format="dollars" /> individual / <TricareFigure path="retiree.selectB.deductible.family" format="dollars" /> family (<TricareFigure path="retiree.selectB.nonNetworkDeductible.individual" format="dollars" /> / <TricareFigure path="retiree.selectB.nonNetworkDeductible.family" format="dollars" /> outside the network) and a <TricareFigure path="retiree.selectB.catastrophicCap" format="dollars" /> catastrophic cap. TRICARE Young Adult also follows TRICARE Select Group B cost-sharing.
 
-**Annual TRS savings for a Guard/Reserve member with family:**
+<CalculatorCallout calculator="guard-reserve" text="TRICARE Reserve Select is part of Guard and Reserve compensation. See drill pay, annual training pay and your TRS premium together." />
 
-| Plan | Annual Cost |
-|------|-------------|
-| TRS family | $3,440 |
-| Typical civilian employer family plan | $18,000–$24,000 |
-| **Annual savings with TRS** | **$14,560–$20,560** |
+## What changed from 2026 to 2027?
 
-A Guard/Reserve member with a family is saving $15,000–$20,000 per year in health insurance costs by maintaining TRS eligibility — assuming their civilian employer offers comparable coverage at comparable rates. For members whose civilian employers don't offer coverage, or who are self-employed, TRS may be the best health insurance option available in the United States, full stop.
+- **Retiree enrollment fees** went up <TricareChangeRange set="retireeFees" unit="pct" />, in line with the <TricareFigure path="retireeColaPct" format="pct" /> retiree COLA. A Prime Group B family, for example, pays <TricareFigure path="retiree.primeB.enrollmentFee.family" change="dollars" format="cents" /> more a year (<TricareFigure path="retiree.primeB.enrollmentFee.family" change="pct" />).
+- **Copays** changed by <TricareChangeRange set="copays" unit="dollars" /> per visit. Preventive visits stay at no cost.
+- **Deductibles and caps:** Group A deductibles are unchanged; Group B deductibles and most caps went up. The retiree Prime and Select Group B cap is now <TricareFigure path="retiree.selectB.catastrophicCap" format="dollars" />, up from <TricareFigure path="retiree.selectB.catastrophicCap" year="2026" format="dollars" />.
+- **Premiums** rose more than fees: TRICARE Reserve Select <TricareFigure path="premiumPlans.trsMember" change="pct" /> (member only) and <TricareFigure path="premiumPlans.trsFamily" change="pct" /> (member and family, <TricareFigure path="premiumPlans.trsFamily" change="dollars" format="cents" /> a month), TRICARE Retired Reserve <TricareFigure path="premiumPlans.trrFamily" change="pct" />, TRICARE Young Adult-Prime <TricareFigure path="premiumPlans.tyaPrime" change="pct" /> and TRICARE Young Adult-Select <TricareFigure path="premiumPlans.tyaSelect" change="pct" />.
+- **Pharmacy copays** don't change. They were set by the National Defense Authorization Act for Fiscal Year 2018 and stay in effect through <TricareDate which="pharmacyThrough" />.
 
-TRS also provides coverage with no network restrictions at military treatment facilities, a defined annual deductible of $150/individual ($300/family), and the same catastrophic protection as active-duty TRICARE.
+## How does TRICARE compare with civilian insurance in 2027?
 
-<CalculatorCallout calculator="guard-reserve" text="TRS savings are one of the most significant components of Guard/Reserve total compensation. See your full annual Guard/Reserve value including drill pay, AT, and healthcare savings." />
+TRICARE publishes its own 2027 comparison on its Open Season page. The TRICARE column is TRICARE Select Group B retiree family coverage, which TRICARE picks because it generally costs more than the other plans. The Marketplace examples are a family of four in Denver without premium tax credits or other subsidies; actual costs vary by location, age, household, income and plan.
 
-[Compare TRS to civilian plan costs →](/calculators/healthcare-comparison)
+<TricareCostTable name="officialComparison2027" />
 
-## How much does TRICARE cost for military retirees?
+The employer-sponsored average employee premium for family coverage (<TricareFigure path="comparison.employerAvgEmployeePremium" />, Kaiser Family Foundation 2026 survey, as TRICARE reports it) is <TricareFigure path="comparison.employerAvgEmployeePremium" minus="retiree.selectB.enrollmentFee.family" format="cents" /> more than the TRICARE Select Group B retiree family enrollment fee (<TricareFigure path="retiree.selectB.enrollmentFee.family" format="cents" />).
 
-Military retirees under age 65 are eligible for **TRICARE Prime** (in areas with MTFs) or **TRICARE Select** (a more flexible plan with higher cost-sharing). Premiums for retirees are significantly lower than civilian plans but not free.
-
-**2026 TRICARE Prime retiree enrollment fees:**
-- Group A (retired member only): $381.96/year ($31.83/month)
-- Group A (family): $765.00/year ($63.75/month)
-- Group B (retired member only): $462.96/year ($38.58/month)
-- Group B (family): $927.00/year ($77.25/month)
-
-**2026 TRICARE Select retiree enrollment fees:**
-- Group A (retired member only): $186.96/year ($15.58/month)
-- Group A (family): $375.00/year ($31.25/month)
-- Group B (retired member only): $594.96/year ($49.58/month)
-- Group B (family): $1,191.00/year ($99.25/month)
-
-Even at retiree rates, TRICARE is dramatically cheaper than civilian equivalents. A retired E-7 at 45 years old buying comparable civilian coverage would pay $8,000–$20,000/year more for similar family coverage.
-
-**TRICARE For Life (TFL):** At 65, military retirees with Medicare Part A and B qualify for TRICARE For Life — which functions as a Medigap supplement, covering most of what Medicare doesn't. The premium is essentially the Medicare Part B premium (which everyone over 65 pays). There's no separate TFL enrollment fee. This is arguably the most valuable post-65 health benefit available to anyone — comprehensive coverage with minimal out-of-pocket exposure.
-
-## What changed in TRICARE for 2026?
-
-**Pharmacy copay increases:** TRICARE retail and mail-order pharmacy copays increased slightly in 2026 for brand-name and non-formulary drugs. Generic drug copays remain low or free at military pharmacies.
-
-**Some specialist copays increased:** Civilian network specialist copays for certain TRICARE plans ticked up modestly. The increases are measured in dollars, not percentages — meaningful but not dramatic.
-
-**TRS premium adjustment:** TRS premiums increased approximately 4–8% in 2026, reflecting rising healthcare costs. They remain far below civilian equivalents — the rate hike doesn't change the fundamental value calculation.
-
-**TRICARE Young Adult:** For service members' dependents aged 23–26 who aren't covered under their own employer plan, TRICARE Young Adult is available at a premium. Rates adjust annually.
-
-## What benefits does TRICARE provide beyond basic health coverage?
-
-Beyond the cost comparison, TRICARE provides benefits that simply don't exist in civilian insurance:
-
-**No pre-existing condition exclusions:** Active-duty TRICARE covers pre-existing conditions from day one, with no waiting periods and no coverage gaps when you PCS. Civilian plans are legally required to cover pre-existing conditions post-ACA, but the mechanics of switching plans between employers can create gaps.
-
-**Global coverage:** TRICARE covers you at OCONUS duty stations and deployments without supplemental riders, out-of-network penalties, or claims complications. You can receive care in Germany, Japan, or Bahrain through military healthcare infrastructure at zero cost.
-
-**Combat and operational coverage:** Injuries and illnesses sustained in combat or operational environments are covered without the usual claims process — the military healthcare system handles your care directly.
-
-**Dental:** TRICARE dental coverage is separate — the TRICARE Dental Program (TDP) is optional and premium-based, but covers dental care at low cost. Active-duty members receive comprehensive dental care through MTF dental clinics at no charge.
+<CalculatorCallout calculator="healthcare-comparison" text="See what replacing TRICARE costs: employer insurance, ACA Marketplace, VA healthcare and TRICARE Reserve Select side by side." ctaText="Compare Healthcare Costs →" />
 
 ## How to count healthcare in compensation comparisons
 
-When you compare a military compensation package to a civilian job offer, here is the right framework:
+When comparing a military compensation package to a civilian job offer, three steps keep the healthcare line honest:
 
-**Step 1:** Find the actual cost of comparable family health insurance at the civilian employer. If they offer a plan, what is the employee-paid premium? What is the deductible? What is the out-of-pocket maximum? Calculate a realistic annual cost.
+**Step 1:** Find the actual cost of family health insurance at the civilian employer: the employee-paid premium, the deductible and the out-of-pocket maximum. Add them up to a realistic annual cost.
 
-**Step 2:** Subtract what you currently pay for military healthcare (likely close to zero for active duty, or TRS rates for Guard/Reserve).
+**Step 2:** Subtract what you pay for military healthcare now (nothing for active duty members, TRS premiums for Guard and Reserve, enrollment fees for retirees).
 
-**Step 3:** The difference is the healthcare gross-up you need from the civilian salary. If civilian healthcare costs $18,000/year and you pay $0 now, the civilian salary needs to be at least $18,000 higher just to cover the healthcare difference — and that's before accounting for the fact that you'd be paying that $18,000 in after-tax dollars.
+**Step 3:** The difference is the healthcare gap the civilian salary has to cover.
 
-**Example:** An E-7 with a family leaving active duty at 20 years. Civilian job offer: $80,000/year salary. Employer healthcare for family: $18,000/year employee cost. Military healthcare (TRICARE retiree): ~$1,000/year.
+**Example:** A retiree family in TRICARE Prime Group A pays <TricareFigure path="retiree.primeA.enrollmentFee.family" format="cents" /> in 2027 enrollment fees. The employer average employee premium for family coverage (<TricareFigure path="comparison.employerAvgEmployeePremium" />, Kaiser Family Foundation 2026 survey, as TRICARE reports it) is <TricareFigure path="comparison.employerAvgEmployeePremium" minus="retiree.primeA.enrollmentFee.family" format="cents" /> more. That difference is in premiums alone, before deductibles and copays.
 
-Net healthcare impact on compensation: -$17,000/year from the civilian offer. The $80,000 offer is effectively $63,000 in apples-to-apples comparison on this single line item alone.
+<CalculatorCallout calculator="total-compensation" text="TRICARE healthcare value is included in the civilian salary equivalent. See base pay, BAH, BAS, tax advantages and healthcare in one number." ctaText="See My Total Compensation →" />
 
-<KeyFact>Healthcare is the most frequently overlooked component of military total compensation. For a military family, it represents a benefit worth $10,000–$25,000 per year compared to civilian alternatives — every year you remain in service.</KeyFact>
+## What about TRICARE For Life?
+
+At 65, military retirees who are eligible for premium-free Medicare Part A must have Medicare Part A and Part B to keep TRICARE coverage through TRICARE For Life. There's no TRICARE For Life enrollment fee; the cost is the Medicare Part B premium, which Medicare sets based on income. When both Medicare and TRICARE cover the care, TRICARE says you have no out-of-pocket expenses. TRICARE posts 2027 TRICARE For Life costs early in 2027.
 
 ## The bottom line
 
-TRICARE is not a side benefit. For active-duty families, it represents the equivalent of a $10,000–$25,000/year raise — in after-tax dollars — compared to what a civilian household pays for comparable healthcare coverage. For Guard and Reserve members, TRICARE Reserve Select is possibly the most cost-effective comprehensive health insurance available to Americans outside of the military and federal government.
+Active duty members still pay nothing for TRICARE in 2027, and active duty families in Prime pay no enrollment fee and no network copays. For retirees, 2027 fees went up <TricareChangeRange set="retireeFees" unit="pct" />: a Prime Group A family pays <TricareFigure path="retiree.primeA.enrollmentFee.family" format="cents" /> a year and a Select Group B family <TricareFigure path="retiree.selectB.enrollmentFee.family" format="cents" />. Guard and Reserve families on TRICARE Reserve Select pay <TricareFigure path="premiumPlans.trsFamily" format="cents" /> a month in 2027. Open Season (<TricareDate which="openSeason" />) is the window to change plans for 2027; current plans continue without any action.
 
-The calculus on separating, on comparing job offers, on evaluating whether to stay or go — all of it changes substantially when you actually count healthcare. Most service members undercount it. The ones who do the math accurately make better financial decisions.
+<KeyFact>In 2027, a retiree family in TRICARE Select Group B pays <TricareFigure path="retiree.selectB.enrollmentFee.family" format="cents" /> a year in enrollment fees with a <TricareFigure path="retiree.selectB.catastrophicCap" format="dollars" /> catastrophic cap. For comparison, the average annual employee premium for employer family coverage (<TricareFigure path="comparison.employerAvgEmployeePremium" />, Kaiser Family Foundation 2026 survey, as TRICARE reports it) comes before any deductible.</KeyFact>
 
-[Use the Healthcare Cost Comparison Calculator to see exactly what your options cost →](/calculators/healthcare-comparison)
+## Common questions
+
+<TricarePostFaq />
+
+Figures: TRICARE's 2027 costs from the Federal Register notice (2026-23035) and tricare.mil/comparecosts; 2026 costs from the TRICARE Newsroom's 2026 cost article; Open Season dates and the civilian comparison from tricare.mil/openseason. Costs are for calendar years 2026 and 2027.
+
+[Use the Healthcare Cost Comparison Calculator to see what your options cost →](/calculators/healthcare-comparison)

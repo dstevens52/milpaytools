@@ -8,6 +8,7 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import { ogImage } from '@/lib/og';
 import Link from 'next/link';
+import { currentTricareCosts, TRICARE_COST_YEAR } from '@/data/tricare/current';
 
 const TITLE = 'Military Healthcare Cost Comparison Calculator 2026';
 const DESC =
@@ -34,6 +35,15 @@ export const metadata: Metadata = {
     images: OG_IMAGE,
   },
 };
+
+// TRICARE Reserve Select figures come from the current TRICARE cost year
+// (src/data/tricare/current.ts), never typed here.
+const usd0 = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
+const usd2 = (n: number) =>
+  '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const TRS = currentTricareCosts.premiumPlans;
+const TRS_DED = currentTricareCosts.adfm.selectB.deductible;
+const TRS_FAMILY_ANNUAL = usd0(TRS.trsFamily * 12);
 
 function Accordion({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -144,10 +154,10 @@ export default function HealthcareComparisonPage() {
             <ExampleRow label="Employer plan — true first-year cost" value="~$8,340–$9,340/yr" highlight />
             <ExampleRow label="ACA Marketplace silver plan (family, unsubsidized)" value="$1,200/mo — $14,400/yr" />
             <ExampleRow label="VA Healthcare (member only — SC conditions, 40% rating)" value="$0 for SC care; family not covered" />
-            <ExampleRow label="TRICARE Reserve Select — member + family (if joining Guard/Reserve)" value="$286.66/mo — $3,440/yr" highlight />
+            <ExampleRow label="TRICARE Reserve Select — member + family (if joining Guard/Reserve)" value={`${usd2(TRS.trsFamily)}/mo — ${TRS_FAMILY_ANNUAL}/yr`} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> Even the most affordable family option — TRICARE Reserve Select at $3,440/year — costs more than $0 active-duty TRICARE. For most separating service members without TAMP, the realistic choice is between an employer plan (~$8,000–$9,000/year after deductibles) and, if joining the Guard or Reserves, TRS at $3,440/year. VA healthcare is valuable but covers the veteran only — your family will still need separate coverage. The $8,000–$10,000/year swing is the single largest underestimated cost of leaving the military.
+            <strong>What this means:</strong> Even the most affordable family option — TRICARE Reserve Select at {TRS_FAMILY_ANNUAL}/year — costs more than $0 active-duty TRICARE. For most separating service members without TAMP, the realistic choice is between an employer plan (~$8,000–$9,000/year after deductibles) and, if joining the Guard or Reserves, TRS at {TRS_FAMILY_ANNUAL}/year. VA healthcare is valuable but covers the veteran only — your family will still need separate coverage. The $8,000–$10,000/year swing is the single largest underestimated cost of leaving the military.
           </p>
         </ExampleBox>
       </section>
@@ -212,10 +222,10 @@ export default function HealthcareComparisonPage() {
 
           <Accordion title="What is TRICARE Reserve Select?">
             <p>
-              TRICARE Reserve Select (TRS) is a premium-based health plan available to members of the Selected Reserve who are not on active duty orders. In 2026, premiums are $57.88/month for the member only and $286.66/month for member plus family.
+              TRICARE Reserve Select (TRS) is a premium-based health plan available to members of the Selected Reserve who are not on active duty orders. In {TRICARE_COST_YEAR}, premiums are {usd2(TRS.trsMember)}/month for the member only and {usd2(TRS.trsFamily)}/month for member plus family.
             </p>
             <p>
-              TRS provides TRICARE Select-level benefits — comparable to a civilian PPO — with access to the TRICARE network of providers. Annual deductibles are low: $150 for individuals and $300 for families.
+              TRS provides TRICARE Select-level benefits — comparable to a civilian PPO — with access to the TRICARE network of providers. TRS follows TRICARE Select Group B cost-sharing for active duty families: in {TRICARE_COST_YEAR} the annual deductible is {usd0(TRS_DED.e5AndAbove.individual)} individual / {usd0(TRS_DED.e5AndAbove.family)} family for sponsors in pay grade E-5 and above ({usd0(TRS_DED.e1ToE4.individual)} / {usd0(TRS_DED.e1ToE4.family)} for E-1–E-4), and the catastrophic cap is {usd0(currentTricareCosts.adfm.selectB.catastrophicCap)} per family.
             </p>
             <p>
               To qualify, you must be an actively drilling member of the National Guard or Reserves. If you separate from active duty and join a Reserve unit, TRS can be one of the most cost-effective post-separation coverage options available — often cheaper than both ACA and employer options at equivalent coverage levels.

@@ -2,7 +2,8 @@
  * Healthcare cost comparison math, moved unchanged from
  * HealthcareComparisonCalculator.tsx so the calculator and the page's
  * server-rendered summary block (src/lib/calculatorSummaries.ts) share it.
- * Figures come from src/data/healthcare/2026/constants.ts.
+ * Figures come from src/data/healthcare/2026/constants.ts; TRICARE Reserve
+ * Select reads src/data/tricare/current.ts (TRICARE_COST_YEAR).
  */
 
 import {
@@ -12,6 +13,7 @@ import {
   type CoveragePath,
   type FamilyStatus,
 } from '@/data/healthcare/2026/constants';
+import { currentTricareCosts, upcomingTricareCosts } from '@/data/tricare/current';
 
 export function getHouseholdSize(fs: FamilyStatus): number {
   switch (fs) {
@@ -54,6 +56,45 @@ export interface CalcResult {
   subsidyRate?: number;
   coversFamily: boolean;
   isTamp: boolean;
+}
+
+// ─── TRICARE Reserve Select ───────────────────────────────────────────────────
+
+const usd0 = (n: number) => '$' + n.toLocaleString('en-US');
+const usd2 = (n: number) =>
+  '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+/**
+ * TRS follows TRICARE Select Group B active duty family member cost-sharing
+ * (HC-03): the deductible shown is for sponsors in pay grade E-5 and above,
+ * and the out-of-pocket maximum is the Group B catastrophic cap, which TRICARE
+ * sets per family, so single and family coverage show the same cap.
+ */
+export function trsCosts(coverage: 'single' | 'family') {
+  const c = currentTricareCosts;
+  const ded = c.adfm.selectB.deductible.e5AndAbove;
+  return {
+    premium: coverage === 'family' ? c.premiumPlans.trsFamily : c.premiumPlans.trsMember,
+    deductible: coverage === 'family' ? ded.family : ded.individual,
+    oopMax: c.adfm.selectB.catastrophicCap,
+  };
+}
+
+export function trsNotes(): string[] {
+  const c = currentTricareCosts;
+  const junior = c.adfm.selectB.deductible.e1ToE4;
+  const notes = [
+    'Must have qualifying Reserve/Guard service and a drilling unit assignment.',
+    `Sponsors in pay grades E-1–E-4 have a lower deductible (${usd0(junior.individual)} individual / ${usd0(junior.family)} family).`,
+    `The out-of-pocket maximum is TRICARE's catastrophic cap, ${usd0(c.adfm.selectB.catastrophicCap)} a year, set per family.`,
+  ];
+  if (upcomingTricareCosts) {
+    const u = upcomingTricareCosts.premiumPlans;
+    notes.push(
+      `${upcomingTricareCosts.year} premiums (from Jan. 1, ${upcomingTricareCosts.year}): ${usd2(u.trsMember)} member only / ${usd2(u.trsFamily)} member and family.`,
+    );
+  }
+  return notes;
 }
 
 // ─── Calculation logic ────────────────────────────────────────────────────────
@@ -145,7 +186,7 @@ export function calculateHealthcare(
     }
 
     case 'trs': {
-      const p = HEALTHCARE_2026.tricareReserveSelect[coverage];
+      const p = trsCosts(coverage);
       const dedUsage = Math.round(p.deductible * 0.45);
       return {
         monthlyPremium: p.premium,
@@ -154,7 +195,7 @@ export function calculateHealthcare(
         oopMax: p.oopMax,
         estimatedDeductibleUsage: dedUsage,
         firstYearTotal: p.premium * 12 + dedUsage,
-        notes: ['Must have qualifying Reserve/Guard service and a drilling unit assignment.'],
+        notes: trsNotes(),
         coversFamily: family,
         isTamp: false,
       };

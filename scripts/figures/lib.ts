@@ -237,7 +237,8 @@ export const SOURCE_GROUPS: SourceGroup[] = [
   { id: 'education', file: 'src/data/education/{Y}/constants.ts', entries: walkExports('education', /^EDUCATION_RATES$/) },
   { id: 'healthcare', file: 'src/data/healthcare/{Y}/constants.ts', entries: walkExports('healthcare', /^HEALTHCARE_/) },
   { id: 'pcs', file: 'src/data/pcs/{Y}/constants.ts', entries: walkExports('pcs', /^PCS_RATES_/) },
-  { id: 'tricare', file: 'src/data/tricare/{Y}/constants.ts', entries: walkExports('tricare', /^TRICARE_RATES_/) },
+  // TRICARE cost year files (T1); src/data/tricare/2026/constants.ts only re-exports TRS from costs.ts.
+  { id: 'tricare', file: 'src/data/tricare/{Y}/costs.ts', entries: walkExports('tricare', /^TRICARE_COSTS_/) },
   { id: 'tsp', file: 'src/data/tsp/{Y}/constants.ts', entries: walkExports('tsp', /^TSP_CONSTANTS_/) },
 ];
 
@@ -311,7 +312,7 @@ export interface ClassifiedFigure extends Figure {
  * values (deductibles, TSP limits, caps) — twelve of those means nothing.
  */
 const MONTHLY_LABEL =
-  /^(?:pay|bas|va):|^deployment:(?:hfp|idp|fsa|hdpLevels\[\d+\]|hdpLTopRatePrior)$|^(?:tricare:reserveSelect\.|healthcare:tricareReserveSelect\.\w+\.premium$|healthcare:\w+\.\w+\.\w+\.premium$)|^education:(?:giBill\.onlineMHAMonthly|mgib\.fullTimeMonthly)$/;
+  /^(?:pay|bas|va):|^deployment:(?:hfp|idp|fsa|hdpLevels\[\d+\]|hdpLTopRatePrior)$|^(?:tricare:premiumPlans\.|healthcare:\w+\.\w+\.\w+\.premium$)|^education:(?:giBill\.onlineMHAMonthly|mgib\.fullTimeMonthly)$/;
 
 export interface Classifier {
   index: DataIndex;

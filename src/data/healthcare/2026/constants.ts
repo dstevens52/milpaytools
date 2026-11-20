@@ -6,7 +6,7 @@
  *   - ACA Marketplace rates: KFF Health Insurance Marketplace Calculator 2026 estimates
  *   - ACA Federal Poverty Levels: HHS 2026 FPL guidelines
  *   - VA healthcare: VA.gov priority groups and eligibility, 2026
- *   - TRICARE Reserve Select premiums: TRICARE.mil, effective January 1, 2026
+ *   - TRICARE Reserve Select: not here. The calculator reads src/data/tricare/current.ts.
  *   - TAMP coverage: DoDI 1341.10, 10 U.S.C. § 1145
  *
  * All figures are national averages or approximations for educational comparison only.
@@ -76,11 +76,6 @@ export const HEALTHCARE_2026 = {
       label: '0% service-connected rating',
       note: 'Coverage generally limited to service-connected conditions. No premiums. Covers veteran only.',
     },
-  },
-
-  tricareReserveSelect: {
-    single: { premium: 57.88,  deductible: 150, oopMax: 3000 },
-    family: { premium: 286.66, deductible: 300, oopMax: 6000 },
   },
 
   tamp: {
