@@ -1,6 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { PAY_PAGE_RANKS } from '@/data/pay-pages/ranks';
 import { bahNoticeMode } from '@/lib/calculations/bahTransition';
+import { bah2027Calendar, rankKeyDatesLine } from '@/data/calendar-2027';
+import { formatIsoDate } from '@/lib/calculations/payRaise';
+
+// The 2027 BAH date once DoD has released (status 'released' or the 2027 history row), else null.
+const BAH_OUT = bah2027Calendar().isoDate;
 
 // 2027 key dates (feat/2027-key-dates): full calendar on /pay/raise, compact on
 // /pay, one line on each rank page, a link on /bah, a strip on the homepage.
@@ -47,7 +52,9 @@ test.describe('/pay/raise key dates', () => {
 
   test('BAH and paycheck FAQ answers carry the calendar dates', async ({ page }) => {
     await page.goto('/pay/raise');
-    await expect(page.locator('[data-faq-question="Does the raise affect BAH?"]')).toContainText('December 11, 2025');
+    await expect(page.locator('[data-faq-question="Does the raise affect BAH?"]')).toContainText(
+      BAH_OUT ? formatIsoDate(BAH_OUT) : 'December 11, 2025',
+    );
     const paycheck = page.locator('[data-faq-question="When will I see the 2027 raise in my paycheck?"]');
     await expect(paycheck).toContainText('January 15, 2027');
     await expect(paycheck).toContainText('December 31, 2026');
@@ -70,9 +77,8 @@ test.describe('rank pages: key-dates line inside the 2027 section', () => {
     test(`/pay/${slug}`, async ({ page }) => {
       await page.goto(`/pay/${slug}`);
       const line = page.getByTestId('rank-raise-2027').getByTestId('rank-key-dates');
-      await expect(line).toContainText(
-        'Key dates: the raise takes effect January 1, 2027, and the first payday at 2027 rates is Friday, January 15, 2027. 2027 BAH is expected in mid-December.',
-      );
+      // Pending today: "… 2027 BAH is expected in mid-December." (literal in pay-raise-2027.spec.ts).
+      await expect(line).toContainText(rankKeyDatesLine());
       await expect(line.getByRole('link', { name: 'See the 2027 pay calendar →' })).toHaveAttribute('href', '/pay/raise#key-dates');
       await expect(line.getByRole('link', { name: 'All 2027 paydays →' })).toHaveAttribute('href', '/pay/dates');
       // FAQ count unchanged: 5 branch-term FAQs + the 2027 raise FAQ.

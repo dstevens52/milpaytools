@@ -197,7 +197,7 @@ test.describe('/bah/changes text', () => {
   });
 
   test('no 2027 figure while BAH_YEAR is 2026', () => {
-    test.skip(BAH_YEAR !== '2026', 'checks the pre-flip state');
+    test.skip((BAH_YEAR as string) !== '2026', 'checks the pre-flip state');
     const faqs = bahChangesFaqs(C);
     const text = [
       bahChangesTitle(C.year), bahChangesH1(C.year), bahChangesDescription(C), bahChangesScopeLine(C),
