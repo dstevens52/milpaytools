@@ -32,6 +32,8 @@ const PAGES: { path: string; faqCount: number }[] = [
   { path: '/va-disability-rates', faqCount: 3 },
   // TRICARE costs post: three FAQs built from the TRICARE year files (T1).
   { path: '/blog/tricare-costs-2026-vs-civilian', faqCount: 3 },
+  // VA loan: the five FAQs, visible since build V1 (were schema-only before).
+  { path: '/calculators/va-loan', faqCount: 5 },
 ];
 
 type FaqSchema = {

@@ -10,7 +10,8 @@ import { Select } from '@/components/ui/Select';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { ActSteps } from '@/components/calculators/shared/ActStep';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
-import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
+import { useCombinedBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
+import { combinedPayBahYear, pendingBahLabel } from '@/lib/combinedPayYear';
 import {
   ENLISTED_GRADES,
   WARRANT_GRADES,
@@ -22,23 +23,25 @@ import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { readUrlParams } from '@/data/calculatorUrlParams';
-import { getFundingFeeRate, fundingFeeAmount as feeAmount } from '@/lib/calculations/vaLoanFees';
+import {
+  FEE_STATUSES,
+  FUNDING_FEE_RATES_EFFECTIVE,
+  bandDownPct,
+  fundingFeeAmount as feeAmount,
+  getFundingFeeRate,
+  isFeeExempt,
+  parseFeeStatus,
+  type FeeStatus,
+} from '@/lib/calculations/vaLoanFees';
+import { calcVaLoan } from '@/lib/calculations/vaLoan';
 
-// ─── Funding fee table (Purchase): src/lib/calculations/vaLoanFees.ts ──────
+// ─── Funding fee table (Purchase), statuses and payment math: ───────────────
+// src/lib/calculations/vaLoanFees.ts and src/lib/calculations/vaLoan.ts
 
 function getFundingFeeTierLabel(downPct: number): string {
   if (downPct < 5) return 'Less than 5% down';
   if (downPct < 10) return '5% to 9.99% down';
   return '10% or more down';
-}
-
-// ─── Mortgage math ────────────────────────────────────────────────────────
-function calcMonthlyPI(loanAmount: number, annualRatePct: number, termYears: number): number {
-  if (loanAmount <= 0) return 0;
-  const r = annualRatePct / 100 / 12;
-  const n = termYears * 12;
-  if (r === 0) return loanAmount / n;
-  return loanAmount * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
 }
 
 // ─── Loan term options ─────────────────────────────────────────────────────
@@ -48,6 +51,8 @@ const TERM_OPTIONS = [
   { value: '15', label: '15-year fixed' },
   { value: 'arm5', label: '5/1 ARM' },
 ];
+
+const pct2 = (rate: number) => `${(rate * 100).toFixed(2)}%`;
 
 function termYearsFromType(termType: string): number {
   return termType === 'arm5' ? 30 : parseInt(termType, 10);
@@ -87,34 +92,49 @@ function btnCls(active: boolean) {
 
 // ─── Action steps ──────────────────────────────────────────────────────────
 function buildActionSteps(
-  disabilityExempt: boolean,
-  fundingFeeAmount: number,
+  feeStatus: FeeStatus,
+  fundingFee: number,
+  standardFee: number,
+  baseLoan: number,
   firstUse: boolean,
+  bandPct: number,
   bahActive: boolean,
 ): ActionStep[] {
   const steps: ActionStep[] = [];
+  const exempt = isFeeExempt(feeStatus);
 
-  if (!disabilityExempt) {
+  if (!exempt) {
     steps.push({
       label: 'Check your VA disability rating',
-      description: `A service-connected rating of 10% or higher waives the VA funding fee entirely — saving you ${formatCurrency(fundingFeeAmount)} on this purchase. Calculate your combined rating to see if you qualify.`,
+      description: `VA's funding fee exemption depends on receiving VA disability compensation (or being eligible for it while receiving retirement or active-duty pay instead), not on a rating number. On this loan the fee is ${formatCurrency(fundingFee)}. See how your ratings combine and the compensation that goes with the result.`,
       priority: 'high',
       href: '/calculators/va-disability',
     });
   } else {
     steps.push({
-      label: 'Your disability exemption saves you real money',
-      description: `Your service-connected disability rating waives the ${formatCurrency(fundingFeeAmount)} funding fee. This exemption applies every time you use the VA loan benefit.`,
+      label: 'Your lender confirms the exemption',
+      description: `VA's rule: no funding fee for the status you picked. On this loan that's ${formatCurrency(standardFee)} you don't pay. The lender confirms the exemption from your Certificate of Eligibility.`,
       priority: 'medium',
     });
   }
 
-  if (!firstUse) {
-    steps.push({
-      label: 'Subsequent-use funding fee is higher',
-      description: 'Your 3.30% subsequent-use fee is $500–$5,000+ more than the first-use fee on the same home. If putting 5%+ down, the rate equalizes at 1.50%. A disability rating of 10%+ waives it entirely.',
-      priority: 'medium',
-    });
+  if (!firstUse && !exempt) {
+    const subRate = getFundingFeeRate(false, bandPct);
+    const firstRate = getFundingFeeRate(true, bandPct);
+    const diff = feeAmount(baseLoan, subRate) - feeAmount(baseLoan, firstRate);
+    steps.push(
+      diff > 0
+        ? {
+            label: 'Subsequent-use funding fee is higher',
+            description: `At this down payment the subsequent-use rate is ${pct2(subRate)}, against ${pct2(firstRate)} for first use: ${formatCurrency(diff)} more on this loan. At 5% down or more, the two rates are the same.`,
+            priority: 'medium',
+          }
+        : {
+            label: 'Subsequent-use rate matches first use here',
+            description: `At this down payment the subsequent-use and first-use rates are the same (${pct2(subRate)}), so subsequent use adds nothing to the fee on this loan.`,
+            priority: 'medium',
+          },
+    );
   }
 
   if (!bahActive) {
@@ -143,7 +163,7 @@ export function VALoanCalculator() {
 
   // VA loan details
   const [firstUse, setFirstUse] = useState(true);
-  const [disabilityExempt, setDisabilityExempt] = useState(false);
+  const [feeStatus, setFeeStatus] = useState<FeeStatus>('none');
   const [financeFee, setFinanceFee] = useState(true);
 
   // BAH comparison
@@ -195,7 +215,8 @@ export function VALoanCalculator() {
     const taxRaw = params.get('tax');
     const insRaw = params.get('ins');
     const firstUseRaw = parseBool(params.get('firstUse'));
-    const exemptRaw = parseBool(params.get('exempt'));
+    const feeRaw = params.get('fee');
+    const exemptRaw = params.get('exempt');
     const financeRaw = parseBool(params.get('financeFee'));
     const zipRaw = parseZip(params.get('zip'));
     const gradeRaw = parseGrade(params.get('rank'));
@@ -236,7 +257,7 @@ export function VALoanCalculator() {
       if (!isNaN(i) && i >= 0) setAnnualIns(i);
     }
     if (firstUseRaw !== null) setFirstUse(firstUseRaw);
-    if (exemptRaw !== null) setDisabilityExempt(exemptRaw);
+    if (feeRaw !== null || exemptRaw !== null) setFeeStatus(parseFeeStatus(feeRaw, exemptRaw));
     if (financeRaw !== null) setFinanceFee(financeRaw);
     if (zipRaw) setBahZip(zipRaw);
     if (gradeRaw) setBahGrade(gradeRaw);
@@ -256,7 +277,7 @@ export function VALoanCalculator() {
     p.set('tax', String(annualTax));
     p.set('ins', String(annualIns));
     p.set('firstUse', firstUse ? 'yes' : 'no');
-    p.set('exempt', disabilityExempt ? 'yes' : 'no');
+    p.set('fee', feeStatus);
     p.set('financeFee', financeFee ? 'yes' : 'no');
     p.set('bah', bahActive ? 'yes' : 'no');
     if (bahActive && bahZip) {
@@ -272,42 +293,30 @@ export function VALoanCalculator() {
   const isArm = termType === 'arm5';
 
   // ─── Calculations ─────────────────────────────────────────────────────────
+  const exempt = isFeeExempt(feeStatus);
   const calc = useMemo(() => {
     const downDollars = effectiveDownDollar;
     const downPct = homePrice > 0 ? (downDollars / homePrice) * 100 : 0;
-    const baseLoan = Math.max(0, homePrice - downDollars);
-
-    const fundingFeeRate = disabilityExempt ? 0 : getFundingFeeRate(firstUse, downPct);
-    const fundingFeeAmount = feeAmount(baseLoan, fundingFeeRate);
-    const financedLoan = financeFee ? baseLoan + fundingFeeAmount : baseLoan;
-
-    const monthlyPI = calcMonthlyPI(financedLoan, rate, termYears);
-    const monthlyTax = annualTax / 12;
-    const monthlyIns = annualIns / 12;
-    const totalPITI = monthlyPI + monthlyTax + monthlyIns;
-
-    const feeFinancedExtra = financeFee && !disabilityExempt
-      ? calcMonthlyPI(fundingFeeAmount, rate, termYears)
-      : 0;
-
-    const feeTier = getFundingFeeTierLabel(downPct);
-
-    return {
-      downDollars, downPct, baseLoan,
-      fundingFeeRate, fundingFeeAmount, financedLoan,
-      monthlyPI, monthlyTax, monthlyIns, totalPITI,
-      feeFinancedExtra, feeTier,
-    };
-  }, [homePrice, effectiveDownDollar, rate, termYears, annualTax, annualIns, firstUse, disabilityExempt, financeFee]);
+    // Fee band: the typed percentage in percent mode (VAL-02), else dollars ÷ price.
+    const bandPct = bandDownPct(downType, downPercent, downDollars, homePrice);
+    const r = calcVaLoan({
+      homePrice, downDollars, bandPct, rate, termYears, annualTax, annualIns, firstUse, feeStatus, financeFee,
+    });
+    return { ...r, downDollars, downPct, bandPct, feeTier: getFundingFeeTierLabel(bandPct) };
+  }, [homePrice, effectiveDownDollar, downType, downPercent, rate, termYears, annualTax, annualIns, firstUse, feeStatus, financeFee]);
 
   // ─── BAH lookup (server-side via cached route) ──────────────────────────────
-  const { data: bahData } = useBahLookup(bahActive ? bahZip : '');
+  // One-year rule (src/lib/combinedPayYear.ts), as in the other calculators: BAH for
+  // the year in use, plus a separate "(from Jan. 1)" line while a newer year waits.
+  const bahYear = combinedPayBahYear();
+  const { data: bahData, pendingYear, pendingData } = useCombinedBahLookup(bahActive ? bahZip : '');
   const bahResult = useMemo(() => {
     if (!bahActive) return null;
     const monthlyRate = rateFor(bahData, bahGrade, bahDependents);
     if (monthlyRate === null) return null;
     return { monthlyRate, locationName: bahData?.locationName ?? '' };
   }, [bahActive, bahData, bahGrade, bahDependents]);
+  const pendingBah = bahActive && pendingYear ? rateFor(pendingData, bahGrade, bahDependents) : null;
 
   // ─── Analytics ────────────────────────────────────────────────────────────
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -321,8 +330,8 @@ export function VALoanCalculator() {
 
   // ─── Action steps ─────────────────────────────────────────────────────────
   const actionSteps = useMemo(
-    () => buildActionSteps(disabilityExempt, calc.fundingFeeAmount, firstUse, bahActive),
-    [disabilityExempt, calc.fundingFeeAmount, firstUse, bahActive],
+    () => buildActionSteps(feeStatus, calc.fundingFeeAmount, calc.standardFeeAmount, calc.baseLoan, firstUse, calc.bandPct, bahActive),
+    [feeStatus, calc.fundingFeeAmount, calc.standardFeeAmount, calc.baseLoan, firstUse, calc.bandPct, bahActive],
   );
 
   const hasBahResult = bahActive && !!bahResult;
@@ -558,42 +567,70 @@ export function VALoanCalculator() {
             </p>
           </div>
 
-          {/* Row 1 col 2: VA disability — always visible, always upper-right */}
-          <div className="flex flex-col gap-1">
-            <span id="vl-disability-label" className="text-sm font-medium text-zinc-700">VA disability rating</span>
-            <div className="flex gap-3 mt-1" role="group" aria-labelledby="vl-disability-label">
-              <button type="button" aria-disabled={inert} onClick={() => setDisabilityExempt(false)} className={btnCls(!disabilityExempt)}>None</button>
-              <button type="button" aria-disabled={inert} onClick={() => setDisabilityExempt(true)} className={btnCls(disabilityExempt)}>10%+ (exempt)</button>
-            </div>
-            {disabilityExempt ? (
-              <div className="mt-2 rounded-md bg-green-50 border border-green-200 px-3 py-2">
-                <p className="text-xs text-green-800 font-medium">
-                  Your service-connected disability rating exempts you from the VA funding fee.
-                </p>
-                <p className="text-xs text-green-700 mt-1">
-                  Amount saved: <span className="font-bold">{formatCurrency(Math.round(calc.baseLoan * getFundingFeeRate(firstUse, calc.downPct)))}</span>
-                </p>
-                <p className="text-xs text-green-600 mt-1">Also exempt: Purple Heart recipients (active duty), surviving spouses receiving DIC.</p>
-              </div>
-            ) : (
-              <p className="text-xs text-zinc-500 mt-1">10% or higher service-connected disability rating waives the funding fee entirely.</p>
-            )}
-          </div>
-
-          {/* Row 2: Down payment tier + finance fee — hidden when disability exempt */}
-          {!disabilityExempt && (
+          {/* Row 1 col 2: down payment tier — hidden when exempt */}
+          {!exempt && (
             <div className="flex flex-col gap-1 justify-center">
               <span className="text-sm font-medium text-zinc-700">Down payment tier</span>
               <div className="mt-1 rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3">
                 <p className="text-sm font-semibold text-zinc-800">{calc.feeTier}</p>
                 <p className="text-xs text-zinc-500 mt-0.5">
-                  Funding fee rate: <span className="font-semibold text-zinc-700">{(calc.fundingFeeRate * 100).toFixed(2)}%</span>
+                  Funding fee rate: <span className="font-semibold text-zinc-700">{pct2(calc.fundingFeeRate)}</span>
                 </p>
               </div>
             </div>
           )}
 
-          {!disabilityExempt && (
+          {/* Row 2 (full width): funding fee status — VA's exemption list */}
+          <fieldset className="sm:col-span-2 flex flex-col gap-1" data-testid="vl-fee-status">
+            <legend className="text-sm font-medium text-zinc-700">Do you have to pay the VA funding fee?</legend>
+            <p className="text-xs text-zinc-500">
+              VA&apos;s exemption list. Your lender confirms it from your Certificate of Eligibility.
+            </p>
+            <div className="mt-2 grid grid-cols-1 gap-1.5">
+              {FEE_STATUSES.map((s) => (
+                <label
+                  key={s.value}
+                  className={[
+                    'flex items-start gap-2.5 rounded-md border px-3 py-2 text-sm cursor-pointer transition-colors',
+                    feeStatus === s.value ? 'border-red-700 bg-red-50 text-zinc-900' : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300',
+                  ].join(' ')}
+                >
+                  <input
+                    type="radio"
+                    name="vl-fee-status"
+                    value={s.value}
+                    checked={feeStatus === s.value}
+                    onChange={() => setFeeStatus(s.value)}
+                    className="mt-0.5 accent-red-700"
+                  />
+                  <span>{s.label}</span>
+                </label>
+              ))}
+            </div>
+            {exempt && (
+              <p
+                className="mt-2 rounded-md bg-green-50 border border-green-200 px-3 py-2 text-sm text-green-800"
+                data-testid="vl-exempt-result"
+              >
+                <span className="font-semibold">No funding fee.</span>{' '}
+                On a {formatCurrency(calc.baseLoan)} {firstUse ? 'first-use' : 'subsequent-use'} loan with{' '}
+                {calc.downDollars > 0 ? `${formatCurrency(calc.downDollars)} down` : 'no down payment'}, that&apos;s{' '}
+                <span className="font-bold">{formatCurrency(calc.standardFeeAmount)}</span>{' '}you don&apos;t pay.
+              </p>
+            )}
+            {feeStatus === 'pending' && (
+              <p
+                className="mt-2 rounded-md bg-amber-50 border border-amber-200 px-3 py-2 text-sm text-amber-900"
+                data-testid="vl-pending-note"
+              >
+                With a claim still pending, the fee is due at closing. VA&apos;s rule: if VA later awards you
+                compensation with an effective date before your closing date, you may be eligible for a refund.
+                A proposed or memorandum rating received after closing doesn&apos;t qualify for a refund.
+              </p>
+            )}
+          </fieldset>
+
+          {!exempt && (
             <div className="flex flex-col gap-1">
               <span id="vl-finance-label" className="text-sm font-medium text-zinc-700">Finance funding fee</span>
               <div className="flex gap-3 mt-1" role="group" aria-labelledby="vl-finance-label">
@@ -622,16 +659,16 @@ export function VALoanCalculator() {
           {formatCurrency(calc.totalPITI)}
         </p>
         <p className="text-red-200 text-sm mt-1">
-          {formatCurrency(calc.totalPITI * 12)}/year · Based on 2026 rates
+          {formatCurrency(calc.totalPITI * 12)}/year · VA funding fee rates effective {FUNDING_FEE_RATES_EFFECTIVE}
         </p>
         <div className="mt-4 pt-4 border-t border-red-600 grid grid-cols-2 sm:grid-cols-3 gap-4">
           <div>
             <p className="text-red-200 text-xs uppercase tracking-wide">Funding Fee</p>
             <p className="text-white text-base font-semibold mt-0.5" data-testid="vl-funding-fee">
-              {disabilityExempt ? '$0 — Waived' : formatCurrency(calc.fundingFeeAmount)}
+              {exempt ? '$0 — Waived' : formatCurrency(calc.fundingFeeAmount)}
             </p>
-            {disabilityExempt
-              ? <p className="text-green-300 text-xs mt-0.5">Disability exemption</p>
+            {exempt
+              ? <p className="text-green-300 text-xs mt-0.5">VA exemption</p>
               : <p className="text-red-200 text-xs mt-0.5">{financeFee ? 'Rolled into loan' : 'Due at closing'}</p>
             }
           </div>
@@ -639,14 +676,14 @@ export function VALoanCalculator() {
             <p className="text-red-200 text-xs uppercase tracking-wide">Loan Amount</p>
             <p className="text-white text-base font-semibold mt-0.5">{formatCurrency(calc.financedLoan)}</p>
             <p className="text-red-200 text-xs mt-0.5">
-              {financeFee && !disabilityExempt ? 'Incl. funded fee' : `${formatCurrency(homePrice)} − ${formatCurrency(calc.downDollars)}`}
+              {financeFee && !exempt ? 'Incl. funded fee' : `${formatCurrency(homePrice)} − ${formatCurrency(calc.downDollars)}`}
             </p>
           </div>
           <div className="col-span-2 sm:col-span-1">
             <p className="text-red-200 text-xs uppercase tracking-wide">Monthly P&amp;I</p>
             <p className="text-white text-base font-semibold mt-0.5">{formatCurrency(calc.monthlyPI)}</p>
             <p className="text-red-200 text-xs mt-0.5">
-              {isArm ? `5/1 ARM (30-yr amort) · ${rate}%` : `${termType}-yr fixed · ${rate}%`}
+              {isArm ? `5/1 ARM · first 5 years · ${rate}%` : `${termType}-yr fixed · ${rate}%`}
             </p>
           </div>
         </div>
@@ -663,7 +700,7 @@ export function VALoanCalculator() {
           </p>
           <div className="grid grid-cols-3 gap-4 text-center mb-4">
             <div>
-              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1">Your BAH</p>
+              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1">Your {bahYear} BAH</p>
               <p className="text-3xl font-bold tabular-nums text-zinc-900">{formatCurrency(bahResult.monthlyRate)}</p>
               <p className="text-xs text-zinc-500 mt-1">/month</p>
             </div>
@@ -688,8 +725,13 @@ export function VALoanCalculator() {
               : `Your BAH covers ${bahCoveragePct}% of this estimated payment. The remaining ${formatCurrency(bahRemaining)}/month would come from other income or savings.`}
           </p>
           <p className="text-xs text-zinc-500 mt-2">
-            BAH is excluded from federal taxable income but is counted as income for VA loan qualification purposes. Rates shown are 2026 rates.
+            BAH is excluded from federal taxable income but is counted as income for VA loan qualification purposes. BAH shown: {bahYear} rates.
           </p>
+          {pendingYear && pendingBah !== null && (
+            <p className="text-xs text-zinc-500 mt-1" data-testid="vl-pending-bah">
+              {pendingBahLabel(pendingYear)}: {formatCurrency(pendingBah)}/month — not in this comparison.
+            </p>
+          )}
         </div>
       )}
 
@@ -727,18 +769,19 @@ export function VALoanCalculator() {
       {/* Funding fee detail card */}
       <Card variant="bordered">
         <h3 className="text-base font-semibold text-zinc-900 mb-4">Funding Fee Detail</h3>
-        {disabilityExempt ? (
+        {exempt ? (
           <div className="rounded-md bg-green-50 border border-green-200 p-4">
             <p className="text-sm font-semibold text-green-800">
-              Funding Fee Waived — Disability Exemption
+              Funding Fee Waived — VA Exemption
             </p>
             <p className="text-sm text-green-700 mt-1">
-              Your service-connected disability rating saves you{' '}
-              <span className="font-bold">{formatCurrency(Math.round(calc.baseLoan * getFundingFeeRate(firstUse, calc.downPct)))}</span>{' '}
-              on this purchase.
+              The fee you would otherwise pay: {pct2(calc.standardFeeRate)} of {formatCurrency(calc.baseLoan)} ={' '}
+              <span className="font-bold">{formatCurrency(calc.standardFeeAmount)}</span>.
             </p>
             <p className="text-xs text-green-600 mt-2">
-              This exemption applies every time you use your VA loan benefit. If you received your rating after closing on a previous VA loan, contact VA — you may be eligible for a refund.
+              Paid the fee on an earlier VA loan? VA&apos;s rule: you may be eligible for a refund if you&apos;re later
+              awarded VA compensation with an effective date before that loan&apos;s closing date. A proposed or
+              memorandum rating received after closing doesn&apos;t qualify.
             </p>
           </div>
         ) : (
