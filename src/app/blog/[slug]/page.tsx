@@ -11,6 +11,7 @@ import { RetirementFigure, High3Breakdown, CrdpCrscFigure, FinalYearCompTotal } 
 import { TricareFigure, TricareChangeRange, TricareDate, TricareCostYear } from '@/components/blog/TricareFigure';
 import { TricareCostTable } from '@/components/blog/TricareCostTable';
 import { TampEligibilityList } from '@/components/blog/TampEligibilityList';
+import { VaFundingFee } from '@/components/blog/VaFundingFee';
 import { TricareOpenSeason, TricarePostFaq } from '@/components/blog/TricarePost';
 import { tricarePostFaqs } from '@/lib/tricarePost';
 import { OPEN_SEASON_2026_STATUS } from '@/data/tricare/2027/openSeason';
@@ -41,6 +42,7 @@ const mdxComponents = {
   TricareOpenSeason,
   TricarePostFaq,
   TampEligibilityList,
+  VaFundingFee,
 };
 
 const GUIDE_TITLES: Record<string, string> = {

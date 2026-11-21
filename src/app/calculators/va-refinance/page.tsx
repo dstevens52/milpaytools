@@ -49,7 +49,7 @@ const months = (n: number) => `${n} month${n === 1 ? '' : 's'}`;
 const FAQS: FaqItem[] = [
   {
     question: 'What is a VA Streamline Refinance (IRRRL)?',
-    answer: `The IRRRL (Interest Rate Reduction Refinance Loan) is a VA refinance for existing VA loan borrowers. VA generally does not require a full appraisal or income underwriting for an IRRRL, although lenders may apply overlays or request additional documentation. The funding fee is ${IRRRL_FEE} of the loan, and borrowers on VA's funding fee exemption list don't pay it. Fixed to fixed, the new rate must be at least ${IRRRL_MIN_RATE_DROP_BPS} basis points lower; an IRRRL can also move you from an adjustable rate to a fixed rate. It can only refinance an existing VA loan. [Funding fee rates and exemptions](/blog/va-loan-funding-fee-explained)`,
+    answer: `The IRRRL (Interest Rate Reduction Refinance Loan) is a VA refinance for existing VA loan borrowers. VA generally doesn't require an appraisal or credit underwriting for an IRRRL. Lenders can still require them under their own rules. The funding fee is ${IRRRL_FEE} of the loan, and borrowers on VA's funding fee exemption list don't pay it. Fixed to fixed, the new rate must be at least ${IRRRL_MIN_RATE_DROP_BPS} basis points lower; an IRRRL can also move you from an adjustable rate to a fixed rate. It can only refinance an existing VA loan. [Funding fee rates and exemptions](/blog/va-loan-funding-fee-explained)`,
   },
   {
     question: 'What is a VA Cash-Out Refinance?',
@@ -145,7 +145,7 @@ export default function VARefinancePage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100 hidden md:block">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          {`An IRRRL (VA Streamline Refinance) allows existing VA loan holders to lower their interest rate with minimal paperwork — VA generally does not require a full appraisal or income underwriting, though lenders may apply overlays — and carries a ${IRRRL_FEE} funding fee, the lowest of any VA loan type. A VA cash-out refinance carries a higher funding fee (${CASH_FIRST} or ${CASH_SUB}) and requires a full appraisal and underwriting.`}
+          {`An IRRRL (VA Streamline Refinance) refinances an existing VA loan, for example to a lower interest rate. VA generally doesn't require an appraisal or credit underwriting for an IRRRL. Lenders can still require them under their own rules. It carries a ${IRRRL_FEE} funding fee, lower than any purchase or cash-out rate. A VA cash-out refinance carries a higher funding fee (${CASH_FIRST} or ${CASH_SUB}) and requires a full appraisal and underwriting.`}
         </p>
       </div>
           <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
@@ -270,7 +270,7 @@ export default function VARefinancePage() {
         </div>
 
         <p className="text-sm text-zinc-600 leading-relaxed mb-8">
-          This calculator estimates fixed-rate refinance scenarios. For ARM-to-fixed conversions, the stability of a fixed rate is generally considered a net tangible benefit by VA, even if the initial payment does not decrease. Consult with your lender for ARM-specific IRRRL guidance.
+          This calculator models fixed-rate loans only. An IRRRL can also move you from an adjustable rate to a fixed rate, which can make payments more stable. Ask your lender about IRRRL terms for an adjustable-rate loan.
         </p>
 
         {/* Disclaimers */}

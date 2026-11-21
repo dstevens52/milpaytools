@@ -2,6 +2,7 @@
 title: "Can I Use My VA Loan Benefit Again? Entitlement, Restoration, and Subsequent Use Explained"
 slug: can-i-use-va-loan-again
 date: "2026-05-27"
+updated: "2026-11-21"
 description: "The VA loan isn't a one-time benefit. Here's how entitlement works, how to restore it after selling, and what the subsequent use funding fee actually costs."
 category: Veterans Benefits
 calculators:
@@ -19,7 +20,7 @@ The VA loan benefit has no expiration date and no limit on the number of times i
   <QAItem>Entitlement is restored in full when you sell your home and pay off the VA loan balance — after that, you can purchase again with $0 down and no loan limit</QAItem>
   <QAItem>A one-time restoration lets you restore entitlement without selling — if you've paid off a prior VA loan but still own the property, you can use VA financing again for a new primary residence</QAItem>
   <QAItem>With enough remaining entitlement, you can hold two VA loans simultaneously — useful when you're PCSing and can't sell before the move</QAItem>
-  <QAItem>The subsequent use funding fee is 3.30% at zero down (vs. 2.15% first use) — but without PMI, VA often remains competitive against conventional financing for a second purchase</QAItem>
+  <QAItem>The subsequent use funding fee is <VaFundingFee use="subsequent" down="0" show="rate" /> at zero down (vs. <VaFundingFee use="first" down="0" show="rate" /> first use) — but without PMI, VA often remains competitive against conventional financing for a second purchase</QAItem>
   <QAItem>Veterans receiving VA disability compensation are exempt from the funding fee on subsequent uses — same as the first</QAItem>
 </QuickAnswer>
 
@@ -48,7 +49,7 @@ The paperwork version of this is the Certificate of Eligibility (COE), which sho
 The most common path. When you sell a home with a VA loan and the balance is paid in full at closing, your entitlement is released and returns to its full amount. The process is:
 
 1. Home sells, VA loan paid off at closing
-2. Request restoration through VA.gov, eBenefits, or your lender
+2. Ask VA or your lender to restore your entitlement
 3. Entitlement restored to full amount
 4. Use a VA loan again with full entitlement — $0 down, no loan limit
 
@@ -109,34 +110,34 @@ Using the VA benefit again doesn't erase the advantage — but it does raise the
 
 | Down Payment | First Use | Subsequent Use |
 |---|---|---|
-| Less than 5% | 2.15% | 3.30% |
-| 5% to 9.99% | 1.50% | 1.50% |
-| 10% or more | 1.25% | 1.25% |
+| Less than 5% | <VaFundingFee use="first" down="0" show="rate" /> | <VaFundingFee use="subsequent" down="0" show="rate" /> |
+| 5% to 9.99% | <VaFundingFee use="first" down="5" show="rate" /> | <VaFundingFee use="subsequent" down="5" show="rate" /> |
+| 10% or more | <VaFundingFee use="first" down="10" show="rate" /> | <VaFundingFee use="subsequent" down="10" show="rate" /> |
 
 At 5% or more down, the fee is identical regardless of first or subsequent use. The higher subsequent-use rate only applies when putting less than 5% down.
 
 **Dollar amounts on a $350,000 subsequent-use purchase:**
-- $0 down: 3.30% = **$11,550 fee**
-- 5% down: 1.50% = **$4,988 fee** on the $332,500 loan (down payment: $17,500)
-- 10% down: 1.25% = **$3,938 fee** on the $315,000 loan (down payment: $35,000)
+- $0 down: <VaFundingFee use="subsequent" down="0" show="rate" /> = **<VaFundingFee price="350000" use="subsequent" down="0" /> fee**
+- 5% down: <VaFundingFee use="subsequent" down="5" show="rate" /> = **<VaFundingFee price="350000" use="subsequent" down="5" /> fee** on the <VaFundingFee price="350000" use="subsequent" down="5" show="loan" /> loan (down payment: <VaFundingFee price="350000" use="subsequent" down="5" show="down" />)
+- 10% down: <VaFundingFee use="subsequent" down="10" show="rate" /> = **<VaFundingFee price="350000" use="subsequent" down="10" /> fee** on the <VaFundingFee price="350000" use="subsequent" down="10" show="loan" /> loan (down payment: <VaFundingFee price="350000" use="subsequent" down="10" show="down" />)
 
-Funding fee exemptions apply on every use — first, subsequent, and refinance. You may be exempt if you receive or are eligible to receive VA compensation for a service-connected disability, have certain pre-discharge disability determinations before closing, are an eligible surviving spouse, or are an active-duty Purple Heart recipient before closing. Confirm exemption status on your COE and with your lender.
+Funding fee exemptions apply on every use — first, subsequent, and refinance. VA's rule: you don't pay the funding fee if you receive VA compensation for a service-connected disability; you're eligible for that compensation but receive retirement or active-duty pay instead; you receive Dependency and Indemnity Compensation (DIC) as the surviving spouse of a Veteran; you're a service member with a proposed or memorandum rating, dated before closing, that says you're eligible for compensation because of a pre-discharge claim; or you're on active duty and, on or before closing, provide evidence that you received a Purple Heart. Confirm your exemption status with your lender.
 
 See [VA Loan Funding Fee Explained](/blog/va-loan-funding-fee-explained) for additional exemption details.
 
 ## Does VA still beat conventional on a second purchase?
 
-The 3.30% subsequent-use funding fee is real money. At $11,550 on a $350,000 loan, it's more than the first-use fee by $4,025. Does the math still favor VA?
+The <VaFundingFee use="subsequent" down="0" show="rate" /> subsequent-use funding fee is real money. At <VaFundingFee price="350000" use="subsequent" down="0" /> on a $350,000 loan, it's more than the first-use fee by <VaFundingFee price="350000" use="subsequent" down="0" vsUse="first" />. Does the math still favor VA?
 
 **VA vs. conventional (5% down) on a $350,000 second purchase — no disability exemption:**
 
-| | VA (0% down, 3.30% fee) | Conventional (5% down) |
+| | VA (0% down, <VaFundingFee use="subsequent" down="0" show="rate" /> fee) | Conventional (5% down) |
 |---|---|---|
 | Down payment | $0 | $17,500 |
 | PMI | $0/month | ~$145–175/month |
-| Funding fee | $11,550 (financed) | None |
-| Fee as monthly cost (30yr, 6.5%) | ~$73/month | $0 |
-| Total monthly overhead | $73 | $145–175 |
+| Funding fee | <VaFundingFee price="350000" use="subsequent" down="0" /> (financed) | None |
+| Fee as monthly cost (30yr, 6.5%) | ~<VaFundingFee price="350000" use="subsequent" down="0" show="monthly" interest="6.5" years="30" />/month | $0 |
+| Total monthly overhead | <VaFundingFee price="350000" use="subsequent" down="0" show="monthly" interest="6.5" years="30" /> | $145–175 |
 
 In many low-down-payment scenarios, VA can compare favorably because there is no monthly PMI and the borrower preserves cash. But the answer is not automatic — conventional financing can win if you have strong credit, a large down payment, a short expected hold period, a lower conventional rate, or if avoiding the subsequent-use funding fee matters more than preserving cash. The best approach is to compare actual Loan Estimates from both VA and conventional lenders.
 
@@ -144,7 +145,7 @@ In many low-down-payment scenarios, VA can compare favorably because there is no
 
 If you're already in a VA loan and refinancing with an IRRRL, you're not using the VA benefit "again" in the entitlement sense — you're replacing the existing VA loan with a new one. The same entitlement that was tied to the original loan carries over to the IRRRL.
 
-The IRRRL also carries only a 0.50% funding fee — far lower than any purchase fee, first or subsequent. See the [VA Refinance Calculator](/calculators/va-refinance) to estimate whether the rate reduction pays off before your next move.
+The IRRRL also carries only a <VaFundingFee type="irrrl" show="rate" /> funding fee — far lower than any purchase fee, first or subsequent. See the [VA Refinance Calculator](/calculators/va-refinance) to estimate whether the rate reduction pays off before your next move.
 
 ## Before you use your VA loan again
 

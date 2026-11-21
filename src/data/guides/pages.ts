@@ -94,7 +94,7 @@ export const GUIDE_PAGES: GuidePage[] = [
     description:
       'VA loan eligibility, the funding fee and its disability exemption, entitlement and reuse, and how BAH factors into what you can afford.',
     category: 'Veterans Benefits',
-    date: '2026-05-27',
+    date: '2026-11-21', // Build V3: fee figures computed, VA's exemption list, COE, IRRRL wording
     readTime: 12,
     calculators: ['va-loan', 'va-disability', 'bah'],
   },

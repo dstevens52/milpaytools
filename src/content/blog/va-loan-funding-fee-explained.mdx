@@ -2,6 +2,7 @@
 title: "VA Loan Funding Fee Explained: Every Rate, Exemption, and Dollar Amount for 2026"
 slug: va-loan-funding-fee-explained
 date: "2026-05-27"
+updated: "2026-11-21"
 description: "The VA funding fee is the main VA-specific cost most non-exempt borrowers pay — here are every rate, exemption, and dollar-amount calculation you need before closing."
 category: Veterans Benefits
 calculators:
@@ -12,24 +13,24 @@ readTime: 8
 author: Dan Stevens
 ---
 
-The VA funding fee is the main VA-specific cost most non-exempt borrowers pay — a one-time charge to the Department of Veterans Affairs calculated as a percentage of the base loan amount. For a first-use purchase loan with no down payment, the fee is 2.15% — $7,525 on a $350,000 loan; subsequent-use borrowers pay 3.30%, or $11,550 on the same loan; and IRRRL refinances carry a much lower 0.50% fee. Veterans receiving VA disability compensation are commonly exempt from the fee entirely on every use, which is worth confirming on the Certificate of Eligibility before closing.
+The VA funding fee is the main VA-specific cost most non-exempt borrowers pay — a one-time charge to the Department of Veterans Affairs calculated as a percentage of the base loan amount. For a first-use purchase loan with no down payment, the fee is <VaFundingFee use="first" down="0" show="rate" /> — <VaFundingFee price="350000" use="first" down="0" /> on a $350,000 loan; subsequent-use borrowers pay <VaFundingFee use="subsequent" down="0" show="rate" />, or <VaFundingFee price="350000" use="subsequent" down="0" /> on the same loan; and IRRRL refinances carry a much lower <VaFundingFee type="irrrl" show="rate" /> fee. Veterans receiving VA disability compensation don't pay the funding fee, and VA lists four other exemptions (below).
 
 <QuickAnswer>
-  <QAItem>The VA funding fee for a first-use purchase loan with no down payment is 2.15% of the loan amount in 2026 — on a $350,000 loan, that's $7,525</QAItem>
-  <QAItem>Subsequent use (any prior VA loan) raises the fee to 3.30% at zero down — $11,550 on a $350,000 loan — but a down payment of 5% or more reduces it to 1.50% regardless of use count</QAItem>
-  <QAItem>Veterans receiving VA disability compensation for a service-connected disability are exempt from the funding fee entirely — that exemption eliminates thousands of dollars at closing</QAItem>
-  <QAItem>The IRRRL (VA Streamline Refinance) has the lowest funding fee of any VA loan type — just 0.50% — regardless of how many times you've used your benefit</QAItem>
-  <QAItem>Most borrowers roll the funding fee into the loan rather than paying it at closing — this avoids upfront cash but increases the loan balance and total interest paid</QAItem>
-  <QAItem>If your disability claim was pending at closing and later approved with an effective date before your closing date, you may be entitled to a retroactive refund of the fee paid</QAItem>
+  <QAItem>The VA funding fee for a first-use purchase loan with no down payment is <VaFundingFee use="first" down="0" show="rate" /> of the loan amount in 2026 — on a $350,000 loan, that's <VaFundingFee price="350000" use="first" down="0" /></QAItem>
+  <QAItem>Subsequent use (any prior VA loan) raises the fee to <VaFundingFee use="subsequent" down="0" show="rate" /> at zero down — <VaFundingFee price="350000" use="subsequent" down="0" /> on a $350,000 loan — but a down payment of 5% or more reduces it to <VaFundingFee use="subsequent" down="5" show="rate" /> regardless of use count</QAItem>
+  <QAItem>Veterans receiving VA disability compensation don't pay the funding fee — on that $350,000 first-use loan, that's <VaFundingFee price="350000" use="first" down="0" /> they aren't charged</QAItem>
+  <QAItem>The IRRRL (VA Streamline Refinance) funding fee is <VaFundingFee type="irrrl" show="rate" /> on every use — the same rate as a loan assumption, and lower than any purchase or cash-out rate</QAItem>
+  <QAItem>You can pay the funding fee at closing or roll it into the loan — rolling it in avoids upfront cash but increases the loan balance and total interest paid</QAItem>
+  <QAItem>If you paid the fee and VA later awards you compensation with an effective date before your loan closing date, you may be eligible for a refund</QAItem>
 </QuickAnswer>
 
-The VA funding fee is the main VA-specific cost most non-exempt borrowers pay — the tradeoff for no down payment, no PMI, and competitive rates. It's not small: at 2.15% on a $350,000 purchase, it's $7,525. At 3.30% for a subsequent-use borrower, it's $11,550 on that same loan. Understanding the exact rate that applies to your situation — and whether you're exempt — matters before you sign anything.
+The VA funding fee is the main VA-specific cost most non-exempt borrowers pay — the tradeoff for no down payment and no monthly mortgage insurance. It's not small: at <VaFundingFee use="first" down="0" show="rate" /> on a $350,000 purchase, it's <VaFundingFee price="350000" use="first" down="0" />. At <VaFundingFee use="subsequent" down="0" show="rate" /> for a subsequent-use borrower, it's <VaFundingFee price="350000" use="subsequent" down="0" /> on that same loan. Understanding the exact rate that applies to your situation — and whether you're exempt — matters before you sign anything.
 
 *This post is educational. MilPayTools is not a lender and does not provide mortgage advice. Confirm your funding fee rate and exemption status with a VA-approved lender before closing.*
 
 ## What the funding fee is
 
-The VA funding fee is a one-time charge paid to the Department of Veterans Affairs at closing. It helps fund the VA loan guarantee program — covering losses on loans that go into default — so the program can operate without relying entirely on congressional appropriations.
+The VA funding fee is a one-time charge paid to the Department of Veterans Affairs. You pay it at closing or roll it into the loan.
 
 The fee applies to all VA loan types (purchase, refinance, cash-out) unless the borrower is exempt. The funding fee is calculated as a percentage of the VA base loan amount before the funding fee is added. On a purchase, that usually means the purchase price minus any down payment — not the home value and not the final financed loan amount after the funding fee is rolled in.
 
@@ -37,106 +38,106 @@ The fee applies to all VA loan types (purchase, refinance, cash-out) unless the 
 
 | Down Payment | First Use | Subsequent Use |
 |---|---|---|
-| Less than 5% | **2.15%** | **3.30%** |
-| 5%–9.99% | **1.50%** | **1.50%** |
-| 10% or more | **1.25%** | **1.25%** |
+| Less than 5% | **<VaFundingFee use="first" down="0" show="rate" />** | **<VaFundingFee use="subsequent" down="0" show="rate" />** |
+| 5%–9.99% | **<VaFundingFee use="first" down="5" show="rate" />** | **<VaFundingFee use="subsequent" down="5" show="rate" />** |
+| 10% or more | **<VaFundingFee use="first" down="10" show="rate" />** | **<VaFundingFee use="subsequent" down="10" show="rate" />** |
+
+VA's current rates took effect April 7, 2023.
 
 **Dollar amounts — $350,000 purchase price:**
 
 | Scenario | Purchase Price | Down Payment | Base Loan Amount | Fee Rate | Funding Fee |
 |---|---|---|---|---|---|
-| First use, $0 down | $350,000 | $0 | $350,000 | 2.15% | $7,525 |
-| Subsequent use, $0 down | $350,000 | $0 | $350,000 | 3.30% | $11,550 |
-| First use, 5% down | $350,000 | $17,500 | $332,500 | 1.50% | $4,988 |
-| First use, 10% down | $350,000 | $35,000 | $315,000 | 1.25% | $3,938 |
-| IRRRL | — | — | $300,000 | 0.50% | $1,500 |
+| First use, $0 down | $350,000 | <VaFundingFee price="350000" use="first" down="0" show="down" /> | <VaFundingFee price="350000" use="first" down="0" show="loan" /> | <VaFundingFee use="first" down="0" show="rate" /> | <VaFundingFee price="350000" use="first" down="0" /> |
+| Subsequent use, $0 down | $350,000 | <VaFundingFee price="350000" use="subsequent" down="0" show="down" /> | <VaFundingFee price="350000" use="subsequent" down="0" show="loan" /> | <VaFundingFee use="subsequent" down="0" show="rate" /> | <VaFundingFee price="350000" use="subsequent" down="0" /> |
+| First use, 5% down | $350,000 | <VaFundingFee price="350000" use="first" down="5" show="down" /> | <VaFundingFee price="350000" use="first" down="5" show="loan" /> | <VaFundingFee use="first" down="5" show="rate" /> | <VaFundingFee price="350000" use="first" down="5" /> |
+| First use, 10% down | $350,000 | <VaFundingFee price="350000" use="first" down="10" show="down" /> | <VaFundingFee price="350000" use="first" down="10" show="loan" /> | <VaFundingFee use="first" down="10" show="rate" /> | <VaFundingFee price="350000" use="first" down="10" /> |
+| IRRRL | — | — | $300,000 | <VaFundingFee type="irrrl" show="rate" /> | <VaFundingFee type="irrrl" loan="300000" /> |
 
 First and subsequent use produce identical fees at 5% and 10% down — the higher subsequent-use rate only applies at less than 5% down.
 
-<CalculatorCallout calculator="va-loan" text="Run the numbers on your specific loan amount, down payment, and funding fee rate — including whether a disability exemption applies." />
+<CalculatorCallout calculator="va-loan" text="Run the numbers on your specific loan amount, down payment, and funding fee rate — including whether an exemption applies." />
 
 ## 2026 VA funding fee rates: refinance loans
 
-**IRRRL (VA Streamline Refinance):** 0.50% — this is the lowest funding fee of any VA loan type, and it applies regardless of first or subsequent use.
+**IRRRL (VA Streamline Refinance):** <VaFundingFee type="irrrl" show="rate" /> — the same rate on first or subsequent use, and lower than any purchase or cash-out rate.
 
 **Cash-out refinance:**
 
 | Use | Fee % |
 |---|---|
-| First use | 2.15% |
-| Subsequent use | 3.30% |
+| First use | <VaFundingFee type="cashout" use="first" show="rate" /> |
+| Subsequent use | <VaFundingFee type="cashout" use="subsequent" show="rate" /> |
 
 **Other VA loan types:**
 
 | Loan Type | Fee % |
 |---|---|
-| Manufactured home (no land) | 1.00% |
-| Loan assumption | 0.50% |
-| Native American Direct Loan | 1.25% |
+| Manufactured home (not permanently affixed) | <VaFundingFee type="manufactured" show="rate" /> |
+| Loan assumption | <VaFundingFee type="assumption" show="rate" /> |
 
 For the full mechanics of VA loan assumptions — including what happens to the seller's entitlement, how buyers qualify, and when an assumption makes financial sense — see [VA Loan Assumptions Explained](/blog/va-loan-assumptions-explained).
 
 ## Who is exempt from the VA funding fee
 
-These groups pay $0 in funding fee, regardless of loan type, use count, or loan amount:
+VA's rule: you won't have to pay a VA funding fee if any of these is true for you:
 
-- **Veterans who are entitled to receive VA compensation for a service-connected disability**, including some who would receive compensation if they were not receiving retirement or active-duty pay instead — the most common exemption. The exemption is commonly verified through the COE and lender process, but confirm the exemption appears correctly on your Loan Estimate and Closing Disclosure before closing.
-- **Active-duty service members who have a proposed or memorandum rating for a service-connected disability** prior to the loan closing date
-- **Active-duty Purple Heart recipients** — must provide documentation showing the award before closing
-- **Surviving spouses** receiving Dependency and Indemnity Compensation (DIC) for a veteran who died in service or from a service-connected disability
+- **You're receiving VA compensation for a service-connected disability** — the most common exemption
+- **You're eligible to receive VA compensation for a service-connected disability, but you're receiving retirement or active-duty pay instead**
+- **You're receiving Dependency and Indemnity Compensation (DIC)** as the surviving spouse of a Veteran
+- **You're a service member who has received a proposed or memorandum rating before the loan closing date** that says you're eligible to get compensation because of a pre-discharge claim
+- **You're an active-duty member of the Armed Forces, and on or before your loan closing date you provide evidence that you received a Purple Heart**
 
-**The financial impact is significant.** On a $350,000 first-use purchase loan, exemption eliminates $7,525. On a subsequent-use loan at the same amount, exemption eliminates $11,550.
+**What the exemption is worth.** On a $350,000 first-use purchase loan with no down payment, the exemption removes a <VaFundingFee price="350000" use="first" down="0" /> fee. On a subsequent-use loan at the same amount, it removes <VaFundingFee price="350000" use="subsequent" down="0" />.
 
-If you have a service-connected disability rating — even 10% — and are considering a VA loan, confirm your exemption status with your lender before closing. A pending claim can affect this.
+The exemption follows compensation, not a rating number: a 0% rating pays no compensation, so on its own it doesn't exempt anyone. If your disability claim is still pending at closing, the fee is charged at closing — VA's refund rule (below) may apply later.
 
-<CalculatorCallout calculator="va-disability" text="Estimate your VA disability rating and compensation — including whether your rating qualifies you for a funding fee exemption." />
+<CalculatorCallout calculator="va-disability" text="Estimate your combined VA disability rating and the compensation that goes with it. VA's funding fee exemption follows compensation, not the rating number." />
 
 ## What happens if your disability claim is pending at closing
 
-Veterans who are later awarded VA disability compensation with an effective date before the loan closing date may be eligible for a funding fee refund.
+VA's refund rule: you may be eligible for a refund of the VA funding fee if you're later awarded VA compensation for a service-connected disability. The effective date of your VA compensation must be retroactive to before the date of your loan closing.
 
 This applies when:
 1. You paid the funding fee at closing (or it was rolled into the loan)
 2. Your disability compensation was later approved
 3. The effective date of the award predates your loan closing
 
-In this case, contact your lender and VA. The refund process involves VA verifying the effective date and issuing a refund — typically back to you directly if you paid at closing, or applied to your principal if it was financed.
-
-If you have a disability claim in process and a VA loan closing approaching, consider whether delaying the closing until the claim is decided could eliminate the fee entirely rather than trigger a refund process later. See [File Your VA Disability Claim Before You Separate](/blog/file-va-disability-before-separation) for guidance on the timing of disability claims.
+One timing rule cuts the other way: if you get a proposed or memorandum rating after your loan closing date, you still pay the funding fee, and that rating doesn't qualify you for a refund. A proposed or memorandum rating dated before closing is on VA's exemption list (above). See [File Your VA Disability Claim Before You Separate](/blog/file-va-disability-before-separation) for how the timing of disability claims works.
 
 ## Rolling the fee into the loan vs. paying at closing
 
-Most borrowers roll the funding fee into the loan. The VA allows this, and it's common because it eliminates one more line item from cash needed to close.
+You can roll the funding fee into the loan instead of paying it at closing. Rolling it in removes one more line item from the cash needed to close.
 
 **The tradeoff:** Rolling the fee in increases your loan balance and your monthly payment for the life of the loan.
 
 **Example — $350,000 purchase, first use, $0 down:**
-- Funding fee: $7,525 (2.15%)
-- Loan amount if financed: $357,525
-- At 6.5% for 30 years, the additional $7,525 costs roughly **$47/month more** in principal and interest
-- Over 30 years, you'd pay approximately **$16,920 total** for that $7,525 fee
+- Funding fee: <VaFundingFee price="350000" use="first" down="0" /> (<VaFundingFee use="first" down="0" show="rate" />)
+- Loan amount if financed: <VaFundingFee price="350000" use="first" down="0" show="financed" />
+- At 6.5% for 30 years, the financed fee adds about **<VaFundingFee price="350000" use="first" down="0" show="monthly" interest="6.5" years="30" />/month** in principal and interest
+- Over 30 years, those payments total about **<VaFundingFee price="350000" use="first" down="0" show="totalPaid" interest="6.5" years="30" />** for that <VaFundingFee price="350000" use="first" down="0" /> fee
 
-There is no penalty for choosing one approach over the other, but financing the fee increases the loan balance and total interest paid over the life of the loan. If you have the cash and plan to stay long-term, paying at closing costs less overall. If cash is tight or the home is a shorter hold, financing the fee is reasonable.
+Paying at closing means a lower loan balance and less total interest; financing keeps more cash on hand. Which matters more depends on your cash, your rate, and how long you keep the loan.
 
 ## What can be rolled into a VA loan
 
-On a VA purchase loan, the funding fee can usually be financed into the loan. Other closing costs — appraisal, title, escrow, prepaids, recording fees, discount points, inspections, and lender charges — generally need to be paid at closing or covered through seller credits, lender credits, or other negotiated concessions. On IRRRLs, more costs may be includable in the new loan balance, but the tradeoff is a higher balance and more total interest.
+On a VA purchase loan, the funding fee can be rolled into the loan. Whether other closing costs — appraisal, title, escrow, prepaids, recording fees, discount points, inspections, and lender charges — can be financed or covered by seller or lender credits depends on the loan type and on VA's and your lender's rules. Ask your lender which costs on your Loan Estimate are financed and which are due at closing.
 
 ## How a down payment reduces the fee
 
 The 5% threshold matters most for subsequent-use borrowers.
 
-**First-use borrower:** Going from 0% to 5% down reduces the fee from 2.15% on $350,000 to 1.50% on $332,500 — from $7,525 to $4,988, saving roughly **$2,537 on the fee** — but you're also committing $17,500 in cash. For many first-use borrowers, the fee savings alone may not justify using $17,500 of cash for a 5% down payment. The decision depends on reserves, rate, monthly payment, and how long you plan to keep the home.
+**First-use borrower:** Going from 0% to 5% down reduces the fee from <VaFundingFee use="first" down="0" show="rate" /> on <VaFundingFee price="350000" use="first" down="0" show="loan" /> to <VaFundingFee use="first" down="5" show="rate" /> on <VaFundingFee price="350000" use="first" down="5" show="loan" /> — from <VaFundingFee price="350000" use="first" down="0" /> to <VaFundingFee price="350000" use="first" down="5" />, saving roughly **<VaFundingFee price="350000" use="first" down="5" vsDown="0" /> on the fee** — but you're also committing <VaFundingFee price="350000" use="first" down="5" show="down" /> in cash. Whether that trade is worth it depends on reserves, rate, monthly payment, and how long you plan to keep the home.
 
-**Subsequent-use borrower:** Going from 0% to 5% down reduces the fee from 3.30% on $350,000 to 1.50% on $332,500 — from $11,550 to $4,988, saving roughly **$6,562 on the fee**. A $17,500 down payment that saves $6,562 in fees and reduces the loan balance by $17,500 is meaningfully different math. The net cost of that down payment drops significantly.
+**Subsequent-use borrower:** Going from 0% to 5% down reduces the fee from <VaFundingFee use="subsequent" down="0" show="rate" /> on <VaFundingFee price="350000" use="subsequent" down="0" show="loan" /> to <VaFundingFee use="subsequent" down="5" show="rate" /> on <VaFundingFee price="350000" use="subsequent" down="5" show="loan" /> — from <VaFundingFee price="350000" use="subsequent" down="0" /> to <VaFundingFee price="350000" use="subsequent" down="5" />, saving roughly **<VaFundingFee price="350000" use="subsequent" down="5" vsDown="0" /> on the fee**. A <VaFundingFee price="350000" use="subsequent" down="5" show="down" /> down payment that saves <VaFundingFee price="350000" use="subsequent" down="5" vsDown="0" /> in fees and reduces the loan balance by <VaFundingFee price="350000" use="subsequent" down="5" show="down" /> is meaningfully different math.
 
-The 10% threshold saves an additional 0.25% over the 5% rate. Going from 5% down to 10% down changes the base from $332,500 to $315,000 — the fee drops from $4,988 to $3,938, a savings of roughly **$1,050** — not typically the deciding factor.
+The 10% threshold lowers the rate to <VaFundingFee use="first" down="10" show="rate" /> from <VaFundingFee use="first" down="5" show="rate" />. Going from 5% down to 10% down changes the base from <VaFundingFee price="350000" use="first" down="5" show="loan" /> to <VaFundingFee price="350000" use="first" down="10" show="loan" /> — the fee drops from <VaFundingFee price="350000" use="first" down="5" /> to <VaFundingFee price="350000" use="first" down="10" />, a difference of roughly **<VaFundingFee price="350000" use="first" down="10" vsDown="5" />**.
 
-## The IRRRL: the lowest-fee VA loan
+## The IRRRL funding fee
 
-If you already have a VA loan and rates have dropped, the IRRRL (Interest Rate Reduction Refinance Loan) carries a 0.50% funding fee — the lowest available. On a $300,000 remaining balance, that's $1,500.
+If you already have a VA loan and rates have dropped, the IRRRL (Interest Rate Reduction Refinance Loan) carries a <VaFundingFee type="irrrl" show="rate" /> funding fee — the same rate as a loan assumption, and lower than any purchase or cash-out rate. On a $300,000 remaining balance, that's <VaFundingFee type="irrrl" loan="300000" />.
 
-VA generally does not require a new appraisal or full credit underwriting package for an IRRRL, though individual lenders may have their own documentation requirements or overlays. See the [VA Refinance Calculator](/calculators/va-refinance) to estimate monthly savings and break-even point.
+VA generally doesn't require an appraisal or credit underwriting for an IRRRL. Lenders can still require them under their own rules. See the [VA Refinance Calculator](/calculators/va-refinance) to estimate monthly savings and the months to recover closing costs.
 
 ## Where to verify the funding fee on your loan documents
 
@@ -144,7 +145,7 @@ Look for the VA funding fee on your Loan Estimate (when shopping) and Closing Di
 
 ## The bottom line
 
-The funding fee is real money — $7,525 to $11,550 on a mid-range purchase loan — and it's worth understanding exactly what applies to your situation before closing. The two things that can eliminate or reduce it significantly: a qualifying disability exemption (check this first), or a down payment of 5% or more if you're a subsequent-use borrower.
+The funding fee is real money — on a $350,000 purchase with no down payment, <VaFundingFee price="350000" use="first" down="0" /> on first use or <VaFundingFee price="350000" use="subsequent" down="0" /> after first use — and it's worth understanding exactly what applies to your situation before closing. The two things that can eliminate or reduce it significantly: an exemption on VA's list, or a down payment of 5% or more if you're a subsequent-use borrower.
 
 For the full picture on using the VA loan benefit, see the [VA Home Loans Guide](/guides/va-home-loans) and the [VA Home Loan Calculator](/calculators/va-loan).
 

@@ -5,12 +5,40 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
+import { formatCurrency } from '@/lib/utils';
+import { calcVaLoan, VA_LOAN_DEFAULTS } from '@/lib/calculations/vaLoan';
+import {
+  FUNDING_FEE_RATES_EFFECTIVE,
+  VA_CASH_OUT_FUNDING_FEE,
+  VA_IRRRL_FUNDING_FEE,
+  VA_PURCHASE_FUNDING_FEE as FEE,
+  feeRateLabel as pct,
+  fundingFeeAmount,
+} from '@/lib/calculations/vaLoanFees';
+import { IRRRL_MIN_RATE_DROP_BPS } from '@/lib/calculations/vaRefinance';
 
 const TITLE = 'VA Home Loan Guide: Eligibility & Funding Fee';
 const DESC =
   'VA home loan eligibility, the funding fee and its disability exemption, entitlement and reuse, and how BAH factors into affordability. No account required.';
 const CANONICAL = '/guides/va-home-loans';
 const DATE = '2026-05-27';
+/** Last factual review (build V3: fee figures computed, VA's exemption list, COE, IRRRL wording). Drives "Last reviewed" and dateModified. */
+const UPDATED = '2026-11-21';
+
+// ── Figures (build V3): every funding fee rate and dollar amount below comes from the
+// fee table (src/lib/calculations/vaLoanFees.ts) or the VA loan calculator's own math
+// (src/lib/calculations/vaLoan.ts, its default inputs). Nothing is typed by hand.
+const usd = (n: number) => formatCurrency(n);
+const usdK = (n: number) => `$${Math.round(n / 1000)}K`;
+/** The sample card: the VA loan calculator's defaults (first use, $0 down, fee financed, no exemption). */
+const EX = calcVaLoan(VA_LOAN_DEFAULTS);
+/** E-5 with dependents, Fort Bragg area, 2026 BAH: typed (J1, FIX_QUEUE row 11f, will compute it). */
+const SAMPLE_BAH_E5_FORT_BRAGG = 1806;
+const SAMPLE_BAH_COVERS = Math.round((SAMPLE_BAH_E5_FORT_BRAGG / EX.totalPITI) * 100);
+/** Funding fee examples on a $400,000 home with $0 down. */
+const EX400 = 400000;
+const IRRRL_FEE = pct(VA_IRRRL_FUNDING_FEE);
+const COE_URL = 'https://www.va.gov/housing-assistance/home-loans/how-to-request-coe/';
 const OG_IMAGE = ogImage({ type: 'guide', title: 'VA Home Loans Guide 2026', sub: 'Eligibility, funding fee, disability waiver, and payments' });
 
 export const metadata: Metadata = {
@@ -41,37 +69,37 @@ const FAQS = [
   {
     question: 'Who qualifies for a VA home loan?',
     answer:
-      'Active-duty service members generally meet the minimum service requirement after 90 continuous days of service. Veterans have eligibility rules that depend on service period, length of service, and discharge character. Guard and Reserve members may qualify through six years of service, qualifying active-duty service, or certain Title 32 service — the COE process confirms eligibility. Surviving spouses of veterans who died in service or from a service-connected disability may also be eligible. The benefit does not expire and can be used multiple times with entitlement restoration.',
+      'Active-duty service members, Veterans, Guard and Reserve members, and some surviving spouses of veterans who died in service or from a service-connected disability can be eligible. The rules depend on when and how long you served and, for Veterans, on discharge character. The Certificate of Eligibility (COE) confirms eligibility for a lender; VA lists three ways to request one: online, through your lender, or by mail with VA Form 26-1880. The benefit does not expire and can be used multiple times with entitlement restoration.',
   },
   {
     question: 'How does the VA funding fee work?',
     answer:
-      'The VA funding fee is a one-time payment to the Department of Veterans Affairs that helps sustain the loan program. It ranges from 1.25% to 3.30% of the loan amount depending on whether it is your first or subsequent use and your down payment. First use with no down payment: 2.15%. Subsequent use with no down payment: 3.30%. Putting 5%–9.99% down reduces the fee to 1.50% for both groups; 10%+ reduces it to 1.25%. The fee can be financed into the loan or paid at closing.',
+      `The VA funding fee is a one-time payment to the Department of Veterans Affairs. On a purchase it ranges from ${pct(FEE.first.gte10)} to ${pct(FEE.subsequent.lt5)} of the loan amount depending on whether it is your first or subsequent use and your down payment. First use with no down payment: ${pct(FEE.first.lt5)}. Subsequent use with no down payment: ${pct(FEE.subsequent.lt5)}. Putting 5%–9.99% down reduces the fee to ${pct(FEE.first.gte5lt10)} for both groups; 10%+ reduces it to ${pct(FEE.first.gte10)}. The fee can be financed into the loan or paid at closing. VA's current rates took effect ${FUNDING_FEE_RATES_EFFECTIVE}.`,
   },
   {
     question: 'Who is exempt from the VA funding fee?',
     answer:
-      'Many borrowers are exempt from the VA funding fee, including those receiving or eligible to receive VA disability compensation, certain pre-discharge situations, active-duty Purple Heart recipients, and eligible surviving spouses. Confirm exemption status on your COE and with your lender before closing. If a disability rating is later awarded with an effective date before closing, a retroactive refund may be available.',
+      "VA's rule: you don't pay the funding fee if any of these is true. (1) You receive VA compensation for a service-connected disability. (2) You're eligible for that compensation but receive retirement or active-duty pay instead. (3) You receive Dependency and Indemnity Compensation (DIC) as the surviving spouse of a Veteran. (4) You're a service member with a proposed or memorandum rating, dated before closing, that says you're eligible for compensation because of a pre-discharge claim. (5) You're on active duty and, on or before closing, provide evidence that you received a Purple Heart. The exemption follows compensation, not a rating number. If VA later awards you compensation with an effective date before your closing date, you may be eligible for a refund.",
   },
   {
     question: 'Does no down payment mean no cash needed at closing?',
     answer:
-      'No. Even with $0 down, a VA purchase loan typically requires cash for earnest money, home inspection, appraisal, prepaid property taxes and insurance, lender origination and title fees, and moving costs. The funding fee can be financed, but most other closing costs cannot. Seller credits and lender credits can reduce cash needed, and VA allows sellers to contribute toward closing costs — but plan for real cash requirements before signing a purchase contract.',
+      'No. Even with $0 down, a VA purchase loan typically requires cash for earnest money, home inspection, appraisal, prepaid property taxes and insurance, lender origination and title fees, and moving costs. The funding fee can be financed; whether other closing costs can be financed depends on VA’s and your lender’s rules. Seller credits and lender credits can reduce cash needed, and VA allows sellers to contribute toward closing costs — but plan for real cash requirements before signing a purchase contract.',
   },
   {
     question: 'Can I use my VA loan benefit more than once?',
     answer:
-      'Yes. The VA loan can be used multiple times. After paying off a previous VA loan and selling the property, full entitlement can be restored. There is also a one-time restoration option even if you keep the property. Without full entitlement restoration, the subsequent-use funding fee is higher (3.30% vs 2.15% with $0 down). A service-connected disability exemption applies on every use. Entitlement determines the guarantee amount, not the loan limit — lenders still qualify borrowers based on income, debts, and credit.',
+      `Yes. The VA loan can be used multiple times. After paying off a previous VA loan and selling the property, full entitlement can be restored. There is also a one-time restoration option even if you keep the property. After your first use, the funding fee with less than 5% down is ${pct(FEE.subsequent.lt5)} instead of ${pct(FEE.first.lt5)}. Veterans receiving VA disability compensation don't pay the funding fee on any use. Entitlement determines the guarantee amount, not the loan limit — lenders still qualify borrowers based on income, debts, and credit.`,
   },
   {
     question: 'How does BAH factor into a VA loan?',
     answer:
-      'BAH is excluded from federal taxable income but is counted as income for VA loan qualification purposes. At many duty stations, BAH covers a meaningful portion of an estimated monthly payment. However, BAH can change if you PCS, change dependency status, or separate from service. Size the mortgage conservatively — not at the edge of what current BAH covers — and plan for the scenario where BAH decreases or stops.',
+      'BAH is excluded from federal taxable income but is counted as income for VA loan qualification purposes. How much of an estimated monthly payment BAH covers depends on the duty station. BAH can change if you PCS, change dependency status, or separate from service. Size the mortgage conservatively — not at the edge of what current BAH covers — and plan for the scenario where BAH decreases or stops.',
   },
   {
     question: 'What is the VA IRRRL (streamline refinance)?',
     answer:
-      'The Interest Rate Reduction Refinance Loan (IRRRL) lets existing VA loan borrowers refinance to a lower interest rate with significantly less paperwork than a standard refinance. It typically requires no appraisal and no income verification. The VA funding fee on an IRRRL is 0.5% — much lower than the purchase fee — and disability-rated veterans are exempt from it as well. The IRRRL must result in a lower interest rate, lower payment, or a transition from an adjustable to a fixed rate. It can only be used to refinance an existing VA loan.',
+      `The Interest Rate Reduction Refinance Loan (IRRRL) refinances an existing VA-backed home loan; it can't refinance any other loan. It may lower your monthly payment by getting you a lower interest rate, or move you from an adjustable rate to a fixed rate, which can make payments more stable. Fixed to fixed, the new rate must be at least ${IRRRL_MIN_RATE_DROP_BPS} basis points lower (38 U.S.C. § 3709(b)). VA generally doesn't require an appraisal or credit underwriting for an IRRRL. Lenders can still require them under their own rules. The VA funding fee on an IRRRL is ${IRRRL_FEE}, and borrowers on VA's exemption list don't pay it.`,
   },
 ];
 
@@ -87,7 +115,7 @@ const VA_BENEFITS = [
     bullets: [
       '$0 down for eligible borrowers',
       'No monthly mortgage insurance at any LTV',
-      'Conventional PMI runs ~$150–400/mo',
+      'Conventional loans under 20% down usually add PMI',
       'No prepayment penalty',
     ],
     cta: 'Estimate your payment →',
@@ -99,9 +127,9 @@ const VA_BENEFITS = [
     title: 'Funding fee — and who\'s exempt',
     description: 'A one-time fee to the VA, not your lender. Many are exempt.',
     bullets: [
-      'First use, $0 down: 2.15% of loan',
-      'Subsequent use: 3.30% of loan',
-      'Disability-rated veterans: $0 fee',
+      `First use, $0 down: ${pct(FEE.first.lt5)} of loan`,
+      `Subsequent use, $0 down: ${pct(FEE.subsequent.lt5)} of loan`,
+      'Receiving VA disability compensation: $0 fee',
       'Can finance into loan or pay at closing',
     ],
     cta: 'See your funding fee →',
@@ -113,12 +141,12 @@ const VA_BENEFITS = [
     accent: 'bg-emerald-600',
     label: 'Feature 3',
     title: 'VA Streamline Refinance (IRRRL)',
-    description: 'Already have a VA loan? The IRRRL lets you lower your rate with minimal paperwork.',
+    description: 'Already have a VA loan? An IRRRL may lower your rate and monthly payment.',
     bullets: [
-      'No appraisal typically required',
-      'No income verification in most cases',
-      'Must result in lower payment or shorter term',
-      'Available to veterans and active duty',
+      'Refinances an existing VA loan only',
+      `Fixed to fixed: new rate at least ${IRRRL_MIN_RATE_DROP_BPS} basis points lower`,
+      'Can move an adjustable rate to a fixed rate',
+      'VA generally requires no appraisal or credit underwriting (lenders may)',
     ],
     cta: 'Estimate your refinance savings →',
     href: '/calculators/va-refinance',
@@ -133,8 +161,8 @@ const ACCORDION = [
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
-          <strong className="text-zinc-800">Active-duty service members</strong> generally meet
-          the minimum service requirement after 90 continuous days of service.
+          <strong className="text-zinc-800">Active-duty service members</strong> can be eligible
+          once they meet VA&apos;s minimum service requirement.
         </p>
         <p>
           <strong className="text-zinc-800">Veterans</strong> have eligibility rules that depend
@@ -143,8 +171,8 @@ const ACCORDION = [
         </p>
         <p>
           <strong className="text-zinc-800">Guard and Reserve members</strong> may qualify through
-          six years of service, qualifying active-duty service, or certain Title 32 service.
-          Because the rules depend on orders and discharge status, use the COE process to confirm.
+          years of service or qualifying active-duty orders. Because the rules depend on orders
+          and discharge status, use the COE process to confirm.
         </p>
         <p>
           <strong className="text-zinc-800">Surviving spouses</strong> — an unmarried surviving
@@ -157,16 +185,17 @@ const ACCORDION = [
         </p>
         <p>
           <strong className="text-zinc-800">Your Certificate of Eligibility (COE) is what
-          confirms eligibility for a lender.</strong> Apply through VA.gov, your lender (many
-          can pull it electronically in minutes), or by mail.
+          confirms eligibility for a lender.</strong> VA lists three ways to request one: online,
+          through your lender (the lender may use VA&apos;s Web LGY system), or by mail with VA
+          Form 26-1880.
         </p>
         <a
-          href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan"
+          href={COE_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors"
         >
-          Apply for your COE at VA.gov →
+          How to request a COE (VA.gov) →
         </a>
       </div>
     ),
@@ -177,11 +206,11 @@ const ACCORDION = [
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
           The VA funding fee is a one-time payment paid to the Department of Veterans Affairs
-          — not to the lender. It helps sustain the VA loan program. It is not a monthly
+          — not to the lender. It is not a monthly
           insurance premium and does not accrue interest on its own, though financing it adds
           to your loan balance and total interest paid.
         </p>
-        <p><strong className="text-zinc-800">2026 purchase loan funding fee rates:</strong></p>
+        <p><strong className="text-zinc-800">Purchase loan funding fee rates (2026):</strong></p>
         <div className="overflow-x-auto rounded-md border border-zinc-200">
           <table className="w-full text-sm">
             <thead>
@@ -194,31 +223,29 @@ const ACCORDION = [
             <tbody className="divide-y divide-zinc-100">
               <tr>
                 <td className="px-4 py-2 text-zinc-600">Less than 5%</td>
-                <td className="px-4 py-2 font-medium text-zinc-800">2.15%</td>
-                <td className="px-4 py-2 font-medium text-zinc-800">3.30%</td>
+                <td className="px-4 py-2 font-medium text-zinc-800">{pct(FEE.first.lt5)}</td>
+                <td className="px-4 py-2 font-medium text-zinc-800">{pct(FEE.subsequent.lt5)}</td>
               </tr>
               <tr>
                 <td className="px-4 py-2 text-zinc-600">5% to 9.99%</td>
-                <td className="px-4 py-2 font-medium text-zinc-800">1.50%</td>
-                <td className="px-4 py-2 font-medium text-zinc-800">1.50%</td>
+                <td className="px-4 py-2 font-medium text-zinc-800">{pct(FEE.first.gte5lt10)}</td>
+                <td className="px-4 py-2 font-medium text-zinc-800">{pct(FEE.subsequent.gte5lt10)}</td>
               </tr>
               <tr>
                 <td className="px-4 py-2 text-zinc-600">10% or more</td>
-                <td className="px-4 py-2 font-medium text-zinc-800">1.25%</td>
-                <td className="px-4 py-2 font-medium text-zinc-800">1.25%</td>
+                <td className="px-4 py-2 font-medium text-zinc-800">{pct(FEE.first.gte10)}</td>
+                <td className="px-4 py-2 font-medium text-zinc-800">{pct(FEE.subsequent.gte10)}</td>
               </tr>
             </tbody>
           </table>
         </div>
         <p>
-          On a $400,000 home with $0 down: first use fee = $8,600. Subsequent use fee = $13,200.
+          {`On a ${usd(EX400)} home with $0 down: first use fee = ${usd(fundingFeeAmount(EX400, FEE.first.lt5))}. Subsequent use fee = ${usd(fundingFeeAmount(EX400, FEE.subsequent.lt5))}.`}{' '}
           Both are one-time costs, not monthly charges. Financing the fee reduces upfront cash
           but increases your loan balance and total interest.
         </p>
         <p className="text-xs text-zinc-400">
-          Rates effective through November 14, 2031, per the Blue Water Navy Vietnam Veterans
-          Act of 2019 (Public Law 116-23). Refinance loan rates (IRRRL, Cash-Out) differ —
-          verify current rates at VA.gov.
+          {`VA's current rates took effect ${FUNDING_FEE_RATES_EFFECTIVE}. Refinance loans have their own rates: IRRRL ${IRRRL_FEE}; cash-out ${pct(VA_CASH_OUT_FUNDING_FEE.first)} on first use, ${pct(VA_CASH_OUT_FUNDING_FEE.subsequent)} after first use.`}
         </p>
         <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Calculate your funding fee →
@@ -231,25 +258,26 @@ const ACCORDION = [
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
-          Many borrowers are exempt from the VA funding fee, including:
+          VA&apos;s rule: you don&apos;t pay the funding fee if any of these is true for you:
         </p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li>Veterans receiving or eligible to receive VA compensation for a service-connected disability</li>
-          <li>Veterans in a pre-discharge claim situation who are found entitled to disability compensation</li>
-          <li>Active-duty Purple Heart recipients</li>
-          <li>Eligible surviving spouses receiving Dependency and Indemnity Compensation (DIC)</li>
+          <li>You receive VA compensation for a service-connected disability</li>
+          <li>You&apos;re eligible for that compensation but receive retirement or active-duty pay instead</li>
+          <li>You receive Dependency and Indemnity Compensation (DIC) as the surviving spouse of a Veteran</li>
+          <li>You&apos;re a service member with a proposed or memorandum rating, dated before closing, that says you&apos;re eligible for compensation because of a pre-discharge claim</li>
+          <li>You&apos;re on active duty and, on or before closing, provide evidence that you received a Purple Heart</li>
         </ul>
         <p>
-          A qualifying disability exemption — commonly because the borrower receives or is eligible to receive VA disability compensation — waives the funding fee entirely. Always{' '}
-          <strong className="text-zinc-800">confirm your exemption status on your Certificate
-          of Eligibility and with your lender before closing.</strong> The exemption should
-          appear on your COE — do not assume it applies without verification.
+          The exemption follows compensation, not a rating number: a 0% rating pays no
+          compensation, so on its own it doesn&apos;t exempt anyone.{' '}
+          <strong className="text-zinc-800">Check that your Loan Estimate and Closing Disclosure
+          show the fee the way you expect before closing.</strong>
         </p>
         <p>
-          <strong className="text-zinc-800">If you receive a disability rating after closing</strong>{' '}
-          with an effective date before closing, you may be eligible for a funding fee refund.
-          Contact the VA or your lender to request one — this situation is more common than
-          many veterans realize.
+          <strong className="text-zinc-800">Refunds:</strong>{' '}VA&apos;s rule: if you paid the fee
+          and VA later awards you compensation with an effective date before your loan&apos;s
+          closing date, you may be eligible for a refund. A proposed or memorandum rating
+          received after closing doesn&apos;t qualify for a refund.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 pt-1">
           <Link href="/calculators/va-disability" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
@@ -269,15 +297,15 @@ const ACCORDION = [
         <p><strong className="text-zinc-800">Situations where VA often has advantages:</strong></p>
         <ul className="space-y-1 pl-4 list-disc">
           <li>Limited cash for down payment — VA allows no down payment where conventional requires 3–20%</li>
-          <li>Low down payment scenarios — conventional PMI adds $150–$400/month until 20% equity is reached</li>
-          <li>Disability exemption applies — no funding fee means lower upfront costs than most loan types</li>
+          <li>Low down payment scenarios — conventional loans with less than 20% down usually add PMI until enough equity builds</li>
+          <li>You&apos;re exempt from the funding fee — VA&apos;s main upfront cost is gone</li>
           <li>Long hold period — the no-PMI advantage compounds over time</li>
         </ul>
         <p><strong className="text-zinc-800">Situations where conventional may be worth comparing:</strong></p>
         <ul className="space-y-1 pl-4 list-disc">
           <li>20%+ down payment — no PMI either way, and the VA funding fee adds upfront cost</li>
           <li>Short hold period — the funding fee may not be recovered if you sell within 1–2 years</li>
-          <li>Subsequent use without exemption — the 3.30% fee versus a conventional option is worth modeling</li>
+          <li>Subsequent use without exemption — the {pct(FEE.subsequent.lt5)} fee (less than 5% down) versus a conventional option is worth modeling</li>
           <li>Property condition — VA appraisal requirements may complicate purchases of distressed homes</li>
           <li>Investment property or vacation home — VA requires primary residence occupancy</li>
         </ul>
@@ -304,9 +332,9 @@ const ACCORDION = [
           how much you can borrow.
         </p>
         <p>
-          At affordable duty stations, BAH often covers a meaningful portion of a mortgage
-          payment. Use the VA Loan Payment Calculator&apos;s BAH comparison feature to see
-          what percentage of your estimated payment your current BAH covers.
+          How much of a mortgage payment BAH covers depends on the duty station. Use the VA
+          Loan Payment Calculator&apos;s BAH comparison feature to see what percentage of your
+          estimated payment your current BAH covers.
         </p>
         <p>
           <strong className="text-zinc-800">Budget conservatively.</strong> BAH can help
@@ -318,7 +346,7 @@ const ACCORDION = [
           of what BAH covers.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 pt-1">
-          <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+          <Link href="/calculators/va-loan?bah=yes" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
             Compare BAH to your estimated payment →
           </Link>
           <Link href="/bah" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
@@ -337,8 +365,8 @@ const ACCORDION = [
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
           No down payment does not mean no cash at closing. The VA funding fee can be financed
-          into the loan, but most other closing costs on a purchase loan cannot.
-          Even with $0 down, plan for:
+          into the loan; whether other closing costs can be financed depends on VA&apos;s and your
+          lender&apos;s rules. Even with $0 down, plan for:
         </p>
         <ul className="space-y-1 pl-4 list-disc">
           <li>Earnest money deposit (refundable if contract falls through under most contingencies, but due at contract)</li>
@@ -347,7 +375,7 @@ const ACCORDION = [
           <li>Prepaid property taxes and homeowner&apos;s insurance</li>
           <li>Lender origination and title/recording fees</li>
           <li>Optional discount points</li>
-          <li>Reserves after closing (some lenders require 2–3 months of payments in savings)</li>
+          <li>Reserves after closing (some lenders require a set number of payments in savings)</li>
           <li>Repairs, furniture, and move-in costs</li>
         </ul>
         <p>
@@ -381,9 +409,8 @@ const ACCORDION = [
           <li><strong className="text-zinc-800">One-time restoration:</strong> Pay off the loan even if you keep the property — available once</li>
         </ul>
         <p>
-          The subsequent-use funding fee (3.30% with $0 down) applies when using the benefit
-          again without full entitlement restoration. A disability exemption waives this fee
-          when it applies.
+          {`After your first use, the funding fee with less than 5% down is ${pct(FEE.subsequent.lt5)} instead of ${pct(FEE.first.lt5)}.`}{' '}
+          Veterans receiving VA disability compensation don&apos;t pay the funding fee on any use.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 pt-1">
           <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
@@ -397,7 +424,7 @@ const ACCORDION = [
     ),
   },
   {
-    question: 'When a VA loan may not be the best option',
+    question: 'When to compare other loan types',
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
@@ -407,12 +434,12 @@ const ACCORDION = [
         <ul className="space-y-1 pl-4 list-disc">
           <li>You have 20% or more for a down payment — conventional avoids PMI too, and has no funding fee</li>
           <li>You expect to sell within 1–2 years — closing costs and the funding fee may not be recovered before you sell</li>
-          <li>Your funding fee is not waived and a conventional loan with PMI is cheaper in total over your expected hold period</li>
+          <li>You aren&apos;t exempt from the funding fee and a conventional loan with PMI is cheaper in total over your expected hold period</li>
           <li>The property has condition issues that may complicate VA appraisal requirements (VA appraisals have minimum property standards)</li>
           <li>You are buying a second home or investment property — VA requires the home to be your primary residence</li>
         </ul>
         <p>
-          The best approach is to get actual Loan Estimates from both VA-approved and
+          One way to compare is to get actual Loan Estimates from both VA-approved and
           conventional lenders, then compare total upfront costs, monthly payment, and
           break-even timeline side by side. The calculator on this site gives you a baseline
           to start from.
@@ -430,17 +457,16 @@ const ACCORDION = [
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
           The Interest Rate Reduction Refinance Loan — commonly called the IRRRL or
-          &ldquo;streamline refinance&rdquo; — lets existing VA loan borrowers refinance to a lower
-          interest rate with significantly less paperwork than a standard refinance.
+          &ldquo;streamline refinance&rdquo; — refinances an existing VA-backed home loan. It may
+          lower your monthly payment by getting you a lower interest rate.
         </p>
         <p><strong className="text-zinc-800">Key features:</strong></p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li>Typically no appraisal required</li>
-          <li>No income verification or debt-to-income calculation in most cases</li>
-          <li>Closing costs can often be rolled into the new loan</li>
-          <li>Must result in a lower interest rate, lower payment, or transition from an adjustable-rate to a fixed-rate mortgage</li>
-          <li>VA funding fee on an IRRRL: 0.5% of the loan amount (much lower than a purchase fee)</li>
-          <li>Disability-rated veterans are exempt from the IRRRL funding fee as well</li>
+          <li>VA generally doesn&apos;t require an appraisal or credit underwriting for an IRRRL. Lenders can still require them under their own rules.</li>
+          <li>You must certify that you currently live in or used to live in the home covered by the loan</li>
+          <li>Fixed to fixed, the new rate must be at least {IRRRL_MIN_RATE_DROP_BPS} basis points lower; an IRRRL can also move you from an adjustable rate to a fixed rate, which can make payments more stable</li>
+          <li>VA funding fee on an IRRRL: {IRRRL_FEE} of the loan amount (lower than any purchase fee)</li>
+          <li>Borrowers on VA&apos;s funding fee exemption list don&apos;t pay the IRRRL funding fee either</li>
         </ul>
         <p>
           <strong className="text-zinc-800">Important:</strong> The IRRRL is only available
@@ -449,11 +475,13 @@ const ACCORDION = [
           Refinance, which has different requirements and a higher funding fee.
         </p>
         <p>
-          <strong className="text-zinc-800">When the IRRRL makes sense:</strong> If interest
-          rates have dropped since you got your VA loan, or if you have an adjustable-rate VA
-          loan you want to convert to a fixed rate. The low paperwork and no-appraisal process
-          makes it one of the fastest refinance options available.
+          <strong className="text-zinc-800">When an IRRRL is commonly considered:</strong> If
+          interest rates have dropped since you got your VA loan, or if you have an
+          adjustable-rate VA loan you want to move to a fixed rate.
         </p>
+        <Link href="/calculators/va-refinance" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+          Estimate an IRRRL with the VA refinance calculator →
+        </Link>
         <p className="text-xs text-zinc-400">
           MilPayTools does not provide refinance quotes or lender recommendations. Contact
           VA-approved lenders to compare IRRRL offers.
@@ -478,7 +506,7 @@ const RELATED_CALCULATORS = [
     border: 'border-l-purple-500',
     label: 'Calculator',
     title: 'VA Disability Calculator',
-    description: 'Calculate your combined rating — many disability-rated veterans are exempt from the funding fee.',
+    description: 'Calculate your combined rating — Veterans receiving VA disability compensation don\u2019t pay the funding fee.',
   },
   {
     href: '/bah',
@@ -562,7 +590,7 @@ const RELATED_ARTICLES = [
 export default function VAHomeLoansGuidePage() {
   return (
     <>
-      <JsonLdScript schema={articleSchema({ title: 'VA Home Loans Guide 2026', description: DESC, datePublished: DATE, url: CANONICAL })} />
+      <JsonLdScript schema={articleSchema({ title: 'VA Home Loans Guide 2026', description: DESC, datePublished: DATE, dateModified: UPDATED, url: CANONICAL })} />
       <JsonLdScript schema={faqPageSchema(FAQS)} />
 
       {/* ── Breadcrumb ── */}
@@ -604,10 +632,10 @@ export default function VAHomeLoansGuidePage() {
           <div className="rounded-lg bg-red-50 border border-red-200 px-5 py-4 mb-8 flex items-start gap-3">
             <div className="w-1 self-stretch rounded-full bg-red-500 flex-none" aria-hidden="true" />
             <p className="text-base font-semibold text-red-800 leading-snug">
-              Many VA borrowers are exempt from the funding fee — including veterans receiving
-              disability compensation. Confirm your exemption status on your{' '}
-              <span className="text-red-700">Certificate of Eligibility</span>{' '}
-              before closing. The exemption should appear there explicitly.
+              Veterans receiving VA disability compensation don&apos;t pay the funding fee, and
+              VA lists four other exemptions. Check how the fee appears on your{' '}
+              <span className="text-red-700">Loan Estimate</span>{' '}
+              before closing.
             </p>
           </div>
 
@@ -735,33 +763,33 @@ export default function VAHomeLoansGuidePage() {
                 <div className="bg-zinc-50 border-b border-zinc-200 px-5 py-3 flex items-center justify-between">
                   <div>
                     <p className="text-xs text-zinc-500 font-medium">E-5 · First use · Fort Bragg area, NC</p>
-                    <p className="text-sm font-semibold text-zinc-800">$350K home · $0 down · 6.0%</p>
+                    <p className="text-sm font-semibold text-zinc-800">{`${usdK(VA_LOAN_DEFAULTS.homePrice)} home · $0 down · ${VA_LOAN_DEFAULTS.rate.toFixed(1)}%`}</p>
                   </div>
                   <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">2026 rates</span>
                 </div>
                 <div className="px-5 py-1 divide-y divide-zinc-100">
                   <div className="flex items-center justify-between py-2.5">
-                    <span className="text-sm text-zinc-600">VA Funding Fee (2.15%)</span>
-                    <span className="text-sm font-mono tabular-nums text-zinc-800">$7,525 <span className="text-zinc-400 text-xs">one-time</span></span>
+                    <span className="text-sm text-zinc-600">{`VA Funding Fee (${pct(EX.fundingFeeRate)})`}</span>
+                    <span className="text-sm font-mono tabular-nums text-zinc-800" data-testid="guide-sample-fee">{usd(EX.fundingFeeAmount)} <span className="text-zinc-400 text-xs">one-time</span></span>
                   </div>
                   <div className="flex items-center justify-between py-2.5">
                     <span className="text-sm text-zinc-600">Monthly P&amp;I</span>
-                    <span className="text-sm font-mono tabular-nums text-zinc-800">$2,144<span className="text-zinc-400">/mo</span></span>
+                    <span className="text-sm font-mono tabular-nums text-zinc-800">{usd(EX.monthlyPI)}<span className="text-zinc-400">/mo</span></span>
                   </div>
                   <div className="flex items-center justify-between py-2.5">
                     <span className="text-sm text-zinc-600">Tax + Insurance</span>
-                    <span className="text-sm font-mono tabular-nums text-zinc-800">$467<span className="text-zinc-400">/mo</span></span>
+                    <span className="text-sm font-mono tabular-nums text-zinc-800">{usd(EX.monthlyTax + EX.monthlyIns)}<span className="text-zinc-400">/mo</span></span>
                   </div>
                 </div>
                 <div className="mx-5 my-3 rounded-lg bg-red-50 border border-red-200 px-4 py-3 flex items-center justify-between">
                   <div>
                     <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Est. Monthly PITI</p>
-                    <p className="text-2xl font-bold tabular-nums text-red-700">$2,611</p>
+                    <p className="text-2xl font-bold tabular-nums text-red-700" data-testid="guide-sample-piti">{usd(EX.totalPITI)}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-zinc-500">E-5 BAH (w/ dep.)</p>
-                    <p className="text-sm font-semibold text-zinc-700">$1,806/mo</p>
-                    <p className="text-xs text-emerald-700 font-semibold">covers 69%</p>
+                    <p className="text-sm font-semibold text-zinc-700">{usd(SAMPLE_BAH_E5_FORT_BRAGG)}/mo</p>
+                    <p className="text-xs text-emerald-700 font-semibold">{`covers ${SAMPLE_BAH_COVERS}%`}</p>
                   </div>
                 </div>
                 <div className="px-5 pb-4">
@@ -820,7 +848,7 @@ export default function VAHomeLoansGuidePage() {
             ))}
           </div>
 
-          <AuthorBio date={DATE} />
+          <AuthorBio date={UPDATED} />
 
           <div className="mt-8 pt-6 border-t border-zinc-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <Link href="/guides" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
@@ -848,9 +876,7 @@ export default function VAHomeLoansGuidePage() {
                 VA-approved lender for personalized loan information.
               </p>
               <p className="text-xs text-zinc-600 leading-relaxed">
-                Funding fee rates shown are effective as of 2026 and apply to purchase and
-                construction loans. Rates for refinance loans (IRRRL, Cash-Out) differ. Verify
-                current rates at VA.gov.
+                {`Funding fee rates shown are VA's current rates (effective ${FUNDING_FEE_RATES_EFFECTIVE}) for purchase and construction loans. Rates for refinance loans (IRRRL, cash-out) differ. Verify current rates at VA.gov.`}
               </p>
             </div>
           </div>

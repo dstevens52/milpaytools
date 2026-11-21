@@ -354,7 +354,7 @@ export function VARefinanceCalculator() {
         </div>
         <p className="text-xs text-zinc-500 mt-3">
           {refType === 'irrrl'
-            ? `IRRRL: Only for existing VA loans. No appraisal or income verification in most cases. Funding fee is ${feeRateLabel(VA_IRRRL_FUNDING_FEE)}. Must result in a lower rate (fixed to fixed: at least ${IRRRL_MIN_RATE_DROP_BPS} basis points lower) or a switch from an adjustable to a fixed rate.`
+            ? `IRRRL: Only for existing VA loans. VA generally doesn't require an appraisal or credit underwriting for an IRRRL. Lenders can still require them under their own rules. Funding fee is ${feeRateLabel(VA_IRRRL_FUNDING_FEE)}. Must result in a lower rate (fixed to fixed: at least ${IRRRL_MIN_RATE_DROP_BPS} basis points lower) or a switch from an adjustable to a fixed rate.`
             : `Cash-Out: Replaces any mortgage with a new VA loan. Can access equity. Requires full underwriting — appraisal, income, credit. Funding fee is higher (${feeRateLabel(VA_CASH_OUT_FUNDING_FEE.first)} first use / ${feeRateLabel(VA_CASH_OUT_FUNDING_FEE.subsequent)} after first use).`}
         </p>
       </Card>

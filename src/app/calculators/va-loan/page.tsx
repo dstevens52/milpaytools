@@ -37,6 +37,9 @@ const WAIVER_PRICE = 400000;
 const WAIVER_FIRST = fundingFeeAmount(WAIVER_PRICE, FEE.first.lt5);
 const WAIVER_SUBSEQUENT = fundingFeeAmount(WAIVER_PRICE, FEE.subsequent.lt5);
 
+/** VA.gov's "How to request a COE" page (docs/sources/va-irrrl-coe-2026.md). */
+const COE_URL = 'https://www.va.gov/housing-assistance/home-loans/how-to-request-coe/';
+
 const META_TITLE = 'VA Loan Payment Calculator 2026 | Funding Fee, Exemptions & BAH Comparison';
 const META_DESCRIPTION =
   'Estimate your VA loan monthly payment, see your VA funding fee or whether you\u2019re exempt, and optionally see how your payment compares to BAH.';
@@ -53,11 +56,11 @@ const FAQS: FaqItem[] = [
   },
   {
     question: 'When does a VA loan make more sense than a conventional loan?',
-    answer: 'VA loans offer $0 down for eligible borrowers and have no monthly mortgage insurance at any loan-to-value. VA is usually superior for borrowers with limited down payment who plan to hold the home long-term. Conventional may make sense if you have 20%+ down (no PMI and no funding fee), expect to sell within 1–2 years, or are buying an investment property (VA requires primary residence).',
+    answer: 'VA loans can cost less when you have a small down payment, because there\u2019s no monthly mortgage insurance at any loan-to-value and eligible borrowers can put $0 down. The difference grows the longer you keep the home. A conventional loan may cost less if you have 20%+ down (no PMI and no funding fee), expect to sell within 1–2 years, or are buying an investment property (VA requires primary residence).',
   },
   {
     question: 'Who qualifies for a VA home loan?',
-    answer: 'Active-duty service members qualify after 90+ consecutive days of service. Veterans qualify based on service period, length of service, and character of discharge. Guard and Reserve members may qualify through 6+ years of service or 90+ days of qualifying active duty. Surviving spouses of veterans who died in service or from a service-connected disability may also be eligible. The Certificate of Eligibility (COE) confirms eligibility for a lender.',
+    answer: 'Active-duty service members, Veterans, Guard and Reserve members, and some surviving spouses of veterans who died in service or from a service-connected disability can be eligible. The rules depend on when and how long you served and, for Veterans, on character of discharge. The Certificate of Eligibility (COE) confirms eligibility for a lender. VA lists three ways to request a COE: online, through your lender, or by mail with VA Form 26-1880.',
   },
   {
     question: 'What does this VA loan calculator not include?',
@@ -181,19 +184,20 @@ export default function VALoanPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <a
-            href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan"
+            href={COE_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="group block rounded-lg border border-zinc-200 bg-white p-5 shadow-sm hover:border-red-200 hover:shadow-md transition-all"
+            data-testid="vl-coe-card"
           >
             <p className="font-semibold text-zinc-900 mb-2 group-hover:text-red-700 transition-colors">
               Get your Certificate of Eligibility
             </p>
             <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-              Your COE confirms your VA loan eligibility. Apply through eBenefits, your lender, or by mail. Most lenders can pull it electronically in minutes.
+              Your COE confirms your VA loan eligibility. VA lists three ways to request one: online, through your lender, or by mail with VA Form 26-1880.
             </p>
             <span className="text-sm font-medium text-red-700">
-              Apply at VA eBenefits →
+              How to request a COE (VA.gov) →
             </span>
           </a>
 
@@ -220,7 +224,7 @@ export default function VALoanPage() {
               Already have a VA loan?
             </p>
             <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-              The VA Streamline Refinance (IRRRL) lets you lower your rate with minimal paperwork and no appraisal. See if refinancing makes sense.
+              The VA Streamline Refinance (IRRRL) may lower your rate and monthly payment. VA generally doesn&apos;t require an appraisal or credit underwriting for an IRRRL; lenders can still require them. Compare your current loan with a new rate.
             </p>
             <span className="text-sm font-medium text-red-700">
               Estimate your refinance savings →
@@ -342,7 +346,7 @@ export default function VALoanPage() {
             </summary>
             <div className="px-5 pb-5 pt-3 border-t border-zinc-100 space-y-3">
               <p className="text-zinc-600 text-sm leading-relaxed">
-                <strong>VA loan advantages:</strong> $0 down payment for eligible borrowers, no private mortgage insurance ever, competitive rates, no prepayment penalty, and limits on what sellers can pay in closing costs. The no-PMI feature is significant: conventional loans with less than 20% down usually carry private mortgage insurance until enough equity builds up.
+                <strong>VA loan features:</strong> $0 down payment for eligible borrowers, no private mortgage insurance ever, no prepayment penalty, and limits on what sellers can pay in closing costs. The no-PMI feature is significant: conventional loans with less than 20% down usually carry private mortgage insurance until enough equity builds up.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
                 <strong>When conventional might make more sense:</strong>{' '}If you have 20%+ down payment (no PMI on conventional, and the VA funding fee adds cost), if you&apos;re on your second use and aren&apos;t exempt from the fee, or if you&apos;re buying an investment property (VA requires the home to be your primary residence). Vacation homes and investment properties are not eligible for VA loans.
@@ -363,23 +367,26 @@ export default function VALoanPage() {
                 VA loan eligibility is based on your service history and character of discharge. General eligibility:
               </p>
               <ul className="text-sm text-zinc-600 space-y-1.5 list-disc list-inside">
-                <li><strong>Active duty:</strong> 90 consecutive days during wartime, or 181 days during peacetime</li>
-                <li><strong>Veterans:</strong> Same service requirements, plus honorable or general discharge</li>
-                <li><strong>National Guard &amp; Reserve:</strong> 6+ years of service, or 90+ days of active duty under Title 10 federal orders with qualifying discharge</li>
-                <li><strong>Surviving spouses:</strong> Unmarried spouses of veterans who died in service or from a service-connected disability, or who are missing in action / POW</li>
+                <li><strong>Active duty:</strong> minimum time in service, which depends on when you serve</li>
+                <li><strong>Veterans:</strong> service requirements by period of service, plus character of discharge</li>
+                <li><strong>National Guard &amp; Reserve:</strong> years of service or qualifying active-duty orders, with a qualifying discharge</li>
+                <li><strong>Surviving spouses:</strong> some surviving spouses of veterans who died in service or from a service-connected disability</li>
               </ul>
+              <p className="text-zinc-600 text-sm leading-relaxed">
+                The Certificate of Eligibility (COE) confirms the details for your service.
+              </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
                 <strong>Entitlement restoration:</strong>{' '}After paying off a previous VA loan and selling (or refinancing to a non-VA loan and restoring entitlement), your VA benefit can be fully restored and used again. The benefit does not expire — it&apos;s a lifetime benefit.
               </p>
               <p className="text-sm text-zinc-600">
-                Get your Certificate of Eligibility to confirm your eligibility:{' '}
+                Request your Certificate of Eligibility online, through your lender, or by mail:{' '}
                 <a
-                  href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan"
+                  href={COE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-700 hover:text-blue-800 underline"
                 >
-                  VA.gov eBenefits →
+                  How to request a COE (VA.gov) →
                 </a>
               </p>
               <p className="text-sm text-zinc-600">
@@ -398,7 +405,7 @@ export default function VALoanPage() {
             <div className="px-5 pb-5 pt-3 border-t border-zinc-100">
               <ul className="text-sm text-zinc-600 space-y-1.5 list-disc list-inside">
                 <li>Specific rate quotes or rate shopping — enter the rate you&apos;ve been quoted</li>
-                <li>Closing cost estimates beyond the funding fee (typically 1–2% of loan amount)</li>
+                <li>Closing cost estimates beyond the funding fee</li>
                 <li>Debt-to-income ratio or income qualification analysis</li>
                 <li>VA residual income requirements (a key VA underwriting factor)</li>
                 <li>Loan pre-approval or pre-qualification</li>

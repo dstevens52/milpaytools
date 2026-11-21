@@ -385,7 +385,11 @@ const ACCORDION = [
           When the mortgage payment is below BAH, the excess covers ownership costs (taxes,
           insurance, maintenance). Meanwhile, principal paydown and appreciation are equity that
           accumulates outside your military compensation. When you PCS, you sell or rent the
-          property and realize that equity.
+          property and realize that equity. The{' '}
+          <Link href="/calculators/va-loan?bah=yes" className="font-semibold text-red-700 hover:text-red-800 underline">
+            VA loan calculator
+          </Link>{' '}
+          compares an estimated mortgage payment, with the funding fee, to your BAH.
         </p>
         <p className="text-xs text-zinc-400 italic">
           This is not guaranteed — markets vary, and some service members who bought at the wrong
