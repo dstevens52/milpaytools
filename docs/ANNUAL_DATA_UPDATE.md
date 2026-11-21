@@ -18,7 +18,9 @@ Station pages compare BAH with HUD's 2-bedroom SAFMR. HUD posts the next fiscal 
 (FY N, Oct. 1 of N−1 to Sept. 30 of N) on its Small Area FMR page, usually in late August, and
 sometimes a revised file later.
 - Claude Chat verifies the file and writes `docs/sources/hud-safmr-fy{N}.md` (URL, size, date).
-- Download it to `data/sources/hud/` (gitignored); record its SHA-256 in that source doc.
+- Download it **in a browser** (huduser.gov answers `curl` and other scripted downloads with an
+  empty HTTP 202, seen 2026-11-20), then copy it to `data/sources/hud/` (gitignored). Check the
+  size against the source doc and record its SHA-256 there.
 - `python scripts/build-fmr-data.py --year N --src data/sources/hud/<file>.xlsx` writes
   `src/data/bah/fmr/fmr{N}.ts`; register it in `FMR_BY_YEAR` (`src/lib/calculations/fmr.ts`) and
   extend `tests/e2e/bah-fmr.spec.ts`.
