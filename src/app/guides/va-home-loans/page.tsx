@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { ogImage } from '@/lib/og';
 import Link from 'next/link';
+import type { ComponentProps } from 'react';
+import { TrackedLink } from '@/components/TrackedLink';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
@@ -22,7 +24,7 @@ const DESC =
   'VA home loan eligibility, the funding fee and its disability exemption, entitlement and reuse, and how BAH factors into affordability. No account required.';
 const CANONICAL = '/guides/va-home-loans';
 const DATE = '2026-05-27';
-/** Last factual review (build V3: fee figures computed, VA's exemption list, COE, IRRRL wording). Drives "Last reviewed" and dateModified. */
+/** Last factual review (build V3: fee figures computed, VA's exemption list, COE, IRRRL wording; V3b: service requirements). Drives "Last reviewed" and dateModified. */
 const UPDATED = '2026-11-21';
 
 // ── Figures (build V3): every funding fee rate and dollar amount below comes from the
@@ -39,6 +41,8 @@ const SAMPLE_BAH_COVERS = Math.round((SAMPLE_BAH_E5_FORT_BRAGG / EX.totalPITI) *
 const EX400 = 400000;
 const IRRRL_FEE = pct(VA_IRRRL_FUNDING_FEE);
 const COE_URL = 'https://www.va.gov/housing-assistance/home-loans/how-to-request-coe/';
+// Service requirements: docs/sources/va-home-loan-eligibility-2026.md (V3b).
+const ELIGIBILITY_URL = 'https://www.va.gov/housing-assistance/home-loans/eligibility/';
 const OG_IMAGE = ogImage({ type: 'guide', title: 'VA Home Loans Guide 2026', sub: 'Eligibility, funding fee, disability waiver, and payments' });
 
 export const metadata: Metadata = {
@@ -69,7 +73,7 @@ const FAQS = [
   {
     question: 'Who qualifies for a VA home loan?',
     answer:
-      'Active-duty service members, Veterans, Guard and Reserve members, and some surviving spouses of veterans who died in service or from a service-connected disability can be eligible. The rules depend on when and how long you served and, for Veterans, on discharge character. The Certificate of Eligibility (COE) confirms eligibility for a lender; VA lists three ways to request one: online, through your lender, or by mail with VA Form 26-1880. The benefit does not expire and can be used multiple times with entitlement restoration.',
+      "Active-duty service members, Veterans, Guard and Reserve members, and some surviving spouses of veterans who died in service or from a service-connected disability can be eligible. VA's minimum service is at least 90 continuous days for current active-duty service members; National Guard and Selected Reserve members qualify through paths that include at least 90 days of non-training active-duty service or 6 creditable years of service; for Veterans, it depends on when they served, and discharge character also counts. The Certificate of Eligibility (COE) confirms eligibility for a lender; VA lists three ways to request one: online, through your lender, or by mail with VA Form 26-1880. The benefit does not expire and can be used multiple times with entitlement restoration.",
   },
   {
     question: 'How does the VA funding fee work?',
@@ -102,6 +106,25 @@ const FAQS = [
       `The Interest Rate Reduction Refinance Loan (IRRRL) refinances an existing VA-backed home loan; it can't refinance any other loan. It may lower your monthly payment by getting you a lower interest rate, or move you from an adjustable rate to a fixed rate, which can make payments more stable. Fixed to fixed, the new rate must be at least ${IRRRL_MIN_RATE_DROP_BPS} basis points lower (38 U.S.C. § 3709(b)). VA generally doesn't require an appraisal or credit underwriting for an IRRRL. Lenders can still require them under their own rules. The VA funding fee on an IRRRL is ${IRRRL_FEE}, and borrowers on VA's exemption list don't pay it.`,
   },
 ];
+
+// ── Tracked links (V3b) ───────────────────────────────────────────────────────
+
+/**
+ * Every link on this hub to the VA loan or VA refinance calculator sends
+ * calc_deeplink_click (`guide`, placement `hub`). Any other href (the card and
+ * related-calculator maps also hold /calculators/va-disability, /bah and
+ * /calculators/total-compensation) renders a plain <Link>.
+ */
+function HubLink({ href, ...rest }: ComponentProps<typeof Link>) {
+  const path = typeof href === 'string' ? href : '';
+  const to = path.startsWith('/calculators/va-loan')
+    ? ('va-loan' as const)
+    : path.startsWith('/calculators/va-refinance')
+      ? ('va-refinance' as const)
+      : null;
+  if (!to) return <Link href={href} {...rest} />;
+  return <TrackedLink href={href} fromPageType="guide" toCalculator={to} placement="hub" {...rest} />;
+}
 
 // ── Benefit cards (Zone 2) ────────────────────────────────────────────────────
 
@@ -162,16 +185,26 @@ const ACCORDION = [
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
           <strong className="text-zinc-800">Active-duty service members</strong> can be eligible
-          once they meet VA&apos;s minimum service requirement.
+          after at least 90 continuous days of service.
         </p>
         <p>
           <strong className="text-zinc-800">Veterans</strong> have eligibility rules that depend
           on service period, length of service, and discharge character. The specifics vary
-          depending on when you served.
+          depending on when you served;{' '}
+          <a
+            href={ELIGIBILITY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-red-700 hover:text-red-800 underline"
+          >
+            VA&apos;s eligibility page
+          </a>{' '}
+          lists them by service period.
         </p>
         <p>
           <strong className="text-zinc-800">Guard and Reserve members</strong> may qualify through
-          years of service or qualifying active-duty orders. Because the rules depend on orders
+          paths that include at least 90 days of non-training active-duty service or 6
+          creditable years of service. Because the rules depend on orders
           and discharge status, use the COE process to confirm.
         </p>
         <p>
@@ -247,9 +280,9 @@ const ACCORDION = [
         <p className="text-xs text-zinc-400">
           {`VA's current rates took effect ${FUNDING_FEE_RATES_EFFECTIVE}. Refinance loans have their own rates: IRRRL ${IRRRL_FEE}; cash-out ${pct(VA_CASH_OUT_FUNDING_FEE.first)} on first use, ${pct(VA_CASH_OUT_FUNDING_FEE.subsequent)} after first use.`}
         </p>
-        <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+        <HubLink href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Calculate your funding fee →
-        </Link>
+        </HubLink>
       </div>
     ),
   },
@@ -314,9 +347,9 @@ const ACCORDION = [
           conventional lenders and compare the actual numbers side by side, including total
           upfront costs, monthly payment, and projected break-even on the funding fee.
         </p>
-        <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+        <HubLink href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Estimate your VA loan payment →
-        </Link>
+        </HubLink>
       </div>
     ),
   },
@@ -346,9 +379,9 @@ const ACCORDION = [
           of what BAH covers.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 pt-1">
-          <Link href="/calculators/va-loan?bah=yes" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+          <HubLink href="/calculators/va-loan?bah=yes" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
             Compare BAH to your estimated payment →
-          </Link>
+          </HubLink>
           <Link href="/bah" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
             Look up your BAH rate →
           </Link>
@@ -413,9 +446,9 @@ const ACCORDION = [
           Veterans receiving VA disability compensation don&apos;t pay the funding fee on any use.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 pt-1">
-          <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+          <HubLink href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
             Estimate payment for a subsequent-use VA loan →
-          </Link>
+          </HubLink>
           <Link href="/blog/can-i-use-va-loan-again" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
             Entitlement restoration and reuse explained →
           </Link>
@@ -444,9 +477,9 @@ const ACCORDION = [
           break-even timeline side by side. The calculator on this site gives you a baseline
           to start from.
         </p>
-        <Link href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+        <HubLink href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Estimate your VA loan payment →
-        </Link>
+        </HubLink>
       </div>
     ),
   },
@@ -479,9 +512,9 @@ const ACCORDION = [
           interest rates have dropped since you got your VA loan, or if you have an
           adjustable-rate VA loan you want to move to a fixed rate.
         </p>
-        <Link href="/calculators/va-refinance" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+        <HubLink href="/calculators/va-refinance" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Estimate an IRRRL with the VA refinance calculator →
-        </Link>
+        </HubLink>
         <p className="text-xs text-zinc-400">
           MilPayTools does not provide refinance quotes or lender recommendations. Contact
           VA-approved lenders to compare IRRRL offers.
@@ -641,12 +674,12 @@ export default function VAHomeLoansGuidePage() {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-3 mb-5">
-            <Link
+            <HubLink
               href="/calculators/va-loan"
               className="inline-flex items-center justify-center rounded-lg bg-red-700 px-7 py-3.5 text-base font-bold text-white hover:bg-red-800 transition-all duration-300 shadow-md hover:shadow-lg"
             >
               Estimate my VA loan payment →
-            </Link>
+            </HubLink>
             <Link
               href="/calculators/va-disability"
               className="inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-7 py-3.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 hover:border-zinc-400 hover:shadow-sm transition-all duration-300"
@@ -716,9 +749,9 @@ export default function VAHomeLoansGuidePage() {
                       </li>
                     ))}
                   </ul>
-                  <Link href={href} className="text-sm font-bold text-red-700 hover:text-red-800 transition-colors">
+                  <HubLink href={href} className="text-sm font-bold text-red-700 hover:text-red-800 transition-colors">
                     {cta}
-                  </Link>
+                  </HubLink>
                   {secondaryHref && (
                     <Link href={secondaryHref} className="mt-1.5 text-sm font-bold text-red-700 hover:text-red-800 transition-colors">
                       {secondaryLabel}
@@ -748,12 +781,12 @@ export default function VAHomeLoansGuidePage() {
                 funding fee (or your exemption), estimated monthly PITI, and how your BAH
                 compares — so you can compare lender quotes against your own estimate.
               </p>
-              <Link
+              <HubLink
                 href="/calculators/va-loan"
                 className="inline-flex items-center justify-center rounded-lg bg-red-700 px-7 py-3.5 text-base font-bold text-white hover:bg-red-800 transition-all duration-300 shadow-md hover:shadow-lg"
               >
                 Open the VA Loan Calculator →
-              </Link>
+              </HubLink>
               <p className="mt-3 text-xs text-white/40">No account. No personal info. Takes under a minute.</p>
             </div>
 
@@ -793,9 +826,9 @@ export default function VAHomeLoansGuidePage() {
                   </div>
                 </div>
                 <div className="px-5 pb-4">
-                  <Link href="/calculators/va-loan" className="text-sm font-bold text-red-700 hover:text-red-800 transition-colors">
+                  <HubLink href="/calculators/va-loan" className="text-sm font-bold text-red-700 hover:text-red-800 transition-colors">
                     Run your own numbers →
-                  </Link>
+                  </HubLink>
                 </div>
               </div>
               <p className="mt-3 text-xs text-center text-white/40">
@@ -899,7 +932,7 @@ export default function VAHomeLoansGuidePage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {RELATED_CALCULATORS.map(({ href, border, label, title, description }) => (
-                <Link
+                <HubLink
                   key={href}
                   href={href}
                   className={`group bg-white rounded-xl border border-zinc-200 border-l-4 ${border} shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 px-5 py-5 flex flex-col gap-3`}
@@ -912,7 +945,7 @@ export default function VAHomeLoansGuidePage() {
                   <span className="text-xs font-bold text-red-700 group-hover:text-red-800 transition-colors mt-auto">
                     Open calculator →
                   </span>
-                </Link>
+                </HubLink>
               ))}
             </div>
           </div>

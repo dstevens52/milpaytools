@@ -91,7 +91,11 @@ export const CLARITY_LOADER_JS = `(function(){
 // and encoding. Every other parameter and the #hash are dropped, including
 // parameters added to the site later.
 
-/** Query parameters GA may see, besides any `utm_*`. Rank and service-length only. */
+/**
+ * Query parameters GA may see, besides any `utm_*`. Rank and service length,
+ * plus (V3b) the VA loan calculator's `bah` (yes/no) and `fee` (funding fee
+ * status) so prefilled arrivals show in page paths. Never `zip`.
+ */
 export const GA_KEEP_PARAMS = [
   'gclid',
   'rank',
@@ -103,6 +107,10 @@ export const GA_KEEP_PARAMS = [
   'rank2',
   'currank',
   'curyos',
+  // V3b: VA loan calculator arrivals from a prefilled link (BAH comparison on,
+  // funding fee status). Its `zip` stays out.
+  'bah',
+  'fee',
 ] as const;
 
 const _keep: readonly string[] = GA_KEEP_PARAMS;
@@ -261,21 +269,37 @@ export function fireNewsletterSignup(source: string, variant: 'inline' | 'card')
   sendGaEvent('newsletter_signup', params);
 }
 
-/** Pages that link into a calculator with URL parameters. */
-export type DeepLinkFromPage = 'bah-station' | 'pay-hub' | 'pay-rank' | 'guide';
+/**
+ * Pages that link into a calculator. V3b adds the VA funnel sources: the BAH,
+ * PCS and VA disability calculators' result cards, a blog post, and the /bah
+ * hub's contextual link (`guide` covers /guides/* pages, the VA hub included).
+ */
+export type DeepLinkFromPage =
+  | 'bah-station'
+  | 'pay-hub'
+  | 'pay-rank'
+  | 'guide'
+  | 'bah-calculator'
+  | 'pcs-calculator'
+  | 'va-disability-calculator'
+  | 'blog'
+  | 'bah-hub';
 /** Calculators those links open. */
-export type DeepLinkToCalculator = 'total-compensation' | 'pay-raise';
+export type DeepLinkToCalculator = 'total-compensation' | 'pay-raise' | 'va-loan' | 'va-refinance';
 /**
  * Which link on the page, where a page has more than one (station pages, Build
  * 04: the rate card's button and the mid-page total-comp section; Build 04b: the
- * "Your exact total" links in the total-pay-by-rank table). GA4 needs an
- * event-scoped custom dimension "placement" to report it.
+ * "Your exact total" links in the total-pay-by-rank table). V3b: `result-card`
+ * (a line under a calculator result), `contextual` (a link inside body copy),
+ * `hub` (any link on the VA home loans guide). GA4 needs an event-scoped custom
+ * dimension "placement" to report it.
  */
-export type DeepLinkPlacement = 'rate-card' | 'mid-page' | 'station-total-table';
+export type DeepLinkPlacement = 'rate-card' | 'mid-page' | 'station-total-table' | 'result-card' | 'contextual' | 'hub';
 
 /**
- * calc_deeplink_click — a click on a page-to-calculator link that carries URL
- * parameters. `grade` is sent in the short form (e7); `station` is a slug.
+ * calc_deeplink_click — a click on a page-to-calculator link (usually one that
+ * carries URL parameters). `grade` is sent in the short form (e7); `station` is
+ * a slug. Never a ZIP.
  */
 export function fireDeepLinkEvent(
   fromPageType: DeepLinkFromPage,

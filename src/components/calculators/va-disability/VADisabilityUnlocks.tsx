@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { fireDeepLinkEvent } from '@/lib/analytics';
 import {
   getCompensation,
   whatIfAddRating,
@@ -157,6 +158,7 @@ export function VADisabilityUnlocks({
         <div className="flex flex-wrap gap-4">
           <Link
             href="/calculators/va-loan?fee=comp"
+            onClick={() => fireDeepLinkEvent('va-disability-calculator', 'va-loan', { placement: 'result-card' })}
             className="text-sm font-semibold text-green-800 hover:text-green-900 underline transition-colors"
           >
             Estimate your VA loan payment →

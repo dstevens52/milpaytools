@@ -38,6 +38,10 @@ const URLS: [string, string][] = [
   // Health / disability, including free-text condition labels.
   [`${O}/calculators/va-disability?r=70,30,10&l=knee,ptsd&sp=1&c=2`, `${O}/calculators/va-disability`],
   [`${O}/calculators/retirement?currank=e7&curyos=12&varating=40&crsc=1&exempt=1`, `${O}/calculators/retirement?currank=e7&curyos=12`],
+  // V3b: prefilled VA loan arrivals keep bah and fee; the ZIP still goes.
+  [`${O}/calculators/va-loan?bah=yes&zip=78234&rank=e5&dep=yes`, `${O}/calculators/va-loan?bah=yes&rank=e5&dep=yes`],
+  [`${O}/calculators/va-loan?fee=predischarge`, `${O}/calculators/va-loan?fee=predischarge`],
+  [`${O}/calculators/va-loan?price=300000&fee=comp&zip=28310&bah=no&tax=4200`, `${O}/calculators/va-loan?fee=comp&bah=no`],
   // Personal dates / family.
   [`${O}/calculators/separation-timeline?date=2027-03-01&family=4`, `${O}/calculators/separation-timeline`],
   // Secrets and free text.
@@ -90,8 +94,8 @@ const REFS: [string, string, string][] = [
 ];
 
 test.describe('GA URL allowlist', () => {
-  test('keep list is exactly the approved one (decision I)', () => {
-    expect([...GA_KEEP_PARAMS]).toEqual(['gclid', 'rank', 'grade', 'dependents', 'dep', 'yos', 'rank1', 'rank2', 'currank', 'curyos']);
+  test('keep list is exactly the approved one (decision I, plus bah and fee from V3b)', () => {
+    expect([...GA_KEEP_PARAMS]).toEqual(['gclid', 'rank', 'grade', 'dependents', 'dep', 'yos', 'rank1', 'rank2', 'currank', 'curyos', 'bah', 'fee']);
   });
 
   for (const [input, expected] of URLS) {

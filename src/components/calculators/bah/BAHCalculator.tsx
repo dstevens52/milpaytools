@@ -16,6 +16,8 @@ import type { ActionStep } from '@/types/calculator';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { readUrlParams } from '@/data/calculatorUrlParams';
 import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
+import { VaLoanBahCard } from '@/components/calculators/shared/VaLoanBahCard';
+import { isConusMha } from '@/lib/vaFunnel';
 import { BAH_YEAR } from '@/data/bah/current';
 import { bahPriorRateSubline } from '@/lib/calculations/bahTransition';
 import { RATE_PROTECTION_CALC_TAIL } from '@/data/bah/rateProtection';
@@ -492,6 +494,17 @@ export function BAHCalculator() {
           <Card variant="result">
             <LocationResult zip={zip} result={result} loading={lookupA.loading} errorMsg={errA} hasDependents={hasDependents} />
           </Card>
+
+          {/* V3b: VA loan vs. this BAH — CONUS ZIP lookups with a rate only */}
+          {result && isConusMha(result.mhaCode) && (
+            <VaLoanBahCard
+              fromPageType="bah-calculator"
+              location={result.locationName}
+              zip={zip}
+              grade={grade}
+              hasDependents={hasDependents}
+            />
+          )}
 
           {/* Station guide link */}
           {result && (
