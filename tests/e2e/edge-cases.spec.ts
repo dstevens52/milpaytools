@@ -325,12 +325,19 @@ test.describe('VA Refinance — edge cases', () => {
 // ─── Transition Readiness — VA claim status ─────────────────────────────────────
 
 test.describe('Transition Readiness — VA claim status', () => {
-  // vaRating 0 (not retirement-eligible) → "Not yet filed" + the file-your-claim step.
+  // Sweep 10a (TR-03): "0% (filed, no rating)" counts as filed; only "Haven't filed yet" (-1)
+  // gets "Not yet filed" + the file-your-claim step.
   // sal+exp engage the calculator so the verdict/indicators/action steps render.
-  test('vaRating = 0 shows the "file your claim" action step', async ({ page }) => {
+  test('vaRating = 0 reads as filed: no "file your claim" action step', async ({ page }) => {
     await page.goto('/calculators/transition-readiness?va=0&yos=10&sal=80000&exp=4000');
-    await expect(page.getByText('Not yet filed')).toBeVisible();
-    await expect(page.getByText(/File your VA disability claim/i)).toBeVisible();
+    await expect(page.getByText('Filed (0%)', { exact: true })).toBeVisible();
+    await expect(page.getByText(/File your VA disability claim/i)).toHaveCount(0);
+  });
+
+  test('vaRating = -1 shows the "file your claim" action step', async ({ page }) => {
+    await page.goto('/calculators/transition-readiness?va=-1&yos=10&sal=80000&exp=4000');
+    await expect(page.getByText('Not yet filed', { exact: true })).toBeVisible();
+    await expect(page.getByText(/File your VA disability claim/i).first()).toBeVisible();
   });
 
   // vaRating 10 → "Filed" → no file-your-claim step.
@@ -340,10 +347,14 @@ test.describe('Transition Readiness — VA claim status', () => {
     await expect(page.getByText(/File your VA disability claim/i)).toHaveCount(0);
   });
 
-  // Retirement-eligible (20 YOS + planned separation) → vaClaimStatus 'na' ("TRICARE retiree").
-  test('retirement-eligible (20 YOS) sets VA claim status to N/A', async ({ page }) => {
+  // Sweep 10a (TR-03): retirees are judged the same way (no "N/A" status any more).
+  test('retirement-eligible (20 YOS): VA claim judged like everyone else', async ({ page }) => {
     await page.goto('/calculators/transition-readiness?va=0&yos=20&sal=80000&exp=4000');
-    await expect(page.getByText('TRICARE retiree', { exact: true })).toBeVisible();
+    await expect(page.getByText('Filed (0%)', { exact: true })).toBeVisible();
+    await expect(page.getByText('TRICARE retiree', { exact: true })).toHaveCount(0);
     await expect(page.getByText(/File your VA disability claim/i)).toHaveCount(0);
+    await page.goto('/calculators/transition-readiness?va=-1&yos=20&sal=80000&exp=4000');
+    await expect(page.getByText('Not yet filed', { exact: true })).toBeVisible();
+    await expect(page.getByText(/File your VA disability claim/i).first()).toBeVisible();
   });
 });
