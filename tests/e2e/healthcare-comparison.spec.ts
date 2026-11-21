@@ -110,15 +110,70 @@ test.describe('Healthcare Cost Comparison Calculator', () => {
     await expect(page.getByText(/\$2,940/).first()).toBeVisible();
   });
 
-  test('ACA subsidy path shows income input', async ({ page }) => {
-    await page.locator('#path-select').selectOption('aca-subsidy');
-    await expect(page.locator('#income-input')).toBeVisible();
+  // HC-02 (build 10a): no computed subsidy. Older links with path=aca-subsidy still load.
+  test('ACA path has no income input or subsidy; shows the tax-credit line', async ({ page }) => {
+    await expect(page.locator('#path-select option[value="aca-subsidy"]')).toHaveCount(0);
+    await page.locator('#path-select').selectOption('aca-no-subsidy');
+    await expect(page.locator('#income-input')).toHaveCount(0);
+    await expect(page.getByText('Premium tax credits depend on household income; see HealthCare.gov for your actual price.').first()).toBeVisible();
   });
 
-  test('ACA subsidy shows subsidy note when income is entered', async ({ page }) => {
-    await page.locator('#path-select').selectOption('aca-subsidy');
-    await page.locator('#income-input').fill('30000');
-    await expect(page.getByText(/subsidy applied/i)).toBeVisible();
+  test('old share link path=aca-subsidy&income= opens the no-subsidy path', async ({ page }) => {
+    await page.goto('/calculators/healthcare-comparison?path=aca-subsidy&family=married-1-child&income=50000');
+    await expect(page.locator('#path-select')).toHaveValue('aca-no-subsidy');
+    await expect(page.locator('#family-select')).toHaveValue('married-1-child');
+    await expect(page.getByText(/subsidy applied/i)).toHaveCount(0);
+    await expect(page.getByText('Premium tax credits depend on household income; see HealthCare.gov for your actual price.').first()).toBeVisible();
+  });
+
+  // HC-01: malformed share links fall back to defaults instead of crashing.
+  test('malformed share link loads with defaults', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (e) => errors.push(e.message));
+    await page.goto('/calculators/healthcare-comparison?path=cobra&tier=platinum&rating=70&family=x&plan=gold&group=c');
+    await expect(page.locator('#path-select')).toHaveValue('employer');
+    await expect(page.locator('#family-select')).toHaveValue('single');
+    await expect(page.getByTestId('hc-annual-gap')).toHaveText('$2,940');
+    await page.goto('/calculators/healthcare-comparison?path=va&rating=70');
+    await expect(page.locator('#va-rating-select')).toHaveValue('50plus');
+    expect(errors).toEqual([]);
+  });
+
+  // HC-05: retiree TRICARE (2026 rates from src/data/tricare until Jan 1).
+  test('retiree path: Prime Group A family shows the $765 enrollment fee', async ({ page }) => {
+    await page.goto('/calculators/healthcare-comparison?path=tricare-retiree&family=married-2-children&plan=prime&group=a');
+    await expect(page.locator('#retiree-plan-select')).toHaveValue('prime');
+    await expect(page.locator('#retiree-group-select')).toHaveValue('a');
+    await expect(page.locator('p', { hasText: /^TRICARE \(military retiree\)$/ })).toBeVisible();
+    await expect(page.getByText('Annual enrollment fee', { exact: true })).toBeVisible();
+    await expect(page.getByTestId('hc-annual-gap')).toHaveText('$765');
+    await expect(page.getByText('Group A applies if you entered service before Jan. 1, 2018; Group B rates differ.')).toBeVisible();
+    await expect(page.getByRole('checkbox', { name: /qualify for TAMP/i })).toHaveCount(0);
+  });
+
+  test('retiree path: Select Group B family shows the $1,191 fee', async ({ page }) => {
+    await page.goto('/calculators/healthcare-comparison?path=tricare-retiree&family=married-1-child');
+    await expect(page.locator('#retiree-plan-select')).toHaveValue('select');
+    await page.locator('#retiree-group-select').selectOption('b');
+    await expect(page.getByText(/\$1,191/).first()).toBeVisible();
+    await expect(page.getByText('Group B applies if you entered service on or after Jan. 1, 2018.')).toBeVisible();
+  });
+
+  // HC-04: the page's TAMP list is the statutory list.
+  test('TAMP eligibility list matches 10 U.S.C. § 1145', async ({ page }) => {
+    const list = page.getByTestId('tamp-eligibility');
+    await expect(list.locator('li')).toHaveCount(7);
+    await expect(list).toContainText('Members who join the Selected Reserve when they separate');
+    await expect(page.locator('main')).not.toContainText(/early retirement|Voluntary Separation Incentive|Special Separation Benefit/);
+  });
+
+  // HC-06: TAMP split keeps the full deductible estimate; VA 0% claim removed.
+  test('TAMP split: full-year deductible estimate', async ({ page }) => {
+    await page.goto('/calculators/healthcare-comparison?family=single&path=employer&tier=silver&tamp=true');
+    const split = page.getByTestId('tamp-split');
+    await expect(split).toContainText('deductibles reset each January');
+    await expect(split).toContainText('$900');
+    await expect(page.locator('main')).not.toContainText('generally limited to their service-connected conditions');
   });
 
   test('ACA no-subsidy path shows correct premiums', async ({ page }) => {

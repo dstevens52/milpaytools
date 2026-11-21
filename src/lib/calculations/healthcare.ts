@@ -12,31 +12,59 @@ import {
   type VaRating,
   type CoveragePath,
   type FamilyStatus,
+  type RetireePlan,
+  type RetireeGroup,
 } from '@/data/healthcare/2026/constants';
 import { currentTricareCosts, upcomingTricareCosts } from '@/data/tricare/current';
 
-export function getHouseholdSize(fs: FamilyStatus): number {
-  switch (fs) {
-    case 'single': return 1;
-    case 'married-no-kids': return 2;
-    case 'married-1-child': return 3;
-    case 'married-2-children': return 4;
-    case 'married-3plus': return 5;
-    case 'single-parent': return 2;
-  }
+// ─── Allowed values (share links are validated against these: HC-01) ─────────
+
+export const COVERAGE_PATHS: readonly CoveragePath[] = ['employer', 'aca-no-subsidy', 'va', 'trs', 'tricare-retiree', 'tamp'];
+export const FAMILY_STATUSES: readonly FamilyStatus[] = [
+  'single', 'married-no-kids', 'married-1-child', 'married-2-children', 'married-3plus', 'single-parent',
+];
+export const PLAN_TIERS: readonly PlanTier[] = ['bronze', 'silver', 'gold'];
+export const VA_RATINGS: readonly VaRating[] = ['50plus', '30to40', '10to20', '0sc'];
+export const RETIREE_PLANS: readonly RetireePlan[] = ['prime', 'select'];
+export const RETIREE_GROUPS: readonly RetireeGroup[] = ['a', 'b'];
+
+export interface HealthcareUrlState {
+  family?: FamilyStatus;
+  path?: CoveragePath;
+  tier?: PlanTier;
+  rating?: VaRating;
+  plan?: RetireePlan;
+  group?: RetireeGroup;
+  tamp?: boolean;
 }
 
-export function getFPL(size: number): number {
-  return HEALTHCARE_2026.fpl.base1 + (size - 1) * HEALTHCARE_2026.fpl.increment;
+function pickAllowed<T extends string>(allowed: readonly T[], raw: string | null): T | undefined {
+  return raw !== null && (allowed as readonly string[]).includes(raw) ? (raw as T) : undefined;
 }
 
-export function getSubsidyRate(income: number, fpl: number): number {
-  const pct = (income / fpl) * 100;
-  for (const band of HEALTHCARE_2026.acaSubsidyBands) {
-    if (pct < band.maxPct) return band.subsidyRate;
-  }
-  return 0;
+/**
+ * The settings a share link carries, keeping only values the calculator accepts; anything
+ * else is dropped so the calculator keeps its default (HC-01). Older links with
+ * path=aca-subsidy open the ACA path without a subsidy (HC-02); their income= is ignored.
+ */
+export function parseHealthcareParams(raw: Readonly<Record<keyof HealthcareUrlState, string | null>>): HealthcareUrlState {
+  return {
+    family: pickAllowed(FAMILY_STATUSES, raw.family),
+    path: raw.path === 'aca-subsidy' ? 'aca-no-subsidy' : pickAllowed(COVERAGE_PATHS, raw.path),
+    tier: pickAllowed(PLAN_TIERS, raw.tier),
+    rating: pickAllowed(VA_RATINGS, raw.rating),
+    plan: pickAllowed(RETIREE_PLANS, raw.plan),
+    group: pickAllowed(RETIREE_GROUPS, raw.group),
+    tamp: raw.tamp === 'true' ? true : undefined,
+  };
 }
+
+/** HC-02: the calculator shows list prices only. */
+export const ACA_TAX_CREDIT_NOTE =
+  'Premium tax credits depend on household income; see HealthCare.gov for your actual price.';
+
+/** Share of the deductible the calculator assumes a household uses in a year. */
+export const DEDUCTIBLE_USAGE_SHARE = 0.45;
 
 export function isFamily(fs: FamilyStatus): boolean {
   return fs !== 'single';
@@ -45,6 +73,7 @@ export function isFamily(fs: FamilyStatus): boolean {
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface CalcResult {
+  /** Retiree TRICARE: the annual enrollment fee per month (fee ÷ 12). */
   monthlyPremium: number;
   annualPremium: number;
   deductible: number;
@@ -53,7 +82,6 @@ export interface CalcResult {
   firstYearTotal: number;
   notes: string[];
   vaRatingLabel?: string;
-  subsidyRate?: number;
   coversFamily: boolean;
   isTamp: boolean;
 }
@@ -97,6 +125,46 @@ export function trsNotes(): string[] {
   return notes;
 }
 
+// ─── TRICARE for military retirees (HC-05) ──────────────────────────────────
+
+/** Retiree TRICARE Prime or Select, Group A or B, from the current TRICARE cost year. */
+export function retireeTricareCosts(coverage: 'single' | 'family', plan: RetireePlan, group: RetireeGroup) {
+  const c = currentTricareCosts.retiree;
+  const p = plan === 'prime'
+    ? (group === 'a' ? c.primeA : c.primeB)
+    : (group === 'a' ? c.selectA : c.selectB);
+  const pick = (v: { individual: number; family: number }) => (coverage === 'family' ? v.family : v.individual);
+  return {
+    year: currentTricareCosts.year,
+    enrollmentFeeAnnual: pick(p.enrollmentFee),
+    deductible: pick(p.deductible),
+    catastrophicCap: p.catastrophicCap,
+  };
+}
+
+export const RETIREE_PLAN_LABEL: Record<RetireePlan, string> = { prime: 'TRICARE Prime', select: 'TRICARE Select' };
+
+export function retireeTricareNotes(plan: RetireePlan, group: RetireeGroup): string[] {
+  const year = currentTricareCosts.year;
+  const notes = [
+    `${year} TRICARE rates for retirees: ${RETIREE_PLAN_LABEL[plan]}, Group ${group.toUpperCase()}. The monthly figure is the annual enrollment fee ÷ 12.`,
+    group === 'a'
+      ? 'Group A applies if you entered service before Jan. 1, 2018; Group B rates differ.'
+      : 'Group B applies if you entered service on or after Jan. 1, 2018.',
+    plan === 'prime'
+      ? 'Prime has no deductible; copays apply per visit. Prime is offered only in some locations.'
+      : 'Copays or cost-shares apply when you use care.',
+  ];
+  if (upcomingTricareCosts) {
+    const u = upcomingTricareCosts.retiree;
+    const up = plan === 'prime' ? (group === 'a' ? u.primeA : u.primeB) : (group === 'a' ? u.selectA : u.selectB);
+    notes.push(
+      `${upcomingTricareCosts.year} enrollment fees (from Jan. 1, ${upcomingTricareCosts.year}): ${usd2(up.enrollmentFee.individual)} individual / ${usd2(up.enrollmentFee.family)} family per year.`,
+    );
+  }
+  return notes;
+}
+
 // ─── Calculation logic ────────────────────────────────────────────────────────
 
 export function calculateHealthcare(
@@ -104,7 +172,7 @@ export function calculateHealthcare(
   path: CoveragePath,
   tier: PlanTier,
   vaRating: VaRating,
-  annualIncome: number,
+  retiree: { plan: RetireePlan; group: RetireeGroup } = { plan: 'select', group: 'a' },
 ): CalcResult {
   const family = isFamily(familyStatus);
   const coverage = family ? 'family' : 'single';
@@ -112,7 +180,7 @@ export function calculateHealthcare(
   switch (path) {
     case 'employer': {
       const p = HEALTHCARE_2026.employer[coverage][tier];
-      const dedUsage = Math.round(p.deductible * 0.45);
+      const dedUsage = Math.round(p.deductible * DEDUCTIBLE_USAGE_SHARE);
       return {
         monthlyPremium: p.premium,
         annualPremium: p.premium * 12,
@@ -128,7 +196,7 @@ export function calculateHealthcare(
 
     case 'aca-no-subsidy': {
       const p = HEALTHCARE_2026.acaNoSubsidy[coverage][tier];
-      const dedUsage = Math.round(p.deductible * 0.45);
+      const dedUsage = Math.round(p.deductible * DEDUCTIBLE_USAGE_SHARE);
       return {
         monthlyPremium: p.premium,
         annualPremium: p.premium * 12,
@@ -136,33 +204,7 @@ export function calculateHealthcare(
         oopMax: 0,
         estimatedDeductibleUsage: dedUsage,
         firstYearTotal: p.premium * 12 + dedUsage,
-        notes: [],
-        coversFamily: family,
-        isTamp: false,
-      };
-    }
-
-    case 'aca-subsidy': {
-      const base = HEALTHCARE_2026.acaNoSubsidy[coverage][tier];
-      const fpl = getFPL(getHouseholdSize(familyStatus));
-      const rate = annualIncome > 0 ? getSubsidyRate(annualIncome, fpl) : 0;
-      const subsidizedMonthly = Math.max(0, Math.round(base.premium * (1 - rate)));
-      const dedUsage = Math.round(base.deductible * 0.45);
-      const notes: string[] = [];
-      if (annualIncome > 0) {
-        notes.push(`Estimated ~${Math.round(rate * 100)}% subsidy applied. Actual subsidy depends on age, location, and benchmark plan — verify at Healthcare.gov.`);
-      } else {
-        notes.push('Enter annual household income for an approximate subsidy estimate.');
-      }
-      return {
-        monthlyPremium: subsidizedMonthly,
-        annualPremium: subsidizedMonthly * 12,
-        deductible: base.deductible,
-        oopMax: 0,
-        estimatedDeductibleUsage: dedUsage,
-        firstYearTotal: subsidizedMonthly * 12 + dedUsage,
-        notes,
-        subsidyRate: rate,
+        notes: [ACA_TAX_CREDIT_NOTE],
         coversFamily: family,
         isTamp: false,
       };
@@ -187,7 +229,7 @@ export function calculateHealthcare(
 
     case 'trs': {
       const p = trsCosts(coverage);
-      const dedUsage = Math.round(p.deductible * 0.45);
+      const dedUsage = Math.round(p.deductible * DEDUCTIBLE_USAGE_SHARE);
       return {
         monthlyPremium: p.premium,
         annualPremium: p.premium * 12,
@@ -196,6 +238,22 @@ export function calculateHealthcare(
         estimatedDeductibleUsage: dedUsage,
         firstYearTotal: p.premium * 12 + dedUsage,
         notes: trsNotes(),
+        coversFamily: family,
+        isTamp: false,
+      };
+    }
+
+    case 'tricare-retiree': {
+      const r = retireeTricareCosts(coverage, retiree.plan, retiree.group);
+      const dedUsage = Math.round(r.deductible * DEDUCTIBLE_USAGE_SHARE);
+      return {
+        monthlyPremium: r.enrollmentFeeAnnual / 12,
+        annualPremium: r.enrollmentFeeAnnual,
+        deductible: r.deductible,
+        oopMax: r.catastrophicCap,
+        estimatedDeductibleUsage: dedUsage,
+        firstYearTotal: r.enrollmentFeeAnnual + dedUsage,
+        notes: retireeTricareNotes(retiree.plan, retiree.group),
         coversFamily: family,
         isTamp: false,
       };
@@ -215,4 +273,27 @@ export function calculateHealthcare(
       };
     }
   }
+}
+
+// ─── First year with TAMP ────────────────────────────────────────────────────
+
+export interface TampSplit {
+  lastSixMonthsPremiums: number;
+  lastSixMonthsDeductible: number;
+  totalFirstYear: number;
+}
+
+/**
+ * First year when TAMP covers the first 180 days: six months of the follow-on plan's
+ * premiums. A deductible is annual and resets each January, so the follow-on plan's
+ * estimated deductible usage is counted in full, not halved (HC-06).
+ */
+export function tampFirstYearSplit(result: CalcResult): TampSplit {
+  const lastSixMonthsPremiums = result.monthlyPremium * 6;
+  const lastSixMonthsDeductible = result.estimatedDeductibleUsage;
+  return {
+    lastSixMonthsPremiums,
+    lastSixMonthsDeductible,
+    totalFirstYear: lastSixMonthsPremiums + lastSixMonthsDeductible,
+  };
 }

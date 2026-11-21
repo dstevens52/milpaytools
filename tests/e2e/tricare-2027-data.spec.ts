@@ -217,7 +217,7 @@ test.describe('healthcare comparison TRS (HC-03), current year 2026', () => {
   });
 
   test('single: $783.56 first-year, $198 deductible, $1,324 cap', () => {
-    const r = calculateHealthcare('single', 'trs', 'silver', '50plus', 0);
+    const r = calculateHealthcare('single', 'trs', 'silver', '50plus');
     expect(r.monthlyPremium).toBe(57.88);
     expect(r.deductible).toBe(198);
     expect(r.oopMax).toBe(1324);
@@ -226,7 +226,7 @@ test.describe('healthcare comparison TRS (HC-03), current year 2026', () => {
   });
 
   test('family: $3,618.92 first-year, $397 deductible, $1,324 cap', () => {
-    const r = calculateHealthcare('married-2-children', 'trs', 'silver', '50plus', 0);
+    const r = calculateHealthcare('married-2-children', 'trs', 'silver', '50plus');
     expect(r.monthlyPremium).toBe(286.66);
     expect(r.deductible).toBe(397);
     expect(r.oopMax).toBe(1324);
@@ -235,7 +235,7 @@ test.describe('healthcare comparison TRS (HC-03), current year 2026', () => {
   });
 
   test('notes: E-1–E-4 deductible, per-family cap, 2027 premiums', () => {
-    const { notes } = calculateHealthcare('single', 'trs', 'silver', '50plus', 0);
+    const { notes } = calculateHealthcare('single', 'trs', 'silver', '50plus');
     expect(notes).toContain('Sponsors in pay grades E-1–E-4 have a lower deductible ($66 individual / $132 family).');
     expect(notes).toContain("The out-of-pocket maximum is TRICARE's catastrophic cap, $1,324 a year, set per family.");
     expect(notes).toContain('2027 premiums (from Jan. 1, 2027): $60.54 member only / $307.48 member and family.');

@@ -10,6 +10,7 @@ import { TransitionReadinessExample, TransitionExampleFigure } from '@/component
 import { RetirementFigure, High3Breakdown, CrdpCrscFigure, FinalYearCompTotal } from '@/components/blog/RetirementFigure';
 import { TricareFigure, TricareChangeRange, TricareDate, TricareCostYear } from '@/components/blog/TricareFigure';
 import { TricareCostTable } from '@/components/blog/TricareCostTable';
+import { TampEligibilityList } from '@/components/blog/TampEligibilityList';
 import { TricareOpenSeason, TricarePostFaq } from '@/components/blog/TricarePost';
 import { tricarePostFaqs } from '@/lib/tricarePost';
 import { OPEN_SEASON_2026_STATUS } from '@/data/tricare/2027/openSeason';
@@ -39,6 +40,7 @@ const mdxComponents = {
   TricareCostTable,
   TricareOpenSeason,
   TricarePostFaq,
+  TampEligibilityList,
 };
 
 const GUIDE_TITLES: Record<string, string> = {
@@ -250,7 +252,7 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
     },
     {
       question: 'What happens to SGLI when you leave the military?',
-      answer: 'SGLI terminates 120 days after separation. Within 240 days of separation, you can convert to VGLI (Veterans Group Life Insurance) without a health exam. After 240 days, a medical exam is required. VGLI premiums increase every 5 years with age and become significantly more expensive than private term life insurance purchased while young and healthy.',
+      answer: 'SGLI terminates 120 days after separation. You can apply for VGLI (Veterans Group Life Insurance) within 1 year and 120 days of separation. Within the first 240 days you won’t need to prove you’re in good health; after 240 days you’ll need to submit evidence of good health. VGLI premiums increase every 5 years with age and become significantly more expensive than private term life insurance purchased while young and healthy.',
     },
   ],
   'hfp-idp-hdpl-rate-changes-october-2026': [

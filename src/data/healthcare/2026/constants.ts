@@ -4,10 +4,10 @@
  * Sources:
  *   - Employer-sponsored plans: KFF Employer Health Benefits Survey 2025 (national averages)
  *   - ACA Marketplace rates: KFF Health Insurance Marketplace Calculator 2026 estimates
- *   - ACA Federal Poverty Levels: HHS 2026 FPL guidelines
+ *     (list prices; premium tax credits are not modeled — HC-02, build 10a)
  *   - VA healthcare: VA.gov priority groups and eligibility, 2026
- *   - TRICARE Reserve Select: not here. The calculator reads src/data/tricare/current.ts.
- *   - TAMP coverage: DoDI 1341.10, 10 U.S.C. § 1145
+ *   - TRICARE Reserve Select and retiree TRICARE: not here. The calculator reads src/data/tricare/current.ts.
+ *   - TAMP coverage: 10 U.S.C. § 1145 (who qualifies: src/data/separation/rules.ts)
  *
  * All figures are national averages or approximations for educational comparison only.
  * Actual costs vary significantly by region, employer, health status, and utilization.
@@ -42,24 +42,11 @@ export const HEALTHCARE_2026 = {
     },
   },
 
-  // 2026 Federal Poverty Level thresholds (contiguous U.S.)
-  fpl: {
-    base1: 15650,
-    increment: 5500, // per additional person above 1
-  },
-
-  // Subsidy percentage bands by FPL % (approximate 2026 APTC estimates)
-  acaSubsidyBands: [
-    { maxPct: 150, subsidyRate: 0.90 },
-    { maxPct: 250, subsidyRate: 0.75 },
-    { maxPct: 400, subsidyRate: 0.40 },
-  ] as const,
-
   va: {
     '50plus': {
       monthlyCopayEst: 0,
       label: '50%+ disability rating (Priority Group 1)',
-      note: '$0 for service-connected care. No premiums. Covers veteran only, not family.',
+      note: 'No premiums. Priority Group 1 generally has no copays for care. Covers veteran only, not family.',
     },
     '30to40': {
       monthlyCopayEst: 0,
@@ -74,7 +61,7 @@ export const HEALTHCARE_2026 = {
     '0sc': {
       monthlyCopayEst: 0,
       label: '0% service-connected rating',
-      note: 'Coverage generally limited to service-connected conditions. No premiums. Covers veteran only.',
+      note: 'No premiums. What you pay for care depends on your VA priority group (see VA.gov). Covers veteran only.',
     },
   },
 
@@ -82,13 +69,17 @@ export const HEALTHCARE_2026 = {
     premium: 0,
     deductible: 0,
     durationDays: 180,
-    note: 'Free TRICARE coverage for 180 days post-separation. TAMP is a bridge — you need a follow-on plan before day 181.',
+    note: 'If you qualify for TAMP, TRICARE continues for 180 days, starting on your separation date (day 1). TAMP is a bridge — you need a follow-on plan before day 181.',
   },
 } as const;
 
 export type PlanTier = 'bronze' | 'silver' | 'gold';
 export type VaRating = '50plus' | '30to40' | '10to20' | '0sc';
-export type CoveragePath = 'employer' | 'aca-no-subsidy' | 'aca-subsidy' | 'va' | 'trs' | 'tamp';
+export type CoveragePath = 'employer' | 'aca-no-subsidy' | 'va' | 'trs' | 'tricare-retiree' | 'tamp';
+/** Retiree TRICARE plan (tricare-retiree path). */
+export type RetireePlan = 'prime' | 'select';
+/** Retiree TRICARE group: A = entered service before Jan. 1, 2018; B = on or after. */
+export type RetireeGroup = 'a' | 'b';
 export type FamilyStatus =
   | 'single'
   | 'married-no-kids'

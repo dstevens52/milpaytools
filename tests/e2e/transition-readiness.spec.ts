@@ -221,3 +221,72 @@ test.describe('Transition Readiness Calculator', () => {
     await expect(page.getByText(/monthly expenses/i).first()).toBeVisible();
   });
 });
+
+// Build 10a: TR-01–05, TR-07 in the rendered calculator.
+test.describe('Transition readiness — build 10a', () => {
+  // E-6 10 years with dependents, $80,000 offer, $3,500/mo expenses, 30% VA, $40,000 saved.
+  const READY = 'rank=e6&yos=10&dep=yes&sal=80000&exp=3500&mode=quick&ef=40000&va=30&hca=employer';
+
+  test('TR-01: TAMP is conditional, with the statutory list', async ({ page }) => {
+    await page.goto(`/calculators/transition-readiness?${READY}`);
+    await expect(page.getByText('If you qualify for TAMP, your first 180 days are covered')).toBeVisible();
+    await expect(page.getByText('TAMP covers your first 180 days')).toHaveCount(0);
+    await expect(page.getByText(/members who join the Selected Reserve when they separate/).first()).toBeVisible();
+  });
+
+  test('TR-02: the "ready" summary does not name the timeline', async ({ page }) => {
+    await page.goto(`/calculators/transition-readiness?${READY}`);
+    await expect(page.getByText('Ready to Transition')).toBeVisible();
+    await expect(page.getByText('Your income, savings, and VA claim status support a successful separation.')).toBeVisible();
+    await expect(page.getByText(/income, savings, and timeline support/)).toHaveCount(0);
+  });
+
+  test('TR-03: retiree who has not filed sees "Not yet filed" and the file step', async ({ page }) => {
+    await page.goto('/calculators/transition-readiness?rank=e7&yos=20&dep=yes&sal=90000&exp=4000&mode=quick&ef=40000&va=-1');
+    await expect(page.getByText('Not yet filed', { exact: true })).toBeVisible();
+    await expect(page.getByText('TRICARE retiree', { exact: true })).toHaveCount(0);
+    await expect(page.getByText('File your VA disability claim before you separate')).toBeVisible();
+  });
+
+  test('TR-03: "0% (filed, no rating)" reads as filed', async ({ page }) => {
+    await page.goto(`/calculators/transition-readiness?${READY.replace('va=30', 'va=0')}`);
+    await expect(page.getByText('Filed (0%)')).toBeVisible();
+    await expect(page.getByText('File your VA disability claim before you separate')).toHaveCount(0);
+  });
+
+  test('TR-04: months of service count toward 20 years (yosm)', async ({ page }) => {
+    const now = new Date();
+    const sep = new Date(now.getFullYear(), now.getMonth() + 6);
+    await page.goto(`/calculators/transition-readiness?rank=e7&yos=19&yosm=6&sm=${sep.getMonth()}&sy=${sep.getFullYear()}&dep=yes&sal=90000&exp=4000&mode=quick&va=30`);
+    await expect(page.locator('#yos-months')).toHaveValue('6');
+    await expect(page.getByText('Military retired pay (federally taxable)')).toBeVisible();
+  });
+
+  test('TR-05: VA healthcare with dependents is flagged, not $0', async ({ page }) => {
+    await page.goto(`/calculators/transition-readiness?${READY.replace('va=30', 'va=70').replace('hca=employer', 'hca=va')}`);
+    await expect(page.getByTestId('tr-healthcare-row')).toHaveText('Veteran only (family not counted)');
+    await expect(page.getByTestId('tr-va-family-warning')).toContainText('VA care covers the veteran only.');
+    await expect(page.getByText('Ready to Transition')).toHaveCount(0);
+  });
+
+  test('TR-05: retiree TRICARE counts the 2026 Select Group A family fee ($375/yr)', async ({ page }) => {
+    await page.goto('/calculators/transition-readiness?rank=e7&yos=20&dep=yes&sal=90000&exp=4000&mode=quick&va=30');
+    await expect(page.getByTestId('tr-healthcare-row')).toHaveText('+$31.25/mo (retiree enrollment fee)');
+    await expect(page.getByText(/TRICARE Select Group A enrollment fee, \$375\.00\/year/)).toBeVisible();
+  });
+
+  test('TR-07: detailed-mode expenses survive the share link', async ({ page }) => {
+    await page.goto('/calculators/transition-readiness?rank=e6&yos=10&sal=80000&mode=detailed&eh=1800&ec=400&eg=700&eo=300');
+    await expect(page.getByText('$3,200/mo').first()).toBeVisible();
+    await expect(page.getByText(/Enter your monthly expenses/)).toHaveCount(0);
+  });
+
+  test('TR-07: VA rate note follows dependents; wage base disclosed; W-5 at 10 years has no pay row', async ({ page }) => {
+    await page.goto(`/calculators/transition-readiness?${READY.replace('dep=yes', 'dep=no')}`);
+    await expect(page.getByText('Without dependents, the estimate uses the veteran-alone rate.')).toBeVisible();
+    await expect(page.getByText('Estimate assumes veteran with spouse.', { exact: false })).toHaveCount(0);
+    await expect(page.getByText(/Social Security tax stops at the annual wage base/)).toBeVisible();
+    await page.goto('/calculators/transition-readiness?rank=w5&yos=10&sal=80000&exp=3500&mode=quick');
+    await expect(page.getByTestId('tr-no-pay-row')).toContainText('no W-5 basic pay at 10 years');
+  });
+});

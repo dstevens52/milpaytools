@@ -7,47 +7,19 @@ import { fireCalculatorEvent } from '@/lib/analytics';
 import { useUserInputGate } from '@/components/calculators/shared/useUserInputGate';
 import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import { readUrlParams } from '@/data/calculatorUrlParams';
+import {
+  buildTimeline,
+  parseISODate,
+  type ItemStatus,
+  type SepType,
+  type TampOption,
+  type TimelineItem,
+  type VaOption,
+} from '@/lib/calculations/separation-timeline';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-type Phase = 'pre' | 'sep' | 'post';
-type ItemStatus = 'past' | 'active' | 'approaching' | 'future' | 'sep-day';
-type TampOption = 'yes' | 'no' | 'unknown';
-type SepType = 'separating' | 'retiring';
-type VaOption = 'yes' | 'no' | 'unknown';
-
-interface TimelineItem {
-  id: string;
-  phase: Phase;
-  name: string;
-  what: string;
-  date?: Date;
-  startDate?: Date;
-  endDate?: Date;
-  isRange: boolean;
-  status: ItemStatus;
-  daysFromToday: number | null;
-  daysUntilStart: number | null;
-  daysUntilEnd: number | null;
-}
+// Types, date parsing and the timeline rules: src/lib/calculations/separation-timeline.ts
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function addDays(date: Date, days: number): Date {
-  const d = new Date(date);
-  d.setDate(d.getDate() + days);
-  return d;
-}
-
-function addYears(date: Date, years: number): Date {
-  const d = new Date(date);
-  d.setFullYear(d.getFullYear() + years);
-  return d;
-}
-
-function diffDays(from: Date, to: Date): number {
-  return Math.round((to.getTime() - from.getTime()) / 86400000);
-}
 
 function fmtDate(d: Date): string {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -55,14 +27,6 @@ function fmtDate(d: Date): string {
 
 function fmtDateShort(d: Date): string {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-}
-
-function parseISODate(s: string): Date | null {
-  if (!s) return null;
-  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (!m) return null;
-  const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
-  return isNaN(d.getTime()) ? null : d;
 }
 
 function fmtDaysLabel(days: number): string {
@@ -126,208 +90,6 @@ const STATUS_LABELS: Record<ItemStatus, string> = {
   future: 'Upcoming',
   'sep-day': 'Separation day',
 };
-
-// ─── Build timeline ───────────────────────────────────────────────────────────
-
-function buildTimeline(
-  sepDate: Date,
-  today: Date,
-  sepType: SepType,
-  tamp: TampOption,
-  vaFiled: VaOption,
-): TimelineItem[] {
-  function pointStatus(date: Date, isSepDay = false): ItemStatus {
-    if (isSepDay) return 'sep-day';
-    if (date < today) return 'past';
-    const days = diffDays(today, date);
-    if (days === 0) return 'active';
-    if (days <= 30) return 'approaching';
-    return 'future';
-  }
-
-  function rangeStatus(startDate: Date, endDate: Date): ItemStatus {
-    if (today >= startDate && today <= endDate) return 'active';
-    if (endDate < today) return 'past';
-    const daysToStart = diffDays(today, startDate);
-    if (daysToStart <= 30) return 'approaching';
-    return 'future';
-  }
-
-  const bddOpens = addDays(sepDate, -180);
-  const bddCloses = addDays(sepDate, -90);
-  const tampEnd = addDays(sepDate, 180);
-  const sgliFreeEnds = addDays(sepDate, 120);
-  const vgliNoExamEnd = addDays(sepDate, 240);
-  const finalMoveDeadline = sepType === 'retiring' ? addYears(sepDate, 3) : addDays(sepDate, 180);
-  const vgliWindowCloses = addDays(sepDate, 485);
-
-  const items: TimelineItem[] = [];
-
-  // ── Pre-separation ────────────────────────────────────────────────────────
-
-  if (vaFiled !== 'yes') {
-    // A past opening date is not "Expired" while the window is still open (through bddCloses).
-    // math-audit-round-2 SEP-01.
-    const bddWindowOpen = today >= bddOpens && today <= bddCloses;
-    items.push({
-      id: 'bdd-opens',
-      phase: 'pre',
-      name: 'BDD Filing Window Opens',
-      what: 'File your VA disability claim through Benefits Delivery at Discharge. Filing now may help VA process your claim sooner.',
-      date: bddOpens,
-      isRange: false,
-      status: bddWindowOpen ? 'active' : pointStatus(bddOpens),
-      daysFromToday: diffDays(today, bddOpens),
-      daysUntilStart: null,
-      daysUntilEnd: null,
-    });
-  }
-
-  items.push({
-    id: 'shpe-sha',
-    phase: 'pre',
-    name: 'Schedule SHPE / SHA',
-    what: 'Schedule your Separation Health Physical Exam and Separation Health Assessment. SHA Part A is required for BDD claims.',
-    startDate: bddOpens,
-    endDate: bddCloses,
-    isRange: true,
-    status: rangeStatus(bddOpens, bddCloses),
-    daysFromToday: null,
-    daysUntilStart: diffDays(today, bddOpens),
-    daysUntilEnd: diffDays(today, bddCloses),
-  });
-
-  if (vaFiled !== 'yes') {
-    items.push({
-      id: 'bdd-closes',
-      phase: 'pre',
-      name: 'BDD Filing Window Closes',
-      what: 'Last day to file through BDD. After this, file a standard claim post-separation.',
-      date: bddCloses,
-      isRange: false,
-      status: pointStatus(bddCloses),
-      daysFromToday: diffDays(today, bddCloses),
-      daysUntilStart: null,
-      daysUntilEnd: null,
-    });
-  }
-
-  items.push({
-    id: 'tap',
-    phase: 'pre',
-    name: 'TAP Completion Deadline',
-    what: 'All TAP requirements should be complete by this date. Retirees should begin 18–24 months before separation.',
-    date: bddCloses,
-    isRange: false,
-    status: pointStatus(bddCloses),
-    daysFromToday: diffDays(today, bddCloses),
-    daysUntilStart: null,
-    daysUntilEnd: null,
-  });
-
-  // ── Separation day ─────────────────────────────────────────────────────────
-
-  items.push({
-    id: 'last-day',
-    phase: 'sep',
-    name: 'Last Active Duty Day',
-    what: 'Final active-duty paycheck. Base pay, BAH, BAS, and all active-duty entitlements end.',
-    date: sepDate,
-    isRange: false,
-    status: 'sep-day',
-    daysFromToday: diffDays(today, sepDate),
-    daysUntilStart: null,
-    daysUntilEnd: null,
-  });
-
-  items.push({
-    id: 'tricare-ends',
-    phase: 'sep',
-    name: 'TRICARE Active-Duty Coverage Ends',
-    what: 'Active-duty TRICARE coverage ends at midnight on your last day. If TAMP-eligible, transitional coverage begins the next day.',
-    date: sepDate,
-    isRange: false,
-    status: 'sep-day',
-    daysFromToday: diffDays(today, sepDate),
-    daysUntilStart: null,
-    daysUntilEnd: null,
-  });
-
-  // ── Post-separation ───────────────────────────────────────────────────────
-
-  if (tamp !== 'no') {
-    items.push({
-      id: 'tamp',
-      phase: 'post',
-      name: 'TAMP Coverage Period',
-      what: "Transitional Assistance Management Program provides 180 days of TRICARE coverage. Not automatic — verify eligibility with your service branch before separation. After TAMP, you'll need employer coverage, VA healthcare, or a marketplace plan.",
-      startDate: sepDate,
-      endDate: tampEnd,
-      isRange: true,
-      status: rangeStatus(sepDate, tampEnd),
-      daysFromToday: null,
-      daysUntilStart: diffDays(today, sepDate),
-      daysUntilEnd: diffDays(today, tampEnd),
-    });
-  }
-
-  items.push({
-    id: 'sgli-ends',
-    phase: 'post',
-    name: 'SGLI Free Coverage Ends',
-    what: "Servicemembers' Group Life Insurance continues at no cost for 120 days after separation, then ends unless converted to VGLI.",
-    date: sgliFreeEnds,
-    isRange: false,
-    status: pointStatus(sgliFreeEnds),
-    daysFromToday: diffDays(today, sgliFreeEnds),
-    daysUntilStart: null,
-    daysUntilEnd: null,
-  });
-
-  items.push({
-    id: 'vgli-no-exam',
-    phase: 'post',
-    name: 'VGLI No-Exam Window',
-    what: "Apply for Veterans' Group Life Insurance within 240 days — no health questions required. After 240 days, proof of good health is needed. The full application window extends to 1 year and 120 days (485 days).",
-    startDate: sepDate,
-    endDate: vgliNoExamEnd,
-    isRange: true,
-    status: rangeStatus(sepDate, vgliNoExamEnd),
-    daysFromToday: null,
-    daysUntilStart: diffDays(today, sepDate),
-    daysUntilEnd: diffDays(today, vgliNoExamEnd),
-  });
-
-  items.push({
-    id: 'final-move',
-    phase: 'post',
-    name: 'Final Move Deadline',
-    what: sepType === 'retiring'
-      ? 'Deadline to complete your final government-paid move. Retirees have up to 3 years from retirement date. Contact your branch transportation office to begin coordination.'
-      : 'Deadline to complete your final government-paid move. Separating members have 180 days. Check your orders and branch transportation office for your specific entitlement.',
-    date: finalMoveDeadline,
-    isRange: false,
-    status: pointStatus(finalMoveDeadline),
-    daysFromToday: diffDays(today, finalMoveDeadline),
-    daysUntilStart: null,
-    daysUntilEnd: null,
-  });
-
-  items.push({
-    id: 'vgli-closes',
-    phase: 'post',
-    name: 'VGLI Application Window Closes',
-    what: "Last day to apply for VGLI. After 485 days (1 year + 120 days), conversion from SGLI is no longer available.",
-    date: vgliWindowCloses,
-    isRange: false,
-    status: pointStatus(vgliWindowCloses),
-    daysFromToday: diffDays(today, vgliWindowCloses),
-    daysUntilStart: null,
-    daysUntilEnd: null,
-  });
-
-  return items;
-}
 
 // ─── Timeline card ─────────────────────────────────────────────────────────────
 
@@ -394,6 +156,14 @@ function TimelineCard({ item }: { item: TimelineItem }) {
             Estimate post-separation healthcare costs →
           </Link>
         )}
+        {item.id === 'retiree-tricare' && (
+          <Link
+            href="/calculators/healthcare-comparison?path=tricare-retiree"
+            className="inline-flex items-center gap-1 mt-2 text-xs font-semibold text-red-700 hover:text-red-900 transition-colors"
+          >
+            Estimate retiree TRICARE costs →
+          </Link>
+        )}
       </div>
     </div>
   );
@@ -458,7 +228,8 @@ export function SeparationTimelineCalculator() {
     const typeParam = p.get('type');
     const tampParam = p.get('tamp');
     const vaParam = p.get('va');
-    if (dateParam && /^\d{4}-\d{2}-\d{2}$/.test(dateParam)) setSepDateStr(dateParam);
+    // Only a real calendar date (2026-02-31 is rejected, not rolled to Mar 3): SEP-05.
+    if (dateParam && parseISODate(dateParam)) setSepDateStr(dateParam);
     if (typeParam === 'retiring') setSepType('retiring');
     else if (typeParam === 'separating') setSepType('separating');
     if (tampParam === 'yes') setTamp('yes');
@@ -534,6 +305,7 @@ export function SeparationTimelineCalculator() {
             </div>
           </div>
 
+          {sepType === 'separating' && (
           <div>
             <label htmlFor="tamp-select" className="block text-sm font-medium text-zinc-700 mb-1">
               TAMP Eligible?
@@ -549,6 +321,7 @@ export function SeparationTimelineCalculator() {
               <option value="no">No</option>
             </select>
           </div>
+          )}
 
           <div>
             <label htmlFor="va-select" className="block text-sm font-medium text-zinc-700 mb-1">

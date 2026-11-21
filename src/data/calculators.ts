@@ -194,7 +194,7 @@ export const CALCULATORS: CalculatorDetail[] = [
       'Active-duty TRICARE costs you nothing. Civilian healthcare can cost thousands per year. See exactly what that gap looks like — employer insurance, ACA Marketplace, VA healthcare, and TRICARE Reserve Select compared side by side.',
     features: [
       'Employer, ACA, VA, and TRS comparison',
-      'ACA subsidy calculation by income & FPL',
+      'Retiree TRICARE Prime & Select (Group A or B)',
       'TAMP 180-day bridge cost split',
       'First-year total cost estimate',
     ],

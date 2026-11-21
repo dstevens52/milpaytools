@@ -9,6 +9,9 @@ import { webApplicationSchema } from '@/lib/schema';
 import { ogImage } from '@/lib/og';
 import Link from 'next/link';
 import { currentTricareCosts, TRICARE_COST_YEAR } from '@/data/tricare/current';
+import { HEALTHCARE_2026 } from '@/data/healthcare/2026/constants';
+import { ACA_TAX_CREDIT_NOTE } from '@/lib/calculations/healthcare';
+import { TAMP_ELIGIBILITY, TAMP_VOLUNTARY_NOTE } from '@/data/separation/rules';
 
 const TITLE = 'Military Healthcare Cost Comparison Calculator 2026';
 const DESC =
@@ -44,6 +47,9 @@ const usd2 = (n: number) =>
 const TRS = currentTricareCosts.premiumPlans;
 const TRS_DED = currentTricareCosts.adfm.selectB.deductible;
 const TRS_FAMILY_ANNUAL = usd0(TRS.trsFamily * 12);
+const RET = currentTricareCosts.retiree;
+// Example row: the ACA family silver list price from the data file (was typed as $1,200, the bronze figure).
+const ACA_FAMILY_SILVER = HEALTHCARE_2026.acaNoSubsidy.family.silver.premium;
 
 function Accordion({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -96,7 +102,7 @@ export default function HealthcareComparisonPage() {
             Healthcare Cost Comparison
           </h1>
           <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-2xl">
-            Compare what healthcare costs after separation — employer insurance, ACA Marketplace, VA healthcare, and TRICARE Reserve Select side by side.
+            Compare what healthcare costs after separation — employer insurance, ACA Marketplace, VA healthcare, TRICARE Reserve Select, and retiree TRICARE side by side.
           </p>
         </div>
 
@@ -152,7 +158,7 @@ export default function HealthcareComparisonPage() {
             <ExampleRow label="Employer plan — family (avg employee share, Silver tier)" value="$570/mo — $6,840/yr" highlight />
             <ExampleRow label="Employer plan — typical family deductible & copays" value="+$1,500–$2,500/yr" />
             <ExampleRow label="Employer plan — true first-year cost" value="~$8,340–$9,340/yr" highlight />
-            <ExampleRow label="ACA Marketplace silver plan (family, unsubsidized)" value="$1,200/mo — $14,400/yr" />
+            <ExampleRow label="ACA Marketplace silver plan (family, unsubsidized)" value={`${usd0(ACA_FAMILY_SILVER)}/mo — ${usd0(ACA_FAMILY_SILVER * 12)}/yr`} />
             <ExampleRow label="VA Healthcare (member only — SC conditions, 40% rating)" value="$0 for SC care; family not covered" />
             <ExampleRow label="TRICARE Reserve Select — member + family (if joining Guard/Reserve)" value={`${usd2(TRS.trsFamily)}/mo — ${TRS_FAMILY_ANNUAL}/yr`} highlight />
           </ExampleTable>
@@ -174,20 +180,25 @@ export default function HealthcareComparisonPage() {
             </p>
             <ul className="list-disc list-inside space-y-1.5">
               <li><strong>Employer-sponsored insurance</strong> — if your new employer offers health benefits, this is often a strong starting point because employers usually pay a large share of the premium, significantly lowering your out-of-pocket cost.</li>
-              <li><strong>ACA Marketplace</strong> — individual and family plans available through healthcare.gov. Premiums can be offset by subsidies if your income is below 400% of the Federal Poverty Level.</li>
+              <li><strong>ACA Marketplace</strong> — individual and family plans available through healthcare.gov. {ACA_TAX_CREDIT_NOTE}</li>
               <li><strong>VA Healthcare</strong> — free or low-cost care for veterans with service-connected conditions. Does not cover your family.</li>
               <li><strong>TRICARE Reserve Select (TRS)</strong> — available to members of the Selected Reserve. Lower premiums than ACA in most cases, but requires you to join a Reserve or Guard unit.</li>
-              <li><strong>TAMP</strong> — if you qualify, free TRICARE coverage for 180 days. Use this window to plan and enroll in a permanent option before day 181.</li>
+              <li><strong>TRICARE for retirees</strong> — if you retire from the military, you can enroll in TRICARE Prime or TRICARE Select for an annual enrollment fee.</li>
+              <li><strong>TAMP</strong> — if you qualify, TRICARE continues for 180 days, starting on your separation date. Use this window to plan and enroll in a permanent option before day 181.</li>
             </ul>
           </Accordion>
 
           <Accordion title="How does TAMP work and am I eligible?">
             <p>
-              The Transitional Assistance Management Program (TAMP) provides 180 days of TRICARE Prime or Select coverage after separation at no cost to you or your family — the same coverage you had on active duty.
+              The Transitional Assistance Management Program (TAMP) provides 180 days of TRICARE coverage with no premiums for you and your family. The 180 days begin on your separation date: that date is day 1.
             </p>
             <p>
-              TAMP is not automatic and not available to everyone. Qualifying conditions include: involuntary separation (e.g., reduction in force), early retirement, separation under the Voluntary Separation Incentive (VSI) or Special Separation Benefit (SSB), and certain other special programs.
+              TAMP is not automatic and not available to everyone. Under 10 U.S.C. § 1145, these separations qualify:
             </p>
+            <ul className="list-disc list-inside space-y-1.5" data-testid="tamp-eligibility">
+              {TAMP_ELIGIBILITY.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+            <p>{TAMP_VOLUNTARY_NOTE}</p>
             <p>
               Verify your TAMP eligibility with your branch&apos;s personnel office before separating. If you do qualify, use the 180-day window to compare options, enroll in employer insurance, and avoid a gap in coverage. TAMP ends hard on day 181 — there is no grace period.
             </p>
@@ -200,7 +211,7 @@ export default function HealthcareComparisonPage() {
             <ul className="list-disc list-inside space-y-1.5">
               <li>All veterans with a service-connected (SC) disability rating receive care for SC conditions at $0 copay for service-connected care. No premiums.</li>
               <li>Veterans with 50%+ disability ratings (Priority Group 1) generally face $0 copays for most care. Veterans at lower ratings may have copays for non-SC care — amounts vary by priority group.</li>
-              <li>0% SC veterans receive care generally limited to their service-connected conditions.</li>
+              <li>What a veteran with a 0% service-connected rating pays for care depends on their VA priority group. Check VA.gov.</li>
               <li><strong>VA healthcare covers the veteran only</strong> — your spouse and children are not covered and will need separate insurance.</li>
             </ul>
             <p>
@@ -210,13 +221,25 @@ export default function HealthcareComparisonPage() {
 
           <Accordion title="How do ACA Marketplace subsidies work?">
             <p>
-              The Affordable Care Act&apos;s premium tax credits (APTC) can significantly reduce your monthly premium if your household income falls below a certain percentage of the Federal Poverty Level (FPL). Generally, lower income relative to the FPL means a larger subsidy — but the exact amount depends on your age, location, and the benchmark plan in your area.
-            </p>
-            <p className="text-xs text-zinc-500">
-              FPL thresholds are based on 2025 federal poverty guidelines used for the 2026 coverage year. Verify current figures at Healthcare.gov.
+              {ACA_TAX_CREDIT_NOTE} The credit also depends on where you live and the price of the benchmark plan there, so this calculator shows Marketplace list prices without it.
             </p>
             <p>
-              Subsidies are calculated at tax time and can be taken in advance to reduce your monthly premium. If your income changes during the year, update your marketplace enrollment to avoid a repayment at filing. Losing employer coverage (like separating from service) is a qualifying life event that opens a special enrollment period.
+              The credit is settled on your tax return and can be taken in advance to lower your monthly premium. If your income changes during the year, update your Marketplace application to avoid a repayment at filing. Losing other coverage (like TRICARE when you separate) is a qualifying life event that opens a special enrollment period.
+            </p>
+          </Accordion>
+
+          <Accordion title="What does TRICARE cost for military retirees?">
+            <p>
+              Retirees keep TRICARE but pay an annual enrollment fee for TRICARE Prime or TRICARE Select. Your group depends on when you entered service: Group A if before Jan. 1, 2018, Group B if on or after. {TRICARE_COST_YEAR} enrollment fees per year:
+            </p>
+            <ul className="list-disc list-inside space-y-1.5">
+              <li>TRICARE Prime, Group A: {usd2(RET.primeA.enrollmentFee.individual)} individual / {usd2(RET.primeA.enrollmentFee.family)} family</li>
+              <li>TRICARE Prime, Group B: {usd2(RET.primeB.enrollmentFee.individual)} individual / {usd2(RET.primeB.enrollmentFee.family)} family</li>
+              <li>TRICARE Select, Group A: {usd2(RET.selectA.enrollmentFee.individual)} individual / {usd2(RET.selectA.enrollmentFee.family)} family</li>
+              <li>TRICARE Select, Group B: {usd2(RET.selectB.enrollmentFee.individual)} individual / {usd2(RET.selectB.enrollmentFee.family)} family</li>
+            </ul>
+            <p>
+              Copays, cost-shares and (for Select) a deductible apply on top of the fee. Pick &ldquo;TRICARE (military retiree)&rdquo; in the calculator to see a first-year estimate. Source: TRICARE.mil.
             </p>
           </Accordion>
 

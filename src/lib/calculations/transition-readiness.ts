@@ -13,6 +13,7 @@ import { estimateTaxAdvantage } from '@/lib/utils';
 import { ENLISTED_GRADES } from '@/types/military';
 import { CURRENT_VA_RATES } from '@/data/va-rates/registry';
 import { calculateHigh3Average, calculatePension } from '@/lib/calculations/retirement';
+import { currentTricareCosts } from '@/data/tricare/current';
 import {
   getStateMilitaryRetirementTax,
   stateTaxableRetiredPay,
@@ -35,6 +36,19 @@ const HEALTHCARE_MONTHLY_EMPLOYER = {
   individual: 175,  // 2026 est. employee share, single — midpoint of $150–200/mo typical range
   family: 575,      // 2026 est. employee share, family — midpoint of $500–650/mo typical range
 } as const;
+
+/** TR-05: VA health care is for the veteran only. */
+export const VA_FAMILY_NOT_COVERED = 'VA care covers the veteran only.';
+
+/**
+ * Retiree TRICARE: the annual enrollment fee, current TRICARE cost year, TRICARE Select
+ * Group A (TR-05). Group A: a member retiring at 20 years in these years entered service
+ * before Jan. 1, 2018. Cost-shares when care is used are not included.
+ */
+export function retireeTricareFeeAnnual(hasDependents: boolean): number {
+  const fee = currentTricareCosts.retiree.selectA.enrollmentFee;
+  return hasDependents ? fee.family : fee.individual;
+}
 
 function resolveHealthcare(
   assumption: TransitionReadinessInput['healthcareAssumption'],
@@ -220,19 +234,20 @@ function buildActionSteps(
     adjustedMonthlyExpenses: number;
     totalLiquidSavings: number;
     netAnnualForSalary: (salary: number) => number;
-    vaClaimStatus: 'green' | 'yellow' | 'na';
+    vaClaimStatus: 'green' | 'yellow';
     timelineStatus: 'green' | 'yellow' | 'red';
     isRetirementEligible: boolean;
   }
 ): ActionStep[] {
   const steps: ActionStep[] = [];
 
-  // 1. VA claim — highest priority if unfiled and not retirement-eligible
+  // 1. VA claim — highest priority if unfiled (retirees too: TR-03)
   if (computed.vaClaimStatus === 'yellow') {
     steps.push({
       label: 'File your VA disability claim before you separate',
-      description:
-        `The Benefits Delivery at Discharge (BDD) program lets the VA process your claim while you're still serving. File 180–90 days before separation. Even a 20% rating adds $${Math.round(vaRates[20].veteranAlone)}/month, excluded from federal taxable income.`,
+      description: computed.isRetirementEligible
+        ? `The Benefits Delivery at Discharge (BDD) program lets the VA process your claim while you're still serving. File 180–90 days before separation. For a retiree, a rating below 50% turns part of retired pay into VA pay (a 20% rating: $${Math.round(vaRates[20].veteranAlone)}/month), which is excluded from federal taxable income; at 50% or more, VA pay is paid in addition to retired pay.`
+        : `The Benefits Delivery at Discharge (BDD) program lets the VA process your claim while you're still serving. File 180–90 days before separation. Even a 20% rating adds $${Math.round(vaRates[20].veteranAlone)}/month, excluded from federal taxable income.`,
       priority: 'high',
       href: '/calculators/va-disability',
     });
@@ -338,10 +353,13 @@ export function calculateTransitionReadiness(
     militaryFedBaseAnnual / 12 - militaryFedTaxMonthly - militaryFICAMonthly - militarySpouseStateTaxMonthly
     + monthlyBAH + monthlyBAS;
 
-  // 2. Retirement eligibility at planned separation
-  const separationYOS = input.yearsOfService + input.separationMonths / 12;
-  const isRetirementEligible = separationYOS >= 20;
-  const yosAtSep = Math.floor(separationYOS);
+  // 2. Retirement eligibility at planned separation. Counted in whole months so extra
+  // months of service count toward 20 years (TR-04; 10 U.S.C. § 1409 credits service by month).
+  const serviceMonthsAtSep =
+    input.yearsOfService * 12 + Math.max(0, Math.min(11, input.yearsOfServiceMonths ?? 0)) + input.separationMonths;
+  const separationYOS = serviceMonthsAtSep / 12;
+  const isRetirementEligible = serviceMonthsAtSep >= 240;
+  const yosAtSep = Math.floor(serviceMonthsAtSep / 12);
 
   // 3. Pension (if retirement-eligible) — the same High-3 average and multiplier as the
   // Retirement calculator: the 36 months before separation at the member's current grade,
@@ -408,11 +426,16 @@ export function calculateTransitionReadiness(
 
   // 6. Healthcare replacement cost
   const hasRetireeTricare = isRetirementEligible;
+  const retireeFeeAnnual = hasRetireeTricare ? retireeTricareFeeAnnual(input.hasDependents) : 0;
   const hcResult = hasRetireeTricare
-    ? { cost: 0, label: 'TRICARE (retiree)' }
+    ? { cost: retireeFeeAnnual / 12, label: 'TRICARE (retiree)' }
     : resolveHealthcare(input.healthcareAssumption, input.hasDependents);
   const healthcareCostMonthly = hcResult.cost;
   const healthcareAssumptionLabel = hcResult.label;
+  // TR-05: VA care with dependents leaves the family's coverage uncounted.
+  const healthcareNeedsAttention =
+    !hasRetireeTricare && input.healthcareAssumption === 'va' && input.hasDependents;
+  const healthcareAttentionNote = healthcareNeedsAttention ? VA_FAMILY_NOT_COVERED : null;
 
   // 7. Monthly expenses
   const rawMonthlyExpenses =
@@ -441,26 +464,26 @@ export function calculateTransitionReadiness(
     monthlyGapOrSurplus >= 500 ? 'green' : monthlyGapOrSurplus >= 0 ? 'yellow' : 'red';
   const emergencyFundStatus: 'green' | 'yellow' | 'red' =
     emergencyFundMonths >= 6 ? 'green' : emergencyFundMonths >= 3 ? 'yellow' : 'red';
-  const vaClaimStatus: 'green' | 'yellow' | 'na' = isRetirementEligible
-    ? 'na'
-    : input.vaRating > 0
-    ? 'green'
-    : 'yellow';
+  // TR-03: judged on "Haven't filed yet" (-1) alone, retirees too; "0% (filed, no rating)" is filed.
+  const vaClaimStatus: 'green' | 'yellow' = input.vaRating < 0 ? 'yellow' : 'green';
   const timelineStatus: 'green' | 'yellow' | 'red' =
     input.separationMonths >= 12 ? 'green' : input.separationMonths >= 6 ? 'yellow' : 'red';
 
-  // 11. Overall verdict
+  // 11. Overall verdict: income, savings and the VA claim decide it. The timeline badge is
+  // shown for context only (TR-02: the old "short timeline with issues" test repeated the
+  // deficit and savings tests and could never change the verdict). A family healthcare cost
+  // left uncounted (TR-05) keeps the verdict below "ready".
   const hasDeficit = monthlyGapOrSurplus < 0;
   const veryLowEF = emergencyFundMonths < 3;
-  const shortTimelineWithIssues = input.separationMonths < 6 && (hasDeficit || veryLowEF);
 
   let verdict: 'ready' | 'almost' | 'not-yet';
-  if (hasDeficit || veryLowEF || shortTimelineWithIssues) {
+  if (hasDeficit || veryLowEF) {
     verdict = 'not-yet';
   } else if (
     surplusStatus === 'green' &&
     emergencyFundStatus === 'green' &&
-    (vaClaimStatus === 'green' || vaClaimStatus === 'na')
+    vaClaimStatus === 'green' &&
+    !healthcareNeedsAttention
   ) {
     verdict = 'ready';
   } else {
@@ -516,6 +539,9 @@ export function calculateTransitionReadiness(
     healthcareCostMonthly,
     healthcareAssumptionLabel,
     hasRetireeTricare,
+    retireeTricareFeeAnnual: retireeFeeAnnual,
+    healthcareNeedsAttention,
+    healthcareAttentionNote,
     rawMonthlyExpenses,
     adjustedMonthlyExpenses,
     monthlyGapOrSurplus,
