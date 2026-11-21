@@ -10,14 +10,16 @@ import {
   type VaRating,
   type CoveragePath,
   type FamilyStatus,
+  type RetireePlan,
+  type RetireeGroup,
 } from '@/data/healthcare/2026/constants';
 import { readUrlParams } from '@/data/calculatorUrlParams';
 import {
   calculateHealthcare as calculate,
-  getFPL,
-  getHouseholdSize,
   isFamily,
-  type CalcResult,
+  parseHealthcareParams,
+  tampFirstYearSplit,
+  RETIREE_PLAN_LABEL,
 } from '@/lib/calculations/healthcare';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -33,27 +35,7 @@ function fmtExact(n: number): string {
     : n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-// getHouseholdSize, getFPL, getSubsidyRate, isFamily and calculate: src/lib/calculations/healthcare.ts
-
-// ─── TAMP Split ────────────────────────────────────────────────────────────────
-
-interface TampSplit {
-  firstSixMonthsCost: number;
-  lastSixMonthsPremiums: number;
-  lastSixMonthsDeductible: number;
-  totalFirstYear: number;
-}
-
-function calcTampSplit(result: CalcResult): TampSplit {
-  const lastSixPremiums = result.monthlyPremium * 6;
-  const lastSixDed = Math.round(result.estimatedDeductibleUsage * 0.5);
-  return {
-    firstSixMonthsCost: 0,
-    lastSixMonthsPremiums: lastSixPremiums,
-    lastSixMonthsDeductible: lastSixDed,
-    totalFirstYear: lastSixPremiums + lastSixDed,
-  };
-}
+// isFamily, calculate and the TAMP split: src/lib/calculations/healthcare.ts
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -110,7 +92,7 @@ function CoverageColumn({
       <dl className="space-y-2 text-sm">
         <div className="flex items-center justify-between">
           <dt className="text-zinc-500">Monthly premium</dt>
-          <dd className="font-semibold tabular-nums">{num(premium, path === 'trs')}</dd>
+          <dd className="font-semibold tabular-nums">{num(premium, path === 'trs' || path === 'tricare-retiree')}</dd>
         </div>
         {path !== 'va' && (
           <>
@@ -132,7 +114,7 @@ function CoverageColumn({
             <dd className="font-semibold text-right text-xs leading-tight max-w-[160px]">{vaRatingLabel}</dd>
           </div>
         )}
-        {!isTricare && tier && path !== 'va' && path !== 'trs' && path !== 'tamp' && (
+        {!isTricare && tier && path !== 'va' && path !== 'trs' && path !== 'tricare-retiree' && path !== 'tamp' && (
           <div className="flex items-center justify-between">
             <dt className="text-zinc-500">Plan tier</dt>
             <dd className="font-semibold capitalize">{tier}</dd>
@@ -156,9 +138,9 @@ function CoverageColumn({
 const PATH_LABELS: Record<CoveragePath, string> = {
   'employer': 'Employer-Sponsored Insurance',
   'aca-no-subsidy': 'ACA Marketplace (no subsidy)',
-  'aca-subsidy': 'ACA Marketplace (with subsidy)',
   'va': 'VA Healthcare',
   'trs': 'TRICARE Reserve Select',
+  'tricare-retiree': 'TRICARE (military retiree)',
   'tamp': 'TAMP (180-day bridge)',
 };
 
@@ -167,7 +149,8 @@ export function HealthcareComparisonCalculator() {
   const [path, setPath] = useState<CoveragePath>('employer');
   const [tier, setTier] = useState<PlanTier>('silver');
   const [vaRating, setVaRating] = useState<VaRating>('50plus');
-  const [incomeStr, setIncomeStr] = useState('');
+  const [retireePlan, setRetireePlan] = useState<RetireePlan>('select');
+  const [retireeGroup, setRetireeGroup] = useState<RetireeGroup>('a');
   const [tampEligible, setTampEligible] = useState(false);
 
   const firedRef = useRef(false);
@@ -176,30 +159,31 @@ export function HealthcareComparisonCalculator() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = readUrlParams('healthcare-comparison', window.location.search);
-    const p = params.get('path') as CoveragePath | null;
-    const fs = params.get('family') as FamilyStatus | null;
-    const t = params.get('tier') as PlanTier | null;
-    const vr = params.get('rating') as VaRating | null;
-    const inc = params.get('income');
-    const tamp = params.get('tamp');
-    if (fs) setFamilyStatus(fs);
-    if (p) setPath(p);
-    if (t) setTier(t);
-    if (vr) setVaRating(vr);
-    if (inc) setIncomeStr(inc);
-    if (tamp === 'true') setTampEligible(true);
+    // Only accepted values are applied; anything else keeps the default (HC-01).
+    const u = parseHealthcareParams({
+      family: params.get('family'),
+      path: params.get('path'),
+      tier: params.get('tier'),
+      rating: params.get('rating'),
+      plan: params.get('plan'),
+      group: params.get('group'),
+      tamp: params.get('tamp'),
+    });
+    if (u.family) setFamilyStatus(u.family);
+    if (u.path) setPath(u.path);
+    if (u.tier) setTier(u.tier);
+    if (u.rating) setVaRating(u.rating);
+    if (u.plan) setRetireePlan(u.plan);
+    if (u.group) setRetireeGroup(u.group);
+    if (u.tamp) setTampEligible(true);
   }, []);
 
-  const annualIncome = useMemo(() => {
-    const n = parseInt(incomeStr.replace(/[^0-9]/g, ''), 10);
-    return isNaN(n) ? 0 : n;
-  }, [incomeStr]);
+  const result = useMemo(
+    () => calculate(familyStatus, path, tier, vaRating, { plan: retireePlan, group: retireeGroup }),
+    [familyStatus, path, tier, vaRating, retireePlan, retireeGroup],
+  );
 
-  const result = useMemo(() => calculate(familyStatus, path, tier, vaRating, annualIncome), [
-    familyStatus, path, tier, vaRating, annualIncome,
-  ]);
-
-  const tampSplit = useMemo(() => calcTampSplit(result), [result]);
+  const tampSplit = useMemo(() => tampFirstYearSplit(result), [result]);
 
   const annualGap = result.annualPremium + result.estimatedDeductibleUsage;
 
@@ -216,10 +200,11 @@ export function HealthcareComparisonCalculator() {
     return () => clearTimeout(_gaTimerRef.current);
   }, [result, gaInteracted]);
 
-  const showTier = path === 'employer' || path === 'aca-no-subsidy' || path === 'aca-subsidy';
+  const showTier = path === 'employer' || path === 'aca-no-subsidy';
   const showVaRating = path === 'va';
-  const showIncome = path === 'aca-subsidy';
-  const showTampToggle = path !== 'tamp';
+  const showRetiree = path === 'tricare-retiree';
+  // Retirement is not one of the TAMP categories (10 U.S.C. § 1145(a)(2)).
+  const showTampToggle = path !== 'tamp' && path !== 'tricare-retiree';
 
   function getShareUrl() {
     if (typeof window === 'undefined') return '';
@@ -228,8 +213,12 @@ export function HealthcareComparisonCalculator() {
     url.searchParams.set('path', path);
     if (showTier) url.searchParams.set('tier', tier);
     if (showVaRating) url.searchParams.set('rating', vaRating);
-    if (showIncome && incomeStr) url.searchParams.set('income', incomeStr);
-    if (tampEligible) url.searchParams.set('tamp', 'true');
+    if (showRetiree) {
+      url.searchParams.set('plan', retireePlan);
+      url.searchParams.set('group', retireeGroup);
+    }
+    url.searchParams.delete('income');
+    if (tampEligible && showTampToggle) url.searchParams.set('tamp', 'true');
     return url.toString();
   }
 
@@ -245,7 +234,7 @@ export function HealthcareComparisonCalculator() {
       {/* ── Urgency stat ── */}
       <div className="rounded-lg border-l-4 border-red-600 bg-red-50 px-4 py-3">
         <p className="text-sm text-red-900 leading-relaxed">
-          <span className="font-bold">The average military family pays $0 for healthcare.</span> After separation, premiums alone can run $7,000–$12,000 per year — before deductibles and copays.
+          <span className="font-bold">Active-duty TRICARE has no premiums.</span> After you separate, premiums become a new monthly bill, before deductibles and copays. If you retire, TRICARE continues for an annual enrollment fee.
         </p>
       </div>
 
@@ -287,9 +276,9 @@ export function HealthcareComparisonCalculator() {
             >
               <option value="employer">Employer-sponsored insurance</option>
               <option value="aca-no-subsidy">ACA Marketplace (no subsidy)</option>
-              <option value="aca-subsidy">ACA Marketplace (with subsidy)</option>
               <option value="va">VA Healthcare</option>
               <option value="trs">TRICARE Reserve Select</option>
+              <option value="tricare-retiree">TRICARE (military retiree)</option>
               <option value="tamp">TAMP (180-day bridge)</option>
             </select>
           </div>
@@ -342,35 +331,38 @@ export function HealthcareComparisonCalculator() {
             </div>
           )}
 
-          {/* Annual income for ACA subsidy */}
-          {showIncome && (
-            <div>
-              <label htmlFor="income-input" className="block text-sm font-medium text-zinc-700 mb-1">
-                Annual household income
-              </label>
-              <div className="relative">
-                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">$</span>
-                <input
-                  id="income-input"
-                  type="text"
-                  inputMode="numeric"
-                  value={incomeStr}
-                  onChange={(e) => setIncomeStr(e.target.value)}
-                  placeholder="55,000"
-                  className="w-full rounded-md border border-zinc-300 bg-white pl-7 pr-3 py-2 text-sm text-zinc-900 focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600"
-                />
+          {/* Retiree TRICARE plan and group */}
+          {showRetiree && (
+            <>
+              <div>
+                <label htmlFor="retiree-plan-select" className="block text-sm font-medium text-zinc-700 mb-1">
+                  Retiree plan
+                </label>
+                <select
+                  id="retiree-plan-select"
+                  value={retireePlan}
+                  onChange={(e) => setRetireePlan(e.target.value as RetireePlan)}
+                  className={selectCls}
+                >
+                  <option value="select">{RETIREE_PLAN_LABEL.select}</option>
+                  <option value="prime">{RETIREE_PLAN_LABEL.prime}</option>
+                </select>
               </div>
-              {annualIncome > 0 && (() => {
-                const size = getHouseholdSize(familyStatus);
-                const fpl = getFPL(size);
-                const pct = Math.round((annualIncome / fpl) * 100);
-                return (
-                  <p className="mt-1 text-xs text-zinc-500">
-                    {pct}% of 2025 FPL used for 2026 coverage (household of {size}). Verify at Healthcare.gov.
-                  </p>
-                );
-              })()}
-            </div>
+              <div>
+                <label htmlFor="retiree-group-select" className="block text-sm font-medium text-zinc-700 mb-1">
+                  Retiree group
+                </label>
+                <select
+                  id="retiree-group-select"
+                  value={retireeGroup}
+                  onChange={(e) => setRetireeGroup(e.target.value as RetireeGroup)}
+                  className={selectCls}
+                >
+                  <option value="a">Group A (entered service before Jan. 1, 2018)</option>
+                  <option value="b">Group B (entered service on or after Jan. 1, 2018)</option>
+                </select>
+              </div>
+            </>
           )}
         </div>
       </div>
@@ -450,7 +442,7 @@ export function HealthcareComparisonCalculator() {
               )}
               <p className="text-sm text-zinc-600 mt-1">
                 {path === 'va' && vaRating === '50plus'
-                  ? 'VA healthcare at 50%+ has no premium cost for service-connected conditions.'
+                  ? 'VA health care at a 50% or higher rating (Priority Group 1): no premiums, and generally no copays for care. It covers you only.'
                   : 'This estimate shows the added healthcare cost under your selected coverage assumptions.'}
               </p>
             </div>
@@ -469,7 +461,9 @@ export function HealthcareComparisonCalculator() {
               </h3>
               <dl className="space-y-2 text-sm mb-4">
                 <div className="flex justify-between">
-                  <dt className="text-zinc-500">Annual premiums ({fmtExact(result.monthlyPremium)}/mo × 12)</dt>
+                  <dt className="text-zinc-500">
+                    {path === 'tricare-retiree' ? 'Annual enrollment fee' : `Annual premiums (${fmtExact(result.monthlyPremium)}/mo × 12)`}
+                  </dt>
                   <dd className="font-semibold tabular-nums">{fmt(result.annualPremium)}</dd>
                 </div>
                 {path === 'va' ? (
@@ -521,7 +515,7 @@ export function HealthcareComparisonCalculator() {
                           <dd className="font-semibold tabular-nums">{fmt(tampSplit.lastSixMonthsPremiums)}</dd>
                         </div>
                         <div className="flex justify-between">
-                          <dt className="text-zinc-500">Est. deductible usage (6 mo)</dt>
+                          <dt className="text-zinc-500">Est. deductible usage (~45%, full year: deductibles reset each January)</dt>
                           <dd className="font-semibold tabular-nums">{fmt(tampSplit.lastSixMonthsDeductible)}</dd>
                         </div>
                         <div className="flex justify-between border-t border-zinc-100 pt-2">
@@ -553,7 +547,7 @@ export function HealthcareComparisonCalculator() {
 
         {/* Methodology note */}
         <p className="text-xs text-zinc-400 leading-relaxed">
-          Employer plan estimates use national averages from the KFF Employer Health Benefits Survey. ACA estimates use Healthcare.gov benchmark pricing. Actual costs vary by state, employer, plan, and provider network.
+          Employer plan estimates use national averages from the KFF Employer Health Benefits Survey. ACA estimates are list prices before any premium tax credit. TRICARE figures come from TRICARE.mil. Actual costs vary by state, employer, plan, and provider network.
         </p>
 
         {/* Success outcome */}

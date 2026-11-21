@@ -39,6 +39,65 @@ test.describe('Separation timeline — BDD window status (SEP-01)', () => {
   });
 });
 
+
+// Build 10a: SEP-02–05. Today pinned to Nov 20, 2026.
+test.describe('Separation timeline — rules (build 10a)', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.clock.setFixedTime(new Date(2026, 10, 20, 10, 0, 0));
+  });
+
+  test('SEP-03/04: TAMP ends Aug 27, VGLI deadline Jun 29, 2028 for Mar 1, 2027', async ({ page }) => {
+    await page.goto('/calculators/separation-timeline?date=2027-03-01&type=separating&tamp=yes');
+    await expect(page.getByTestId('timeline-item-tamp')).toContainText('Aug 27, 2027');
+    await expect(page.getByTestId('timeline-item-tamp')).toContainText('day 1');
+    await expect(page.getByTestId('timeline-item-vgli-closes')).toContainText('Jun 29, 2028');
+    await expect(page.locator('main')).not.toContainText('485');
+  });
+
+  test('SEP-03: Jun 1, 2027 → Sep 29, 2028', async ({ page }) => {
+    await page.goto('/calculators/separation-timeline?date=2027-06-01');
+    await expect(page.getByTestId('timeline-item-vgli-closes')).toContainText('Sep 29, 2028');
+  });
+
+  test('SEP-04: preseparation counseling card 365 days before', async ({ page }) => {
+    await page.goto('/calculators/separation-timeline?date=2027-12-01');
+    const card = page.getByTestId('timeline-item-tap-start');
+    await expect(card).toContainText('Start Preseparation Counseling');
+    await expect(card).toContainText('Dec 1, 2026');
+    await expect(card).toContainText('no later than 365 days');
+  });
+
+  test('SEP-02: retiring shows retiree TRICARE enrollment, no TAMP', async ({ page }) => {
+    await page.goto('/calculators/separation-timeline?date=2027-06-01&type=retiring&tamp=yes');
+    const retiree = page.getByTestId('timeline-item-retiree-tricare');
+    await expect(retiree).toBeVisible();
+    // Retirement date + 90 days (tricare.mil/retire); 12-month retroactive note (tricare.mil/retiring).
+    await expect(retiree).toContainText('Aug 30, 2027');
+    await expect(retiree).toContainText('90 days after your retirement date');
+    await expect(retiree).toContainText('retroactive enrollment up to 12 months');
+    await expect(page.getByTestId('timeline-item-tamp')).toHaveCount(0);
+    await expect(page.locator('#tamp-select')).toHaveCount(0);
+    await expect(page.getByRole('link', { name: 'Estimate retiree TRICARE costs →' })).toHaveAttribute('href', '/calculators/healthcare-comparison?path=tricare-retiree');
+  });
+
+  test('SEP-05: impossible date shows the empty state', async ({ page }) => {
+    await page.goto('/calculators/separation-timeline?date=2026-02-31');
+    await expect(page.getByText('Enter your separation date above to see your timeline')).toBeVisible();
+    await expect(page.locator('#sep-date')).toHaveValue('');
+  });
+
+  test('page example: computed VGLI dates, no 485 days, statutory TAMP list', async ({ page }) => {
+    await page.goto('/calculators/separation-timeline');
+    const main = page.locator('main');
+    await expect(main).toContainText('VGLI final deadline (1 year and 120 days)');
+    await expect(main).toContainText('January 28, 2028');
+    await expect(main).toContainText('May 28, 2027');
+    await expect(main).not.toContainText('485');
+    await expect(page.getByTestId('tamp-eligibility').locator('li')).toHaveCount(7);
+    await expect(main).not.toContainText(/early retirement programs|special separation benefits/i);
+  });
+});
+
 test.describe('Separation Benefits Timeline Calculator', () => {
   // Run serially — parallel execution with shared localhost causes flaky date-fill behavior
   test.describe.configure({ mode: 'serial' });
@@ -163,7 +222,8 @@ test.describe('Separation Benefits Timeline Calculator', () => {
   test('URL params pre-populate date and type', async ({ page }) => {
     await page.goto('/calculators/separation-timeline?date=2027-06-01&type=retiring&tamp=no');
     await expect(page.getByLabel(/separation date/i)).toHaveValue('2027-06-01');
-    await expect(page.getByLabel(/TAMP Eligible/i)).toHaveValue('no');
+    // Retiring: the TAMP question is hidden (retirees enroll in retiree TRICARE; SEP-02, build 10a).
+    await expect(page.getByLabel(/TAMP Eligible/i)).toHaveCount(0);
     await expect(page.getByText(/TAMP Coverage Period/i).first()).not.toBeVisible();
     // "3 years" appears in card body and explainer; first() avoids strict mode
     await expect(page.getByText(/3 years/i).first()).toBeVisible();
@@ -184,5 +244,25 @@ test.describe('Separation Benefits Timeline Calculator', () => {
     await fillDate(page, '2027-01-15');
     await expect(page.getByText(/Last Active Duty Day/i).first()).toBeVisible();
     await expect(page.getByText(/SGLI Free Coverage Ends/i).first()).toBeVisible();
+  });
+});
+
+// Build 10a content sweep: posts that repeated the fixed claims.
+test.describe('Separation rules in posts (build 10a)', () => {
+  test('TAMP post: statutory list, day 1, no VSI/SSB', async ({ page }) => {
+    await page.goto('/blog/tamp-healthcare-after-military-separation');
+    const article = page.locator('main');
+    await expect(page.getByTestId('tamp-eligibility').locator('li')).toHaveCount(7);
+    await expect(article).toContainText('A voluntary separation at the end of an enlistment does not qualify on its own; it does if you join the Selected Reserve.');
+    await expect(article).toContainText('starts on your separation date: that date is day 1');
+    await expect(article).not.toContainText(/\(SSB, VSI\)|TAMP begins after your official separation date/);
+  });
+
+  test('SGLI FAQ (FAQPage JSON-LD): 1 year and 120 days; evidence of good health after 240 days', async ({ page }) => {
+    await page.goto('/blog/is-sgli-enough-life-insurance');
+    const ld = (await page.locator('script[type="application/ld+json"]').allTextContents()).join(' ');
+    expect(ld).toContain('within 1 year and 120 days of separation');
+    expect(ld).toContain('after 240 days you’ll need to submit evidence of good health');
+    expect(ld).not.toContain('After 240 days, a medical exam is required.');
   });
 });

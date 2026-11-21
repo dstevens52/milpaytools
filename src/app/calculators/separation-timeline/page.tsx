@@ -8,6 +8,14 @@ import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
 import { ogImage } from '@/lib/og';
 import Link from 'next/link';
+import { separationDeadlines } from '@/lib/calculations/separation-timeline';
+import { TAMP_ELIGIBILITY, TAMP_VOLUNTARY_NOTE } from '@/data/separation/rules';
+
+// The example's dates come from the calculator's own rules (build 10a), not typed in.
+const EXAMPLE_SEP_DATE = new Date(2026, 8, 30); // September 30, 2026
+const EX = separationDeadlines(EXAMPLE_SEP_DATE, 'separating');
+const longDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+const longDateNoYear = (d: Date) => d.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
 
 const TITLE =
   'Military Separation Benefits Timeline Calculator 2026';
@@ -87,7 +95,7 @@ export default function SeparationTimelinePage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Military separation triggers a series of time-sensitive benefits and deadlines that run on separate clocks: SGLI free coverage extends 120 days and VGLI conversion must happen within 240 days; TAMP transitional healthcare (where eligible) runs 180 days; and the VA Benefits Delivery at Discharge window opens 90–180 days before separation. Missing any of these windows can result in gaps in coverage or permanently forfeited benefits.
+          Military separation triggers a series of time-sensitive benefits and deadlines that run on separate clocks: SGLI free coverage extends 120 days; VGLI conversion is open for 1 year and 120 days, and within the first 240 days you don&apos;t need to prove you&apos;re in good health; TAMP transitional healthcare (where eligible) runs 180 days, starting on the separation date; and the VA Benefits Delivery at Discharge window opens 90–180 days before separation. Missing any of these windows can result in gaps in coverage or permanently forfeited benefits.
         </p>
       </div>
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -99,16 +107,17 @@ export default function SeparationTimelinePage() {
             Scenario: E-6 with 10 years of service, voluntary separation on September 30, 2026. Not eligible for TAMP (voluntary ETS). Every deadline below is calculated from that single date.
           </p>
           <ExampleTable>
-            <ExampleRow label="BDD filing window opens (180 days before separation)" value="April 3, 2026" />
-            <ExampleRow label="BDD filing window closes (90 days before separation)" value="July 2, 2026" highlight />
-            <ExampleRow label="Separation date — TRICARE ends" value="September 30, 2026" highlight />
-            <ExampleRow label="SGLI free coverage ends (120 days post-separation)" value="January 28, 2027" />
-            <ExampleRow label="SGLI no-exam VGLI conversion window closes (240 days)" value="May 28, 2027" highlight />
-            <ExampleRow label="Final move deadline — separating member (180 days)" value="March 29, 2027" highlight />
-            <ExampleRow label="VGLI conversion final deadline (485 days)" value="January 28, 2028" />
+            <ExampleRow label="Preseparation counseling must start (365 days before separation)" value={longDate(EX.preseparationCounselingStart)} />
+            <ExampleRow label="BDD filing window opens (180 days before separation)" value={longDate(EX.bddOpens)} />
+            <ExampleRow label="BDD filing window closes (90 days before separation)" value={longDate(EX.bddCloses)} highlight />
+            <ExampleRow label="Separation date — TRICARE ends" value={longDate(EXAMPLE_SEP_DATE)} highlight />
+            <ExampleRow label="SGLI free coverage ends (120 days post-separation)" value={longDate(EX.sgliFreeEnds)} />
+            <ExampleRow label="VGLI without proof of good health: last day (240 days)" value={longDate(EX.vgliNoHealthReviewEnd)} highlight />
+            <ExampleRow label="Final move deadline — separating member (180 days)" value={longDate(EX.finalMoveDeadline)} highlight />
+            <ExampleRow label="VGLI final deadline (1 year and 120 days)" value={longDate(EX.vgliDeadline)} />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> There are three deadlines that catch separating service members off guard. First, the BDD filing window closes July 2 — if you miss it, you can still file after separation but lose the faster processing timeline. Second, the SGLI no-exam window on May 28, 2027 is critical: after that date you must answer health questions and could be denied coverage. Third, the final move deadline of March 29, 2027 is strictly enforced — contact your TMO well in advance of peak PCS season (May–August).
+            <strong>What this means:</strong> There are three deadlines that catch separating service members off guard. First, the BDD filing window closes {longDateNoYear(EX.bddCloses)} — if you miss it, you can still file after separation but lose the faster processing timeline. Second, the VGLI no-health-review window ending {longDate(EX.vgliNoHealthReviewEnd)} is critical: after that date you must submit evidence of good health and could be denied coverage. Third, the final move deadline of {longDate(EX.finalMoveDeadline)} is strictly enforced — contact your TMO well in advance of peak PCS season (May–August).
           </p>
         </ExampleBox>
       </section>
@@ -125,12 +134,12 @@ export default function SeparationTimelinePage() {
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               Your Servicemembers&apos; Group Life Insurance (SGLI) continues at no cost for 120 days
               after separation. After that, it ends — but you can convert to Veterans&apos; Group Life
-              Insurance (VGLI) any time within 1 year and 120 days (485 days) of separation.
+              Insurance (VGLI) any time within 1 year and 120 days of separation: one calendar year, then 120 days.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              The critical window: apply within 240 days and you generally won&apos;t need to prove
+              The critical window: apply within 240 days and you won&apos;t need to prove
               you&apos;re in good health, regardless of your medical status. After 240 days, you&apos;ll need to
-              answer health questions and could be denied. VGLI premiums are based on age and
+              submit evidence that you&apos;re in good health and could be denied. VGLI premiums are based on age and
               coverage amount — set a reminder well before day 240.
             </p>
           </div>
@@ -141,9 +150,14 @@ export default function SeparationTimelinePage() {
             </h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               The Transitional Assistance Management Program (TAMP) provides 180 days of continued
-              TRICARE coverage after separation — but it&apos;s not automatic and not available to
-              everyone. TAMP covers service members who separate under qualifying involuntary
-              conditions, early retirement programs, or certain special separation benefits.
+              TRICARE coverage, starting on your separation date (day 1) — but it&apos;s not automatic
+              and not available to everyone. Under 10 U.S.C. § 1145, these separations qualify:
+            </p>
+            <ul className="list-disc list-inside text-zinc-600 text-sm leading-relaxed mb-3 space-y-1" data-testid="tamp-eligibility">
+              {TAMP_ELIGIBILITY.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+            <p className="text-zinc-600 text-sm leading-relaxed mb-3">
+              {TAMP_VOLUNTARY_NOTE} Retirees don&apos;t use TAMP: they enroll in retiree TRICARE.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               Verify TAMP eligibility with your branch&apos;s personnel office before you separate.
@@ -202,7 +216,9 @@ export default function SeparationTimelinePage() {
           <p className="text-sm text-zinc-600 leading-relaxed">
             Plan to complete required TAP counseling, workshops, and Capstone before final out —
             many milestones are designed to be completed no later than 90 days before separation.
-            If you&apos;re planning retirement, start TAP 18–24 months before your retirement date.
+            By law, preseparation counseling must start no later than 365 days before your separation
+            or retirement date (10 U.S.C. § 1142). If you&apos;re planning retirement, start TAP 18–24
+            months before your retirement date.
             TAP includes financial planning, employment assistance, VA benefits briefings, and the
             required capstone event. Completion is tracked through your Service&apos;s personnel
             system and is a commander&apos;s requirement.

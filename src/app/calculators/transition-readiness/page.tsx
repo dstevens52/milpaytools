@@ -212,7 +212,12 @@ export default function TransitionReadinessPage() {
               Three factors determine the verdict: income surplus, emergency fund runway, and VA
               claim status. <strong>Ready</strong> requires all three to be green — a $500+/month
               income surplus after replacing healthcare, at least 6 months of expenses in liquid
-              savings, and a VA rating filed (or retirement making VA moot).
+              savings, and a VA disability claim filed (a 0% rating counts as filed). The claim
+              matters for retirees too: below a 50% rating, VA pay replaces part of retired pay and
+              is excluded from federal taxable income; at 50% or more, it&apos;s paid in addition. The
+              timeline badge is shown for planning but doesn&apos;t change the verdict. If you pick VA
+              healthcare with dependents, the verdict stops at <strong>Almost</strong>: VA care covers
+              the veteran only, so your family&apos;s coverage isn&apos;t counted.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               <strong>Almost</strong> means no income deficit, but one factor isn&apos;t quite there.{' '}
@@ -270,7 +275,7 @@ export default function TransitionReadinessPage() {
               GI Bill housing allowance if you&apos;re planning to use education benefits post-separation — this can be a meaningful income source
             </li>
             <li>
-              TAMP (Transitional Assistance Management Program) — 180 days of continued TRICARE for eligible separating members;{' '}
+              TAMP (Transitional Assistance Management Program) — if you qualify, 180 days of continued TRICARE starting on your separation date;{' '}
               verify eligibility before assuming you need to buy marketplace coverage immediately
             </li>
             <li>
@@ -278,7 +283,7 @@ export default function TransitionReadinessPage() {
               <Link href="/calculators/healthcare-comparison" className="font-medium text-red-700 hover:text-red-800 transition-colors">
                 use the Healthcare Cost Comparison Calculator
               </Link>{' '}
-              to see costs across employer plans, ACA marketplace, VA care, and TRICARE Reserve Select
+              to see costs across employer plans, ACA marketplace, VA care, TRICARE Reserve Select, and retiree TRICARE
             </li>
           </ul>
         </div>

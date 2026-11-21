@@ -34,6 +34,8 @@ import type { TransitionReadinessInput, FilingStatus } from '@/types/calculator'
 import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { readUrlParams } from '@/data/calculatorUrlParams';
+import { TAMP_ELIGIBILITY, TAMP_VOLUNTARY_NOTE } from '@/data/separation/rules';
+import { TRICARE_COST_YEAR, currentTricareCosts } from '@/data/tricare/current';
 
 // ─── Dropdown options ─────────────────────────────────────────────────────
 
@@ -47,6 +49,11 @@ const GRADE_GROUPS = [
 const YOS_OPTIONS = Array.from({ length: 41 }, (_, i) => ({
   value: String(i),
   label: i === 0 ? 'Less than 1 year' : i === 1 ? '1 year' : `${i} years`,
+}));
+
+const YOS_MONTH_OPTIONS = Array.from({ length: 12 }, (_, i) => ({
+  value: String(i),
+  label: i === 1 ? '1 month' : `${i} months`,
 }));
 
 const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -140,7 +147,7 @@ const VERDICT_CONFIG = {
     icon: '✓',
     iconBg: 'bg-green-700',
     title: 'Ready to Transition',
-    summary: 'Your income, savings, and timeline support a successful separation.',
+    summary: 'Your income, savings, and VA claim status support a successful separation.',
   },
   almost: {
     bg: 'bg-amber-50',
@@ -177,6 +184,7 @@ export function TransitionReadinessCalculator() {
   // Section 1: Military status
   const [grade, setGrade] = useState<PayGrade>('E-6');
   const [yos, setYos] = useState(10);
+  const [yosMonths, setYosMonths] = useState(0);
   const [zipCode, setZipCode] = useState('');
   const [hasDependents, setHasDependents] = useState(true);
   const [sepMonth, setSepMonth] = useState(init.month);
@@ -238,6 +246,7 @@ export function TransitionReadinessCalculator() {
     const p = readUrlParams('transition-readiness', window.location.search);
     const gr = parseGrade(p.get('rank'));
     const yosRaw = p.get('yos');
+    const yosmRaw = p.get('yosm');
     const gz = parseZip(p.get('zip'));
     const dep = parseBool(p.get('dep'));
     const smRaw = p.get('sm');
@@ -248,6 +257,17 @@ export function TransitionReadinessCalculator() {
     const vaRaw = p.get('va');
     const modeRaw = p.get('mode');
     const expRaw = p.get('exp');
+    // Detailed-mode expenses (TR-07): one setting per line.
+    const detailedRaw: [string | null, (n: number) => void][] = [
+      [p.get('eh'), setExpHousing],
+      [p.get('ec'), setExpCar],
+      [p.get('ei'), setExpInsurance],
+      [p.get('eg'), setExpGroceries],
+      [p.get('ed'), setExpDebt],
+      [p.get('ecc'), setExpChildcare],
+      [p.get('eu'), setExpUtilities],
+      [p.get('eo'), setExpOther],
+    ];
     const efRaw = p.get('ef');
     const tspRaw = p.get('tsp');
     const savRaw = p.get('sav');
@@ -263,6 +283,7 @@ export function TransitionReadinessCalculator() {
     if (stRaw && RETIREMENT_STATE_CODES.has(stRaw.toUpperCase())) setRetirementState(stRaw.toUpperCase());
     if (strRaw) { const n = parseFloat(strRaw); if (!isNaN(n) && n >= 0 && n <= 15) setStateTaxRatePct(n); }
     if (yosRaw) { const n = parseInt(yosRaw, 10); if (!isNaN(n) && n >= 0 && n <= 40) setYos(n); }
+    if (yosmRaw) { const n = parseInt(yosmRaw, 10); if (!isNaN(n) && n >= 0 && n <= 11) setYosMonths(n); }
     if (gz) setZipCode(gz);
     if (dep !== null) setHasDependents(dep);
     if (smRaw) { const n = parseInt(smRaw, 10); if (!isNaN(n) && n >= 0 && n <= 11) setSepMonth(n); }
@@ -273,6 +294,9 @@ export function TransitionReadinessCalculator() {
     if (vaRaw) { const n = parseInt(vaRaw, 10); if (!isNaN(n) && n >= -1 && n <= 100) setVaRating(n); }
     if (modeRaw === 'quick' || modeRaw === 'detailed') setExpenseMode(modeRaw);
     if (expRaw) { const n = parseInt(expRaw, 10); if (!isNaN(n) && n >= 0) setTotalExpenses(n); }
+    for (const [raw, set] of detailedRaw) {
+      if (raw) { const n = parseInt(raw, 10); if (!isNaN(n) && n >= 0) set(n); }
+    }
     if (efRaw) { const n = parseInt(efRaw, 10); if (!isNaN(n) && n >= 0) setEmergencyFund(n); }
     if (tspRaw) { const n = parseInt(tspRaw, 10); if (!isNaN(n) && n >= 0) setTspBalance(n); }
     if (savRaw) { const n = parseInt(savRaw, 10); if (!isNaN(n) && n >= 0) setOtherSavings(n); }
@@ -294,6 +318,7 @@ export function TransitionReadinessCalculator() {
     const p = new URLSearchParams();
     p.set('rank', gradeToParam(grade));
     p.set('yos', String(yos));
+    if (yosMonths > 0) p.set('yosm', String(yosMonths));
     if (zipCode) p.set('zip', zipCode);
     p.set('dep', hasDependents ? 'yes' : 'no');
     p.set('sm', String(sepMonth));
@@ -309,6 +334,13 @@ export function TransitionReadinessCalculator() {
     p.set('mode', expenseMode);
     if (expenseMode === 'quick') {
       p.set('exp', String(totalExpenses));
+    } else {
+      // TR-07: detailed-mode lines, so the link reloads the same total.
+      const lines: [string, number][] = [
+        ['eh', expHousing], ['ec', expCar], ['ei', expInsurance], ['eg', expGroceries],
+        ['ed', expDebt], ['ecc', expChildcare], ['eu', expUtilities], ['eo', expOther],
+      ];
+      for (const [name, v] of lines) if (v > 0) p.set(name, String(v));
     }
     p.set('ef', String(emergencyFund));
     p.set('tsp', String(tspBalance));
@@ -329,6 +361,7 @@ export function TransitionReadinessCalculator() {
   const input: TransitionReadinessInput = {
     payGrade: grade,
     yearsOfService: yos,
+    yearsOfServiceMonths: yosMonths,
     zipCode,
     hasDependents,
     separationMonths,
@@ -361,7 +394,7 @@ export function TransitionReadinessCalculator() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       monthlyBAH,
-      grade, yos, zipCode, hasDependents, separationMonths, retirementSystem,
+      grade, yos, yosMonths, zipCode, hasDependents, separationMonths, retirementSystem,
       civilianSalary, spouseIncome, vaRating, crscEligible, retirementState, stateTaxRatePct, filingStatus, healthcareAssumption,
       expenseMode, totalExpenses, expHousing, expCar, expInsurance,
       expGroceries, expDebt, expChildcare, expUtilities, expOther,
@@ -370,6 +403,8 @@ export function TransitionReadinessCalculator() {
   );
 
   const hasEngaged = civilianSalary > 0 && result.rawMonthlyExpenses > 0;
+  // TR-07: no published basic pay for this grade at these years (e.g. W-5 before 20 years).
+  const noPayRow = result.militaryMonthlyBasePay === 0;
 
   const _gaTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const { attach: gaAttach, hasInteracted: gaInteracted, root: gaRoot } = useUserInputGate();
@@ -447,6 +482,16 @@ export function TransitionReadinessCalculator() {
                 options={YOS_OPTIONS}
                 value={String(yos)}
                 onChange={(e) => setYos(Number(e.target.value))}
+                hint="Whole years completed today."
+              />
+
+              <Select
+                label="Plus Months of Service"
+                id="yos-months"
+                options={YOS_MONTH_OPTIONS}
+                value={String(yosMonths)}
+                onChange={(e) => setYosMonths(Number(e.target.value))}
+                hint="Months beyond whole years. They count toward 20 years at your separation date."
               />
 
               <BaseSearchInput
@@ -606,7 +651,9 @@ export function TransitionReadinessCalculator() {
                   }
                 />
                 <p className="text-xs text-zinc-500 mt-1.5">
-                  Estimate assumes veteran with spouse. Actual VA compensation varies by number of children, dependent parents, and Aid &amp; Attendance eligibility.
+                  {hasDependents
+                    ? 'With dependents, the estimate uses the veteran-with-spouse rate (30% and up). A single parent’s rate (veteran with child) differs. Actual VA compensation also varies by number of children, dependent parents, and Aid & Attendance eligibility.'
+                    : 'Without dependents, the estimate uses the veteran-alone rate.'}
                 </p>
                 {result.isRetirementEligible && vaRating >= 10 && vaRating < 50 && (
                   <div className="mt-3">
@@ -661,6 +708,11 @@ export function TransitionReadinessCalculator() {
                   onChange={(e) => setHealthcareAssumption(e.target.value as 'marketplace' | 'employer' | 'va' | 'not-sure')}
                   hint="Healthcare replacement cost varies significantly. Employer coverage, marketplace plans, VA care, and TRICARE retiree coverage produce very different monthly costs."
                 />
+                {result.healthcareNeedsAttention && (
+                  <div className="mt-2 rounded-md bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-800" data-testid="tr-va-family-warning">
+                    {result.healthcareAttentionNote} Your family&apos;s health coverage isn&apos;t counted in this estimate; pick another option to include it.
+                  </div>
+                )}
                 {vaHealthcareWarning && (
                   <div className="mt-2 rounded-md bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-800">
                     VA healthcare enrollment priority depends on disability rating. Veterans with ratings below 50% may face copays or limited enrollment. Consider selecting a backup option.
@@ -782,7 +834,13 @@ export function TransitionReadinessCalculator() {
         </div>{/* end print:hidden input sections */}
 
         {/* ── Results ────────────────────────────────────────────────────── */}
-        {!hasEngaged ? (
+        {noPayRow ? (
+          <div className="rounded-xl border-2 border-amber-200 bg-amber-50 p-8 text-center" data-testid="tr-no-pay-row">
+            <p className="text-amber-900 text-base">
+              The {DATA_YEAR} DFAS pay table has no {grade} basic pay at {yos} {yos === 1 ? 'year' : 'years'} of service, so there&apos;s nothing to compare. Check the pay grade and years of service.
+            </p>
+          </div>
+        ) : !hasEngaged ? (
           <div className="rounded-xl border-2 border-zinc-200 bg-zinc-50 p-8 text-center">
             <p className="text-zinc-500 text-base">
               {civilianSalary > 0 && result.rawMonthlyExpenses === 0
@@ -863,11 +921,11 @@ export function TransitionReadinessCalculator() {
                     label: 'VA claim',
                     status: result.vaClaimStatus,
                     detail:
-                      result.vaClaimStatus === 'na'
-                        ? 'TRICARE retiree'
-                        : result.vaClaimStatus === 'green'
-                        ? 'Filed'
-                        : 'Not yet filed',
+                      result.vaClaimStatus === 'yellow'
+                        ? 'Not yet filed'
+                        : vaRating === 0
+                        ? 'Filed (0%)'
+                        : 'Filed',
                   },
                   {
                     label: 'Timeline',
@@ -1064,7 +1122,7 @@ export function TransitionReadinessCalculator() {
                 {formatCurrency(result.grossedUpCivilianSalary)}/year
               </p>
               <p className="text-xs text-zinc-500 leading-relaxed">
-                This accounts for paying full federal income tax ({FILING_STATUS_LABEL[result.filingStatus].toLowerCase()}, the same on both sides), Social Security &amp; Medicare (7.65%), and estimated state income tax ({result.stateTaxRule?.treatment === 'no_income_tax' ? 'none in ' + result.stateTaxRule.name : `${stateTaxRatePct}%`}) on your entire civilian salary — taxes that military members don&apos;t pay on BAH and BAS.{spouseIncome > 0 && ' Spouse income is counted on both sides.'} VA disability pay and any military retired pay are separate income sources on top of this salary.
+                This accounts for paying full federal income tax ({FILING_STATUS_LABEL[result.filingStatus].toLowerCase()}, the same on both sides), Social Security &amp; Medicare (7.65%), and estimated state income tax ({result.stateTaxRule?.treatment === 'no_income_tax' ? 'none in ' + result.stateTaxRule.name : `${stateTaxRatePct}%`}) on your entire civilian salary — taxes that military members don&apos;t pay on BAH and BAS. Social Security tax stops at the annual wage base, which this estimate doesn&apos;t model, so it overstates tax on very high salaries.{spouseIncome > 0 && ' Spouse income is counted on both sides.'} VA disability pay and any military retired pay are separate income sources on top of this salary.
               </p>
             </div>
 
@@ -1073,20 +1131,23 @@ export function TransitionReadinessCalculator() {
               <p className="text-sm font-semibold text-red-700 mb-2">The Healthcare Reality Check</p>
               {result.hasRetireeTricare ? (
                 <p className="text-sm text-red-700 leading-relaxed">
-                  <span className="font-semibold">Good news:</span> At 20+ years you keep TRICARE retiree coverage at minimal cost. This is worth thousands per year — it&apos;s a major financial advantage of retirement-eligible separation.
+                  <span className="font-semibold">Good news:</span> At 20+ years you keep TRICARE as a retiree. The budget counts the {TRICARE_COST_YEAR} TRICARE Select Group A enrollment fee, {formatCurrency(result.retireeTricareFeeAnnual, true)}/year ({formatCurrency(result.healthcareCostMonthly, true)}/month); copays and cost-shares when you use care are extra. Group A applies if you entered service before Jan. 1, 2018. TRICARE Prime&apos;s Group A fee is higher ({formatCurrency(hasDependents ? currentTricareCosts.retiree.primeA.enrollmentFee.family : currentTricareCosts.retiree.primeA.enrollmentFee.individual, true)}/year).
+                  <span className="block mt-1" data-testid="tr-retiree-select-note">Select is counted because it&apos;s available everywhere; Prime is offered only in Prime Service Areas.</span>
                 </p>
               ) : (
                 <>
                   <p className="text-sm text-red-700 leading-relaxed">
-                    <span className="font-semibold">TAMP covers your first 180 days</span> — no healthcare premium for the first 6 months after separation.
-                    {result.healthcareCostMonthly > 0 ? (
-                      <> After that, estimated <span className="font-bold">{result.healthcareAssumptionLabel.toLowerCase()}</span> cost is <span className="font-bold">{formatCurrency(result.healthcareCostMonthly)}/month</span> — plan for it before your TAMP window expires.</>
+                    <span className="font-semibold">If you qualify for TAMP, your first 180 days are covered</span>, starting on your separation date, with no healthcare premium.
+                    {result.healthcareNeedsAttention ? (
+                      <> After that, <span className="font-bold">VA healthcare</span> covers you. {result.healthcareAttentionNote} Your family&apos;s coverage isn&apos;t counted in this budget.</>
+                    ) : result.healthcareCostMonthly > 0 ? (
+                      <> Without TAMP, or after it ends, estimated <span className="font-bold">{result.healthcareAssumptionLabel.toLowerCase()}</span> cost is <span className="font-bold">{formatCurrency(result.healthcareCostMonthly)}/month</span>.</>
                     ) : (
-                      <> After that, <span className="font-bold">{result.healthcareAssumptionLabel}</span> applies.</>
+                      <> Without TAMP, or after it ends, <span className="font-bold">{result.healthcareAssumptionLabel}</span> applies.</>
                     )}
                   </p>
                   <p className="text-xs text-red-600 mt-2 pt-2 border-t border-red-200">
-                    The budget analysis uses the ongoing post-TAMP monthly cost. Confirm TAMP eligibility with your unit S1 before separation.
+                    The budget analysis assumes no TAMP and uses the ongoing monthly cost. TAMP covers these separations: {TAMP_ELIGIBILITY.map((t) => t.charAt(0).toLowerCase() + t.slice(1)).join('; ')}. {TAMP_VOLUNTARY_NOTE} Confirm with your unit S1 before separation.
                   </p>
                 </>
               )}
@@ -1110,9 +1171,14 @@ export function TransitionReadinessCalculator() {
                   <span className="text-sm text-zinc-600">
                     Healthcare — {result.hasRetireeTricare ? 'TRICARE retiree' : result.healthcareAssumptionLabel.toLowerCase()}
                   </span>
-                  <span className={`font-mono tabular-nums ${result.hasRetireeTricare || result.healthcareCostMonthly === 0 ? 'text-green-700' : 'text-red-700'}`}>
-                    {result.hasRetireeTricare
-                      ? '~$0/mo (retiree)'
+                  <span
+                    data-testid="tr-healthcare-row"
+                    className={`font-mono tabular-nums ${result.healthcareNeedsAttention ? 'text-amber-700' : result.healthcareCostMonthly === 0 ? 'text-green-700' : 'text-red-700'}`}
+                  >
+                    {result.healthcareNeedsAttention
+                      ? 'Veteran only (family not counted)'
+                      : result.hasRetireeTricare
+                      ? `+${formatCurrency(result.healthcareCostMonthly, true)}/mo (retiree enrollment fee)`
                       : result.healthcareCostMonthly === 0
                       ? '$0/mo'
                       : `+${formatCurrency(result.healthcareCostMonthly)}/mo`}

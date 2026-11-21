@@ -39,3 +39,12 @@ Claude Chat's check of 2026-11-20 plus the downloaded file's size and SHA-256. T
 (`data/sources/hud/FY27_safmrs.xlsx`) is gitignored like the FY2026 file. Generated into
 `src/data/bah/fmr/fmr2027.ts` by `python scripts/build-fmr-data.py --year 2027`; the station
 pages pair it with 2027 BAH (`src/lib/calculations/fmr.ts`).
+
+## `separation-rules-2026.md` — TAMP, VGLI and TAP rules (build 10a)
+
+Claude Chat's rule check of 2026-11-20 (copied verbatim from the build pack): TAMP eligibility
+(10 U.S.C. § 1145(a)(2), with the plain-words list the pages use) and duration (§ 1145(a)(4):
+the separation date is day 1 of 180), VGLI deadlines (VA.gov: 1 year and 120 days; 240 days
+without proof of good health), preseparation counseling start (10 U.S.C. § 1142: no later than
+365 days before separation). JTR final-move limits were not checked. Read by
+`src/data/separation/rules.ts`.

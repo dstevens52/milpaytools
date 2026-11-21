@@ -250,7 +250,11 @@ test.describe('Deployment math — SDP simple interest (DEP-07)', () => {
 // Updated in build 06 (VA): the only change is the BDD action-step copy ("— tax-free for life." →
 // ", excluded from federal taxable income."). With the old sentence restored, the branch reproduced
 // the previous golden (8f5230f8…), so every number is unchanged by the VA rate registry.
-const TR_GOLDEN_SHA256 = 'ecdfd438c15b2f799685af769725053bee29d82e52cafb4665191d8d00536605';
+// Updated in sweep 10a: TR-03 (VA claim factor on "not filed" alone, retirees too), TR-04 (service
+// counted in whole months), TR-05 (retiree Select Group A fee; VA-with-dependents flag) and three new
+// output fields. With those four behaviors reverted and the new fields dropped, the branch reproduced
+// the previous golden (ecdfd438…), so nothing else in transition readiness changed.
+const TR_GOLDEN_SHA256 = '71bc6f267b99565296ea7b9da825b469194a90708366997f19103a36ea3fc7ec';
 
 function transitionSnapshot(): string {
   const out: unknown[] = [TR.FILING_STATUS_LABEL];

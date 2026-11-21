@@ -194,6 +194,8 @@ export type FilingStatus = 'single' | 'mfj' | 'hoh';
 export interface TransitionReadinessInput {
   payGrade: PayGrade;
   yearsOfService: number;
+  /** Months of service beyond the whole years (0–11); counts toward 20 years (TR-04). Default 0. */
+  yearsOfServiceMonths?: number;
   zipCode: string;
   hasDependents: boolean;
   separationMonths: number;
@@ -263,6 +265,12 @@ export interface TransitionReadinessOutput {
   healthcareCostMonthly: number;
   healthcareAssumptionLabel: string;
   hasRetireeTricare: boolean;
+  /** Retiree TRICARE: the annual enrollment fee counted (current TRICARE year, Select Group A). */
+  retireeTricareFeeAnnual: number;
+  /** True when the healthcare cost is incomplete: VA care chosen with dependents (TR-05). */
+  healthcareNeedsAttention: boolean;
+  /** One sentence explaining healthcareNeedsAttention, or null. */
+  healthcareAttentionNote: string | null;
   rawMonthlyExpenses: number;
   adjustedMonthlyExpenses: number;
   monthlyGapOrSurplus: number;
@@ -271,7 +279,8 @@ export interface TransitionReadinessOutput {
   verdict: 'ready' | 'almost' | 'not-yet';
   surplusStatus: 'green' | 'yellow' | 'red';
   emergencyFundStatus: 'green' | 'yellow' | 'red';
-  vaClaimStatus: 'green' | 'yellow' | 'na';
+  /** TR-03: yellow only when the claim hasn't been filed (vaRating -1), retirees included. */
+  vaClaimStatus: 'green' | 'yellow';
   timelineStatus: 'green' | 'yellow' | 'red';
   actionSteps: ActionStep[];
 }

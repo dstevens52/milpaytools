@@ -348,7 +348,7 @@ function transitionExample(): CalculatorSummaryExample {
 }
 
 function healthcareExample(): CalculatorSummaryExample {
-  const r = calculateHealthcare('married-2-children', 'employer', 'silver', '50plus', 0);
+  const r = calculateHealthcare('married-2-children', 'employer', 'silver', '50plus');
   return {
     lead: 'a married member with two children moving to an average employer silver plan',
     figure: `${usd(nonZero(r.annualPremium + r.estimatedDeductibleUsage, 'healthcare-comparison'))}/year`,
@@ -465,8 +465,8 @@ const SUMMARIES: Record<SummaryKey, Omit<CalculatorSummaryData, 'key' | 'example
     basis: 'Built on official VA, TRICARE and DoD timelines.',
   },
   'healthcare-comparison': {
-    what: 'Compares healthcare costs after service (employer plans, the ACA marketplace, VA care, TRICARE Reserve Select and TAMP) with active-duty TRICARE.',
-    inputs: 'family size, coverage after service, plan tier, VA rating, household income, TAMP eligibility',
+    what: 'Compares healthcare costs after service (employer plans, the ACA marketplace, VA care, TRICARE Reserve Select, retiree TRICARE and TAMP) with active-duty TRICARE.',
+    inputs: 'family size, coverage after service, plan tier, VA rating, retiree TRICARE plan and group, TAMP eligibility',
     example: healthcareExample,
     basis: 'Built on TRICARE.mil fees and published cost averages (KFF employer survey, Healthcare.gov).',
   },

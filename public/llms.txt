@@ -168,6 +168,7 @@ Each calculator reads the settings below from its URL, so a link can open a fill
 ### Transition Readiness Calculator (/calculators/transition-readiness)
 - `rank`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work). Default: E-6.
 - `yos`: years of service, 0–40. Default: 10.
+- `yosm`: months of service beyond whole years, 0–11 (count toward 20 years). Default: 0.
 - `zip`: 5-digit ZIP code of the duty station (sets BAH). Default: none.
 - `dep`: yes or no (1/0 and true/false also work). Default: yes.
 - `sm`: separation month, 0–11 (0 = January). Default: 14 months from today.
@@ -182,6 +183,14 @@ Each calculator reads the settings below from its URL, so a link can open a fill
 - `fs`: tax filing status: single, mfj or hoh. Default: from dependents and spouse income.
 - `mode`: quick or detailed (expense entry). Default: quick.
 - `exp`: monthly expenses in dollars (quick mode). Default: 0.
+- `eh`: detailed mode: housing, dollars per month. Default: 0.
+- `ec`: detailed mode: car payments, dollars per month. Default: 0.
+- `ei`: detailed mode: insurance, dollars per month. Default: 0.
+- `eg`: detailed mode: groceries and food, dollars per month. Default: 0.
+- `ed`: detailed mode: debt payments, dollars per month. Default: 0.
+- `ecc`: detailed mode: childcare, dollars per month. Default: 0.
+- `eu`: detailed mode: utilities, dollars per month. Default: 0.
+- `eo`: detailed mode: other expenses, dollars per month. Default: 0.
 - `ef`: emergency fund in dollars. Default: 25000.
 - `tsp`: TSP balance in dollars. Default: 45000.
 - `sav`: other savings in dollars. Default: 0.
@@ -197,10 +206,11 @@ Each calculator reads the settings below from its URL, so a link can open a fill
 
 ### Healthcare Cost Comparison (/calculators/healthcare-comparison)
 - `family`: single, married-no-kids, married-1-child, married-2-children, married-3plus or single-parent. Default: single.
-- `path`: coverage after service: employer, aca-no-subsidy, aca-subsidy, va, trs or tamp. Default: employer.
+- `path`: coverage after service: employer, aca-no-subsidy, va, trs, tricare-retiree or tamp (older links with aca-subsidy open aca-no-subsidy). Default: employer.
 - `tier`: bronze, silver or gold (employer and ACA paths). Default: silver.
 - `rating`: VA rating band (va path): 50plus, 30to40, 10to20 or 0sc. Default: 50plus.
-- `income`: annual household income in dollars (aca-subsidy path). Default: none.
+- `plan`: retiree TRICARE plan (tricare-retiree path): prime or select. Default: select.
+- `group`: retiree TRICARE group (tricare-retiree path): a (entered service before Jan. 1, 2018) or b. Default: a.
 - `tamp`: true = eligible for TAMP. Default: not eligible.
 - Example (married with two children, average employer silver plan): https://www.milpaytools.com/calculators/healthcare-comparison?family=married-2-children&path=employer&tier=silver
 
@@ -526,7 +536,7 @@ Each calculator reads the settings below from its URL, so a link can open a fill
 
 - [How Military Retirement Works: The Basics](https://www.milpaytools.com/blog/how-military-retirement-works): Foundational overview of military retirement — the 20-year vesting cliff (no partial pension under either system), High-3 formula (2.5% × years × High-3 average = 50% at 20 years), BRS formula (2.0% × years × High-3 plus government TSP matching up to 5%), why retirement begins immediately at separation (~age 38–40 for most), annual COLA inflation protection, TRICARE retiree healthcare value ($15,000–$24,000/year vs. civilian plans), and how the pension differs structurally from a 401(k).
 
-- [TAMP: Your 180-Day Healthcare Bridge After Military Service](https://www.milpaytools.com/blog/tamp-healthcare-after-military-separation): TAMP (Transitional Assistance Management Program) provides 180 days of premium-free TRICARE coverage after qualifying separation types — primarily involuntary separations and force-shaping. Covers who qualifies (and who doesn't — routine end-of-contract separation is typically not TAMP-eligible), what coverage includes (same as active-duty TRICARE Prime at $0 premium), the Day 181 hard stop, healthcare options after TAMP (employer plan, TRICARE Reserve Select, ACA marketplace, VA), and the enrollment timing checklist to avoid a coverage gap.
+- [TAMP: Your 180-Day Healthcare Bridge After Military Service](https://www.milpaytools.com/blog/tamp-healthcare-after-military-separation): TAMP (Transitional Assistance Management Program) provides 180 days of premium-free TRICARE coverage, starting on the separation date, after the separations listed in 10 U.S.C. § 1145 (involuntary separation, Reserve members coming off contingency orders, members who join the Selected Reserve, stop-loss, sole survivorship and a few others). Covers who qualifies (a routine end-of-enlistment separation does not on its own), what coverage includes (same as active-duty TRICARE Prime at $0 premium), the Day 181 hard stop, healthcare options after TAMP (employer plan, TRICARE Reserve Select, ACA marketplace, VA), and the enrollment timing checklist to avoid a coverage gap.
 
 - [Deployment Pay Explained: Every Dollar You Earn Downrange](https://www.milpaytools.com/blog/deployment-pay-explained): Component-by-component breakdown of all pay that changes during a combat zone deployment — Combat Zone Tax Exclusion (CZTE) mechanics for enlisted and officers, Hostile Fire Pay ($450/month) / Imminent Danger Pay ($275/month) from October 1, 2026, Family Separation Allowance ($300/month), Hardship Duty Pay–Location ($50–$100/month from October 1, 2026), Savings Deposit Program (10% guaranteed return on up to $10,000), and the elevated TSP contribution limit ($72,000 total additions vs. normal $24,500 elective deferral (2026) — Roth TSP still capped at $24,500; for 2027, $75,000 and $25,500). Includes an E-6 full deployment pay table and the BAH continuation rule. Explains how CZTE interacts with special pays and what the LES looks like in a combat zone.
 
