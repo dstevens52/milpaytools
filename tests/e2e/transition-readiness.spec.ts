@@ -273,6 +273,7 @@ test.describe('Transition readiness — build 10a', () => {
     await page.goto('/calculators/transition-readiness?rank=e7&yos=20&dep=yes&sal=90000&exp=4000&mode=quick&va=30');
     await expect(page.getByTestId('tr-healthcare-row')).toHaveText('+$31.25/mo (retiree enrollment fee)');
     await expect(page.getByText(/TRICARE Select Group A enrollment fee, \$375\.00\/year/)).toBeVisible();
+    await expect(page.getByTestId('tr-retiree-select-note')).toHaveText("Select is counted because it's available everywhere; Prime is offered only in Prime Service Areas.");
   });
 
   test('TR-07: detailed-mode expenses survive the share link', async ({ page }) => {

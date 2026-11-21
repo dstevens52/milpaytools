@@ -1132,6 +1132,7 @@ export function TransitionReadinessCalculator() {
               {result.hasRetireeTricare ? (
                 <p className="text-sm text-red-700 leading-relaxed">
                   <span className="font-semibold">Good news:</span> At 20+ years you keep TRICARE as a retiree. The budget counts the {TRICARE_COST_YEAR} TRICARE Select Group A enrollment fee, {formatCurrency(result.retireeTricareFeeAnnual, true)}/year ({formatCurrency(result.healthcareCostMonthly, true)}/month); copays and cost-shares when you use care are extra. Group A applies if you entered service before Jan. 1, 2018. TRICARE Prime&apos;s Group A fee is higher ({formatCurrency(hasDependents ? currentTricareCosts.retiree.primeA.enrollmentFee.family : currentTricareCosts.retiree.primeA.enrollmentFee.individual, true)}/year).
+                  <span className="block mt-1" data-testid="tr-retiree-select-note">Select is counted because it&apos;s available everywhere; Prime is offered only in Prime Service Areas.</span>
                 </p>
               ) : (
                 <>

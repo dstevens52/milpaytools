@@ -15,6 +15,7 @@ import {
   addDays,
   addYears,
   preseparationCounselingStart,
+  retireeTricareEnrollmentDeadline,
   tampEndDate,
   vgliDeadline,
   vgliNoHealthReviewEnd,
@@ -74,6 +75,8 @@ export interface SeparationDeadlines {
   vgliNoHealthReviewEnd: Date;
   vgliDeadline: Date;
   finalMoveDeadline: Date;
+  /** Retirees: last day to enroll in Prime or Select (retirement date + 90 days). */
+  retireeTricareEnrollmentDeadline: Date;
 }
 
 export function separationDeadlines(sepDate: Date, sepType: SepType): SeparationDeadlines {
@@ -88,6 +91,7 @@ export function separationDeadlines(sepDate: Date, sepType: SepType): Separation
     finalMoveDeadline: sepType === 'retiring'
       ? addYears(sepDate, FINAL_MOVE_RETIRING_YEARS)
       : addDays(sepDate, FINAL_MOVE_SEPARATING_DAYS),
+    retireeTricareEnrollmentDeadline: retireeTricareEnrollmentDeadline(sepDate),
   };
 }
 
@@ -227,18 +231,18 @@ export function buildTimeline(
     daysUntilEnd: null,
   });
 
-  // SEP-02: retirees enroll in a retiree plan instead of TAMP. The enrollment window is
-  // not stated here because it has not been verified for this build.
+  // SEP-02: retirees enroll in a retiree plan instead of TAMP. Window: 90 days after the
+  // retirement date, retroactive enrollment up to 12 months (tricare.mil/retire, /retiring).
   if (retiring) {
     items.push({
       id: 'retiree-tricare',
-      phase: 'sep',
+      phase: 'post',
       name: 'Enroll in Retiree TRICARE',
-      what: 'Retirement is a TRICARE Qualifying Life Event: enroll in TRICARE Prime or TRICARE Select within the window TRICARE sets after your retirement date. Check the deadline at tricare.mil before you retire so coverage has no gap.',
-      date: sepDate,
+      what: "Last day to enroll in TRICARE Prime or TRICARE Select: you have 90 days after your retirement date. If you don't enroll by then, you may request a retroactive enrollment up to 12 months from your retirement date.",
+      date: d.retireeTricareEnrollmentDeadline,
       isRange: false,
-      status: 'sep-day',
-      daysFromToday: diffDays(today, sepDate),
+      status: pointStatus(d.retireeTricareEnrollmentDeadline),
+      daysFromToday: diffDays(today, d.retireeTricareEnrollmentDeadline),
       daysUntilStart: null,
       daysUntilEnd: null,
     });

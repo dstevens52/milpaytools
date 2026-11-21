@@ -43,6 +43,14 @@ test.describe('SEP-03 VGLI deadline: one calendar year, then 120 days', () => {
     });
   }
 
+  test('Feb 29 separation: the anniversary is Feb 28 (Feb 29, 2028 → Jun 28, 2029)', () => {
+    expect(ymd(vgliDeadline(day(2028, 2, 29)))).toBe('2029-06-28');
+    // Not Mar 1 + 120 days (the old roll-over).
+    expect(ymd(vgliDeadline(day(2028, 2, 29)))).not.toBe('2029-06-29');
+    // Feb 28 stays Feb 28, also into a leap year.
+    expect(ymd(vgliDeadline(day(2027, 2, 28)))).toBe('2028-06-27');
+  });
+
   test('240 days is the no-health-review window, not the deadline', () => {
     expect(ymd(vgliNoHealthReviewEnd(day(2026, 9, 30)))).toBe('2027-05-28');
   });
@@ -79,6 +87,16 @@ test.describe('SEP-02 retirees', () => {
       expect(items.find((i) => i.id === 'retiree-tricare')?.what).toMatch(/enroll in TRICARE Prime or TRICARE Select/);
       expect(items.find((i) => i.id === 'tricare-ends')?.what).not.toMatch(/TAMP/);
     }
+  });
+
+  test('retiree card: retirement date + 90 days, with the 12-month retroactive note', () => {
+    const card = buildTimeline(day(2027, 6, 1), day(2026, 11, 20), 'retiring', 'unknown', 'unknown')
+      .find((i) => i.id === 'retiree-tricare')!;
+    expect(ymd(card.date!)).toBe('2027-08-30');
+    expect(card.phase).toBe('post');
+    expect(card.what).toContain('90 days after your retirement date');
+    expect(card.what).toContain('retroactive enrollment up to 12 months from your retirement date');
+    expect(ymd(separationDeadlines(day(2027, 6, 1), 'retiring').retireeTricareEnrollmentDeadline)).toBe('2027-08-30');
   });
 
   test('separating with TAMP unknown: TAMP period shown, no retiree card', () => {

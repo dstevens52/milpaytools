@@ -69,7 +69,12 @@ test.describe('Separation timeline — rules (build 10a)', () => {
 
   test('SEP-02: retiring shows retiree TRICARE enrollment, no TAMP', async ({ page }) => {
     await page.goto('/calculators/separation-timeline?date=2027-06-01&type=retiring&tamp=yes');
-    await expect(page.getByTestId('timeline-item-retiree-tricare')).toBeVisible();
+    const retiree = page.getByTestId('timeline-item-retiree-tricare');
+    await expect(retiree).toBeVisible();
+    // Retirement date + 90 days (tricare.mil/retire); 12-month retroactive note (tricare.mil/retiring).
+    await expect(retiree).toContainText('Aug 30, 2027');
+    await expect(retiree).toContainText('90 days after your retirement date');
+    await expect(retiree).toContainText('retroactive enrollment up to 12 months');
     await expect(page.getByTestId('timeline-item-tamp')).toHaveCount(0);
     await expect(page.locator('#tamp-select')).toHaveCount(0);
     await expect(page.getByRole('link', { name: 'Estimate retiree TRICARE costs →' })).toHaveAttribute('href', '/calculators/healthcare-comparison?path=tricare-retiree');

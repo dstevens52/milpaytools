@@ -23,11 +23,21 @@ https://www.va.gov/life-insurance/options-eligibility/vgli/
 - "You'll need to apply for VGLI within 1 year and 120 days of leaving the military."
 - "If you sign up within 240 days of leaving the military, you won't need to prove you're in good health. If you sign up after the 240-day period, you'll need to submit evidence that you're in good health."
 - Deadline arithmetic: add one calendar year, then 120 days (not a fixed 485 days).
+- From a Feb 29 separation, the one-year anniversary is Feb 28 (deadline Jun 28 of the next year, e.g. Feb 29, 2028 → Jun 28, 2029). VA doesn't specify; the earlier day is the conservative reading (Dan, 2026-11-20).
 
 ## Preseparation counseling / TAP start (10 U.S.C. § 1142)
 https://www.law.cornell.edu/uscode/text/10/1142
 - "In the case of a separation other than a retirement, preseparation counseling shall commence not later than 365 days before the anticipated date."
 - "…in no event shall preseparation counseling commence later than 365 days before the date of retirement or other separation."
+
+## Retiree TRICARE enrollment (verified by Claude Chat on tricare.mil, 2026-11-20)
+https://tricare.mil/retire
+- "You have 90 days after your retirement date to enroll in a TRICARE health plan. You may also qualify to enroll up to 12 months after retiring from active duty."
+
+https://tricare.mil/retiring
+- "If you don't enroll in TRICARE Prime or TRICARE Select within 90 days of retirement, you may request a retroactive enrollment up to 12 months from the date of your retirement."
+
+The separation timeline's retiree card shows the retirement date + 90 days and the 12-month retroactive note.
 
 ## Not verified here (leave values as they are; report them)
 - JTR limits for the final move (separation vs retirement). travel.dod.mil wasn't checked in this session.
