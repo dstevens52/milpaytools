@@ -9,6 +9,7 @@ import {
   type DependentConfig,
   type DisabilityEntry,
 } from '@/lib/calculations/va-disability';
+import { VA_PURCHASE_FUNDING_FEE as FEE, fundingFeeAmount } from '@/lib/calculations/vaLoanFees';
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
@@ -24,6 +25,16 @@ interface Props {
 function fmtDollars(n: number): string {
   return '$' + Math.round(n).toLocaleString('en-US');
 }
+
+const pct2 = (rate: number) => `${(rate * 100).toFixed(2)}%`;
+
+// Funding fee waiver examples, computed from the VA fee table (vaLoanFees.ts):
+// $350K first use and $400K subsequent use, both $0 down.
+const WAIVER_FIRST_PRICE = 350000;
+const WAIVER_SUBSEQUENT_PRICE = 400000;
+const WAIVER_FIRST = fundingFeeAmount(WAIVER_FIRST_PRICE, FEE.first.lt5);
+const WAIVER_SUBSEQUENT = fundingFeeAmount(WAIVER_SUBSEQUENT_PRICE, FEE.subsequent.lt5);
+const fmtK = (n: number) => `$${Math.round(n / 1000)}K`;
 
 // ─── Sub-components ────────────────────────────────────────────────────────
 
@@ -83,8 +94,27 @@ export function VADisabilityUnlocks({
     return null;
   }, [nextThreshold, disabilities, deps, compensation.monthly]);
 
-  // Nothing to show for 0% combined or no conditions entered
-  if (!isCompensable || disabilities.length === 0) return null;
+  // No conditions entered: nothing to show.
+  if (disabilities.length === 0) return null;
+
+  // 0% combined: one short note on the funding fee, not the full panel.
+  if (!isCompensable) {
+    return (
+      <div className="rounded-lg bg-white border border-zinc-200 p-4" data-testid="va-zero-fee-note">
+        <p className="text-sm text-zinc-700 leading-relaxed">
+          A 0% rating doesn&apos;t pay compensation, so on its own it doesn&apos;t exempt you from the VA funding fee.
+          If VA later awards compensation with an effective date before your loan closes, you may be eligible for a
+          refund.
+        </p>
+        <Link
+          href="/blog/va-loan-funding-fee-explained"
+          className="inline-block mt-2 text-sm text-blue-700 hover:text-blue-800 underline transition-colors"
+        >
+          Funding fee rates and exemptions →
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-lg bg-white border border-zinc-200 p-6 space-y-5">
@@ -111,22 +141,22 @@ export function VADisabilityUnlocks({
         <div className="grid grid-cols-2 gap-2 mb-3">
           <div className="bg-white rounded border border-green-100 px-3 py-2">
             <p className="text-[10px] text-green-700 font-semibold uppercase tracking-wide">
-              $350K first-use purchase
+              {fmtK(WAIVER_FIRST_PRICE)} first-use purchase
             </p>
-            <p className="text-base font-bold text-green-900 tabular-nums">$7,525 saved</p>
-            <p className="text-[10px] text-green-600">(2.15% fee waived)</p>
+            <p className="text-base font-bold text-green-900 tabular-nums">{fmtDollars(WAIVER_FIRST)} saved</p>
+            <p className="text-[10px] text-green-600">({pct2(FEE.first.lt5)} fee waived)</p>
           </div>
           <div className="bg-white rounded border border-green-100 px-3 py-2">
             <p className="text-[10px] text-green-700 font-semibold uppercase tracking-wide">
-              $400K subsequent-use
+              {fmtK(WAIVER_SUBSEQUENT_PRICE)} subsequent-use
             </p>
-            <p className="text-base font-bold text-green-900 tabular-nums">$13,200 saved</p>
-            <p className="text-[10px] text-green-600">(3.30% fee waived)</p>
+            <p className="text-base font-bold text-green-900 tabular-nums">{fmtDollars(WAIVER_SUBSEQUENT)} saved</p>
+            <p className="text-[10px] text-green-600">({pct2(FEE.subsequent.lt5)} fee waived)</p>
           </div>
         </div>
         <div className="flex flex-wrap gap-4">
           <Link
-            href="/calculators/va-loan"
+            href="/calculators/va-loan?fee=comp"
             className="text-sm font-semibold text-green-800 hover:text-green-900 underline transition-colors"
           >
             Estimate your VA loan payment →

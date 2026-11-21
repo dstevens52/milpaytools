@@ -25,7 +25,7 @@
 /** Keyed by the /calculators/<slug> path segment. */
 export const CALCULATOR_LAST_REVIEWED = {
   'total-compensation': '2026-11-18', // C1: "excluded from federal taxable income"
-  'va-disability': '2026-11-18',
+  'va-disability': '2026-11-21',
   tsp: '2026-11-18', // S8: title, H1, meta
   retirement: '2026-11-18', // C1: BRS "on or after January 1, 2018"
   pcs: '2026-11-18',
@@ -37,7 +37,7 @@ export const CALCULATOR_LAST_REVIEWED = {
   'transition-readiness': '2026-11-20', // 10a: TAMP wording, VA claim factor, retiree fee, months of service
   'separation-timeline': '2026-11-20', // 10a: VGLI deadline, TAMP day 1, TAP start, retiree enrollment
   'healthcare-comparison': '2026-11-20', // 10a: TAMP list, no ACA subsidy model, retiree TRICARE path
-  'va-loan': '2026-05-29',
+  'va-loan': '2026-11-21',
   deployment: '2026-11-14', // = the "Last reviewed" date shown on the page
   'va-refinance': '2026-05-29',
 } as const satisfies Record<string, string>;

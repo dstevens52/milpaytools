@@ -48,3 +48,10 @@ the separation date is day 1 of 180), VGLI deadlines (VA.gov: 1 year and 120 day
 without proof of good health), preseparation counseling start (10 U.S.C. § 1142: no later than
 365 days before separation). JTR final-move limits were not checked. Read by
 `src/data/separation/rules.ts`.
+
+## `va-funding-fee-2026.md` — VA funding fee rates, exemptions and refunds (build V1)
+
+Claude Chat's check of 2026-11-20/21 on VA.gov (page last updated Oct 5, 2026; rates effective
+April 7, 2023), copied verbatim from the build pack: the purchase rate table, the five funding
+fee exemptions and the two refund rules. The rates match `src/lib/calculations/vaLoanFees.ts`;
+the exemption statuses (`FEE_STATUSES`) and refund wording there come from this file.

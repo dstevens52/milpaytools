@@ -223,13 +223,14 @@ Each calculator reads the settings below from its URL, so a link can open a fill
 - `tax`: annual property tax in dollars. Default: 4200.
 - `ins`: annual homeowners insurance in dollars. Default: 1400.
 - `firstUse`: yes or no (1/0 and true/false also work); first use of the VA loan benefit. Default: yes.
-- `exempt`: yes or no (1/0 and true/false also work); exempt from the funding fee (VA disability compensation). Default: no.
+- `fee`: funding fee status: none, comp (receives VA disability compensation), eligible (eligible for compensation but receives retirement or active-duty pay instead), dic (surviving spouse receiving DIC), predischarge (proposed or memorandum rating from a pre-discharge claim, dated before closing), purpleheart (active duty, Purple Heart) or pending (disability claim pending; fee charged). The five exempt statuses (comp, eligible, dic, predischarge, purpleheart) mean no funding fee. Default: none.
+- `exempt`: yes or no (1/0 and true/false also work); older form of fee, read only when fee is absent (yes = comp, no = none). Default: no.
 - `financeFee`: yes or no (1/0 and true/false also work); roll the funding fee into the loan. Default: yes.
 - `zip`: 5-digit ZIP code for the BAH comparison. Default: none.
 - `rank`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work); for the BAH comparison. Default: E-5.
 - `dep`: yes or no (1/0 and true/false also work); for the BAH comparison. Default: no.
 - `bah`: yes or no (1/0 and true/false also work); show the BAH comparison. Default: yes when zip is given, otherwise no.
-- Example (home price 350,000, first use, no down payment): https://www.milpaytools.com/calculators/va-loan?price=350000&down=0&firstUse=yes&exempt=no
+- Example (home price 350,000, first use, no down payment): https://www.milpaytools.com/calculators/va-loan?price=350000&down=0&firstUse=yes&fee=none
 
 ### VA Refinance Calculator (/calculators/va-refinance)
 - `type`: irrrl or cashout. Default: irrrl.

@@ -7,20 +7,53 @@ import { CalculatorSummary } from '@/components/calculators/shared/CalculatorSum
 import { VALoanCalculator } from '@/components/calculators/va-loan/VALoanCalculator';
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
-import { webApplicationSchema, faqPageSchema } from '@/lib/schema';
+import { FaqSection, type FaqItem } from '@/components/FaqSection';
+import { webApplicationSchema } from '@/lib/schema';
+import { formatCurrency } from '@/lib/utils';
+import { calcVaLoan, VA_LOAN_DEFAULTS } from '@/lib/calculations/vaLoan';
+import {
+  FUNDING_FEE_RATES_EFFECTIVE,
+  VA_PURCHASE_FUNDING_FEE as FEE,
+  fundingFeeAmount,
+} from '@/lib/calculations/vaLoanFees';
 
-const FAQS = [
+// ── Figures (VAL-03): every dollar amount below is computed by the calculator's own
+// math (src/lib/calculations/vaLoan.ts) from its default inputs, or from the fee
+// table (src/lib/calculations/vaLoanFees.ts). Nothing is typed by hand.
+const pct = (rate: number) => `${(rate * 100).toFixed(2)}%`;
+const usd = (n: number) => formatCurrency(n);
+const usdK = (n: number) => `$${Math.round(n / 1000)}K`;
+
+/** The example: calculator defaults (first use, $0 down, fee financed, no exemption). */
+const EX = calcVaLoan(VA_LOAN_DEFAULTS);
+/** Same inputs, exempt from the funding fee (e.g. receiving VA disability compensation). */
+const EX_EXEMPT = calcVaLoan({ ...VA_LOAN_DEFAULTS, feeStatus: 'comp' });
+const EX_MONTHLY_DIFF = EX.totalPITI - EX_EXEMPT.totalPITI;
+const EX_TERM = VA_LOAN_DEFAULTS.termYears;
+const EX_RATE = VA_LOAN_DEFAULTS.rate.toFixed(1);
+
+/** Waiver examples: $400,000, $0 down, first and subsequent use. */
+const WAIVER_PRICE = 400000;
+const WAIVER_FIRST = fundingFeeAmount(WAIVER_PRICE, FEE.first.lt5);
+const WAIVER_SUBSEQUENT = fundingFeeAmount(WAIVER_PRICE, FEE.subsequent.lt5);
+
+const META_TITLE = 'VA Loan Payment Calculator 2026 | Funding Fee, Exemptions & BAH Comparison';
+const META_DESCRIPTION =
+  'Estimate your VA loan monthly payment, see your VA funding fee or whether you\u2019re exempt, and optionally see how your payment compares to BAH.';
+const OG_SUB = 'Monthly payment, funding fee, and BAH comparison';
+
+const FAQS: FaqItem[] = [
   {
     question: 'How does the VA loan funding fee work?',
-    answer: 'The VA funding fee is a one-time payment to the Department of Veterans Affairs — not the lender. First use with $0 down: 2.15% of the loan amount. Subsequent use with $0 down: 3.30%. Putting 5%–9.99% down reduces the fee to 1.50%; 10%+ reduces it to 1.25%. You can pay it at closing or finance it into the loan. Rates are effective through November 14, 2031.',
+    answer: `The VA funding fee is a one-time payment to the Department of Veterans Affairs — not the lender. First use with $0 down: ${pct(FEE.first.lt5)} of the loan amount. Subsequent use with $0 down: ${pct(FEE.subsequent.lt5)}. Putting 5%–9.99% down reduces the fee to ${pct(FEE.first.gte5lt10)}; 10%+ reduces it to ${pct(FEE.first.gte10)}. You can pay it at closing or finance it into the loan. VA's current rates took effect ${FUNDING_FEE_RATES_EFFECTIVE}.`,
   },
   {
     question: 'Who is exempt from the VA funding fee?',
-    answer: 'A qualifying VA funding fee exemption — commonly because the borrower receives or is eligible to receive VA disability compensation — waives the funding fee entirely on every VA loan, including refinances. Other exempt categories include certain pre-discharge situations, active-duty Purple Heart recipients, and eligible surviving spouses receiving DIC. If a disability rating is later awarded with an effective date before closing, a retroactive refund may be available.',
+    answer: `VA's rule: you don't pay the funding fee if any of these is true. (1) You receive VA compensation for a service-connected disability. (2) You're eligible for that compensation but receive retirement or active-duty pay instead. (3) You receive Dependency and Indemnity Compensation (DIC) as the surviving spouse of a Veteran. (4) You're a service member with a proposed or memorandum rating, dated before closing, that says you're eligible for compensation because of a pre-discharge claim. (5) You're on active duty and, on or before closing, provide evidence that you received a Purple Heart. The exemption follows compensation, not a rating number: a 0% rating pays no compensation, so on its own it doesn't exempt anyone. If VA later awards compensation with an effective date before your closing date, you may be eligible for a refund.`,
   },
   {
     question: 'When does a VA loan make more sense than a conventional loan?',
-    answer: 'VA loans offer $0 down and no monthly mortgage insurance at any loan-to-value — conventional PMI runs about $143/month on a $350K loan with 5% down. VA is usually superior for borrowers with limited down payment who plan to hold the home long-term. Conventional may make sense if you have 20%+ down (no PMI and no funding fee), expect to sell within 1–2 years, or are buying an investment property (VA requires primary residence).',
+    answer: 'VA loans offer $0 down for eligible borrowers and have no monthly mortgage insurance at any loan-to-value. VA is usually superior for borrowers with limited down payment who plan to hold the home long-term. Conventional may make sense if you have 20%+ down (no PMI and no funding fee), expect to sell within 1–2 years, or are buying an investment property (VA requires primary residence).',
   },
   {
     question: 'Who qualifies for a VA home loan?',
@@ -33,27 +66,24 @@ const FAQS = [
 ];
 
 export const metadata: Metadata = {
-  title: { absolute: 'VA Loan Payment Calculator 2026 | Funding Fee, BAH Comparison & VA vs Conventional' },
-  description:
-    'Estimate your VA loan monthly payment, see your funding fee (or waiver), compare VA to conventional financing, and optionally see how your payment compares to BAH.',
+  title: { absolute: META_TITLE },
+  description: META_DESCRIPTION,
   alternates: {
     canonical: '/calculators/va-loan',
   },
   openGraph: {
-    title: 'VA Loan Payment Calculator 2026 | Funding Fee, BAH Comparison & VA vs Conventional',
-    description:
-      'Estimate your VA loan monthly payment, see your funding fee (or waiver), compare VA to conventional financing, and optionally see how your payment compares to BAH.',
+    title: META_TITLE,
+    description: META_DESCRIPTION,
     type: 'website',
     url: '/calculators/va-loan',
     siteName: 'MilPayTools',
-    images: ogImage({ type: 'calculator', title: 'VA Loan Payment Calculator 2026', sub: 'Monthly payment, funding fee, and VA vs conventional' }),
+    images: ogImage({ type: 'calculator', title: 'VA Loan Payment Calculator 2026', sub: OG_SUB }),
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'VA Loan Payment Calculator 2026 | Funding Fee, BAH Comparison & VA vs Conventional',
-    description:
-      'Estimate your VA loan monthly payment, see your funding fee (or waiver), compare VA to conventional financing, and optionally see how your payment compares to BAH.',
-    images: ogImage({ type: 'calculator', title: 'VA Loan Payment Calculator 2026', sub: 'Monthly payment, funding fee, and VA vs conventional' }),
+    title: META_TITLE,
+    description: META_DESCRIPTION,
+    images: ogImage({ type: 'calculator', title: 'VA Loan Payment Calculator 2026', sub: OG_SUB }),
   },
 };
 
@@ -62,10 +92,9 @@ export default function VALoanPage() {
     <>
       <JsonLdScript schema={webApplicationSchema({
         name: 'VA Loan Payment Calculator 2026',
-        description: 'Estimate your VA loan monthly payment, see your funding fee (or waiver), compare VA to conventional financing, and optionally see how your payment compares to BAH.',
+        description: META_DESCRIPTION,
         url: '/calculators/va-loan',
       })} />
-      <JsonLdScript schema={faqPageSchema(FAQS)} />
 
       {/* ── Hero ──────────────────────────────────────────────────────── */}
       <section
@@ -109,7 +138,7 @@ export default function VALoanPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100 hidden md:block">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          A VA loan allows eligible service members and veterans to purchase a home with no down payment and no monthly mortgage insurance. The main VA-specific cost is the funding fee — 2.15% of the loan amount at first use with no down payment, or 3.30% at subsequent use — though veterans receiving VA disability compensation are commonly exempt.
+          A VA loan allows eligible service members and veterans to purchase a home with no down payment and no monthly mortgage insurance. The main VA-specific cost is the funding fee — {pct(FEE.first.lt5)} of the loan amount at first use with no down payment, or {pct(FEE.subsequent.lt5)} at subsequent use. Veterans receiving VA disability compensation don&apos;t pay the funding fee.
         </p>
       </div>
           <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
@@ -118,14 +147,14 @@ export default function VALoanPage() {
                 Sample output
               </span>
               <p className="text-[11px] font-medium text-zinc-400 flex-none whitespace-nowrap">
-                First use &middot; $350K home &middot; 6.0% rate &middot; $0 down
+                First use &middot; {usdK(VA_LOAN_DEFAULTS.homePrice)} home &middot; {EX_RATE}% rate &middot; $0 down
               </p>
               <div className="flex items-baseline gap-4 min-w-0 flex-1">
-                <span className="text-[12px] text-zinc-500 whitespace-nowrap">Funding fee <span className="font-semibold text-zinc-700">$7,525</span></span>
+                <span className="text-[12px] text-zinc-500 whitespace-nowrap">Funding fee <span className="font-semibold text-zinc-700" data-testid="vl-hero-fee">{usd(EX.fundingFeeAmount)}</span></span>
                 <span className="text-[12px] text-zinc-500 whitespace-nowrap">PMI <span className="font-semibold text-zinc-700">$0</span></span>
               </div>
               <p className="text-[11px] text-zinc-400 whitespace-nowrap flex-none">
-                Est. payment <span className="text-[16px] font-extrabold text-red-700">$2,611/mo</span>
+                Est. payment <span className="text-[16px] font-extrabold text-red-700" data-testid="vl-hero-piti">{usd(EX.totalPITI)}/mo</span>
               </p>
             </div>
           </div>
@@ -141,7 +170,7 @@ export default function VALoanPage() {
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="mb-6">
           <p className="text-sm sm:text-base text-zinc-600 leading-relaxed mb-5">
-            A VA loan payment typically includes principal, interest, property taxes, and homeowners insurance. VA loans do not require monthly private mortgage insurance, which can save $150–$400/month compared to conventional loans with less than 20% down. Most non-exempt borrowers pay a one-time VA funding fee — 2.15% on first use with $0 down — that can be paid at closing or financed into the loan. Financing the fee lowers cash needed upfront but increases the loan balance and total interest paid over time.
+            A VA loan payment typically includes principal, interest, property taxes, and homeowners insurance. VA loans have no monthly mortgage insurance. Borrowers who aren&apos;t exempt pay a one-time VA funding fee ({pct(FEE.first.lt5)} on first use with $0 down) that can be paid at closing or financed into the loan. Financing the fee lowers cash needed upfront but increases the loan balance and total interest paid over time.
           </p>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
             Take the next step
@@ -176,7 +205,7 @@ export default function VALoanPage() {
               Calculate your VA disability rating
             </p>
             <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-              A rating of 10% or higher waives the funding fee entirely — that&apos;s $7,500+ on a typical $350K purchase. See how your conditions combine using the official bilateral factor formula.
+              Veterans receiving VA disability compensation don&apos;t pay the funding fee: that&apos;s {usd(EX.standardFeeAmount)} on a {usd(VA_LOAN_DEFAULTS.homePrice)} first-use purchase with no down payment. See how your conditions combine using the official bilateral factor formula.
             </p>
             <span className="text-sm font-medium text-red-700">
               Calculate combined VA rating →
@@ -219,24 +248,24 @@ export default function VALoanPage() {
       <section className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ExampleBox>
           <h2 className="text-xl font-bold text-zinc-900 mb-2">
-            E-5, First Use, $350K Home — The Full Picture
+            E-5, First Use, {usdK(VA_LOAN_DEFAULTS.homePrice)} Home — The Full Picture
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed mb-0">
-            Scenario: $350,000 home, $0 down, 6.0% rate, 30-year fixed, first use, no disability exemption, funding fee financed.
+            Scenario: {usd(VA_LOAN_DEFAULTS.homePrice)} home, $0 down, {EX_RATE}% rate, {EX_TERM}-year fixed, first use, no funding fee exemption, funding fee financed.
           </p>
           <ExampleTable>
-            <ExampleRow label="Home price" value="$350,000" />
-            <ExampleRow label="Down payment" value="$0 (0%)" />
-            <ExampleRow label="Base loan amount" value="$350,000" />
-            <ExampleRow label="Funding fee (2.15% — first use, &lt;5% down)" value="$7,525" />
-            <ExampleRow label="Financed loan amount" value="$357,525" highlight />
-            <ExampleRow label="Principal &amp; Interest (6.0%, 30 yr)" value="$2,144/mo" />
-            <ExampleRow label="Annual property taxes ($4,200/yr)" value="$350/mo" />
-            <ExampleRow label="Annual homeowner&apos;s insurance ($1,400/yr)" value="$117/mo" />
-            <ExampleRow label="Total estimated PITI" value="$2,611/mo" highlight />
+            <ExampleRow label="Home price" value={usd(VA_LOAN_DEFAULTS.homePrice)} />
+            <ExampleRow label="Down payment" value={`${usd(VA_LOAN_DEFAULTS.downDollars)} (0%)`} />
+            <ExampleRow label="Base loan amount" value={usd(EX.baseLoan)} />
+            <ExampleRow label={`Funding fee (${pct(EX.fundingFeeRate)} — first use, <5% down)`} value={usd(EX.fundingFeeAmount)} />
+            <ExampleRow label="Financed loan amount" value={usd(EX.financedLoan)} highlight />
+            <ExampleRow label={`Principal & Interest (${EX_RATE}%, ${EX_TERM} yr)`} value={`${usd(EX.monthlyPI)}/mo`} />
+            <ExampleRow label={`Annual property taxes (${usd(VA_LOAN_DEFAULTS.annualTax)}/yr)`} value={`${usd(EX.monthlyTax)}/mo`} />
+            <ExampleRow label={`Annual homeowner's insurance (${usd(VA_LOAN_DEFAULTS.annualIns)}/yr)`} value={`${usd(EX.monthlyIns)}/mo`} />
+            <ExampleRow label="Total estimated PITI" value={`${usd(EX.totalPITI)}/mo`} highlight />
           </ExampleTable>
           <p className="text-sm leading-relaxed text-zinc-700">
-            <strong>What this means:</strong> With $0 down and no PMI ever, the total payment is $2,611/month. The $7,525 funding fee is rolled into the loan, adding roughly $45/month to the P&amp;I payment. A borrower with a qualifying disability exemption pays no funding fee at all — reducing the loan to $350,000 and the monthly P&amp;I to approximately $2,098, saving $46/month over the life of the loan.
+            <strong>What this means:</strong> With $0 down and no PMI ever, the total payment is {usd(EX.totalPITI)}/month. The {usd(EX.fundingFeeAmount)} funding fee is rolled into the loan, adding roughly {usd(EX.feeFinancedExtra)}/month to the P&amp;I payment. A borrower who is exempt from the funding fee (for example, a Veteran receiving VA disability compensation) pays no funding fee at all — the loan stays at {usd(EX_EXEMPT.financedLoan)} and the monthly P&amp;I is approximately {usd(EX_EXEMPT.monthlyPI)}: a monthly payment {usd(EX_MONTHLY_DIFF)} lower for the life of the loan.
           </p>
         </ExampleBox>
       </section>
@@ -257,13 +286,13 @@ export default function VALoanPage() {
                 The VA funding fee is a one-time payment to the Department of Veterans Affairs that helps sustain the VA home loan program for future generations of veterans. It is not paid to the lender and is not an insurance premium — it is a direct payment to VA.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
-                The fee ranges from 1.25% to 3.30% of the loan amount, depending on whether it&apos;s your first or subsequent use of the benefit, and how much you put down. First-time use with no down payment: 2.15%. Subsequent use with no down payment: 3.30%. Putting 5%–9.99% down reduces the fee to 1.50% for both groups; 10%+ down reduces it to 1.25% for both.
+                The fee ranges from {pct(FEE.first.gte10)} to {pct(FEE.subsequent.lt5)} of the loan amount, depending on whether it&apos;s your first or subsequent use of the benefit, and how much you put down. First-time use with no down payment: {pct(FEE.first.lt5)}. Subsequent use with no down payment: {pct(FEE.subsequent.lt5)}. Putting 5%–9.99% down reduces the fee to {pct(FEE.first.gte5lt10)} for both groups; 10%+ down reduces it to {pct(FEE.first.gte10)} for both.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
                 You can either pay the funding fee at closing or finance it into your loan. Financing adds to your loan balance and increases your total interest paid over time, but lowers your upfront cash requirement. Most borrowers finance it.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
-                These rates are effective through November 14, 2031, per the Blue Water Navy Vietnam Veterans Act of 2019.
+                VA&apos;s current rates took effect {FUNDING_FEE_RATES_EFFECTIVE}.
               </p>
               <p className="text-sm text-zinc-600">
                 <a href="/blog/va-loan-funding-fee-explained" className="text-blue-700 hover:text-blue-800 underline">
@@ -280,17 +309,24 @@ export default function VALoanPage() {
             </summary>
             <div className="px-5 pb-5 pt-3 border-t border-zinc-100 space-y-3">
               <p className="text-zinc-600 text-sm leading-relaxed">
-                A qualifying VA funding fee exemption — commonly because the borrower receives or is eligible to receive VA disability compensation — waives the funding fee entirely on every VA loan. This is one of the most financially significant disability benefits, because it applies at the time of use rather than as a fixed monthly payment.
+                Veterans receiving VA disability compensation don&apos;t pay the funding fee, and neither does anyone else on VA&apos;s exemption list (below). This is one of the most financially significant disability benefits, because it applies at the time of use rather than as a fixed monthly payment.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
-                On a $400,000 first-use purchase with $0 down, the standard fee is $8,600 (2.15%). With a 10%+ disability rating, you pay $0. On a subsequent-use purchase, that same home would carry a $13,200 fee (3.30%). If you have a disability rating, the waiver saves you real money every time.
+                On a {usd(WAIVER_PRICE)} first-use purchase with $0 down, the standard fee is {usd(WAIVER_FIRST)} ({pct(FEE.first.lt5)}). A Veteran receiving VA disability compensation pays $0. On a subsequent-use purchase, that same home would carry a {usd(WAIVER_SUBSEQUENT)} fee ({pct(FEE.subsequent.lt5)}), also $0 with the exemption. The exemption follows compensation, not a rating number: a 0% rating pays no compensation, so on its own it doesn&apos;t exempt you.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
-                <strong>Retroactive refunds:</strong> If you received your service-connected disability rating after closing on a VA loan and had already paid the funding fee, you may be eligible for a refund. Contact the VA or your lender to request one.
+                <strong>Refunds:</strong> VA&apos;s rule: if you paid the fee and VA later awards you compensation for a service-connected disability with an effective date before your loan&apos;s closing date, you may be eligible for a refund. A proposed or memorandum rating received after closing doesn&apos;t qualify for a refund.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
-                Also exempt: Purple Heart recipients on active duty, and surviving spouses receiving Dependency and Indemnity Compensation (DIC) for a veteran who died in service or from a service-connected disability.
+                VA&apos;s exemption list. You don&apos;t pay the funding fee if any of these is true:
               </p>
+              <ul className="text-sm text-zinc-600 space-y-1.5 list-disc list-inside">
+                <li>You receive VA compensation for a service-connected disability</li>
+                <li>You&apos;re eligible for that compensation but receive retirement or active-duty pay instead</li>
+                <li>You receive Dependency and Indemnity Compensation (DIC) as the surviving spouse of a Veteran</li>
+                <li>You&apos;re a service member with a proposed or memorandum rating, dated before closing, that says you&apos;re eligible for compensation because of a pre-discharge claim</li>
+                <li>You&apos;re on active duty and, on or before closing, provide evidence that you received a Purple Heart</li>
+              </ul>
               <p className="text-sm text-zinc-600">
                 <a href="/calculators/va-disability" className="text-blue-700 hover:text-blue-800 underline">
                   Calculate your combined disability rating →
@@ -306,13 +342,10 @@ export default function VALoanPage() {
             </summary>
             <div className="px-5 pb-5 pt-3 border-t border-zinc-100 space-y-3">
               <p className="text-zinc-600 text-sm leading-relaxed">
-                <strong>VA loan advantages:</strong> $0 down payment for eligible borrowers, no private mortgage insurance ever, competitive rates, no prepayment penalty, and limits on what sellers can pay in closing costs. The no-PMI feature is significant — PMI on a $350K home with 5% down can run $140–200/month until you reach 20% equity.
+                <strong>VA loan advantages:</strong> $0 down payment for eligible borrowers, no private mortgage insurance ever, competitive rates, no prepayment penalty, and limits on what sellers can pay in closing costs. The no-PMI feature is significant: conventional loans with less than 20% down usually carry private mortgage insurance until enough equity builds up.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
-                <strong>When conventional might make more sense:</strong> If you have 20%+ down payment (no PMI on conventional, and the VA funding fee adds cost), if you&apos;re on your second use and haven&apos;t waived the fee, or if you&apos;re buying an investment property (VA requires the home to be your primary residence). Vacation homes and investment properties are not eligible for VA loans.
-              </p>
-              <p className="text-zinc-600 text-sm leading-relaxed">
-                <strong>The PMI math:</strong> On a $350K home with 5% down, conventional PMI at 0.5% of the loan amount runs about $143/month until you reach 20% equity — typically 7–10 years, depending on your payment rate and home value appreciation. The VA loan has no equivalent cost, which is why the VA loan is usually superior for borrowers with little money down.
+                <strong>When conventional might make more sense:</strong> If you have 20%+ down payment (no PMI on conventional, and the VA funding fee adds cost), if you&apos;re on your second use and aren&apos;t exempt from the fee, or if you&apos;re buying an investment property (VA requires the home to be your primary residence). Vacation homes and investment properties are not eligible for VA loans.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
                 <strong>VA loan occupancy:</strong> VA loans require you to occupy the home as your primary residence. Investment properties and vacation homes are not eligible.
@@ -383,6 +416,10 @@ export default function VALoanPage() {
 
         </div>
 
+        <div className="mb-8">
+          <FaqSection faqs={FAQS} />
+        </div>
+
         {/* Disclaimers */}
         <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-5 mb-6 space-y-3">
           <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Disclaimers</p>
@@ -393,7 +430,7 @@ export default function VALoanPage() {
             MilPayTools is not a lender and does not originate, process, or fund mortgage loans.
           </p>
           <p className="text-xs text-zinc-500 leading-relaxed">
-            Funding fee rates shown are 2026 rates, effective through November 14, 2031, per Public Law 116-23 (Blue Water Navy Vietnam Veterans Act of 2019).
+            Funding fee rates shown are VA&apos;s current rates, effective {FUNDING_FEE_RATES_EFFECTIVE} (VA.gov, &ldquo;VA funding fee and loan closing costs&rdquo;).
           </p>
         </div>
 

@@ -398,7 +398,12 @@ export const CALCULATOR_URL_PARAMS = {
       { name: 'tax', values: 'annual property tax in dollars', default: '4200' },
       { name: 'ins', values: 'annual homeowners insurance in dollars', default: '1400' },
       { name: 'firstUse', values: `${YES_NO}; first use of the VA loan benefit`, default: 'yes' },
-      { name: 'exempt', values: `${YES_NO}; exempt from the funding fee (VA disability compensation)`, default: 'no' },
+      {
+        name: 'fee',
+        values: 'funding fee status: none, comp (receives VA disability compensation), eligible (eligible for compensation but receives retirement or active-duty pay instead), dic (surviving spouse receiving DIC), predischarge (proposed or memorandum rating from a pre-discharge claim, dated before closing), purpleheart (active duty, Purple Heart) or pending (disability claim pending; fee charged). The five exempt statuses (comp, eligible, dic, predischarge, purpleheart) mean no funding fee',
+        default: 'none',
+      },
+      { name: 'exempt', values: `${YES_NO}; older form of fee, read only when fee is absent (yes = comp, no = none)`, default: 'no' },
       { name: 'financeFee', values: `${YES_NO}; roll the funding fee into the loan`, default: 'yes' },
       { name: 'zip', values: `${ZIP} for the BAH comparison`, default: 'none' },
       { name: 'rank', values: `${GRADE}; for the BAH comparison`, default: 'E-5' },
@@ -407,7 +412,7 @@ export const CALCULATOR_URL_PARAMS = {
     ],
     example: {
       label: 'home price 350,000, first use, no down payment',
-      params: { price: '350000', down: '0', firstUse: 'yes', exempt: 'no' },
+      params: { price: '350000', down: '0', firstUse: 'yes', fee: 'none' },
     },
   },
   'va-refinance': {
