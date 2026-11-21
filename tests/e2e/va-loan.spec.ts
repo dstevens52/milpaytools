@@ -153,3 +153,55 @@ test.describe('VA disability → VA loan', () => {
     await expect(page.getByTestId('va-zero-fee-note')).toHaveCount(0);
   });
 });
+
+// Missing spaces (PR #79 review). In JSX, text that follows a {value} or a closing
+// tag and contains an HTML entity (&apos;, &ldquo;) lost its leading space in the
+// compiled output ("3.30%at", "2023(VA.gov", "$7,525you", "Refunds:VA's"). The check
+// reads the rendered text (innerText, every <details> opened), after hydration.
+//   SPACING: a figure glued to a word: "3.30%at", "2023(", "$7,525you".
+//   LABEL:   a label glued to its text: "Refunds:VA's", "sense:If".
+// A statute citation like "38 U.S.C. § 5120(e)" is correct and is skipped.
+const SPACING = /\d%[a-z]|(?<!§\s?)\b\d{4}\(|\$[\d,]+[a-z]/g;
+const LABEL = /[a-z]:[A-Z]/g;
+
+async function gluedText(page: Page): Promise<string[]> {
+  await page.evaluate(() => document.querySelectorAll('details').forEach((d) => { d.open = true; }));
+  const text = await page.locator('body').innerText();
+  const hits: string[] = [];
+  for (const re of [SPACING, LABEL]) {
+    for (const m of text.matchAll(re)) hits.push(text.slice(Math.max(0, m.index - 40), m.index + 20).replace(/\s+/g, ' '));
+  }
+  return hits;
+}
+
+test.describe('Rendered text has no missing spaces', () => {
+  for (const path of ['/calculators/va-loan', '/calculators/va-loan?fee=comp']) {
+    test(path, async ({ page }) => {
+      await page.goto(path);
+      await waitForHydration(page.getByRole('radio', { name: 'None of these apply', exact: true }));
+      if (path.includes('fee=comp')) await expect(page.getByTestId('vl-exempt-result')).toBeVisible();
+      expect(await gluedText(page)).toEqual([]);
+    });
+  }
+
+  test('/calculators/va-disability (default, then a 10% rating)', async ({ page }) => {
+    await page.goto('/calculators/va-disability');
+    const ten = page.getByRole('button', { name: '10%', exact: true });
+    await waitForHydration(ten);
+    expect(await gluedText(page)).toEqual([]);
+    await ten.click();
+    await page.getByRole('button', { name: '+ Add Rating' }).click();
+    await expect(page.getByText('VA Loan Funding Fee Waiver')).toBeVisible();
+    expect(await gluedText(page)).toEqual([]);
+  });
+
+  test('the check catches the broken forms and skips a § citation', () => {
+    const hits = (s: string) => [...s.matchAll(SPACING), ...s.matchAll(LABEL)].length;
+    for (const bad of ['or 3.30%at subsequent', 'April 7, 2023(VA.gov', "that's $7,525you", "Refunds:VA's rule", 'more sense:If you']) {
+      expect(hits(bad), bad).toBeGreaterThan(0);
+    }
+    for (const ok of ['or 3.30% at subsequent', 'April 7, 2023 (VA.gov', "that's $7,525 you", "Refunds: VA's rule", '38 U.S.C. § 5120(e)', '38 U.S.C. §5120(e)']) {
+      expect(hits(ok), ok).toBe(0);
+    }
+  });
+});

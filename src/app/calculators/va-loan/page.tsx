@@ -138,7 +138,7 @@ export default function VALoanPage() {
       {/* ── Direct answer */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-zinc-100 hidden md:block">
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          A VA loan allows eligible service members and veterans to purchase a home with no down payment and no monthly mortgage insurance. The main VA-specific cost is the funding fee — {pct(FEE.first.lt5)} of the loan amount at first use with no down payment, or {pct(FEE.subsequent.lt5)} at subsequent use. Veterans receiving VA disability compensation don&apos;t pay the funding fee.
+          A VA loan allows eligible service members and veterans to purchase a home with no down payment and no monthly mortgage insurance. The main VA-specific cost is the funding fee — {pct(FEE.first.lt5)} of the loan amount at first use with no down payment, or {pct(FEE.subsequent.lt5)}{' '}at subsequent use. Veterans receiving VA disability compensation don&apos;t pay the funding fee.
         </p>
       </div>
           <div className="calc-example max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6">
@@ -315,7 +315,7 @@ export default function VALoanPage() {
                 On a {usd(WAIVER_PRICE)} first-use purchase with $0 down, the standard fee is {usd(WAIVER_FIRST)} ({pct(FEE.first.lt5)}). A Veteran receiving VA disability compensation pays $0. On a subsequent-use purchase, that same home would carry a {usd(WAIVER_SUBSEQUENT)} fee ({pct(FEE.subsequent.lt5)}), also $0 with the exemption. The exemption follows compensation, not a rating number: a 0% rating pays no compensation, so on its own it doesn&apos;t exempt you.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
-                <strong>Refunds:</strong> VA&apos;s rule: if you paid the fee and VA later awards you compensation for a service-connected disability with an effective date before your loan&apos;s closing date, you may be eligible for a refund. A proposed or memorandum rating received after closing doesn&apos;t qualify for a refund.
+                <strong>Refunds:</strong>{' '}VA&apos;s rule: if you paid the fee and VA later awards you compensation for a service-connected disability with an effective date before your loan&apos;s closing date, you may be eligible for a refund. A proposed or memorandum rating received after closing doesn&apos;t qualify for a refund.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
                 VA&apos;s exemption list. You don&apos;t pay the funding fee if any of these is true:
@@ -345,7 +345,7 @@ export default function VALoanPage() {
                 <strong>VA loan advantages:</strong> $0 down payment for eligible borrowers, no private mortgage insurance ever, competitive rates, no prepayment penalty, and limits on what sellers can pay in closing costs. The no-PMI feature is significant: conventional loans with less than 20% down usually carry private mortgage insurance until enough equity builds up.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
-                <strong>When conventional might make more sense:</strong> If you have 20%+ down payment (no PMI on conventional, and the VA funding fee adds cost), if you&apos;re on your second use and aren&apos;t exempt from the fee, or if you&apos;re buying an investment property (VA requires the home to be your primary residence). Vacation homes and investment properties are not eligible for VA loans.
+                <strong>When conventional might make more sense:</strong>{' '}If you have 20%+ down payment (no PMI on conventional, and the VA funding fee adds cost), if you&apos;re on your second use and aren&apos;t exempt from the fee, or if you&apos;re buying an investment property (VA requires the home to be your primary residence). Vacation homes and investment properties are not eligible for VA loans.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
                 <strong>VA loan occupancy:</strong> VA loans require you to occupy the home as your primary residence. Investment properties and vacation homes are not eligible.
@@ -369,7 +369,7 @@ export default function VALoanPage() {
                 <li><strong>Surviving spouses:</strong> Unmarried spouses of veterans who died in service or from a service-connected disability, or who are missing in action / POW</li>
               </ul>
               <p className="text-zinc-600 text-sm leading-relaxed">
-                <strong>Entitlement restoration:</strong> After paying off a previous VA loan and selling (or refinancing to a non-VA loan and restoring entitlement), your VA benefit can be fully restored and used again. The benefit does not expire — it&apos;s a lifetime benefit.
+                <strong>Entitlement restoration:</strong>{' '}After paying off a previous VA loan and selling (or refinancing to a non-VA loan and restoring entitlement), your VA benefit can be fully restored and used again. The benefit does not expire — it&apos;s a lifetime benefit.
               </p>
               <p className="text-sm text-zinc-600">
                 Get your Certificate of Eligibility to confirm your eligibility:{' '}
@@ -430,7 +430,7 @@ export default function VALoanPage() {
             MilPayTools is not a lender and does not originate, process, or fund mortgage loans.
           </p>
           <p className="text-xs text-zinc-500 leading-relaxed">
-            Funding fee rates shown are VA&apos;s current rates, effective {FUNDING_FEE_RATES_EFFECTIVE} (VA.gov, &ldquo;VA funding fee and loan closing costs&rdquo;).
+            Funding fee rates shown are VA&apos;s current rates, effective {FUNDING_FEE_RATES_EFFECTIVE}{' '}(VA.gov, &ldquo;VA funding fee and loan closing costs&rdquo;).
           </p>
         </div>
 
