@@ -11,8 +11,12 @@ import {
   calcSeasoning,
   calcVaRefinance,
   localToday,
+  longerTermSentence,
   parseIsoDate,
+  paymentChangeLabel,
+  paymentSentence,
   rateDropBps,
+  sameTermSentence,
   toIsoDate,
 } from '../../src/lib/calculations/vaRefinance';
 
@@ -100,6 +104,32 @@ test.describe('VRF-01: cash-out amount', () => {
     expect(text).toContain('38 U.S.C. § 3709(d)');
     expect(text).toContain('including repaying the $50,000 cash out');
     expect(text).not.toMatch(/recovered through the lower payment in/);
+  });
+
+  test('payment rises ($50,000 cash out): card, summary, same-term and term lines agree', () => {
+    // Repro from the PR #81 review: ?type=cashout&cash=50000&fee=none&firstUse=yes
+    const r = calcVaRefinance({ ...D, type: 'cashout', cashOut: 50000, feeStatus: 'none', firstUse: true });
+    const rise = pi(357525, 6, 30) - pi(300000, 7, 25);
+    expect(-r.monthlySavings).toBeCloseTo(rise, 6);
+    expect(-r.monthlySavings).toBeCloseTo(23.2, 1);
+    // Card from the unrounded difference ($23), not rounded payments ($2,144 − $2,120 = $24).
+    expect(paymentChangeLabel(r)).toBe('$23 more a month');
+    expect(paymentSentence(r)).toContain('rises by $23,');
+    expect(paymentChangeLabel(r)).not.toContain('$24');
+    // No "lower payment" claim when the payment went up.
+    expect(longerTermSentence(r)).toBe('The new loan also adds 5 years of payments.');
+    const sameTermRise = Math.round(pi(357525, 6, 25) - pi(300000, 7, 25));
+    expect(sameTermSentence(r, 25)).toBe(
+      `At the same remaining term: paid off over 25 years, the new loan's payment would be $${Math.round(pi(357525, 6, 25)).toLocaleString('en-US')} a month, $${sameTermRise} more than your current payment.`,
+    );
+  });
+
+  test('payment drops (defaults): card and term lines', () => {
+    const r = calcVaRefinance(D);
+    expect(paymentChangeLabel(r)).toBe('$313 less a month');
+    expect(longerTermSentence(r)).toBe('Part of the lower payment comes from the longer term: 5 more years of payments.');
+    expect(sameTermSentence(r, 25)).toMatch(/^At the same remaining term: .* less than your current payment\.$/);
+    expect(longerTermSentence(calcVaRefinance({ ...D, newTermYears: 25 }))).toBeNull();
   });
 
   test('cash out $0: same as an IRRRL-style refinance at the cash-out fee', () => {

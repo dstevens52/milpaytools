@@ -295,6 +295,39 @@ export function fullTermSentence(r: VaRefinanceResult): string {
   return `Paid to the end of its term, the new loan (payments plus net closing costs) totals ${amount} ${d > 0 ? 'more' : 'less'} than the remaining payments on your current loan${cash}.${years}`;
 }
 
+/**
+ * The cash-out result card ("Payment change"). Uses the same unrounded difference as
+ * paymentSentence, so the card and the summary always give the same dollar figure.
+ */
+export function paymentChangeLabel(r: VaRefinanceResult): string {
+  const diff = Math.round(r.monthlySavings);
+  if (diff > 0) return `${usd(diff)} less a month`;
+  if (diff < 0) return `${usd(-diff)} more a month`;
+  return 'No change';
+}
+
+const yearsLabel = (n: number) => `${n} year${n === 1 ? '' : 's'}`;
+
+/** "At the same remaining term" line in the full-term block; works in both directions. */
+export function sameTermSentence(r: VaRefinanceResult, yearsRemaining: number): string {
+  const diff = Math.round(r.sameTermSavings);
+  const lead = `At the same remaining term: paid off over ${yearsLabel(yearsRemaining)}, the new loan's payment would be ${usd(Math.round(r.sameTermPayment))} a month,`;
+  if (diff === 0) return `${lead} the same as your current payment.`;
+  return `${lead} ${usd(Math.abs(diff))} ${diff > 0 ? 'less' : 'more'} than your current payment.`;
+}
+
+/**
+ * Longer-term line in the full-term block. Says the longer term lowers the payment only
+ * when the payment actually drops; null when the new loan adds no years.
+ */
+export function longerTermSentence(r: VaRefinanceResult): string | null {
+  if (r.extraYears <= 0) return null;
+  if (Math.round(r.monthlySavings) > 0) {
+    return `Part of the lower payment comes from the longer term: ${r.extraYears} more year${r.extraYears === 1 ? '' : 's'} of payments.`;
+  }
+  return `The new loan also adds ${yearsLabel(r.extraYears)} of payments.`;
+}
+
 export function bottomLineSentences(r: VaRefinanceResult): string[] {
   const out: string[] = [paymentSentence(r)];
 

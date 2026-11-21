@@ -25,6 +25,9 @@ import {
   VA_RECOUPMENT_LIMIT_MONTHS,
   VA_REFINANCE_DEFAULTS as D,
   bottomLineSentences,
+  longerTermSentence,
+  paymentChangeLabel,
+  sameTermSentence,
   bpsLabel,
   calcSeasoning,
   calcVaRefinance,
@@ -332,7 +335,7 @@ export function VARefinanceCalculator() {
   const hydrated = usePreHydrationSync(gaRoot, { calculator: 'va-refinance', shareUrl: getShareUrl });
   const inert = hydrated ? undefined : true;
 
-  const paymentChange = Math.round(calc.newPayment) - Math.round(calc.currentPayment);
+  const longerTerm = longerTermSentence(calc);
   const savingsRounded = Math.round(calc.monthlySavings);
 
   return (
@@ -601,7 +604,7 @@ export function VARefinanceCalculator() {
             <>
               <p className="text-red-200 text-xs font-semibold uppercase tracking-wider mb-2">Payment change</p>
               <p className="text-3xl font-bold tabular-nums">
-                {paymentChange > 0 ? `+${usd(paymentChange)}` : paymentChange < 0 ? `−${usd(-paymentChange)}` : usd(0)}
+                {paymentChangeLabel(calc)}
               </p>
             </>
           ) : (
@@ -689,15 +692,11 @@ export function VARefinanceCalculator() {
             </div>
           </div>
           <p className="text-sm text-zinc-600 leading-relaxed mt-3" data-testid="vr-same-term">
-            Saving at the same remaining term: paid off over {plural(yearsRemaining, 'year')}, the new loan&apos;s payment would be{' '}
-            {usd(Math.round(calc.sameTermPayment))} a month,{' '}
-            {Math.round(calc.sameTermSavings) === 0
-              ? 'the same as your current payment.'
-              : `${usd(Math.abs(Math.round(calc.sameTermSavings)))} ${calc.sameTermSavings > 0 ? 'less' : 'more'} than your current payment.`}
+            {sameTermSentence(calc, yearsRemaining)}
           </p>
-          {calc.extraYears > 0 && (
+          {longerTerm && (
             <p className="text-sm text-zinc-600 leading-relaxed mt-2" data-testid="vr-longer-term">
-              Part of the lower payment comes from the longer term: {plural(calc.extraYears, 'more year')} of payments.
+              {longerTerm}
             </p>
           )}
           {calc.isCashOut && (

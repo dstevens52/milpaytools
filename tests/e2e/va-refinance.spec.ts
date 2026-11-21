@@ -59,6 +59,22 @@ test.describe('VA refinance: results', () => {
     ).toBeVisible();
   });
 
+  test('cash out where the payment rises: card, summary and full-term lines agree', async ({ page }) => {
+    // Repro from the PR #81 review.
+    await open(page, '?type=cashout&cash=50000&fee=none&firstUse=yes');
+    const rise = usd(-Math.round(CASH.monthlySavings)); // $23 (unrounded difference $23.20)
+    await expect(page.getByTestId('vr-payment-card')).toContainText(`${rise} more a month`);
+    await expect(page.getByTestId('vr-payment-card')).not.toContainText('+$');
+    await expect(page.getByTestId('vr-bottom-line')).toContainText(`rises by ${rise},`);
+    await expect(page.getByTestId('vr-longer-term')).toHaveText('The new loan also adds 5 years of payments.');
+    await expect(page.getByText(/Part of the lower payment/)).toHaveCount(0);
+    await expect(page.getByTestId('vr-same-term')).toContainText('At the same remaining term: paid off over 25 years,');
+    await expect(page.getByTestId('vr-same-term')).toContainText(
+      `${usd(Math.round(-CASH.sameTermSavings))} more than your current payment.`,
+    );
+    await expect(page.getByText(/Saving at the same/)).toHaveCount(0);
+  });
+
   test('cash-out with $0 cash keeps the months figure, no VA checks', async ({ page }) => {
     await open(page, '?type=cashout&cash=0');
     await expect(page.getByTestId('vr-months-to-recover')).toBeVisible();
