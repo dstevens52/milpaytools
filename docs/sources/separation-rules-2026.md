@@ -39,5 +39,12 @@ https://tricare.mil/retiring
 
 The separation timeline's retiree card shows the retirement date + 90 days and the 12-month retroactive note.
 
-## Not verified here (leave values as they are; report them)
-- JTR limits for the final move (separation vs retirement). travel.dod.mil wasn't checked in this session.
+## Final move (JTR) (verified by Claude Chat, 2026-11-21)
+Confirms the values the separation timeline uses: 180 days separating, 3 years retiring.
+
+- DFAS, End of Military Service (dfas.mil/MilitaryMembers/travelpay/armypcs/endofmilitaryservice): "Home of selection (HOS) travel must be complete within three years from the retirement date on your orders."
+- Fort Rucker finance (home.army.mil): retirees, members on the TDRL, and Soldiers discharged with severance or separation pay must begin travel to a home of selection within 3 years.
+- NAVSUP separatee guidance: separating members (no separation pay) complete travel within 180 days.
+- Context: the 3-year rule took effect in July 2022 (MOAA); before that it was 1 year.
+
+Not on the timeline yet: involuntary separation with separation pay gets the same 3-year home-of-selection window as retirees (queued for 10b in FIX_QUEUE row 10).
