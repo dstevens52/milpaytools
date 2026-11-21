@@ -34,6 +34,8 @@ const PAGES: { path: string; faqCount: number }[] = [
   { path: '/blog/tricare-costs-2026-vs-civilian', faqCount: 3 },
   // VA loan: the five FAQs, visible since build V1 (were schema-only before).
   { path: '/calculators/va-loan', faqCount: 5 },
+  // VA refinance: five FAQs, visible since build 10b (were schema-only before).
+  { path: '/calculators/va-refinance', faqCount: 5 },
 ];
 
 type FaqSchema = {

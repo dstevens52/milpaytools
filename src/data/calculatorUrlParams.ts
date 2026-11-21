@@ -428,13 +428,19 @@ export const CALCULATOR_URL_PARAMS = {
       { name: 'newTerm', values: 'new loan term in years: 15, 20, 25 or 30', default: '30' },
       { name: 'closing', values: 'closing costs in dollars', default: '2500' },
       { name: 'credits', values: 'lender credits in dollars', default: '0' },
-      { name: 'exempt', values: `${YES_NO}; exempt from the funding fee`, default: 'no' },
+      { name: 'cash', values: 'cash out in dollars (type=cashout only); the funding fee is a percentage of the balance plus the cash out', default: '0' },
+      {
+        name: 'fee',
+        values: 'funding fee status, same values as the VA loan calculator: none, comp, eligible, dic, predischarge, purpleheart or pending. The five exempt statuses (comp, eligible, dic, predischarge, purpleheart) mean no funding fee',
+        default: 'none',
+      },
+      { name: 'exempt', values: `${YES_NO}; older form of fee, read only when fee is absent (yes = comp, no = none)`, default: 'no' },
       { name: 'firstUse', values: `${YES_NO}; first use (cash-out funding fee)`, default: 'yes' },
-      { name: 'firstPmt', values: "date of the current loan's first payment, YYYY-MM-DD (IRRRL seasoning check)", default: 'none' },
+      { name: 'firstPmt', values: "first payment due date on the current loan, YYYY-MM-DD (earliest closing date: the later of 210 days after it and the sixth monthly payment)", default: 'none' },
     ],
     example: {
       label: 'IRRRL on a balance of 300,000, not exempt from the funding fee',
-      params: { type: 'irrrl', balance: '300000', exempt: 'no' },
+      params: { type: 'irrrl', balance: '300000', fee: 'none' },
     },
   },
 } as const satisfies Record<string, CalculatorUrlSpec>;

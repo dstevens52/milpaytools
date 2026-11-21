@@ -85,6 +85,19 @@ export function fundingFeeRateFor(status: FeeStatus, firstUse: boolean, downPct:
 }
 
 /**
+ * Refinance funding fee rate for a fee status: 0 for VA's five exempt statuses,
+ * otherwise the IRRRL or cash-out rate (build 10b; same statuses as V1).
+ */
+export function refinanceFeeRateFor(status: FeeStatus, type: 'irrrl' | 'cashout', firstUse: boolean): number {
+  return isFeeExempt(status) ? 0 : getRefinanceFundingFeeRate(type, firstUse);
+}
+
+/** A fee rate as a percent with two decimals: 0.005 → "0.50%", 0.033 → "3.30%". */
+export function feeRateLabel(rate: number): string {
+  return `${(rate * 100).toFixed(2)}%`;
+}
+
+/**
  * Fee status from the URL. `fee=<status>` wins; without it the old `exempt=yes|no`
  * still works (yes → comp, no → none). Anything unrecognised → none.
  */

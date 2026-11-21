@@ -241,10 +241,12 @@ Each calculator reads the settings below from its URL, so a link can open a fill
 - `newTerm`: new loan term in years: 15, 20, 25 or 30. Default: 30.
 - `closing`: closing costs in dollars. Default: 2500.
 - `credits`: lender credits in dollars. Default: 0.
-- `exempt`: yes or no (1/0 and true/false also work); exempt from the funding fee. Default: no.
+- `cash`: cash out in dollars (type=cashout only); the funding fee is a percentage of the balance plus the cash out. Default: 0.
+- `fee`: funding fee status, same values as the VA loan calculator: none, comp, eligible, dic, predischarge, purpleheart or pending. The five exempt statuses (comp, eligible, dic, predischarge, purpleheart) mean no funding fee. Default: none.
+- `exempt`: yes or no (1/0 and true/false also work); older form of fee, read only when fee is absent (yes = comp, no = none). Default: no.
 - `firstUse`: yes or no (1/0 and true/false also work); first use (cash-out funding fee). Default: yes.
-- `firstPmt`: date of the current loan's first payment, YYYY-MM-DD (IRRRL seasoning check). Default: none.
-- Example (IRRRL on a balance of 300,000, not exempt from the funding fee): https://www.milpaytools.com/calculators/va-refinance?type=irrrl&balance=300000&exempt=no
+- `firstPmt`: first payment due date on the current loan, YYYY-MM-DD (earliest closing date: the later of 210 days after it and the sixth monthly payment). Default: none.
+- Example (IRRRL on a balance of 300,000, not exempt from the funding fee): https://www.milpaytools.com/calculators/va-refinance?type=irrrl&balance=300000&fee=none
 <!-- calculator-url-settings:end -->
 
 ## Guides (9)
