@@ -22,6 +22,12 @@ export const VA_IRRRL_FUNDING_FEE = 0.005;
 /** Cash-out refinance. */
 export const VA_CASH_OUT_FUNDING_FEE = { first: 0.0215, subsequent: 0.033 } as const;
 
+/** Loan assumption (VA.gov: "Loan assumptions 0.5%"). Used by blog posts (build V3). */
+export const VA_ASSUMPTION_FUNDING_FEE = 0.005;
+
+/** Manufactured home not permanently affixed (VA.gov: 1%). Used by blog posts (build V3). */
+export const VA_MANUFACTURED_HOME_FUNDING_FEE = 0.01;
+
 /** Purchase funding fee rate for first or subsequent use at a down payment percent. */
 export function getFundingFeeRate(firstUse: boolean, downPct: number): number {
   const tier = firstUse ? VA_PURCHASE_FUNDING_FEE.first : VA_PURCHASE_FUNDING_FEE.subsequent;

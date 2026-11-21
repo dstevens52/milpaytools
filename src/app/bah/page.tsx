@@ -230,7 +230,12 @@ export default function BahHubPage() {
               BAH is determined by three factors: your pay grade, your duty station&apos;s Military
               Housing Area (MHA), and whether you have dependents. It does not depend on your actual
               rent — you receive the same published rate whether your actual rent is higher or lower,
-              so housing choices can create a monthly surplus or shortfall.
+              so housing choices can create a monthly surplus or shortfall. If you&apos;re weighing
+              buying instead of renting, the{' '}
+              <Link href="/calculators/va-loan?bah=yes" className="text-red-700 hover:text-red-800 underline">
+                VA loan calculator
+              </Link>{' '}
+              compares an estimated mortgage payment with your BAH.
             </p>
           </div>
 
