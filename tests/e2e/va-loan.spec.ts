@@ -1,6 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 import { waitForHydration } from './helpers/hydration';
 import { formatCurrency } from './helpers/format';
+import { LABEL, SPACING, gluedText } from './helpers/glued-text';
 import {
   VA_PURCHASE_FUNDING_FEE as FEE,
   fundingFeeAmount,
@@ -154,25 +155,8 @@ test.describe('VA disability → VA loan', () => {
   });
 });
 
-// Missing spaces (PR #79 review). In JSX, text that follows a {value} or a closing
-// tag and contains an HTML entity (&apos;, &ldquo;) lost its leading space in the
-// compiled output ("3.30%at", "2023(VA.gov", "$7,525you", "Refunds:VA's"). The check
-// reads the rendered text (innerText, every <details> opened), after hydration.
-//   SPACING: a figure glued to a word: "3.30%at", "2023(", "$7,525you".
-//   LABEL:   a label glued to its text: "Refunds:VA's", "sense:If".
-// A statute citation like "38 U.S.C. § 5120(e)" is correct and is skipped.
-const SPACING = /\d%[a-z]|(?<!§\s?)\b\d{4}\(|\$[\d,]+[a-z]/g;
-const LABEL = /[a-z]:[A-Z]/g;
-
-async function gluedText(page: Page): Promise<string[]> {
-  await page.evaluate(() => document.querySelectorAll('details').forEach((d) => { d.open = true; }));
-  const text = await page.locator('body').innerText();
-  const hits: string[] = [];
-  for (const re of [SPACING, LABEL]) {
-    for (const m of text.matchAll(re)) hits.push(text.slice(Math.max(0, m.index - 40), m.index + 20).replace(/\s+/g, ' '));
-  }
-  return hits;
-}
+// Missing spaces (PR #79 review): the regexes and the reader live in
+// ./helpers/glued-text.ts, shared with missing-spaces.spec.ts (build 10b).
 
 test.describe('Rendered text has no missing spaces', () => {
   for (const path of ['/calculators/va-loan', '/calculators/va-loan?fee=comp']) {
@@ -197,10 +181,10 @@ test.describe('Rendered text has no missing spaces', () => {
 
   test('the check catches the broken forms and skips a § citation', () => {
     const hits = (s: string) => [...s.matchAll(SPACING), ...s.matchAll(LABEL)].length;
-    for (const bad of ['or 3.30%at subsequent', 'April 7, 2023(VA.gov', "that's $7,525you", "Refunds:VA's rule", 'more sense:If you']) {
+    for (const bad of ['or 3.30%at subsequent', 'April 7, 2023(VA.gov', "that's $7,525you", "Refunds:VA's rule", 'more sense:If you', "that's $7,520so", 'costs $121kept', 'in 2026(see']) {
       expect(hits(bad), bad).toBeGreaterThan(0);
     }
-    for (const ok of ['or 3.30% at subsequent', 'April 7, 2023 (VA.gov', "that's $7,525 you", "Refunds: VA's rule", '38 U.S.C. § 5120(e)', '38 U.S.C. §5120(e)']) {
+    for (const ok of ['or 3.30% at subsequent', 'April 7, 2023 (VA.gov', "that's $7,525 you", "Refunds: VA's rule", '38 U.S.C. § 5120(e)', '38 U.S.C. §5120(e)', '38 CFR § 36.4306(c)(2)', '37 U.S.C. 1009(e)', '≈$121k /yr', 'mid-$20s to mid-$30s']) {
       expect(hits(ok), ok).toBe(0);
     }
   });

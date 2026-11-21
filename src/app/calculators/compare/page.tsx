@@ -221,18 +221,18 @@ export default function ComparePage() {
                 $328.48 officer)
               </li>
               <li>
-                <strong>CONUS COLA</strong> — Whether either duty station is on DTMO&apos;s 2026 CONUS
+                <strong>CONUS COLA</strong>{' '}— Whether either duty station is on DTMO&apos;s 2026 CONUS
                 COLA list, with its official index. COLA is not added to the totals; DTMO&apos;s rate
                 lookup gives the exact amount
               </li>
               <li>
-                <strong>State income tax</strong> — Optional. Choose your state of legal residence
+                <strong>State income tax</strong>{' '}— Optional. Choose your state of legal residence
                 and its approximate rate is applied to base pay at both stations (a PCS move
                 doesn&apos;t change it). An opt-in shows the effect of changing your legal residence
                 to the new station&apos;s state. BAH and BAS are excluded from federal taxable income.
               </li>
               <li>
-                <strong>Federal income tax</strong> — Simplified progressive calculation using 2026
+                <strong>Federal income tax</strong>{' '}— Simplified progressive calculation using 2026
                 brackets and the standard deduction, estimated as a single filer. After-tax figures
                 don&apos;t subtract Social Security or Medicare
               </li>

@@ -220,7 +220,7 @@ export function VADisabilityUnlocks({
           {ptExpanded && (
             <div className="mt-3 space-y-2.5 text-sm text-amber-900">
               <div>
-                <span className="font-semibold">Chapter 35 DEA</span> — Up to 36 months of
+                <span className="font-semibold">Chapter 35 DEA</span>{' '}— Up to 36 months of
                 Dependents&apos; Educational Assistance for eligible spouses and children,
                 separate from your GI Bill entitlement.
               </div>
@@ -232,7 +232,7 @@ export function VADisabilityUnlocks({
                 <span className="font-semibold">Commissary and exchange access</span> for dependents.
               </div>
               <div>
-                <span className="font-semibold">Full property tax exemptions</span> in many states
+                <span className="font-semibold">Full property tax exemptions</span>{' '}in many states
                 at 100% P&amp;T — eligibility and benefit amounts vary significantly by state.
               </div>
             </div>

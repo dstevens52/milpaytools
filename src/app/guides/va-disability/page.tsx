@@ -115,7 +115,7 @@ const ACCORDION = [
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
           The VA does not add disability ratings together. Instead, it reads combined ratings off the{' '}
-          <strong className="text-zinc-800">Combined Ratings Table</strong> in 38 CFR § 4.25, built on
+          <strong className="text-zinc-800">Combined Ratings Table</strong>{' '}in 38 CFR § 4.25, built on
           the &quot;whole person&quot; method: your body starts at 100% functional capacity, and each
           disability is applied to whatever capacity <em>remains</em>, not the original 100%.
         </p>
@@ -260,7 +260,7 @@ const ACCORDION = [
           effective date, which is often the day after separation for direct service-connected claims.
         </p>
         <p>
-          <strong className="text-zinc-800">2. Effective date and BDD processing.</strong> The VA&apos;s
+          <strong className="text-zinc-800">2. Effective date and BDD processing.</strong>{' '}The VA&apos;s
           effective date for BDD claims is generally the day after separation, not the filing date
           itself. Filing early through BDD gives VA time to review records and schedule exams while
           you&apos;re still in, which may speed the decision. File using VA Form 21-526EZ,{' '}
@@ -297,7 +297,7 @@ const ACCORDION = [
         </p>
         <ul className="space-y-2 pl-4 list-disc">
           <li>
-            <strong className="text-zinc-800">Supplemental Claim (VA Form 20-0995)</strong> — add
+            <strong className="text-zinc-800">Supplemental Claim (VA Form 20-0995)</strong>{' '}— add
             new and relevant evidence the VA didn&apos;t already consider.
           </li>
           <li>
@@ -305,7 +305,7 @@ const ACCORDION = [
             a more senior reviewer to re-examine the same evidence for errors; no new evidence.
           </li>
           <li>
-            <strong className="text-zinc-800">Board Appeal (VA Form 10182)</strong> — bring your
+            <strong className="text-zinc-800">Board Appeal (VA Form 10182)</strong>{' '}— bring your
             case to a Veterans Law Judge at the Board of Veterans&apos; Appeals.
           </li>
         </ul>
@@ -398,7 +398,7 @@ const ACCORDION = [
     content: (
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
-          <strong className="text-zinc-800">The historical rule:</strong> Until 2004, veterans had
+          <strong className="text-zinc-800">The historical rule:</strong>{' '}Until 2004, veterans had
           to waive one dollar of retirement pay for every dollar of VA disability compensation they
           received — you couldn&apos;t receive both in full.
         </p>
@@ -471,7 +471,7 @@ const ACCORDION = [
         </p>
         <ul className="space-y-2 pl-4 list-disc">
           <li>
-            <strong className="text-zinc-800">5+ years:</strong> Ratings receive a &quot;stabilization&quot;
+            <strong className="text-zinc-800">5+ years:</strong>{' '}Ratings receive a &quot;stabilization&quot;
             protection. The VA must produce stronger evidence to reduce a rating it has held for five
             or more years — it cannot simply reassess at a lower level without justification.
           </li>

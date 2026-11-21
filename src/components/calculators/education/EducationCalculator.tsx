@@ -571,7 +571,7 @@ export function EducationCalculator() {
       {/* ── MHA note ───────────────────────────────────────────────────── */}
       {schoolType !== 'online' && result.mhaMonthly && (
         <div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-800 leading-relaxed">
-          {`MHA shown using ${EDUCATION_BAH_YEAR} BAH rates for the `}{EDUCATION_RATES.academicYear} academic year. Post-9/11 GI Bill MHA for in-person training is based on E-5 with-dependent BAH at the school ZIP, prorated by your eligibility tier and rate of pursuit (no MHA at half time or less). VR&amp;E participants may receive a subsistence allowance, and some may qualify to elect the Post-9/11 subsistence allowance if they have remaining GI Bill entitlement — VR&amp;E housing/subsistence rules depend on counselor approval and individual eligibility.
+          {`MHA shown using ${EDUCATION_BAH_YEAR} BAH rates for the `}{EDUCATION_RATES.academicYear}{' '}academic year. Post-9/11 GI Bill MHA for in-person training is based on E-5 with-dependent BAH at the school ZIP, prorated by your eligibility tier and rate of pursuit (no MHA at half time or less). VR&amp;E participants may receive a subsistence allowance, and some may qualify to elect the Post-9/11 subsistence allowance if they have remaining GI Bill entitlement — VR&amp;E housing/subsistence rules depend on counselor approval and individual eligibility.
         </div>
       )}
 
@@ -597,13 +597,13 @@ export function EducationCalculator() {
 
       {/* ── 48-month cap note ──────────────────────────────────── */}
       <div className="rounded-lg border border-amber-100 bg-amber-50 px-4 py-3 text-xs text-amber-800 leading-relaxed">
-        <span className="font-semibold">48-month general cap:</span> VA generally limits combined GI Bill-style education benefits (Chapters 30, 33, 35, 1606) to 48 months total. However, VA states this general cap does not include VR&amp;E (Chapter 31). VR&amp;E entitlement and duration depend on counselor approval, rehabilitation plan, and individual VA rules.
+        <span className="font-semibold">48-month general cap:</span>{' '}VA generally limits combined GI Bill-style education benefits (Chapters 30, 33, 35, 1606) to 48 months total. However, VA states this general cap does not include VR&amp;E (Chapter 31). VR&amp;E entitlement and duration depend on counselor approval, rehabilitation plan, and individual VA rules.
       </div>
 
       {/* ── Yellow Ribbon note for private schools ──────────────────────── */}
       {schoolType === 'private' && tierPct === 100 && (
         <div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-xs text-blue-800 leading-relaxed" data-testid="yellow-ribbon-note">
-          <span className="font-semibold">Yellow Ribbon program:</span> If tuition exceeds the Post-9/11 private-school cap, Yellow Ribbon participation at your school may help close the gap. Yellow Ribbon matching varies by school and program — check with your school&apos;s VA certifying official.
+          <span className="font-semibold">Yellow Ribbon program:</span>{' '}If tuition exceeds the Post-9/11 private-school cap, Yellow Ribbon participation at your school may help close the gap. Yellow Ribbon matching varies by school and program — check with your school&apos;s VA certifying official.
         </div>
       )}
 

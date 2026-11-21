@@ -259,7 +259,7 @@ const ACCORDION = [
           BAH is the most visible variable, but a complete comparison includes four factors:
         </p>
         <p>
-          <strong className="text-zinc-800">State income tax:</strong> Under the Servicemembers
+          <strong className="text-zinc-800">State income tax:</strong>{' '}Under the Servicemembers
           Civil Relief Act (SCRA), military pay is taxed by your state of legal residence at every
           duty station, so a PCS move by itself doesn&apos;t change it. It changes only if you change
           your legal residence, which is a personal legal decision.

@@ -210,7 +210,7 @@ export default function TransitionReadinessPage() {
             </h2>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
               Three factors determine the verdict: income surplus, emergency fund runway, and VA
-              claim status. <strong>Ready</strong> requires all three to be green — a $500+/month
+              claim status. <strong>Ready</strong>{' '}requires all three to be green — a $500+/month
               income surplus after replacing healthcare, at least 6 months of expenses in liquid
               savings, and a VA disability claim filed (a 0% rating counts as filed). The claim
               matters for retirees too: below a 50% rating, VA pay replaces part of retired pay and
@@ -221,7 +221,7 @@ export default function TransitionReadinessPage() {
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               <strong>Almost</strong> means no income deficit, but one factor isn&apos;t quite there.{' '}
-              <strong>Not yet</strong> means there&apos;s an income gap, the emergency fund is under
+              <strong>Not yet</strong>{' '}means there&apos;s an income gap, the emergency fund is under
               3 months, or both — things that genuinely need to be addressed before your separation
               date becomes real.
             </p>

@@ -369,7 +369,7 @@ export default function TotalCompensationPage() {
                 during the opt-in window.
               </p>
               <p className="text-zinc-600 text-sm leading-relaxed">
-                <strong>BRS contribution timing:</strong> The 1% automatic DoD contribution begins after
+                <strong>BRS contribution timing:</strong>{' '}The 1% automatic DoD contribution begins after
                 60 days of service. Matching contributions (up to 4%) begin at the start of the
                 member&apos;s 25th month of service.
               </p>
