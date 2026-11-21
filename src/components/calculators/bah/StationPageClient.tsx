@@ -17,7 +17,7 @@ import {
 import type { DutyStation } from '@/data/duty-stations/stations';
 import type { StateTaxInfo } from '@/data/compare/stateTax';
 import { YoYDelta } from '@/components/calculators/bah/YoYDelta';
-import { bahVsRentClause } from '@/lib/rentCompare';
+import { bahVsRentClause, hudFmrCardLabel, hudFmrSourceLabel } from '@/lib/rentCompare';
 import { fireShareEvent, fireDeepLinkEvent, fireStationRateLookup } from '@/lib/analytics';
 import { gradeToParam } from '@/lib/urlParams';
 import { COLA_SOURCE, DATA_YEAR as COLA_YEAR } from '@/data/cola/2026/constants';
@@ -71,6 +71,8 @@ export interface StationPageClientProps {
    */
   decreaseNotice?: { kind: 'rate-protection' | 'temporary-ending'; text: string } | null;
   fmr2br?: { p25: number; median: number; p75: number } | null;
+  /** HUD fiscal year of fmr2br (the FMR year paired with the BAH year shown), e.g. '2026'. */
+  fmrYear?: string | null;
   siblings?: SiblingInstallation[];
   faqs?: { question: string; answer: string }[];
   /** Server-rendered dated notice slot (2027 BAH status), shown under the rate summary. */
@@ -378,6 +380,7 @@ export function StationPageClient({
   hasDecrease = false,
   decreaseNotice = null,
   fmr2br = null,
+  fmrYear = null,
   siblings = [],
   faqs = [],
   notice = null,
@@ -930,7 +933,7 @@ export function StationPageClient({
           {/* BAH vs. local rent — HUD 2BR Fair Market Rent (all CONUS pages with FMR).
               Static for the E-5 w/dep default (indexable); picker drives the BAH side.
               Comparison only — no surplus/"you keep" framing. */}
-          {hasRates && fmr2br && selectedBAH > 0 && (
+          {hasRates && fmr2br && fmrYear && selectedBAH > 0 && (
             <div className="bg-white rounded-lg border border-zinc-200 p-6">
               <h2 className="text-lg font-semibold text-zinc-900 mb-3">BAH vs. Local Rent</h2>
               <p className="text-sm text-zinc-700 leading-relaxed mb-4">
@@ -949,7 +952,7 @@ export function StationPageClient({
                 </div>
                 <div className="rounded-lg bg-zinc-50 border border-zinc-200 p-4">
                   <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">
-                    2BR rent (HUD FMR, FY2026)
+                    {hudFmrCardLabel(fmrYear)}
                   </p>
                   <p className="text-2xl font-bold text-zinc-900 tabular-nums">
                     {fmt(fmr2br.median)}
@@ -968,13 +971,8 @@ export function StationPageClient({
                 for a member&apos;s pay grade and dependency status, leaving a roughly 5% member cost share.
               </p>
               <p className="text-xs text-zinc-400 leading-relaxed">
-                2-bedroom Fair Market Rent (HUD, FY2026). 2-bedroom is the reference point closest to
-                junior- and mid-grade housing; larger households and senior grades typically need more
-                space. Rent figures are HUD Small Area Fair Market Rents matched to this installation&apos;s
-                Military Housing Area by ZIP code. MHA boundaries and HUD rent areas don&apos;t align
-                perfectly, so these are area-level reference figures, not a personalized rent estimate.
-                FMR is a gross-rent figure that includes tenant-paid utilities — the same basis BAH is
-                built on.
+                {/* One text node (a template literal), so the HTML matches the old static text. */}
+                {`${hudFmrSourceLabel(fmrYear)}. 2-bedroom is the reference point closest to junior- and mid-grade housing; larger households and senior grades typically need more space. Rent figures are HUD Small Area Fair Market Rents matched to this installation's Military Housing Area by ZIP code. MHA boundaries and HUD rent areas don't align perfectly, so these are area-level reference figures, not a personalized rent estimate. FMR is a gross-rent figure that includes tenant-paid utilities — the same basis BAH is built on.`}
               </p>
             </div>
           )}

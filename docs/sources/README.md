@@ -32,3 +32,10 @@ Claude Chat's rule check of 2026-11-18 (copied verbatim from the build pack): PO
 TLE (Tables 5-13/5-17, $290 cap, 21 days), HHG weight allowances (Table 5-37, both columns,
 JTR edition dated Oct 1, 2024), second-POV MALT (050203, Table 5-1), PPM incentive (GCC).
 Read by `src/data/pcs/` and `src/lib/calculations/pcs.ts`.
+
+## `hud-safmr-fy2027.md` — HUD Small Area Fair Market Rents, FY2027 (build H1)
+
+Claude Chat's check of 2026-11-20 plus the downloaded file's size and SHA-256. The xlsx itself
+(`data/sources/hud/FY27_safmrs.xlsx`) is gitignored like the FY2026 file. Generated into
+`src/data/bah/fmr/fmr2027.ts` by `python scripts/build-fmr-data.py --year 2027`; the station
+pages pair it with 2027 BAH (`src/lib/calculations/fmr.ts`).

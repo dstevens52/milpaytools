@@ -181,6 +181,14 @@ print a loud warning into the report.
   (the calendar reads the history row too, R2 fix), but it keeps every "status" reader in step.
 - `npm run bah:llms` rewrites `public/llms.txt`'s BAH lines (hub, station lines, sources line)
   to the new year and ZIP count. `bah-release-day.spec.ts` fails until it's run.
+- **HUD rents (H1):** station-page rent pairing follows the BAH year automatically (2027 BAH →
+  HUD FY2027 rents and "FY2027" labels, `src/lib/calculations/fmr.ts`); nothing to edit. Do
+  regenerate `fmr2027.ts` with the 2027 ZIP map (it was built with 2026's before the release):
+  `python scripts/build-fmr-data.py --year 2027 --src data/sources/hud/FY27_safmrs.xlsx`
+  (needs the gitignored xlsx, SHA-256 in `docs/sources/hud-safmr-fy2027.md`; first check HUD's
+  Small Area FMR page for a revised FY2027 file and tell Claude Chat if one is listed).
+  `tests/e2e/bah-fmr.spec.ts` fails until you do. Diff the file: only MHAs whose ZIPs DTMO moved
+  should change.
 - `npx tsc --noEmit -p .`: an unregistered year or a missing lookup table fails here. (R2: two
   specs compared `BAH_YEAR` to a `'2026'` literal and failed `tsc` after the flip; fixed.)
 

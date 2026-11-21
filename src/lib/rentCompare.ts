@@ -25,3 +25,17 @@ export function bahVsRentClause(bah: number, fmr: FmrRangeLite, gradeLabel: stri
   }
   return `Across most of this area, 2-bedroom rent runs above the ${year} BAH for ${gradeLabel} (${b}); options nearer the lower end of the range may fit within it.`;
 }
+
+/**
+ * Rent labels carry the HUD fiscal year of the data shown (FMR_DATA_YEAR via
+ * src/lib/calculations/fmr.ts), never a typed year: "FY2026" with 2026 BAH,
+ * "FY2027" once 2027 BAH loads.
+ */
+export function hudFmrSourceLabel(fmrYear: string): string {
+  return `2-bedroom Fair Market Rent (HUD, FY${fmrYear})`;
+}
+
+/** Short card label: "2BR rent (HUD FMR, FY2026)". */
+export function hudFmrCardLabel(fmrYear: string): string {
+  return `2BR rent (HUD FMR, FY${fmrYear})`;
+}

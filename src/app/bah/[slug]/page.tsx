@@ -4,9 +4,8 @@ import type { Metadata } from 'next';
 import { DUTY_STATIONS, STATION_BY_SLUG, type DutyStation } from '@/data/duty-stations/stations';
 import { getMHACode, getMHARates, getMHARatesForYear, getLocationName, getNationalAverages, getBahMidYearChange, isBahYear, priorYearMhaForZip, CURRENT_BAH_YEAR, PRIOR_BAH_YEAR } from '@/lib/calculations/bah';
 import { mhaPercentile, yoyForGrade, siblingInstallations, nearbyDeltas, hasRateDecrease, nationalIncreaseComparison } from '@/lib/calculations/bahStats';
-import { getFMRRange } from '@/lib/calculations/fmr';
+import { stationRent, stationRentFaqAnswer } from '@/lib/stationRent';
 import { stationTotalPayForYears } from '@/lib/calculations/stationTotalPay';
-import { bahVsRentClause } from '@/lib/rentCompare';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema, breadcrumbListSchema } from '@/lib/schema';
 import { formatCurrency } from '@/lib/utils';
@@ -31,7 +30,6 @@ import {
   bahAlertSource,
   bahDecreaseNotice,
   bahE5RateFaqAnswer,
-  bahE5RateLead,
   bahNoticeMode,
   bahTransitionText,
   CURRENT_BAH_CONFIG,
@@ -216,8 +214,10 @@ export default async function StationPage({
   const siblings = mhaCode ? siblingInstallations(mhaCode, station.slug) : [];
   // True if any displayed pay grade decreased prior year → current year at this MHA.
   const hasDecrease = mhaCode ? hasRateDecrease(mhaCode, CURRENT_BAH_YEAR, priorMhaCode ?? mhaCode) : false;
-  // HUD 2-bedroom Fair Market Rent range for this MHA (null = OCONUS/no coverage).
-  const fmr2br = mhaCode ? getFMRRange(mhaCode, 2) : null;
+  // HUD 2-bedroom Fair Market Rent for this MHA, from the HUD fiscal year that pairs
+  // with the BAH year shown (src/lib/calculations/fmr.ts). null = OCONUS/no coverage.
+  const rent = stationRent(mhaCode, CURRENT_BAH_CONFIG);
+  const fmr2br = rent?.range ?? null;
 
   const pageUrl = `/bah/${station.slug}`;
   const schema = articleSchema({
@@ -331,10 +331,10 @@ export default async function StationPage({
         answer: nearbyFaqAnswer,
       });
     }
-    if (fmr2br && e5W !== undefined && e5W > 0) {
+    if (rent && e5W !== undefined && e5W > 0) {
       faqs.push({
         question: `How does BAH at ${station.name} compare with local rent?`,
-        answer: `${bahE5RateLead(CURRENT_BAH_CONFIG, station.name)} ${formatCurrency(e5W)}/month in BAH. Across the ${mhaLabel} area, 2-bedroom Fair Market Rent (HUD, FY2026) runs about ${formatCurrency(fmr2br.p25)}–${formatCurrency(fmr2br.p75)} (median ${formatCurrency(fmr2br.median)}). ${bahVsRentClause(e5W, fmr2br, 'an E-5 with dependents')} BAH is designed to cover about 95% of typical local housing costs — rent plus utilities — for a member's pay grade and dependency status.`,
+        answer: stationRentFaqAnswer(CURRENT_BAH_CONFIG, station.name, mhaLabel, e5W, rent),
       });
     }
     faqs.push({
@@ -399,6 +399,7 @@ export default async function StationPage({
         hasDecrease={hasDecrease}
         decreaseNotice={decreaseNotice}
         fmr2br={fmr2br}
+        fmrYear={rent?.fmrYear ?? null}
         siblings={siblings}
         faqs={faqs}
         notice={

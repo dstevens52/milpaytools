@@ -12,6 +12,22 @@ each item below must be re-traced against the new source and revised by hand.
   flip `src/data/bah/current.ts` → gate → merge → IndexNow, then `BAH_EFFECTIVE_NOTICE = false`
   on January 1. BAH titles, FAQs, counts and labels follow `BAH_YEAR`; nothing to hand-edit.
 
+## HUD Small Area Fair Market Rents — each fall (HUD publishes, usually late August)
+
+Station pages compare BAH with HUD's 2-bedroom SAFMR. HUD posts the next fiscal year's file
+(FY N, Oct. 1 of N−1 to Sept. 30 of N) on its Small Area FMR page, usually in late August, and
+sometimes a revised file later.
+- Claude Chat verifies the file and writes `docs/sources/hud-safmr-fy{N}.md` (URL, size, date).
+- Download it to `data/sources/hud/` (gitignored); record its SHA-256 in that source doc.
+- `python scripts/build-fmr-data.py --year N --src data/sources/hud/<file>.xlsx` writes
+  `src/data/bah/fmr/fmr{N}.ts`; register it in `FMR_BY_YEAR` (`src/lib/calculations/fmr.ts`) and
+  extend `tests/e2e/bah-fmr.spec.ts`.
+- Pairing is automatic: BAH year N shows HUD FY N (`fmrYearForBahYear`), so pages switch on BAH
+  release day, not when the HUD file loads. A BAH year with no loaded FMR year shows no rent
+  section (no fallback), so load FY N before DoD's December release.
+- On BAH release day, regenerate `fmr{N}.ts` with year N's ZIP map
+  (`docs/RELEASE_DAY_BAH_2027.md`, step 3).
+
 ## Dollar figures in posts and guides (January 2027)
 
 - [ ] After loading each 2027 dataset, run `npm run check:figures -- --next-year 2027` and work
