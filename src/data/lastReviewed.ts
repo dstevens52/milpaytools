@@ -35,11 +35,11 @@ export const CALCULATOR_LAST_REVIEWED = {
   'dual-military-bah': '2026-11-18',
   compare: '2026-11-12',
   'transition-readiness': '2026-11-20', // 10a: TAMP wording, VA claim factor, retiree fee, months of service
-  'separation-timeline': '2026-11-20', // 10a: VGLI deadline, TAMP day 1, TAP start, retiree enrollment
+  'separation-timeline': '2026-11-21', // 10b: final-move line (separation pay → 3-year window)
   'healthcare-comparison': '2026-11-20', // 10a: TAMP list, no ACA subsidy model, retiree TRICARE path
   'va-loan': '2026-11-21',
   deployment: '2026-11-14', // = the "Last reviewed" date shown on the page
-  'va-refinance': '2026-05-29',
+  'va-refinance': '2026-11-21', // 10b: VRF-01–06, fee status, computed example, visible FAQs
 } as const satisfies Record<string, string>;
 
 export type CalculatorSlug = keyof typeof CALCULATOR_LAST_REVIEWED;

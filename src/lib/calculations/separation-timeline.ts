@@ -5,8 +5,8 @@
  *
  * TAMP, VGLI and preseparation-counseling rules: src/data/separation/rules.ts
  * (docs/sources/separation-rules-2026.md). Other periods (BDD 180–90 days, TAP
- * completion 90 days, SGLI 120 days, final move) are unchanged from the calculator;
- * the final-move limits are JTR values not re-verified in build 10a.
+ * completion 90 days, SGLI 120 days) are unchanged from the calculator. Final-move
+ * limits: docs/sources/separation-rules-2026.md, "Final move (JTR)" (verified 2026-11-21).
  *
  * Client-safe: no data imports beyond the rules file.
  */
@@ -42,7 +42,11 @@ export interface TimelineItem {
   daysUntilEnd: number | null;
 }
 
-/** Final government-paid move: JTR limits as the calculator had them (not re-verified in 10a). */
+/**
+ * Final government-paid move (JTR). Source: docs/sources/separation-rules-2026.md,
+ * "Final move (JTR)", verified by Claude Chat 2026-11-21: 3 years from the retirement
+ * date (also members discharged with severance or separation pay); 180 days separating.
+ */
 export const FINAL_MOVE_RETIRING_YEARS = 3;
 export const FINAL_MOVE_SEPARATING_DAYS = 180;
 
@@ -298,8 +302,8 @@ export function buildTimeline(
     phase: 'post',
     name: 'Final Move Deadline',
     what: retiring
-      ? 'Deadline to complete your final government-paid move. Retirees have up to 3 years from retirement date. Contact your branch transportation office to begin coordination.'
-      : 'Deadline to complete your final government-paid move. Separating members have 180 days. Check your orders and branch transportation office for your specific entitlement.',
+      ? `Deadline to complete your final government-paid move. Retirees have up to ${FINAL_MOVE_RETIRING_YEARS} years from retirement date. Contact your branch transportation office to begin coordination.`
+      : `Deadline to complete your final government-paid move. Separating members have ${FINAL_MOVE_SEPARATING_DAYS} days. Separated involuntarily with separation pay? You get the same ${FINAL_MOVE_RETIRING_YEARS}-year home-of-selection window as retirees. Check your orders and branch transportation office for your specific entitlement.`,
     date: d.finalMoveDeadline,
     isRange: false,
     status: pointStatus(d.finalMoveDeadline),
