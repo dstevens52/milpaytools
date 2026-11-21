@@ -277,48 +277,52 @@ test.describe('VA Loan — funding fee edge cases', () => {
 // ─── VA Refinance — edge cases ──────────────────────────────────────────────────
 
 test.describe('VA Refinance — edge cases', () => {
-  test('IRRRL with < 0.5% rate reduction fails the net tangible benefit check', async ({ page }) => {
+  // Build 10b (VRF-04): the rate test is in whole basis points, shown from the integer.
+  test('IRRRL with a 40-basis-point drop fails the net tangible benefit check', async ({ page }) => {
     await page.goto('/calculators/va-refinance?type=irrrl&currRate=6.4&newRate=6.0');
-    await expect(page.getByText(/may not meet the VA's 0\.5% minimum reduction/i).first()).toBeVisible();
+    await expect(page.getByText(/Your rate drops 40 basis points \(0\.40 percentage points\)/).first()).toBeVisible();
+    await expect(page.getByText("Rate drop is under VA's 50-basis-point test")).toBeVisible();
   });
 
-  test('IRRRL with exactly 0.5% rate reduction passes the net tangible benefit check', async ({ page }) => {
+  test('IRRRL with exactly a 50-basis-point drop passes the net tangible benefit check', async ({ page }) => {
     await page.goto('/calculators/va-refinance?type=irrrl&currRate=6.5&newRate=6.0');
-    await expect(page.getByText(/meets the VA's 0\.5% minimum reduction requirement/i).first()).toBeVisible();
+    await expect(page.getByText(/Your rate drops 50 basis points \(0\.50 percentage points\)/).first()).toBeVisible();
+    await expect(page.getByText("Rate drop is under VA's 50-basis-point test")).toHaveCount(0);
   });
 
-  // Consumer break-even includes the funding fee; VA recoupment excludes it — so the
-  // two month counts differ. Values are recomputed with the component's PI formula.
-  test('consumer break-even and VA recoupment show different month counts', async ({ page }) => {
+  // Build 10b (VRF-06): one figure, VA's method. The financed fee is in the new payment
+  // only, so it isn't also counted as a cost to recover. Recomputed with an independent
+  // copy of the payment formula.
+  test('one months-to-recover figure, funding fee left out', async ({ page }) => {
     const pi = (loan: number, ratePct: number, termYears: number) => {
-      if (loan <= 0 || termYears <= 0) return 0;
       const r = ratePct / 100 / 12;
       const n = termYears * 12;
-      if (r === 0) return loan / n;
       return (loan * (r * Math.pow(1 + r, n))) / (Math.pow(1 + r, n) - 1);
     };
     const fee = Math.round(300000 * 0.005); // IRRRL 0.5%
     const savings = pi(300000, 7, 25) - pi(300000 + fee, 6, 30);
-    const consumer = Math.ceil((fee + 2500) / savings);
-    const vaRecoup = Math.ceil(2500 / savings);
-    expect(consumer).not.toBe(vaRecoup);
+    const months = Math.ceil(2500 / savings);
+    const doubleCounted = Math.ceil((fee + 2500) / savings);
+    expect(months).not.toBe(doubleCounted);
 
     await page.goto('/calculators/va-refinance');
-    await expect(page.getByText(`${consumer} mo`, { exact: true })).toBeVisible();
-    await expect(page.getByText(`${vaRecoup} mo`, { exact: true })).toBeVisible();
+    await expect(page.getByTestId('vr-months-to-recover')).toContainText(`${months} mo`);
+    await expect(page.getByText(`${doubleCounted} mo`, { exact: true })).toHaveCount(0);
   });
 
-  test('IRRRL seasoning fails when first payment was under 210 days ago', async ({ page }) => {
+  // Build 10b (VRF-05): a calendar date, by local date, never a day count.
+  test('IRRRL seasoning: first payment 100 days ago → earliest closing date still ahead', async ({ page }) => {
     const d = new Date();
     d.setDate(d.getDate() - 100);
-    const iso = d.toISOString().slice(0, 10);
+    const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     await page.goto(`/calculators/va-refinance?type=irrrl&firstPmt=${iso}`);
-    await expect(page.getByText(/210 required/i).first()).toBeVisible();
+    await expect(page.getByTestId('vr-seasoning')).toContainText('Earliest IRRRL closing date:');
+    await expect(page.getByTestId('vr-seasoning')).toContainText('That date is still ahead.');
   });
 
   test('disability exempt → funding fee $0 (waived)', async ({ page }) => {
     await page.goto('/calculators/va-refinance?exempt=yes');
-    await expect(page.getByText(/Waived \(disability exemption\)/i)).toBeVisible();
+    await expect(page.getByTestId('vr-funding-fee')).toHaveText('$0 — Waived');
   });
 });
 

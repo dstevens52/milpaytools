@@ -170,7 +170,7 @@ const ACCORDION = [
           federal bracket. Over a career, this exclusion is worth tens of thousands of dollars.
         </p>
         <p>
-          <strong className="text-zinc-800">Rate protection:</strong> If DTMO lowers the published
+          <strong className="text-zinc-800">Rate protection:</strong>{' '}If DTMO lowers the published
           BAH rate for your area, you keep the higher prior rate as long as you have no reduction in
           pay grade and no change in dependency status; a promotion doesn&apos;t end the protection.
           It doesn&apos;t carry over when you PCS.
@@ -198,7 +198,7 @@ const ACCORDION = [
           excluded from federal taxable income.
         </p>
         <p>
-          <strong className="text-zinc-800">CONUS COLA</strong> is a supplemental allowance for
+          <strong className="text-zinc-800">CONUS COLA</strong>{' '}is a supplemental allowance for
           duty stations in high-cost CONUS areas where BAH alone doesn&apos;t cover the full
           cost-of-living differential. It affects a relatively small number of duty stations —
           primarily high-cost metro areas — and varies by pay grade and dependent status.
@@ -296,7 +296,7 @@ const ACCORDION = [
         </ul>
         <p>
           At the 22% federal bracket, a civilian would need roughly{' '}
-          <strong className="text-zinc-800">$110,000–$120,000/year in gross wages</strong> to match
+          <strong className="text-zinc-800">$110,000–$120,000/year in gross wages</strong>{' '}to match
           this — and that&apos;s before accounting for subsidized TRICARE health coverage.
         </p>
         <p className="text-xs text-zinc-400 italic">

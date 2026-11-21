@@ -157,7 +157,7 @@ export default function SeparationTimelinePage() {
               {TAMP_ELIGIBILITY.map((item) => <li key={item}>{item}</li>)}
             </ul>
             <p className="text-zinc-600 text-sm leading-relaxed mb-3">
-              {TAMP_VOLUNTARY_NOTE} Retirees don&apos;t use TAMP: they enroll in retiree TRICARE.
+              {TAMP_VOLUNTARY_NOTE}{' '}Retirees don&apos;t use TAMP: they enroll in retiree TRICARE.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
               Verify TAMP eligibility with your branch&apos;s personnel office before you separate.

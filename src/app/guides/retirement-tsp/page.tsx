@@ -185,7 +185,7 @@ const ACCORDION = [
           <li>Pension: 50% × {usdCents(O5.high3Average)} = <strong className="text-zinc-800">{usdCents(O5.high3Pension)}/month ({formatCurrency(O5.high3Pension * 12)}/year)</strong>, for life with COLA</li>
         </ul>
         <p>
-          <strong className="text-zinc-800">BRS pension formula:</strong> 2.0% × years of service × High-3 average base pay. At 20 years, that equals 40% of the High-3 average — compared to 50% under High-3&apos;s 2.5% multiplier. BRS compensates for the lower pension with government TSP contributions over a career.
+          <strong className="text-zinc-800">BRS pension formula:</strong>{' '}2.0% × years of service × High-3 average base pay. At 20 years, that equals 40% of the High-3 average — compared to 50% under High-3&apos;s 2.5% multiplier. BRS compensates for the lower pension with government TSP contributions over a career.
         </p>
         <Link href="/calculators/retirement" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Calculate your pension projection →
@@ -292,7 +292,7 @@ const ACCORDION = [
           <li><strong className="text-zinc-800">Maximum: 5% government contribution</strong> (1% auto + up to 4% match) when you contribute at least 5%.</li>
         </ul>
         <p>
-          <strong className="text-zinc-800">Cost of under-contributing:</strong> If you contribute
+          <strong className="text-zinc-800">Cost of under-contributing:</strong>{' '}If you contribute
           3% instead of 5%, the top 1% of government matching is forfeited — approximately
           $28–$97/month depending on grade. For an E-5 at $4,110/month (6 years of service),
           that&apos;s roughly $41/month or $493/year in forfeited government contributions.
@@ -349,7 +349,7 @@ const ACCORDION = [
           complex interaction between the two income streams.
         </p>
         <p>
-          <strong className="text-zinc-800">The old rule (pre-2004):</strong> Retirement pay was
+          <strong className="text-zinc-800">The old rule (pre-2004):</strong>{' '}Retirement pay was
           reduced dollar-for-dollar by VA compensation. You couldn&apos;t receive both in full.
         </p>
         <p>

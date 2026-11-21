@@ -267,13 +267,13 @@ const ACCORDION = [
           A commonly used approach: many service members use Tuition Assistance while on active duty to preserve GI Bill months for after separation.
         </p>
         <p>
-          <strong className="text-zinc-800">Why TA on active duty:</strong> TA covers up to
+          <strong className="text-zinc-800">Why TA on active duty:</strong>{' '}TA covers up to
           $250/credit hour, capped at $4,500/year. It is funded by your branch&apos;s education
           budget — not your GI Bill. Using TA costs zero GI Bill months. On active duty, you have
           a salary and BAH covering housing; the GI Bill MHA adds no marginal value on top of that.
         </p>
         <p>
-          <strong className="text-zinc-800">Why GI Bill after separation:</strong> The MHA
+          <strong className="text-zinc-800">Why GI Bill after separation:</strong>{' '}The MHA
           ($1,200–$3,600/month depending on school location) replaces some of the income you no
           longer have. The tuition coverage prevents education debt when you&apos;re not drawing a
           military paycheck.
@@ -329,7 +329,7 @@ const ACCORDION = [
           online-only programs.
         </p>
         <p>
-          <strong className="text-zinc-800">Hybrid programs:</strong> If any classroom attendance
+          <strong className="text-zinc-800">Hybrid programs:</strong>{' '}If any classroom attendance
           occurs — even one day per week — the program qualifies for the school&apos;s ZIP code
           MHA rate, not the online flat rate. This distinction matters significantly for programs
           that offer both in-person and remote options.
@@ -413,12 +413,12 @@ const ACCORDION = [
             window closes. This requires a 4-year service commitment.
           </li>
           <li>
-            <strong className="text-zinc-800">Phase 3 — Separation or retirement:</strong> Activate
+            <strong className="text-zinc-800">Phase 3 — Separation or retirement:</strong>{' '}Activate
             Post-9/11 GI Bill. Choose your school strategically, weighting the MHA for that
             school&apos;s ZIP code alongside program quality and career outcomes.
           </li>
           <li>
-            <strong className="text-zinc-800">Phase 4 — VR&amp;E eligibility:</strong> If you have
+            <strong className="text-zinc-800">Phase 4 — VR&amp;E eligibility:</strong>{' '}If you have
             a service-connected disability, evaluate VR&amp;E before activating GI Bill — VR&amp;E
             may cover graduate school at no cost to your GI Bill entitlement, preserving those
             months for transfer or a later program.

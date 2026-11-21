@@ -11,6 +11,7 @@ each item below must be re-traced against the new source and revised by hand.
 - [ ] Follow **`docs/RELEASE_DAY_BAH_2027.md`**: download the DTMO zip → `npm run bah:import` →
   flip `src/data/bah/current.ts` → gate → merge → IndexNow, then `BAH_EFFECTIVE_NOTICE = false`
   on January 1. BAH titles, FAQs, counts and labels follow `BAH_YEAR`; nothing to hand-edit.
+- [ ] `/api/bah/lookup` responses are cached at the CDN for a year (`s-maxage=31536000, immutable`). The January data deploy must purge the edge cache (Vercel does this on deploy; confirm after release day). Browsers can hold a response for up to a day. (The year flip also changes every lookup URL through `?y=`, per `docs/RELEASE_DAY_BAH_2027.md`; a same-year data correction keeps the URL, so it relies on the deploy purge.)
 
 ## HUD Small Area Fair Market Rents — each fall (HUD publishes, usually late August)
 

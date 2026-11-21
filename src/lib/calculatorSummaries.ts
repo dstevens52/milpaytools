@@ -477,8 +477,8 @@ const SUMMARIES: Record<SummaryKey, Omit<CalculatorSummaryData, 'key' | 'example
     basis: 'Built on VA’s official funding fee table.',
   },
   'va-refinance': {
-    what: 'Estimates what a VA IRRRL or cash-out refinance saves: the monthly payment change, break-even point and VA’s net tangible benefit checks.',
-    inputs: 'refinance type, current balance, rate and years left, new rate and term, closing costs, lender credits, funding fee exemption, first payment date',
+    what: 'Estimates a VA IRRRL or cash-out refinance: the monthly payment change, the months to recover closing costs (VA’s method), the cost over the full term, VA’s rate and 36-month recoupment checks, and the earliest closing date.',
+    inputs: 'refinance type, current balance, rate and years left, new rate and term, cash out, closing costs, lender credits, funding fee status, first use, first payment due date',
     example: vaRefinanceExample,
     basis: 'Built on VA’s official funding fee table.',
   },

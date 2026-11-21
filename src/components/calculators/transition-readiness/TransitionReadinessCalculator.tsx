@@ -710,7 +710,7 @@ export function TransitionReadinessCalculator() {
                 />
                 {result.healthcareNeedsAttention && (
                   <div className="mt-2 rounded-md bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-800" data-testid="tr-va-family-warning">
-                    {result.healthcareAttentionNote} Your family&apos;s health coverage isn&apos;t counted in this estimate; pick another option to include it.
+                    {result.healthcareAttentionNote}{' '}Your family&apos;s health coverage isn&apos;t counted in this estimate; pick another option to include it.
                   </div>
                 )}
                 {vaHealthcareWarning && (
@@ -837,7 +837,7 @@ export function TransitionReadinessCalculator() {
         {noPayRow ? (
           <div className="rounded-xl border-2 border-amber-200 bg-amber-50 p-8 text-center" data-testid="tr-no-pay-row">
             <p className="text-amber-900 text-base">
-              The {DATA_YEAR} DFAS pay table has no {grade} basic pay at {yos} {yos === 1 ? 'year' : 'years'} of service, so there&apos;s nothing to compare. Check the pay grade and years of service.
+              The {DATA_YEAR} DFAS pay table has no {grade} basic pay at {yos} {yos === 1 ? 'year' : 'years'}{' '}of service, so there&apos;s nothing to compare. Check the pay grade and years of service.
             </p>
           </div>
         ) : !hasEngaged ? (

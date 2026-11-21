@@ -165,6 +165,17 @@ test.describe('Separation Benefits Timeline Calculator', () => {
     await expect(page.getByText(/3 years from retirement date/i)).not.toBeVisible();
   });
 
+  // Build 10b: involuntary separation with separation pay gets the retirees' 3-year
+  // home-of-selection window (docs/sources/separation-rules-2026.md, "Final move (JTR)").
+  test('separating final-move card adds the separation-pay 3-year line; retiring does not', async ({ page }) => {
+    const line = 'Separated involuntarily with separation pay? You get the same 3-year home-of-selection window as retirees.';
+    await fillDate(page, '2027-01-15');
+    await expect(page.getByText(line)).toBeVisible();
+    await page.getByRole('button', { name: /retiring/i }).click();
+    await expect(page.getByText(/3 years from retirement date/i)).toBeVisible();
+    await expect(page.getByText(line)).toHaveCount(0);
+  });
+
   test('TAMP shown by default (not sure)', async ({ page }) => {
     await fillDate(page, '2027-01-15');
     await expect(page.getByText(/TAMP Coverage Period/i).first()).toBeVisible();

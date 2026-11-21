@@ -627,7 +627,7 @@ export function RetirementCalculator() {
             />
             {output.tspPayUnavailable && (
               <p data-testid="tsp-pay-unavailable" className="rounded-md bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-800 leading-relaxed">
-                The {DATA_YEAR} pay table has no basic pay rate for {RANK_DISPLAY[currentGrade] ?? currentGrade} at {input.currentYOS} years of service, so new TSP contributions can&apos;t be estimated. The projection shows only the current balance growing. Choose a rank and years of service with a published rate to include contributions.
+                The {DATA_YEAR} pay table has no basic pay rate for {RANK_DISPLAY[currentGrade] ?? currentGrade} at {input.currentYOS}{' '}years of service, so new TSP contributions can&apos;t be estimated. The projection shows only the current balance growing. Choose a rank and years of service with a published rate to include contributions.
               </p>
             )}
             {output.tspMemberCapped && (
