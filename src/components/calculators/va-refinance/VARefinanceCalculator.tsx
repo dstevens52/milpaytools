@@ -739,7 +739,7 @@ export function VARefinanceCalculator() {
             label="Monthly Payment"
             detail={
               savingsRounded > 0
-                ? `Your payment drops by ${usd(savingsRounded)}/month, ${usd(savingsRounded * 12)}/year.`
+                ? `Your payment drops by ${usd(savingsRounded)}/month, ${usd(Math.round(calc.monthlySavings * 12))}/year.`
                 : savingsRounded === 0
                 ? 'Your payment would not change with this refinance.'
                 : `Your payment would increase by ${usd(-savingsRounded)}/month.`
