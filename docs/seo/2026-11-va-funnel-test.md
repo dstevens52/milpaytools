@@ -2,8 +2,8 @@
 
 Which placements on MilPayTools send real traffic to the VA loan pages? The answer could become a revenue line later. For now the VA pages only explain VA loans: no lead form, no contact details, no lenders, no affiliate links.
 
-- **Start:** the day the V3b PR merges (production deploy). **Dan fills in the date:** ________.
-- **Read-out:** four weeks after the start, ________. If it merges on Sunday, Nov 22, 2026, the read-out is **Sunday, Dec 20, 2026**.
+- **Start: Sunday, Nov 22, 2026** (PR #85 merged 14:47 UTC, merge commit `a27aaa0`; production deploy the same morning).
+- **Read-out: Sunday, Dec 20, 2026** (four weeks after the start). Test window Nov 22 – Dec 19; baseline window (the four weeks before) Oct 25 – Nov 21, 2026.
 - **Code:** event types in `src/lib/analytics.ts` (`fireDeepLinkEvent`); the result-card link and its CONUS test in `src/lib/vaFunnel.ts`; the card itself in `src/components/calculators/shared/VaLoanBahCard.tsx`.
 - **Tests:** `tests/e2e/va-funnel.spec.ts` (browser) and `tests/e2e/va-funnel-unit.spec.ts` (`npm run test:va-funnel`).
 
