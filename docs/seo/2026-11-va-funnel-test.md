@@ -48,36 +48,41 @@ Pull each for the four weeks from the start date (and, where marked, the four we
    - `bah=yes` arrivals (placements 1, 2, 5a, 5b, some of 5c): page views of `/calculators/va-loan` with "Page path + query string" containing `bah=yes`, against all its page views. (The standard "Page path" dimension drops the query string; use "Page path + query string" or "Page location".)
    - `fee=` arrivals (placements 3 and 4): GA never sees `fee`, so use the `calc_deeplink_click` count for `from_page_type` = `va-disability-calculator` and `blog` (`to_calculator` = `va-loan`). A click is not always a completed page view, so this slightly overstates arrivals.
 4. **Use after arrival.** `calculation_run` where `calculator_name` = `va-loan` (and `va-refinance`). It fires only when a person changes an input, never on a prefilled landing.
-5. **Before and after.** Sessions and users on `/calculators/va-loan`, `/calculators/va-refinance` and `/guides/va-home-loans`, four weeks after vs the four weeks before; GSC clicks for the same pages. **Dan pulls the 4-week baseline from GA4 and GSC on the start date** and pastes it below.
+5. **Before and after.** GA4 views on `/calculators/va-loan`, `/calculators/va-refinance`, `/guides/va-home-loans` and the VA loan posts, four weeks after vs the four weeks before (baseline below); GSC clicks and impressions for the same pages.
 
-### Baseline (Dan, on the start date)
+### Baseline: Oct 25 – Nov 21, 2026 (pulled by Claude Chat from GA4 and GSC, Nov 22)
 
-| Page | GA4 sessions, 4 weeks before | GA4 users | GSC clicks | GSC impressions |
-|---|---|---|---|---|
-| `/calculators/va-loan` | | | | |
-| `/calculators/va-refinance` | | | | |
-| `/guides/va-home-loans` | | | | |
+| Page | GA4 views | GSC clicks | GSC impressions |
+|---|---|---|---|
+| `/calculators/va-loan` | 9 | 0 | 991 |
+| `/calculators/va-refinance` | 12 | 3 | 991 |
+| `/guides/va-home-loans` | 3 | 0 | 11 |
+| `/blog/va-loan-assumptions-explained` | 5 | 0 (all VA loan posts) | |
+| `/blog/can-i-use-va-loan-again` | 3 | 0 (all VA loan posts) | |
+| `/blog/va-appraisal-what-to-expect` | 2 | 0 (all VA loan posts) | |
+
+Source pages (where the result cards sit), GA4 views: `/calculators/pcs` 526, `/bah` 229. Site total: 7,193 GA4 views.
+
+**Reading the result:** the source pages get ~750 views in four weeks, so expect tens of clicks, not hundreds. Judge placements by click rate (item 2), not volume. The volume test is the station-page placement (after Dec 9; see "Next placement").
 
 ### Things that will move the numbers during the window
 
 - **BAH 2027 release (expected Dec 10–17):** `/bah` traffic jumps, so card 1 gets far more views. Use the per-view rate (item 2), not raw clicks.
 - **The Dec 9 station read-out** changes station titles; station pages have no VA placement in this test.
 - **Holidays** (late December) lower traffic across the site.
-- **Key events:** `calc_deeplink_click` is a GA4 key event. From the start date it counts the new placements too, so site-wide key-event totals rise. Annotate the start date in GA4.
+- **Key events:** `calc_deeplink_click` is a GA4 key event. From the start date it counts the new placements too, so site-wide key-event totals rise. GA4 annotation "V3b VA funnel test start" added for Nov 22 (Claude Chat).
 
-## GA4 custom dimensions (Dan, one-time)
+## GA4 custom dimensions
 
-GA4 → Admin → Data display → Custom definitions → Create custom dimension, scope **Event**, one per event parameter. Until a parameter is registered, GA collects it but reports can't show it, and registration doesn't backfill, so **do this on the start date at the latest.**
+**Already registered on Nov 15, 2026** (confirmed in GA4 admin by Claude Chat, Nov 22), so nothing to do. All five are event-scoped and collecting since then, so the whole test window is reportable.
 
-| Dimension name | Event parameter | Needed for | Status found in the repo |
-|---|---|---|---|
-| From page type | `from_page_type` | item 1 | No record of registration. GA4 admin "register custom dimensions" was a to-do after Build 02 (Nov 15). |
-| To calculator | `to_calculator` | item 1 | Same. |
-| Placement | `placement` | item 1 | Listed as pending (Dan) since Build 04 (`STATION_LAYOUT_REPORT.md`); no record it was done. |
-| Calculator name | `calculator_name` | items 2 and 4 | No record either way. |
-| Grade | `grade` | optional (which ranks click) | No record either way. |
-
-If a dimension already exists, leave it; check Admin → Custom definitions for the five names first.
+| Dimension | Event parameter | Needed for |
+|---|---|---|
+| From page type | `from_page_type` | item 1 |
+| To calculator | `to_calculator` | item 1 |
+| Placement | `placement` | item 1 |
+| Calculator name | `calculator_name` | items 2 and 4 |
+| Grade | `grade` | optional (which ranks click) |
 
 ## Next placement after Dec 9
 
