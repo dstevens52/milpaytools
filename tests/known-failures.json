@@ -118,6 +118,19 @@
       "ciOnly": false,
       "reason": "Swapping flake pair with the VA 40% test.",
       "section": "Intermittently swapping flake pair"
+    },
+    {
+      "id": "healthcare-malformed-share-link-rsc-prefetch",
+      "kind": "flaky",
+      "file": "healthcare-comparison.spec.ts",
+      "line": 130,
+      "title": "Healthcare Cost Comparison Calculator › malformed share link loads with defaults",
+      "browsers": [
+        "webkit"
+      ],
+      "ciOnly": true,
+      "reason": "Test bug, not an app bug: the test collects pageerror across two page.goto calls; WebKit reports Next.js _rsc prefetches (header/footer links) cancelled by the second goto as page errors ('… due to access control checks'). Failed 2/10 on main (run 44956505118) and 2/10 on feat/v3b-va-funnel (run 44955764461), webkit --repeat-each=10. Fix queued in docs/audits/FIX_QUEUE.md (CI follow-ups).",
+      "section": "CI only"
     }
   ]
 }

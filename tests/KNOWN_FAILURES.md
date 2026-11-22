@@ -207,7 +207,19 @@ Seen in the CI gate (`.github/workflows/e2e.yml`: production build in the
 `mcr.microsoft.com/playwright:v1.59.1-noble` container, `--workers=2`, `--retries=0`) and not in
 local runs. Marked `ciOnly: true` in `tests/known-failures.json`. Shakedown runs on PR #41:
 run 1 = 44294712122 (plain runner), run 2 = 44299164032 and run 3 = 44301157082 (container).
-**Currently none.** The three entries below were removed on 2026-11-18 (build 1b, PR #43) after
+**Currently one** (added 2026-11-22, PR #85):
+
+- `healthcare-comparison.spec.ts:130` — "malformed share link loads with defaults" — **webkit**,
+  flaky. A test bug, not an app bug: the test collects `pageerror` across two `page.goto` calls,
+  and WebKit reports the Next.js `_rsc` prefetches for header/footer links (`/blog`, `/`,
+  `/about`, `/feedback`, `/calculators/total-compensation`), cancelled by the second `goto`, as
+  page errors (`…?_rsc=… due to access control checks.`). First seen as a new failure in PR #85's
+  CI run 44954589607. Repeat runs (webkit, `--repeat-each=10`, production build): **main 2/10
+  failed** (44956505118), feat/v3b-va-funnel 2/10 (44955764461). Fix queued in
+  `docs/audits/FIX_QUEUE.md` (CI follow-ups); remove this entry after a clean repeat run plus a
+  clean PR run.
+
+The three entries below were removed on 2026-11-18 (build 1b, PR #43) after
 10/10 local WebKit runs each (production build, `--workers=1`) and a clean PR CI run (44332346443:
 0 unexpected). Kept here as history.
 

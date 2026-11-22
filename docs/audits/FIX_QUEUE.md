@@ -116,6 +116,7 @@
   - [ ] If merged before Dec 1, 2026, redeploy production on Dec 1 (the 2027 switch is by build date).
   - [ ] IndexNow /va-disability-rates, /calculators/va-disability and /llms.txt.
 - **CI follow-ups:** unpin `ubuntu-24.04` when Playwright supports the newer runner image.
+  - **Fix `healthcare-comparison.spec.ts:130` properly (added 2026-11-22, PR #85):** "malformed share link loads with defaults" fails ~2/10 on WebKit in CI (main and branch) because it counts WebKit's cancelled Next.js `_rsc` prefetches (`… due to access control checks`) as page errors across its two `page.goto` calls. Fix the test, not the app: e.g. reset `errors` after the first page's assertions and wait for the page to settle before the second `goto`, or ignore only `_rsc` prefetch cancellations. Then a CI repeat run (`-f specs="tests/e2e/healthcare-comparison.spec.ts" -f browsers="webkit" -f repeat_each=10`) plus a clean PR run, and remove the `healthcare-malformed-share-link-rsc-prefetch` entry from `tests/known-failures.json` and `tests/KNOWN_FAILURES.md` ("CI only").
 - **Analytics follow-ups:** `newsletter_signup` key event once the first signup arrives; Clarity localhost-session filter (Claude Chat); move `STATS_SECRET` out of the URL; Vercel Analytics full-URL exposure.
 
 ---
