@@ -18,7 +18,7 @@ interface VaLoanBahCardProps {
 /**
  * V3b: one line under a BAH result that opens the VA loan calculator with the
  * BAH comparison filled in from the lookup just run. The caller renders it only
- * for a CONUS ZIP that returned a BAH rate (see isConusMha).
+ * for a ZIP that returned a BAH rate: CONUS, Alaska or Hawaii, never OHA.
  */
 export function VaLoanBahCard({ fromPageType, location, zip, grade, hasDependents }: VaLoanBahCardProps) {
   return (

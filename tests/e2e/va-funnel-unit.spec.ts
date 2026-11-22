@@ -5,12 +5,14 @@
  * - fireDeepLinkEvent sends calc_deeplink_click with the V3b sources, targets and
  *   placements (window.gtag replaced by a recorder, as ga-events.spec.ts does in
  *   the browser).
- * - The result-card link (vaLoanBahHref) and its CONUS test (isConusMha).
+ * - The result-card link (vaLoanBahHref).
+ * - /bah reads dep= as an alias for dependents= (parseDependents).
  */
 
 import { test, expect } from '@playwright/test';
 import { fireDeepLinkEvent } from '../../src/lib/analytics';
-import { isConusMha, vaLoanBahHref } from '../../src/lib/vaFunnel';
+import { vaLoanBahHref } from '../../src/lib/vaFunnel';
+import { parseDependents } from '../../src/lib/urlParams';
 
 type Call = unknown[];
 
@@ -68,14 +70,23 @@ test.describe('result-card link', () => {
     expect(vaLoanBahHref('78234', 'E-5', true)).toBe('/calculators/va-loan?bah=yes&zip=78234&rank=e5&dep=yes');
     expect(vaLoanBahHref('28310', 'O-3E', false)).toBe('/calculators/va-loan?bah=yes&zip=28310&rank=o3e&dep=no');
   });
+});
 
-  test('isConusMha: CONUS yes; Alaska, Hawaii, none no', () => {
-    expect(isConusMha('TX279')).toBe(true);
-    expect(isConusMha('NC178')).toBe(true);
-    expect(isConusMha('AK404')).toBe(false);
-    expect(isConusMha('HI408')).toBe(false);
-    expect(isConusMha(null)).toBe(false);
-    expect(isConusMha(undefined)).toBe(false);
-    expect(isConusMha('')).toBe(false);
+test.describe('/bah dependents: dep= alias', () => {
+  test('dependents alone, dep alone, neither', () => {
+    expect(parseDependents('yes', null)).toBe(true);
+    expect(parseDependents('no', null)).toBe(false);
+    expect(parseDependents(null, 'yes')).toBe(true);
+    expect(parseDependents(null, 'no')).toBe(false);
+    expect(parseDependents(null, '1')).toBe(true);
+    expect(parseDependents(null, null)).toBe(null);
+    expect(parseDependents(null, 'maybe')).toBe(null);
+  });
+
+  test('dependents wins when both are set', () => {
+    expect(parseDependents('no', 'yes')).toBe(false);
+    expect(parseDependents('yes', 'no')).toBe(true);
+    // An unreadable dependents value falls back to dep.
+    expect(parseDependents('maybe', 'yes')).toBe(true);
   });
 });

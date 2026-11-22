@@ -84,6 +84,7 @@ export const CALCULATOR_URL_PARAMS = {
       { name: 'zip', values: ZIP, default: 'none (results appear once a ZIP is entered)' },
       { name: 'rank', values: GRADE, default: 'E-5' },
       { name: 'dependents', values: YES_NO, default: 'no' },
+      { name: 'dep', values: `${YES_NO}; short form of dependents (dependents wins if both are set)`, default: 'no' },
       { name: 'mode', values: 'single or compare', default: 'single' },
       { name: 'zipb', values: `${ZIP} of the second location (compare mode)`, default: 'none' },
     ],

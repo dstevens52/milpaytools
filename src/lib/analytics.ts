@@ -93,8 +93,10 @@ export const CLARITY_LOADER_JS = `(function(){
 
 /**
  * Query parameters GA may see, besides any `utm_*`. Rank and service length,
- * plus (V3b) the VA loan calculator's `bah` (yes/no) and `fee` (funding fee
- * status) so prefilled arrivals show in page paths. Never `zip`.
+ * plus (V3b) the VA loan calculator's `bah` (yes/no) so prefilled arrivals
+ * show in page paths. Never `zip`, and never `fee`: it carries VA disability
+ * and claim status (comp, pending), so fee= arrivals are counted from
+ * calc_deeplink_click instead.
  */
 export const GA_KEEP_PARAMS = [
   'gclid',
@@ -107,10 +109,9 @@ export const GA_KEEP_PARAMS = [
   'rank2',
   'currank',
   'curyos',
-  // V3b: VA loan calculator arrivals from a prefilled link (BAH comparison on,
-  // funding fee status). Its `zip` stays out.
+  // V3b: VA loan calculator arrivals from a prefilled link (BAH comparison on).
+  // Its `zip` and `fee` (disability/claim status) stay out.
   'bah',
-  'fee',
 ] as const;
 
 const _keep: readonly string[] = GA_KEEP_PARAMS;

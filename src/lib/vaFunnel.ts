@@ -2,15 +2,9 @@ import type { PayGrade } from '@/types/military';
 import { gradeToParam } from '@/lib/urlParams';
 
 // V3b VA funnel: the prefilled "VA loan vs. this BAH" line under the BAH and
-// PCS calculator results. Test plan and read-out: docs/seo/2026-11-va-funnel-test.md.
-
-/**
- * True for a CONUS Military Housing Area. Alaska (AK4xx) and Hawaii (HI4xx)
- * MHAs pay BAH but are OCONUS, and the line is CONUS-only.
- */
-export function isConusMha(mha: string | null | undefined): boolean {
-  return !!mha && !/^(AK|HI)/.test(mha);
-}
+// PCS calculator results. It shows wherever the ZIP lookup returns a BAH rate
+// (CONUS, Alaska and Hawaii); never for a territory (OHA), overseas or a ZIP
+// that isn't found. Test plan and read-out: docs/seo/2026-11-va-funnel-test.md.
 
 /**
  * The VA loan calculator with the BAH comparison on and filled from a lookup:

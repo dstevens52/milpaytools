@@ -31,8 +31,8 @@ When the card shows (1 and 2): only for a 5-digit ZIP that resolves to a **CONUS
 
 - `from` is already a PCS calculator setting (the origin ZIP), so a `from=` tag would collide.
 - The VA loan calculator's own settings mark a prefilled arrival: `bah=yes` (placements 1, 2, 5a, 5b, some of 5c) and `fee=` (3, 4).
-- **V3b adds `bah` and `fee` to the GA URL allowlist** (`GA_KEEP_PARAMS`), so GA page URLs keep them. `zip` stays out: a prefilled arrival reaches GA as `/calculators/va-loan?bah=yes&rank=e5&dep=yes`.
-- `fee` values are funding fee statuses (`none`, `comp`, `eligible`, `dic`, `predischarge`, `purpleheart`, `pending`). The same parameter on `/calculators/va-refinance` is kept too.
+- **V3b adds `bah` to the GA URL allowlist** (`GA_KEEP_PARAMS`), so GA page URLs keep it. `zip` stays out: a prefilled arrival reaches GA as `/calculators/va-loan?bah=yes&rank=e5&dep=yes`.
+- **`fee` stays out of GA.** Its values are funding fee statuses that carry VA disability and claim status (`comp`, `pending`, `predischarge` and others), so GA sees `/calculators/va-loan` for a `fee=` arrival. Count those arrivals from the clicks that send them: `calc_deeplink_click` from placements 3 and 4.
 
 ## What to compare at the read-out
 
@@ -44,7 +44,9 @@ Pull each for the four weeks from the start date (and, where marked, the four we
    - PCS card: card clicks ÷ `calculation_run` where `calculator_name` = `pcs`.
    - VA disability card: clicks ÷ `calculation_run` where `calculator_name` = `va-disability` (the card shows at 10% and above, so this understates the rate).
    - Blog, `/bah`, `/guides/pcs`, VA hub: clicks ÷ page views of that page.
-3. **Prefilled arrivals on the VA loan calculator.** Page views of `/calculators/va-loan` with "Page path + query string" containing `bah=yes` or `fee=`, against all its page views. (The standard "Page path" dimension drops the query string; use "Page path + query string" or "Page location".)
+3. **Prefilled arrivals on the VA loan calculator.**
+   - `bah=yes` arrivals (placements 1, 2, 5a, 5b, some of 5c): page views of `/calculators/va-loan` with "Page path + query string" containing `bah=yes`, against all its page views. (The standard "Page path" dimension drops the query string; use "Page path + query string" or "Page location".)
+   - `fee=` arrivals (placements 3 and 4): GA never sees `fee`, so use the `calc_deeplink_click` count for `from_page_type` = `va-disability-calculator` and `blog` (`to_calculator` = `va-loan`). A click is not always a completed page view, so this slightly overstates arrivals.
 4. **Use after arrival.** `calculation_run` where `calculator_name` = `va-loan` (and `va-refinance`). It fires only when a person changes an input, never on a prefilled landing.
 5. **Before and after.** Sessions and users on `/calculators/va-loan`, `/calculators/va-refinance` and `/guides/va-home-loans`, four weeks after vs the four weeks before; GSC clicks for the same pages. **Dan pulls the 4-week baseline from GA4 and GSC on the start date** and pastes it below.
 

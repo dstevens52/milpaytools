@@ -10,7 +10,6 @@ import { ActSteps } from '@/components/calculators/shared/ActStep';
 import { BaseSearchInput } from '@/components/calculators/shared/BaseSearchInput';
 import { useBahLookup, rateFor } from '@/components/calculators/shared/useBahLookup';
 import { VaLoanBahCard } from '@/components/calculators/shared/VaLoanBahCard';
-import { isConusMha } from '@/lib/vaFunnel';
 // Slim station index (PCS reads slug, zip, state, oconus), not the full DUTY_STATIONS records (P1 #2).
 import { STATION_SEARCH_INDEX } from '@/data/duty-stations/searchIndex.generated';
 import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
@@ -452,9 +451,10 @@ export function PCSCalculator() {
   // No distance and no station pair with coordinates yet: show a prompt, never "$0".
   const needsInput = effectiveDistance === 0 && autoDistance === null && !milesEntered;
 
-  // V3b: the destination ZIP resolved to a CONUS MHA with a rate for this rank.
+  // V3b: the destination ZIP returned a BAH rate for this rank (CONUS, AK or HI;
+  // territories and overseas destinations have none).
   const showVaLoanCard =
-    !isOverseas && /^\d{5}$/.test(zipTo) && isConusMha(bahDataTo?.mha) && rateFor(bahDataTo ?? null, rank, hasDependents) !== null;
+    !isOverseas && /^\d{5}$/.test(zipTo) && rateFor(bahDataTo ?? null, rank, hasDependents) !== null;
 
   // After the URL effect: input made before hydration wins over URL params (build 1c).
   const hydrated = usePreHydrationSync(gaRoot, { calculator: 'pcs', shareUrl: getShareUrl });
@@ -1020,7 +1020,7 @@ export function PCSCalculator() {
             context="pcs"
           />
 
-          {/* V3b: VA loan vs. the destination's BAH — CONUS destination ZIP with a rate only */}
+          {/* V3b: VA loan vs. the destination's BAH — destination ZIP with a BAH rate only */}
           {showVaLoanCard && bahDataTo?.locationName && (
             <VaLoanBahCard
               fromPageType="pcs-calculator"

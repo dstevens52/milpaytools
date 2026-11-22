@@ -38,6 +38,16 @@ export function parseBool(raw: string | null): boolean | null {
   return null;
 }
 
+/**
+ * Dependents setting from `dependents=`, or from its short alias `dep=` (the VA
+ * loan calculator's name, so its links work on /bah too). A valid `dependents`
+ * wins when both are set.
+ */
+export function parseDependents(dependents: string | null, dep: string | null): boolean | null {
+  const d = parseBool(dependents);
+  return d !== null ? d : parseBool(dep);
+}
+
 /** Parse and validate a 5-digit ZIP code string */
 export function parseZip(raw: string | null): string | null {
   if (!raw) return null;

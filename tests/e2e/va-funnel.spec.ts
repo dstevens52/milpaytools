@@ -74,10 +74,30 @@ test.describe('BAH calculator result card', () => {
     await expect(card).toHaveAttribute('href', '/calculators/va-loan?bah=yes&zip=78234&rank=o3&dep=no');
   });
 
+  test('dep=yes works on /bah like dependents=yes (the VA loan calculator name)', async ({ page }) => {
+    await page.goto('/bah?zip=78234&rank=e5&dep=yes');
+    const card = page.getByTestId(CARD);
+    await expect(card).toHaveAttribute('href', '/calculators/va-loan?bah=yes&zip=78234&rank=e5&dep=yes');
+    await expect(page.getByRole('button', { name: 'With Dependents', exact: true })).toHaveClass(/bg-red-700/);
+    // dependents wins when both are set.
+    await page.goto('/bah?zip=78234&rank=e5&dependents=no&dep=yes');
+    await expect(page.getByTestId(CARD)).toHaveAttribute('href', '/calculators/va-loan?bah=yes&zip=78234&rank=e5&dep=no');
+  });
+
+  for (const [label, zip] of [
+    ['Honolulu (Hawaii)', '96818'],
+    ['Anchorage (Alaska)', '99506'],
+  ] as const) {
+    test(`card for a BAH-paying OCONUS ZIP: ${label}`, async ({ page }) => {
+      await page.goto(`/bah?zip=${zip}&rank=e5&dependents=yes`);
+      const card = page.getByTestId(CARD);
+      await expect(card).toHaveAttribute('href', `/calculators/va-loan?bah=yes&zip=${zip}&rank=e5&dep=yes`);
+      await expect(card).toContainText('Thinking about buying near');
+    });
+  }
+
   for (const [label, zip, shown] of [
     ['Guam (territory, OHA)', '96910', /U\.S\. territory/],
-    ['Honolulu (Hawaii, OCONUS)', '96818', /\/mo/],
-    ['Anchorage (Alaska, OCONUS)', '99506', /\/mo/],
     ['ZIP not in the BAH dataset', '00000', /not found|not available/i],
   ] as const) {
     test(`no card: ${label}`, async ({ page }) => {
@@ -105,13 +125,18 @@ test.describe('PCS calculator result card (destination)', () => {
     expectNoZip(ga.calls);
   });
 
-  test('no card without a destination, or with a Hawaii destination', async ({ page }) => {
+  test('no card without a destination, or with an overseas destination', async ({ page }) => {
     await page.goto('/calculators/pcs?rank=e6&dep=yes&from=28310');
     await expect(page.getByTestId('pcs-cross-links')).toBeVisible();
     await expect(page.getByTestId(CARD)).toHaveCount(0);
-    await page.goto('/calculators/pcs?rank=e6&dep=yes&from=28310&to=96818');
-    await expect(page.getByText(/Moving to/).first()).toBeVisible();
+    await page.goto('/calculators/pcs?rank=e6&dep=yes&from=28310&to=96910');
+    await expect(page.getByTestId('pcs-cross-links')).toBeVisible();
     await expect(page.getByTestId(CARD)).toHaveCount(0);
+  });
+
+  test('to=96818 (Hawaii): card with the destination BAH', async ({ page }) => {
+    await page.goto('/calculators/pcs?rank=e6&dep=yes&from=28310&to=96818');
+    await expect(page.getByTestId(CARD)).toHaveAttribute('href', '/calculators/va-loan?bah=yes&zip=96818&rank=e6&dep=yes');
   });
 });
 
