@@ -41,6 +41,7 @@ Each calculator reads the settings below from its URL, so a link can open a fill
 - `zip`: 5-digit ZIP code. Default: none (results appear once a ZIP is entered).
 - `rank`: pay grade e1–e9, w1–w5, o1–o10 or o1e–o3e; any case, hyphen optional (e5 and E-5 both work). Default: E-5.
 - `dependents`: yes or no (1/0 and true/false also work). Default: no.
+- `dep`: yes or no (1/0 and true/false also work); short form of dependents (dependents wins if both are set). Default: no.
 - `mode`: single or compare. Default: single.
 - `zipb`: 5-digit ZIP code of the second location (compare mode). Default: none.
 - Example (E-5 with dependents at Fort Bragg (ZIP 28310)): https://www.milpaytools.com/bah?zip=28310&rank=e5&dependents=yes

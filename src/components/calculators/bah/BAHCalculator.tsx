@@ -13,9 +13,10 @@ import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareR
 import { ENLISTED_GRADES, WARRANT_GRADES, OFFICER_GRADES, PRIOR_ENLISTED_OFFICER_GRADES, RANK_DISPLAY } from '@/types/military';
 import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
-import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
+import { parseGrade, gradeToParam, parseDependents, parseZip } from '@/lib/urlParams';
 import { readUrlParams } from '@/data/calculatorUrlParams';
 import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
+import { VaLoanBahCard } from '@/components/calculators/shared/VaLoanBahCard';
 import { BAH_YEAR } from '@/data/bah/current';
 import { bahPriorRateSubline } from '@/lib/calculations/bahTransition';
 import { RATE_PROTECTION_CALC_TAIL } from '@/data/bah/rateProtection';
@@ -347,7 +348,7 @@ export function BAHCalculator() {
     const gz = parseZip(params.get('zip'));
     const gzb = parseZip(params.get('zipb'));
     const gr = parseGrade(params.get('rank'));
-    const dep = parseBool(params.get('dependents'));
+    const dep = parseDependents(params.get('dependents'), params.get('dep'));
     const m = params.get('mode');
     if (gz) setZip(gz);
     if (gzb) setZipB(gzb);
@@ -492,6 +493,17 @@ export function BAHCalculator() {
           <Card variant="result">
             <LocationResult zip={zip} result={result} loading={lookupA.loading} errorMsg={errA} hasDependents={hasDependents} />
           </Card>
+
+          {/* V3b: VA loan vs. this BAH — any ZIP lookup with a BAH rate (CONUS, AK, HI; not OHA) */}
+          {result && (
+            <VaLoanBahCard
+              fromPageType="bah-calculator"
+              location={result.locationName}
+              zip={zip}
+              grade={grade}
+              hasDependents={hasDependents}
+            />
+          )}
 
           {/* Station guide link */}
           {result && (

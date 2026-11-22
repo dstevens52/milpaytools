@@ -18,6 +18,7 @@ import { Bah2027Notice } from '@/components/bah-stations/Bah2027Notice';
 import { BahTransitionNotice } from '@/components/bah-stations/BahTransitionNotice';
 import { bahNoticeMode, bahTransitionText, CURRENT_BAH_CONFIG } from '@/lib/calculations/bahTransition';
 import Link from 'next/link';
+import { TrackedLink } from '@/components/TrackedLink';
 import { KEY_DATES_HREF } from '@/data/calendar-2027';
 import { Bah2027Section } from '@/components/bah-stations/Bah2027Section';
 import { bah2027HubFaqs } from '@/data/bah/2027-status';
@@ -232,9 +233,15 @@ export default function BahHubPage() {
               rent — you receive the same published rate whether your actual rent is higher or lower,
               so housing choices can create a monthly surplus or shortfall. If you&apos;re weighing
               buying instead of renting, the{' '}
-              <Link href="/calculators/va-loan?bah=yes" className="text-red-700 hover:text-red-800 underline">
+              <TrackedLink
+                href="/calculators/va-loan?bah=yes"
+                fromPageType="bah-hub"
+                toCalculator="va-loan"
+                placement="contextual"
+                className="text-red-700 hover:text-red-800 underline"
+              >
                 VA loan calculator
-              </Link>{' '}
+              </TrackedLink>{' '}
               compares an estimated mortgage payment with your BAH.
             </p>
           </div>

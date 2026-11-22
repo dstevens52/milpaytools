@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ogImage } from '@/lib/og';
 import Link from 'next/link';
+import { TrackedLink } from '@/components/TrackedLink';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { articleSchema, faqPageSchema } from '@/lib/schema';
 import { AuthorBio } from '@/components/blog/AuthorBio';
@@ -386,9 +387,15 @@ const ACCORDION = [
           insurance, maintenance). Meanwhile, principal paydown and appreciation are equity that
           accumulates outside your military compensation. When you PCS, you sell or rent the
           property and realize that equity. The{' '}
-          <Link href="/calculators/va-loan?bah=yes" className="font-semibold text-red-700 hover:text-red-800 underline">
+          <TrackedLink
+            href="/calculators/va-loan?bah=yes"
+            fromPageType="guide"
+            toCalculator="va-loan"
+            placement="contextual"
+            className="font-semibold text-red-700 hover:text-red-800 underline"
+          >
             VA loan calculator
-          </Link>{' '}
+          </TrackedLink>{' '}
           compares an estimated mortgage payment, with the funding fee, to your BAH.
         </p>
         <p className="text-xs text-zinc-400 italic">

@@ -12,6 +12,7 @@ import { TricareFigure, TricareChangeRange, TricareDate, TricareCostYear } from 
 import { TricareCostTable } from '@/components/blog/TricareCostTable';
 import { TampEligibilityList } from '@/components/blog/TampEligibilityList';
 import { VaFundingFee } from '@/components/blog/VaFundingFee';
+import { TrackedLink } from '@/components/TrackedLink';
 import { TricareOpenSeason, TricarePostFaq } from '@/components/blog/TricarePost';
 import { tricarePostFaqs } from '@/lib/tricarePost';
 import { OPEN_SEASON_2026_STATUS } from '@/data/tricare/2027/openSeason';
@@ -43,6 +44,7 @@ const mdxComponents = {
   TricarePostFaq,
   TampEligibilityList,
   VaFundingFee,
+  TrackedLink,
 };
 
 const GUIDE_TITLES: Record<string, string> = {
