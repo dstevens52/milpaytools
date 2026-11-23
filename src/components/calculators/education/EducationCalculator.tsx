@@ -678,16 +678,6 @@ export function EducationCalculator() {
             </div>
           </Link>
           <Link
-            href="/blog/gi-bill-housing-allowance-zip-code"
-            className="flex items-start gap-3 rounded-lg border border-zinc-200 p-3 hover:border-zinc-300 hover:shadow-sm transition-all"
-          >
-            <span className="text-xl flex-none">📖</span>
-            <div>
-              <p className="text-sm font-semibold text-zinc-800">GI Bill Housing Allowance Guide</p>
-              <p className="text-xs text-zinc-500 mt-0.5">Why your school's ZIP code matters more than tuition</p>
-            </div>
-          </Link>
-          <Link
             href="/blog/post-911-gi-bill-explained-2026"
             className="flex items-start gap-3 rounded-lg border border-zinc-200 p-3 hover:border-zinc-300 hover:shadow-sm transition-all"
           >

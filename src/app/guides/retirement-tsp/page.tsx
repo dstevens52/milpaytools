@@ -187,6 +187,9 @@ const ACCORDION = [
         <p>
           <strong className="text-zinc-800">BRS pension formula:</strong>{' '}2.0% × years of service × High-3 average base pay. At 20 years, that equals 40% of the High-3 average — compared to 50% under High-3&apos;s 2.5% multiplier. BRS compensates for the lower pension with government TSP contributions over a career.
         </p>
+        <p>
+          New to how retirement pay works? <Link href="/blog/how-military-retirement-works" className="font-medium text-red-700 hover:text-red-800 transition-colors">How Military Retirement Works: The Basics</Link> covers the 20-year requirement, when retirement pay begins, COLA and retiree TRICARE.
+        </p>
         <Link href="/calculators/retirement" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Calculate your pension projection →
         </Link>

@@ -49,8 +49,8 @@ test.describe('Rendered text has no missing spaces (every page type)', () => {
   test('the page lists are not empty', () => {
     expect(CALCULATORS.length).toBeGreaterThanOrEqual(16);
     expect(GUIDES.length).toBeGreaterThanOrEqual(8);
-    // 55 since S7 (Nov 2026) merged seven near-duplicate posts into their pairs.
-    expect(POSTS.length).toBeGreaterThanOrEqual(55);
+    // 52 since S7 / S7b (Nov 2026) merged ten posts into their pairs or calculators.
+    expect(POSTS.length).toBeGreaterThanOrEqual(52);
   });
 
   for (const [group, paths] of GROUPS) {

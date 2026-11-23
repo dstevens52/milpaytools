@@ -36,6 +36,10 @@ const nextConfig: NextConfig = {
       { source: '/blog/sgli-vgli-private-life-insurance', destination: '/blog/is-sgli-enough-life-insurance', permanent: true },
       { source: '/blog/what-is-scra-military-protection', destination: '/blog/scra-mla-protections-new-service-members', permanent: true },
       { source: '/blog/pcs-out-of-pocket-costs', destination: '/blog/pcs-financial-planning-guide', permanent: true },
+      // Blog cleanup S7b (2026-11) — two more post merges, and one post folded into its calculator
+      { source: '/blog/deployment-financial-planning', destination: '/blog/deployment-pay-explained', permanent: true },
+      { source: '/blog/gi-bill-housing-allowance-zip-code', destination: '/blog/post-911-gi-bill-explained-2026', permanent: true },
+      { source: '/blog/are-you-financially-ready-to-leave-the-military', destination: '/calculators/transition-readiness', permanent: true },
       // Base name reversals — 2025 Army renaming rollback
       { source: '/bah/fort-liberty', destination: '/bah/fort-bragg', permanent: true },
       { source: '/bah/fort-cavazos', destination: '/bah/fort-hood', permanent: true },

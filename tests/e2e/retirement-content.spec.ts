@@ -154,11 +154,7 @@ test.describe('C1: TSP vesting and tax wording', () => {
       await expect(article, slug).not.toContainText('you forfeit the matching contributions');
     }
   });
-
-  test('are-you-financially-ready: allowances "excluded from federal taxable income", no "tax-free"', async ({ page }) => {
-    await page.goto('/blog/are-you-financially-ready-to-leave-the-military');
-    const article = page.locator('article');
-    await expect(article.getByRole('heading', { name: '3. Allowances excluded from federal taxable income' })).toBeVisible();
-    await expect(article).not.toContainText(/tax-free/i);
-  });
+  // The "are you financially ready" post this file also checked was merged into
+  // /calculators/transition-readiness in S7b; blog-cleanup-s7b.spec.ts checks the
+  // carried-over sections there.
 });

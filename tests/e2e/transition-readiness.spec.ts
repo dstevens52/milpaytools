@@ -21,12 +21,16 @@ test.describe('Transition readiness worked example — rendered spacing', () => 
     await expect(page.locator('.tr-page-intro')).toContainText(`${surplus}/mo surplus · ${runway} mo runway`);
   });
 
-  test('blog post example figures', async ({ page }) => {
-    await page.goto('/blog/are-you-financially-ready-to-leave-the-military');
-    const article = page.locator('main');
-    await expect(article).toContainText(`a ${surplus}/month surplus clears`);
-    await expect(article).toContainText(`emergency fund: ${runway} months of coverage`);
-    await expect(article).toContainText(
+  // S7b: the action steps from the merged "are you financially ready" post, now on the page.
+  test('calculator page example action steps', async ({ page }) => {
+    await page.goto('/calculators/transition-readiness');
+    const steps = page.locator('.tr-example-steps');
+    const efTarget = 6 * ex.adjustedMonthlyExpenses;
+    const efGap = Math.max(0, efTarget - ex.totalLiquidSavings);
+    await expect(steps).toContainText(
+      `Build liquid savings by ${formatCurrency(efGap)} before separation (6 months of adjusted expenses = ${formatCurrency(efTarget)}).`,
+    );
+    await expect(steps).toContainText(
       `toward ${formatCurrency(getExampleSalaryForSurplusTarget())} — enough to clear a ${formatCurrency(TR_EXAMPLE_SURPLUS_TARGET)}/month surplus`,
     );
   });
