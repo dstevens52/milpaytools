@@ -48,8 +48,10 @@ const ROOT = join(__dirname, '..', '..');
 // Re-based 2026-11-19 (C2): 2,346 → 2,303 figures because the career posts and the
 // transition / military-pay / retirement-tsp pages now render their TRICARE and
 // civilian-healthcare figures from the data files (unsourced ranges cut); ~90% of 2,303.
-const MIN_FIGURES = 2_070;
-const MIN_FILES_WITH_FIGURES = 62;
+// Re-based 2026-11-23 (S7): 2,056 figures in 58 files after seven near-duplicate posts
+// were merged into their pairs and deleted (unsourced figures not carried over); ~90%.
+const MIN_FIGURES = 1_850;
+const MIN_FILES_WITH_FIGURES = 52;
 
 const MODULES: Record<string, Record<string, unknown>> = {
   pay: pay2026,

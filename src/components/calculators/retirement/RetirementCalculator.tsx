@@ -126,7 +126,7 @@ function buildActionSteps(input: RetirementInput, output: ReturnType<typeof calc
     steps.push({
       label: 'Compare BRS vs. High-3 in your situation',
       description: `Under High-3 your pension would be ${fmt(output.high3MonthlyPension)}/mo. Under BRS it's ${fmt(output.monthlyPension)}/mo — but your projected TSP adds ${fmt(output.tspMonthlyIncome)}/mo for a total of ${fmt(output.totalBRSMonthlyIncome)}/mo.`,
-      href: '/blog/brs-vs-high-3-retirement',
+      href: '/blog/brs-vs-high-3-difference',
       priority: 'medium',
     });
   }

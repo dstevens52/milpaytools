@@ -734,7 +734,7 @@ export default function TransitionPage() {
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <ResourceCard
-                  href="/blog/sgli-vgli-private-life-insurance"
+                  href="/blog/is-sgli-enough-life-insurance"
                   title="SGLI vs. VGLI vs. Private Life Insurance"
                   description="Your SGLI coverage ends 120 days after separation. If you need life insurance after separation, compare private term, VGLI, and conversion options before SGLI ends. Health changes after service can affect private coverage pricing or eligibility."
                 />
@@ -754,7 +754,7 @@ export default function TransitionPage() {
                   description="Verify your GI Bill eligibility, transfer status, and remaining months before you separate. If you're planning to use it for school, research MHA rates by ZIP code — the monthly housing allowance varies significantly by location."
                 />
                 <ResourceCard
-                  href="/blog/gi-bill-vs-tuition-assistance"
+                  href="/blog/tuition-assistance-and-gi-bill-together"
                   title="GI Bill vs. Tuition Assistance"
                   description="If Tuition Assistance is available and fits your degree plan, compare using TA while on active duty versus saving GI Bill months for after separation, when MHA may apply. GI Bill months used on active duty generally do not produce MHA."
                 />

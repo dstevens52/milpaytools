@@ -16,9 +16,9 @@ import { waitForHydration } from './hydration';
 //   - A U.S. Code citation without the § sign: "37 U.S.C. 1009(e)" (10b; /pay/raise,
 //     /blog/how-to-read-your-les).
 //   - A dollar figure with a k/m/b suffix: "≈$121k" (10b; home page).
-//   - A round dollar figure as a range of amounts: "mid-$20s" (10b;
-//     /blog/sgli-vgli-private-life-insurance). Only a final 0 followed by "s" and a word
-//     break, so "$7,525so" is still caught.
+//   - A round dollar figure as a range of amounts: "mid-$20s" (10b; from an SGLI post
+//     merged away in S7, kept for any future text like it). Only a final 0 followed by
+//     "s" and a word break, so "$7,525so" is still caught.
 export const SPACING =
   /\d%[a-z]|(?<!§\s?(?:\d+\.)?|U\.S\.C\.\s)\b\d{4}\(|\$[\d,]+(?![kmb]\b|(?<=0)s\b)[a-z]/g;
 export const LABEL = /[a-z]:[A-Z]/g;

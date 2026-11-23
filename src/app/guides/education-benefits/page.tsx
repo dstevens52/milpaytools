@@ -282,7 +282,7 @@ const ACCORDION = [
           The exception: if your service ends before completing a degree you started on TA, the
           remaining TA can&apos;t be used — but GI Bill can pick up where TA left off.
         </p>
-        <Link href="/blog/gi-bill-vs-tuition-assistance" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+        <Link href="/blog/tuition-assistance-and-gi-bill-together" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           GI Bill vs Tuition Assistance: which to use first →
         </Link>
       </div>
@@ -448,7 +448,7 @@ const RELATED = [
     description: 'For veterans with service-connected disabilities: the strategic case for using VR&E before activating Post-9/11 GI Bill.',
   },
   {
-    href: '/blog/gi-bill-vs-tuition-assistance',
+    href: '/blog/tuition-assistance-and-gi-bill-together',
     border: 'border-l-amber-500',
     label: 'SEQUENCING',
     title: 'GI Bill vs Tuition Assistance: Which to Use First',

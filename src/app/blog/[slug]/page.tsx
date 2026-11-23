@@ -14,6 +14,7 @@ import { TampEligibilityList } from '@/components/blog/TampEligibilityList';
 import { VaFundingFee } from '@/components/blog/VaFundingFee';
 import { TrackedLink } from '@/components/TrackedLink';
 import { TricareOpenSeason, TricarePostFaq } from '@/components/blog/TricarePost';
+import { PostFaq } from '@/components/blog/PostFaq';
 import { tricarePostFaqs } from '@/lib/tricarePost';
 import { OPEN_SEASON_2026_STATUS } from '@/data/tricare/2027/openSeason';
 import { AuthorBio } from '@/components/blog/AuthorBio';
@@ -285,20 +286,6 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
       answer: 'No. The $50 and $100 HDP-L rates did not change; only the top rate dropped from $150 to $100. Members at top-tier locations without HFP or IDP receive $50/month less. For members who also draw HFP or IDP: before October 1, the pay regulation (FMR Volume 7A, Chapter 17, paragraph 3.1) limited HDP-L to $100 and the combined total to $325 a month. That chapter has not been updated for the new rates, so how the limit applies now is not yet published — check your LES and your finance office.',
     },
   ],
-  'how-deployment-pay-works': [
-    {
-      question: 'What is the Combat Zone Tax Exclusion?',
-      answer: 'CZTE excludes qualifying military pay from federal taxable income during eligible months in a designated combat zone. Enlisted members and warrant officers can generally exclude all qualifying pay; commissioned officers have a monthly exclusion cap: the basic pay of the senior enlisted member plus the HFP or IDP the officer receives. FICA (Social Security and Medicare) is still withheld from base pay during CZTE months.',
-    },
-    {
-      question: 'How much is Hostile Fire Pay in 2026?',
-      answer: 'Effective October 1, 2026, Hostile Fire Pay is $450/month and Imminent Danger Pay is $275/month; you cannot receive both for the same period. HFP is typically paid for the full calendar month if you qualify any day of that month; IDP is prorated at $9.16 per day. Both are excluded from federal taxable income during combat zone months under CZTE (up to the monthly cap for commissioned officers).',
-    },
-    {
-      question: 'What is the Savings Deposit Program during deployment?',
-      answer: 'The Savings Deposit Program pays 10% annual interest — guaranteed by the U.S. government — on up to $10,000 deposited while deployed to a qualifying combat zone for 30 or more consecutive days. Interest accrues from the date of deposit and continues for up to 90 days after leaving the combat zone.',
-    },
-  ],
   'dual-military-bah-rules': [
     {
       question: 'Can both members of a dual-military couple receive BAH?',
@@ -313,34 +300,6 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
       answer: 'Each member receives BAH for their own duty station. The member with children designated in DEERS receives the with-dependents rate for their station; the other receives the without-dependents rate for theirs. Combined BAH for geographically separated dual-military couples can be substantial.',
     },
   ],
-  'pcs-out-of-pocket-costs': [
-    {
-      question: 'Does the military pay for everything in a PCS move?',
-      answer: 'Not entirely. While the military covers travel pay, mileage, per diem, temporary lodging allowances, and household goods shipping, most service members spend $1,000–$5,000 or more out of pocket on security deposits, gap lodging beyond TLE limits, items not fully covered by per diem, and the reimbursement lag.',
-    },
-    {
-      question: 'What is DLA (Dislocation Allowance)?',
-      answer: 'DLA is a one-time payment to offset PCS moving costs — for an E-6 with dependents in 2026, it is $3,548.02. It requires no receipts and is paid regardless of actual expenses. It rarely covers all out-of-pocket PCS costs, especially in high-cost destination markets.',
-    },
-    {
-      question: 'What is a PPM or DITY PCS move?',
-      answer: 'A Personally Procured Move (PPM, formerly DITY) allows you to arrange your own move and keep the difference between what the government would have paid a moving company and your actual costs. Done strategically on longer routes, a PPM can generate $2,000–$5,000 in net proceeds.',
-    },
-  ],
-  'what-is-scra-military-protection': [
-    {
-      question: 'What is SCRA and who does it protect?',
-      answer: 'The Servicemembers Civil Relief Act protects active-duty military members with a 6% cap on pre-service debt interest, lease termination rights with qualifying military orders, protection from certain evictions, and state tax protection through preservation of legal residence.',
-    },
-    {
-      question: 'Does SCRA lower interest rates on all my debts?',
-      answer: 'Only debts incurred before entering active duty. The 6% cap does not apply to accounts opened after you began active service. To activate the reduction, submit written notice to each lender with a copy of your orders. Many major issuers voluntarily reduce rates further or waive fees beyond the SCRA minimum.',
-    },
-    {
-      question: 'Can I break my lease using SCRA?',
-      answer: 'Yes, in qualifying situations. SCRA allows early lease termination if you receive PCS orders moving you more than 50 miles from the current location, or deployment orders for 90 or more consecutive days. Written notice and a copy of orders are required; early termination penalties cannot be enforced by the landlord.',
-    },
-  ],
   'what-happens-to-tsp-after-military': [
     {
       question: 'Can you keep your TSP after leaving the military?',
@@ -353,20 +312,6 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
     {
       question: 'What happens if you withdraw TSP early after military separation?',
       answer: 'Early withdrawal before age 59½ typically triggers ordinary income taxes plus a 10% penalty on the distribution. On a $50,000 balance, that can mean $12,500–$17,500 lost to taxes and penalties depending on your bracket. Leaving the money invested or rolling it over preserves decades of tax-advantaged compound growth.',
-    },
-  ],
-  'les-abbreviations-explained': [
-    {
-      question: 'What does FITW mean on a military LES?',
-      answer: 'FITW stands for Federal Income Tax Withholding — the amount deducted from base pay and taxable special pays each month. BAH and BAS are not subject to FITW because they are excluded from federal taxable income. If FITW seems incorrect, verify your W-4 withholding elections through myPay.',
-    },
-    {
-      question: 'Why does mid-month pay appear as a deduction on the LES?',
-      answer: 'Mid-month pay is an advance paid during the month that is reconciled at end of month. On the end-of-month LES, the full monthly entitlement appears in the Entitlements column and the mid-month advance appears as a deduction — balancing the accounting so the net pay reflects only the remaining amount due.',
-    },
-    {
-      question: 'What is AFRH on a military LES?',
-      answer: 'AFRH stands for Armed Forces Retirement Home — a $0.50/month deduction from the pay of regular enlisted members, warrant officers and limited duty officers (37 U.S.C. 1007(i)). Commissioned officers generally don\'t see it, and Reserve Component members aren\'t subject to it. It funds the retirement homes in Washington, D.C. and Gulfport, Mississippi. It is not an error.',
     },
   ],
   'brs-vs-high-3-difference': [
@@ -458,6 +403,15 @@ export default async function BlogPostPage({
     .filter((c): c is { label: string; href: string } => Boolean(c));
   const parentGuideTitle = post.guide ? GUIDE_TITLES[post.guide] : null;
   const postFaqs = POST_FAQS[slug];
+  // <PostFaq /> in a post renders that post's POST_FAQS entries: the same list as
+  // its FAQPage schema. A post that uses it without entries fails the build.
+  const components = {
+    ...mdxComponents,
+    PostFaq: () => {
+      if (!postFaqs?.length) throw new Error(`<PostFaq /> in ${slug} but no POST_FAQS entry`);
+      return <PostFaq faqs={postFaqs} />;
+    },
+  };
 
   return (
     <>
@@ -531,7 +485,7 @@ export default async function BlogPostPage({
         prose-blockquote:border-red-300 prose-blockquote:text-zinc-600">
         <MDXRemote
           source={post.content}
-          components={mdxComponents}
+          components={components}
           options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
         />
       </article>
