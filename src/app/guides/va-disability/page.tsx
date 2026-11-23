@@ -454,7 +454,7 @@ const ACCORDION = [
           have serious service-connected health conditions that could disqualify you from private
           coverage.
         </p>
-        <Link href="/blog/sgli-vgli-private-life-insurance" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+        <Link href="/blog/is-sgli-enough-life-insurance" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Compare SGLI, VGLI, and private options →
         </Link>
       </div>

@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { test, expect } from '@playwright/test';
 import { bahAmount } from './helpers/format';
 import { BAH_EXPECTED as X } from './fixtures/bah-expected';
@@ -48,5 +50,81 @@ test.describe('Retired calculator URLs redirect to hubs', () => {
     await expect(page).toHaveURL(/\/pay$/);
     await expect(page).toHaveTitle(/Pay Chart/i);
     await expect(page.getByRole('heading', { name: 'Quick Lookup' })).toBeVisible();
+  });
+});
+
+// S7 blog cleanup (Nov 2026): seven near-duplicate posts merged into the URL Google
+// already shows, each old URL a permanent redirect (next.config.ts). This file is
+// the allowlisted home of the old slugs, as for the hub URLs above.
+const MERGED_POSTS = [
+  { from: 'les-abbreviations-explained', to: 'how-to-read-your-les' },
+  { from: 'how-deployment-pay-works', to: 'deployment-pay-explained' },
+  { from: 'brs-vs-high-3-retirement', to: 'brs-vs-high-3-difference' },
+  { from: 'gi-bill-vs-tuition-assistance', to: 'tuition-assistance-and-gi-bill-together' },
+  { from: 'sgli-vgli-private-life-insurance', to: 'is-sgli-enough-life-insurance' },
+  { from: 'what-is-scra-military-protection', to: 'scra-mla-protections-new-service-members' },
+  { from: 'pcs-out-of-pocket-costs', to: 'pcs-financial-planning-guide' },
+];
+
+test.describe('S7: merged blog posts redirect to the kept post', () => {
+  for (const { from, to } of MERGED_POSTS) {
+    test(`/blog/${from} → /blog/${to} is a 308 permanent redirect`, async ({ request }) => {
+      const res = await request.get(`/blog/${from}`, { maxRedirects: 0 });
+      expect(res.status()).toBe(308);
+      expect(new URL(res.headers()['location'], 'http://x').pathname).toBe(`/blog/${to}`);
+    });
+  }
+
+  test('sitemap lists every kept post and none of the redirected ones', async ({ request }) => {
+    const xml = await (await request.get('/sitemap.xml')).text();
+    expect(xml).toContain('/blog/tricare-costs-2026-vs-civilian</loc>'); // control: the sitemap has blog URLs
+    for (const { from, to } of MERGED_POSTS) {
+      expect(xml, to).toContain(`/blog/${to}</loc>`);
+      expect(xml, from).not.toContain(`/blog/${from}<`);
+    }
+  });
+});
+
+// Zero-reference rule (CLAUDE.md "Retired URLs"), for the S7 slugs: outside this file
+// and next.config.ts's one redirect line each, nothing in src/, public/ or tests/
+// names an old slug (links, POST_FAQS keys, guide cards, llms.txt lines, tests).
+// docs/ and the root build reports are records and are not scanned.
+test.describe('S7: zero references to the redirected slugs', () => {
+  const ROOT = process.cwd();
+  const SELF = path.join('tests', 'e2e', 'redirects.spec.ts');
+  const walk = (dir: string): string[] =>
+    fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true }).flatMap((d) => {
+      const rel = path.join(dir, d.name);
+      if (d.isDirectory()) return walk(rel);
+      return /\.(tsx?|mdx?|txt|json|mjs|js|css)$/.test(d.name) ? [rel] : [];
+    });
+
+  test('src/, public/ and tests/ never name an old slug', () => {
+    const files = ['src', 'public', 'tests'].flatMap(walk).filter((f) => f !== SELF);
+    // An empty scan is evidence of nothing: the control slug must be found.
+    expect(files.length).toBeGreaterThan(200);
+    const texts = files.map((f) => [f, fs.readFileSync(path.join(ROOT, f), 'utf8')] as const);
+    expect(texts.some(([, t]) => t.includes('/blog/how-to-read-your-les')), 'control').toBe(true);
+    const hits: string[] = [];
+    for (const { from } of MERGED_POSTS) {
+      const re = new RegExp(`\\b${from}\\b`);
+      for (const [f, t] of texts) if (re.test(t)) hits.push(`${f}: ${from}`);
+    }
+    expect(hits).toEqual([]);
+  });
+
+  test('next.config.ts names each old slug once, in its redirect', () => {
+    const cfg = fs.readFileSync(path.join(ROOT, 'next.config.ts'), 'utf8');
+    for (const { from, to } of MERGED_POSTS) {
+      expect(cfg.split(from).length - 1, from).toBe(1);
+      expect(cfg).toContain(`{ source: '/blog/${from}', destination: '/blog/${to}', permanent: true }`);
+    }
+  });
+
+  test('the redirected posts are gone from src/content/blog', () => {
+    expect(fs.existsSync(path.join(ROOT, 'src/content/blog/how-to-read-your-les.mdx'))).toBe(true); // control
+    for (const { from } of MERGED_POSTS) {
+      expect(fs.existsSync(path.join(ROOT, `src/content/blog/${from}.mdx`)), from).toBe(false);
+    }
   });
 });

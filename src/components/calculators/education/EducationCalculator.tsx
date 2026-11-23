@@ -658,7 +658,7 @@ export function EducationCalculator() {
             </div>
           </Link>
           <Link
-            href="/blog/gi-bill-vs-tuition-assistance"
+            href="/blog/tuition-assistance-and-gi-bill-together"
             className="flex items-start gap-3 rounded-lg border border-zinc-200 p-3 hover:border-zinc-300 hover:shadow-sm transition-all"
           >
             <span className="text-xl flex-none">📖</span>

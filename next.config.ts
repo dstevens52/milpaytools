@@ -28,6 +28,14 @@ const nextConfig: NextConfig = {
       // Blog consolidation — near-duplicate posts merged into survivors (2026-06)
       { source: '/blog/tsp-fund-options-military', destination: '/blog/tsp-fund-options-explained', permanent: true },
       { source: '/blog/dual-military-bah-guide', destination: '/blog/dual-military-bah-rules', permanent: true },
+      // Blog cleanup S7 (2026-11) — near-duplicate posts merged into the URL Google already shows
+      { source: '/blog/les-abbreviations-explained', destination: '/blog/how-to-read-your-les', permanent: true },
+      { source: '/blog/how-deployment-pay-works', destination: '/blog/deployment-pay-explained', permanent: true },
+      { source: '/blog/brs-vs-high-3-retirement', destination: '/blog/brs-vs-high-3-difference', permanent: true },
+      { source: '/blog/gi-bill-vs-tuition-assistance', destination: '/blog/tuition-assistance-and-gi-bill-together', permanent: true },
+      { source: '/blog/sgli-vgli-private-life-insurance', destination: '/blog/is-sgli-enough-life-insurance', permanent: true },
+      { source: '/blog/what-is-scra-military-protection', destination: '/blog/scra-mla-protections-new-service-members', permanent: true },
+      { source: '/blog/pcs-out-of-pocket-costs', destination: '/blog/pcs-financial-planning-guide', permanent: true },
       // Base name reversals — 2025 Army renaming rollback
       { source: '/bah/fort-liberty', destination: '/bah/fort-bragg', permanent: true },
       { source: '/bah/fort-cavazos', destination: '/bah/fort-hood', permanent: true },

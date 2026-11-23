@@ -36,7 +36,7 @@ test.describe('C1: computed retirement figures', () => {
     expect(usd(O5.high3)).toBe('$5,803.15');
   });
 
-  for (const slug of ['brs-vs-high-3-retirement', 'how-military-retirement-works', 'what-walking-away-at-12-years-costs', 'crdp-vs-crsc-military-retirement']) {
+  for (const slug of ['brs-vs-high-3-difference', 'how-military-retirement-works', 'what-walking-away-at-12-years-costs', 'crdp-vs-crsc-military-retirement']) {
     test(`/blog/${slug}: computed High-3 figures, no stale ones, no raw component tags`, async ({ page }) => {
       await page.goto(`/blog/${slug}`);
       const article = page.locator('article');
@@ -51,8 +51,8 @@ test.describe('C1: computed retirement figures', () => {
     });
   }
 
-  test('/blog/brs-vs-high-3-retirement: gap row and 30-year total', async ({ page }) => {
-    await page.goto('/blog/brs-vs-high-3-retirement');
+  test('/blog/brs-vs-high-3-difference: gap row and 30-year total', async ({ page }) => {
+    await page.goto('/blog/brs-vs-high-3-difference');
     const gap = E7.high3 - E7.brs;
     const article = page.locator('article');
     await expect(article).toContainText(`${usd0(gap)}/month pension gap — ${usd0(gap * 12)}/year`);
@@ -145,7 +145,7 @@ test.describe('C1: computed retirement figures', () => {
 
 test.describe('C1: TSP vesting and tax wording', () => {
   test('BRS vesting: match and own contributions vest immediately; automatic 1% after 2 years', async ({ page }) => {
-    for (const slug of ['brs-vs-high-3-retirement', 'tsp-fund-options-explained']) {
+    for (const slug of ['brs-vs-high-3-difference', 'tsp-fund-options-explained']) {
       await page.goto(`/blog/${slug}`);
       const article = page.locator('article');
       await expect(article, slug).toContainText('matching contributions vest immediately');

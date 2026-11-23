@@ -152,7 +152,7 @@ const ACCORDION = [
           If you&apos;re unsure which system you&apos;re on: your LES will show TSP matching
           contributions if you&apos;re on BRS. You can also verify through your MyPay account.
         </p>
-        <Link href="/blog/brs-vs-high-3-retirement" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+        <Link href="/blog/brs-vs-high-3-difference" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           Full BRS vs. High-3 comparison →
         </Link>
       </div>
@@ -379,7 +379,7 @@ const ACCORDION = [
 
 const RELATED = [
   {
-    href: '/blog/brs-vs-high-3-retirement',
+    href: '/blog/brs-vs-high-3-difference',
     border: 'border-l-blue-500',
     label: 'RETIREMENT SYSTEMS',
     title: 'BRS vs. High-3: Which Military Retirement System Wins?',

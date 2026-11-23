@@ -519,7 +519,7 @@ export default function StartingServicePage() {
               </svg>
               <span className="text-sm text-zinc-700 leading-relaxed">
                 You have education benefits you can use now —{' '}
-                <Link href="/blog/gi-bill-vs-tuition-assistance" className="text-red-700 hover:text-red-800 underline decoration-red-200 underline-offset-2">
+                <Link href="/blog/tuition-assistance-and-gi-bill-together" className="text-red-700 hover:text-red-800 underline decoration-red-200 underline-offset-2">
                   learn how to sequence them
                 </Link>
               </span>

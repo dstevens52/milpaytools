@@ -225,11 +225,11 @@ calculator page and component read these; the items below hard-code them inline.
     silently editing — it is a dated explainer of the Oct 2026 change.
   - `src/content/blog/deployment-pay-explained.mdx` (answer block, QA, HFP/IDP and HDP sections, E-6 table)
   - `src/content/blog/deployment-financial-planning.mdx` (QA, CZTE list, IDP section, 9-month total, monthly table total)
-  - `src/content/blog/how-deployment-pay-works.mdx`
   - `src/content/blog/how-to-read-your-les.mdx` (HFP/IDP and HDP entries, abbreviation table)
   - `src/content/blog/roth-tsp-deployment-strategy.mdx` (pay table + monthly cash total)
-  - `POST_FAQS` "How much is Hostile Fire Pay" in `src/app/blog/[slug]/page.tsx`
-  - `public/llms.txt` — three deployment blog entries
+  - `public/llms.txt` — two deployment blog entries (the third, `how-deployment-pay-works`, was
+    merged into `deployment-pay-explained` and redirected in S7, Nov 2026; its "How much is Hostile
+    Fire Pay" `POST_FAQS` entry went with it)
   - `scripts/add_answer_blocks.py`, `scripts/add_calc_guide_answers.py` (generator text)
 - [x] **Prior HDP-L combined-payment cap** — CLOSED 2026-10-16. Confirmed from
   `docs/sources/fmr-vol7a-ch17-hdpl.pdf`: DoD 7000.14-R Vol. 7A, Ch. 17, "Special Pay – Hardship

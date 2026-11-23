@@ -2,14 +2,15 @@
 title: "What Is the Difference Between BRS and High-3 Military Retirement?"
 slug: brs-vs-high-3-difference
 date: "2026-05-28"
-updated: "2026-11-19"
+updated: "2026-11-23"
 description: "BRS provides a smaller pension plus TSP matching. High-3 provides a larger pension with no match. Here's the core difference and what it means for your retirement math."
 category: Retirement & TSP
 calculators:
   - retirement
   - tsp
-readTime: 4
+readTime: 7
 author: Dan Stevens
+guide: retirement-tsp
 ---
 
 BRS (Blended Retirement System) provides a pension of 2.0% per year of service plus government TSP contributions of up to 5% of base pay — 1% automatic plus up to 4% matching after eligibility. High-3 (the legacy system) provides a larger pension at 2.5% per year of service with no TSP matching. Anyone who entered service on or after January 1, 2018 is automatically in BRS. The core tradeoff: BRS builds portable retirement value even for those who serve fewer than 20 years, while High-3 pays a larger pension for those who complete a full career.
@@ -21,11 +22,35 @@ Both systems calculate the pension using the High-36 average — the average of 
 Under High-3: 2.5% × 20 years = 50% of High-36 average.
 Under BRS: 2.0% × 20 years = 40% of High-36 average.
 
-For an [E-7](/pay/e7) with a High-36 average of approximately $6,100/month, that's roughly $3,050/month under High-3 versus $2,440/month under BRS — a $610/month difference for life, starting immediately at retirement.
+Using 2026 DFAS pay table data, an [E-7](/pay/e7) retiring at exactly 20 years of service would have a High-36 average of approximately **<RetirementFigure name="high3Average" />/month**: the highest 36 months of basic pay ÷ 36, here the last 36 months — <High3Breakdown />. (At exactly 20 years, the over-20 rate hasn't been paid yet.)
+
+| System | Formula | Monthly Pension | Annual Pension |
+|--------|---------|----------------|---------------|
+| High-3 | 50% × <RetirementFigure name="high3Average" /> | **<RetirementFigure name="high3Pension" />** | **<RetirementFigure name="high3Annual" format="dollars" />** |
+| BRS | 40% × <RetirementFigure name="high3Average" /> | **<RetirementFigure name="brsPension" />** | **<RetirementFigure name="brsAnnual" format="dollars" />** |
+| **Difference** | | **<RetirementFigure name="gapMonthly" format="dollars" />/month** | **<RetirementFigure name="gapAnnual" format="dollars" />/year** |
+
+That <RetirementFigure name="gapMonthly" format="dollars" />/month pension gap — <RetirementFigure name="gapAnnual" format="dollars" />/year — is what BRS costs in pure pension terms, for life, starting immediately at retirement. The question is whether BRS's other benefits offset it.
 
 ## What BRS adds to offset the smaller pension
 
-BRS includes government TSP contributions that High-3 does not: a 1% automatic contribution after 60 days of service (regardless of whether you contribute), plus matching of up to 4% of base pay for members who contribute at least 5%. This equals up to 5% of base pay in government contributions — meaningful over a career, and vested after two years.
+BRS includes government TSP contributions that High-3 does not: a 1% automatic contribution after 60 days of service (regardless of whether you contribute), plus matching of up to 4% of base pay for members who contribute at least 5%. This equals up to 5% of base pay in government contributions — meaningful over a career.
+
+The matching starts at the beginning of year 3 (month 25):
+
+- Dollar for dollar on the first 3% of base pay you contribute
+- 50 cents per dollar on the next 2%
+- Maximum government match: 4% of base pay (plus the automatic 1% = 5% total)
+
+**Vesting:** Your own contributions and the matching contributions vest immediately. The automatic 1% vests after 2 years of service: separate before then and you forfeit it. (Matching doesn't start until after 2 years of service, so there is no unvested match to lose.)
+
+**When contributions stop:** The automatic 1% and the matching both end after 26 years of service; your own contributions can continue.
+
+*Source: Coast Guard "Vesting in the TSP" member checklist (militarypay.defense.gov); TSP booklet "Managing Accounts for Members of the Uniformed Services."*
+
+If you're new to TSP and want to understand what your default settings are actually doing, see [TSP for Beginners: What Happens If You Never Change Your Settings](/blog/tsp-for-beginners-what-happens-if-you-do-nothing).
+
+<CalculatorCallout calculator="tsp" text="Model your TSP growth with BRS matching using the TSP Growth Projector — set your grade, years of service, and contribution percentage to see what you'll have at retirement." />
 
 BRS also includes continuation pay: a one-time cash bonus at 8–12 years of service, at minimum 2.5 times monthly base pay for active duty, in exchange for a commitment to additional service years. Actual continuation pay multipliers and service obligations vary by branch, component, career field, and policy year — the minimums are a floor, not a guarantee of a specific amount. High-3 has no equivalent.
 
@@ -33,14 +58,32 @@ BRS also includes continuation pay: a one-time cash bonus at 8–12 years of ser
 
 Approximately 80% of service members do not complete 20 years of active duty. Under High-3, members who separate before 20 years receive no pension and leave only their own TSP contributions (no government match). Under BRS, those same members leave with vested TSP matching — real retirement savings regardless of career length.
 
-For the 20% who complete 20+ years, the pension reduction under BRS can be partially or fully offset by TSP growth, depending on contribution history and investment returns over the career. The longer the career and the longer the money compounds, the more the TSP matching matters. Government contributions stop after 26 years of service; your own contributions can continue.
+For the 20% who complete 20+ years, the pension reduction under BRS can be partially or fully offset by TSP growth, depending on contribution history and investment returns over the career. The longer the career and the longer the money compounds, the more the TSP matching matters.
 
-*Source: Coast Guard "Vesting in the TSP" member checklist (militarypay.defense.gov); TSP booklet "Managing Accounts for Members of the Uniformed Services."*
+The pension side of that comparison adds up over a long retirement. For the E-7 above, at 30 years of retirement, that gap alone is <RetirementFigure name="gapAnnual" format="dollars" times="30" /> in additional pension income for High-3 (before COLA). The actual break-even depends on your specific contribution history, investment returns, and longevity.
 
 Members who were serving before 2018 and did not opt into BRS during the 2018 window are in High-3. That choice is irrevocable.
 
+## Who each system tends to favor
+
+**BRS may be more advantageous if:**
+- You're uncertain whether you'll reach 20 years
+- You plan to maximize TSP contributions (matching accelerates the benefit)
+- You separate between 10–19 years and have been contributing consistently
+- You're in a high-risk career field where 20 years isn't guaranteed
+- You value a portable retirement benefit over a potentially higher fixed pension
+
+**High-3 may be more advantageous if:**
+- You're confident you'll serve 20+ years and have a stable career field
+- You would not otherwise contribute to TSP (the matching benefit doesn't help you if you don't contribute)
+- Your career field has a low attrition rate and you have strong promotion prospects
+
 <CalculatorCallout calculator="retirement" text="Compare your projected pension under BRS and High-3 based on your current rank and expected years of service." />
 
-For a detailed comparison including break-even analysis and TSP growth scenarios, see [BRS vs High-3: Which Military Retirement System Is Better?](/blog/brs-vs-high-3-retirement).
+If you're in the 10–19 year zone and actively weighing whether to stay, see [the full financial math behind the stay-to-20 decision](/blog/should-i-stay-to-20-years-military) — including what the pension is worth in lifetime dollars and what civilian compensation would need to look like to match it.
+
+## Frequently asked questions
+
+<PostFaq />
 
 *Educational comparison of military retirement systems. Not financial advice. Individual outcomes depend on career length, TSP contributions, investment returns, and personal circumstances.*
