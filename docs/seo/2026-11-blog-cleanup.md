@@ -6,11 +6,12 @@ permanent redirect (308, `next.config.ts`) to it, and its MDX file is deleted. T
 its title, H1 and meta description and gains the sections it lacked. Full detail:
 `S7_BLOG_CLEANUP_REPORT.md` and `S7_BLOG_CLEANUP_DIFF_REPORT.md`.
 
-**Merge date:** content dated 2026-11-23 (`updated` / `dateModified` on the seven kept posts).
-**Fill in the actual merge date and merge commit when the PR merges**, and move the dates below with
-it if it merges later.
+**Merge date:** 2026-11-23. PR #88, merge commit `93efe98` (merged 15:27 UTC). Confirmed live in
+production the same day: all 7 old URLs return 308 to their kept posts; `/blog/brs-vs-high-3-difference`
+shows the computed $6,118.50 and $612/month. IndexNow sent the same day (HTTP 200), 15 URLs: the 7 kept
+URLs, the 7 redirected URLs and `/llms.txt`.
 
-**Read-out:** 8 weeks after merge. If merged 2026-11-23: **Mon Jan 18, 2027.**
+**Read-out:** 8 weeks after merge: **Mon Jan 18, 2027.**
 
 ## Part A pairs and the 90-day baseline
 
