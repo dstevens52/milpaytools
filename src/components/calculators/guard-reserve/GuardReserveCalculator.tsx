@@ -23,6 +23,7 @@ import { TRICARE_RATES_2026 } from '@/data/tricare/2026/constants';
 import { parseBool, parseGrade, gradeToParam } from '@/lib/urlParams';
 import { readUrlParams } from '@/data/calculatorUrlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
+import { RankHelper } from '@/components/ui/RankHelper';
 
 // ─── Formatters ────────────────────────────────────────────────────────────────
 
@@ -308,6 +309,7 @@ export function GuardReserveCalculator() {
                       </optgroup>
                     ))}
                   </select>
+                  <RankHelper grade={rank} className="mt-1" />
                 </div>
 
                 <div>

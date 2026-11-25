@@ -16,6 +16,7 @@ import { pendingBahLabel } from '@/lib/combinedPayYear';
 import { StationPageCard } from '@/components/calculators/shared/StationPageCard';
 import { COLA_SOURCE, DATA_YEAR as COLA_YEAR } from '@/data/cola/2026/constants';
 import { STATE_TAX_DATA } from '@/data/compare/stateTax';
+import { RankHelper } from '@/components/ui/RankHelper';
 
 /** States for the legal-residence dropdown, sorted by name. */
 const RESIDENCE_OPTIONS = Object.entries(STATE_TAX_DATA)
@@ -334,6 +335,7 @@ export function CompareCalculator() {
                 </optgroup>
               ))}
             </select>
+            <RankHelper grade={payGrade} className="mt-1" />
           </div>
 
           <div>

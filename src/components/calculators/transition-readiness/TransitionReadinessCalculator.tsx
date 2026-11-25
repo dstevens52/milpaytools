@@ -36,6 +36,7 @@ import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { readUrlParams } from '@/data/calculatorUrlParams';
 import { TAMP_ELIGIBILITY, TAMP_VOLUNTARY_NOTE } from '@/data/separation/rules';
 import { TRICARE_COST_YEAR, currentTricareCosts } from '@/data/tricare/current';
+import { RankHelper } from '@/components/ui/RankHelper';
 
 // ─── Dropdown options ─────────────────────────────────────────────────────
 
@@ -475,6 +476,7 @@ export function TransitionReadinessCalculator() {
                 groups={GRADE_GROUPS}
                 value={grade}
                 onChange={(e) => setGrade(e.target.value as PayGrade)}
+                after={<RankHelper grade={grade} />}
               />
 
               <Select

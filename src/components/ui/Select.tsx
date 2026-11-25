@@ -1,4 +1,4 @@
-import type { SelectHTMLAttributes } from 'react';
+import type { ReactNode, SelectHTMLAttributes } from 'react';
 
 export interface SelectOption {
   value: string;
@@ -16,9 +16,11 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   groups?: SelectGroup[];
   error?: string;
   hint?: string;
+  /** Rendered directly under the select, before the hint (e.g. <RankHelper />). */
+  after?: ReactNode;
 }
 
-export function Select({ label, options, groups, error, hint, id, className = '', ...props }: SelectProps) {
+export function Select({ label, options, groups, error, hint, after, id, className = '', ...props }: SelectProps) {
   const selectId = id ?? label.toLowerCase().replace(/\s+/g, '-');
   return (
     <div className="flex flex-col gap-1">
@@ -52,6 +54,7 @@ export function Select({ label, options, groups, error, hint, id, className = ''
               </option>
             ))}
       </select>
+      {after}
       {hint && !error && <p className="text-xs text-zinc-500">{hint}</p>}
       {error && <p className="text-xs text-red-600">{error}</p>}
     </div>

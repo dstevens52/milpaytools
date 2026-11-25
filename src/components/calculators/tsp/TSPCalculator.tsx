@@ -25,6 +25,7 @@ import type { PayGrade } from '@/types/military';
 import { parseGrade, gradeToParam, parseBool } from '@/lib/urlParams';
 import { readUrlParams } from '@/data/calculatorUrlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
+import { RankHelper } from '@/components/ui/RankHelper';
 
 // ─── Grade dropdown groups ────────────────────────────────────────────────
 
@@ -315,7 +316,7 @@ export function TSPCalculator() {
       <Card>
         <h2 className="font-semibold text-zinc-900 mb-4">Military Information</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-          <Select label="Pay Grade" groups={GRADE_GROUPS} value={grade} onChange={(e) => setGrade(e.target.value as PayGrade)} />
+          <Select label="Pay Grade" groups={GRADE_GROUPS} value={grade} onChange={(e) => setGrade(e.target.value as PayGrade)} after={<RankHelper grade={grade} />} />
           <Select label="Years of Service" options={YOS_OPTIONS} value={yos} onChange={(e) => setYos(e.target.value)} />
           <div className="flex flex-col gap-1">
             <label className="text-sm font-medium text-zinc-700">Monthly Base Pay</label>

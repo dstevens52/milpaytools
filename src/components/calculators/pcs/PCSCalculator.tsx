@@ -44,6 +44,7 @@ import {
   PCS_OVERSEAS_LINKS,
   PCS_OVERSEAS_GUIDE_LINK,
 } from '@/data/pcs/oconusPanel';
+import { RankHelper } from '@/components/ui/RankHelper';
 
 // ─── Formatters ────────────────────────────────────────────────────────────────
 
@@ -489,6 +490,7 @@ export function PCSCalculator() {
                       </optgroup>
                     ))}
                   </select>
+                  <RankHelper grade={rank} className="mt-1" />
                 </div>
 
                 <div>

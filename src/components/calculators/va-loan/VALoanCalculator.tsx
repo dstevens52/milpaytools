@@ -34,6 +34,7 @@ import {
   type FeeStatus,
 } from '@/lib/calculations/vaLoanFees';
 import { calcVaLoan } from '@/lib/calculations/vaLoan';
+import { RankHelper } from '@/components/ui/RankHelper';
 
 // ─── Funding fee table (Purchase), statuses and payment math: ───────────────
 // src/lib/calculations/vaLoanFees.ts and src/lib/calculations/vaLoan.ts
@@ -527,6 +528,7 @@ export function VALoanCalculator() {
                 groups={GRADE_GROUPS}
                 value={bahGrade}
                 onChange={(e) => setBahGrade(e.target.value as PayGrade)}
+                after={<RankHelper grade={bahGrade} />}
               />
             </div>
             <div className="flex flex-col gap-1">
