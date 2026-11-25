@@ -110,7 +110,7 @@ export function PayRaiseCalculator() {
               <optgroup key={g.label} label={g.label}>
                 {g.grades.map((gr) => (
                   <option key={gr} value={gr}>
-                    {gr} — {RANK_DISPLAY[gr].replace(/^[A-Z0-9-]+ /, '')}
+                    {RANK_DISPLAY[gr]}
                   </option>
                 ))}
               </optgroup>

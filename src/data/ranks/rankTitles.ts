@@ -3,13 +3,15 @@
  * abbreviation and title the site shows (build RL, Nov 2026).
  *
  * Source: docs/sources/rank-abbreviations.md (U.S. Military Rank Insignia,
- * war.gov). Never type a rank label or title list anywhere else: the grade
+ * war.gov; verified by Claude Chat 2026-11-25). Never type a rank label or title list anywhere else: the grade
  * dropdown labels (RANK_DISPLAY), the helper line under each grade select and
  * the /pay/[rank] branch titles are all built from this file.
  *
  * Services are always listed in DoD order of precedence: Army · Marine Corps ·
  * Navy · Air Force · Space Force. The Coast Guard uses Navy rank names, so the
- * helper line calls the Navy slot "Navy & Coast Guard".
+ * helper line calls the Navy slot "Navy & Coast Guard" (just "Navy" at W-1 and
+ * W-5, which the Coast Guard doesn't have). A service with no rank at a grade
+ * (Air Force and Space Force warrant officers) has an empty list.
  *
  * Checked by tests/e2e/rank-titles-unit.spec.ts (the abbreviations against the
  * source table, typed into the test from the source file).
@@ -23,11 +25,14 @@ export type RankService = (typeof RANK_SERVICES)[number];
 /** Service names as the helper line shows them. */
 export const RANK_SERVICE_NAMES: Record<RankService, string> = {
   army: 'Army',
-  marineCorps: 'Marine Corps',
+  marineCorps: 'Marines',
   navy: 'Navy & Coast Guard',
   airForce: 'Air Force',
   spaceForce: 'Space Force',
 };
+
+/** Grades where the Coast Guard has no rank (war.gov lists Coast Guard warrants CWO2–CWO4 only). */
+const NO_COAST_GUARD: ReadonlySet<PayGrade> = new Set<PayGrade>(['W-1', 'W-5']);
 
 export interface RankName {
   /** Official abbreviation: 'SPC', 'PO3', '2d Lt'. */
@@ -42,7 +47,10 @@ export interface RankName {
   payPageQualifier?: string;
 }
 
-/** One grade: each service's rank name(s). Two names = two ranks at the grade (Army E-4 SPC or CPL). */
+/**
+ * One grade: each service's rank name(s). Two names = two ranks at the grade (Army E-4
+ * SPC or CPL); none = the service has no rank at this grade (Air Force W grades).
+ */
 export type ServiceRanks = Readonly<Record<RankService, readonly RankName[]>>;
 
 type BaseGrade = Exclude<PayGrade, PriorEnlistedOfficerGrade>;
@@ -67,13 +75,6 @@ function grade(
     spaceForce: list(spaceForce),
   };
 }
-
-/**
- * Warrant grades keep the site's long-standing labels (WO1, CW2–CW5), one name
- * for every service. Service-specific warrant titles are an open question for
- * review (see RANK_LABELS_REPORT.md), so they are not split out here.
- */
-const allServices = (name: RankName): ServiceRanks => grade(name, name, name, name, name);
 
 const BASE: Record<BaseGrade, ServiceRanks> = {
   // ─── Enlisted ─────────────────────────────────────────────────────────────
@@ -141,12 +142,12 @@ const BASE: Record<BaseGrade, ServiceRanks> = {
     n('CMSgt', 'Chief Master Sergeant'),
   ),
 
-  // ─── Warrant officers ─────────────────────────────────────────────────────
-  'W-1': allServices(n('WO1', 'Warrant Officer 1')),
-  'W-2': allServices(n('CW2', 'Chief Warrant Officer 2')),
-  'W-3': allServices(n('CW3', 'Chief Warrant Officer 3')),
-  'W-4': allServices(n('CW4', 'Chief Warrant Officer 4')),
-  'W-5': allServices(n('CW5', 'Chief Warrant Officer 5')),
+  // ─── Warrant officers (war.gov: no Air Force or Space Force warrant officers) ──
+  'W-1': grade(n('WO1', 'Warrant Officer 1'), n('WO', 'Warrant Officer'), n('WO1', 'Warrant Officer 1'), [], []),
+  'W-2': grade(n('CW2', 'Chief Warrant Officer 2'), n('CWO2', 'Chief Warrant Officer 2'), n('CWO2', 'Chief Warrant Officer 2'), [], []),
+  'W-3': grade(n('CW3', 'Chief Warrant Officer 3'), n('CWO3', 'Chief Warrant Officer 3'), n('CWO3', 'Chief Warrant Officer 3'), [], []),
+  'W-4': grade(n('CW4', 'Chief Warrant Officer 4'), n('CWO4', 'Chief Warrant Officer 4'), n('CWO4', 'Chief Warrant Officer 4'), [], []),
+  'W-5': grade(n('CW5', 'Chief Warrant Officer 5'), n('CWO5', 'Chief Warrant Officer 5'), n('CWO5', 'Chief Warrant Officer 5'), [], []),
 
   // ─── Officers ─────────────────────────────────────────────────────────────
   'O-1': grade(
@@ -191,18 +192,18 @@ const BASE: Record<BaseGrade, ServiceRanks> = {
     n('Col', 'Colonel'),
     n('Col', 'Colonel'),
   ),
-  // O-7 to O-10 full titles: standard titles, listed in the build report for review.
+  // O-7 to O-10 full titles: war.gov wording (Navy "Rear Admiral Lower/Upper Half").
   'O-7': grade(
     n('BG', 'Brigadier General'),
     n('BGen', 'Brigadier General'),
-    n('RDML', 'Rear Admiral (lower half)'),
+    n('RDML', 'Rear Admiral Lower Half'),
     n('Brig Gen', 'Brigadier General'),
     n('Brig Gen', 'Brigadier General'),
   ),
   'O-8': grade(
     n('MG', 'Major General'),
     n('MajGen', 'Major General'),
-    n('RADM', 'Rear Admiral'),
+    n('RADM', 'Rear Admiral Upper Half'),
     n('Maj Gen', 'Major General'),
     n('Maj Gen', 'Major General'),
   ),
@@ -244,40 +245,34 @@ export const RANK_TITLES: Readonly<Record<PayGrade, ServiceRanks>> = {
 };
 
 const abbrs = (names: readonly RankName[]) => names.map((x) => x.abbr).join('/');
-const titled = (names: readonly RankName[]) =>
-  names.map((x) => `${x.title} (${x.abbr})`).join(' or ');
 
-/** True when every service has exactly the same name(s): the label shows them once. */
-function sameForAllServices(ranks: ServiceRanks): boolean {
-  const key = (names: readonly RankName[]) => names.map((x) => `${x.abbr}|${x.title}`).join(',');
-  const first = key(ranks[RANK_SERVICES[0]]);
-  return RANK_SERVICES.every((s) => key(ranks[s]) === first);
-}
+/** Services with no rank at this grade (warrant grades: Air Force, Space Force). */
+const servicesWithout = (ranks: ServiceRanks) => RANK_SERVICES.filter((s) => ranks[s].length === 0);
 
 /**
  * Dropdown label: "E-4 (SPC/CPL · Cpl · PO3 · SrA · Spc4)". All five services in the
- * fixed order so the slots never move; shown once only when every service is the
- * same (warrant grades: "W-2 (CW2)").
+ * fixed order so the slots never move. Where a service has no rank at the grade
+ * (warrant grades), identical abbreviations merge instead: "W-2 (CW2 · CWO2)".
  */
 export function rankLabel(g: PayGrade): string {
   const ranks = RANK_TITLES[g];
-  const inner = sameForAllServices(ranks)
-    ? abbrs(ranks.army)
-    : RANK_SERVICES.map((s) => abbrs(ranks[s])).join(' · ');
+  const slots = RANK_SERVICES.filter((s) => ranks[s].length > 0).map((s) => abbrs(ranks[s]));
+  const inner = servicesWithout(ranks).length > 0 ? [...new Set(slots)].join(' · ') : slots.join(' · ');
   return `${g} (${inner}${isPriorEnlisted(g) ? PRIOR_ENLISTED_SUFFIX : ''})`;
 }
 
 /**
- * Helper line under a grade select: "Army: Specialist (SPC) or Corporal (CPL) ·
- * Marine Corps: Corporal (Cpl) · Navy & Coast Guard: Petty Officer Third Class (PO3) ·
- * Air Force: Senior Airman (SrA) · Space Force: Specialist 4 (Spc4)".
+ * Helper line under a grade select: "Army SGM/CSM · Marines MGySgt/SgtMaj · Navy & Coast
+ * Guard MCPO · Air Force CMSgt · Space Force CMSgt". Warrant grades end with
+ * "no Air Force or Space Force warrant officers".
  */
 export function rankHelperText(g: PayGrade): string {
   const ranks = RANK_TITLES[g];
-  const body = sameForAllServices(ranks)
-    ? titled(ranks.army)
-    : RANK_SERVICES.map((s) => `${RANK_SERVICE_NAMES[s]}: ${titled(ranks[s])}`).join(' · ');
-  return `${body}${isPriorEnlisted(g) ? PRIOR_ENLISTED_SUFFIX : ''}`;
+  const name = (s: RankService) => (s === 'navy' && NO_COAST_GUARD.has(g) ? 'Navy' : RANK_SERVICE_NAMES[s]);
+  const parts = RANK_SERVICES.filter((s) => ranks[s].length > 0).map((s) => `${name(s)} ${abbrs(ranks[s])}`);
+  const without = servicesWithout(ranks);
+  if (without.length > 0) parts.push(`no ${without.map(name).join(' or ')} warrant officers`);
+  return `${parts.join(' · ')}${isPriorEnlisted(g) ? PRIOR_ENLISTED_SUFFIX : ''}`;
 }
 
 /** Dropdown labels for every grade. RANK_DISPLAY in src/types/military.ts is this object. */

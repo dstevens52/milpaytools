@@ -16,8 +16,8 @@ import { PAY_PAGE_RANKS } from '../../src/data/pay-pages/ranks';
 // Run: npm run test:ranks
 //
 // The expected abbreviations are typed here from docs/sources/rank-abbreviations.md
-// (war.gov rank insignia, compiled by Claude Chat), not read from the module, so a
-// wrong abbreviation in the module fails here.
+// (war.gov rank insignia; verified by Claude Chat 2026-11-25), not read from the module,
+// so a wrong abbreviation in the module fails here.
 
 const ORDER = ['army', 'marineCorps', 'navy', 'airForce', 'spaceForce'];
 
@@ -43,16 +43,22 @@ const TABLE: Record<string, [string, string, string, string, string]> = {
   'O-9': ['LTG', 'LtGen', 'VADM', 'Lt Gen', 'Lt Gen'],
   'O-10': ['GEN', 'Gen', 'ADM', 'Gen', 'Gen'],
 };
-// Warrant grades keep the site's labels from before build RL, one name for every service.
-const WARRANT: Record<string, string> = { 'W-1': 'WO1', 'W-2': 'CW2', 'W-3': 'CW3', 'W-4': 'CW4', 'W-5': 'CW5' };
+// Warrant grades per war.gov: Army · Marine Corps · Navy; no Air Force or Space Force
+// warrant officers (an empty cell).
+const WARRANT: Record<string, [string, string, string, string, string]> = {
+  'W-1': ['WO1', 'WO', 'WO1', '', ''],
+  'W-2': ['CW2', 'CWO2', 'CWO2', '', ''],
+  'W-3': ['CW3', 'CWO3', 'CWO3', '', ''],
+  'W-4': ['CW4', 'CWO4', 'CWO4', '', ''],
+  'W-5': ['CW5', 'CWO5', 'CWO5', '', ''],
+};
 const PRIOR_ENLISTED: Record<string, string> = { 'O-1E': 'O-1', 'O-2E': 'O-2', 'O-3E': 'O-3' };
 
-/** The source table cell "SPC / CPL" as the module's abbreviation list. */
-const cell = (s: string) => s.split(' / ');
+/** The source table cell "SPC / CPL" as the module's abbreviation list ("" = none). */
+const cell = (s: string) => (s === '' ? [] : s.split(' / '));
 
 function expectedAbbrs(g: string): string[][] {
-  if (WARRANT[g]) return ORDER.map(() => [WARRANT[g]]);
-  return TABLE[PRIOR_ENLISTED[g] ?? g].map(cell);
+  return (WARRANT[g] ?? TABLE[PRIOR_ENLISTED[g] ?? g]).map(cell);
 }
 
 // /pay/[rank] branch titles as they were typed in src/data/pay-pages/ranks.ts before
@@ -82,13 +88,14 @@ test.describe('Rank titles module (build RL)', () => {
     expect(Object.keys(RANK_TITLES).sort()).toEqual([...ALL_PAY_GRADES].sort());
   });
 
-  test('every grade has all five services, in DoD order, each with a name', () => {
+  test('every grade has all five services, in DoD order; only AF/SF warrants are empty', () => {
     expect([...RANK_SERVICES]).toEqual(ORDER);
     for (const g of ALL_PAY_GRADES) {
       expect(Object.keys(RANK_TITLES[g]), g).toEqual(ORDER);
       for (const s of ORDER) {
         const names = RANK_TITLES[g][s as (typeof RANK_SERVICES)[number]];
-        expect(names.length, `${g} ${s}`).toBeGreaterThan(0);
+        const none = g.startsWith('W-') && (s === 'airForce' || s === 'spaceForce');
+        expect(names.length === 0, `${g} ${s} empty`).toBe(none);
         for (const x of names) {
           expect(x.abbr.trim(), `${g} ${s} abbr`).not.toBe('');
           expect(x.title.trim(), `${g} ${s} title`).not.toBe('');
@@ -104,10 +111,10 @@ test.describe('Rank titles module (build RL)', () => {
     }
   });
 
-  test('dropdown labels: format, fixed slots, -E suffix, warrant labels unchanged', () => {
+  test('dropdown labels: format, fixed slots, -E suffix, merged warrant labels', () => {
     for (const g of ALL_PAY_GRADES) {
-      const slots = expectedAbbrs(g).map((a) => a.join('/'));
-      const inner = WARRANT[g] ? WARRANT[g] : slots.join(' · ');
+      const slots = expectedAbbrs(g).filter((a) => a.length > 0).map((a) => a.join('/'));
+      const inner = WARRANT[g] ? [...new Set(slots)].join(' · ') : slots.join(' · ');
       const suffix = PRIOR_ENLISTED[g] ? ' — prior enlisted' : '';
       expect(rankLabel(g), g).toBe(`${g} (${inner}${suffix})`);
     }
@@ -115,7 +122,9 @@ test.describe('Rank titles module (build RL)', () => {
     expect(rankLabel('E-4')).toBe('E-4 (SPC/CPL · Cpl · PO3 · SrA · Spc4)');
     expect(rankLabel('E-9')).toBe('E-9 (SGM/CSM · MGySgt/SgtMaj · MCPO · CMSgt · CMSgt)');
     expect(rankLabel('O-1E')).toBe('O-1E (2LT · 2ndLt · ENS · 2d Lt · 2d Lt — prior enlisted)');
-    expect(rankLabel('W-1')).toBe('W-1 (WO1)');
+    expect(rankLabel('W-1')).toBe('W-1 (WO1 · WO)');
+    expect(rankLabel('W-2')).toBe('W-2 (CW2 · CWO2)');
+    expect(rankLabel('W-5')).toBe('W-5 (CW5 · CWO5)');
   });
 
   test('RANK_DISPLAY is derived from the module, with no hand-typed labels', () => {
@@ -129,19 +138,30 @@ test.describe('Rank titles module (build RL)', () => {
     expect(src.match(/['"`][EOW]-\d+E? \(/g) ?? []).toEqual([]);
   });
 
-  test('helper line: full titles with abbreviations, services named, Navy & Coast Guard', () => {
-    expect(rankHelperText('E-4')).toBe(
-      'Army: Specialist (SPC) or Corporal (CPL) · Marine Corps: Corporal (Cpl) · Navy & Coast Guard: Petty Officer Third Class (PO3) · Air Force: Senior Airman (SrA) · Space Force: Specialist 4 (Spc4)',
+  test('helper line: services named, abbreviations only, Navy & Coast Guard', () => {
+    expect(rankHelperText('E-4')).toBe('Army SPC/CPL · Marines Cpl · Navy & Coast Guard PO3 · Air Force SrA · Space Force Spc4');
+    expect(rankHelperText('E-9')).toBe(
+      'Army SGM/CSM · Marines MGySgt/SgtMaj · Navy & Coast Guard MCPO · Air Force CMSgt · Space Force CMSgt',
     );
-    expect(rankHelperText('W-3')).toBe('Chief Warrant Officer 3 (CW3)');
+    expect(rankHelperText('W-2')).toBe(
+      'Army CW2 · Marines CWO2 · Navy & Coast Guard CWO2 · no Air Force or Space Force warrant officers',
+    );
+    // The Coast Guard has no W-1 or W-5 (war.gov lists CWO2–CWO4), so that slot says "Navy".
+    expect(rankHelperText('W-1')).toBe('Army WO1 · Marines WO · Navy WO1 · no Air Force or Space Force warrant officers');
+    expect(rankHelperText('W-5')).toBe('Army CW5 · Marines CWO5 · Navy CWO5 · no Air Force or Space Force warrant officers');
     expect(rankHelperText('O-2E')).toBe(`${rankHelperText('O-2')} — prior enlisted`);
+    const names = ['Army', 'Marines', 'Navy & Coast Guard', 'Air Force', 'Space Force'];
     for (const g of ALL_PAY_GRADES) {
-      const text = rankHelperText(g);
       if (WARRANT[g]) continue;
-      const at = ['Army: ', 'Marine Corps: ', 'Navy & Coast Guard: ', 'Air Force: ', 'Space Force: '].map((p) => text.indexOf(p));
-      expect(at.every((i) => i >= 0), g).toBe(true);
-      expect([...at].sort((a, b) => a - b), `${g} service order`).toEqual(at);
+      // Abbreviations only, every service named, in order.
+      const expected = expectedAbbrs(g).map((a, i) => `${names[i]} ${a.join('/')}`).join(' · ');
+      expect(rankHelperText(g), g).toBe(expected + (PRIOR_ENLISTED[g] ? ' — prior enlisted' : ''));
     }
+  });
+
+  test('Navy O-7/O-8 full titles use war.gov wording', () => {
+    expect(RANK_TITLES['O-7'].navy[0].title).toBe('Rear Admiral Lower Half');
+    expect(RANK_TITLES['O-8'].navy[0].title).toBe('Rear Admiral Upper Half');
   });
 
   test('/pay/[rank] branch titles come from the module and match the pre-RL text exactly', () => {

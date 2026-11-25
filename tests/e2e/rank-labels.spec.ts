@@ -13,15 +13,11 @@ interface Family {
   name: string;
   path: string;
   select: (page: Page) => Locator;
-  /** The option text for a grade, when the select adds to the label (pay raise). */
-  optionText?: (g: PayGrade) => string;
 }
-
-const raiseOption = (g: PayGrade) => `${g} — ${rankLabel(g).replace(/^[A-Z0-9-]+ /, '')}`;
 
 const FAMILIES: Family[] = [
   { name: 'BAH', path: '/bah', select: (p) => p.getByLabel('Pay Grade') },
-  { name: 'pay raise', path: '/pay/raise', select: (p) => p.locator('#raise-grade'), optionText: raiseOption },
+  { name: 'pay raise', path: '/pay/raise', select: (p) => p.locator('#raise-grade') },
   { name: 'total compensation', path: '/calculators/total-compensation', select: (p) => p.getByLabel('Rank / Pay Grade') },
   { name: 'PCS', path: '/calculators/pcs', select: (p) => p.locator('#rank') },
   {
@@ -43,10 +39,10 @@ test.describe('Grade select labels and helper line (build RL)', () => {
       const select = f.select(page);
       await expect(select).toHaveCount(1);
       await waitForHydration(select);
-      const text = f.optionText ?? rankLabel;
+      const text = rankLabel;
 
-      // Every option of the four example grades carries the new label.
-      for (const g of ['E-1', 'E-4', 'E-9', 'O-7'] as PayGrade[]) {
+      // Every option of the example grades carries the new label.
+      for (const g of ['E-1', 'E-4', 'E-9', 'W-2', 'O-7'] as PayGrade[]) {
         await expect(select.locator(`option[value="${g}"]`), g).toHaveText(text(g));
       }
 
@@ -59,6 +55,22 @@ test.describe('Grade select labels and helper line (build RL)', () => {
       await select.selectOption(next);
       await expect(helper).toHaveText(rankHelperText(next));
       await expect(select.locator('option:checked')).toHaveText(text(next));
+    });
+
+    // Review target (PR #92): the longest helper line, E-9, fits in 3 lines on a 375 px phone.
+    test(`${f.name}: E-9 helper line is at most 3 lines at 375 px`, async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto(f.path);
+      const select = f.select(page);
+      await waitForHydration(select);
+      await select.selectOption('E-9');
+      const helper = helperFor(select);
+      await expect(helper).toHaveText(rankHelperText('E-9'));
+      const lines = await helper.evaluate((el) => {
+        const lh = parseFloat(getComputedStyle(el).lineHeight);
+        return Math.round(el.getBoundingClientRect().height / lh);
+      });
+      expect(lines).toBeLessThanOrEqual(3);
     });
 
     test(`${f.name}: no missing spaces`, async ({ page }) => {

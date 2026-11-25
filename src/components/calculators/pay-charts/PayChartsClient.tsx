@@ -371,9 +371,9 @@ export function PayChartsClient({ payPages }: PayChartsClientProps) {
               >
                 {Object.entries(gradesByGroup).map(([group, options]) => (
                   <optgroup key={group} label={group}>
-                    {options.map(({ grade, label }) => (
+                    {options.map(({ grade }) => (
                       <option key={grade} value={grade}>
-                        {label} — {RANK_DISPLAY[grade].replace(/^[A-Z0-9-]+ /, '')}
+                        {RANK_DISPLAY[grade]}
                       </option>
                     ))}
                   </optgroup>
