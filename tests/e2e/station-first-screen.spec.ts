@@ -151,12 +151,17 @@ test.describe('Station first screen: rate table on phones', () => {
       expect(c.text, c.grade).toBe(RANK_DISPLAY[c.grade as keyof typeof RANK_DISPLAY]);
       expect(c.wrap, c.grade).toBe('normal/normal'); // no mid-word breaking
       expect(c.titlesDisplay, c.grade).toBe('block'); // titles on line 2 on phones
-      expect(c.wbr, c.grade).toBe(0);
-      // Each service's abbreviation(s) is one unbreakable run: "(SGM/CSM", "2d Lt", "Spc4)".
+      // A break opportunity after every slash ("MGySgt/<wbr>SgtMaj"), as before build RL.
+      expect(c.wbr, c.grade).toBe((c.text!.match(/\//g) ?? []).length);
+      // Each abbreviation is one unbreakable run: "(SGM/", "CSM ·", "2d Lt", "Spc4)". The
+      // separator stays with the abbreviation before it, so no line starts with "·".
       const inner = c.text!.slice(c.text!.indexOf(' (') + 1);
-      // The separator stays with the abbreviation before it, so no line starts with "·".
       const slots = inner.split(' · ');
-      expect(c.noWrap, c.grade).toEqual(slots.map((slot, k) => slot.split(' — ')[0] + (k < slots.length - 1 ? ' ·' : '')));
+      const runs = slots.flatMap((slot, k) => {
+        const parts = slot.split(' — ')[0].split('/');
+        return parts.map((p, j) => (j < parts.length - 1 ? `${p}/` : k < slots.length - 1 ? `${p} ·` : p));
+      });
+      expect(c.noWrap, c.grade).toEqual(runs);
     }
     const fit = await page.getByTestId('bah-rate-table').locator('.overflow-x-auto').evaluate((d) => [d.scrollWidth, d.clientWidth]);
     expect(fit[0], 'no horizontal scroll at 360 px').toBeLessThanOrEqual(fit[1]);

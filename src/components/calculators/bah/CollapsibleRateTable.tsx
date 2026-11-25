@@ -49,10 +49,23 @@ function GradeLabel({ label }: { label: string }) {
         {slots.map((slot, k) => {
           const [abbr, suffix] = slot.split(' — ');
           const last = k === slots.length - 1;
-          // The separator stays with the abbreviation before it, so no line starts with "·".
+          // One unbreakable run per abbreviation; a slot with two ("MGySgt/SgtMaj") may
+          // break after the slash. The separator stays with the abbreviation before it,
+          // so no line starts with "·".
+          const parts = abbr.split('/');
           return (
             <span key={k}>
-              <span className="whitespace-nowrap">{last ? abbr : `${abbr} ·`}</span>
+              {parts.map((p, j) => {
+                const lastPart = j === parts.length - 1;
+                return (
+                  <span key={j}>
+                    <span className="whitespace-nowrap">
+                      {lastPart ? (last ? p : `${p} ·`) : `${p}/`}
+                    </span>
+                    {!lastPart && <wbr />}
+                  </span>
+                );
+              })}
               {suffix !== undefined && <> — {suffix}</>}
               {!last && ' '}
             </span>
