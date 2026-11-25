@@ -9,7 +9,7 @@ calculators:
   - deployment
   - total-compensation
   - tsp
-readTime: 10
+readTime: 11
 author: Dan Stevens
 guide: military-pay
 ---
@@ -51,7 +51,7 @@ This isn't a separate payment. Your LES will show the same base pay you've alway
 
 **HFP: $450/month · IDP: $275/month** (effective October 1, 2026)
 
-You cannot receive both HFP and IDP for the same period, and the mechanics differ: IDP is prorated at $9.16 per day of actual time in a designated imminent danger area (up to $275/month), while HFP is paid as the full $450 monthly amount when you qualify based on hostile fire exposure. Periods before October 1, 2026 were paid at the prior rates.
+You cannot receive both HFP and IDP for the same period, and the mechanics differ: IDP is prorated at $9.16 per day of actual time in a designated imminent danger area (up to $275/month), while HFP is paid as the full $450 monthly amount when you qualify based on hostile fire exposure. Periods before October 1, 2026 were paid at the prior rates. For who gained and who lost in that change, including the cut to the top Hardship Duty Pay–Location rate, see [2026 HFP, IDP & HDP-L Rate Changes: Who Gains, Who Loses](/blog/hfp-idp-hdpl-rate-changes-october-2026).
 
 This is in addition to your base pay. It's not calculated as a percentage of anything — the amounts are the same regardless of rank. Under CZTE, it's also excluded from federal taxable income.
 
@@ -133,29 +133,43 @@ For the full Roth TSP combat zone strategy with compound growth math, see [The R
 
 ## What a deployment actually adds up to
 
-Here's a concrete example. E-6 with 10 years of service, 12-month combat zone deployment, with dependents.
+Here's a concrete example. E-6 with 10 years of service, 12-month combat zone deployment, with dependents. The figures come from the [Deployment Pay Calculator](/calculators/deployment)'s own math.
 
-| Component | Monthly | 12-Month Total |
-|-----------|---------|---------------|
-| Base pay (excluded from federal taxable income under CZTE) | $4,759 | $57,108 |
-| Federal income tax savings (CZTE, base pay + IDP) | ~$241 joint / ~$422 single | ~$2,890 joint / ~$5,070 single |
-| Imminent Danger Pay (IDP) | $275 | $3,300 |
-| Family Separation Allowance | $300 | $3,600 |
-| Hardship Duty Pay (varies by category/location) | varies | varies |
-| SDP interest (on $10,000) | — | ~$1,000 |
+<DeploymentYearTable />
 
-Social Security and Medicare are still withheld from base pay throughout (about $364/month at this rank) — CZTE doesn't change that. Tax savings are for one income at 2026 brackets: married filing jointly or single.
+Social Security and Medicare are still withheld from base pay throughout (about <DeploymentYearFigure name="fica" />/month at this rank) — CZTE doesn't change that. Tax savings are for one income at 2026 brackets: married filing jointly or single.
 
-**Tax savings alone: about $2,890 (married filing jointly) to $5,070 (single) over 12 months.**  
-**Special pays (IDP + FSA): $6,900 over 12 months (HDP additional if applicable).**  
-**SDP interest: approximately $1,000 (depending on deposit timing).**  
-**Total additional value vs. non-deployed: roughly $10,800–$13,000 for this scenario — varies with filing status, HDP eligibility, SDP timing, and family status.**
+**Tax savings alone: about <DeploymentYearFigure name="taxSavingsJoint" /> (married filing jointly) to <DeploymentYearFigure name="taxSavingsSingle" /> (single) over 12 months.**  
+**Special pays (IDP + FSA): <DeploymentYearFigure name="specialPays" /> over 12 months (HDP additional if applicable).**  
+**SDP interest: approximately <DeploymentYearFigure name="sdpInterest" /> (depending on deposit timing).**  
+**Total additional value vs. non-deployed: about <DeploymentYearFigure name="totalJoint" /> (joint) to <DeploymentYearFigure name="totalSingle" /> (single) for this scenario — varies with filing status, HDP eligibility, SDP timing, and family status.**
 
 And this doesn't count the TSP opportunity. An E-6 who redirects deployment savings into Roth TSP at the elevated combat zone limit is building a tax-free account worth multiples more at retirement due to compounding.
 
 Senior NCOs and officers see larger numbers at every step.
 
 <CalculatorCallout calculator="total-compensation" text="See your full military compensation baseline before deployment — what you're already earning, and what a deployment adds on top." />
+
+## Expenses that drop while you're deployed
+
+Pay isn't the only thing that changes. For most deployed service members, day-to-day spending falls sharply:
+- Housing is provided in theater
+- Food is provided (little grocery or restaurant spending)
+- There's no commute
+- Clothing and equipment spending drops to almost nothing
+- Entertainment spending is minimal
+
+What keeps running are the fixed commitments at home: your family's housing and living costs, car insurance, phone plans, subscriptions and any other stateside bills. Those differ for every household.
+
+## What an E-6 can set aside on a 9-month tour
+
+The table above counts what a deployment adds. This one looks at the cash coming in each month while you're deployed, which is the starting point for how much you can save. The example: an E-6 with 10 years of service and dependents, 9 months in a combat zone with Imminent Danger Pay and Family Separation Allowance, BAH for the home duty station. The figures come from the same calculator math.
+
+<DeploymentTourTable />
+
+Over <DeploymentTourFigure name="months" /> months that's <DeploymentTourFigure name="takeHome9" /> of pay after taxes. What you can set aside is that amount minus the bills that keep running at home. The calculator can't know those, so this example doesn't guess at them.
+
+A $10,000 Savings Deposit Program deposit made at the start of the tour adds <DeploymentTourFigure name="sdpInterest" /> in interest over the 9 months (simple interest, as the calculator counts it).
 
 ## What to do before you deploy
 
@@ -166,6 +180,7 @@ The financial benefits of a combat deployment don't maximize themselves. Here's 
 - Increase TSP contributions — set your contribution rate to maximize the elevated limit if your budget allows
 - Designate Roth contributions from tax-exempt pay if you want the triple-tax-free treatment
 - Set up automatic transfers from your bank account to any savings goals
+- Suspend or cancel subscriptions you won't use while deployed
 
 **Debt and protection:**
 - Review SCRA protections on any existing debts — interest rates on pre-service debt are capped at 6% for active-duty members. See [SCRA and MLA Protections](/blog/scra-mla-protections-new-service-members) for how to invoke them.
@@ -175,15 +190,15 @@ The financial benefits of a combat deployment don't maximize themselves. Here's 
 - Set up a durable power of attorney for your spouse or a trusted family member for financial decisions
 - Ensure your will and advance directive are current
 - Verify your family's access to financial accounts and TRICARE
+- Brief your spouse or emergency contact on the plan: who pays which bills, where the accounts are, what to do if something unexpected happens
+- Automate ongoing commitments at home (rent, car payment) with allotments before you leave
 
 **Tax:**
+- Confirm with your finance office that your specific location qualifies for CZTE
 - Note your first combat zone day — it's the start of your CZTE eligibility and the TSP elevated limit
 - If you're deployed through a tax filing deadline, know your extension rights
 
 The financial upside of a 12-month deployment is real and significant. The service members who capture the most of it are the ones who made the decisions before they left, not after.
-
-For a complete deployment financial strategy with additional tax analysis, see [Deployment Financial Planning: How to Bank $40,000+ on a Combat Tour](/blog/deployment-financial-planning).
-
 *All pay figures use 2026 DFAS rates. Actual deployment pay depends on your specific designation, location, and individual circumstances. Verify entitlements with your finance office.*
 
 *Last reviewed: November 2026. Hostile Fire Pay, Imminent Danger Pay, and Hardship Duty Pay–Location figures reflect rates effective October 1, 2026.*

@@ -427,14 +427,15 @@ test.describe('Transition readiness — no hardcoded example outputs', () => {
     expect(llms).toContain(`showing a ${surplus}/month surplus — Not Yet verdict due to ${runway}-month emergency fund runway`);
   });
 
-  test('blog post renders the example from the calculator, with no literal figures', () => {
-    const mdx = readFileSync('src/content/blog/are-you-financially-ready-to-leave-the-military.mdx', 'utf8');
-    expect(mdx).toContain('<TransitionReadinessExample />');
-    expect(mdx).toContain('<TransitionExampleFigure name="surplus" />');
-    expect(mdx).toContain('<TransitionExampleFigure name="salaryForSurplusTarget" />');
+  // S7b: the post's action steps moved onto the calculator page; they come from the lib.
+  test('calculator page renders the example action steps from the lib, with no literal figures', () => {
+    const src = readFileSync('src/app/calculators/transition-readiness/page.tsx', 'utf8');
+    expect(src).toContain('getExampleSalaryForSurplusTarget()');
+    expect(src).toContain('TR_EXAMPLE_SURPLUS_TARGET');
+    expect(src).toContain('tr.totalLiquidSavings');
     const salaryTarget = formatCurrency(getExampleSalaryForSurplusTarget());
     for (const stale of ['$374', '$6,274', '$4,084', '$1,307', '$35,400', '$82,000', surplus, salaryTarget]) {
-      expect(mdx).not.toContain(stale);
+      expect(src).not.toContain(stale);
     }
   });
 

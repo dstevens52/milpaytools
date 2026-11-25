@@ -6,7 +6,11 @@ import { TransitionReadinessCalculator } from '@/components/calculators/transiti
 import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { JsonLdScript } from '@/components/JsonLdScript';
 import { webApplicationSchema } from '@/lib/schema';
-import { getTransitionReadinessExample } from '@/lib/calculations/transition-readiness-example';
+import {
+  getTransitionReadinessExample,
+  getExampleSalaryForSurplusTarget,
+  TR_EXAMPLE_SURPLUS_TARGET,
+} from '@/lib/calculations/transition-readiness-example';
 import { FILING_STATUS_LABEL } from '@/lib/calculations/transition-readiness';
 import { formatCurrency } from '@/lib/utils';
 import { ogImage } from '@/lib/og';
@@ -47,6 +51,12 @@ export const metadata: Metadata = {
 export default function TransitionReadinessPage() {
   // ── Worked-example values (shared with the blog post); BAH resolved server-side ──
   const tr = getTransitionReadinessExample();
+  // Action steps for the example (S7b, from the retired "Are you financially ready" post):
+  // a 6-month emergency fund at the example's adjusted expenses, and the salary that
+  // clears TR_EXAMPLE_SURPLUS_TARGET with every other input unchanged.
+  const efTarget = 6 * tr.adjustedMonthlyExpenses;
+  const efGap = Math.max(0, efTarget - tr.totalLiquidSavings);
+  const salaryForSurplusTarget = getExampleSalaryForSurplusTarget();
 
   return (
     <>
@@ -156,6 +166,13 @@ export default function TransitionReadinessPage() {
             focus on building the emergency fund to 6 months and targeting a slightly higher
             civilian salary.
           </p>
+          <h3 className="text-base font-semibold text-zinc-900 mt-4 mb-2">What closes the gap in this example</h3>
+          <ol className="tr-example-steps text-sm leading-relaxed text-zinc-700 list-decimal pl-5 space-y-1.5">
+            <li>{`Build liquid savings by ${formatCurrency(efGap)} before separation (6 months of adjusted expenses = ${formatCurrency(efTarget)}).`}</li>
+            <li>File the VA disability claim through BDD, 180 to 90 days before the separation date, so a rating can be in place at separation.</li>
+            <li>{`Negotiate the civilian salary toward ${formatCurrency(salaryForSurplusTarget)} — enough to clear a ${formatCurrency(TR_EXAMPLE_SURPLUS_TARGET)}/month surplus, a cushion that rebuilds savings faster after separation.`}</li>
+          </ol>
+          <p className="text-sm leading-relaxed text-zinc-700 mt-2">With 14 months remaining, there is time for all three.</p>
         </ExampleBox>
       </section>
 
@@ -224,6 +241,21 @@ export default function TransitionReadinessPage() {
               <strong>Not yet</strong>{' '}means there&apos;s an income gap, the emergency fund is under
               3 months, or both — things that genuinely need to be addressed before your separation
               date becomes real.
+            </p>
+          </div>
+
+          <div className="tr-factors">
+            <h2 className="text-xl font-semibold text-zinc-900 mb-3">
+              The four readiness factors and their badges
+            </h2>
+            <ul className="text-zinc-600 text-sm leading-relaxed space-y-2 mb-3">
+              <li><strong>Income surplus</strong> (after taxes and healthcare): green at $500+ a month, yellow from $0 to $499, red when expenses exceed income.</li>
+              <li><strong>Emergency fund runway</strong> (liquid savings only, not TSP): green at 6+ months of expenses, yellow from 3 to under 6, red under 3.</li>
+              <li><strong>VA claim</strong>: green once a claim is filed (a 0% rating counts), yellow if not filed yet.</li>
+              <li><strong>Timeline</strong> to separation: green at 12+ months, yellow at 6 to 11, red under 6. It is shown for planning and does not change the verdict.</li>
+            </ul>
+            <p className="text-zinc-600 text-sm leading-relaxed">
+              The $500 cushion and the 6-month runway exist because transitions have friction: start dates shift, VA decisions get delayed, and the first civilian paycheck can arrive later than expected.
             </p>
           </div>
 
@@ -313,10 +345,10 @@ export default function TransitionReadinessPage() {
               What Civilian Salary Do I Need? →
             </Link>
             <Link
-              href="/blog/are-you-financially-ready-to-leave-the-military"
+              href="/blog/skillbridge-program-guide"
               className="inline-flex items-center text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-md"
             >
-              Are You Financially Ready to Leave? (full article) →
+              SkillBridge Program Guide →
             </Link>
             <Link
               href="/calculators/healthcare-comparison"
@@ -328,7 +360,7 @@ export default function TransitionReadinessPage() {
         </div>
 
         <Disclaimer dataYear="2026" />
-        <p className="text-xs text-zinc-500">Last updated: November 10, 2026.</p>
+        <p className="text-xs text-zinc-500">Last updated: November 23, 2026.</p>
       </div>
     </>
   );

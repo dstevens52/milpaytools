@@ -34,7 +34,7 @@ export const CALCULATOR_LAST_REVIEWED = {
   cola: '2026-11-12',
   'dual-military-bah': '2026-11-18',
   compare: '2026-11-12',
-  'transition-readiness': '2026-11-20', // 10a: TAMP wording, VA claim factor, retiree fee, months of service
+  'transition-readiness': '2026-11-23', // S7b: example action steps + readiness factors from the merged "financially ready" post
   'separation-timeline': '2026-11-21', // 10b: final-move line (separation pay → 3-year window)
   'healthcare-comparison': '2026-11-20', // 10a: TAMP list, no ACA subsidy model, retiree TRICARE path
   'va-loan': '2026-11-21',

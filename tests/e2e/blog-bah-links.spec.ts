@@ -20,7 +20,6 @@ const APPROVED: Record<string, string[]> = {
   'ppm-dity-move-worth-it': ['fort-campbell', 'joint-base-lewis-mcchord'],
   'can-i-use-va-loan-again': ['fort-bragg', 'fort-hood', 'joint-base-lewis-mcchord'],
   'dual-military-bah-rules': ['fort-bragg', 'joint-base-lewis-mcchord'],
-  'are-you-financially-ready-to-leave-the-military': ['joint-base-san-antonio'],
 };
 
 for (const [post, slugs] of Object.entries(APPROVED)) {

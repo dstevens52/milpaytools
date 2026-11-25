@@ -1,7 +1,7 @@
 /**
  * The Transition Readiness worked example — one definition shared by the calculator
- * page (hero proof bar + example table), the "Are you financially ready" blog post
- * (<TransitionReadinessExample />), and the tests that keep public/llms.txt in sync.
+ * page (hero proof bar, example table and its action steps, which came from a blog post
+ * merged into the page in S7b), and the tests that keep public/llms.txt in sync.
  *
  * Server-side only: resolves BAH through bah.ts.
  */
@@ -57,7 +57,7 @@ export function getTransitionReadinessExample(): TransitionReadinessOutput {
   return calculateTransitionReadiness(TR_EXAMPLE_INPUT, exampleBAH());
 }
 
-// Blog action step: the salary the example member would negotiate toward.
+// Action step on the calculator page: the salary the example member would negotiate toward.
 export const TR_EXAMPLE_SURPLUS_TARGET = 2_000; // $/month
 
 /**

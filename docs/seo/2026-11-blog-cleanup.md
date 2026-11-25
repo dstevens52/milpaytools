@@ -30,6 +30,28 @@ Source: Claude Chat, Google Search Console, Aug 24 – Nov 21, 2026 (impressions
 Pair 6: both posts get almost nothing; the fuller post (`scra-mla-protections-new-service-members`,
 1,820 words vs 524, and the one covering both SCRA and MLA) was kept as the base.
 
+## Part A2 (S7b): three more merges
+
+Same method as Part A (branch `seo/s7b-blog-merges`; report `S7B_REPORT.md`). **Merge date: fill in at
+merge** (content dated 2026-11-23). The Jan 18, 2027 read-out covers A2 too: compare the same windows; if
+A2 merges after Nov 23, its weeks 5–8 end later than Part A's, so note the dates used.
+
+Source: Claude Chat, GSC, Aug 24 – Nov 21, 2026 (impressions, 90 days).
+
+| # | Redirected post | Kept URL | Impressions, redirected | Impressions, kept |
+|---|---|---|---|---|
+| 8 | `/blog/deployment-financial-planning` | `/blog/deployment-pay-explained` | 3 | 1,464 |
+| 9 | `/blog/gi-bill-housing-allowance-zip-code` | `/blog/post-911-gi-bill-explained-2026` | 0 | 1,421 |
+| 10 | `/blog/are-you-financially-ready-to-leave-the-military` | `/calculators/transition-readiness` | 0 | not recorded |
+
+`deployment-pay-explained` is a kept URL in both parts (pairs 2 and 8). `/calculators/transition-readiness`
+has no 90-day figure in an existing baseline: pull its "28 days before" numbers at the read-out the same way.
+
+Also in S7b (no redirect): inbound links to `hfp-idp-hdpl-rate-changes-october-2026` (from
+`deployment-pay-explained`, `how-to-read-your-les`) and `how-military-retirement-works` (from
+`/guides/retirement-tsp`, `/calculators/retirement`); the fund section of
+`tsp-for-beginners-what-happens-if-you-do-nothing` trimmed to a summary + link.
+
 ## What to compare at the read-out
 
 For each **kept URL**, in GSC (Pages, exact URL), compare:
@@ -48,6 +70,8 @@ For each **kept URL**, in GSC (Pages, exact URL), compare:
 | `/blog/is-sgli-enough-life-insurance` | | | | | | |
 | `/blog/scra-mla-protections-new-service-members` | | | | | | |
 | `/blog/pcs-financial-planning-guide` | | | | | | |
+| `/blog/post-911-gi-bill-explained-2026` (A2) | | | | | | |
+| `/calculators/transition-readiness` (A2) | | | | | | |
 
 Weeks 1–4 are left out on purpose: Google needs time to process the redirects and re-crawl the
 kept posts. The mid-December BAH release and the holidays move military-pay traffic in general, so
@@ -65,6 +89,9 @@ Inspection: "Page with redirect" / not indexed, and whether it still shows in Pe
 | `/blog/sgli-vgli-private-life-insurance` | | |
 | `/blog/what-is-scra-military-protection` | | |
 | `/blog/pcs-out-of-pocket-costs` | | |
+| `/blog/deployment-financial-planning` (A2) | | |
+| `/blog/gi-bill-housing-allowance-zip-code` (A2) | | |
+| `/blog/are-you-financially-ready-to-leave-the-military` (A2) | | |
 
 **What success looks like:** each kept URL's impressions in weeks 5–8 at least match the 28 days
 before plus what its redirected partner brought in, with position steady or better. Pairs 1, 2, 4

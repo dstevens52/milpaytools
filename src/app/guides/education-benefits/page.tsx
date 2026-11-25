@@ -221,7 +221,7 @@ const ACCORDION = [
         <p>
           Don&apos;t choose a school just for MHA — choose a strong program with good career outcomes — but do include MHA in your real cost-of-attendance comparison.
         </p>
-        <Link href="/blog/gi-bill-housing-allowance-zip-code" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+        <Link href="/blog/post-911-gi-bill-explained-2026" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
           GI Bill housing allowance: why your school ZIP code matters →
         </Link>
       </div>
@@ -434,7 +434,7 @@ const ACCORDION = [
 
 const RELATED = [
   {
-    href: '/blog/gi-bill-housing-allowance-zip-code',
+    href: '/blog/post-911-gi-bill-explained-2026',
     border: 'border-l-blue-500',
     label: 'GI BILL',
     title: 'GI Bill Housing Allowance: Why Your School ZIP Code Matters',

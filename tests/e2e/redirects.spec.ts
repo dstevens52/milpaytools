@@ -53,40 +53,49 @@ test.describe('Retired calculator URLs redirect to hubs', () => {
   });
 });
 
-// S7 blog cleanup (Nov 2026): seven near-duplicate posts merged into the URL Google
-// already shows, each old URL a permanent redirect (next.config.ts). This file is
-// the allowlisted home of the old slugs, as for the hub URLs above.
-const MERGED_POSTS = [
-  { from: 'les-abbreviations-explained', to: 'how-to-read-your-les' },
-  { from: 'how-deployment-pay-works', to: 'deployment-pay-explained' },
-  { from: 'brs-vs-high-3-retirement', to: 'brs-vs-high-3-difference' },
-  { from: 'gi-bill-vs-tuition-assistance', to: 'tuition-assistance-and-gi-bill-together' },
-  { from: 'sgli-vgli-private-life-insurance', to: 'is-sgli-enough-life-insurance' },
-  { from: 'what-is-scra-military-protection', to: 'scra-mla-protections-new-service-members' },
-  { from: 'pcs-out-of-pocket-costs', to: 'pcs-financial-planning-guide' },
+// S7 / S7b blog cleanup (Nov 2026): near-duplicate posts merged into the URL Google
+// already shows (or, in S7b, a post folded into the calculator that answers it), each
+// old URL a permanent redirect (next.config.ts). This file is the allowlisted home of
+// the old slugs, as for the hub URLs above. `to` is the full destination path.
+const MERGED_POSTS: { from: string; to: string; build: 'S7' | 'S7b' }[] = [
+  { from: 'les-abbreviations-explained', to: '/blog/how-to-read-your-les', build: 'S7' },
+  { from: 'how-deployment-pay-works', to: '/blog/deployment-pay-explained', build: 'S7' },
+  { from: 'brs-vs-high-3-retirement', to: '/blog/brs-vs-high-3-difference', build: 'S7' },
+  { from: 'gi-bill-vs-tuition-assistance', to: '/blog/tuition-assistance-and-gi-bill-together', build: 'S7' },
+  { from: 'sgli-vgli-private-life-insurance', to: '/blog/is-sgli-enough-life-insurance', build: 'S7' },
+  { from: 'what-is-scra-military-protection', to: '/blog/scra-mla-protections-new-service-members', build: 'S7' },
+  { from: 'pcs-out-of-pocket-costs', to: '/blog/pcs-financial-planning-guide', build: 'S7' },
+  { from: 'deployment-financial-planning', to: '/blog/deployment-pay-explained', build: 'S7b' },
+  { from: 'gi-bill-housing-allowance-zip-code', to: '/blog/post-911-gi-bill-explained-2026', build: 'S7b' },
+  { from: 'are-you-financially-ready-to-leave-the-military', to: '/calculators/transition-readiness', build: 'S7b' },
 ];
 
-test.describe('S7: merged blog posts redirect to the kept post', () => {
+test.describe('S7: merged blog posts redirect to the kept page', () => {
+  test('the list has both builds (control)', () => {
+    expect(MERGED_POSTS.filter((m) => m.build === 'S7')).toHaveLength(7);
+    expect(MERGED_POSTS.filter((m) => m.build === 'S7b')).toHaveLength(3);
+  });
+
   for (const { from, to } of MERGED_POSTS) {
-    test(`/blog/${from} → /blog/${to} is a 308 permanent redirect`, async ({ request }) => {
+    test(`/blog/${from} → ${to} is a 308 permanent redirect`, async ({ request }) => {
       const res = await request.get(`/blog/${from}`, { maxRedirects: 0 });
       expect(res.status()).toBe(308);
-      expect(new URL(res.headers()['location'], 'http://x').pathname).toBe(`/blog/${to}`);
+      expect(new URL(res.headers()['location'], 'http://x').pathname).toBe(to);
     });
   }
 
-  test('sitemap lists every kept post and none of the redirected ones', async ({ request }) => {
+  test('sitemap lists every kept page and none of the redirected posts', async ({ request }) => {
     const xml = await (await request.get('/sitemap.xml')).text();
     expect(xml).toContain('/blog/tricare-costs-2026-vs-civilian</loc>'); // control: the sitemap has blog URLs
     for (const { from, to } of MERGED_POSTS) {
-      expect(xml, to).toContain(`/blog/${to}</loc>`);
+      expect(xml, to).toContain(`${to}</loc>`);
       expect(xml, from).not.toContain(`/blog/${from}<`);
     }
   });
 });
 
-// Zero-reference rule (CLAUDE.md "Retired URLs"), for the S7 slugs: outside this file
-// and next.config.ts's one redirect line each, nothing in src/, public/ or tests/
+// Zero-reference rule (CLAUDE.md "Retired URLs"), for the S7 / S7b slugs: outside this
+// file and next.config.ts's one redirect line each, nothing in src/, public/ or tests/
 // names an old slug (links, POST_FAQS keys, guide cards, llms.txt lines, tests).
 // docs/ and the root build reports are records and are not scanned.
 test.describe('S7: zero references to the redirected slugs', () => {
@@ -117,7 +126,7 @@ test.describe('S7: zero references to the redirected slugs', () => {
     const cfg = fs.readFileSync(path.join(ROOT, 'next.config.ts'), 'utf8');
     for (const { from, to } of MERGED_POSTS) {
       expect(cfg.split(from).length - 1, from).toBe(1);
-      expect(cfg).toContain(`{ source: '/blog/${from}', destination: '/blog/${to}', permanent: true }`);
+      expect(cfg).toContain(`{ source: '/blog/${from}', destination: '${to}', permanent: true }`);
     }
   });
 

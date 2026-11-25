@@ -226,7 +226,7 @@ function buildActionSteps(
     label: 'Read the full deployment financial planning guide',
     description: `Detailed walkthrough of CZTE, SDP, Roth TSP strategy, and how to structure your finances before, during, and after the deployment window.`,
     priority: 'low',
-    href: '/blog/deployment-financial-planning',
+    href: '/blog/deployment-pay-explained',
   });
 
   return steps.slice(0, 4);

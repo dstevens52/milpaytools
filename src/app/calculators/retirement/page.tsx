@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { ogImage } from '@/lib/og';
 import { ExampleBox, ExampleTable, ExampleRow } from '@/components/calculators/shared/ExampleBox';
 import { CalcStepStrip } from '@/components/calculators/shared/CalcStepStrip';
@@ -146,6 +147,9 @@ export default function RetirementCalculatorPage() {
         <div className="bg-white border-t border-zinc-200">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
             <h2 className="text-2xl font-bold text-zinc-900">Understanding Military Retirement</h2>
+            <p className="text-sm text-zinc-600 leading-relaxed">
+              New to how retirement pay works? <Link href="/blog/how-military-retirement-works" className="font-medium text-red-700 hover:text-red-800 transition-colors">How Military Retirement Works: The Basics</Link> covers the 20-year requirement, when retirement pay begins, COLA and retiree TRICARE.
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* High-3 */}

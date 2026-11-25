@@ -17,7 +17,7 @@
  *  - /pay/[rank] (national median BAH, BAH counts) and the guides, /transition
  *    and homepage worked examples that compute BAH
  *  - blog posts rendering a BAH-derived component (default-text BAH callout,
- *    TransitionReadinessExample)
+ *    DeploymentTourTable, GiBillMhaTable / GiBillMhaFigure)
  * Not included: /calculators/pcs (BAH only via client lookups for links),
  * /pay and /pay/raise (no BAH data), /guides/military-pay (typed legacy table
  * src/data/bah-rates/2026.ts; see the runbook's backlog line).
@@ -66,7 +66,7 @@ function blogPaths() {
     const bahCalloutDefault = [...src.matchAll(/<CalculatorCallout\b[^>]*?\/>/gs)].some(
       (m) => m[0].includes('calculator="bah"') && !m[0].includes('text='),
     );
-    if (bahCalloutDefault || src.includes('<TransitionReadinessExample')) {
+    if (bahCalloutDefault || /<(DeploymentTourTable|DeploymentTourFigure|GiBillMhaTable|GiBillMhaFigure)\b/.test(src)) {
       out.push(`/blog/${f.replace(/\.mdx$/, '')}`);
     }
   }
