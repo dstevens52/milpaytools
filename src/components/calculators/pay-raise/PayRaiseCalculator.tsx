@@ -23,6 +23,7 @@ import { parseGrade, gradeToParam } from '@/lib/urlParams';
 import { formatCurrency } from '@/lib/utils';
 import { fireCalculatorEvent } from '@/lib/analytics';
 import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
+import { RankHelper } from '@/components/ui/RankHelper';
 
 const GRADE_GROUPS: { label: string; grades: readonly PayGrade[] }[] = [
   { label: 'Enlisted', grades: ENLISTED_GRADES },
@@ -115,6 +116,7 @@ export function PayRaiseCalculator() {
               </optgroup>
             ))}
           </select>
+          <RankHelper grade={grade} className="mt-1.5" />
         </div>
         <div className="flex-1">
           <label htmlFor="raise-yos" className="block text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-1.5">

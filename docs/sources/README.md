@@ -25,6 +25,12 @@ dollars. A blank cell means DFAS leaves that cell blank.
 `src/data/pay-tables/2026.ts` is checked against this file, cell by cell, by
 `tests/e2e/pay-table-dfas.spec.ts` (`npm run test:pay-table`).
 
+## `rank-abbreviations.md` — rank abbreviations by grade and service (build RL)
+
+U.S. Military Rank Insignia, war.gov; table compiled by Claude Chat (2026-11-25), verified against
+war.gov at PR review. Read by `src/data/ranks/rankTitles.ts`; checked by
+`tests/e2e/rank-titles-unit.spec.ts` (`npm run test:ranks`).
+
 ## `pcs-rules-2026.md` — PCS allowance rules (build 07)
 
 Claude Chat's rule check of 2026-11-18 (copied verbatim from the build pack): POV travel days

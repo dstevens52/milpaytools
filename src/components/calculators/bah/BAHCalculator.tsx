@@ -20,6 +20,7 @@ import { VaLoanBahCard } from '@/components/calculators/shared/VaLoanBahCard';
 import { BAH_YEAR } from '@/data/bah/current';
 import { bahPriorRateSubline } from '@/lib/calculations/bahTransition';
 import { RATE_PROTECTION_CALC_TAIL } from '@/data/bah/rateProtection';
+import { RankHelper } from '@/components/ui/RankHelper';
 
 // BAH data resolves via /api/bah/lookup (cached, server-side) — this calculator
 // no longer ships the ~166KB dataset. Returned values are identical to the
@@ -386,6 +387,7 @@ export function BAHCalculator() {
               value={grade}
               onChange={(e) => setGrade(e.target.value as PayGrade)}
             />
+            <RankHelper grade={grade} className="mt-1" />
             <p className="text-xs text-zinc-400 mt-1">O-7 through O-10 receive the same BAH rate per DoD policy.</p>
           </div>
 

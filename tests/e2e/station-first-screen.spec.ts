@@ -124,7 +124,9 @@ test.describe('Station first screen: interaction', () => {
 });
 
 test.describe('Station first screen: rate table on phones', () => {
-  test('grade labels: text unchanged, break only after slashes or at spaces, table fits 360 px', async ({ page }) => {
+  // Build RL: labels list all five services ("E-6 (SSG · SSgt · PO1 · TSgt · TSgt)"); lines
+  // break only between services, never inside an abbreviation such as "2d Lt".
+  test('grade labels: text unchanged, break only between services, table fits 360 px', async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 800 });
     await page.goto('/bah/fort-bragg');
     const cells = await page.getByTestId('bah-rate-table').locator('tr[data-grade]').evaluateAll((rows) =>
@@ -136,6 +138,9 @@ test.describe('Station first screen: rate table on phones', () => {
           grade: r.getAttribute('data-grade')!,
           text: td.textContent,
           wbr: td.querySelectorAll('wbr').length,
+          noWrap: [...td.querySelectorAll('span')]
+            .filter((s) => getComputedStyle(s).whiteSpace === 'nowrap')
+            .map((s) => s.textContent),
           wrap: `${cs.overflowWrap}/${cs.wordBreak}`,
           titlesDisplay: titles ? getComputedStyle(titles).display : null,
         };
@@ -146,7 +151,12 @@ test.describe('Station first screen: rate table on phones', () => {
       expect(c.text, c.grade).toBe(RANK_DISPLAY[c.grade as keyof typeof RANK_DISPLAY]);
       expect(c.wrap, c.grade).toBe('normal/normal'); // no mid-word breaking
       expect(c.titlesDisplay, c.grade).toBe('block'); // titles on line 2 on phones
-      expect(c.wbr, c.grade).toBe((c.text!.match(/\//g) ?? []).length); // a break opportunity after every slash
+      expect(c.wbr, c.grade).toBe(0);
+      // Each service's abbreviation(s) is one unbreakable run: "(SGM/CSM", "2d Lt", "Spc4)".
+      const inner = c.text!.slice(c.text!.indexOf(' (') + 1);
+      // The separator stays with the abbreviation before it, so no line starts with "·".
+      const slots = inner.split(' · ');
+      expect(c.noWrap, c.grade).toEqual(slots.map((slot, k) => slot.split(' — ')[0] + (k < slots.length - 1 ? ' ·' : '')));
     }
     const fit = await page.getByTestId('bah-rate-table').locator('.overflow-x-auto').evaluate((d) => [d.scrollWidth, d.clientWidth]);
     expect(fit[0], 'no horizontal scroll at 360 px').toBeLessThanOrEqual(fit[1]);
@@ -154,6 +164,26 @@ test.describe('Station first screen: rate table on phones', () => {
     await page.setViewportSize({ width: 1280, height: 800 });
     const display = await page.getByTestId('bah-rate-table').locator('tr[data-grade="E-6"] td span').first().evaluate((s) => getComputedStyle(s).display);
     expect(display).toBe('inline');
+    // From lg up the abbreviations never wrap and the table still fits: a label is one
+    // line, or two when the longest (E-9) drops its abbreviations to line 2 as one
+    // unbroken run (depends on the station's dollar columns). Build RL.
+    for (const width of [1024, 1280]) {
+      await page.setViewportSize({ width, height: 800 });
+      const wide = await page.getByTestId('bah-rate-table').locator('.overflow-x-auto').evaluate((d) => [d.scrollWidth, d.clientWidth]);
+      expect(wide[0], `no horizontal scroll at ${width} px`).toBeLessThanOrEqual(wide[1]);
+      const lines = await page.getByTestId('bah-rate-table').locator('tr[data-grade] td:first-child').evaluateAll((tds) =>
+        tds.map((td) => {
+          const range = document.createRange();
+          range.selectNodeContents(td);
+          // Distinct line boxes: inline boxes whose tops are within 8 px are one line
+          // (the grade and the smaller abbreviation text don't share an exact top).
+          const tops = [...range.getClientRects()].map((r) => r.top).sort((x, y) => x - y);
+          const count = tops.filter((t, i) => i === 0 || t - tops[i - 1] > 8).length;
+          return [td.parentElement!.getAttribute('data-grade'), count];
+        }),
+      );
+      expect(lines.filter(([, n]) => (n as number) > 2), `labels on more than two lines at ${width} px`).toEqual([]);
+    }
   });
 });
 

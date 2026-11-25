@@ -19,6 +19,7 @@ import type { ActionStep } from '@/types/calculator';
 import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { readUrlParams, type UrlParamName } from '@/data/calculatorUrlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
+import { RankHelper } from '@/components/ui/RankHelper';
 
 // ─── Pay grade options ────────────────────────────────────────────────────────
 
@@ -416,6 +417,7 @@ export function DeploymentCalculator() {
                     </optgroup>
                   ))}
                 </select>
+                <RankHelper grade={payGrade} className="mt-1" />
               </div>
 
               <div>

@@ -16,6 +16,7 @@
 import type { PayGrade } from '@/types/military';
 import { E1_UNDER_4_MONTHS } from '@/data/pay-tables/2026';
 import { formatCurrency } from '@/lib/utils';
+import { payPageBranchTitles, type PayPageBranchTitles } from '@/data/ranks/rankTitles';
 
 export interface PayPageRank {
   /** URL slug — lowercase, no hyphen: 'e5', 'o3'. */
@@ -24,14 +25,11 @@ export interface PayPageRank {
   grade: PayGrade;
   /** Display title for headings and breadcrumbs: 'E-5'. */
   title: string;
-  /** Rank title by branch, used in intro copy and the index grid. */
-  branchTitles: {
-    army: string;
-    marines: string;
-    airForce: string;
-    navy: string;
-    spaceForce: string;
-  };
+  /**
+   * Rank title by branch, used in intro copy, the meta description, the branch
+   * FAQ and the index grid. Built from src/data/ranks/rankTitles.ts; never typed here.
+   */
+  branchTitles: PayPageBranchTitles;
   /** Years of service used for the worked total-comp example. */
   exampleYos: number;
   /** Dependency status used for the worked total-comp example. */
@@ -88,13 +86,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     slug: 'e1',
     grade: 'E-1',
     title: 'E-1',
-    branchTitles: {
-      army: 'Private (PV1)',
-      marines: 'Private',
-      airForce: 'Airman Basic',
-      navy: 'Seaman Recruit',
-      spaceForce: 'Specialist 1',
-    },
+    branchTitles: payPageBranchTitles('E-1'),
     exampleYos: 0,
     exampleDependents: false,
     contextCopy: [
@@ -126,13 +118,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     slug: 'e2',
     grade: 'E-2',
     title: 'E-2',
-    branchTitles: {
-      army: 'Private (PV2)',
-      marines: 'Private First Class',
-      airForce: 'Airman',
-      navy: 'Seaman Apprentice',
-      spaceForce: 'Specialist 2',
-    },
+    branchTitles: payPageBranchTitles('E-2'),
     exampleYos: 0,
     exampleDependents: false,
     contextCopy: [
@@ -163,13 +149,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     slug: 'e3',
     grade: 'E-3',
     title: 'E-3',
-    branchTitles: {
-      army: 'Private First Class',
-      marines: 'Lance Corporal',
-      airForce: 'Airman First Class',
-      navy: 'Seaman',
-      spaceForce: 'Specialist 3',
-    },
+    branchTitles: payPageBranchTitles('E-3'),
     exampleYos: 2,
     exampleDependents: false,
     contextCopy: [
@@ -200,13 +180,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     slug: 'e4',
     grade: 'E-4',
     title: 'E-4',
-    branchTitles: {
-      army: 'Specialist or Corporal',
-      marines: 'Corporal',
-      airForce: 'Senior Airman',
-      navy: 'Petty Officer Third Class',
-      spaceForce: 'Specialist 4',
-    },
+    branchTitles: payPageBranchTitles('E-4'),
     exampleYos: 3,
     exampleDependents: false,
     contextCopy: [
@@ -237,13 +211,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     slug: 'e5',
     grade: 'E-5',
     title: 'E-5',
-    branchTitles: {
-      army: 'Sergeant',
-      marines: 'Sergeant',
-      airForce: 'Staff Sergeant',
-      navy: 'Petty Officer Second Class',
-      spaceForce: 'Sergeant',
-    },
+    branchTitles: payPageBranchTitles('E-5'),
     exampleYos: 6,
     exampleDependents: true,
     contextCopy: [
@@ -272,13 +240,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     slug: 'e6',
     grade: 'E-6',
     title: 'E-6',
-    branchTitles: {
-      army: 'Staff Sergeant',
-      marines: 'Staff Sergeant',
-      airForce: 'Technical Sergeant',
-      navy: 'Petty Officer First Class',
-      spaceForce: 'Technical Sergeant',
-    },
+    branchTitles: payPageBranchTitles('E-6'),
     exampleYos: 10,
     exampleDependents: true,
     contextCopy: [
@@ -307,13 +269,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     slug: 'e7',
     grade: 'E-7',
     title: 'E-7',
-    branchTitles: {
-      army: 'Sergeant First Class',
-      marines: 'Gunnery Sergeant',
-      airForce: 'Master Sergeant',
-      navy: 'Chief Petty Officer',
-      spaceForce: 'Master Sergeant',
-    },
+    branchTitles: payPageBranchTitles('E-7'),
     exampleYos: 14,
     exampleDependents: true,
     contextCopy: [
@@ -342,13 +298,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     slug: 'e8',
     grade: 'E-8',
     title: 'E-8',
-    branchTitles: {
-      army: 'Master Sergeant or First Sergeant',
-      marines: 'Master Sergeant or First Sergeant',
-      airForce: 'Senior Master Sergeant',
-      navy: 'Senior Chief Petty Officer',
-      spaceForce: 'Senior Master Sergeant',
-    },
+    branchTitles: payPageBranchTitles('E-8'),
     exampleYos: 16,
     exampleDependents: true,
     contextCopy: [
@@ -377,13 +327,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     slug: 'e9',
     grade: 'E-9',
     title: 'E-9',
-    branchTitles: {
-      army: 'Sergeant Major or Command Sergeant Major',
-      marines: 'Master Gunnery Sergeant or Sergeant Major',
-      airForce: 'Chief Master Sergeant',
-      navy: 'Master Chief Petty Officer',
-      spaceForce: 'Chief Master Sergeant',
-    },
+    branchTitles: payPageBranchTitles('E-9'),
     exampleYos: 20,
     exampleDependents: true,
     contextCopy: [
@@ -410,13 +354,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     slug: 'o1',
     grade: 'O-1',
     title: 'O-1',
-    branchTitles: {
-      army: 'Second Lieutenant',
-      marines: 'Second Lieutenant',
-      airForce: 'Second Lieutenant',
-      navy: 'Ensign',
-      spaceForce: 'Second Lieutenant',
-    },
+    branchTitles: payPageBranchTitles('O-1'),
     exampleYos: 2,
     exampleDependents: false,
     contextCopy: [
@@ -446,13 +384,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     slug: 'o2',
     grade: 'O-2',
     title: 'O-2',
-    branchTitles: {
-      army: 'First Lieutenant',
-      marines: 'First Lieutenant',
-      airForce: 'First Lieutenant',
-      navy: 'Lieutenant (Junior Grade)',
-      spaceForce: 'First Lieutenant',
-    },
+    branchTitles: payPageBranchTitles('O-2'),
     exampleYos: 3,
     exampleDependents: true,
     contextCopy: [
@@ -478,13 +410,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     slug: 'o3',
     grade: 'O-3',
     title: 'O-3',
-    branchTitles: {
-      army: 'Captain',
-      marines: 'Captain',
-      airForce: 'Captain',
-      navy: 'Lieutenant',
-      spaceForce: 'Captain',
-    },
+    branchTitles: payPageBranchTitles('O-3'),
     exampleYos: 6,
     exampleDependents: true,
     contextCopy: [
@@ -514,13 +440,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     slug: 'o4',
     grade: 'O-4',
     title: 'O-4',
-    branchTitles: {
-      army: 'Major',
-      marines: 'Major',
-      airForce: 'Major',
-      navy: 'Lieutenant Commander',
-      spaceForce: 'Major',
-    },
+    branchTitles: payPageBranchTitles('O-4'),
     exampleYos: 12,
     exampleDependents: true,
     contextCopy: [
@@ -545,13 +465,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     slug: 'o5',
     grade: 'O-5',
     title: 'O-5',
-    branchTitles: {
-      army: 'Lieutenant Colonel',
-      marines: 'Lieutenant Colonel',
-      airForce: 'Lieutenant Colonel',
-      navy: 'Commander',
-      spaceForce: 'Lieutenant Colonel',
-    },
+    branchTitles: payPageBranchTitles('O-5'),
     exampleYos: 16,
     exampleDependents: true,
     contextCopy: [
@@ -580,13 +494,7 @@ export const PAY_PAGE_RANKS: PayPageRank[] = [
     slug: 'o6',
     grade: 'O-6',
     title: 'O-6',
-    branchTitles: {
-      army: 'Colonel',
-      marines: 'Colonel',
-      airForce: 'Colonel',
-      navy: 'Captain',
-      spaceForce: 'Colonel',
-    },
+    branchTitles: payPageBranchTitles('O-6'),
     exampleYos: 22,
     exampleDependents: true,
     contextCopy: [

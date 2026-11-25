@@ -32,25 +32,32 @@ const fmt = (n: number) => formatCurrency(n);
 const OFFICER_GRADES = ['O-1', 'O-2', 'O-3', 'O-4', 'O-5', 'O-6', 'O-7'] as const;
 
 /**
- * "E-6 (SSG/PO1/TSgt)": on phones, the grade on line 1 and the branch titles on
- * line 2 in small muted text, breakable only after slashes (and at spaces in
- * "(2LT — prior enlisted)"), never mid-word. From `sm` up, one line as before.
- * The cell's text is unchanged: <wbr> adds no characters.
+ * "E-6 (SSG · SSgt · PO1 · TSgt · TSgt)" (RANK_DISPLAY, from src/data/ranks/rankTitles.ts):
+ * on phones, the grade on line 1 and the service abbreviations below in small muted
+ * text. Lines break only between services (and before "— prior enlisted"), never
+ * inside an abbreviation such as "2d Lt". From `sm` up, inline after the grade.
+ * The cell's text is the label exactly: the spans add no characters.
  */
 function GradeLabel({ label }: { label: string }) {
   const i = label.indexOf(' (');
   if (i === -1) return <>{label}</>;
-  const parts = label.slice(i + 1).split('/');
+  const slots = label.slice(i + 1).split(' · ');
   return (
     <>
       {label.slice(0, i)}{' '}
-      <span className="block sm:inline text-xs sm:text-sm font-normal sm:font-medium text-zinc-500 sm:text-zinc-700">
-        {parts.map((p, k) => (
-          <span key={k}>
-            {p}
-            {k < parts.length - 1 && <>/<wbr /></>}
-          </span>
-        ))}
+      <span className="block sm:inline lg:whitespace-nowrap text-xs sm:text-sm font-normal sm:font-medium text-zinc-500 sm:text-zinc-700">
+        {slots.map((slot, k) => {
+          const [abbr, suffix] = slot.split(' — ');
+          const last = k === slots.length - 1;
+          // The separator stays with the abbreviation before it, so no line starts with "·".
+          return (
+            <span key={k}>
+              <span className="whitespace-nowrap">{last ? abbr : `${abbr} ·`}</span>
+              {suffix !== undefined && <> — {suffix}</>}
+              {!last && ' '}
+            </span>
+          );
+        })}
       </span>
     </>
   );

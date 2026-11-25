@@ -29,6 +29,7 @@ import { TSP_CONSTANTS_2026 } from '@/data/tsp/2026/constants';
 import { parseGrade, gradeToParam } from '@/lib/urlParams';
 import { readUrlParams } from '@/data/calculatorUrlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
+import { RankHelper } from '@/components/ui/RankHelper';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -366,6 +367,7 @@ export function RetirementCalculator() {
                 </optgroup>
               ))}
             </select>
+            <RankHelper grade={currentGrade} className="mt-1" />
           </div>
 
           {/* Current YOS */}
@@ -402,6 +404,7 @@ export function RetirementCalculator() {
                 </optgroup>
               ))}
             </select>
+            <RankHelper grade={retirementGrade} className="mt-1" />
           </div>
 
           {/* Retirement YOS */}

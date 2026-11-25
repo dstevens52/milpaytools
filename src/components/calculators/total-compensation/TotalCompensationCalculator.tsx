@@ -27,6 +27,7 @@ import { parseGrade, gradeToParam, parseBool, parseZip } from '@/lib/urlParams';
 import { readUrlParams } from '@/data/calculatorUrlParams';
 import { SaveOrShareResults } from '@/components/calculators/shared/SaveOrShareResults';
 import { InfoTip } from '@/components/calculators/shared/InfoTip';
+import { RankHelper } from '@/components/ui/RankHelper';
 
 // ─── Grade options grouped for the dropdown ────────────────────────────────
 
@@ -307,6 +308,7 @@ export function TotalCompensationCalculator() {
             groups={GRADE_GROUPS}
             value={grade}
             onChange={(e) => setGrade(e.target.value as PayGrade)}
+            after={<RankHelper grade={grade} />}
           />
 
           <Select

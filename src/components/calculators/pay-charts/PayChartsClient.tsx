@@ -15,6 +15,7 @@ import {
   RANK_DISPLAY,
 } from '@/types/military';
 import type { PayGrade, YearsOfService } from '@/types/military';
+import { RankHelper } from '@/components/ui/RankHelper';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -378,6 +379,7 @@ export function PayChartsClient({ payPages }: PayChartsClientProps) {
                   </optgroup>
                 ))}
               </select>
+              <RankHelper grade={selectedGrade} className="mt-1.5" />
             </div>
 
             {/* YOS select */}

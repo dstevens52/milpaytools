@@ -1,3 +1,5 @@
+import { RANK_LABELS } from '@/data/ranks/rankTitles';
+
 export type Branch =
   | 'Army'
   | 'Navy'
@@ -38,33 +40,7 @@ export type YearsOfService = typeof YOS_BREAKPOINTS[number];
 
 export type DependencyStatus = 'without' | 'with';
 
-// Rank display names for UI (Army-centric, used as fallback)
-export const RANK_DISPLAY: Record<PayGrade, string> = {
-  'E-1': 'E-1 (PVT/SR/Amn/Pvt)',
-  'E-2': 'E-2 (PV2/FA/A1C/PFC)',
-  'E-3': 'E-3 (PFC/SA/SrA/LCpl)',
-  'E-4': 'E-4 (SPC/Cpl/SN/Cpl)',
-  'E-5': 'E-5 (SGT/PO2/SSgt)',
-  'E-6': 'E-6 (SSG/PO1/TSgt)',
-  'E-7': 'E-7 (SFC/CPO/MSgt)',
-  'E-8': 'E-8 (MSG/1SG/SCPO)',
-  'E-9': 'E-9 (SGM/CSM/MCPO)',
-  'W-1': 'W-1 (WO1)',
-  'W-2': 'W-2 (CW2)',
-  'W-3': 'W-3 (CW3)',
-  'W-4': 'W-4 (CW4)',
-  'W-5': 'W-5 (CW5)',
-  'O-1': 'O-1 (2LT/ENS/2ndLt)',
-  'O-1E': 'O-1E (2LT — prior enlisted)',
-  'O-2': 'O-2 (1LT/LTJG/1stLt)',
-  'O-2E': 'O-2E (1LT — prior enlisted)',
-  'O-3': 'O-3 (CPT/LT/Capt)',
-  'O-3E': 'O-3E (CPT — prior enlisted)',
-  'O-4': 'O-4 (MAJ/LCDR/Maj)',
-  'O-5': 'O-5 (LTC/CDR/LtCol)',
-  'O-6': 'O-6 (COL/CAPT/Col)',
-  'O-7': 'O-7 (BG/RDML/BGen)',
-  'O-8': 'O-8 (MG/RADM/MajGen)',
-  'O-9': 'O-9 (LTG/VADM/LtGen)',
-  'O-10': 'O-10 (GEN/ADM/Gen)',
-};
+// Grade dropdown labels for UI (E-4 shows SPC/CPL · Cpl · PO3 · SrA · Spc4), all five
+// services in DoD order. Built from src/data/ranks/rankTitles.ts (the one source for
+// rank names); never type a label here.
+export const RANK_DISPLAY: Readonly<Record<PayGrade, string>> = RANK_LABELS;

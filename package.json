@@ -26,6 +26,7 @@
     "bah:llms": "node scripts/bah-llms.mjs",
     "bah:inbound": "tsx scripts/bah-inbound.ts",
     "test:figures": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/figure-check.spec.ts --project=chromium",
+    "test:ranks": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/rank-titles-unit.spec.ts --project=chromium",
     "test:pay-dates": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/pay-dates-data.spec.ts --project=chromium",
     "test:pcs-rules": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/pcs-rules-unit.spec.ts tests/e2e/pcs-dla-unit.spec.ts --project=chromium",
     "test:va-loan": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/va-loan-unit.spec.ts tests/e2e/va-funding-fee-unit.spec.ts --project=chromium",

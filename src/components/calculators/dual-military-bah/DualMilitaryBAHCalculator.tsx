@@ -24,6 +24,7 @@ import type { PayGrade } from '@/types/military';
 import type { ActionStep } from '@/types/calculator';
 import { BAH_YEAR } from '@/data/bah/current';
 import { RATE_PROTECTION_CALC_TAIL } from '@/data/bah/rateProtection';
+import { RankHelper } from '@/components/ui/RankHelper';
 
 // BAH year label — follows the BAH year switch (src/data/bah/current.ts).
 const DATA_YEAR = BAH_YEAR;
@@ -347,6 +348,7 @@ export function DualMilitaryBAHCalculator() {
               value={grade1}
               onChange={(e) => setGrade1(e.target.value as PayGrade)}
             />
+            <RankHelper grade={grade1} className="mt-1" />
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">
@@ -358,6 +360,7 @@ export function DualMilitaryBAHCalculator() {
               value={grade2}
               onChange={(e) => setGrade2(e.target.value as PayGrade)}
             />
+            <RankHelper grade={grade2} className="mt-1" />
           </div>
         </div>
 
