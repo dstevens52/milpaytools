@@ -82,6 +82,70 @@ test.describe('S7b: deployment-pay-explained (merged deployment savings post)', 
     }
   });
 
+  // PR #90 review: the older 12-month table now computes from the same lib (it had a typed $4,759
+  // base pay next to the walkthrough's $4,760). Same member, 12 months, joint and single.
+  const year = (filingStatus: 'mfj' | 'single') =>
+    calculateDeployment({
+      payGrade: 'E-6',
+      yearsOfService: 10,
+      hasDependents: true,
+      filingStatus,
+      zipCode: '28310',
+      monthlyBAH: combinedBahForZip('28310', 'E-6', true),
+      bahFound: true,
+      deploymentMonths: 12,
+      isCombatZone: true,
+      receivingIDP: true,
+      hdpLevel: 0,
+      hasFSA: true,
+      tspContributionPct: 0,
+      usingSDP: true,
+      sdpDeposit: 10000,
+    });
+  const joint = year('mfj');
+  const single = year('single');
+
+  test('12-month lib controls: FSA $300, IDP $275, savings differ by filing status', () => {
+    expect(joint.during.monthlyFSA).toBe(300); // FY2026 NDAA, 37 U.S.C. § 427 (MARADMIN 150/26)
+    expect(joint.during.monthlyIDP).toBe(275);
+    expect(joint.during.monthlyBasePay).toBe(r.during.monthlyBasePay);
+    expect(joint.tour.totalCZTESavings).toBeGreaterThan(0);
+    expect(single.tour.totalCZTESavings).toBeGreaterThan(joint.tour.totalCZTESavings);
+    expect(usd(joint.tour.sdpInterestEarned)).toBe('$1,000');
+  });
+
+  test('12-month table and totals match the deployment lib; one base pay on the page', async ({ page }) => {
+    await page.goto('/blog/deployment-pay-explained');
+    const text = await articleText(page);
+    const table = page.getByTestId('deployment-year-table');
+    await expect(table.locator('tbody tr')).toHaveCount(6);
+    const row = (label: string) => table.locator('tr', { hasText: label });
+    const base = joint.during.monthlyBasePay;
+    await expect(row('Base pay (excluded')).toContainText(`${usd(base)}${usd(base * 12)}`);
+    await expect(row('Federal income tax savings')).toContainText(
+      `~${usd(joint.tour.totalCZTESavings / 12)} joint / ~${usd(single.tour.totalCZTESavings / 12)} single`,
+    );
+    await expect(row('Federal income tax savings')).toContainText(
+      `~${usd(joint.tour.totalCZTESavings)} joint / ~${usd(single.tour.totalCZTESavings)} single`,
+    );
+    await expect(row('Imminent Danger Pay')).toContainText(`${usd(275)}${usd(275 * 12)}`);
+    await expect(row('Family Separation Allowance')).toContainText(`${usd(300)}${usd(300 * 12)}`);
+    await expect(row('Hardship Duty Pay')).toContainText('variesvaries');
+    await expect(row('SDP interest (on $10,000)')).toContainText(`~${usd(joint.tour.sdpInterestEarned)}`);
+    expect(text).toContain(`about ${usd(joint.during.monthlyFICA)}/month at this rank`);
+    expect(text).toContain(
+      `Tax savings alone: about ${usd(joint.tour.totalCZTESavings)} (married filing jointly) to ${usd(single.tour.totalCZTESavings)} (single) over 12 months.`,
+    );
+    expect(text).toContain(`Special pays (IDP + FSA): ${usd(joint.tour.totalAdditionalAllowancePay)} over 12 months`);
+    expect(text).toContain(`SDP interest: approximately ${usd(joint.tour.sdpInterestEarned)} (depending on deposit timing).`);
+    expect(text).toContain(
+      `Total additional value vs. non-deployed: about ${usd(joint.tour.totalTourBenefit)} (joint) to ${usd(single.tour.totalTourBenefit)} (single) for this scenario`,
+    );
+    // Both tables show the same E-6 base pay; the old typed figures are gone.
+    await expect(page.getByTestId('deployment-tour-table').locator('tr', { hasText: 'Base pay (E-6' })).toContainText(usd(base));
+    for (const s of ['$4,759', '$57,108', '$10,800–$13,000']) expect(text, s).not.toContain(s);
+  });
+
   test('links to the HFP/IDP rate-change post; FAQ schema = visible (none)', async ({ page }) => {
     await page.goto('/blog/deployment-pay-explained');
     await expect(page.locator('article a[href="/blog/hfp-idp-hdpl-rate-changes-october-2026"]')).toHaveCount(1);

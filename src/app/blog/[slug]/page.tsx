@@ -6,7 +6,7 @@ import { getPost, getAllSlugs, formatDate } from '@/lib/blog';
 import { CalculatorCallout } from '@/components/blog/CalculatorCallout';
 import { KeyFact } from '@/components/blog/KeyFact';
 import { QuickAnswer, QAItem } from '@/components/blog/QuickAnswer';
-import { DeploymentTourTable, DeploymentTourFigure } from '@/components/blog/DeploymentTourExample';
+import { DeploymentTourTable, DeploymentTourFigure, DeploymentYearTable, DeploymentYearFigure } from '@/components/blog/DeploymentTourExample';
 import { GiBillMhaTable, GiBillMhaFigure } from '@/components/blog/GiBillMha';
 import { RetirementFigure, High3Breakdown, CrdpCrscFigure, FinalYearCompTotal } from '@/components/blog/RetirementFigure';
 import { TricareFigure, TricareChangeRange, TricareDate, TricareCostYear } from '@/components/blog/TricareFigure';
@@ -33,6 +33,8 @@ const mdxComponents = {
   Disclaimer,
   DeploymentTourTable,
   DeploymentTourFigure,
+  DeploymentYearTable,
+  DeploymentYearFigure,
   GiBillMhaTable,
   GiBillMhaFigure,
   RetirementFigure,
