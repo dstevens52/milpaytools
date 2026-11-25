@@ -78,6 +78,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     calc('va-loan'),
     calc('deployment'),
     calc('va-refinance'),
+    calc('va-entitlement'),
   ];
 
   const blogPages: Entry[] = getAllPostMeta().map((post) => ({

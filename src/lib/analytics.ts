@@ -284,9 +284,11 @@ export type DeepLinkFromPage =
   | 'pcs-calculator'
   | 'va-disability-calculator'
   | 'blog'
-  | 'bah-hub';
+  | 'bah-hub'
+  // V2: the VA entitlement calculator's "Estimate the full payment" link.
+  | 'va-entitlement-calculator';
 /** Calculators those links open. */
-export type DeepLinkToCalculator = 'total-compensation' | 'pay-raise' | 'va-loan' | 'va-refinance';
+export type DeepLinkToCalculator = 'total-compensation' | 'pay-raise' | 'va-loan' | 'va-entitlement' | 'va-refinance';
 /**
  * Which link on the page, where a page has more than one (station pages, Build
  * 04: the rate card's button and the mid-page total-comp section; Build 04b: the

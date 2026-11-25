@@ -32,6 +32,8 @@ const RESULT_TESTID: Record<Exclude<SummaryKey, 'separation-timeline'>, string> 
   'healthcare-comparison': 'hc-annual-gap',
   'va-loan': 'vl-funding-fee',
   'va-refinance': 'vr-funding-fee',
+  // The first (current-year) result column.
+  'va-entitlement': 've-max-loan',
 };
 
 /** Calculators whose block deliberately has no worked example. */

@@ -25,6 +25,21 @@ dollars. A blank cell means DFAS leaves that cell blank.
 `src/data/pay-tables/2026.ts` is checked against this file, cell by cell, by
 `tests/e2e/pay-table-dfas.spec.ts` (`npm run test:pay-table`).
 
+## `data/sources/fhfa/` — FHFA county conforming loan limits (build V2)
+
+FHFA's official county files, committed as the source of record (exact bytes; see `.gitattributes`):
+`fullcountyloanlimitlist2026_hera-based_final_flat.csv` and `fullcountyloanlimitlist2027_hera-based_final_flat.csv`,
+downloaded 2026-11-25 from the URLs in `va-entitlement-loan-limits-2027.md`. `scripts/build-loan-limits.py --year YYYY`
+turns each into `src/data/va-loan/loanLimits{YYYY}.ts` (One-Unit column only) and `loanLimitsSummary{YYYY}.ts`
+(SHA-256, row count, baseline, ceiling), failing if the file disagrees with the source note.
+`tests/e2e/va-entitlement-unit.spec.ts` (`npm run test:va-entitlement`) re-hashes the CSVs.
+
+## `va-entitlement-loan-limits-2027.md` — VA remaining entitlement and county loan limits (build V2)
+
+Claude Chat, 2026-11-25: FHFA 2026/2027 conforming loan limits (baseline, ceiling, AK/HI/GU/VI, county
+file URLs), VA.gov "VA home loan limits", Army Benefits Center, VA's archived guaranty examples. Read by
+`src/lib/calculations/vaEntitlement.ts`, `src/lib/vaEntitlementPage.ts` and `src/lib/vaEntitlementPost.ts`.
+
 ## `rank-abbreviations.md` — rank abbreviations by grade and service (build RL)
 
 U.S. Military Rank Insignia, war.gov; table compiled by Claude Chat (2026-11-25), verified against

@@ -4,7 +4,7 @@ import { BAH_ZIP_COUNT } from '@/lib/calculations/bah';
 import { BAH_YEAR } from '@/data/bah/current';
 
 interface CalculatorCalloutProps {
-  calculator: 'pay-raise' | 'total-compensation' | 'bah' | 'va-disability' | 'va-loan' | 'va-refinance' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah' | 'transition-readiness' | 'healthcare-comparison' | 'separation-timeline';
+  calculator: 'pay-raise' | 'total-compensation' | 'bah' | 'va-disability' | 'va-loan' | 'va-entitlement' | 'va-refinance' | 'tsp' | 'retirement' | 'pcs' | 'cola' | 'compare' | 'deployment' | 'pay-charts' | 'guard-reserve' | 'education' | 'dual-military-bah' | 'transition-readiness' | 'healthcare-comparison' | 'separation-timeline';
   text?: string;
   ctaText?: string;
 }
@@ -35,6 +35,11 @@ const CALCULATOR_CONFIG = {
     href: '/calculators/va-loan',
     label: 'VA Loan Calculator',
     defaultText: 'Estimate your VA loan payment — including the funding fee, down payment options, and how BAH compares to the monthly cost.',
+  },
+  'va-entitlement': {
+    href: '/calculators/va-entitlement',
+    label: 'VA Loan Entitlement Calculator',
+    defaultText: 'Keeping a home with a VA loan? See your remaining entitlement in the county where you’re buying and how much most lenders lend with $0 down.',
   },
   'va-refinance': {
     href: '/calculators/va-refinance',

@@ -416,6 +416,28 @@ export const CALCULATOR_URL_PARAMS = {
       params: { price: '350000', down: '0', firstUse: 'yes', fee: 'none' },
     },
   },
+  'va-entitlement': {
+    title: 'VA Loan Entitlement Calculator',
+    path: '/calculators/va-entitlement',
+    sources: ['src/components/calculators/va-entitlement/VAEntitlementCalculator.tsx'],
+    params: [
+      { name: 'full', values: 'yes (full entitlement: no county loan limit applies), no (entitlement already used) or unsure', default: 'no' },
+      { name: 'used', values: 'entitlement already used in dollars, from the COE ("Prior Loans charged to entitlement")', default: 'none (results appear once it is entered)' },
+      { name: 'prior', values: 'original amount of the current VA loan in dollars; above 144,000 it estimates the entitlement used as 25% of it (read only when used is absent)', default: 'none' },
+      { name: 'fips', values: '5-digit county FIPS code (2-digit state + 3-digit county) for the county loan limit', default: 'none (the limit for most U.S. counties)' },
+      { name: 'price', values: 'home price in dollars', default: 'none' },
+      { name: 'down', values: 'down payment in dollars', default: '0' },
+      {
+        name: 'fee',
+        values: 'funding fee status, same values as the VA loan calculator: none, comp, eligible, dic, predischarge, purpleheart or pending. The five exempt statuses (comp, eligible, dic, predischarge, purpleheart) mean no funding fee; otherwise the subsequent-use rate applies',
+        default: 'none',
+      },
+    ],
+    example: {
+      label: '50,000 of entitlement already used, county at the limit for most U.S. counties',
+      params: { full: 'no', used: '50000' },
+    },
+  },
   'va-refinance': {
     title: 'VA Refinance Calculator',
     path: '/calculators/va-refinance',
@@ -475,7 +497,7 @@ export function exampleHref(calc: CalculatorKey): string {
 export const LLMS_CALCULATOR_ORDER: readonly CalculatorKey[] = [
   'total-compensation', 'bah', 'va-disability', 'tsp', 'retirement', 'pcs', 'guard-reserve', 'education',
   'cola', 'compare', 'deployment', 'pay-raise', 'dual-military-bah', 'transition-readiness',
-  'separation-timeline', 'healthcare-comparison', 'va-loan', 'va-refinance',
+  'separation-timeline', 'healthcare-comparison', 'va-loan', 'va-entitlement', 'va-refinance',
 ];
 
 export const LLMS_SECTION_START = '<!-- calculator-url-settings:start (generated from src/data/calculatorUrlParams.ts; run npm run llms:params) -->';

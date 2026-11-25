@@ -188,7 +188,7 @@ export function ExpandableCalcGrid() {
           onClick={() => setExpanded((v) => !v)}
           className="text-sm font-semibold text-zinc-500 hover:text-zinc-700 transition-colors"
         >
-          {expanded ? 'Show fewer ↑' : 'View all 16 calculators →'}
+          {expanded ? 'Show fewer ↑' : 'View all 17 calculators →'}
         </button>
       </p>
     </>

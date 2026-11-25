@@ -13,6 +13,8 @@ import { TricareFigure, TricareChangeRange, TricareDate, TricareCostYear } from 
 import { TricareCostTable } from '@/components/blog/TricareCostTable';
 import { TampEligibilityList } from '@/components/blog/TampEligibilityList';
 import { VaFundingFee } from '@/components/blog/VaFundingFee';
+import { VaEntitlementFigure } from '@/components/blog/VaEntitlementFigure';
+import { vaFundingFeeFigure } from '@/lib/vaFundingFeePost';
 import { TrackedLink } from '@/components/TrackedLink';
 import { TricareOpenSeason, TricarePostFaq } from '@/components/blog/TricarePost';
 import { PostFaq } from '@/components/blog/PostFaq';
@@ -50,6 +52,7 @@ const mdxComponents = {
   TricarePostFaq,
   TampEligibilityList,
   VaFundingFee,
+  VaEntitlementFigure,
   TrackedLink,
 };
 
@@ -133,22 +136,24 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
       answer: 'The IRRRL (VA Streamline Refinance) carries a 0.50% funding fee — the lowest of any VA loan type, and it applies the same for first and subsequent use. On a $300,000 loan balance, that is $1,500.',
     },
   ],
+  // V2 (2026-11-25): entitlement answers in the source's wording
+  // (docs/sources/va-entitlement-loan-limits-2027.md); fee figures from vaLoanFees.ts.
   'can-i-use-va-loan-again': [
     {
       question: 'Can I use my VA loan benefit more than once?',
-      answer: 'Yes. The VA loan benefit has no use limit and does not expire. Entitlement is restored when you sell your home and pay off the VA loan balance, allowing you to use full entitlement again with no down payment and no loan limit.',
+      answer: 'Yes. The VA loan benefit has no use limit and does not expire. Entitlement is restored when the home bought with the prior VA loan is sold and the loan paid in full. With full entitlement, VA sets no loan limit; your lender still approves the loan amount.',
     },
     {
       question: 'How do I restore my VA loan entitlement after selling?',
-      answer: 'When your VA loan is paid off at closing, request entitlement restoration through VA.gov, eBenefits, or your lender. There is no waiting period — you can apply for a new VA loan immediately after restoration.',
+      answer: 'VA restores previously used entitlement when the home bought with the prior VA loan has been sold and the loan paid in full, or when a qualified Veteran buyer assumes the loan and substitutes their entitlement. There is also a one-time restoration if you have repaid the prior VA loan in full, even if you kept the home. Your Certificate of Eligibility (COE) shows your entitlement.',
     },
     {
       question: 'Can I have two VA loans at the same time?',
-      answer: 'Yes, if you have sufficient remaining entitlement. When you close on a VA loan, a portion of your entitlement is tied to that loan. If enough remains to cover 25% of a new purchase price, you can carry two VA loans simultaneously — common when PCSing before selling.',
+      answer: "Yes, with remaining entitlement. VA's rule: remaining entitlement is 25% of the county's One-Unit loan limit minus the entitlement already used. Most lenders lend up to 4 times your remaining entitlement with no down payment; for a larger loan, most lenders want your entitlement and a down payment together to cover at least 25% of the loan. This is common when PCSing before selling.",
     },
     {
-      question: 'Is the subsequent use VA funding fee worth it compared to conventional?',
-      answer: 'In most cases, yes. The 3.30% subsequent-use funding fee at zero down adds roughly $73/month on a $350,000 loan (financed over 30 years at 6.5%). Conventional PMI on a loan with less than 20% down typically costs $145–175/month — more than double. The VA loan still carries a monthly cost advantage for borrowers without a down payment.',
+      question: 'How much is the VA funding fee on a second VA loan?',
+      answer: `With less than 5% down, the subsequent-use fee is ${vaFundingFeeFigure({ use: 'subsequent', down: '0', show: 'rate' })} (${vaFundingFeeFigure({ use: 'first', down: '0', show: 'rate' })} on first use): ${vaFundingFeeFigure({ price: '350000', use: 'subsequent', down: '0' })} on a $350,000 loan. Financed over 30 years at 6.5%, it adds about ${vaFundingFeeFigure({ price: '350000', use: 'subsequent', down: '0', show: 'monthly', interest: '6.5', years: '30' })} a month. At 5% down or more, the rate is the same as first use. Veterans receiving VA disability compensation don't pay the fee on any use.`,
     },
   ],
   'using-bah-to-buy-a-home': [
@@ -340,6 +345,7 @@ const CALCULATOR_LINKS: Record<string, { label: string; href: string }> = {
   bah:                  { label: 'BAH Calculator',                   href: '/bah' },
   'va-disability':      { label: 'VA Disability Calculator',          href: '/calculators/va-disability' },
   'va-loan':            { label: 'VA Loan Calculator',                href: '/calculators/va-loan' },
+  'va-entitlement':     { label: 'VA Entitlement Calculator',         href: '/calculators/va-entitlement' },
   'va-refinance':       { label: 'VA Refinance Calculator',           href: '/calculators/va-refinance' },
   tsp:                  { label: 'TSP Growth Projector',              href: '/calculators/tsp' },
   retirement:           { label: 'Retirement Calculator',             href: '/calculators/retirement' },

@@ -67,6 +67,21 @@ export const CALCULATORS: CalculatorDetail[] = [
     supportsOconus: false,
   },
   {
+    href: '/calculators/va-entitlement',
+    icon: '🔑',
+    name: 'VA Loan Entitlement Calculator',
+    description:
+      'Keeping a home with a VA loan when you PCS? See your remaining entitlement in the county where you’re buying, the loan most lenders make with $0 down, and the down payment above that.',
+    features: [
+      'Remaining entitlement by county',
+      'FHFA county loan limits (one unit)',
+      '$0-down buying power',
+      'Subsequent-use funding fee',
+    ],
+    group: 'va-loans',
+    supportsOconus: false,
+  },
+  {
     href: '/calculators/va-refinance',
     icon: '🔄',
     name: 'VA Refinance Calculator',

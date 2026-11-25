@@ -66,7 +66,7 @@ test.describe('sitemap dates', () => {
     const dates = byUrl();
     for (const r of PAY_PAGE_RANKS) expect(dates.get(`${BASE}/pay/${r.slug}`), r.slug).toBe('2026-07-30');
     const calcs = Object.entries(CALCULATOR_LAST_REVIEWED);
-    expect(calcs.length).toBe(16); // control: all 16 calculators
+    expect(calcs.length).toBe(17); // control: all 17 calculators (V2 added va-entitlement)
     for (const [slug, date] of calcs) expect(dates.get(`${BASE}/calculators/${slug}`), slug).toBe(date);
     for (const [p, date] of Object.entries(PAGE_LAST_REVIEWED)) expect(dates.get(`${BASE}${p}`), p).toBe(date);
   });

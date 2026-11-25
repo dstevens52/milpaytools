@@ -18,6 +18,7 @@ import {
   fundingFeeAmount,
 } from '@/lib/calculations/vaLoanFees';
 import { IRRRL_MIN_RATE_DROP_BPS } from '@/lib/calculations/vaRefinance';
+import { BASIC_ENTITLEMENT_MAX_LOAN } from '@/lib/calculations/vaEntitlement';
 
 const TITLE = 'VA Home Loan Guide: Eligibility & Funding Fee';
 const DESC =
@@ -25,7 +26,7 @@ const DESC =
 const CANONICAL = '/guides/va-home-loans';
 const DATE = '2026-05-27';
 /** Last factual review (build V3: fee figures computed, VA's exemption list, COE, IRRRL wording; V3b: service requirements). Drives "Last reviewed" and dateModified. */
-const UPDATED = '2026-11-21';
+const UPDATED = '2026-11-25';
 
 // ── Figures (build V3): every funding fee rate and dollar amount below comes from the
 // fee table (src/lib/calculations/vaLoanFees.ts) or the VA loan calculator's own math
@@ -93,7 +94,7 @@ const FAQS = [
   {
     question: 'Can I use my VA loan benefit more than once?',
     answer:
-      `Yes. The VA loan can be used multiple times. After paying off a previous VA loan and selling the property, full entitlement can be restored. There is also a one-time restoration option even if you keep the property. After your first use, the funding fee with less than 5% down is ${pct(FEE.subsequent.lt5)} instead of ${pct(FEE.first.lt5)}. Veterans receiving VA disability compensation don't pay the funding fee on any use. Entitlement determines the guarantee amount, not the loan limit — lenders still qualify borrowers based on income, debts, and credit.`,
+      `Yes. The VA loan can be used multiple times. Full entitlement is restored when the home bought with the prior VA loan is sold and the loan paid in full, or when a qualified Veteran buyer assumes the loan and substitutes their entitlement. There is also a one-time restoration if you've repaid the prior loan in full, even if you keep the home. If a prior VA loan still uses part of your entitlement, VA's rule for what's left is 25% of the county's One-Unit loan limit minus the entitlement already used, and most lenders lend up to 4 times that with no down payment. After your first use, the funding fee with less than 5% down is ${pct(FEE.subsequent.lt5)} instead of ${pct(FEE.first.lt5)}. Veterans receiving VA disability compensation don't pay the funding fee on any use. With full entitlement there's no VA loan limit, but lenders still approve the loan based on your credit, income, debts and assets.`,
   },
   {
     question: 'How does BAH factor into a VA loan?',
@@ -110,7 +111,7 @@ const FAQS = [
 // ── Tracked links (V3b) ───────────────────────────────────────────────────────
 
 /**
- * Every link on this hub to the VA loan or VA refinance calculator sends
+ * Every link on this hub to the VA loan, VA entitlement (V2) or VA refinance calculator sends
  * calc_deeplink_click (`guide`, placement `hub`). Any other href (the card and
  * related-calculator maps also hold /calculators/va-disability, /bah and
  * /calculators/total-compensation) renders a plain <Link>.
@@ -121,7 +122,9 @@ function HubLink({ href, ...rest }: ComponentProps<typeof Link>) {
     ? ('va-loan' as const)
     : path.startsWith('/calculators/va-refinance')
       ? ('va-refinance' as const)
-      : null;
+      : path.startsWith('/calculators/va-entitlement')
+        ? ('va-entitlement' as const)
+        : null;
   if (!to) return <Link href={href} {...rest} />;
   return <TrackedLink href={href} fromPageType="guide" toCalculator={to} placement="hub" {...rest} />;
 }
@@ -425,27 +428,32 @@ const ACCORDION = [
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
           <strong className="text-zinc-800">Entitlement is not how much you can borrow.</strong>{' '}
-          It is the amount the VA will guarantee to the lender — roughly 25% of the loan
-          amount. With full entitlement (no outstanding VA loans), VA does not impose a loan
-          limit, but the lender still determines how much you can afford based on income,
-          debts, credit, and the property value.
+          It is the part of the loan VA guarantees to the lender: for loans above{' '}
+          {usd(BASIC_ENTITLEMENT_MAX_LOAN)}, up to 25% of the loan amount. With full entitlement, VA
+          says you don&apos;t have a loan limit, but the lender still has to approve the loan (your
+          credit, income, debts and assets) and the appraisal has to support the price.
         </p>
         <p>
-          <strong className="text-zinc-800">Partial entitlement</strong> occurs when you have
-          an active VA loan without full entitlement restoration. In this case, county loan
-          limits and the 25% guaranty calculation may affect whether a down payment is needed
-          on a second VA loan.
+          <strong className="text-zinc-800">Remaining entitlement:</strong>{' '}if a prior VA loan still
+          uses part of your entitlement, VA&apos;s rule for what&apos;s left is 25% of the county&apos;s
+          One-Unit loan limit (FHFA&apos;s conforming loan limit) minus the entitlement already used. Most
+          lenders lend up to 4 times your remaining entitlement with no down payment; for a larger loan,
+          most lenders want your entitlement and a down payment together to cover at least 25% of the loan.
         </p>
         <p><strong className="text-zinc-800">Restoring entitlement:</strong></p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li><strong className="text-zinc-800">Standard restoration:</strong> Pay off the prior VA loan and sell the property — full entitlement restores automatically</li>
-          <li><strong className="text-zinc-800">One-time restoration:</strong> Pay off the loan even if you keep the property — available once</li>
+          <li><strong className="text-zinc-800">Sell and pay off:</strong>{' '}the home bought with the prior VA loan is sold and the loan paid in full</li>
+          <li><strong className="text-zinc-800">Assumption with substitution:</strong>{' '}a qualified Veteran buyer assumes the loan and substitutes their entitlement</li>
+          <li><strong className="text-zinc-800">One-time restoration:</strong>{' '}the prior VA loan is repaid in full, even if you keep the home (once only)</li>
         </ul>
         <p>
           {`After your first use, the funding fee with less than 5% down is ${pct(FEE.subsequent.lt5)} instead of ${pct(FEE.first.lt5)}.`}{' '}
           Veterans receiving VA disability compensation don&apos;t pay the funding fee on any use.
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 pt-1">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 pt-1">
+          <HubLink href="/calculators/va-entitlement" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
+            Check your remaining entitlement by county →
+          </HubLink>
           <HubLink href="/calculators/va-loan" className="inline-flex items-center text-sm font-semibold text-red-700 hover:text-red-800 transition-colors">
             Estimate payment for a subsequent-use VA loan →
           </HubLink>
@@ -533,6 +541,13 @@ const RELATED_CALCULATORS = [
     label: 'Calculator',
     title: 'VA Loan Payment Calculator',
     description: 'Estimate your monthly payment, funding fee, and optional BAH comparison.',
+  },
+  {
+    href: '/calculators/va-entitlement',
+    border: 'border-l-amber-500',
+    label: 'Calculator',
+    title: 'VA Loan Entitlement Calculator',
+    description: 'Keeping a home with a VA loan? See your remaining entitlement and $0-down buying power by county.',
   },
   {
     href: '/calculators/va-disability',
@@ -930,7 +945,7 @@ export default function VAHomeLoansGuidePage() {
               <div className="w-8 h-0.5 bg-red-700 rounded-full mb-4" aria-hidden="true" />
               <h2 className="text-xl font-black text-zinc-900 tracking-tight">Start with these VA loan calculators</h2>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
               {RELATED_CALCULATORS.map(({ href, border, label, title, description }) => (
                 <HubLink
                   key={href}
