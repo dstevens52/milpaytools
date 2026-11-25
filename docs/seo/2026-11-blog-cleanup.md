@@ -32,9 +32,16 @@ Pair 6: both posts get almost nothing; the fuller post (`scra-mla-protections-ne
 
 ## Part A2 (S7b): three more merges
 
-Same method as Part A (branch `seo/s7b-blog-merges`; report `S7B_REPORT.md`). **Merge date: fill in at
-merge** (content dated 2026-11-23). The Jan 18, 2027 read-out covers A2 too: compare the same windows; if
-A2 merges after Nov 23, its weeks 5–8 end later than Part A's, so note the dates used.
+Same method as Part A (branch `seo/s7b-blog-merges`; report `S7B_REPORT.md`). **Merge date:
+2026-11-25.** PR #90, merge commit `b2c17e1` (merged 19:33 UTC; content dated 2026-11-23). Confirmed live in
+production the same day: all 3 old URLs return 308 to their kept pages; `/calculators/transition-readiness`
+title, H1 and meta description unchanged; `/blog/deployment-pay-explained` shows one E-6 base pay ($4,760 in
+both tables, after the review fix made the older 12-month table compute from the deployment lib). IndexNow
+sent the same day (HTTP 200), 12 URLs: the 3 kept pages, the 3 redirected URLs, the pages that gained links
+(`how-to-read-your-les`, `/guides/retirement-tsp`, `/calculators/retirement`; `deployment-pay-explained` is
+also a kept page), `tsp-for-beginners-what-happens-if-you-do-nothing`, `/calculators/education` and `/llms.txt`.
+The Jan 18, 2027 read-out covers A2 too: compare the same windows. A2 merged Nov 25, two days after
+Part A, so its 8 weeks end Wed Jan 20, 2027; note the dates used.
 
 Source: Claude Chat, GSC, Aug 24 – Nov 21, 2026 (impressions, 90 days).
 
