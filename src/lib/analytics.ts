@@ -286,7 +286,9 @@ export type DeepLinkFromPage =
   | 'blog'
   | 'bah-hub'
   // V2: the VA entitlement calculator's "Estimate the full payment" link.
-  | 'va-entitlement-calculator';
+  | 'va-entitlement-calculator'
+  // P1: the /pay/raise result's "See my full military pay" link.
+  | 'pay-raise';
 /** Calculators those links open. */
 export type DeepLinkToCalculator = 'total-compensation' | 'pay-raise' | 'va-loan' | 'va-entitlement' | 'va-refinance';
 /**
