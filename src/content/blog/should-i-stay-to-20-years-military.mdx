@@ -2,8 +2,8 @@
 title: "Should I Stay to 20 Years? The Retirement Math"
 slug: should-i-stay-to-20-years-military
 date: "2026-04-09"
-updated: "2026-11-20"
-description: "At 10–15 years, you're close enough to a pension worth $1M+ that the math matters enormously. Here's a clear-eyed look at the numbers — including what you'd need to earn in the civilian world to match it."
+updated: "2026-11-25"
+description: "At 10–15 years, you're close enough to a lifetime pension that the math matters enormously. Here's a clear-eyed look at the numbers — including what you'd need to earn in the civilian world to match it."
 category: Career Transition
 calculators:
   - retirement
@@ -14,14 +14,14 @@ author: Dan Stevens
 guide: retirement-tsp
 ---
 
-Reaching 20 years of active duty unlocks an immediate pension — for an E-7 under High-3, approximately $3,059/month beginning at retirement, typically around age 38–40, with annual cost-of-living adjustments for life. There is no partial vesting at 10, 12, or 15 years under regular longevity retirement: every year short of 20 produces $0 pension rather than a reduced one, which is why the gap between 19 years and 20 years is one of the largest financial cliffs in any compensation system. The math strongly favors reaching 20 for most members in the twelve-to-nineteen-year window, but it cannot capture personal circumstances, quality of life, or post-service career trajectory — those inputs belong to the individual making the decision.
+Reaching 20 years of active duty unlocks an immediate pension — for an E-7 under High-3 retiring at 20 years, <RetirementFigure name="high3Pension" />/month beginning at retirement, typically around age 38–40, with annual cost-of-living adjustments for life. There is no partial vesting at 10, 12, or 15 years under regular longevity retirement: every year short of 20 produces $0 pension rather than a reduced one, which is why the gap between 19 years and 20 years is one of the largest financial cliffs in any compensation system. The math strongly favors reaching 20 for most members in the twelve-to-nineteen-year window, but it cannot capture personal circumstances, quality of life, or post-service career trajectory — those inputs belong to the individual making the decision.
 
 <QuickAnswer>
-  <QAItem>An E-7 at 20 years under High-3 receives approximately $3,059/month in pension — for life, starting immediately at retirement</QAItem>
-  <QAItem>At 2.5% annual COLA and an average life expectancy of 78, that pension has a nominal lifetime value of approximately $2M+</QAItem>
-  <QAItem>Under BRS, the pension is 20% lower (~$2,447/month at 20 years for E-7) but TSP matching adds a portable savings component</QAItem>
+  <QAItem>An E-7 at 20 years under High-3 receives <RetirementFigure name="high3Pension" />/month in pension — for life, starting immediately at retirement</QAItem>
+  <QAItem>The pension rises each year with a cost-of-living adjustment; the Retirement Calculator projects its lifetime value for your grade and years</QAItem>
+  <QAItem>Under BRS, the pension is 20% lower (<RetirementFigure name="brsPension" />/month at 20 years for E-7) but TSP matching adds a portable savings component</QAItem>
   <QAItem>The "golden handcuffs" zone is 12–19 years: too invested to leave easily, not yet vested — this is when the math analysis matters most</QAItem>
-  <QAItem>Walking away at 15 years means forfeiting a pension worth $1M+ in lifetime value — with no partial vesting under High-3</QAItem>
+  <QAItem>Walking away at 15 years means forfeiting the whole pension — there is no partial vesting under High-3</QAItem>
   <QAItem>Healthcare replacement after separation is a real cost often underweighted in civilian salary comparisons: the average employer family plan costs an employee <TricareFigure path="comparison.employerAvgEmployeePremium" format="dollars" /> a year in premiums (Kaiser Family Foundation 2026 survey, as TRICARE reports it)</QAItem>
   <QAItem>Each year beyond 20 adds approximately 2.5% (High-3) or 2.0% (BRS) of your High-3 average to the multiplier — permanently</QAItem>
   <QAItem>This is not career advice. Your personal situation, mental health, family, and career goals matter enormously and cannot be captured in a financial analysis alone.</QAItem>
@@ -43,42 +43,34 @@ Under **High-3** (the legacy system), your monthly pension is:
 
 The High-3 average is the mean of your highest 36 months of base pay — typically your final three years.
 
-For an [E-7](/pay/e7) retiring at 20 years using 2026 pay tables:
-- Base pay at ~20 years of service: approximately $6,177–$6,246/month
-- High-3 average (years 18, 19, 20): approximately $6,118/month
-- Pension: 50% × $6,118 = **~$3,059/month** ($36,708/year)
+For an [E-7](/pay/e7) retiring at exactly 20 years using <PayYear /> pay tables:
+- The last 36 months of base pay: <High3Breakdown />
+- High-3 average: <RetirementFigure name="high3Average" />/month
+- Pension: 50% × <RetirementFigure name="high3Average" /> = **<RetirementFigure name="high3Pension" />/month** (<RetirementFigure name="high3Annual" format="dollars" />/year)
 
 Under **BRS**, the multiplier drops to 2.0%:
-- Same High-3 average: $6,118/month
-- Pension: 40% × $6,118 = **~$2,447/month** ($29,364/year)
+- Same High-3 average: <RetirementFigure name="high3Average" />/month
+- Pension: 40% × <RetirementFigure name="high3Average" /> = **<RetirementFigure name="brsPension" />/month** (<RetirementFigure name="brsAnnual" format="dollars" />/year)
 
 But BRS members have TSP matching — up to 5% of base pay from DoD — growing in a portable account that belongs to them regardless of whether they reach 20 years.
 
 <CalculatorCallout calculator="retirement" text="Run the exact numbers for your rank and years of service — High-3 and BRS pension, lifetime value, TSP projection, and the civilian salary you'd need to replace it." />
 
-## Why is a military pension worth millions of dollars in lifetime value?
+## How should you value a military pension over a lifetime?
 
 A monthly pension payment for life, with annual cost-of-living adjustments, is not just income — it's an asset. Evaluated like one, its value becomes clearer.
 
-An E-7 retiring at 20 years is approximately 39 years old (assuming entry at ~19). With a life expectancy of 78, that's approximately 39 years of pension payments. At 2.5% annual COLA:
+An E-7 retiring at 20 years is approximately 39 years old (assuming entry at ~19), so the pension can pay for decades. The first year pays <RetirementFigure name="high3Annual" format="dollars" /> under High-3 (<RetirementFigure name="brsAnnual" format="dollars" /> under BRS), and each year's cost-of-living adjustment raises it from there. What it adds up to depends on how long you collect it and on future COLAs, so treat any lifetime total as a projection: the [Retirement Calculator](/calculators/retirement) projects it for your grade, years and retirement age.
 
-- Year 1: $36,708/year
-- Year 10: ~$46,600/year
-- Year 20: ~$59,200/year
-- Year 39 (age 78): ~$93,600/year
-- **Nominal lifetime total: approximately $2M+**
+Under BRS, the pension alone is 20% lower, but the TSP balance at retirement (which belongs to the veteran regardless of service length) adds to the total picture.
 
-Under BRS, the pension alone is approximately 20% lower — roughly $1.5–1.6M in nominal lifetime value — but the TSP balance at retirement (which belongs to the veteran regardless of service length) adds to the total picture.
-
-These are nominal values without discounting. Present-value calculations produce lower numbers. The point is the order of magnitude: vesting a military pension is the equivalent of building and annuitizing a significant asset — one that most private-sector workers spend decades trying to create and frequently fail to achieve.
-
-To generate $3,059/month in retirement income from a portfolio using the 4% withdrawal rule, you'd need approximately **$918,000 in savings**. That's what you're receiving as a pension — a funded, guaranteed annuity — the day you reach 20 years.
+Vesting a military pension is the equivalent of building and annuitizing a significant asset — one that most private-sector workers spend decades trying to create and frequently fail to achieve. You receive it as a funded, guaranteed annuity the day you reach 20 years.
 
 ## Why is the 12–19 year zone the most financially critical in a military career?
 
 Between 12 and 19 years, the decision calculus is particularly sharp. You've invested too much time to leave easily, and you're close enough to vesting that the math strongly favors staying — assuming the career is sustainable.
 
-Consider someone at 15 years. They're 5 years from a pension worth $2M+ in lifetime nominal value. Under High-3, walking away at 15 years means receiving **$0** in pension — there is no partial vesting. BRS members do keep their TSP balance and any government matching, but the pension itself is all-or-nothing at 20 years.
+Consider someone at 15 years. They're 5 years from a pension that pays for life. Under High-3, walking away at 15 years means receiving **$0** in pension — there is no partial vesting. BRS members do keep their TSP balance and any government matching, but the pension itself is all-or-nothing at 20 years.
 
 The lifetime cost of leaving at 15 years is enormous. That cost doesn't make the decision wrong in every case — but it should be explicit in your thinking, not rationalized away.
 
@@ -90,9 +82,9 @@ For those already at or past 20 years, the calculation shifts. The pension is ve
 
 Each additional year adds 2.5% (High-3) or 2.0% (BRS) of your High-3 average to the pension multiplier — permanently.
 
-For an E-7 with a High-3 average of $6,118/month:
-- Each additional year adds: 2.5% × $6,118 = **$153/month** in pension
-- Over 39 years of collection: **$71,000+ in additional lifetime pension payments** per additional year served
+For an E-7 with a High-3 average of <RetirementFigure name="high3Average" />/month:
+- Each additional year adds: 2.5% × <RetirementFigure name="high3Average" /> = **<RetirementFigure name="perExtraYear" />/month** in pension
+- That's <RetirementFigure name="perExtraYearTotal" years="1" format="dollars" /> a year before COLA, for as long as you collect it
 
 That's the financial value of one more year. It doesn't include the additional base pay, BAH, and benefits you receive while serving that year. It's just the incremental pension value.
 
@@ -112,7 +104,7 @@ The common framing is: "I can make $90,000 in the civilian world vs. my $60,000 
 
 **First civilian jobs often pay less than expected.** Military skills and leadership translate, but the first civilian role often requires time for employers to understand your background. Many veterans find their first civilian salary is below what they expected, with compensation increasing after 1–3 years as they establish a track record.
 
-**The pension comparison requires gross-up.** To replace $3,059/month in pension income from civilian employment and savings, you'd need to generate that amount in addition to your regular income — or have $918,000 saved specifically for that purpose. Most civilians don't achieve that by their 40s.
+**The pension comparison requires gross-up.** To replace <RetirementFigure name="high3Pension" />/month in pension income from civilian employment and savings, you'd need to generate that amount in addition to your regular income, or have enough saved to produce it. The [Retirement Calculator](/calculators/retirement) shows the civilian salary you'd need to replace the pension for your grade and years.
 
 <CalculatorCallout calculator="total-compensation" text="Calculate your full military compensation — base pay, BAH, BAS, TSP match, and the civilian salary equivalent — to understand what you're actually comparing against civilian offers." />
 
@@ -128,7 +120,7 @@ There are scenarios where separating before 20 makes financial sense — even kn
 
 ## When the math says staying is probably right
 
-**At 15+ years under High-3.** You're five years from a $2M+ lifetime asset. Unless you have a specific, concrete plan with realistic numbers that beat that, the default financial answer is to stay.
+**At 15+ years under High-3.** You're five years from a pension that pays for life. Unless you have a specific, concrete plan with realistic numbers that beat it, the default financial answer is to stay.
 
 **Without a specific civilian plan.** "I want to get out" is not a financial plan. If you don't know what you'd do or what you'd earn, you're comparing a certain pension to an uncertain future. That's not a trade that favors separation.
 

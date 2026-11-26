@@ -59,8 +59,10 @@ const KEPT: { slug: string; title: string; faqCount: number; dropped: string[] }
     slug: 'pcs-financial-planning-guide',
     title: 'PCS Financial Planning: Month-by-Month Guide',
     faqCount: 0,
-    // DLA E-6 figure, the out-of-pocket and buffer ranges, and the PPM dollar figure (build 07 rule).
-    dropped: ['$3,548.02', '$1,000–$5,000', '$2,000–$3,000', '$2,000–$5,000'],
+    // The out-of-pocket and buffer ranges, and the PPM dollar figure (build 07 rule). The typed DLA
+    // E-6 figure ($3,548.02) was dropped in S7; since S8 the post's DLA table is computed from the
+    // PCS rate file (s8-typed-figures.spec.ts), so that value appears again as a table cell.
+    dropped: ['$1,000–$5,000', '$2,000–$3,000', '$2,000–$5,000'],
   },
 ];
 
@@ -128,13 +130,16 @@ test.describe('S7 kept posts', () => {
     );
   });
 
-  test('kept posts carry the merge date in their Article schema', async ({ page }) => {
+  // S8 (typed figures, 2026-11-25) changed four of the kept posts after the merge.
+  const S8_UPDATED = new Set(['how-to-read-your-les', 'deployment-pay-explained', 'is-sgli-enough-life-insurance', 'pcs-financial-planning-guide']);
+
+  test('kept posts carry the merge date (or the later S8 date) in their Article schema', async ({ page }) => {
     for (const { slug } of KEPT) {
       await page.goto(`/blog/${slug}`);
       const raw = await page.locator('script[type="application/ld+json"]').allTextContents();
       const article = raw.map((r) => JSON.parse(r)).find((b) => b['@type'] === 'Article');
       expect(article, slug).toBeTruthy();
-      expect(article.dateModified, slug).toBe('2026-11-23T00:00:00-05:00');
+      expect(article.dateModified, slug).toBe(S8_UPDATED.has(slug) ? '2026-11-25T00:00:00-05:00' : '2026-11-23T00:00:00-05:00');
     }
   });
 });

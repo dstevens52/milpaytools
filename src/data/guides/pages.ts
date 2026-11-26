@@ -54,7 +54,7 @@ export const GUIDE_PAGES: GuidePage[] = [
     description:
       'Base pay tables, BAH by ZIP code, BAS, tax advantages, COLA, and how the pieces add up to total compensation — with the calculators for each.',
     category: 'Compensation & Pay',
-    date: '2026-11-20', // C2: BAS computed, TRICARE bullet from the KFF employer average
+    date: '2026-11-25', // S8: BAS, BAH ranges and the pay examples computed; TC-02 figures cut
     readTime: 18,
     calculators: ['total-compensation', 'bah', 'pay-charts', 'cola', 'deployment', 'guard-reserve'],
   },

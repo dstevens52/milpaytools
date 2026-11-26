@@ -2,7 +2,7 @@
 title: "Deployment Pay Explained: Every Dollar You Earn Downrange"
 slug: deployment-pay-explained
 date: "2026-05-27"
-updated: "2026-11-23"
+updated: "2026-11-25"
 description: "Combat zone tax exclusion, hostile fire pay, family separation, hardship duty, and SDP — here's every pay component that kicks in during a deployment and what it actually adds up to."
 category: Compensation & Pay
 calculators:
@@ -83,14 +83,14 @@ Base pay continues at your current grade. BAH generally continues based on your 
 
 CZTE deserves its own section because most service members underestimate it.
 
-At the E-6 level (10 years), federal income tax on base pay alone is about $389/month filing single, or about $208/month married filing jointly on one income (2026 brackets and standard deduction). A 12-month deployment excludes a full year of that pay, so you keep about $4,670 (single) or $2,490 (joint) that would otherwise have gone to the IRS — more if IDP or other taxable special pays would have been taxed. On a shorter deployment the saving per month is usually higher, because the excluded months come off the top of the year's income.
+At the E-6 level (10 years), federal income tax on base pay alone is about <CzteBasePayFigure name="monthlyTax" grade="E-6" yos="10" filing="single" />/month filing single, or about <CzteBasePayFigure name="monthlyTax" grade="E-6" yos="10" filing="mfj" />/month married filing jointly on one income (<CzteBasePayFigure name="years" grade="E-6" yos="10" filing="single" />; an estimate, by the deployment calculator's method). A 12-month deployment excludes a full year of that pay, so you keep about <CzteBasePayFigure name="savings12" grade="E-6" yos="10" filing="single" /> (single) or <CzteBasePayFigure name="savings12" grade="E-6" yos="10" filing="mfj" /> (joint) that would otherwise have gone to the IRS — more if IDP or other taxable special pays would have been taxed. On a shorter deployment the saving per month is usually higher, because the excluded months come off the top of the year's income.
 
 For a senior NCO or officer, the savings are larger. For someone whose spouse is also working and they file jointly in a higher bracket, the effective savings per month are higher still.
 
-**Example — E-7 with 12 years, filing jointly on one income:**
-- Base pay: ~$5,592/month
-- Federal income tax on base pay alone in normal months: ~$308/month
-- CZTE savings over 12 months: about $3,690 (more with IDP, or if a working spouse's income puts the household in a higher bracket)
+**Example — E-7 with 12 years, filing jointly on one income (<CzteBasePayFigure name="years" grade="E-7" yos="12" filing="mfj" />):**
+- Base pay: <CzteBasePayFigure name="basePay" grade="E-7" yos="12" filing="mfj" />/month
+- Federal income tax on base pay alone in normal months: about <CzteBasePayFigure name="monthlyTax" grade="E-7" yos="12" filing="mfj" />/month (estimate)
+- CZTE savings over 12 months: about <CzteBasePayFigure name="savings12" grade="E-7" yos="12" filing="mfj" /> (more with IDP, or if a working spouse's income puts the household in a higher bracket)
 
 That benefit doesn't show up anywhere on your LES as a line item — it simply doesn't appear as a deduction.
 

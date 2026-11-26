@@ -8,6 +8,18 @@ import { Disclaimer } from '@/components/calculators/shared/Disclaimer';
 import { BAS_RATES } from '@/data/constants';
 import { OFFICIAL_COMPARISON_2027 } from '@/data/tricare/2027/openSeason';
 import { formatCurrency } from '@/lib/utils';
+import { CURRENT_PAY_POST_DATA, usd0, usdCents } from '@/lib/payPost';
+import { GUIDE_EXAMPLES, bahRangeForGrade, payBahExample } from '@/lib/militaryPayGuide';
+
+// S8: figures computed from the pay table, BAS_RATES and the BAH data (src/lib/militaryPayGuide.ts).
+const PAY_YEAR = CURRENT_PAY_POST_DATA.year;
+const BAS_ENLISTED = usdCents(BAS_RATES.enlisted);
+const BAS_OFFICER = usdCents(BAS_RATES.officer);
+const BAH_E5 = bahRangeForGrade('E-5');
+const BAH_O3 = bahRangeForGrade('O-3');
+const BAH_O5 = bahRangeForGrade('O-5');
+const JBLM = payBahExample(GUIDE_EXAMPLES.jblm.zip, GUIDE_EXAMPLES.jblm.grade, GUIDE_EXAMPLES.jblm.yos, { withTspMatch: true });
+const CARSON = payBahExample(GUIDE_EXAMPLES.fortCarson.zip, GUIDE_EXAMPLES.fortCarson.grade, GUIDE_EXAMPLES.fortCarson.yos, { withTspMatch: false });
 
 const TITLE = 'Military Pay Guide 2026: Base Pay, BAH & BAS';
 const DESC =
@@ -47,12 +59,12 @@ const FAQS = [
   {
     question: 'How does BAH work and why does it vary so much?',
     answer:
-      'BAH (Basic Allowance for Housing) is a monthly payment excluded from federal taxable income, set by the Defense Travel Management Office based on your duty station ZIP code, pay grade, and dependent status. DTMO surveys local rental markets and sets rates to cover approximately 95% of median local rental costs. An E-5 with dependents can receive from $1,185/month in a low-cost area to $5,127/month in high-cost markets. At the 22% federal bracket, $2,500/month in BAH is worth $3,205/month in equivalent taxable civilian wages.',
+      `BAH (Basic Allowance for Housing) is a monthly payment excluded from federal taxable income, set by the Defense Travel Management Office based on your duty station ZIP code, pay grade, and dependent status. DTMO surveys local rental markets and sets rates to cover approximately 95% of median local rental costs. In ${BAH_E5.year}, an E-5 with dependents can receive from ${usd0(BAH_E5.min)}/month in a low-cost area to ${usd0(BAH_E5.max)}/month in high-cost markets. At the 22% federal bracket, $2,500/month in BAH is worth $3,205/month in equivalent taxable civilian wages.`,
   },
   {
     question: 'What are BAS, CONUS COLA, and special pays?',
     answer:
-      'BAS (Basic Allowance for Subsistence) is a flat monthly food allowance: $476.95 for enlisted, $328.48 for officers in 2026. It is excluded from federal taxable income and does not vary by location. CONUS COLA is a supplemental allowance for high-cost CONUS duty stations where BAH alone does not cover the full cost-of-living differential. Special and incentive pays include Hazardous Duty Pay ($150–$275/month), Special Duty Assignment Pay ($75–$675/month), Aviation Career Incentive Pay (up to $1,000/month), and Career Sea Pay ($70–$805/month).',
+      `BAS (Basic Allowance for Subsistence) is a flat monthly food allowance: ${BAS_ENLISTED} for enlisted, ${BAS_OFFICER} for officers in ${PAY_YEAR}. It is excluded from federal taxable income and does not vary by location. CONUS COLA is a supplemental allowance for high-cost CONUS duty stations where BAH alone does not cover the full cost-of-living differential. Special and incentive pays include Hazardous Duty Pay ($150–$275/month), Special Duty Assignment Pay ($75–$675/month), Aviation Career Incentive Pay (up to $1,000/month), and Career Sea Pay ($70–$805/month).`,
   },
   {
     question: 'How do I read my LES (Leave and Earnings Statement)?',
@@ -67,7 +79,8 @@ const FAQS = [
   {
     question: 'What would a civilian need to earn to match military pay?',
     answer:
-      "To calculate civilian salary equivalence, combine base pay plus the taxable equivalent of allowances excluded from federal taxable income. Example — E-5 with 6 years, JBLM, with dependents: base pay $4,110/month + BAH $2,556/month + BAS $476.95/month + TSP match ~$206/month = $7,348/month ($88,176/year). At the 22% federal bracket, a civilian would need roughly $110,000–$120,000/year in gross wages to match this. Most E-5s underestimate their total package by 40–60% when looking only at base pay.",
+      // S8: the typed salary range and the underestimate percentage are cut until the TC-02 tax-advantage decision (FIX_QUEUE row 10).
+      'Add up every layer, not just base pay: base pay, BAH, BAS, and any BRS TSP match. Then account for taxes: BAH and BAS are excluded from federal taxable income, so a civilian has to earn more than that total in taxable wages to keep the same amount after tax. How much more depends on your tax bracket, state of residence and filing status, and on benefits such as TRICARE that a civilian employer may not match. The Military Pay Calculator works out the civilian salary equivalent for your grade, years of service and duty station.',
   },
 ];
 
@@ -90,7 +103,11 @@ const PAY_LAYERS = [
     title: 'Housing Allowance (BAH)',
     description:
       'A monthly payment excluded from federal taxable income, based on your duty station ZIP code. This is where most of the hidden compensation lives.',
-    bullets: ['~$1,200/mo to $5,100+/mo by location', 'Excluded from federal taxable income', 'Not on your W-2'],
+    bullets: [
+      `E-5 with dependents (${BAH_E5.year}): ${usd0(BAH_E5.min)} to ${usd0(BAH_E5.max)}/mo by location`,
+      'Excluded from federal taxable income',
+      'Not on your W-2',
+    ],
     cta: 'Look up your BAH →',
     href: '/bah',
   },
@@ -103,7 +120,8 @@ const PAY_LAYERS = [
     bullets: [
       `BAS: ${formatCurrency(BAS_RATES.enlisted, true)}/mo (enlisted)`,
       'TSP match: up to 5% base pay (BRS)',
-      'Tax advantage: $5K–$15K+/yr',
+      // S8: the typed tax-advantage range is cut until the TC-02 tax-advantage decision (FIX_QUEUE row 10).
+      'Tax advantage: BAH and BAS excluded from federal taxable income',
       `TRICARE: $0 premiums for active duty (employer family plans average ${formatCurrency(OFFICIAL_COMPARISON_2027.employerAvgEmployeePremium)}/yr in employee premiums)`,
     ],
     cta: 'See your full picture →',
@@ -157,11 +175,11 @@ const ACCORDION = [
           your pay grade, with a built-in 5% cost-sharing assumption. That&apos;s why a sergeant in
           San Diego and a sergeant in rural Georgia receive completely different rates.
         </p>
-        <p><strong className="text-zinc-800">2026 BAH range with dependents:</strong></p>
+        <p><strong className="text-zinc-800">{BAH_E5.year} BAH range with dependents:</strong></p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li>E-5: $1,185/mo (low-cost) to $5,127/mo (San Francisco area)</li>
-          <li>O-3: $1,686/mo to $6,633/mo</li>
-          <li>O-5: $1,827/mo to $8,064/mo</li>
+          <li>{`E-5: ${usd0(BAH_E5.min)}/mo (low-cost) to ${usd0(BAH_E5.max)}/mo${BAH_E5.maxArea ? ` (${BAH_E5.maxArea} area)` : ''}`}</li>
+          <li>{`O-3: ${usd0(BAH_O3.min)}/mo to ${usd0(BAH_O3.max)}/mo`}</li>
+          <li>{`O-5: ${usd0(BAH_O5.min)}/mo to ${usd0(BAH_O5.max)}/mo`}</li>
         </ul>
         <p>
           <strong className="text-zinc-800">The tax exclusion advantage:</strong> BAH is excluded from
@@ -192,9 +210,9 @@ const ACCORDION = [
       <div className="space-y-3 text-sm text-zinc-600 leading-relaxed">
         <p>
           <strong className="text-zinc-800">BAS (Basic Allowance for Subsistence)</strong> is a flat
-          monthly rate that does not vary by location or number of dependents. 2026 rates:{' '}
-          <strong className="text-zinc-800">$476.95/month enlisted</strong>,{' '}
-          <strong className="text-zinc-800">$328.48/month officers</strong>. Like BAH, it is
+          monthly rate that does not vary by location or number of dependents. {PAY_YEAR} rates:{' '}
+          <strong className="text-zinc-800">{BAS_ENLISTED}/month enlisted</strong>,{' '}
+          <strong className="text-zinc-800">{BAS_OFFICER}/month officers</strong>. Like BAH, it is
           excluded from federal taxable income.
         </p>
         <p>
@@ -285,19 +303,25 @@ const ACCORDION = [
           layers. Here&apos;s a representative example:
         </p>
         <p>
-          <strong className="text-zinc-800">E-5 with 6 years, Joint Base Lewis-McChord, with dependents:</strong>
+          <strong className="text-zinc-800">{`E-5 with 6 years, ${GUIDE_EXAMPLES.jblm.label}, with dependents (${JBLM.year} rates):`}</strong>
         </p>
         <ul className="space-y-1 pl-4 list-disc">
-          <li>Base pay: $4,110/month</li>
-          <li>BAH (with dependents): $2,556/month</li>
-          <li>BAS: $476.95/month</li>
-          <li>BRS TSP matching (~5% contribution): ~$206/month</li>
-          <li><strong className="text-zinc-800">Total: $7,348/month — $88,176/year</strong></li>
+          <li>{`Base pay: ${usdCents(JBLM.basePay)}/month`}</li>
+          <li>{`BAH (with dependents): ${usd0(JBLM.bah)}/month`}</li>
+          <li>{`BAS: ${usdCents(JBLM.bas)}/month`}</li>
+          <li>{`BRS TSP matching (5% contribution): ${usdCents(JBLM.tspMatch)}/month`}</li>
+          <li><strong className="text-zinc-800">{`Total: ${usd0(JBLM.total)}/month — ${usd0(JBLM.total * 12)}/year`}</strong></li>
         </ul>
+        {/* S8: the typed civilian-salary range is cut until the TC-02 tax-advantage decision (FIX_QUEUE row 10). */}
         <p>
-          At the 22% federal bracket, a civilian would need roughly{' '}
-          <strong className="text-zinc-800">$110,000–$120,000/year in gross wages</strong>{' '}to match
-          this — and that&apos;s before accounting for subsidized TRICARE health coverage.
+          Because BAH and BAS are excluded from federal taxable income, a civilian would need more
+          than that total in taxable wages to match it, and that&apos;s before accounting for
+          subsidized TRICARE health coverage. How much more depends on your tax bracket, state and
+          filing status: the{' '}
+          <Link href="/calculators/total-compensation" className="font-medium text-red-700 hover:text-red-800 transition-colors">
+            Military Pay Calculator
+          </Link>{' '}
+          works it out for your numbers.
         </p>
         <p className="text-xs text-zinc-400 italic">
           Illustrative estimate. Actual equivalence depends on individual tax situation, state of
@@ -511,13 +535,13 @@ export default function MilitaryPayGuidePage() {
                     <p className="text-xs text-zinc-500 font-medium">E-5 · 6 years · Fort Carson, CO</p>
                     <p className="text-sm font-semibold text-zinc-800">Total Compensation Breakdown</p>
                   </div>
-                  <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">2026 rates</span>
+                  <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">{CARSON.year} rates</span>
                 </div>
                 <div className="px-5 py-1 divide-y divide-zinc-100">
                   {[
-                    { label: 'Base Pay', value: '$4,110.00' },
-                    { label: 'BAH (w/ dependents)', value: '$2,358' },
-                    { label: 'BAS', value: '$476.95' },
+                    { label: 'Base Pay', value: usdCents(CARSON.basePay) },
+                    { label: 'BAH (w/ dependents)', value: usd0(CARSON.bah) },
+                    { label: 'BAS', value: usdCents(CARSON.bas) },
                   ].map(({ label, value }) => (
                     <div key={label} className="flex items-center justify-between py-2.5">
                       <span className="text-sm text-zinc-600">{label}</span>
@@ -528,11 +552,12 @@ export default function MilitaryPayGuidePage() {
                 <div className="mx-5 my-3 rounded-lg bg-red-50 border border-red-200 px-4 py-3 flex items-center justify-between">
                   <div>
                     <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Total Monthly</p>
-                    <p className="text-2xl font-bold tabular-nums text-red-700">$6,945</p>
+                    <p className="text-2xl font-bold tabular-nums text-red-700">{usd0(CARSON.total)}</p>
                   </div>
+                  {/* S8: the typed civilian-equivalent figure is cut until the TC-02 tax-advantage decision (FIX_QUEUE row 10). */}
                   <div className="text-right">
-                    <p className="text-xs text-zinc-500">Civilian equivalent</p>
-                    <p className="text-sm font-semibold text-zinc-700">≈ $97,000 / yr</p>
+                    <p className="text-xs text-zinc-500">Per year</p>
+                    <p className="text-sm font-semibold text-zinc-700">{usd0(CARSON.total * 12)}</p>
                   </div>
                 </div>
                 <div className="px-5 pb-4">

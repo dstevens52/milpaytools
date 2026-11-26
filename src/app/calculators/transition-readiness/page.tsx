@@ -15,6 +15,9 @@ import { FILING_STATUS_LABEL } from '@/lib/calculations/transition-readiness';
 import { formatCurrency } from '@/lib/utils';
 import { ogImage } from '@/lib/og';
 import { CURRENT_VA_RATES } from '@/data/va-rates/registry';
+import { OFFICIAL_COMPARISON_2027 } from '@/data/tricare/2027/openSeason';
+import { TAMP_DAYS } from '@/data/separation/rules';
+import { usdWhole } from '@/lib/tricarePost';
 import Link from 'next/link';
 
 // Current VA rates for the prose below — the registry's current year, resolved at build time.
@@ -192,11 +195,7 @@ export default function TransitionReadinessPage() {
               a line item on your LES.
             </p>
             <p className="text-zinc-600 text-sm leading-relaxed">
-              When you separate, that coverage ends the day you leave. Replacing it for a family
-              costs $1,400–$2,000/month on the open market (KFF 2025 Employer Health Benefits
-              Survey, silver-tier marketplace). Even with an employer plan, your share of premiums
-              plus deductibles and copays can easily exceed $10,000/year for a family. Plan for it
-              before you separate, not after.
+              {`When you separate, that coverage ends unless you qualify for TAMP (${TAMP_DAYS} days of continued TRICARE starting on your separation date). Even with an employer plan, the average family plan costs an employee ${usdWhole(OFFICIAL_COMPARISON_2027.employerAvgEmployeePremium)} a year in premiums, with a ${usdWhole(OFFICIAL_COMPARISON_2027.employerAvgFamilyDeductible)} average family deductible (KFF 2026, as TRICARE reports it), before copays and coinsurance. Plan for it before you separate, not after.`}
             </p>
             <Link
               href="/calculators/healthcare-comparison"
@@ -307,7 +306,7 @@ export default function TransitionReadinessPage() {
               GI Bill housing allowance if you&apos;re planning to use education benefits post-separation — this can be a meaningful income source
             </li>
             <li>
-              TAMP (Transitional Assistance Management Program) — if you qualify, 180 days of continued TRICARE starting on your separation date;{' '}
+              {`TAMP (Transitional Assistance Management Program) — if you qualify, ${TAMP_DAYS} days of continued TRICARE starting on your separation date;`}{' '}
               verify eligibility before assuming you need to buy marketplace coverage immediately
             </li>
             <li>

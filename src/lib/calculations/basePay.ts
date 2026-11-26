@@ -10,14 +10,16 @@
  */
 
 import { payTable } from '@/data/pay-tables/2026';
+import type { PayTable } from '@/data/types';
 import { getYOSBracket } from '@/lib/utils';
 
 /**
  * Look up monthly basic pay for a grade + YOS combination.
- * Returns 0 if data is missing.
+ * Returns 0 if data is missing. `table` defaults to the current pay table; tests
+ * pass another year's table (S8 year-flip tests).
  */
-export function lookupBasePay(payGrade: string, yearsOfService: number): number {
-  const gradeTable = payTable[payGrade as keyof typeof payTable];
+export function lookupBasePay(payGrade: string, yearsOfService: number, table: PayTable = payTable): number {
+  const gradeTable = table[payGrade as keyof typeof table];
   if (!gradeTable) return 0;
 
   const yosBracket = getYOSBracket(yearsOfService);
