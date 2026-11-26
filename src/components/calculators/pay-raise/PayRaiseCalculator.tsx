@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import Link from 'next/link';
 import {
   ENLISTED_GRADES,
   WARRANT_GRADES,
@@ -21,7 +22,8 @@ import {
 } from '@/lib/calculations/payRaise';
 import { parseGrade, gradeToParam } from '@/lib/urlParams';
 import { formatCurrency } from '@/lib/utils';
-import { fireCalculatorEvent } from '@/lib/analytics';
+import { fireCalculatorEvent, fireDeepLinkEvent } from '@/lib/analytics';
+import { combinedPayBahYear } from '@/lib/combinedPayYear';
 import { usePreHydrationSync } from '@/components/calculators/shared/usePreHydrationSync';
 import { RankHelper } from '@/components/ui/RankHelper';
 
@@ -42,6 +44,17 @@ function parseGradeParam(raw: string | null): PayGrade | null {
 function yosText(y: number) {
   return y === 0 ? 'less than 2 years' : `${y} year${y === 1 ? '' : 's'}`;
 }
+
+/** "an E-5", "an O-3", "a W-2": E and O are read with a vowel sound, W ("double-u") isn't. */
+function gradeArticle(grade: PayGrade): 'a' | 'an' {
+  return grade.startsWith('W') ? 'a' : 'an';
+}
+
+/**
+ * The year the Military Pay Calculator totals use (the pay table's year, with
+ * that year's BAH). Flips with the January pay table; never typed.
+ */
+const HANDOFF_PAY_YEAR = combinedPayBahYear();
 
 const noopSubscribe = () => () => {};
 
@@ -199,6 +212,27 @@ export function PayRaiseCalculator() {
           <p className="text-xs text-zinc-500">
             Basic pay only. BAH and BAS are set separately and are excluded from federal taxable income.
           </p>
+
+          {/* P1: hand the reader to the Military Pay Calculator with grade and years filled in.
+              Current-year figures only (combinedPayBahYear), never a 2027 total. */}
+          <div
+            className="relative overflow-hidden rounded-lg border border-zinc-200 bg-white py-4 pl-5 pr-4 shadow-sm"
+            data-testid="raise-handoff"
+          >
+            <span className="absolute inset-y-0 left-0 w-[3px] bg-red-600" />
+            <p className="text-sm font-semibold text-zinc-900">Basic pay is only part of what you make.</p>
+            <p className="text-sm text-zinc-700 mt-1">
+              {`Add your duty station to see your full ${HANDOFF_PAY_YEAR} pay as ${gradeArticle(grade)} ${grade} with ${yosText(yos)} of service: base pay, BAH, BAS, the tax advantage, and the civilian salary it equals.`}
+            </p>
+            <Link
+              href={`/calculators/total-compensation?rank=${gradeToParam(grade)}&yos=${yos}`}
+              onClick={() => fireDeepLinkEvent('pay-raise', 'total-compensation', { grade, placement: 'result-card' })}
+              data-testid="raise-handoff-link"
+              className="mt-3 inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors"
+            >
+              See my full military pay →
+            </Link>
+          </div>
         </div>
       )}
     </div>
