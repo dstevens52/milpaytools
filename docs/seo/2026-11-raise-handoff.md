@@ -2,7 +2,7 @@
 
 Does a next step under the /pay/raise result send people on to the Military Pay Calculator?
 
-- **Ship date: Thursday, Nov 26, 2026** (draft PR opened that day; the test window starts on the production deploy after merge).
+- **Ship date: Thursday, Nov 26, 2026.** PR #98 squash-merged 15:48 UTC, merge commit `28ecb5c`; Vercel production deploy the same minute, checked live (O-3 / 8 years block and href; head unchanged vs `PAY_META_BASELINE.json`). IndexNow: /pay/raise. Test window: Nov 26 – Dec 19.
 - **Read-out: Sunday, Dec 20, 2026, with the V3b VA funnel read-out** (`docs/seo/2026-11-va-funnel-test.md`).
 - **Code:** the block in `src/components/calculators/pay-raise/PayRaiseCalculator.tsx` (`data-testid="raise-handoff"`); the event type `'pay-raise'` in `DeepLinkFromPage`, `src/lib/analytics.ts`.
 - **Tests:** `tests/e2e/pay-raise-handoff.spec.ts`.
