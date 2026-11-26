@@ -40,6 +40,7 @@ export const CALCULATOR_LAST_REVIEWED = {
   'va-loan': '2026-11-21',
   deployment: '2026-11-14', // = the "Last reviewed" date shown on the page
   'va-refinance': '2026-11-21', // 10b: VRF-01–06, fee status, computed example, visible FAQs
+  'va-entitlement': '2026-11-25', // V2: new calculator (FHFA county loan limits)
 } as const satisfies Record<string, string>;
 
 export type CalculatorSlug = keyof typeof CALCULATOR_LAST_REVIEWED;

@@ -567,6 +567,17 @@ export function VALoanCalculator() {
             <p className="text-xs text-zinc-500 mt-1">
               First use = you&apos;ve never used a VA loan for a standard home purchase, or your entitlement has been fully restored. Subsequent use = you&apos;ve previously used a VA loan benefit for a home purchase.
             </p>
+            {!firstUse && (
+              <p className="text-xs mt-1">
+                <a
+                  href={`/calculators/va-entitlement?fee=${feeStatus}`}
+                  className="font-semibold text-blue-700 hover:text-blue-800 underline"
+                  data-testid="vl-entitlement-link"
+                >
+                  Still have a VA loan on another home? Check your remaining entitlement →
+                </a>
+              </p>
+            )}
           </div>
 
           {/* Row 1 col 2: down payment tier — hidden when exempt */}

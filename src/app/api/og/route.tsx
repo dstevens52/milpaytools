@@ -84,7 +84,7 @@ function TrustRows({ secondLine }: { secondLine: boolean }) {
       </div>
       {secondLine ? (
         <div style={{ fontSize: '24px', fontWeight: 400, color: SLATE_MUTED }}>
-          16 calculators for pay, BAH, VA disability, TSP &amp; transition
+          17 calculators for pay, BAH, VA disability, TSP &amp; transition
         </div>
       ) : null}
     </div>

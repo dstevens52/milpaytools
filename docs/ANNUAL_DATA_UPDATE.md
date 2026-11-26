@@ -79,6 +79,24 @@ sometimes a revised file later.
 - [ ] For the following year: add the next `{YYYY}.ts` placeholder (`vaRates: null`) and status
   file, and point the registry at them.
 
+## FHFA conforming loan limits — late November (FHFA announces) and January 1 (build V2)
+
+VA home loan limits are FHFA's conforming loan limits (One-Unit column). The VA entitlement
+calculator (`/calculators/va-entitlement`) and `<VaEntitlementFigure>` in posts read them.
+
+1. **When FHFA announces next year's limits (late November):** Claude Chat writes the source note
+   (baseline, ceiling, AK/HI/GU/VI range, county CSV URL), like `docs/sources/va-entitlement-loan-limits-2027.md`.
+   Download the county CSV into `data/sources/fhfa/` (exact bytes; `-text` in `.gitattributes`), add the
+   year's expected values to `EXPECTED` in `scripts/build-loan-limits.py`, then run
+   `python scripts/build-loan-limits.py --year YYYY --downloaded YYYY-MM-DD`. It fails if the most common
+   value isn't the baseline or the highest value outside AK/HI/GU/VI isn't the ceiling.
+2. Register the year in `src/data/va-loan/loanLimitYear.ts` (`LOAN_LIMIT_SUMMARIES` and `loadLoanLimits`).
+   The calculator then shows both years ("Closing in YYYY (from Jan. 1)") until the flip.
+3. **January 1:** set `LOAN_LIMIT_YEAR` to the new year (one year shown; post figures move to it). Bump
+   `CALCULATOR_LAST_REVIEWED['va-entitlement']` and the `updated` date of posts that use
+   `<VaEntitlementFigure>`; update the year expectations in `tests/e2e/va-entitlement*.spec.ts`; IndexNow.
+   The oldest year's files can be removed once nothing reads them.
+
 ## TRICARE costs — November (DHA publishes) and January 1
 
 - [ ] Each November DHA publishes the next calendar year's TRICARE Prime/Select costs in the

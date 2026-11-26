@@ -21,6 +21,7 @@ const CALCULATOR_GROUPS = [
     label: 'More Calculators',
     links: [
       { href: '/calculators/va-loan', label: 'VA Loan Calculator' },
+      { href: '/calculators/va-entitlement', label: 'VA Entitlement Calculator' },
       { href: '/calculators/va-refinance', label: 'VA Refinance Calculator' },
       { href: '/calculators/cola', label: 'CONUS COLA' },
       { href: '/calculators/guard-reserve', label: 'Guard/Reserve Pay' },

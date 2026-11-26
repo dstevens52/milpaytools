@@ -1,7 +1,7 @@
 # MilPayTools
 > Free military pay and benefits calculators built on official 2026 DoD and VA data. No account required. No personal info needed to use the tools — calculator inputs are never sent to our servers. We use privacy-respecting analytics; see our Privacy Policy.
 
-## Calculators (18)
+## Calculators (19: the 17 calculators at /calculators, plus the BAH lookup at /bah and the pay charts at /pay)
 - [Military Pay Calculator](/calculators/total-compensation): Base pay, BAH, BAS, TSP match, and tax advantage in one place — your total military compensation, including TRICARE healthcare value and the civilian salary you would need to match it
 - [BAH Calculator](/bah): 2026 BAH rates for all 40,959 ZIP codes, plus search and filter for all duty station BAH pages
 - [VA Disability Rating](/calculators/va-disability): Combined rating calculator with bilateral factor and 2026 compensation rates
@@ -19,6 +19,7 @@
 - [Separation Benefits Timeline](/calculators/separation-timeline): When each benefit stops, converts, or expires after separation
 - [Healthcare Cost Comparison](/calculators/healthcare-comparison): TRICARE vs civilian healthcare cost comparison
 - [VA Loan Payment Calculator](/calculators/va-loan): VA loan monthly payment estimator with funding fee calculation, disability exemption waiver, and BAH comparison — educational only, no rate quotes
+- [VA Loan Entitlement Calculator](/calculators/va-entitlement): Remaining VA loan entitlement for a second VA loan (keeping a home at PCS): VA's rule, 25% of the county's FHFA one-unit conforming loan limit minus the entitlement already used (from the COE, or estimated as 25% of a prior loan above $144,000); the loan most lenders make with $0 down (4 × remaining entitlement, a lender convention as VA describes it); the down payment most lenders look for above that (25% of the loan minus remaining entitlement); subsequent-use funding fee or exemption. Shows the 2026 and 2027 county limits side by side until Jan. 1, 2027 — educational only
 - [VA Refinance Calculator](/calculators/va-refinance): IRRRL and cash-out refinance savings estimator, monthly savings, break-even point, and VA net tangible benefit requirement checks
 
 <!-- calculator-url-settings:start (generated from src/data/calculatorUrlParams.ts; run npm run llms:params) -->
@@ -232,6 +233,16 @@ Each calculator reads the settings below from its URL, so a link can open a fill
 - `dep`: yes or no (1/0 and true/false also work); for the BAH comparison. Default: no.
 - `bah`: yes or no (1/0 and true/false also work); show the BAH comparison. Default: yes when zip is given, otherwise no.
 - Example (home price 350,000, first use, no down payment): https://www.milpaytools.com/calculators/va-loan?price=350000&down=0&firstUse=yes&fee=none
+
+### VA Loan Entitlement Calculator (/calculators/va-entitlement)
+- `full`: yes (full entitlement: no county loan limit applies), no (entitlement already used) or unsure. Default: no.
+- `used`: entitlement already used in dollars, from the COE ("Prior Loans charged to entitlement"). Default: none (results appear once it is entered).
+- `prior`: original amount of the current VA loan in dollars; above 144,000 it estimates the entitlement used as 25% of it (read only when used is absent). Default: none.
+- `fips`: 5-digit county FIPS code (2-digit state + 3-digit county) for the county loan limit. Default: none (the limit for most U.S. counties).
+- `price`: home price in dollars. Default: none.
+- `down`: down payment in dollars. Default: 0.
+- `fee`: funding fee status, same values as the VA loan calculator: none, comp, eligible, dic, predischarge, purpleheart or pending. The five exempt statuses (comp, eligible, dic, predischarge, purpleheart) mean no funding fee; otherwise the subsequent-use rate applies. Default: none.
+- Example (50,000 of entitlement already used, county at the limit for most U.S. counties): https://www.milpaytools.com/calculators/va-entitlement?full=no&used=50000
 
 ### VA Refinance Calculator (/calculators/va-refinance)
 - `type`: irrrl or cashout. Default: irrrl.
@@ -544,7 +555,7 @@ Each calculator reads the settings below from its URL, so a link can open a fill
 
 - [VA Loan Funding Fee Explained: Every Rate, Exemption, and Dollar Amount for 2026](https://www.milpaytools.com/blog/va-loan-funding-fee-explained): Complete 2026 funding fee reference — purchase loan rates by down payment and use count (first use 0% down: 2.15% / $7,525 on $350K; subsequent use 0% down: 3.30% / $11,550; 5%+ down: 1.50% for both groups; 10%+ down: 1.25%; IRRRL: 0.50%; cash-out first use: 2.15%/subsequent: 3.30%; loan assumption 0.50%; manufactured home 1.00%; VA's current rates took effect April 7, 2023), VA's five-item exemption list (VA disability compensation, eligible for compensation but receiving retirement or active-duty pay, DIC-receiving surviving spouses, a proposed or memorandum rating dated before closing from a pre-discharge claim, active-duty Purple Heart recipients; the exemption follows compensation, not a rating number), VA's refund rule when the compensation effective date predates closing, finance vs. pay-at-closing math (~$48/month on $7,525 financed over 30 years at 6.5%), and down payment reduction impact on subsequent-use fee ($6,562 less with 5% down on $350K).
 
-- [Can I Use My VA Loan Benefit Again? Entitlement, Restoration, and Subsequent Use Explained](https://www.milpaytools.com/blog/can-i-use-va-loan-again): Dispels the one-time-use misconception — VA loan benefit has no expiration and no use limit. Covers full entitlement mechanics (25% guaranty, no loan limit since Blue Water Navy Act 2020), standard entitlement restoration (sell + pay off → full entitlement restored immediately), one-time restoration (paid-off loan kept as rental → use VA again without selling), simultaneous two-loan scenario (PCS before selling — remaining entitlement math), subsequent-use funding fee comparison (3.30% vs. 1.50% at 5% down), VA still beats conventional on monthly cost ($73/month amortized fee vs. $145–175/month PMI with 5% down), and IRRRL entitlement mechanics (replaces existing VA loan, doesn't add a new use).
+- [Can I Use My VA Loan Benefit Again? Entitlement, Restoration, and Subsequent Use Explained](https://www.milpaytools.com/blog/can-i-use-va-loan-again): Dispels the one-time-use misconception — the VA loan benefit has no expiration and no use limit. Covers what entitlement is (basic entitlement for loans of $144,000 or less; above that VA guarantees up to 25% of the loan; full entitlement means no VA loan limit, though the lender still approves the loan), the three ways used entitlement is restored (sell and pay off, assumption by a qualified Veteran who substitutes entitlement, one-time restoration after repaying the loan in full), carrying two VA loans with remaining entitlement (VA's rule: 25% of the county's one-unit limit minus entitlement used; most lenders lend up to 4 × remaining with $0 down; worked example from the FHFA limit for most U.S. counties), the subsequent-use funding fee (3.30% under 5% down vs. 2.15% first use), comparing VA and conventional with actual Loan Estimates, and IRRRL entitlement mechanics (replaces the existing VA loan). Links the VA Loan Entitlement Calculator.
 
 - [Using BAH to Buy a Home: What Your Housing Allowance Actually Covers in 2026](https://www.milpaytools.com/blog/using-bah-to-buy-a-home): BAH as mortgage qualifying income — lenders commonly count documented BAH (LES), subject to continuity and lender guidelines. Tax-equivalent math (BAH excluded from federal taxable income = $2,000/month BAH worth ~$2,564/month in gross wages at 22% bracket). BAH coverage framework table (BAH > PITI through BAH < 80% of PI). Illustrative E-5 with-dependent example ($2,050 BAH covering ~$1,817 estimated housing cost on a $240K VA loan at 6.5%). Six conditions that improve the case for buying (3+ year tour, BAH covers ownership costs, funding fee exemption, rent-to-price ratio) and six conditions favoring renting (under-2-year tour, high-cost station, pre-separation uncertainty). PCS options (sell, rent out, cover from base pay), separation risk (BAH stops, mortgage doesn't), and disability compensation as post-separation income floor.
 
@@ -584,7 +595,8 @@ Each calculator reads the settings below from its URL, so a link can open a fill
 - TSP Contribution Limits: Internal Revenue Service (IRS) and TSP.gov; 2027 limits from IRS news release IR-2026-136 / IRS Notice 2026-66 (announced November 12, 2026)
 - Healthcare Cost Benchmarks: KFF Employer Health Benefits Survey 2025, Healthcare.gov benchmark pricing
 - TRICARE Premiums: TRICARE.mil, effective January 1, 2026
+- County Conforming Loan Limits (VA home loan limits): Federal Housing Finance Agency (FHFA) county files for 2026 and 2027 (2027 announced November 24, 2026), One-Unit limits
 
 ## About
 
-Built by Dan Stevens — grew up on Air Force bases worldwide as the son of a 20-year Air Force veteran, now an NMLS-licensed mortgage industry professional. 18 calculators, 64 blog posts, 9 comprehensive guides, 200+ BAH station pages, a transition financial roadmap, and a printable TAP student worksheet — all multi-LLM fact-checked against official government sources and verified with a Playwright test suite.
+Built by Dan Stevens — grew up on Air Force bases worldwide as the son of a 20-year Air Force veteran, now an NMLS-licensed mortgage industry professional. 17 calculators (plus the BAH lookup and pay charts), 64 blog posts, 9 comprehensive guides, 200+ BAH station pages, a transition financial roadmap, and a printable TAP student worksheet — all multi-LLM fact-checked against official government sources and verified with a Playwright test suite.

@@ -19,7 +19,7 @@ MilPayTools.com is a free military financial calculator and education platform f
 - All data updates annually in January. The data layer is designed for versioned annual replacement.
 
 ## Site Structure (as of November 23, 2026; counts from the live sitemap, 256 URLs)
-- 16 calculators at /calculators/[name]
+- 17 calculators at /calculators/[name] (V2 added /calculators/va-entitlement, Nov 25, 2026)
 - 147 BAH station pages at /bah/[slug]: 142 CONUS (`StationPageClient.tsx`; the StoryBrand sections — money strip, housing costs, "What to know before you move" — render where the station has that data) + 5 overseas v2 pages (published entries in `OCONUS_V2_STATIONS`: Ramstein, RAF Lakenheath, Yokota, Kadena, Camp Humphreys)
 - /bah hub and /bah/changes (BAH year over year, all 338 MHAs)
 - /pay hub, /pay/raise, /pay/dates and 15 /pay/[rank] pages; /va-disability-rates

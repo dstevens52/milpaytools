@@ -33,6 +33,8 @@ import {
 } from '@/lib/calculations/transition-readiness';
 import { calculateHealthcare } from '@/lib/calculations/healthcare';
 import { getFundingFeeRate, getRefinanceFundingFeeRate, fundingFeeAmount } from '@/lib/calculations/vaLoanFees';
+import { calcEntitlement, usdExact } from '@/lib/calculations/vaEntitlement';
+import { LOAN_LIMIT_SUMMARIES, LOAN_LIMIT_YEAR } from '@/data/va-loan/loanLimitYear';
 import type { PayGrade } from '@/types/military';
 
 /** Calculators that get a block (every /calculators page plus the /bah hub; /pay/* is frozen). */
@@ -367,6 +369,18 @@ function vaLoanExample(): CalculatorSummaryExample {
   };
 }
 
+function vaEntitlementExample(): CalculatorSummaryExample {
+  const used = Number(CALCULATOR_URL_PARAMS['va-entitlement'].example.params.used);
+  const limit = LOAN_LIMIT_SUMMARIES[LOAN_LIMIT_YEAR].baseline;
+  const r = calcEntitlement({ countyLimit: limit, used, price: 0, down: 0, feeStatus: 'none' });
+  return {
+    lead: `${usdExact(used)} of entitlement already used, buying in ${LOAN_LIMIT_YEAR} in a county at the limit for most U.S. counties (${usdExact(limit)})`,
+    figure: usdExact(nonZero(r.maxZeroDown, 'va-entitlement')),
+    tail: ` maximum loan most lenders make with no down payment (4 × ${usdExact(r.remaining)} remaining entitlement)`,
+    href: href('va-entitlement'),
+  };
+}
+
 function vaRefinanceExample(): CalculatorSummaryExample {
   const rate = getRefinanceFundingFeeRate('irrrl', true);
   return {
@@ -475,6 +489,12 @@ const SUMMARIES: Record<SummaryKey, Omit<CalculatorSummaryData, 'key' | 'example
     inputs: 'home price, down payment, interest rate, term, property tax, insurance, first or later use, funding fee exemption, BAH comparison (optional)',
     example: vaLoanExample,
     basis: 'Built on VA’s official funding fee table.',
+  },
+  'va-entitlement': {
+    what: 'Works out your remaining VA loan entitlement (25% of the county’s FHFA one-unit loan limit minus the entitlement already used), the loan most lenders make with $0 down, the down payment most lenders look for above that, and the subsequent-use funding fee.',
+    inputs: 'full entitlement or not, entitlement already used (or the current VA loan’s original amount), state and county, home price and down payment (optional), funding fee status',
+    example: vaEntitlementExample,
+    basis: 'Built on FHFA’s official county loan limits and VA’s entitlement rules and funding fee table.',
   },
   'va-refinance': {
     what: 'Estimates a VA IRRRL or cash-out refinance: the monthly payment change, the months to recover closing costs (VA’s method), the cost over the full term, VA’s rate and 36-month recoupment checks, and the earliest closing date.',

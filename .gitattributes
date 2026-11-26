@@ -1,3 +1,6 @@
 # DTMO BAH source-of-record files: keep the exact downloaded bytes (no EOL
 # conversion), so the SHA-256 recorded in docs/sources/bah-{YYYY}.md always matches.
 data/sources/dtmo/** -text
+# FHFA county loan limit CSVs (build V2): exact bytes, so the SHA-256 in
+# src/data/va-loan/loanLimits{YYYY}.ts matches (tests/e2e/va-entitlement-unit.spec.ts).
+data/sources/fhfa/** -text

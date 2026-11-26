@@ -46,7 +46,9 @@ test.describe('PCS Cost Estimator', () => {
   });
 
   test('TLE section row appears in results', async ({ page }) => {
-    await expect(page.getByText(/Temporary Lodging|TLE/i).first()).toBeVisible();
+    // Whole word: a case-insensitive /TLE/ also matches "EnTiTLEment" (the nav's
+    // hidden "VA Entitlement Calculator" link, build V2).
+    await expect(page.getByText(/Temporary Lodging|\bTLE\b/).first()).toBeVisible();
   });
 
   test('weight allowance is shown', async ({ page }) => {

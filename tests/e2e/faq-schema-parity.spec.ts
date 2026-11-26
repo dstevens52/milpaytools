@@ -36,6 +36,8 @@ const PAGES: { path: string; faqCount: number }[] = [
   { path: '/calculators/va-loan', faqCount: 5 },
   // VA refinance: five FAQs, visible since build 10b (were schema-only before).
   { path: '/calculators/va-refinance', faqCount: 5 },
+  // VA entitlement: five visible FAQs (build V2).
+  { path: '/calculators/va-entitlement', faqCount: 5 },
 ];
 
 type FaqSchema = {
