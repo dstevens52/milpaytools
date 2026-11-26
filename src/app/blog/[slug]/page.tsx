@@ -7,10 +7,13 @@ import { CalculatorCallout } from '@/components/blog/CalculatorCallout';
 import { KeyFact } from '@/components/blog/KeyFact';
 import { QuickAnswer, QAItem } from '@/components/blog/QuickAnswer';
 import { DeploymentTourTable, DeploymentTourFigure, DeploymentYearTable, DeploymentYearFigure } from '@/components/blog/DeploymentTourExample';
-import { GiBillMhaTable, GiBillMhaFigure } from '@/components/blog/GiBillMha';
+import { GiBillMhaTable, GiBillMhaFigure, GiBillTotalFigure } from '@/components/blog/GiBillMha';
+import { PayFigure, PayYear, SgliBenchmarkFigure, CzteBasePayFigure } from '@/components/blog/PayFigure';
+import { PcsDlaTable, PcsFigure } from '@/components/blog/PcsPost';
+import { sgliEnoughFaqAnswer } from '@/lib/payPost';
 import { RetirementFigure, High3Breakdown, CrdpCrscFigure, FinalYearCompTotal } from '@/components/blog/RetirementFigure';
 import { TricareFigure, TricareChangeRange, TricareDate, TricareCostYear } from '@/components/blog/TricareFigure';
-import { TricareCostTable } from '@/components/blog/TricareCostTable';
+import { TricareCostTable, TricareRetireeFeeTable } from '@/components/blog/TricareCostTable';
 import { TampEligibilityList } from '@/components/blog/TampEligibilityList';
 import { VaFundingFee } from '@/components/blog/VaFundingFee';
 import { VaEntitlementFigure } from '@/components/blog/VaEntitlementFigure';
@@ -39,6 +42,13 @@ const mdxComponents = {
   DeploymentYearFigure,
   GiBillMhaTable,
   GiBillMhaFigure,
+  GiBillTotalFigure,
+  PayFigure,
+  PayYear,
+  SgliBenchmarkFigure,
+  CzteBasePayFigure,
+  PcsDlaTable,
+  PcsFigure,
   RetirementFigure,
   High3Breakdown,
   CrdpCrscFigure,
@@ -48,6 +58,7 @@ const mdxComponents = {
   TricareDate,
   TricareCostYear,
   TricareCostTable,
+  TricareRetireeFeeTable,
   TricareOpenSeason,
   TricarePostFaq,
   TampEligibilityList,
@@ -263,7 +274,8 @@ const POST_FAQS: Record<string, { question: string; answer: string }[]> = {
     },
     {
       question: 'Is $500,000 of SGLI enough life insurance?',
-      answer: 'It depends on your situation. A common benchmark is 10–12 times annual income — for an E-6, that suggests $570,000–$684,000, near the SGLI maximum. Single members with no dependents may need much less; a family with a mortgage, young children, and a single income may need more than $500,000.',
+      // S8: computed from the pay table (src/lib/payPost.ts), the same figures as the post body.
+      answer: sgliEnoughFaqAnswer(),
     },
     {
       question: 'What happens to SGLI when you leave the military?',

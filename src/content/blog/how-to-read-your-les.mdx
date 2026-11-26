@@ -2,7 +2,7 @@
 title: "How to Read Your Army or Military LES: Every Line Explained"
 slug: how-to-read-your-les
 date: "2026-05-27"
-updated: "2026-11-23"
+updated: "2026-11-25"
 description: "What AFRH, BF BAL, CR BAL and mid-month pay mean on your LES, plus every other line in plain English and the errors to check each month."
 category: Compensation & Pay
 calculators:
@@ -49,13 +49,13 @@ Unlike a W-2 or civilian pay stub, the LES also tracks your leave accrual, SDP b
 Entitlements are the left side of your LES. They're everything the military owes you. Common entitlement line items:
 
 **BASE PAY (or BASEPAY)**
-Your monthly basic pay based on your pay grade and years of service (more precisely, your Pay Entry Base Date or PEBD). This is taxable income. It's the number that federal and state income taxes, FICA, and most retirement calculations use. See the [2026 Military Pay Charts](/pay) for your exact rate. Because that rate is keyed to your PEBD, an incorrect PEBD can drop you into the wrong years-of-service bracket: in 2026 an E-5 under 6 years earns $3,946.80/month but $4,110.00/month at 6+ years — so a wrong PEBD can cost $150+ per month. Confirm the PEBD on your LES reflects your actual service (including any prior-service credit).
+Your monthly basic pay based on your pay grade and years of service (more precisely, your Pay Entry Base Date or PEBD). This is taxable income. It's the number that federal and state income taxes, FICA, and most retirement calculations use. See the [<PayYear /> Military Pay Charts](/pay) for your exact rate. Because that rate is keyed to your PEBD, an incorrect PEBD can drop you into the wrong years-of-service bracket: in <PayYear /> an E-5 with 4 years (under 6) earns <PayFigure name="basicPay" grade="E-5" yos="4" />/month but <PayFigure name="basicPay" grade="E-5" yos="6" />/month at 6+ years — so a wrong PEBD can cost <PayFigure name="basicPayDiff" grade="E-5" yos="4" to="6" /> per month. Confirm the PEBD on your LES reflects your actual service (including any prior-service credit).
 
 **BAH (Basic Allowance for Housing)**
 Excluded from federal taxable income. Based on your assigned permanent duty station location, pay grade, and dependency status (with or without dependents). The rate you see should match your actual duty station and dependency situation — if it doesn't, that's an error to fix immediately. Use the [BAH Calculator](/bah) to verify.
 
 **BAS (Basic Allowance for Subsistence)**
-Excluded from federal taxable income. A flat rate intended to offset meal costs. In 2026, enlisted members receive $476.95/month and officers receive $328.48/month. (BAS adjusts annually — verify current rates at DFAS.) Single members and those living in the barracks still receive BAS, though it may be offset by a meal deduction.
+Excluded from federal taxable income. A flat rate intended to offset meal costs. In <PayYear />, enlisted members receive <PayFigure name="bas" kind="enlisted" />/month and officers receive <PayFigure name="bas" kind="officer" />/month. (BAS adjusts annually — verify current rates at DFAS.) Single members and those living in the barracks still receive BAS, though it may be offset by a meal deduction.
 
 **HFP / IDP (Hostile Fire Pay / Imminent Danger Pay)**
 Effective October 1, 2026: HFP is $450/month and IDP is $275/month (prorated at $9.16/day), never both for the same period. Tax-exempt during combat zone months under CZTE. See [Deployment Pay Explained](/blog/deployment-pay-explained) for how HFP and IDP differ, and [2026 HFP, IDP & HDP-L Rate Changes](/blog/hfp-idp-hdpl-rate-changes-october-2026) for what changed on October 1, 2026.
@@ -262,6 +262,6 @@ For a faster monthly routine, use the checklist above: verify BAH, BAS, TSP, SGL
 
 <CalculatorCallout calculator="bah" text="Verify your BAH rate — enter your duty station ZIP, rank, and dependency status to see what your LES BAH line should show." />
 
-*Pay figures in this post reflect 2026 DFAS rates. Allowance rates and special pay amounts adjust annually. Verify current rates at dfas.mil.*
+*Basic pay and BAS figures in this post reflect <PayYear /> DFAS rates. Allowance rates and special pay amounts adjust annually. Verify current rates at dfas.mil.*
 
 *Last reviewed: November 2026. Hostile Fire Pay, Imminent Danger Pay, and Hardship Duty Pay–Location figures reflect rates effective October 1, 2026.*

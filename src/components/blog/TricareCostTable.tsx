@@ -1,4 +1,33 @@
-import { tricareTable, type TableName } from '@/lib/tricarePost';
+import { tricareTable, usdAuto, type TableName } from '@/lib/tricarePost';
+import { retireeFamilyFees } from '@/lib/tricareRetireeFees';
+
+/**
+ * S8: retiree family enrollment fees (Group A / Group B) for TRICARE_COST_YEAR, with the
+ * year in its header row. Flips with TRICARE_COST_YEAR on Jan. 1. Server only.
+ */
+export function TricareRetireeFeeTable() {
+  const t = retireeFamilyFees();
+  return (
+    <table data-testid="tricare-retiree-fee-table">
+      <thead>
+        <tr>
+          <th>Coverage ({t.year})</th>
+          <th>Group A annual enrollment fee</th>
+          <th>Group B annual enrollment fee</th>
+        </tr>
+      </thead>
+      <tbody>
+        {t.rows.map((r) => (
+          <tr key={r.plan}>
+            <td>{r.plan}</td>
+            <td>{usdAuto(r.groupA)}</td>
+            <td>{usdAuto(r.groupB)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
 
 // A named TRICARE cost table (2026 | 2027 | Change), or TRICARE's official
 // 2027 comparison table with its footnotes. Built from the TRICARE year files

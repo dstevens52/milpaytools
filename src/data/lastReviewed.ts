@@ -34,7 +34,7 @@ export const CALCULATOR_LAST_REVIEWED = {
   cola: '2026-11-12',
   'dual-military-bah': '2026-11-18',
   compare: '2026-11-12',
-  'transition-readiness': '2026-11-23', // S7b: example action steps + readiness factors from the merged "financially ready" post
+  'transition-readiness': '2026-11-25', // S8: healthcare card from the KFF employer average (OS27) + TAMP_DAYS
   'separation-timeline': '2026-11-21', // 10b: final-move line (separation pay → 3-year window)
   'healthcare-comparison': '2026-11-20', // 10a: TAMP list, no ACA subsidy model, retiree TRICARE path
   'va-loan': '2026-11-21',
@@ -47,7 +47,7 @@ export type CalculatorSlug = keyof typeof CALCULATOR_LAST_REVIEWED;
 
 /** Non-hub pages outside the calculator, station, rank, blog and guide groups. Keyed by path. */
 export const PAGE_LAST_REVIEWED = {
-  '/transition': '2026-11-20', // C2: TRICARE post card description (KFF employer average)
+  '/transition': '2026-11-25', // S8: civilian-salary card "excluded from federal taxable income"
   '/about': '2026-05-30',
   '/privacy': '2026-05-31',
   '/terms': '2026-05-30',

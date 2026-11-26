@@ -2,7 +2,7 @@
 title: "What Walking Away at 12 Years Actually Costs"
 slug: what-walking-away-at-12-years-costs
 date: "2026-04-17"
-updated: "2026-11-20"
+updated: "2026-11-25"
 description: "An E-7 at 12 years is weighing whether to stay to 20. Here's the exact dollar value of what they'd be leaving on the table — and what they'd need to earn as a civilian to replace it."
 category: Career Transition
 calculators:
@@ -20,7 +20,7 @@ An E-7 who reaches 20 years locks in approximately <RetirementFigure name="high3
   <QAItem>An E-7 retiring at 20 years under High-3 receives approximately <RetirementFigure name="high3Pension" format="dollars" />/month in pension — for life, beginning at retirement, typically around age 38-40</QAItem>
   <QAItem>The nominal lifetime value of that pension (to age 82, with 2.5% average COLA) is about <RetirementFigure name="high3Lifetime" format="millions" years="44" /> — but the present value is more relevant for decision-making</QAItem>
   <QAItem>Walking away at 12 years means forfeiting both the pension and TRICARE retiree healthcare.</QAItem>
-  <QAItem>Under BRS, the pension is 20% smaller, but 8 more years of government TSP matching adds an estimated $150,000+ to the member's retirement balance at age 60</QAItem>
+  <QAItem>Under BRS, the pension is 20% smaller, but staying to 20 adds 8 more years of government TSP contributions (up to 5% of basic pay) to a portable balance</QAItem>
   <QAItem>To replace it, a civilian offer has to match the full 20th-year package (pay, allowances, healthcare and retirement accrual, about <FinalYearCompTotal bahMonthly="2000" tricare="comparison.employerAvgEmployeePremium" accrual="25000" />), not just base pay</QAItem>
   <QAItem>This is financial math, not career advice. Quality of life, family circumstances, and career goals are inputs the spreadsheet cannot capture</QAItem>
 </QuickAnswer>
@@ -108,18 +108,11 @@ Walking away at 12 years eliminates this benefit entirely. TRICARE ends at separ
 
 For service members on BRS (entered service on or after January 1, 2018), staying to 20 also means 8 more years of government TSP matching contributions.
 
-**BRS matching for an E-7 at ~$5,900/month average base pay:**
-- 5% contribution → 5% government match = $295/month in government contributions
-- Over 96 months (8 years): $295 × 96 = **$28,320 in direct government contributions**
+**BRS government contributions for an E-7:** when you contribute at least 5% of basic pay, the government adds 5% (1% automatic plus up to 4% matching).
+- At 12 years: <PayFigure name="basicPay" grade="E-7" yos="12" />/month basic pay (<PayYear />) → <PayFigure name="brsMatch" grade="E-7" yos="12" />/month from the government
+- At the Over 18 rate: <PayFigure name="basicPay" grade="E-7" yos="18" />/month basic pay → <PayFigure name="brsMatch" grade="E-7" yos="18" />/month from the government
 
-Those contributions — invested in the TSP at 7% average annual return for 8 years, then continuing to grow for 22 more years until age 60 — compound significantly:
-
-| Phase | Calculation | Result |
-|---|---|---|
-| 8 years of matching at 7% return | FV of $295/month × 96 months | ~$38,000 |
-| Continues to grow for 22 more years to age 60 | $38,000 × 1.07²² | **~$165,000** |
-
-**Roughly $165,000 in additional TSP balance at age 60 from 8 more years of matching** — before adding the member's own contributions over those same years.
+Staying to 20 means 96 more months of those contributions, rising with each pay raise and longevity step, plus your own. What they grow to by age 60 depends on your fund choices and market returns. Model it with your own contribution rate and funds in the [TSP Growth Projector](/calculators/tsp), and see the pension side in the [Retirement Calculator](/calculators/retirement).
 
 <CalculatorCallout calculator="tsp" text="Model your TSP growth over the remaining 8 years with BRS matching using the TSP Growth Projector." />
 

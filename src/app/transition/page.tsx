@@ -693,7 +693,7 @@ export default function TransitionPage() {
                 <ResourceCard
                   href="/blog/what-civilian-salary-do-i-need"
                   title="What Civilian Salary Do I Need?"
-                  description="The article that shows why a $60K civilian offer might not replace your E-6 pay. Walks through the side-by-side comparison of taxable vs. tax-free compensation and benefits."
+                  description="The article that shows why a $60K civilian offer might not replace your E-6 pay. Walks through the side-by-side comparison of taxable compensation, allowances excluded from federal taxable income, and benefits."
                 />
                 <ResourceCard
                   href="/calculators/va-disability"
