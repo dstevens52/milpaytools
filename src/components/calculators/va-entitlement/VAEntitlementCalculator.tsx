@@ -21,6 +21,7 @@ import {
   calcEntitlement,
   countyDisplayName,
   estimatedUsedFromPriorLoan,
+  usdAboutDown,
   usdExact,
   type EntitlementResult,
 } from '@/lib/calculations/vaEntitlement';
@@ -460,7 +461,7 @@ export function VAEntitlementCalculator() {
                     {r.aboveMax && (
                       <p className={['mt-3 text-sm', idx === 0 ? 'text-red-50' : 'text-zinc-700'].join(' ')} data-testid={`ve-down-${year}`}>
                         Most lenders want your remaining entitlement and a down payment together to cover at least 25% of the
-                        loan: about <span className="font-bold">{usdExact(r.typicalDown)}</span> down.
+                        loan: about <span className="font-bold">{usdAboutDown(r.typicalDown)}</span> down.
                       </p>
                     )}
                     {(r.hasPrice || r.remaining > 0) && (

@@ -94,11 +94,11 @@ test.describe('VA entitlement calculator', () => {
 
   test('price above the $0-down maximum: the down payment line', async ({ page }) => {
     await page.goto(`${PATH}?used=50000&price=700000`);
-    // 2027: 25% of 700,000 = 175,000 − 163,850 = 11,150. 2026: 175,000 − 158,187.50 = 16,812.50.
+    // 2027: 25% of 700,000 = 175,000 − 163,850 = 11,150. 2026: 175,000 − 158,187.50 = 16,812.50, shown as $16,813.
     await expect(page.getByTestId('ve-down-2027')).toContainText(
       'Most lenders want your remaining entitlement and a down payment together to cover at least 25% of the loan: about $11,150 down.',
     );
-    await expect(page.getByTestId('ve-down-2026')).toContainText('about $16,812.50 down.');
+    await expect(page.getByTestId('ve-down-2026')).toContainText('about $16,813 down.');
     const fee = Math.round(700_000 * VA_PURCHASE_FUNDING_FEE.subsequent.lt5);
     await expect(page.getByTestId('ve-fee-2027')).toContainText(`Funding fee on a $700,000 loan at the subsequent-use rate (3.30%, less than 5% down): ${usd(fee)}.`);
   });

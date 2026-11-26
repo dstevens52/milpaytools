@@ -8,7 +8,7 @@
  * Inputs arrive as strings from MDX (next-mdx-remote drops JS-expression props):
  *   <VaEntitlementFigure prior="280000" show="used" />                 → $70,000
  *   <VaEntitlementFigure prior="280000" show="remaining" />            → remaining, most U.S. counties, LOAN_LIMIT_YEAR
- *   <VaEntitlementFigure prior="280000" price="650000" show="down" />  → typical down payment (throws if none is needed)
+ *   <VaEntitlementFigure prior="280000" price="650000" show="down" />  → typical down payment, whole dollars (throws if none is needed)
  *   <VaEntitlementFigure show="year" />                                → 2026
  *
  * Source: docs/sources/va-entitlement-loan-limits-2027.md. Client-safe: summary files only.
@@ -20,6 +20,7 @@ import {
   VA_GUARANTY_SHARE,
   calcEntitlement,
   estimatedUsedFromPriorLoan,
+  usdAboutDown,
   usdExact,
 } from '@/lib/calculations/vaEntitlement';
 
@@ -99,7 +100,7 @@ export function vaEntitlementFigure(i: EntitlementFigureInput): string {
       return usdExact(VA_GUARANTY_SHARE * r.loan);
     case 'down':
       if (!r.aboveMax) throw new Error(`VaEntitlementFigure: show="down" but the loan is within the $0-down maximum (${year})`);
-      return usdExact(r.typicalDown);
+      return usdAboutDown(r.typicalDown);
     default:
       throw new Error(`VaEntitlementFigure: bad show "${show as string}"`);
   }

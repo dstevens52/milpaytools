@@ -118,6 +118,14 @@ export function calcEntitlement(i: EntitlementInput): EntitlementResult {
   };
 }
 
+/**
+ * The "about $X down" figure: rounded to whole dollars ("$16,812.50" → "$16,813"; review of PR #94).
+ * Entitlement amounts stay exact (usdExact).
+ */
+export function usdAboutDown(n: number): string {
+  return Math.round(n).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+}
+
 /** Whole dollars without cents; cents only when the amount has them ("$158,187.50"). */
 export function usdExact(n: number): string {
   const cents = Math.round(n * 100);

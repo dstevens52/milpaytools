@@ -9,6 +9,7 @@ import {
   maxZeroDownLoan,
   remainingEntitlement,
   typicalDownPayment,
+  usdAboutDown,
   usdExact,
 } from '../../src/lib/calculations/vaEntitlement';
 import {
@@ -180,9 +181,16 @@ test.describe('<VaEntitlementFigure> (blog posts)', () => {
     expect(vaEntitlementFigure({ prior: '280000', show: 'remaining' })).toBe(usdExact(remaining));
     expect(vaEntitlementFigure({ prior: '280000', show: 'max' })).toBe(usdExact(4 * remaining));
     expect(vaEntitlementFigure({ prior: '280000', price: '650000', show: 'required' })).toBe('$162,500');
-    expect(vaEntitlementFigure({ prior: '280000', price: '650000', show: 'down' })).toBe(usdExact(162_500 - remaining));
+    expect(vaEntitlementFigure({ prior: '280000', price: '650000', show: 'down' })).toBe(usdAboutDown(162_500 - remaining));
     expect(vaEntitlementFigure({ show: 'basicMax' })).toBe('$144,000');
     expect(vaEntitlementFigure({ year: 'next', show: 'limit' })).toBe(usdExact(LOAN_LIMIT_SUMMARIES[LOAN_LIMIT_YEAR + 1].baseline));
+  });
+
+  test('the "about $X down" figure rounds to whole dollars; entitlement stays exact', () => {
+    expect(usdAboutDown(16_812.5)).toBe('$16,813');
+    expect(usdAboutDown(11_150)).toBe('$11,150');
+    expect(usdAboutDown(24_312.49)).toBe('$24,312');
+    expect(usdExact(158_187.5)).toBe('$158,187.50');
   });
 
   test('bad inputs throw at build time', () => {
