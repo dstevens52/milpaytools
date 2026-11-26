@@ -10,17 +10,17 @@ import { combinedPayBahYear } from '@/lib/combinedPayYear';
 const YEAR = combinedPayBahYear();
 
 /**
- * After a click-through, let the calculator page's own requests finish before the test (and
- * its browser context) ends. The page's desktop hero is a /_next/image WebP (DesktopHeroImage).
- * In the first PR #98 CI run (Firefox shard 2), these click-throughs ended about 0.9 s after
- * landing, and from then on every full load of /calculators/total-compensation at desktop width
- * on that shard's `next start` server never reached "load". A 375 px load (data: URI, no image
- * request) and `commit`-only loads still passed. The click is a client-side navigation, so the
- * window "load" event has already fired; wait for every image in the document to finish instead,
- * so no context closes with that image request in flight.
+ * Before a click-through, keep the calculator's hero image request inside the browser.
+ * The page's desktop hero is a /_next/image WebP (DesktopHeroImage). In two of three PR #98 CI
+ * runs (Firefox), the first request for it, made by this client-side navigation, never finished
+ * on the shard's `next start` server. From then on, every full load of
+ * /calculators/total-compensation at desktop width on that server never reached "load" (16+ tests
+ * in other specs timed out). Loads at 375 px (data: URI, no image request) and `commit`-only
+ * loads passed. These tests check that grade and years reach the calculator; the image plays no
+ * part, so it is aborted in the browser and never reaches the server.
  */
-async function settleLandedPage(page: Page) {
-  await page.waitForFunction(() => Array.from(document.images).every((img) => img.complete));
+async function blockOptimizedImages(page: Page) {
+  await page.route('**/_next/image**', (route) => route.abort());
 }
 
 test.describe('/pay/raise → total compensation handoff', () => {
@@ -51,6 +51,7 @@ test.describe('/pay/raise → total compensation handoff', () => {
   });
 
   test('clicking opens the calculator with O-3 and 8 years selected', async ({ page }) => {
+    await blockOptimizedImages(page);
     await page.goto('/pay/raise?grade=o3&yos=8');
     const link = page.getByTestId('raise-handoff-link');
     await expect(link).toHaveAttribute('href', '/calculators/total-compensation?rank=o3&yos=8');
@@ -58,7 +59,6 @@ test.describe('/pay/raise → total compensation handoff', () => {
     await expect(page).toHaveURL(/\/calculators\/total-compensation\?rank=o3&yos=8$/);
     await expect(page.getByLabel('Rank / Pay Grade')).toHaveValue('O-3');
     await expect(page.getByLabel('Years of Service')).toHaveValue('8');
-    await settleLandedPage(page);
   });
 
   test('changing to W-2, 4 years updates the href and says "a W-2"', async ({ page }) => {
@@ -83,6 +83,7 @@ test.describe('/pay/raise → total compensation handoff', () => {
   });
 
   test('O-1E round-trips: href rank=o1e, calculator shows O-1E', async ({ page }) => {
+    await blockOptimizedImages(page);
     await page.goto('/pay/raise?grade=o1e&yos=10');
     await expect(page.locator('#raise-grade')).toHaveValue('O-1E');
     const block = page.getByTestId('raise-handoff');
@@ -93,7 +94,6 @@ test.describe('/pay/raise → total compensation handoff', () => {
     await expect(page).toHaveURL(/\/calculators\/total-compensation\?rank=o1e&yos=10$/);
     await expect(page.getByLabel('Rank / Pay Grade')).toHaveValue('O-1E');
     await expect(page.getByLabel('Years of Service')).toHaveValue('10');
-    await settleLandedPage(page);
   });
 
   test('head unchanged: title and meta description still come from the raise config', async ({ page }) => {
