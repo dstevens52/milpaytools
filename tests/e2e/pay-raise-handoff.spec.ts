@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { PAY_RAISE_2027 } from '@/data/pay-raise/2027';
 import { pageTitle, pageDescription } from '@/lib/calculations/payRaise';
 import { combinedPayBahYear } from '@/lib/combinedPayYear';
@@ -8,6 +8,20 @@ import { combinedPayBahYear } from '@/lib/combinedPayYear';
 // 6 years), so a dropped ?rank= or ?yos= fails instead of passing by accident.
 
 const YEAR = combinedPayBahYear();
+
+/**
+ * After a click-through, let the calculator page's own requests finish before the test (and
+ * its browser context) ends. The page's desktop hero is a /_next/image WebP (DesktopHeroImage).
+ * In the first PR #98 CI run (Firefox shard 2), these click-throughs ended about 0.9 s after
+ * landing, and from then on every full load of /calculators/total-compensation at desktop width
+ * on that shard's `next start` server never reached "load". A 375 px load (data: URI, no image
+ * request) and `commit`-only loads still passed. The click is a client-side navigation, so the
+ * window "load" event has already fired; wait for every image in the document to finish instead,
+ * so no context closes with that image request in flight.
+ */
+async function settleLandedPage(page: Page) {
+  await page.waitForFunction(() => Array.from(document.images).every((img) => img.complete));
+}
 
 test.describe('/pay/raise → total compensation handoff', () => {
   test('O-3, 8 years: block under the result, exact href and copy', async ({ page }) => {
@@ -44,6 +58,7 @@ test.describe('/pay/raise → total compensation handoff', () => {
     await expect(page).toHaveURL(/\/calculators\/total-compensation\?rank=o3&yos=8$/);
     await expect(page.getByLabel('Rank / Pay Grade')).toHaveValue('O-3');
     await expect(page.getByLabel('Years of Service')).toHaveValue('8');
+    await settleLandedPage(page);
   });
 
   test('changing to W-2, 4 years updates the href and says "a W-2"', async ({ page }) => {
@@ -78,6 +93,7 @@ test.describe('/pay/raise → total compensation handoff', () => {
     await expect(page).toHaveURL(/\/calculators\/total-compensation\?rank=o1e&yos=10$/);
     await expect(page.getByLabel('Rank / Pay Grade')).toHaveValue('O-1E');
     await expect(page.getByLabel('Years of Service')).toHaveValue('10');
+    await settleLandedPage(page);
   });
 
   test('head unchanged: title and meta description still come from the raise config', async ({ page }) => {
