@@ -32,7 +32,9 @@
     "test:va-loan": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/va-loan-unit.spec.ts tests/e2e/va-funding-fee-unit.spec.ts --project=chromium",
     "test:va-refinance": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/va-refinance-unit.spec.ts --project=chromium",
     "test:va-entitlement": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/va-entitlement-unit.spec.ts --project=chromium",
-    "test:va-funnel": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/va-funnel-unit.spec.ts tests/e2e/ga-url-clean.spec.ts --project=chromium"
+    "test:va-funnel": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/va-funnel-unit.spec.ts tests/e2e/ga-url-clean.spec.ts --project=chromium",
+    "test:bah-share": "cross-env BASE_URL=http://no-server.invalid playwright test tests/e2e/bah-share-image-unit.spec.ts --project=chromium",
+    "check:bah-images": "tsx scripts/check-bah-images.ts"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",
