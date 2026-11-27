@@ -13,6 +13,7 @@ import { STATE_TAX_DATA } from '@/data/compare/stateTax';
 import { getColaAreaByMha } from '@/data/cola/2026/constants';
 import { StationPageClient } from '@/components/calculators/bah/StationPageClient';
 import { ogImage } from '@/lib/og';
+import { bahShareOgImages } from '@/lib/bahShareImage';
 import { stationSerpMeta } from '@/lib/stationSerp';
 import { displayMhaName } from '@/lib/mhaDisplay';
 import { OCONUS_V2_STATIONS, getRenderableOconusV2, oconusTitle, oconusDescription, OCONUS_OG_SUB } from '@/data/oconus';
@@ -90,15 +91,11 @@ export async function generateMetadata({
   // (src/data/bah/serpTest.ts, src/lib/stationSerp.ts). Arm A is today's output.
   // A's title omits the site name (the root layout's template appends it); B's is
   // absolute. OG/Twitter skip the template, so socialTitle carries the site name.
-  const { title, absolute, socialTitle, cardTitle, description } = stationSerpMeta(station);
+  const { title, absolute, socialTitle, description } = stationSerpMeta(station);
 
-  // Static subline: descriptions carry dollar figures, which the OG sublines
-  // must not, so they are never derived from the description.
-  const ogImages = ogImage({
-    type: 'station',
-    title: cardTitle,
-    sub: 'Military housing allowance by rank and dependent status',
-  });
+  // Data-rich share image (build W2): E-5 rate and change, from the BAH data
+  // modules (src/lib/bahShareImage.ts). Only the image fields changed here.
+  const ogImages = bahShareOgImages(station.slug);
 
   return {
     title: absolute ? { absolute: title } : title,
