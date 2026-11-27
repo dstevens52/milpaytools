@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback, Fragment } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { kitVisibleLinks } from '@/lib/kitChrome';
 
 const CALCULATOR_GROUPS = [
   {
@@ -54,6 +55,11 @@ const GUIDES_TOPICS = [
 const GUIDES_LINKS = [...GUIDES_JOURNEY, ...GUIDES_TOPICS];
 
 const ALL_CALCULATOR_LINKS = CALCULATOR_GROUPS.flatMap((g) => g.links);
+
+/** The calculator groups as shown on this path (kit pages drop the VA home-loan links). */
+function calculatorGroupsFor(pathname: string) {
+  return CALCULATOR_GROUPS.map((g) => ({ ...g, links: kitVisibleLinks(g.links, pathname) }));
+}
 
 const CHEVRON = (
   <svg viewBox="0 0 10 10" fill="none" aria-hidden="true" className="w-3 h-3 transition-transform duration-150">
@@ -113,6 +119,7 @@ function useDropdown() {
 function CalculatorsDropdown({ pathname }: { pathname: string }) {
   const { open, setOpen, containerRef, cancelClose, scheduleClose, close } = useDropdown();
   const isActive = ALL_CALCULATOR_LINKS.some((l) => pathname === l.href);
+  const groups = calculatorGroupsFor(pathname);
 
   return (
     <div
@@ -143,7 +150,7 @@ function CalculatorsDropdown({ pathname }: { pathname: string }) {
         className="absolute top-full left-0 mt-1.5 w-[480px] bg-white border border-zinc-200 rounded-lg shadow-lg z-50 overflow-hidden"
       >
           <div className="grid grid-cols-2 divide-x divide-zinc-100 py-2">
-            {CALCULATOR_GROUPS.map((group) => (
+            {groups.map((group) => (
               <div key={group.label}>
                 <p className="px-4 pt-1 pb-1 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
                   {group.label}
@@ -228,7 +235,7 @@ function GuidesDropdown({ pathname }: { pathname: string }) {
               </Link>
             ))}
             <div className="my-1.5 mx-3 border-t border-zinc-100" />
-            {GUIDES_TOPICS.map(({ href, label }) => (
+            {kitVisibleLinks(GUIDES_TOPICS, pathname).map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
@@ -299,7 +306,7 @@ export function Nav({ mobile = false, onClose }: NavProps) {
             </button>
             {calcOpen && (
               <ul className="bg-zinc-50 border-b border-zinc-100">
-                {CALCULATOR_GROUPS.map((group, i) => (
+                {calculatorGroupsFor(pathname).map((group, i) => (
                   <li key={group.label}>
                     {i > 0 && <div className="mx-4 border-t border-zinc-200" />}
                     <p className="px-4 pt-3 pb-1 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
@@ -353,7 +360,7 @@ export function Nav({ mobile = false, onClose }: NavProps) {
             </button>
             {guidesOpen && (
               <ul className="bg-zinc-50 border-b border-zinc-100">
-                {GUIDES_LINKS.map(({ href, label }) => (
+                {kitVisibleLinks(GUIDES_LINKS, pathname).map(({ href, label }) => (
                   <li key={href}>
                     <Link
                       href={href}

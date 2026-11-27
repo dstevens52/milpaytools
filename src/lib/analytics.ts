@@ -318,6 +318,29 @@ export function fireDeepLinkEvent(
   sendGaEvent('calc_deeplink_click', params);
 }
 
+// ─── BAH kit pages (/bah/kit/[slug], build W3) ───────────────────────────────
+// Plain events (not key events). Every one carries `station` (the station slug,
+// the same parameter and GA4 custom dimension as newsletter_signup and
+// calc_deeplink_click) and `year` (the BAH year the kit shows). Never a ZIP.
+
+/** What a kit_copy click copied: one sentence, all of them, or the credit link. */
+export type KitCopyItem = 'headline' | 'protection' | 'rent' | 'all' | 'html' | 'link';
+
+/** kit_view — once per kit page load. */
+export function fireKitView(station: string, year: string): void {
+  sendGaEvent('kit_view', { station, year });
+}
+
+/** kit_image_download — a click on the kit's "Download image" button. */
+export function fireKitImageDownload(station: string, year: string): void {
+  sendGaEvent('kit_image_download', { station, year });
+}
+
+/** kit_copy — a successful copy from a kit Copy button. */
+export function fireKitCopy(item: KitCopyItem, station: string, year: string): void {
+  sendGaEvent('kit_copy', { item, station, year });
+}
+
 /**
  * station_rate_lookup — the first rank or dependents change on a station page
  * (the caller ensures once per page view). Grade in the short form (e7).

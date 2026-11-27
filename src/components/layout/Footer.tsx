@@ -1,5 +1,9 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { EmailSignup } from '@/components/EmailSignup';
+import { isKitPagePath, kitVisibleLinks } from '@/lib/kitChrome';
 
 const CALCULATORS = [
   { href: '/pay', label: '2026 Pay Charts' },
@@ -34,7 +38,12 @@ const DATA_SOURCES = [
   { href: 'https://www.tsp.gov/', label: 'TSP Limits (TSP.gov/IRS)' },
 ];
 
+// A client component so the kit-page choices below happen in client code: on a
+// kit page the hidden items are in neither the HTML nor the page's RSC payload
+// (src/lib/kitChrome.ts).
 export function Footer() {
+  const pathname = usePathname();
+  const kitPage = isKitPagePath(pathname);
   return (
     <footer className="bg-zinc-900 text-zinc-400">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12">
@@ -45,7 +54,7 @@ export function Footer() {
               Calculators
             </p>
             <ul className="space-y-2">
-              {CALCULATORS.map(({ href, label }) => (
+              {kitVisibleLinks(CALCULATORS, pathname).map(({ href, label }) => (
                 <li key={href}>
                   <Link href={href} className="text-sm hover:text-white transition-colors">
                     {label}
@@ -66,7 +75,7 @@ export function Footer() {
               Guides
             </p>
             <ul className="space-y-2">
-              {GUIDES.map(({ href, label }) => (
+              {kitVisibleLinks(GUIDES, pathname).map(({ href, label }) => (
                 <li key={href}>
                   <Link href={href} className="text-sm hover:text-white transition-colors">
                     {label}
@@ -123,9 +132,11 @@ export function Footer() {
             <p className="text-white text-sm font-semibold uppercase tracking-wider mb-3">
               About
             </p>
-            <p className="text-sm leading-relaxed mb-3">
-              Built by Dan Stevens (NMLS-licensed) and Lt. Col. Ryan Durand, USAF/USSF (Ret.).
-            </p>
+            {!kitPage && (
+              <p className="text-sm leading-relaxed mb-3">
+                Built by Dan Stevens (NMLS-licensed) and Lt. Col. Ryan Durand, USAF/USSF (Ret.).
+              </p>
+            )}
             <ul className="space-y-2">
               <li>
                 <Link href="/about" className="text-sm font-medium text-white hover:text-zinc-300 transition-colors">
@@ -141,15 +152,17 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-zinc-800 pt-6 mb-8">
-          <EmailSignup
-            variant="inline"
-            darkBg
-            headline="Get notified when 2027 military pay data is updated"
-            subtext="Updates when pay tables, BAH rates, or tools change. No spam."
-            source="footer"
-          />
-        </div>
+        {!kitPage && (
+          <div className="border-t border-zinc-800 pt-6 mb-8">
+            <EmailSignup
+              variant="inline"
+              darkBg
+              headline="Get notified when 2027 military pay data is updated"
+              subtext="Updates when pay tables, BAH rates, or tools change. No spam."
+              source="footer"
+            />
+          </div>
+        )}
 
         <div className="border-t border-zinc-800 pt-6 space-y-3 text-xs">
           <p className="text-zinc-500 leading-relaxed">
