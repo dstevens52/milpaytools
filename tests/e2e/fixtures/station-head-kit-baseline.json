@@ -1,0 +1,32 @@
+{
+ "_source": "Served HTML of 5 CONUS /bah/[slug] pages from production (www.milpaytools.com, main @ 2d2ccc3), captured 2026-11-27 before build W3 (BAH kit pages). BAH_YEAR 2026, SERP_TEST_MODE split. The kit build must leave these unchanged.",
+ "bahYear": "2026",
+ "serpTestMode": "split",
+ "pages": {
+  "dyess-afb": {
+   "title": "Dyess AFB BAH Rates 2026 — Abilene, TX | MilPayTools",
+   "description": "2026 BAH for Dyess AFB, TX (Abilene): E-5 with dependents $1,872/mo, without $1,545/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "h1": "Dyess AFB BAH Rates 2026"
+  },
+  "fort-bragg": {
+   "title": "Fort Bragg BAH 2026: E-1 to O-7, With & Without Dependents",
+   "description": "2026 BAH at Fort Bragg, NC (Fayetteville): $1,341–$2,646/mo across 24 pay grades. Pick your rank to see your rate, the change from 2025 and local rent.",
+   "h1": "Fort Bragg BAH Rates 2026"
+  },
+  "joint-base-san-antonio": {
+   "title": "Joint Base San Antonio BAH 2026: Every Rank + Dependents",
+   "description": "2026 BAH at Joint Base San Antonio, TX: $1,359–$2,490/mo across 24 pay grades. Pick your rank to see your rate, the change from 2025 and local rent.",
+   "h1": "Joint Base San Antonio BAH Rates 2026"
+  },
+  "luke-afb": {
+   "title": "Luke AFB BAH 2026: E-1 to O-7, With & Without Dependents",
+   "description": "2026 BAH at Luke AFB, AZ (Glendale): $1,587–$2,814/mo across 24 pay grades. Pick your rank to see your rate, the change from 2025 and local rent.",
+   "h1": "Luke AFB BAH Rates 2026"
+  },
+  "naval-station-norfolk": {
+   "title": "Naval Station Norfolk BAH Rates 2026 | MilPayTools",
+   "description": "2026 BAH for Naval Station Norfolk, VA: E-5 with dependents $2,430/mo, without $1,908/mo. All ranks and dependency statuses. Official DTMO data, no account.",
+   "h1": "Naval Station Norfolk BAH Rates 2026"
+  }
+ }
+}
